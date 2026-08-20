@@ -1,0 +1,445 @@
+<!-- ============ 12 WORKED EXAMPLES ============ -->
+<section id="s12">
+<div class="sec-head"><span class="num">12</span><h2>Worked examples</h2><span class="sub">27 exam-style problems, full solutions, one insight each</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">HOW TO USE</span> Attempt first, then open the solution<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
+  <div class="body">
+  <p>Each problem is written the way assessment questions are. Cover the solution, write your own on paper, then compare. The <b>Insight</b> box at the end of each is the transferable idea; if you only reread one thing per example, reread that. Difficulty: <span class="pill g">●</span> routine · <span class="pill a">●●</span> standard · <span class="pill r">●●●</span> needs two ideas combined.</p>
+  </div>
+</div>
+
+<!-- 1 -->
+<div class="wx">
+<div class="bar"><span class="n">W01</span><span class="pill g">●</span><span class="tag">vectors</span>Angle and orthogonal decomposition</div>
+<div class="prob">Let $\mathbf{u}=(1,1,0)^{\mathsf T}$ and $\mathbf{v}=(1,0,1)^{\mathsf T}$. (a) Find the angle between them. (b) Write $\mathbf{v}$ as the sum of a vector parallel to $\mathbf{u}$ and a vector orthogonal to $\mathbf{u}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathbf{u}^{\mathsf T}\mathbf{v}=1$, $\|\mathbf{u}\|=\|\mathbf{v}\|=\sqrt2$. So $\cos\theta=\dfrac{1}{\sqrt2\sqrt2}=\dfrac12$, $\theta=60^\circ$.</li>
+<li>Parallel part: $\text{proj}_{\mathbf{u}}\mathbf{v}=\dfrac{\mathbf{u}^{\mathsf T}\mathbf{v}}{\mathbf{u}^{\mathsf T}\mathbf{u}}\mathbf{u}=\dfrac12(1,1,0)^{\mathsf T}=(\tfrac12,\tfrac12,0)^{\mathsf T}$.</li>
+<li>Orthogonal part: $\mathbf{v}-\text{proj}=(\tfrac12,-\tfrac12,1)^{\mathsf T}$. Check: $(\tfrac12,-\tfrac12,1)\cdot(1,1,0)=0$ ✓.</li>
+<li>So $\mathbf{v}=\underbrace{(\tfrac12,\tfrac12,0)}_{\parallel\mathbf{u}}+\underbrace{(\tfrac12,-\tfrac12,1)}_{\perp\mathbf{u}}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Every vector splits uniquely into "along $\mathbf{u}$" plus "perpendicular to $\mathbf{u}$". Regression does exactly this with $\mathbf{y}$ and the columns of $X$: fitted values are the parallel part, residuals are the perpendicular part.</div>
+</div></details>
+</div>
+
+<!-- 2 -->
+<div class="wx">
+<div class="bar"><span class="n">W02</span><span class="pill g">●</span><span class="tag">vectors</span>Parameter for orthogonality, vector perpendicular to two others</div>
+<div class="prob">(a) For which $k$ are $\mathbf{a}=(k,2,-1)^{\mathsf T}$ and $\mathbf{b}=(1,k,3)^{\mathsf T}$ orthogonal? (b) With that $k$, find all vectors orthogonal to both.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathbf{a}^{\mathsf T}\mathbf{b}=k+2k-3=3k-3=0\Rightarrow k=1$. So $\mathbf{a}=(1,2,-1)^{\mathsf T}$, $\mathbf{b}=(1,1,3)^{\mathsf T}$.</li>
+<li>$\mathbf{x}\perp\mathbf{a}$ and $\mathbf{x}\perp\mathbf{b}$ means $\begin{pmatrix}1&2&-1\\1&1&3\end{pmatrix}\mathbf{x}=\mathbf{0}$: a homogeneous system, i.e. a null space.</li>
+<li>$R_2\to R_2-R_1$: $\begin{pmatrix}1&2&-1\\0&-1&4\end{pmatrix}$. Free variable $x_3=t$: $x_2=4t$, $x_1=-2x_2+x_3=-7t$.</li>
+<li>$\mathbf{x}=t(-7,4,1)^{\mathsf T}$. Check: $-7+8-1=0$ ✓, $-7+4+3=0$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>"Orthogonal to all of these vectors" always means "in the null space of the matrix whose rows are those vectors". Two independent rows in ℝ³ leave a one-dimensional null space: a line. This is rank–nullity: $3-2=1$.</div>
+</div></details>
+</div>
+
+<!-- 3 -->
+<div class="wx">
+<div class="bar"><span class="n">W03</span><span class="pill g">●</span><span class="tag">matrices</span>AB versus BA with non-square matrices</div>
+<div class="prob">$A=\begin{pmatrix}1&0&2\\-1&3&1\end{pmatrix}$, $B=\begin{pmatrix}2&1\\0&1\\1&0\end{pmatrix}$. Compute $AB$ and $BA$, their traces and their determinants. What do you notice?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Dimensions: $AB$ is $(2\times3)(3\times2)=2\times2$; $BA$ is $(3\times2)(2\times3)=3\times3$.</li>
+<li>$AB=\begin{pmatrix}2+0+2&1+0+0\\-2+0+1&-1+3+0\end{pmatrix}=\begin{pmatrix}4&1\\-1&2\end{pmatrix}$.</li>
+<li>$BA=\begin{pmatrix}2-1&0+3&4+1\\0-1&0+3&0+1\\1+0&0+0&2+0\end{pmatrix}=\begin{pmatrix}1&3&5\\-1&3&1\\1&0&2\end{pmatrix}$.</li>
+<li>$\text{tr}(AB)=6$, $\text{tr}(BA)=1+3+2=6$. Equal, as the cyclic property promises.</li>
+<li>$\det(AB)=8+1=9$. $\det(BA)=1(6-0)-3(-2-1)+5(0-3)=6+9-15=0$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$BA$ is $3\times3$ but $\text{rank}(BA)\le\text{rank}(B)\le2$, so it is <b>always</b> singular: you could have predicted $\det(BA)=0$ without computing. Traces agree, determinants do not. A product of "thin" matrices cannot be full rank.</div>
+</div></details>
+</div>
+
+<!-- 4 -->
+<div class="wx">
+<div class="bar"><span class="n">W04</span><span class="pill a">●●</span><span class="tag">matrices</span>Symmetric and skew-symmetric parts</div>
+<div class="prob">$A=\begin{pmatrix}1&4\\2&3\end{pmatrix}$. Write $A=S+K$ with $S$ symmetric and $K$ skew-symmetric ($K^{\mathsf T}=-K$). Show that $\mathbf{x}^{\mathsf T}A\mathbf{x}=\mathbf{x}^{\mathsf T}S\mathbf{x}$ for every $\mathbf{x}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$S=\tfrac12(A+A^{\mathsf T})=\tfrac12\begin{pmatrix}2&6\\6&6\end{pmatrix}=\begin{pmatrix}1&3\\3&3\end{pmatrix}$, $\;K=\tfrac12(A-A^{\mathsf T})=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$.</li>
+<li>Check $S+K=A$ ✓, $S^{\mathsf T}=S$ ✓, $K^{\mathsf T}=-K$ ✓.</li>
+<li>$\mathbf{x}^{\mathsf T}K\mathbf{x}$ is a scalar, so equals its transpose: $\mathbf{x}^{\mathsf T}K\mathbf{x}=(\mathbf{x}^{\mathsf T}K\mathbf{x})^{\mathsf T}=\mathbf{x}^{\mathsf T}K^{\mathsf T}\mathbf{x}=-\mathbf{x}^{\mathsf T}K\mathbf{x}$. Hence it equals 0.</li>
+<li>Therefore $\mathbf{x}^{\mathsf T}A\mathbf{x}=\mathbf{x}^{\mathsf T}S\mathbf{x}+0$. Concretely: $x_1^2+4x_1x_2+2x_1x_2+3x_2^2=x_1^2+6x_1x_2+3x_2^2$, which is exactly what $S$ gives.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>This is why quadratic forms are always written with a symmetric matrix: the skew part is invisible to $\mathbf{x}^{\mathsf T}(\cdot)\mathbf{x}$. If an exam gives a non-symmetric matrix in a quadratic form, symmetrise first, then test definiteness on $S$.</div>
+</div></details>
+</div>
+
+<!-- 5 -->
+<div class="wx">
+<div class="bar"><span class="n">W05</span><span class="pill r">●●●</span><span class="tag">systems</span>Discussing a system with a parameter</div>
+<div class="prob">Discuss, as $k$ and $\beta$ vary, the number of solutions of
+$$\begin{cases}x+y+z=1\\x+2y+kz=2\\x+4y+k^2z=\beta\end{cases}$$</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Coefficient matrix $A=\begin{pmatrix}1&1&1\\1&2&k\\1&4&k^2\end{pmatrix}$. $\det A=1(2k^2-4k)-1(k^2-k)+1(4-2)=k^2-3k+2=(k-1)(k-2)$.</li>
+<li><b>$k\neq1,2$</b>: $\det A\neq0$ ⟹ exactly one solution for every $\beta$.</li>
+<li><b>$k=1$</b>: $R_2-R_1$: $y=1$; $R_3-R_1$: $3y=\beta-1$. Consistent iff $3=\beta-1$, i.e. $\beta=4$. Then $y=1$, $x+z=0$: infinitely many, $(x,y,z)=(-t,1,t)$. If $\beta\neq4$: none.</li>
+<li><b>$k=2$</b>: $R_2-R_1$: $y+z=1$; $R_3-R_1$: $3y+3z=\beta-1$. Consistent iff $\beta=4$. Then $x=0$, $(x,y,z)=(0,1-t,t)$. If $\beta\neq4$: none.</li>
+</ol>
+<table>
+<tr><th>Case</th><th>rank $A$</th><th>rank $[A|\mathbf{b}]$</th><th>Solutions</th></tr>
+<tr><td>$k\neq1,2$</td><td>3</td><td>3</td><td class="g">one</td></tr>
+<tr><td>$k\in\{1,2\}$, $\beta=4$</td><td>2</td><td>2</td><td class="a">infinitely many (1 parameter)</td></tr>
+<tr><td>$k\in\{1,2\}$, $\beta\neq4$</td><td>2</td><td>3</td><td class="r">none</td></tr>
+</table>
+<div class="note"><div class="t">Insight</div>Always compute $\det A$ as a polynomial in the parameter first; its roots are the only values where anything interesting happens. Then treat each root separately with row reduction, comparing rank$(A)$ with rank$[A|\mathbf{b}]$. The right-hand side parameter only matters at those roots.</div>
+</div></details>
+</div>
+
+<!-- 6 -->
+<div class="wx">
+<div class="bar"><span class="n">W06</span><span class="pill a">●●</span><span class="tag">systems</span>Underdetermined system: particular + null space</div>
+<div class="prob">Solve $\begin{cases}x_1+2x_2-x_3+x_4=3\\2x_1+4x_2+x_3-x_4=3\end{cases}$ and describe the solution set geometrically.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\left(\begin{array}{cccc|c}1&2&-1&1&3\\2&4&1&-1&3\end{array}\right)\xrightarrow{R_2-2R_1}\left(\begin{array}{cccc|c}1&2&-1&1&3\\0&0&3&-3&-3\end{array}\right)\xrightarrow{R_2/3}\left(\begin{array}{cccc|c}1&2&-1&1&3\\0&0&1&-1&-1\end{array}\right)$</li>
+<li>$R_1+R_2$: $\left(\begin{array}{cccc|c}1&2&0&0&2\\0&0&1&-1&-1\end{array}\right)$. Pivots in columns 1, 3. Free: $x_2=s$, $x_4=t$.</li>
+<li>$x_1=2-2s$, $x_3=-1+t$.</li>
+<li>$\mathbf{x}=\begin{pmatrix}2\\0\\-1\\0\end{pmatrix}+s\begin{pmatrix}-2\\1\\0\\0\end{pmatrix}+t\begin{pmatrix}0\\0\\1\\1\end{pmatrix}$</li>
+<li>Check the particular solution: $2+0+1+0=3$ ✓, $4+0-1-0=3$ ✓. Check a null vector: $A(0,0,1,1)^{\mathsf T}=(-1+1,\,1-1)=\mathbf{0}$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Rank 2, $n=4$ ⟹ nullity 2: the solution set is a 2-dimensional plane in ℝ⁴, not through the origin, obtained by shifting $N(A)$ by one particular solution. Every solution of a consistent system is "one solution + anything from the null space".</div>
+</div></details>
+</div>
+
+<!-- 7 -->
+<div class="wx">
+<div class="bar"><span class="n">W07</span><span class="pill a">●●</span><span class="tag">determinants</span>4×4 determinant by row reduction</div>
+<div class="prob">Compute $\det\begin{pmatrix}1&2&0&1\\2&5&1&3\\0&1&3&1\\1&3&1&4\end{pmatrix}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Use only "add a multiple of a row" operations (det unchanged). $R_2-2R_1$, $R_4-R_1$: $\begin{pmatrix}1&2&0&1\\0&1&1&1\\0&1&3&1\\0&1&1&3\end{pmatrix}$</li>
+<li>$R_3-R_2$, $R_4-R_2$: $\begin{pmatrix}1&2&0&1\\0&1&1&1\\0&0&2&0\\0&0&0&2\end{pmatrix}$</li>
+<li>Upper triangular: $\det=1\cdot1\cdot2\cdot2=4$.</li>
+</ol>
+<p>Cofactor expansion along column 1 of the original would have required three 3×3 determinants. Row reduction needed four subtractions.</p>
+<div class="note"><div class="t">Insight</div>For anything bigger than 3×3, reduce to triangular form. Keep a tally of sign changes (row swaps) and scalings (if you divide a row by $c$, multiply the final det by $c$). Row-addition operations are free.</div>
+</div></details>
+</div>
+
+<!-- 8 -->
+<div class="wx">
+<div class="bar"><span class="n">W08</span><span class="pill a">●●</span><span class="tag">determinants</span>Determinants of expressions, no matrices given</div>
+<div class="prob">$A,B$ are $3\times3$ with $\det A=2$, $\det B=-3$. Find $\det(2A^{\mathsf T}B^{-1})$, $\det(A^2B)$, $\det(-A)$, $\det(A^{-1}B^{\mathsf T}A)$. Is $\det(A+B)$ determined?</div>
+<details><summary>Solution</summary><div class="sol">
+<table class="formula-table">
+<tr><td>$\det(2A^{\mathsf T}B^{-1})$</td><td>$=2^3\cdot\det A^{\mathsf T}\cdot\det B^{-1}=8\cdot2\cdot\left(-\tfrac13\right)=-\tfrac{16}{3}$</td></tr>
+<tr><td>$\det(A^2B)$</td><td>$=(\det A)^2\det B=4\cdot(-3)=-12$</td></tr>
+<tr><td>$\det(-A)$</td><td>$=(-1)^3\det A=-2$</td></tr>
+<tr><td>$\det(A^{-1}B^{\mathsf T}A)$</td><td>$=\tfrac{1}{2}\cdot(-3)\cdot2=-3$ (conjugation by $A$ leaves det unchanged)</td></tr>
+<tr><td>$\det(A+B)$</td><td class="r">not determined: e.g. $A=\text{diag}(2,1,1)$, $B=\text{diag}(-3,1,1)$ gives $\det(A+B)=-4$; $B=\text{diag}(1,1,-3)$ gives $\det(A+B)=3\cdot2\cdot(-2)=-12$</td></tr>
+</table>
+<div class="note"><div class="t">Insight</div>The determinant is multiplicative, never additive. The scalar rule $\det(cA)=c^n\det A$ is the most forgotten: the factor $c$ comes out of <b>each</b> of the $n$ rows. Conjugation $P^{-1}AP$ preserves det (and trace, and eigenvalues), which is why diagonalisation is allowed to "change" the matrix without changing these.</div>
+</div></details>
+</div>
+
+<!-- 9 -->
+<div class="wx">
+<div class="bar"><span class="n">W09</span><span class="pill a">●●</span><span class="tag">inverse</span>One entry of an inverse via the adjugate</div>
+<div class="prob">$A=\begin{pmatrix}2&0&1\\1&1&0\\0&3&1\end{pmatrix}$. (a) Find $(A^{-1})_{13}$ without computing the whole inverse. (b) Then compute $A^{-1}$ fully and verify.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\det A=2(1-0)-0+1(3-0)=5$.</li>
+<li>$(A^{-1})_{ij}=C_{ji}/\det A$ (note the swap). So $(A^{-1})_{13}=C_{31}/5$. $C_{31}=(-1)^{3+1}\begin{vmatrix}0&1\\1&0\end{vmatrix}=-1$. Hence $(A^{-1})_{13}=-\tfrac15$.</li>
+<li>All cofactors: $C_{11}=1$, $C_{12}=-1$, $C_{13}=3$, $C_{21}=3$, $C_{22}=2$, $C_{23}=-6$, $C_{31}=-1$, $C_{32}=1$, $C_{33}=2$.</li>
+<li>$\text{adj}A=C^{\mathsf T}=\begin{pmatrix}1&3&-1\\-1&2&1\\3&-6&2\end{pmatrix}$, $\;A^{-1}=\tfrac15\,\text{adj}A$.</li>
+<li>Verify row 1 of $A$ times $\text{adj}A$: $(2,0,1)\cdot\text{cols}=(2+0+3,\;6+0-6,\;-2+0+2)=(5,0,0)=5\,\mathbf{e}_1^{\mathsf T}$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>When a question asks for a single entry of $A^{-1}$, the adjugate is faster than Gauss–Jordan: one 2×2 determinant and one 3×3. Remember the transpose: entry $(i,j)$ of the inverse uses cofactor $(j,i)$.</div>
+</div></details>
+</div>
+
+<!-- 10 -->
+<div class="wx">
+<div class="bar"><span class="n">W10</span><span class="pill a">●●</span><span class="tag">inverse</span>Solving a matrix equation</div>
+<div class="prob">Find $X$ such that $AXB=C$, where $A=\begin{pmatrix}1&1\\0&1\end{pmatrix}$, $B=\begin{pmatrix}2&0\\1&1\end{pmatrix}$, $C=\begin{pmatrix}3&1\\1&1\end{pmatrix}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\det A=1$, $\det B=2$: both invertible. Multiply on the left by $A^{-1}$ and on the right by $B^{-1}$: $X=A^{-1}CB^{-1}$. Sides matter.</li>
+<li>$A^{-1}=\begin{pmatrix}1&-1\\0&1\end{pmatrix}$, $\;B^{-1}=\tfrac12\begin{pmatrix}1&0\\-1&2\end{pmatrix}$.</li>
+<li>$A^{-1}C=\begin{pmatrix}3-1&1-1\\1&1\end{pmatrix}=\begin{pmatrix}2&0\\1&1\end{pmatrix}$.</li>
+<li>$X=\begin{pmatrix}2&0\\1&1\end{pmatrix}\cdot\tfrac12\begin{pmatrix}1&0\\-1&2\end{pmatrix}=\tfrac12\begin{pmatrix}2&0\\0&2\end{pmatrix}=I$.</li>
+<li>Check: $AIB=AB=\begin{pmatrix}2+1&0+1\\1&1\end{pmatrix}=C$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>You cannot write $X=C/(AB)$. Undo $A$ from the left and $B$ from the right, in that geometric sense. The same logic gives $X=CB^{-1}$ for $XB=C$ and $X=A^{-1}C$ for $AX=C$. In finance, $\Sigma\mathbf{w}=\gamma\mathbf{1}$ is solved as $\mathbf{w}=\gamma\Sigma^{-1}\mathbf{1}$ for the same reason.</div>
+</div></details>
+</div>
+
+<!-- 11 -->
+<div class="wx">
+<div class="bar"><span class="n">W11</span><span class="pill a">●●</span><span class="tag">vector spaces</span>Linear dependence with a parameter</div>
+<div class="prob">For which $k$ are $\mathbf{v}_1=(1,2,3)^{\mathsf T}$, $\mathbf{v}_2=(2,1,0)^{\mathsf T}$, $\mathbf{v}_3=(1,-1,k)^{\mathsf T}$ linearly dependent? For that $k$, express $\mathbf{v}_3$ in terms of the others.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Three vectors in ℝ³ are dependent ⟺ $\det[\mathbf{v}_1\,\mathbf{v}_2\,\mathbf{v}_3]=0$.</li>
+<li>$\begin{vmatrix}1&2&1\\2&1&-1\\3&0&k\end{vmatrix}=1(k-0)-2(2k+3)+1(0-3)=k-4k-6-3=-3k-9$.</li>
+<li>Zero ⟺ $k=-3$. For every other $k$ they form a basis of ℝ³.</li>
+<li>With $k=-3$: solve $a\mathbf{v}_1+b\mathbf{v}_2=\mathbf{v}_3$: $a+2b=1$, $2a+b=-1$ ⟹ $b=1$, $a=-1$. Third component: $3(-1)+0=-3$ ✓. So $\mathbf{v}_3=-\mathbf{v}_1+\mathbf{v}_2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>With exactly $n$ vectors in ℝⁿ, independence is a single determinant. When it fails, the dependence relation is a solution of $A\mathbf{c}=\mathbf{0}$; you can find it by row reducing or, as here, by solving the first two equations and checking the third.</div>
+</div></details>
+</div>
+
+<!-- 12 -->
+<div class="wx">
+<div class="bar"><span class="n">W12</span><span class="pill r">●●●</span><span class="tag">vector spaces</span>Column space, null space, membership</div>
+<div class="prob">$A=\begin{pmatrix}1&-1&2&0\\2&-2&5&1\\-1&1&-1&1\end{pmatrix}$. Find rank, a basis of $N(A)$, a basis of $C(A)$, and decide whether $\mathbf{b}=(1,3,0)^{\mathsf T}$ is in $C(A)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$R_2-2R_1$, $R_3+R_1$: $\begin{pmatrix}1&-1&2&0\\0&0&1&1\\0&0&1&1\end{pmatrix}$; $R_3-R_2$: third row zero. $R_1-2R_2$: RREF $\begin{pmatrix}1&-1&0&-2\\0&0&1&1\\0&0&0&0\end{pmatrix}$.</li>
+<li>Pivot columns 1, 3 ⟹ rank 2, nullity $4-2=2$.</li>
+<li>$N(A)$: $x_2=s$, $x_4=t$, $x_3=-t$, $x_1=s+2t$. Basis $\{(1,1,0,0)^{\mathsf T},(2,0,-1,1)^{\mathsf T}\}$. Check second against row 2 of $A$: $4-0-5+1=0$ ✓.</li>
+<li>$C(A)$: pivot columns of the <b>original</b>: $\{(1,2,-1)^{\mathsf T},(2,5,-1)^{\mathsf T}\}$.</li>
+<li>Is $\mathbf{b}\in C(A)$? Solve $a(1,2,-1)+c(2,5,-1)=(1,3,0)$: $a+2c=1$, $2a+5c=3$ ⟹ $c=1$, $a=-1$. Third: $1-1=0$ ✓. Yes, $\mathbf{b}=-\mathbf{a}_1+\mathbf{a}_3$, so $A\mathbf{x}=\mathbf{b}$ is consistent with e.g. $\mathbf{x}=(-1,0,1,0)^{\mathsf T}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$C(A)$ is a 2-dimensional plane in ℝ³; $A\mathbf{x}=\mathbf{b}$ is solvable exactly when $\mathbf{b}$ lies on that plane. Since $N(A)$ is 2-dimensional, once one solution exists there is a whole plane of them. The four numbers rank, nullity, $m$, $n$ tell you the whole story before you look at $\mathbf{b}$.</div>
+</div></details>
+</div>
+
+<!-- 13 -->
+<div class="wx">
+<div class="bar"><span class="n">W13</span><span class="pill a">●●</span><span class="tag">vector spaces · eigen</span>Coordinates in a new basis, and why eigenvectors are the best basis</div>
+<div class="prob">Let $B=\{\mathbf{b}_1=(1,1)^{\mathsf T},\mathbf{b}_2=(1,-1)^{\mathsf T}\}$ and $A=\begin{pmatrix}2&1\\1&2\end{pmatrix}$. (a) Find the coordinates of $\mathbf{x}=(3,1)^{\mathsf T}$ in $B$. (b) Find the matrix of $A$ in basis $B$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$P=[\mathbf{b}_1\,\mathbf{b}_2]=\begin{pmatrix}1&1\\1&-1\end{pmatrix}$, $\det P=-2$, $P^{-1}=-\tfrac12\begin{pmatrix}-1&-1\\-1&1\end{pmatrix}=\tfrac12\begin{pmatrix}1&1\\1&-1\end{pmatrix}$.</li>
+<li>$[\mathbf{x}]_B=P^{-1}\mathbf{x}=\tfrac12(4,2)^{\mathsf T}=(2,1)^{\mathsf T}$. Check: $2\mathbf{b}_1+1\mathbf{b}_2=(3,1)^{\mathsf T}$ ✓.</li>
+<li>Matrix of $A$ in basis $B$: $P^{-1}AP$. $AP=\begin{pmatrix}3&1\\3&-1\end{pmatrix}$, so $P^{-1}AP=\tfrac12\begin{pmatrix}6&0\\0&2\end{pmatrix}=\begin{pmatrix}3&0\\0&1\end{pmatrix}$.</li>
+<li>Diagonal! Because $\mathbf{b}_1,\mathbf{b}_2$ are eigenvectors of $A$: $A\mathbf{b}_1=3\mathbf{b}_1$, $A\mathbf{b}_2=\mathbf{b}_2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Diagonalisation <b>is</b> a change of basis: $D=P^{-1}AP$ is the same linear map written in eigenvector coordinates, where it just stretches each axis. That is the whole reason eigenvectors matter: in their basis, the map becomes bookkeeping.</div>
+</div></details>
+</div>
+
+<!-- 14 -->
+<div class="wx">
+<div class="bar"><span class="n">W14</span><span class="pill r">●●●</span><span class="tag">eigen</span>3×3 with a repeated eigenvalue</div>
+<div class="prob">$A=\begin{pmatrix}2&0&0\\1&3&1\\1&1&3\end{pmatrix}$. Find all eigenvalues and eigenvectors. Is $A$ diagonalisable?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Expand $\det(A-\lambda I)$ along row 1 (two zeros): $(2-\lambda)\begin{vmatrix}3-\lambda&1\\1&3-\lambda\end{vmatrix}=(2-\lambda)\big((3-\lambda)^2-1\big)=(2-\lambda)(\lambda-2)(\lambda-4)$.</li>
+<li>$\lambda=2$ (AM 2), $\lambda=4$ (AM 1). Check: sum $2+2+4=8=\text{tr}A$ ✓; product $16=\det A=2(9-1)$ ✓.</li>
+<li>$\lambda=4$: $A-4I=\begin{pmatrix}-2&0&0\\1&-1&1\\1&1&-1\end{pmatrix}$ ⟹ $x_1=0$, $x_2=x_3$. $\mathbf{v}_3=(0,1,1)^{\mathsf T}$.</li>
+<li>$\lambda=2$: $A-2I=\begin{pmatrix}0&0&0\\1&1&1\\1&1&1\end{pmatrix}$, rank 1 ⟹ GM $=3-1=2$. Eigenspace: $x_1+x_2+x_3=0$, basis $\mathbf{v}_1=(1,-1,0)^{\mathsf T}$, $\mathbf{v}_2=(1,0,-1)^{\mathsf T}$.</li>
+<li>GM = AM for both eigenvalues ⟹ diagonalisable: $P=\begin{pmatrix}1&1&0\\-1&0&1\\0&-1&1\end{pmatrix}$, $D=\text{diag}(2,2,4)$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>A repeated eigenvalue is not a problem by itself; what matters is whether $A-\lambda I$ loses enough rank. Here rank 1 gives a 2-dimensional eigenspace, matching AM 2. Compare W16 where rank drops by only one.</div>
+</div></details>
+</div>
+
+<!-- 15 -->
+<div class="wx">
+<div class="bar"><span class="n">W15</span><span class="pill a">●●</span><span class="tag">eigen · quadratic forms</span>Spectral decomposition of a symmetric matrix</div>
+<div class="prob">$A=\begin{pmatrix}5&-2\\-2&2\end{pmatrix}$. Find an orthogonal $Q$ and diagonal $\Lambda$ with $A=Q\Lambda Q^{\mathsf T}$. Describe the curve $\mathbf{x}^{\mathsf T}A\mathbf{x}=1$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\text{tr}=7$, $\det=6$ ⟹ $\lambda^2-7\lambda+6=(\lambda-6)(\lambda-1)$, $\lambda_1=6$, $\lambda_2=1$.</li>
+<li>$\lambda=6$: $A-6I=\begin{pmatrix}-1&-2\\-2&-4\end{pmatrix}$ ⟹ $x_1=-2x_2$, $\mathbf{v}_1=(-2,1)^{\mathsf T}$. $\lambda=1$: $A-I=\begin{pmatrix}4&-2\\-2&1\end{pmatrix}$ ⟹ $x_2=2x_1$, $\mathbf{v}_2=(1,2)^{\mathsf T}$.</li>
+<li>$\mathbf{v}_1^{\mathsf T}\mathbf{v}_2=-2+2=0$: orthogonal, as guaranteed for symmetric $A$. Normalise: $Q=\tfrac1{\sqrt5}\begin{pmatrix}-2&1\\1&2\end{pmatrix}$, $\Lambda=\begin{pmatrix}6&0\\0&1\end{pmatrix}$.</li>
+<li>$Q^{\mathsf T}Q=\tfrac15\begin{pmatrix}5&0\\0&5\end{pmatrix}=I$ ✓, so $Q^{-1}=Q^{\mathsf T}$, no inversion needed.</li>
+<li>With $\mathbf{y}=Q^{\mathsf T}\mathbf{x}$: $\mathbf{x}^{\mathsf T}A\mathbf{x}=\mathbf{y}^{\mathsf T}\Lambda\mathbf{y}=6y_1^2+y_2^2$. The curve $6y_1^2+y_2^2=1$ is an ellipse with semi-axes $1/\sqrt6$ along $\mathbf{q}_1$ and $1$ along $\mathbf{q}_2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>For symmetric matrices the eigenvectors are the principal axes of the quadratic form. Large eigenvalue = short axis (the form grows fast in that direction). For a covariance matrix, large eigenvalue = direction of <b>most</b> variance, which is the first principal component (W25).</div>
+</div></details>
+</div>
+
+<!-- 16 -->
+<div class="wx">
+<div class="bar"><span class="n">W16</span><span class="pill a">●●</span><span class="tag">eigen</span>A matrix that cannot be diagonalised, and its powers anyway</div>
+<div class="prob">$A=\begin{pmatrix}3&1\\0&3\end{pmatrix}$. Show $A$ is not diagonalisable, then find $A^n$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Triangular ⟹ $\lambda=3$ with AM 2.</li>
+<li>$A-3I=\begin{pmatrix}0&1\\0&0\end{pmatrix}$ has rank 1 ⟹ GM $=2-1=1<2$. Only one independent eigenvector, $(1,0)^{\mathsf T}$. Not diagonalisable.</li>
+<li>Write $A=3I+N$ with $N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, $N^2=0$. Since $I$ and $N$ commute, the binomial theorem applies: $A^n=(3I+N)^n=3^nI+n3^{n-1}N+0$.</li>
+<li>$A^n=\begin{pmatrix}3^n&n\,3^{n-1}\\0&3^n\end{pmatrix}$. Check $n=2$: $A^2=\begin{pmatrix}9&6\\0&9\end{pmatrix}$ ✓ by direct multiplication.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>"Not diagonalisable" means the eigenvectors do not span the space, not that eigenvalues are missing. Shear matrices are the standard example. The $nI+N$ trick with nilpotent $N$ is the 2×2 version of the Jordan form.</div>
+</div></details>
+</div>
+
+<!-- 17 -->
+<div class="wx">
+<div class="bar"><span class="n">W17</span><span class="pill a">●●</span><span class="tag">eigen · finance</span>Markov chain steady state and speed of convergence</div>
+<div class="prob">Each year a bond rated A stays A with probability 0.9 and drops to B with probability 0.1; a B bond is upgraded to A with probability 0.2 and stays B with 0.8. Let $\mathbf{x}_t=(\text{share A},\text{share B})^{\mathsf T}$. Find the long-run distribution and how fast it is reached.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathbf{x}_{t+1}=T\mathbf{x}_t$ with $T=\begin{pmatrix}0.9&0.2\\0.1&0.8\end{pmatrix}$ (columns sum to 1: column-stochastic).</li>
+<li>Eigenvalues: $\text{tr}=1.7$, $\det=0.72-0.02=0.70$ ⟹ $\lambda^2-1.7\lambda+0.7=(\lambda-1)(\lambda-0.7)$. A stochastic matrix always has $\lambda=1$.</li>
+<li>$\lambda=1$: $(T-I)\boldsymbol\pi=\mathbf{0}$: $-0.1\pi_1+0.2\pi_2=0$ ⟹ $\pi_1=2\pi_2$. Normalise to sum 1: $\boldsymbol\pi=(\tfrac23,\tfrac13)^{\mathsf T}$.</li>
+<li>$\lambda=0.7$: $T-0.7I=\begin{pmatrix}0.2&0.2\\0.1&0.1\end{pmatrix}$ ⟹ $\mathbf{v}=(1,-1)^{\mathsf T}$.</li>
+<li>Any start $\mathbf{x}_0=\boldsymbol\pi+c\,(1,-1)^{\mathsf T}$ (possible since the two eigenvectors form a basis and both $\mathbf{x}_0$ and $\boldsymbol\pi$ sum to 1). Then $\mathbf{x}_t=T^t\mathbf{x}_0=\boldsymbol\pi+c\,0.7^t(1,-1)^{\mathsf T}\to\boldsymbol\pi$.</li>
+<li>The gap shrinks by 30% per year; after 10 years $0.7^{10}\approx0.028$, i.e. 97% of the way to steady state.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The steady state is the $\lambda=1$ eigenvector; the <b>second-largest</b> eigenvalue controls the convergence speed. This is the structure behind rating-migration matrices, regime-switching models and PageRank alike.</div>
+</div></details>
+</div>
+
+<!-- 18 -->
+<div class="wx">
+<div class="bar"><span class="n">W18</span><span class="pill r">●●●</span><span class="tag">eigen</span>Closed form for a recurrence (Fibonacci)</div>
+<div class="prob">$F_{n+1}=F_n+F_{n-1}$, $F_0=0$, $F_1=1$. Use a matrix to derive a closed-form expression for $F_n$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>State vector $\mathbf{s}_n=(F_{n+1},F_n)^{\mathsf T}$. Then $\mathbf{s}_n=A\mathbf{s}_{n-1}$ with $A=\begin{pmatrix}1&1\\1&0\end{pmatrix}$, so $\mathbf{s}_n=A^n\mathbf{s}_0=A^n(1,0)^{\mathsf T}$.</li>
+<li>$\text{tr}=1$, $\det=-1$ ⟹ $\lambda^2-\lambda-1=0$ ⟹ $\varphi=\tfrac{1+\sqrt5}{2}\approx1.618$, $\psi=\tfrac{1-\sqrt5}{2}\approx-0.618$.</li>
+<li>Eigenvectors: $(A-\lambda I)\mathbf{v}=0$ gives $v_1=\lambda v_2$, so $\mathbf{v}_\varphi=(\varphi,1)^{\mathsf T}$, $\mathbf{v}_\psi=(\psi,1)^{\mathsf T}$.</li>
+<li>Decompose $(1,0)^{\mathsf T}=a\mathbf{v}_\varphi+b\mathbf{v}_\psi$: second component $a+b=0$; first $a\varphi+b\psi=1$ ⟹ $a(\varphi-\psi)=1$ ⟹ $a=1/\sqrt5$, $b=-1/\sqrt5$.</li>
+<li>$\mathbf{s}_n=a\varphi^n\mathbf{v}_\varphi+b\psi^n\mathbf{v}_\psi$; second component: $F_n=\dfrac{\varphi^n-\psi^n}{\sqrt5}$ (Binet). Check $n=5$: $(11.09-(-0.09))/2.236\approx5$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Any linear recurrence is $\mathbf{s}_n=A^n\mathbf{s}_0$, and $A^n$ is trivial once you have eigenvalues. The dominant eigenvalue $\varphi$ sets the growth rate; $|\psi|<1$ so its term dies. The same template gives closed forms for AR(2) processes, amortisation schedules and multi-period compounding with switching rates.</div>
+</div></details>
+</div>
+
+<!-- 19 -->
+<div class="wx">
+<div class="bar"><span class="n">W19</span><span class="pill a">●●</span><span class="tag">quadratic forms</span>Definiteness as a parameter varies</div>
+<div class="prob">Classify $Q(\mathbf{x})=x^2+2axy+4y^2+2z^2$ for every real $a$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$A=\begin{pmatrix}1&a&0\\a&4&0\\0&0&2\end{pmatrix}$ (half of the $xy$ coefficient goes in each off-diagonal slot).</li>
+<li>Leading minors: $D_1=1>0$, $D_2=4-a^2$, $D_3=2(4-a^2)$.</li>
+<li>$|a|<2$: all $D_k>0$ ⟹ <span class="g">positive definite</span>.</li>
+<li>$|a|=2$: $D_2=D_3=0$. Eigenvalues of the $2\times2$ block $\begin{pmatrix}1&\pm2\\\pm2&4\end{pmatrix}$: tr 5, det 0 ⟹ $\{5,0\}$; plus 2. All $\ge0$ ⟹ positive semidefinite, not definite.</li>
+<li>$|a|>2$: $D_2<0$ ⟹ <span class="a">indefinite</span>.</li>
+<li>Completing the square confirms: $Q=(x+ay)^2+(4-a^2)y^2+2z^2$. The sign of $4-a^2$ decides everything.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>For a block-diagonal matrix, test each block separately. Completing the square is the hand-computation version of diagonalising: each squared term's coefficient plays the role of an eigenvalue sign (Sylvester's law of inertia says the counts of positive, negative and zero coefficients agree with the eigenvalue signs).</div>
+</div></details>
+</div>
+
+<!-- 20 -->
+<div class="wx">
+<div class="bar"><span class="n">W20</span><span class="pill a">●●</span><span class="tag">quadratic forms</span>Classifying critical points with the Hessian</div>
+<div class="prob">$f(x,y)=x^3-3x+y^2$. Find and classify all critical points.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$f_x=3x^2-3=0$ ⟹ $x=\pm1$; $f_y=2y=0$ ⟹ $y=0$. Critical points $(1,0)$ and $(-1,0)$.</li>
+<li>Hessian $H=\begin{pmatrix}f_{xx}&f_{xy}\\f_{xy}&f_{yy}\end{pmatrix}=\begin{pmatrix}6x&0\\0&2\end{pmatrix}$.</li>
+<li>At $(1,0)$: $H=\text{diag}(6,2)$, $D_1=6>0$, $D_2=12>0$ ⟹ PD ⟹ <span class="g">local minimum</span>, $f=-2$.</li>
+<li>At $(-1,0)$: $H=\text{diag}(-6,2)$, eigenvalues of opposite sign ⟹ indefinite ⟹ <span class="a">saddle point</span>, $f=2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Second-order conditions in optimisation are definiteness tests of the Hessian. For mean–variance portfolios the objective $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$ has Hessian $2\Sigma$, PSD everywhere, so any critical point of the Lagrangian is a global minimum: no second-order check needed once $\Sigma$ is PD.</div>
+</div></details>
+</div>
+
+<!-- 21 -->
+<div class="wx">
+<div class="bar"><span class="n">W21</span><span class="pill a">●●</span><span class="tag">orthogonality</span>Gram–Schmidt with three vectors</div>
+<div class="prob">Orthonormalise $\mathbf{a}_1=(1,1,1)^{\mathsf T}$, $\mathbf{a}_2=(0,1,1)^{\mathsf T}$, $\mathbf{a}_3=(0,0,1)^{\mathsf T}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathbf{u}_1=\mathbf{a}_1=(1,1,1)^{\mathsf T}$, $\mathbf{u}_1^{\mathsf T}\mathbf{u}_1=3$.</li>
+<li>$\mathbf{u}_2=\mathbf{a}_2-\dfrac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_2}{3}\mathbf{u}_1=(0,1,1)^{\mathsf T}-\tfrac23(1,1,1)^{\mathsf T}=(-\tfrac23,\tfrac13,\tfrac13)^{\mathsf T}$. $\mathbf{u}_2^{\mathsf T}\mathbf{u}_2=\tfrac49+\tfrac19+\tfrac19=\tfrac23$.</li>
+<li>$\mathbf{u}_1^{\mathsf T}\mathbf{a}_3=1$, $\mathbf{u}_2^{\mathsf T}\mathbf{a}_3=\tfrac13$. $\mathbf{u}_3=\mathbf{a}_3-\tfrac13\mathbf{u}_1-\dfrac{1/3}{2/3}\mathbf{u}_2=(0,0,1)-(\tfrac13,\tfrac13,\tfrac13)-(-\tfrac13,\tfrac16,\tfrac16)=(0,-\tfrac12,\tfrac12)^{\mathsf T}$.</li>
+<li>Checks: $\mathbf{u}_3^{\mathsf T}\mathbf{u}_1=0$ ✓, $\mathbf{u}_3^{\mathsf T}\mathbf{u}_2=-\tfrac16+\tfrac16=0$ ✓.</li>
+<li>Normalise: $\mathbf{q}_1=\tfrac{1}{\sqrt3}(1,1,1)^{\mathsf T}$, $\mathbf{q}_2=\tfrac{1}{\sqrt6}(-2,1,1)^{\mathsf T}$, $\mathbf{q}_3=\tfrac{1}{\sqrt2}(0,-1,1)^{\mathsf T}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Scale the intermediate $\mathbf{u}$'s freely to clear fractions ($\mathbf{u}_2\propto(-2,1,1)$) since only the direction matters; normalise once at the end. Each $\mathbf{q}_k$ is "what is new in $\mathbf{a}_k$ relative to the previous ones". In regression, orthogonalising regressors this way is exactly the Frisch–Waugh idea.</div>
+</div></details>
+</div>
+
+<!-- 22 -->
+<div class="wx">
+<div class="bar"><span class="n">W22</span><span class="pill a">●●</span><span class="tag">least squares</span>Regression line by normal equations, and the two checks</div>
+<div class="prob">Fit $y=\beta_0+\beta_1t$ to $(1,2),(2,3),(3,5),(4,6)$. Verify that the residuals are orthogonal to both columns, and that $\hat\beta_1=\text{Cov}(t,y)/\text{Var}(t)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$A=\begin{pmatrix}1&1\\1&2\\1&3\\1&4\end{pmatrix}$, $\mathbf{b}=(2,3,5,6)^{\mathsf T}$. $A^{\mathsf T}A=\begin{pmatrix}4&10\\10&30\end{pmatrix}$, $A^{\mathsf T}\mathbf{b}=\begin{pmatrix}16\\47\end{pmatrix}$.</li>
+<li>$(A^{\mathsf T}A)^{-1}=\tfrac1{20}\begin{pmatrix}30&-10\\-10&4\end{pmatrix}$. $\hat\beta=\tfrac1{20}\begin{pmatrix}480-470\\-160+188\end{pmatrix}=\begin{pmatrix}0.5\\1.4\end{pmatrix}$.</li>
+<li>Fitted: $1.9,3.3,4.7,6.1$. Residuals $\mathbf{e}=(0.1,-0.3,0.3,-0.1)^{\mathsf T}$.</li>
+<li>Orthogonality: $\mathbf{1}^{\mathsf T}\mathbf{e}=0$ ✓; $\mathbf{t}^{\mathsf T}\mathbf{e}=0.1-0.6+0.9-0.4=0$ ✓.</li>
+<li>Covariance form: $\bar t=2.5$, $\bar y=4$. $\sum(t_i-\bar t)(y_i-\bar y)=3+0.5+0.5+3=7$, $\sum(t_i-\bar t)^2=5$. Ratio $1.4=\hat\beta_1$ ✓. Intercept $\bar y-\hat\beta_1\bar t=4-3.5=0.5$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The normal equations $A^{\mathsf T}\mathbf{e}=\mathbf{0}$ say: residuals have zero mean (column of ones) and zero correlation with every regressor. Those two facts are not assumptions; they are forced by the geometry of projection and hold in every OLS fit, good or bad.</div>
+</div></details>
+</div>
+
+<!-- 23 -->
+<div class="wx">
+<div class="bar"><span class="n">W23</span><span class="pill a">●●</span><span class="tag">finance</span>Global minimum-variance portfolio with two assets</div>
+<div class="prob">$\sigma_1=10\%$, $\sigma_2=20\%$, $\rho=0.3$. Find the minimum-variance weights using $\Sigma^{-1}$, and the resulting volatility.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\Sigma=\begin{pmatrix}0.01&0.006\\0.006&0.04\end{pmatrix}$ with $\sigma_{12}=0.3\cdot0.1\cdot0.2=0.006$. $\det\Sigma=0.0004-0.000036=0.000364>0$ and $\sigma_1^2>0$ ⟹ PD.</li>
+<li>$\Sigma^{-1}=\dfrac{1}{0.000364}\begin{pmatrix}0.04&-0.006\\-0.006&0.01\end{pmatrix}$.</li>
+<li>$\Sigma^{-1}\mathbf{1}\propto(0.034,\;0.004)^{\mathsf T}$ (the constant cancels in the ratio). $\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1}\propto0.038$.</li>
+<li>$\mathbf{w}^*=\dfrac{(0.034,0.004)}{0.038}=(0.895,\;0.105)^{\mathsf T}$.</li>
+<li>$\sigma^2_{\min}=\dfrac{1}{\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1}}=\dfrac{0.000364}{0.038}=0.00958$, $\sigma_{\min}=9.79\%$.</li>
+<li>Cross-check with the textbook formula $w_1=\dfrac{\sigma_2^2-\rho\sigma_1\sigma_2}{\sigma_1^2+\sigma_2^2-2\rho\sigma_1\sigma_2}=\dfrac{0.034}{0.038}$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The minimum-variance volatility $9.79\%$ is below the safer asset's $10\%$: diversification benefit from $\rho<1$. The matrix route $\Sigma^{-1}\mathbf{1}$ generalises to any number of assets; the two-asset formula does not. Notice $\Sigma^{-1}\mathbf{1}$ gives weights proportional to "row sums of the inverse covariance".</div>
+</div></details>
+</div>
+
+<!-- 24 -->
+<div class="wx">
+<div class="bar"><span class="n">W24</span><span class="pill r">●●●</span><span class="tag">finance · eigen</span>Equally weighted portfolio, correlation matrix eigenvalues, diversification limit</div>
+<div class="prob">Three assets, each with $\sigma=20\%$, every pairwise correlation $\rho=0.5$. (a) Variance of the equal-weight portfolio. (b) Eigenvalues of the correlation matrix. (c) What happens as the number of such assets $n\to\infty$?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\Sigma=\sigma^2R$, $R=\begin{pmatrix}1&.5&.5\\.5&1&.5\\.5&.5&1\end{pmatrix}$, $\mathbf{w}=\tfrac13\mathbf{1}$.</li>
+<li>$\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\tfrac19\sigma^2\,\mathbf{1}^{\mathsf T}R\mathbf{1}=\tfrac19(0.04)(3+6\cdot0.5)=\tfrac{6}{9}(0.04)=0.0267$, $\sigma_p=16.3\%$.</li>
+<li>$R=(1-\rho)I+\rho\mathbf{1}\mathbf{1}^{\mathsf T}$. $\mathbf{1}\mathbf{1}^{\mathsf T}$ has eigenvalues $n=3$ (eigenvector $\mathbf{1}$) and $0,0$ (any vector with entries summing to 0). So $R$ has eigenvalues $1-\rho+3\rho=2$ and $1-\rho=0.5$ (twice). All positive ⟹ PD.</li>
+<li>General $n$: $\mathbf{1}^{\mathsf T}R\mathbf{1}=n+n(n-1)\rho$, so with $\mathbf{w}=\tfrac1n\mathbf{1}$: $\sigma_p^2=\sigma^2\left[\tfrac1n+\left(1-\tfrac1n\right)\rho\right]$. Equivalently $\sigma_p^2=\tfrac{\sigma^2}{n}\lambda_{\max}(R)$ since $\mathbf{w}$ is along the top eigenvector.</li>
+<li>As $n\to\infty$: $\sigma_p^2\to\rho\sigma^2=0.02$, $\sigma_p\to14.1\%$. Idiosyncratic variance $\tfrac{\sigma^2}{n}(1-\rho)$ vanishes; the common part $\rho\sigma^2$ cannot be diversified.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The eigenvector $\mathbf{1}$ with the big eigenvalue $1+(n-1)\rho$ is the "market factor": all assets moving together. The remaining $n-1$ directions (long–short spreads) each carry only $1-\rho$. Equal weighting loads entirely on the big eigenvalue, which is exactly why its variance floors at $\rho\sigma^2$.</div>
+</div></details>
+</div>
+
+<!-- 25 -->
+<div class="wx">
+<div class="bar"><span class="n">W25</span><span class="pill a">●●</span><span class="tag">finance · eigen</span>PCA on a 2×2 covariance matrix</div>
+<div class="prob">Two assets with $\Sigma=\begin{pmatrix}4&2\\2&4\end{pmatrix}$ (in %²). Find the principal components, the share of variance explained by the first, and the variance of the equal-weight portfolio via the eigen-decomposition.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\text{tr}=8$, $\det=12$ ⟹ $\lambda^2-8\lambda+12=(\lambda-6)(\lambda-2)$: $\lambda_1=6$, $\lambda_2=2$.</li>
+<li>$\lambda=6$: $\Sigma-6I=\begin{pmatrix}-2&2\\2&-2\end{pmatrix}$ ⟹ $\mathbf{q}_1=\tfrac1{\sqrt2}(1,1)^{\mathsf T}$ (both assets up together: the "level" factor). $\lambda=2$: $\mathbf{q}_2=\tfrac1{\sqrt2}(1,-1)^{\mathsf T}$ (the "spread" factor).</li>
+<li>Variance explained by PC1: $\lambda_1/(\lambda_1+\lambda_2)=6/8=75\%$. Total variance $=\text{tr}\Sigma=8$ is preserved by the rotation.</li>
+<li>Equal weights $\mathbf{w}=(\tfrac12,\tfrac12)^{\mathsf T}=\tfrac{1}{\sqrt2}\mathbf{q}_1$. So $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\tfrac12\lambda_1=3$. Direct check: $\tfrac14(4+2+2+4)=3$ ✓.</li>
+<li>The long–short portfolio $(\tfrac12,-\tfrac12)$ has variance $\tfrac12\lambda_2=1$: three times less risky, because it only loads on the small eigenvalue.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\sum_i\lambda_i(\mathbf{q}_i^{\mathsf T}\mathbf{w})^2$: portfolio variance is a weighted sum of squared loadings on the principal components, weighted by eigenvalues. Risk lives in the big-eigenvalue directions. PCA is nothing more than the spectral theorem applied to $\Sigma$.</div>
+</div></details>
+</div>
+
+<!-- 26 -->
+<div class="wx">
+<div class="bar"><span class="n">W26</span><span class="pill a">●●</span><span class="tag">finance · systems</span>State prices, no-arbitrage, pricing a new claim</div>
+<div class="prob">One period, two states. A stock costs 100 and pays 110 (up) or 90 (down). A bond costs 100 and pays 105 in both states. Find the state prices, check for arbitrage, and price a put with strike 100.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Payoff matrix $D=\begin{pmatrix}110&105\\90&105\end{pmatrix}$ (rows = states, columns = securities). State prices $\boldsymbol\psi$ solve $D^{\mathsf T}\boldsymbol\psi=\mathbf{p}$: $\begin{pmatrix}110&90\\105&105\end{pmatrix}\begin{pmatrix}\psi_u\\\psi_d\end{pmatrix}=\begin{pmatrix}100\\100\end{pmatrix}$.</li>
+<li>$\det=110\cdot105-90\cdot105=2100\neq0$ ⟹ unique $\boldsymbol\psi$ ⟹ market complete.</li>
+<li>Row 2: $\psi_u+\psi_d=\tfrac{100}{105}=0.9524$. Row 1: $110\psi_u+90(0.9524-\psi_u)=100$ ⟹ $20\psi_u=100-85.71=14.29$ ⟹ $\psi_u=0.7143$, $\psi_d=0.2381$.</li>
+<li>Both strictly positive ⟹ <span class="g">no arbitrage</span>. Risk-neutral probabilities $q=\boldsymbol\psi/\sum\boldsymbol\psi=(0.75,0.25)$; indeed $q_u=\tfrac{105-90}{110-90}=0.75$ ✓.</li>
+<li>Put payoff $(0,10)^{\mathsf T}$. Price $=\boldsymbol\psi^{\mathsf T}\text{payoff}=0.2381\cdot10=2.38$. Equivalently $\tfrac{0.25\cdot10}{1.05}=2.38$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Pricing is linear: price $=\boldsymbol\psi^{\mathsf T}(\text{payoff})$ is a dot product with the state-price vector, which is why any replicable claim has exactly one arbitrage-free price. A negative state price would mean a state you get paid to insure, the linear-algebra signature of arbitrage.</div>
+</div></details>
+</div>
+
+<!-- 27 -->
+<div class="wx">
+<div class="bar"><span class="n">W27</span><span class="pill a">●●</span><span class="tag">finance · least squares</span>CAPM beta by OLS from raw data</div>
+<div class="prob">Four monthly excess returns (%): market $r_m=(2,-1,3,0)$, stock $r_i=(3,-2,4,1)$. Estimate $\alpha$ and $\beta$ in $r_i=\alpha+\beta r_m+\varepsilon$ using $(X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$, then confirm $\beta$ with the covariance formula.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$X=\begin{pmatrix}1&2\\1&-1\\1&3\\1&0\end{pmatrix}$, $\mathbf{y}=(3,-2,4,1)^{\mathsf T}$. $X^{\mathsf T}X=\begin{pmatrix}4&4\\4&14\end{pmatrix}$, $X^{\mathsf T}\mathbf{y}=\begin{pmatrix}6\\20\end{pmatrix}$.</li>
+<li>$\det=56-16=40$; $(X^{\mathsf T}X)^{-1}=\tfrac1{40}\begin{pmatrix}14&-4\\-4&4\end{pmatrix}$.</li>
+<li>$\hat{\boldsymbol\beta}=\tfrac1{40}\begin{pmatrix}84-80\\-24+80\end{pmatrix}=\begin{pmatrix}0.1\\1.4\end{pmatrix}$: $\hat\alpha=0.1\%$, $\hat\beta=1.4$.</li>
+<li>Covariance check: $\bar r_m=1$, $\bar r_i=1.5$. $\sum(r_m-1)(r_i-1.5)=1.5+7+5+0.5=14$; $\sum(r_m-1)^2=1+4+4+1=10$. $\hat\beta=14/10=1.4$ ✓.</li>
+<li>Fitted $\hat r_i=(2.9,-1.3,4.3,0.1)$, residuals $(0.1,-0.7,-0.3,0.9)$: sum $0$ ✓, $\sum r_m e=0.2+0.7-0.9+0=0$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$\hat\beta=\text{Cov}(r_i,r_m)/\text{Var}(r_m)$ is the projection coefficient from module 1 in disguise: project the demeaned stock return onto the demeaned market return. OLS with an intercept is literally "demean, then project". The matrix formula and the covariance formula are the same computation.</div>
+</div></details>
+</div>
+
+</section>

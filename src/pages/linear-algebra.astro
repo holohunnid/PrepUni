@@ -1,0 +1,24 @@
+---
+import CourseLayout from '../layouts/CourseLayout.astro';
+import course from '../courses/linear-algebra/meta.json';
+import hero from '../courses/linear-algebra/hero.html?raw';
+
+// module fragments are verbatim HTML from the original cheat sheet, one file
+// per module, rendered in filename order
+const files = import.meta.glob('../courses/linear-algebra/modules/*.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+const modulesHtml = Object.keys(files)
+  .sort()
+  .map((k) => files[k]);
+---
+<CourseLayout course={course}>
+  <Fragment set:html={hero} />
+  {modulesHtml.map((html) => <Fragment set:html={html} />)}
+</CourseLayout>
+
+<script>
+  import '../courses/linear-algebra/interactive.js';
+</script>

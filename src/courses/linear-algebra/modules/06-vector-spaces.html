@@ -1,0 +1,429 @@
+<!-- ============ 06 VECTOR SPACES ============ -->
+<section id="s6">
+<div class="sec-head"><span class="num">06</span><h2>Vector spaces</h2><span class="sub">course-style chapter: span, independence, basis, dimension, the four subspaces, rank</span></div>
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What this chapter is about, in plain words<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Modules 1–5 were about <i>computing</i>: multiply, invert, take determinants. This chapter is about <i>describing sets of vectors</i>. The questions it answers are:</p>
+  <ul>
+    <li>Given some vectors, what is <b>everything you can build</b> from them? (span)</li>
+    <li>Are any of them <b>redundant</b>? (linear independence)</li>
+    <li>What is the <b>smallest set</b> that still builds everything? (basis)</li>
+    <li><b>How many</b> vectors is that? (dimension)</li>
+    <li>For a matrix $A$: what can $A\mathbf{x}$ reach, and what does $A$ destroy? (column space, null space, rank)</li>
+  </ul>
+  <p>The payoff: every question of the form "does $A\mathbf{x}=\mathbf{b}$ have a solution, and how many" becomes a statement about these sets. And in finance: "how many independent risk factors drive these 50 assets" is a rank question, "is this asset redundant" is an independence question, "can I replicate this payoff" is a span question.</p>
+  <div class="note tip"><div class="t">Reading strategy</div>Work through the panels in order. Each one introduces exactly one idea, gives the picture in ℝ² or ℝ³, then the precise definition, then how to test it with a computation. Do not move on until the "check yourself" line at the end of each panel makes sense.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Subspaces: the sets that linear algebra can talk about<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Not every subset of ℝⁿ is interesting. A <b>subspace</b> is a set $W$ where you can add and scale without ever leaving the set:</p>
+  <ol class="steps">
+    <li>$\mathbf{0}\in W$</li>
+    <li>$\mathbf{u},\mathbf{v}\in W\Rightarrow\mathbf{u}+\mathbf{v}\in W$ (closed under addition)</li>
+    <li>$\mathbf{u}\in W,\;c\in\mathbb{R}\Rightarrow c\mathbf{u}\in W$ (closed under scaling)</li>
+  </ol>
+  <p>Conditions 2 and 3 together say: any linear combination of vectors in $W$ stays in $W$.</p>
+  <table>
+    <tr><th>Set</th><th>Subspace?</th><th>Why</th></tr>
+    <tr><td>A line through the origin in ℝ²</td><td class="g">yes</td><td>scaling and adding points on the line keeps you on it</td></tr>
+    <tr><td>A line <b>not</b> through the origin</td><td class="r">no</td><td>fails condition 1; also $2\mathbf{u}$ leaves the line</td></tr>
+    <tr><td>A plane through the origin in ℝ³</td><td class="g">yes</td><td></td></tr>
+    <tr><td>The first quadrant $\{x\ge0,y\ge0\}$</td><td class="r">no</td><td>$(-1)\cdot(1,1)=(-1,-1)$ leaves it</td></tr>
+    <tr><td>$\{\mathbf{x}:A\mathbf{x}=\mathbf{0}\}$</td><td class="g">yes</td><td>$A(\mathbf{u}+\mathbf{v})=\mathbf{0}$, $A(c\mathbf{u})=\mathbf{0}$</td></tr>
+    <tr><td>$\{\mathbf{x}:A\mathbf{x}=\mathbf{b}\}$, $\mathbf{b}\neq\mathbf{0}$</td><td class="r">no</td><td>$\mathbf{0}$ is not a solution</td></tr>
+    <tr><td>$\{\mathbf{0}\}$ and all of ℝⁿ</td><td class="g">yes</td><td>the trivial subspaces</td></tr>
+    <tr><td>Portfolios with $\sum w_i=1$</td><td class="r">no</td><td>$2\mathbf{w}$ sums to 2; it is a shifted subspace (affine set)</td></tr>
+    <tr><td>Zero-cost portfolios $\sum w_i=0$</td><td class="g">yes</td><td>it is $N(\mathbf{1}^{\mathsf T})$</td></tr>
+  </table>
+  <p>In ℝ³ the only subspaces are: the origin, lines through the origin, planes through the origin, and ℝ³ itself. Their "sizes" 0, 1, 2, 3 are the <b>dimensions</b> we define below.</p>
+  <p class="muted"><b>Check yourself:</b> is the set of symmetric $2\times2$ matrices a subspace of all $2\times2$ matrices? (Yes: sum and scalar multiple of symmetric matrices are symmetric. The zero matrix is symmetric.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Span: everything you can build<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Take vectors $\mathbf{v}_1,\dots,\mathbf{v}_k$. Their <b>span</b> is the set of all linear combinations:</p>
+  $$\text{span}\{\mathbf{v}_1,\dots,\mathbf{v}_k\}=\{c_1\mathbf{v}_1+\dots+c_k\mathbf{v}_k:\;c_i\in\mathbb{R}\}$$
+  <p>It is always a subspace (the smallest one containing all the $\mathbf{v}_i$). Think of it as: "place the vectors at the origin, then reach everywhere you can by stretching and adding them."</p>
+  <figure>
+  <svg viewBox="0 0 560 180">
+    <g transform="translate(10,0)">
+      <text x="0" y="16" class="svgtxt w">one vector</text>
+      <line x1="20" y1="140" x2="160" y2="60" stroke="var(--green)" stroke-dasharray="3 3" opacity=".6"/>
+      <line x1="55" y1="120" x2="110" y2="89" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="0" y="165" class="svgtxt">span = a line</text>
+    </g>
+    <g transform="translate(190,0)">
+      <text x="0" y="16" class="svgtxt w">two non-parallel vectors</text>
+      <polygon points="10,150 170,150 170,40 10,40" fill="var(--greenbg)" stroke="var(--green2)" opacity=".8"/>
+      <line x1="60" y1="120" x2="130" y2="105" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <line x1="60" y1="120" x2="85" y2="60" stroke="var(--amber)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="0" y="165" class="svgtxt">span = the whole plane</text>
+    </g>
+    <g transform="translate(380,0)">
+      <text x="0" y="16" class="svgtxt w">two parallel vectors</text>
+      <line x1="10" y1="145" x2="170" y2="45" stroke="var(--green)" stroke-dasharray="3 3" opacity=".6"/>
+      <line x1="60" y1="114" x2="120" y2="76" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <line x1="60" y1="114" x2="90" y2="95" stroke="var(--amber)" stroke-width="4" marker-end="url(#ar)" opacity=".8"/>
+      <text x="0" y="165" class="svgtxt">span = still just a line</text>
+    </g>
+  </svg>
+  <figcaption>Adding a vector only enlarges the span if it points somewhere new. The third picture is the whole idea of linear dependence: the amber vector adds nothing.</figcaption>
+  </figure>
+  <h3>The key question: is $\mathbf{b}$ in the span?</h3>
+  <p>"$\mathbf{b}\in\text{span}\{\mathbf{v}_1,\dots,\mathbf{v}_k\}$" means there are coefficients with $c_1\mathbf{v}_1+\dots+c_k\mathbf{v}_k=\mathbf{b}$. Put the $\mathbf{v}_i$ as columns of $A$: this is exactly the system $A\mathbf{c}=\mathbf{b}$. So:</p>
+  <div class="note"><div class="t">Translation</div>$\mathbf{b}$ is in the span of the columns of $A$ ⟺ $A\mathbf{x}=\mathbf{b}$ is consistent ⟺ rank$[A|\mathbf{b}]$ = rank$(A)$. The span of the columns has a name: the <b>column space</b> $C(A)$.</div>
+  <p class="muted"><b>Check yourself:</b> is $(1,2,3)^{\mathsf T}$ in span$\{(1,0,1)^{\mathsf T},(0,1,1)^{\mathsf T}\}$? Solve $c_1(1,0,1)+c_2(0,1,1)=(1,2,3)$: $c_1=1,c_2=2$, third component $1+2=3$ ✓. Yes.</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Linear independence: no redundancy<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The third picture above shows the problem: two vectors that span only a line. One of them is <b>redundant</b>: it is a multiple of the other. Linear independence is the general version of "nothing is redundant".</p>
+  <h3>Two equivalent definitions</h3>
+  <p><b>Intuitive:</b> $\mathbf{v}_1,\dots,\mathbf{v}_k$ are dependent if one of them can be written as a combination of the others (so dropping it does not shrink the span). Independent if none can.</p>
+  <p><b>Formal:</b> independent if the only solution of</p>
+  $$c_1\mathbf{v}_1+c_2\mathbf{v}_2+\dots+c_k\mathbf{v}_k=\mathbf{0}$$
+  <p>is $c_1=c_2=\dots=c_k=0$. Dependent if some non-trivial combination gives $\mathbf{0}$.</p>
+  <p>Why are these the same? If $c_1\mathbf{v}_1+\dots+c_k\mathbf{v}_k=\mathbf{0}$ with, say, $c_1\neq0$, divide by $c_1$: $\mathbf{v}_1=-\tfrac{c_2}{c_1}\mathbf{v}_2-\dots$, so $\mathbf{v}_1$ is a combination of the others. And conversely.</p>
+  <h3>Why the formal version is the useful one</h3>
+  <p>It is a homogeneous system $A\mathbf{c}=\mathbf{0}$ with the $\mathbf{v}_i$ as columns. You already know how to solve that (module 3):</p>
+  <table>
+    <tr><th>Situation</th><th>Test</th></tr>
+    <tr><td>$k$ vectors in ℝⁿ, general</td><td>row reduce $A$ ($n\times k$); independent ⟺ every column has a pivot ⟺ rank $=k$</td></tr>
+    <tr><td>$n$ vectors in ℝⁿ (square)</td><td>independent ⟺ $\det A\neq0$</td></tr>
+    <tr><td>$k>n$ vectors in ℝⁿ</td><td>always dependent (more columns than pivots possible)</td></tr>
+    <tr><td>Two vectors</td><td>dependent ⟺ one is a multiple of the other</td></tr>
+    <tr><td>A set containing $\mathbf{0}$</td><td>always dependent ($1\cdot\mathbf{0}=\mathbf{0}$)</td></tr>
+    <tr><td>Non-zero mutually orthogonal vectors</td><td>always independent</td></tr>
+  </table>
+  <h3>Small example, fully</h3>
+  <p>$\mathbf{v}_1=(1,2)^{\mathsf T}$, $\mathbf{v}_2=(3,1)^{\mathsf T}$, $\mathbf{v}_3=(5,5)^{\mathsf T}$. Three vectors in ℝ²: dependent before we compute. Find the relation: $c_1+3c_2+5c_3=0$, $2c_1+c_2+5c_3=0$. $R_2-2R_1$: $-5c_2-5c_3=0$ ⟹ $c_2=-c_3$, $c_1=-3c_2-5c_3=-2c_3$. Take $c_3=1$: $-2\mathbf{v}_1-\mathbf{v}_2+\mathbf{v}_3=\mathbf{0}$, i.e. $\mathbf{v}_3=2\mathbf{v}_1+\mathbf{v}_2$. Check: $2(1,2)+(3,1)=(5,5)$ ✓.</p>
+  <p class="muted"><b>Check yourself:</b> are $(1,1,1),(1,2,3),(1,4,9)$ independent? $\det=1(18-12)-1(9-3)+1(4-2)=6-6+2=2\neq0$. Yes.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 4</span> Basis: a minimal spanning set. Dimension: its size<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Span asks for <i>enough</i> vectors (reach everything). Independence asks for <i>not too many</i> (no redundancy). A <b>basis</b> of a subspace $W$ is a set that does both:</p>
+  <ol class="steps">
+    <li>spans $W$, and</li>
+    <li>is linearly independent.</li>
+  </ol>
+  <p>A basis is a coordinate system for $W$. The <b>standard basis</b> of ℝ³ is $\mathbf{e}_1,\mathbf{e}_2,\mathbf{e}_3$ (the columns of $I$), but $\{(1,1,0),(1,-1,0),(0,0,2)\}$ is also a basis of ℝ³, and so is any three independent vectors.</p>
+  <h3>Uniqueness of coordinates</h3>
+  <p>If $\{\mathbf{b}_1,\dots,\mathbf{b}_k\}$ is a basis of $W$, every $\mathbf{x}\in W$ can be written as $\mathbf{x}=c_1\mathbf{b}_1+\dots+c_k\mathbf{b}_k$ in <b>exactly one way</b>. (Spanning gives existence; independence gives uniqueness: two different representations would subtract to a non-trivial combination equal to $\mathbf{0}$.) The numbers $(c_1,\dots,c_k)$ are the coordinates of $\mathbf{x}$ in that basis.</p>
+  <h3>Dimension</h3>
+  <p><b>Theorem.</b> All bases of a subspace have the same number of vectors. That number is the <b>dimension</b> $\dim W$.</p>
+  <table>
+    <tr><th>Subspace</th><th>dim</th><th>Basis example</th></tr>
+    <tr><td>$\{\mathbf{0}\}$</td><td>0</td><td>empty set</td></tr>
+    <tr><td>line through origin spanned by $\mathbf{v}$</td><td>1</td><td>$\{\mathbf{v}\}$</td></tr>
+    <tr><td>plane $x+y+z=0$ in ℝ³</td><td>2</td><td>$\{(1,-1,0),(1,0,-1)\}$</td></tr>
+    <tr><td>ℝⁿ</td><td>$n$</td><td>$\{\mathbf{e}_1,\dots,\mathbf{e}_n\}$</td></tr>
+    <tr><td>zero-cost portfolios in $n$ assets</td><td>$n-1$</td><td>$\{\mathbf{e}_1-\mathbf{e}_n,\dots,\mathbf{e}_{n-1}-\mathbf{e}_n\}$</td></tr>
+  </table>
+  <h3>Useful consequences (for a subspace of dimension $d$)</h3>
+  <ul>
+    <li>Any $d$ independent vectors in $W$ automatically span $W$ (so they are a basis).</li>
+    <li>Any $d$ vectors that span $W$ are automatically independent.</li>
+    <li>Fewer than $d$ vectors cannot span $W$; more than $d$ cannot be independent.</li>
+    <li>Any independent set in $W$ can be extended to a basis; any spanning set contains a basis.</li>
+  </ul>
+  <div class="note tip"><div class="t">Exam shortcut</div>To show that $n$ given vectors form a basis of ℝⁿ you only need to check <b>one</b> of the two conditions. The determinant test does it: $\det\neq0$ ⟹ independent ⟹ (since there are $n$ of them) basis.</div>
+  <p class="muted"><b>Check yourself:</b> can 2 vectors span ℝ³? No: $\dim\mathbb{R}^3=3$. Can 4 vectors in ℝ³ be independent? No, same reason.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 5</span> Finding a basis of a span: the row-reduction recipe, explained<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Given $\mathbf{v}_1,\dots,\mathbf{v}_k$, find a basis of their span and its dimension.</p>
+  <ol class="steps">
+    <li>Write the vectors as <b>columns</b> of $A$.</li>
+    <li>Row reduce to echelon form. Note which columns contain pivots.</li>
+    <li>The <b>original</b> vectors in the pivot positions are a basis. Dimension = number of pivots = rank$(A)$.</li>
+  </ol>
+  <p>Why does this work? Row operations do not change the dependence relations among the columns: if $\mathbf{v}_3=2\mathbf{v}_1+\mathbf{v}_2$ before, the same relation holds among the reduced columns. In echelon form the pivot columns are visibly independent and the non-pivot columns are visibly combinations of the pivot columns to their left. So the same is true of the originals.</p>
+  <p>Why <b>original</b> columns? Row operations change the column vectors themselves (they mix the entries), so the reduced columns are different vectors living in a different span. Only the <i>pattern</i> of which columns are independent survives.</p>
+  </div>
+  <div>
+  <h3>Example</h3>
+  $$\mathbf{v}_1=\begin{pmatrix}1\\2\\1\end{pmatrix},\mathbf{v}_2=\begin{pmatrix}2\\4\\2\end{pmatrix},\mathbf{v}_3=\begin{pmatrix}0\\1\\1\end{pmatrix},\mathbf{v}_4=\begin{pmatrix}1\\3\\2\end{pmatrix}$$
+  $$A=\begin{pmatrix}1&2&0&1\\2&4&1&3\\1&2&1&2\end{pmatrix}\to\begin{pmatrix}\color{#3ea76a}1&2&0&1\\0&0&\color{#3ea76a}1&1\\0&0&0&0\end{pmatrix}$$
+  <p>Pivots in columns 1 and 3. Basis of the span: $\{\mathbf{v}_1,\mathbf{v}_3\}$, dimension 2. The span is a plane in ℝ³.</p>
+  <p>The reduced matrix also tells you the relations: column 2 = 2·column 1 ⟹ $\mathbf{v}_2=2\mathbf{v}_1$ ✓. Column 4 = column 1 + column 3 ⟹ $\mathbf{v}_4=\mathbf{v}_1+\mathbf{v}_3$: $(1,2,1)+(0,1,1)=(1,3,2)$ ✓.</p>
+  <div class="note warn"><div class="t">Trap</div>Writing $\{(1,2,0,1),(0,0,1,1)\}$ (the reduced rows) as "the basis" is wrong here: those are vectors in ℝ⁴, the span lives in ℝ³. Rows of the echelon form are a basis of the <i>row</i> space, a different subspace.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 6</span> Two subspaces attached to every matrix: what $A$ reaches, what $A$ kills<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>Column space $C(A)$ = what $A$ can reach</h3>
+  <p>$A\mathbf{x}=x_1\mathbf{a}_1+x_2\mathbf{a}_2+\dots+x_n\mathbf{a}_n$ is a linear combination of the columns with weights $x_i$. So as $\mathbf{x}$ ranges over ℝⁿ, $A\mathbf{x}$ ranges over exactly the span of the columns:</p>
+  $$C(A)=\{A\mathbf{x}:\mathbf{x}\in\mathbb{R}^n\}=\text{span}\{\mathbf{a}_1,\dots,\mathbf{a}_n\}\subseteq\mathbb{R}^m$$
+  <p>$A\mathbf{x}=\mathbf{b}$ is solvable ⟺ $\mathbf{b}\in C(A)$. If $C(A)=\mathbb{R}^m$ (rank $m$), every $\mathbf{b}$ is reachable.</p>
+  <h3>Null space $N(A)$ = what $A$ sends to zero</h3>
+  $$N(A)=\{\mathbf{x}\in\mathbb{R}^n:A\mathbf{x}=\mathbf{0}\}$$
+  <p>If $N(A)$ contains more than $\mathbf{0}$, then $A$ is not one-to-one: $A(\mathbf{x}+\mathbf{z})=A\mathbf{x}$ for every $\mathbf{z}\in N(A)$. That is exactly why solutions are non-unique: <b>all solutions of $A\mathbf{x}=\mathbf{b}$ = one particular solution + $N(A)$</b>.</p>
+  <p>Finding $N(A)$: row reduce to RREF, set each free variable to 1 in turn (others 0), read off the pivot variables. You get one basis vector per free variable, so $\dim N(A)$ = number of free variables $=n-\text{rank}$.</p>
+  </div>
+  <div>
+  <h3>The same example, both spaces</h3>
+  $$A=\begin{pmatrix}1&2&0&1\\2&4&1&3\\1&2&1&2\end{pmatrix},\quad\text{RREF}=\begin{pmatrix}1&2&0&1\\0&0&1&1\\0&0&0&0\end{pmatrix}$$
+  <p><b>$C(A)$</b>: pivot columns 1, 3 of the original: basis $\{(1,2,1)^{\mathsf T},(0,1,1)^{\mathsf T}\}$, a plane in ℝ³. The vector $(0,0,1)^{\mathsf T}$ is <i>not</i> in it (try: $c_1=0$ from row 1, then $c_2=0$ from row 2, then row 3 gives $0=1$), so $A\mathbf{x}=(0,0,1)^{\mathsf T}$ has no solution.</p>
+  <p><b>$N(A)$</b>: free variables $x_2,x_4$. Equations: $x_1=-2x_2-x_4$, $x_3=-x_4$.<br>
+  $x_2=1,x_4=0$: $(-2,1,0,0)^{\mathsf T}$. $x_2=0,x_4=1$: $(-1,0,-1,1)^{\mathsf T}$.<br>
+  Basis of $N(A)$: those two vectors, dimension 2, a plane in ℝ⁴.</p>
+  <p>Interpretation of $(-2,1,0,0)$: "$-2$ of column 1 plus 1 of column 2 gives zero", i.e. $\mathbf{a}_2=2\mathbf{a}_1$. Null-space vectors <b>are</b> the dependence relations among the columns.</p>
+  <h3>Rank–nullity, and why it must hold</h3>
+  $$\underbrace{\text{rank}(A)}_{\text{pivot columns}}+\underbrace{\text{nullity}(A)}_{\text{free columns}}=n$$
+  <p>Every column is either a pivot column or a free column. That is the whole proof. Here: $2+2=4$ ✓.</p>
+  </div>
+  </div>
+  <figure>
+  <svg viewBox="0 0 560 190">
+    <g font-size="11" font-family="JetBrains Mono,monospace">
+      <rect x="20" y="30" width="200" height="130" fill="var(--panel2)" stroke="var(--border2)"/>
+      <text x="28" y="48" fill="var(--text)">ℝⁿ  inputs x</text>
+      <ellipse cx="80" cy="110" rx="42" ry="30" fill="var(--redbg)" stroke="var(--red)"/>
+      <text x="55" y="107" fill="var(--red)">N(A)</text><text x="48" y="121" fill="var(--red)">Ax = 0</text>
+      <circle cx="170" cy="80" r="3" fill="var(--text)"/><text x="176" y="76" fill="var(--text)">x</text>
+      <circle cx="170" cy="130" r="3" fill="var(--text)"/><text x="176" y="146" fill="var(--text)">x + z, z∈N(A)</text>
+      <rect x="340" y="30" width="200" height="130" fill="var(--panel2)" stroke="var(--border2)"/>
+      <text x="348" y="48" fill="var(--text)">ℝᵐ  outputs Ax</text>
+      <polygon points="360,150 520,150 520,70 400,70" fill="var(--greenbg)" stroke="var(--green2)"/>
+      <text x="430" y="140" fill="var(--green)">C(A)</text>
+      <circle cx="460" cy="105" r="3" fill="var(--green)"/><text x="467" y="101" fill="var(--green)">Ax = b</text>
+      <circle cx="380" cy="60" r="3" fill="var(--red)"/><text x="388" y="58" fill="var(--red)">b′ unreachable</text>
+      <circle cx="420" cy="150" r="3" fill="var(--text)"/><text x="426" y="163" fill="var(--text)">0</text>
+    </g>
+    <g stroke="var(--muted)" fill="none" marker-end="url(#ar)">
+      <path d="M173,82 C 260,82 380,100 455,105"/>
+      <path d="M173,128 C 260,128 380,110 455,106"/>
+      <path d="M122,110 C 250,120 380,150 416,150" stroke="var(--red)" stroke-dasharray="4 3"/>
+    </g>
+    <text x="240" y="178" class="svgtxt">A collapses N(A) to 0, so x and x+z land on the same b</text>
+  </svg>
+  <figcaption>Non-uniqueness and non-existence have separate causes: a fat null space (left) makes solutions non-unique; a column space smaller than ℝᵐ (right) makes some b unreachable.</figcaption>
+  </figure>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 7</span> Rank: the single most informative number<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$\text{rank}(A)$ = number of pivots = $\dim C(A)$ = number of independent columns = number of independent rows. It measures how much of the input space survives the map.</p>
+  <table>
+    <tr><th>$A$ is $m\times n$ with rank $r$</th><th>Then</th></tr>
+    <tr><td>$r=n$ (full column rank)</td><td>columns independent, $N(A)=\{\mathbf{0}\}$, solutions (when they exist) are unique; $A^{\mathsf T}A$ invertible (OLS works)</td></tr>
+    <tr><td>$r=m$ (full row rank)</td><td>$C(A)=\mathbb{R}^m$, $A\mathbf{x}=\mathbf{b}$ solvable for every $\mathbf{b}$ (complete market)</td></tr>
+    <tr><td>$r=m=n$</td><td>invertible; the Invertible Matrix Theorem (module 5)</td></tr>
+    <tr><td>$r<\min(m,n)$</td><td>rank deficient: some $\mathbf{b}$ unreachable <i>and</i> solutions non-unique</td></tr>
+  </table>
+  <h3>Rank facts</h3>
+  <ul>
+    <li>$\text{rank}(A)=\text{rank}(A^{\mathsf T})$ (row rank = column rank; not obvious, but true)</li>
+    <li>$\text{rank}(A)\le\min(m,n)$</li>
+    <li>$\text{rank}(AB)\le\min(\text{rank}A,\text{rank}B)$: multiplying can only lose rank</li>
+    <li>$\text{rank}(A^{\mathsf T}A)=\text{rank}(AA^{\mathsf T})=\text{rank}(A)$</li>
+    <li>Multiplying by an invertible matrix does not change rank</li>
+    <li>$\text{rank}(\mathbf{u}\mathbf{v}^{\mathsf T})=1$ for non-zero $\mathbf{u},\mathbf{v}$ (every column is a multiple of $\mathbf{u}$)</li>
+  </ul>
+  <div class="note fin"><div class="t">Finance link</div>Sample covariance $\hat\Sigma=\tfrac{1}{T-1}R^{\mathsf T}R$ with $R$ the $T\times n$ demeaned return matrix has rank $\le\min(T-1,n)$. With $n=100$ assets and $T=60$ months, rank $\le59<100$: $\hat\Sigma$ is singular, cannot be inverted, and mean–variance optimisation breaks. That is a rank statement, and it is why shrinkage and factor models exist.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 8</span> The complete picture: four subspaces and orthogonality<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Besides $C(A)$ and $N(A)$ there are the same two objects for $A^{\mathsf T}$: the <b>row space</b> $C(A^{\mathsf T})$ (span of the rows, in ℝⁿ) and the <b>left null space</b> $N(A^{\mathsf T})$ (in ℝᵐ).</p>
+  <table>
+    <tr><th>Subspace</th><th>Lives in</th><th>Dimension</th><th>How to find a basis</th></tr>
+    <tr><td>$C(A)$</td><td>ℝᵐ</td><td>$r$</td><td>pivot columns of original $A$</td></tr>
+    <tr><td>$N(A)$</td><td>ℝⁿ</td><td>$n-r$</td><td>special solutions from RREF</td></tr>
+    <tr><td>$C(A^{\mathsf T})$</td><td>ℝⁿ</td><td>$r$</td><td>non-zero rows of RREF</td></tr>
+    <tr><td>$N(A^{\mathsf T})$</td><td>ℝᵐ</td><td>$m-r$</td><td>null space of $A^{\mathsf T}$</td></tr>
+  </table>
+  <h3>Why $N(A)\perp$ row space</h3>
+  <p>$A\mathbf{x}=\mathbf{0}$ says: (row 1)$\cdot\mathbf{x}=0$, (row 2)$\cdot\mathbf{x}=0$, … So $\mathbf{x}$ is orthogonal to every row, hence to every combination of rows. The null space is the orthogonal complement of the row space, and their dimensions add to $n$. Same argument in ℝᵐ: $N(A^{\mathsf T})\perp C(A)$.</p>
+  <p>This is the structure behind least squares: $\mathbf{b}$ splits into a part in $C(A)$ (the fitted values) and a part in $N(A^{\mathsf T})$ (the residuals, which satisfy $A^{\mathsf T}\mathbf{e}=\mathbf{0}$).</p>
+  <p class="muted">Check with the running example: row-space basis $\{(1,2,0,1),(0,0,1,1)\}$, null basis $\{(-2,1,0,0),(-1,0,-1,1)\}$. Dot products: $(1,2,0,1)\cdot(-2,1,0,0)=0$, $(1,2,0,1)\cdot(-1,0,-1,1)=0$, $(0,0,1,1)\cdot(-1,0,-1,1)=0$ ✓. Dimensions $2+2=4$ ✓.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">PROCEDURES</span> Recipes for the questions that actually get asked<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Question</th><th>Do this</th><th>Answer is</th></tr>
+    <tr><td>Are these vectors independent?</td><td>columns of $A$, row reduce</td><td>yes ⟺ pivot in every column (square: $\det\neq0$)</td></tr>
+    <tr><td>Do they span ℝᵐ?</td><td>columns of $A$, row reduce</td><td>yes ⟺ pivot in every <i>row</i> (rank $=m$)</td></tr>
+    <tr><td>Are they a basis of ℝⁿ?</td><td>count, then $\det$</td><td>exactly $n$ vectors and $\det\neq0$</td></tr>
+    <tr><td>Basis and dimension of span</td><td>row reduce</td><td>original pivot columns; dim = rank</td></tr>
+    <tr><td>Is $\mathbf{b}$ in the span / in $C(A)$?</td><td>row reduce $[A|\mathbf{b}]$</td><td>yes ⟺ no row $[0\cdots0|c\neq0]$</td></tr>
+    <tr><td>Basis of $N(A)$</td><td>RREF, free variables</td><td>one vector per free variable</td></tr>
+    <tr><td>Express $\mathbf{v}_3$ via $\mathbf{v}_1,\mathbf{v}_2$</td><td>solve $[\mathbf{v}_1\,\mathbf{v}_2|\mathbf{v}_3]$</td><td>the coefficients, if consistent</td></tr>
+    <tr><td>Coordinates of $\mathbf{x}$ in basis $B$</td><td>solve $P\mathbf{c}=\mathbf{x}$, $P=[\mathbf{b}_1\cdots\mathbf{b}_n]$</td><td>$\mathbf{c}=P^{-1}\mathbf{x}$</td></tr>
+    <tr><td>Dimension of solution set of $A\mathbf{x}=\mathbf{b}$</td><td>rank</td><td>$n-\text{rank}$ (if consistent)</td></tr>
+    <tr><td>Is a subset a subspace?</td><td>test $\mathbf{0}$, then closure</td><td>usually: contains $\mathbf{0}$ and is defined by homogeneous linear equations</td></tr>
+  </table>
+  <h3>Common confusions, cleared</h3>
+  <table>
+    <tr><th>Confusion</th><th>Resolution</th></tr>
+    <tr><td>"Span" vs "basis"</td><td>Span is a <i>set of vectors</i> (usually infinite: a line, a plane). A basis is a short <i>list</i> that generates it. Many bases, one span.</td></tr>
+    <tr><td>"Independent" vs "orthogonal"</td><td>Orthogonal (non-zero) ⟹ independent. Not conversely: $(1,0),(1,1)$ are independent but not orthogonal.</td></tr>
+    <tr><td>"Rank" vs "dimension"</td><td>Rank is the dimension of the column space (equivalently row space). "Dimension of $A$" is meaningless; "dimension of $C(A)$" is the rank.</td></tr>
+    <tr><td>$C(A)$ vs $N(A)$ live in different spaces</td><td>$C(A)\subseteq\mathbb{R}^m$ (length of columns), $N(A)\subseteq\mathbb{R}^n$ (number of columns). Their dimensions add to nothing in particular; it is rank + nullity $=n$.</td></tr>
+    <tr><td>Solution set of $A\mathbf{x}=\mathbf{b}$ is "a subspace"</td><td>Only when $\mathbf{b}=\mathbf{0}$. Otherwise it is a shifted copy of $N(A)$, not through the origin.</td></tr>
+    <tr><td>Reduced columns as basis of $C(A)$</td><td>Never. Use original columns at pivot positions. Reduced <i>rows</i> are fine for the row space.</td></tr>
+  </table>
+  <div class="note"><div class="t">One-paragraph summary</div>A subspace is a flat set through the origin. The span of some vectors is the subspace they generate. They are independent if none is redundant. A basis is an independent spanning set; its size is the dimension. For a matrix, the columns span $C(A)$ (what is reachable) and the solutions of $A\mathbf{x}=\mathbf{0}$ form $N(A)$ (what is collapsed). Rank counts pivots and equals $\dim C(A)$; nullity counts free variables; they add to the number of columns. Existence of solutions is a $C(A)$ question, uniqueness is an $N(A)$ question.</div>
+  </div>
+</div>
+
+<h3 style="margin:18px 0 8px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em">Reference panels (condensed versions of the above)</h3>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Linear independence<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Vectors $\mathbf{v}_1,\dots,\mathbf{v}_k$ are <b>linearly independent</b> if</p>
+  $$c_1\mathbf{v}_1+\dots+c_k\mathbf{v}_k=\mathbf{0}\;\Longrightarrow\;c_1=\dots=c_k=0$$
+  <p>Otherwise <b>dependent</b>: some vector is a combination of the others (redundant information).</p>
+  <h3>How to test</h3>
+  <ol class="steps">
+    <li>Put the vectors as columns of $A$. Solve $A\mathbf{c}=\mathbf{0}$.</li>
+    <li>Only trivial solution ⟺ independent ⟺ rank$(A)=k$ (every column is a pivot column).</li>
+    <li>Square case: independent ⟺ $\det A\neq0$.</li>
+  </ol>
+  <h3>Quick facts</h3>
+  <ul>
+    <li>Any set containing $\mathbf{0}$ is dependent.</li>
+    <li>Two vectors: dependent ⟺ one is a scalar multiple of the other.</li>
+    <li>More than $n$ vectors in ℝⁿ are always dependent.</li>
+    <li>Nonzero orthogonal vectors are always independent.</li>
+  </ul>
+  <figure>
+  <svg viewBox="0 0 420 140">
+    <g transform="translate(20,0)">
+      <text x="0" y="16" class="svgtxt w">Independent in ℝ²</text>
+      <line x1="60" y1="110" x2="60" y2="30" stroke="var(--border2)"/><line x1="10" y1="110" x2="150" y2="110" stroke="var(--border2)"/>
+      <line x1="60" y1="110" x2="140" y2="80" stroke="var(--blue)" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="60" y1="110" x2="90" y2="40" stroke="var(--green)" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="0" y="132" class="svgtxt">span = whole plane, det ≠ 0</text>
+    </g>
+    <g transform="translate(230,0)">
+      <text x="0" y="16" class="svgtxt w">Dependent in ℝ²</text>
+      <line x1="60" y1="110" x2="60" y2="30" stroke="var(--border2)"/><line x1="10" y1="110" x2="150" y2="110" stroke="var(--border2)"/>
+      <line x1="60" y1="110" x2="140" y2="70" stroke="var(--blue)" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="60" y1="110" x2="100" y2="90" stroke="var(--green)" stroke-width="3" marker-end="url(#ar)"/>
+      <line x1="20" y1="130" x2="160" y2="60" stroke="var(--red)" stroke-dasharray="3 3"/>
+      <text x="0" y="132" class="svgtxt">span = a line, det = 0</text>
+    </g>
+  </svg>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Span, basis, dimension<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Term</th><th>Meaning</th></tr>
+    <tr><td><b>Subspace</b></td><td>Subset $W\subseteq\mathbb{R}^n$ closed under addition and scalar multiplication; always contains $\mathbf{0}$. Lines and planes through the origin.</td></tr>
+    <tr><td><b>Span</b></td><td>$\text{span}\{\mathbf{v}_1,\dots,\mathbf{v}_k\}$ = set of all linear combinations. Always a subspace.</td></tr>
+    <tr><td><b>Basis</b></td><td>A set that is (i) linearly independent and (ii) spans the space. Every vector has a <b>unique</b> representation in a basis.</td></tr>
+    <tr><td><b>Dimension</b></td><td>Number of vectors in any basis. $\dim\mathbb{R}^n=n$. Every basis of a space has the same size.</td></tr>
+    <tr><td><b>Standard basis</b></td><td>$\mathbf{e}_1=(1,0,\dots)^{\mathsf T},\;\mathbf{e}_2=(0,1,\dots)^{\mathsf T},\dots$ — the columns of $I$</td></tr>
+    <tr><td><b>Coordinates</b></td><td>If $\mathbf{x}=c_1\mathbf{b}_1+\dots+c_n\mathbf{b}_n$ then $[\mathbf{x}]_B=(c_1,\dots,c_n)^{\mathsf T}$; change of basis $\mathbf{x}=B[\mathbf{x}]_B$, $[\mathbf{x}]_B=B^{-1}\mathbf{x}$</td></tr>
+  </table>
+  <h3>Checklist: is $\{\mathbf{v}_1,\dots,\mathbf{v}_n\}$ a basis of ℝⁿ?</h3>
+  <ul class="chk">
+    <li>Exactly $n$ vectors? (if $k<n$ cannot span; if $k>n$ cannot be independent)</li>
+    <li>$\det[\mathbf{v}_1\cdots\mathbf{v}_n]\neq0$? ⟹ yes, basis</li>
+  </ul>
+  <div class="note"><div class="t">Intuition</div>A basis is a minimal set of coordinate axes. Dimension counts degrees of freedom. In finance: the number of independent risk factors driving a set of assets is the rank of the factor loading matrix.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The four fundamental subspaces &amp; rank<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For $A$ of size $m\times n$ with rank $r$:</p>
+  <table>
+    <tr><th>Subspace</th><th>Definition</th><th>Lives in</th><th>Dimension</th></tr>
+    <tr><td>Column space $C(A)$</td><td>span of the columns; all possible $A\mathbf{x}$</td><td>ℝᵐ</td><td>$r$</td></tr>
+    <tr><td>Null space $N(A)$</td><td>$\{\mathbf{x}:A\mathbf{x}=\mathbf{0}\}$</td><td>ℝⁿ</td><td>$n-r$</td></tr>
+    <tr><td>Row space $C(A^{\mathsf T})$</td><td>span of the rows</td><td>ℝⁿ</td><td>$r$</td></tr>
+    <tr><td>Left null space $N(A^{\mathsf T})$</td><td>$\{\mathbf{y}:A^{\mathsf T}\mathbf{y}=\mathbf{0}\}$</td><td>ℝᵐ</td><td>$m-r$</td></tr>
+  </table>
+  <p><b>Rank–nullity theorem:</b></p>
+  $$\text{rank}(A)+\text{nullity}(A)=n\;(\text{number of columns})$$
+  <p><b>Rank facts:</b> row rank = column rank; rank$(A)\le\min(m,n)$; rank$(A^{\mathsf T}A)$=rank$(A)$; rank$(AB)\le\min(\text{rank}A,\text{rank}B)$; row operations preserve rank.</p>
+  <p>Orthogonality: $N(A)\perp C(A^{\mathsf T})$ and $N(A^{\mathsf T})\perp C(A)$.</p>
+  <figure>
+  <svg viewBox="0 0 420 150">
+    <rect x="20" y="20" width="160" height="110" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="28" y="36" class="svgtxt w">ℝⁿ  (input side)</text>
+    <rect x="30" y="46" width="65" height="74" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <text x="36" y="64" class="svgtxt b">row space</text><text x="36" y="78" class="svgtxt b">dim r</text>
+    <rect x="105" y="46" width="65" height="74" fill="var(--redbg)" stroke="var(--red)"/>
+    <text x="111" y="64" class="svgtxt r">null space</text><text x="111" y="78" class="svgtxt r">dim n−r</text>
+    <text x="90" y="112" class="svgtxt">⊥</text>
+    <rect x="240" y="20" width="160" height="110" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="248" y="36" class="svgtxt w">ℝᵐ  (output side)</text>
+    <rect x="250" y="46" width="65" height="74" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="256" y="64" class="svgtxt g">column</text><text x="256" y="78" class="svgtxt g">space</text><text x="256" y="92" class="svgtxt g">dim r</text>
+    <rect x="325" y="46" width="65" height="74" fill="var(--amberbg)" stroke="var(--amber)"/>
+    <text x="331" y="64" class="svgtxt a">left null</text><text x="331" y="78" class="svgtxt a">space</text><text x="331" y="92" class="svgtxt a">dim m−r</text>
+    <text x="310" y="112" class="svgtxt">⊥</text>
+    <line x1="95" y1="83" x2="250" y2="83" stroke="var(--muted)" marker-end="url(#ar)"/>
+    <text x="150" y="76" class="svgtxt w">A</text>
+    <line x1="137" y1="120" x2="137" y2="142" stroke="var(--red)" stroke-dasharray="3 2"/>
+    <text x="142" y="146" class="svgtxt r">A sends null space to 0</text>
+  </svg>
+  <figcaption>A maps the row space one-to-one onto the column space and kills the null space. Dimensions add up on each side: r + (n−r) = n and r + (m−r) = m.</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: rank, bases of the subspaces<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A=\begin{pmatrix}1&2&1&3\\2&4&0&2\\3&6&1&5\end{pmatrix}\;(m=3,\,n=4)$$
+  <ol class="steps">
+    <li>$R_2\to R_2-2R_1$, $R_3\to R_3-3R_1$: $\begin{pmatrix}1&2&1&3\\0&0&-2&-4\\0&0&-2&-4\end{pmatrix}$</li>
+    <li>$R_3\to R_3-R_2$, $R_2\to-\tfrac12R_2$: $\begin{pmatrix}\color{#3ea76a}1&2&1&3\\0&0&\color{#3ea76a}1&2\\0&0&0&0\end{pmatrix}$</li>
+    <li>Pivots in columns 1 and 3 ⟹ <b>rank 2</b>, nullity $=4-2=2$.</li>
+    <li>RREF: $R_1\to R_1-R_2$: $\begin{pmatrix}1&2&0&1\\0&0&1&2\\0&0&0&0\end{pmatrix}$</li>
+  </ol>
+  <table>
+    <tr><th>Subspace</th><th>Basis (from the computation)</th></tr>
+    <tr><td>$C(A)$</td><td>pivot columns of the <b>original</b> $A$: $\{(1,2,3)^{\mathsf T},(1,0,1)^{\mathsf T}\}$</td></tr>
+    <tr><td>Row space</td><td>nonzero rows of RREF: $\{(1,2,0,1),(0,0,1,2)\}$</td></tr>
+    <tr><td>$N(A)$</td><td>free vars $x_2=s,x_4=t$: $x_1=-2s-t$, $x_3=-2t$ ⟹ $\{(-2,1,0,0)^{\mathsf T},(-1,0,-2,1)^{\mathsf T}\}$</td></tr>
+  </table>
+  <p>Check: $(1,2,0,1)\cdot(-2,1,0,0)=0$ ✓ (row space ⊥ null space).</p>
+  <div class="note warn"><div class="t">Trap</div>Column-space basis comes from the <b>original</b> columns at the pivot positions, never from the reduced matrix (row ops change the column space). Row space can be read from the reduced rows (row ops keep it).</div>
+  </div>
+</div>
+</div>
+</section>

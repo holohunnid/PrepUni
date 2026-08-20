@@ -1,0 +1,42 @@
+---
+import Base from './Base.astro';
+const { course } = Astro.props;
+---
+<Base title={course.title}>
+
+<div class="topbar">
+  <button class="tog" id="sidebtn" title="toggle sidebar">≡</button><span class="brand">{course.brand}</span>
+  <span class="tag">{course.tag}</span>
+  <span>{course.stats}</span>
+  <div class="right">
+    <a href="/" title="all courses">⌂ courses</a>
+    <button id="themebtn">◐ theme: dark</button>
+    <button id="printbtn">⎙ print / PDF</button>
+  </div>
+</div>
+
+<div class="layout">
+<nav class="side">
+  <div class="lbl">Modules</div>
+  {course.modules.map((m) => (
+    <a href={'#' + m.anchor}><span class="n">{m.num}</span>{m.title}</a>
+  ))}
+  <div class="lbl" style="margin-top:14px">Legend</div>
+  <div style="padding:0 14px;font-size:11.5px;color:var(--muted);line-height:1.9">
+    <span class="pill g">DEF</span> definition<br />
+    <span class="pill b">EX</span> worked example<br />
+    <span class="pill a">TIP</span> exam shortcut<br />
+    <span class="pill r">TRAP</span> common mistake
+  </div>
+</nav>
+
+<main class="main">
+<slot />
+<p class="muted" style="font-size:11.5px;border-top:1px solid var(--border);padding-top:10px">{course.footer}</p>
+</main>
+</div>
+
+<script>
+  import '../scripts/course.js';
+</script>
+</Base>

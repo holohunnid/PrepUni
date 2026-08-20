@@ -1,0 +1,22 @@
+{
+  "id": "linear-algebra",
+  "brand": "LINALG · CHEAT SHEET",
+  "title": "Linear Algebra · Cheat Sheet · MSc Finance Assessment",
+  "tag": "MSc Finance · Assessment",
+  "stats": "12 modules · formulas · 27 worked examples · interactive figures",
+  "footer": "Linear algebra cheat sheet · built for the MSc Finance assessment test · modules 01–12 · interactive figures need JavaScript; the print button produces a light-theme PDF.",
+  "modules": [
+    { "anchor": "s1", "num": "01", "title": "Vectors" },
+    { "anchor": "s2", "num": "02", "title": "Matrices" },
+    { "anchor": "s3", "num": "03", "title": "Linear systems" },
+    { "anchor": "s4", "num": "04", "title": "Determinants" },
+    { "anchor": "s5", "num": "05", "title": "Inverse matrices" },
+    { "anchor": "s6", "num": "06", "title": "Vector spaces" },
+    { "anchor": "s7", "num": "07", "title": "Eigenvalues" },
+    { "anchor": "s8", "num": "08", "title": "Quadratic forms" },
+    { "anchor": "s9", "num": "09", "title": "Orthogonality" },
+    { "anchor": "s10", "num": "10", "title": "Finance applications" },
+    { "anchor": "s11", "num": "11", "title": "Quick reference" },
+    { "anchor": "s12", "num": "12", "title": "Worked examples" }
+  ]
+}

@@ -1,0 +1,148 @@
+<!-- ============ 11 QUICK REFERENCE ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>Quick reference</h2><span class="sub">the one-page memory dump</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">REF</span> Key formulas<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Dot / norm</td><td>$\mathbf{x}^{\mathsf T}\mathbf{y}=\sum x_iy_i$, $\;\|\mathbf{x}\|=\sqrt{\mathbf{x}^{\mathsf T}\mathbf{x}}$, $\;\cos\theta=\frac{\mathbf{x}^{\mathsf T}\mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}$</td></tr>
+    <tr><td>Projection</td><td>$\text{proj}_{\mathbf{a}}\mathbf{b}=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\mathbf{a}^{\mathsf T}\mathbf{a}}\mathbf{a}$</td></tr>
+    <tr><td>Mult. entry</td><td>$(AB)_{ij}=\sum_ka_{ik}b_{kj}$, dims $(m\times n)(n\times p)=m\times p$</td></tr>
+    <tr><td>det 2×2</td><td>$ad-bc$</td></tr>
+    <tr><td>det 3×3</td><td>Sarrus or cofactors $\sum_ja_{ij}(-1)^{i+j}M_{ij}$</td></tr>
+    <tr><td>inv 2×2</td><td>$\frac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$</td></tr>
+    <tr><td>inv general</td><td>$[A|I]\to[I|A^{-1}]$ or $\text{adj}(A)/\det A$</td></tr>
+    <tr><td>Cramer</td><td>$x_i=\det A_i/\det A$</td></tr>
+    <tr><td>Rank–nullity</td><td>$\text{rank}+\text{nullity}=n$</td></tr>
+    <tr><td>Char. eq.</td><td>$\det(A-\lambda I)=0$; 2×2: $\lambda^2-\text{tr}\lambda+\det=0$</td></tr>
+    <tr><td>Eigenvectors</td><td>$N(A-\lambda I)$</td></tr>
+    <tr><td>Diagonalise</td><td>$A=PDP^{-1}$, $A^k=PD^kP^{-1}$; symmetric: $A=Q\Lambda Q^{\mathsf T}$</td></tr>
+    <tr><td>Quadratic form</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}$; PD ⟺ all $\lambda>0$ ⟺ all $D_k>0$</td></tr>
+    <tr><td>Gram–Schmidt</td><td>$\mathbf{u}_k=\mathbf{a}_k-\sum_{j<k}\frac{\mathbf{u}_j^{\mathsf T}\mathbf{a}_k}{\mathbf{u}_j^{\mathsf T}\mathbf{u}_j}\mathbf{u}_j$</td></tr>
+    <tr><td>Least squares</td><td>$\hat{\mathbf{x}}=(A^{\mathsf T}A)^{-1}A^{\mathsf T}\mathbf{b}$, $\;P=A(A^{\mathsf T}A)^{-1}A^{\mathsf T}$</td></tr>
+    <tr><td>Portfolio</td><td>$\mu_p=\mathbf{w}^{\mathsf T}\boldsymbol\mu$, $\;\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$</td></tr>
+    <tr><td>Min-var</td><td>$\mathbf{w}^*=\Sigma^{-1}\mathbf{1}/(\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1})$</td></tr>
+    <tr><td>OLS</td><td>$\hat\beta=(X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">REF</span> Identities you will need<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Transpose</th><th>Inverse</th><th>Determinant</th></tr>
+    <tr><td>$(AB)^{\mathsf T}=B^{\mathsf T}A^{\mathsf T}$</td><td>$(AB)^{-1}=B^{-1}A^{-1}$</td><td>$\det(AB)=\det A\det B$</td></tr>
+    <tr><td>$(A^{\mathsf T})^{\mathsf T}=A$</td><td>$(A^{-1})^{-1}=A$</td><td>$\det A^{\mathsf T}=\det A$</td></tr>
+    <tr><td>$(A+B)^{\mathsf T}=A^{\mathsf T}+B^{\mathsf T}$</td><td>$(A^{\mathsf T})^{-1}=(A^{-1})^{\mathsf T}$</td><td>$\det A^{-1}=1/\det A$</td></tr>
+    <tr><td>$(cA)^{\mathsf T}=cA^{\mathsf T}$</td><td>$(cA)^{-1}=A^{-1}/c$</td><td>$\det(cA)=c^n\det A$</td></tr>
+    <tr><td>$\mathbf{x}^{\mathsf T}A\mathbf{y}=\mathbf{y}^{\mathsf T}A^{\mathsf T}\mathbf{x}$</td><td>$(A^k)^{-1}=(A^{-1})^k$</td><td>$\det A^k=(\det A)^k$</td></tr>
+  </table>
+  <table>
+    <tr><th>Trace</th><th>Eigen</th></tr>
+    <tr><td>$\text{tr}(AB)=\text{tr}(BA)$</td><td>$\text{tr}A=\sum\lambda_i$, $\det A=\prod\lambda_i$</td></tr>
+    <tr><td>$\text{tr}(A+B)=\text{tr}A+\text{tr}B$</td><td>$A^k$: $\lambda^k$; $A^{-1}$: $1/\lambda$; $A+cI$: $\lambda+c$</td></tr>
+    <tr><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}=\text{tr}(A\mathbf{x}\mathbf{x}^{\mathsf T})$</td><td>triangular ⟹ $\lambda$ = diagonal</td></tr>
+  </table>
+  <h3>Things that are NOT true</h3>
+  <ul>
+    <li class="r">$AB=BA$</li>
+    <li class="r">$(AB)^{-1}=A^{-1}B^{-1}$ (order must reverse)</li>
+    <li class="r">$\det(A+B)=\det A+\det B$</li>
+    <li class="r">$\det(cA)=c\det A$ (it is $c^n$)</li>
+    <li class="r">$(A+B)^{-1}=A^{-1}+B^{-1}$</li>
+    <li class="r">$AB=0\Rightarrow A=0$ or $B=0$</li>
+    <li class="r">$\|\mathbf{x}+\mathbf{y}\|=\|\mathbf{x}\|+\|\mathbf{y}\|$</li>
+    <li class="r">Eigenvectors of non-symmetric $A$ are orthogonal</li>
+    <li class="r">Column-space basis read off the reduced matrix</li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill a">MAP</span> How the modules connect<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 520 300">
+    <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--dim)"/></marker></defs>
+    <g font-size="11" font-family="JetBrains Mono,monospace">
+      <rect x="20" y="20" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="30" y="41" fill="var(--text)">01 vectors</text>
+      <rect x="20" y="80" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="30" y="101" fill="var(--text)">02 matrices</text>
+      <rect x="20" y="140" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="30" y="161" fill="var(--text)">03 systems</text>
+      <rect x="200" y="80" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="210" y="101" fill="var(--text)">04 det</text>
+      <rect x="200" y="140" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="210" y="161" fill="var(--text)">05 inverse</text>
+      <rect x="200" y="200" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="210" y="221" fill="var(--text)">06 spaces/rank</text>
+      <rect x="380" y="80" width="120" height="34" fill="var(--greenbg)" stroke="var(--green2)"/><text x="390" y="101" fill="var(--green)">07 eigen</text>
+      <rect x="380" y="140" width="120" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="390" y="161" fill="var(--text)">08 quad forms</text>
+      <rect x="380" y="200" width="120" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="390" y="221" fill="var(--text)">09 orthogonality</text>
+      <rect x="200" y="255" width="300" height="34" fill="var(--bluebg)" stroke="var(--blue)"/><text x="210" y="276" fill="var(--blue)">10 finance: w′Σw · OLS · replication · PCA</text>
+    </g>
+    <g stroke="var(--dim)" fill="none" marker-end="url(#ar2)">
+      <line x1="75" y1="54" x2="75" y2="78"/><line x1="75" y1="114" x2="75" y2="138"/>
+      <line x1="130" y1="97" x2="198" y2="97"/><line x1="130" y1="157" x2="198" y2="157"/>
+      <line x1="255" y1="114" x2="255" y2="138"/><line x1="255" y1="174" x2="255" y2="198"/>
+      <line x1="310" y1="97" x2="378" y2="97"/><line x1="310" y1="210" x2="378" y2="165"/>
+      <line x1="440" y1="114" x2="440" y2="138"/><line x1="440" y1="174" x2="440" y2="198"/>
+      <line x1="130" y1="40" x2="378" y2="210" stroke-dasharray="3 3"/>
+      <line x1="350" y1="234" x2="350" y2="253"/><line x1="255" y1="234" x2="255" y2="253"/>
+    </g>
+  </svg>
+  <figcaption>det decides invertibility; invertibility decides unique solutions; eigenvalues feed definiteness; projections (module 1) become least squares (module 9); everything lands in module 10.</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">CHECK</span> Exam-day procedure<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Before every matrix computation</h3>
+  <ul class="chk">
+    <li>Write dimensions next to each matrix; confirm inner dimensions match.</li>
+    <li>Is the matrix square? Only then: det, inverse, eigenvalues.</li>
+    <li>Is it symmetric? Then eigenvalues real, eigenvectors orthogonal, definiteness tests apply.</li>
+    <li>Is it triangular/diagonal? Then det and eigenvalues are on the diagonal.</li>
+  </ul>
+  <h3>When asked to solve $A\mathbf{x}=\mathbf{b}$</h3>
+  <ul class="chk">
+    <li>Square: compute $\det A$. Nonzero ⟹ unique; use inverse, Cramer, or elimination.</li>
+    <li>$\det=0$ or non-square: row reduce $[A|\mathbf{b}]$, compare ranks.</li>
+    <li>Write infinite solutions as particular + $t\cdot$(null vector).</li>
+  </ul>
+  <h3>When asked for eigenvalues</h3>
+  <ul class="chk">
+    <li>Set up $\det(A-\lambda I)$; for 2×2 use tr and det directly.</li>
+    <li>Verify: sum = trace, product = det.</li>
+    <li>Each eigenvector: row reduce $A-\lambda I$; it must have a zero row.</li>
+    <li>Verify $A\mathbf{v}=\lambda\mathbf{v}$ numerically.</li>
+  </ul>
+  <h3>Self-checks that cost 10 seconds</h3>
+  <ul class="chk">
+    <li>$AA^{-1}=I$ for one row.</li>
+    <li>Residual ⊥ columns after least squares.</li>
+    <li>$\mathbf{u}_i^{\mathsf T}\mathbf{u}_j=0$ after Gram–Schmidt.</li>
+    <li>Portfolio variance $\ge0$; weights sum to 1.</li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">REF</span> Vocabulary: English ↔ Italian<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>EN</th><th>IT</th><th>EN</th><th>IT</th><th>EN</th><th>IT</th></tr>
+    <tr><td>row / column</td><td>riga / colonna</td><td>determinant</td><td>determinante</td><td>eigenvalue</td><td>autovalore</td></tr>
+    <tr><td>dot product</td><td>prodotto scalare</td><td>inverse</td><td>inversa</td><td>eigenvector</td><td>autovettore</td></tr>
+    <tr><td>norm</td><td>norma</td><td>rank</td><td>rango</td><td>characteristic polynomial</td><td>polinomio caratteristico</td></tr>
+    <tr><td>transpose</td><td>trasposta</td><td>null space / kernel</td><td>nucleo</td><td>diagonalisable</td><td>diagonalizzabile</td></tr>
+    <tr><td>linearly independent</td><td>linearmente indipendenti</td><td>column space / image</td><td>immagine</td><td>positive definite</td><td>definita positiva</td></tr>
+    <tr><td>span</td><td>span / sottospazio generato</td><td>row reduction</td><td>riduzione a scala (Gauss)</td><td>quadratic form</td><td>forma quadratica</td></tr>
+    <tr><td>basis</td><td>base</td><td>pivot</td><td>pivot</td><td>orthonormal</td><td>ortonormale</td></tr>
+    <tr><td>dimension</td><td>dimensione</td><td>augmented matrix</td><td>matrice completa / aumentata</td><td>least squares</td><td>minimi quadrati</td></tr>
+    <tr><td>trace</td><td>traccia</td><td>Cramer's rule</td><td>regola di Cramer</td><td>leading principal minor</td><td>minore principale di testa</td></tr>
+  </table>
+  </div>
+</div>
+</section>

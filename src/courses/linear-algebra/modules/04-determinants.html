@@ -1,0 +1,118 @@
+<!-- ============ 04 DETERMINANTS ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>Determinants</h2><span class="sub">one number that says whether a square matrix is invertible</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Computing det<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>2×2</h3>
+  $$\det\begin{pmatrix}a&b\\c&d\end{pmatrix}=\begin{vmatrix}a&b\\c&d\end{vmatrix}=ad-bc$$
+  <h3>3×3 (Sarrus rule)</h3>
+  $$\begin{vmatrix}a&b&c\\d&e&f\\g&h&i\end{vmatrix}=aei+bfg+cdh-ceg-bdi-afh$$
+  <figure>
+  <svg viewBox="0 0 560 130">
+    <g font-size="13" fill="var(--text)" font-family="JetBrains Mono,monospace">
+      <text x="20" y="32">a</text><text x="60" y="32">b</text><text x="100" y="32">c</text><text x="140" y="32" fill="var(--muted)">a</text><text x="180" y="32" fill="var(--muted)">b</text>
+      <text x="20" y="66">d</text><text x="60" y="66">e</text><text x="100" y="66">f</text><text x="140" y="66" fill="var(--muted)">d</text><text x="180" y="66" fill="var(--muted)">e</text>
+      <text x="20" y="100">g</text><text x="60" y="100">h</text><text x="100" y="100">i</text><text x="140" y="100" fill="var(--muted)">g</text><text x="180" y="100" fill="var(--muted)">h</text>
+    </g>
+    <g stroke="var(--green)" stroke-width="1.5" fill="none" opacity=".8">
+      <line x1="26" y1="36" x2="108" y2="104"/><line x1="66" y1="36" x2="148" y2="104"/><line x1="106" y1="36" x2="188" y2="104"/>
+    </g>
+    <g stroke="var(--red)" stroke-width="1.5" fill="none" opacity=".8">
+      <line x1="106" y1="26" x2="26" y2="94"/><line x1="146" y1="26" x2="66" y2="94"/><line x1="186" y1="26" x2="106" y2="94"/>
+    </g>
+    <text x="225" y="40" class="svgtxt g">+ aei + bfg + cdh  (↘ diagonals)</text>
+    <text x="230" y="66" class="svgtxt r">− ceg − afh − bdi  (↙ diagonals)</text>
+    <text x="230" y="100" class="svgtxt">copy first two columns to the right</text>
+    <text x="230" y="116" class="svgtxt">works for 3×3 ONLY</text>
+  </svg>
+  </figure>
+  <h3>n×n: cofactor (Laplace) expansion</h3>
+  <p>Along any row $i$ (or column $j$):</p>
+  $$\det A=\sum_{j=1}^n a_{ij}\,C_{ij},\qquad C_{ij}=(-1)^{i+j}M_{ij}$$
+  <p>$M_{ij}$ = minor = det of the $(n-1)\times(n-1)$ matrix after deleting row $i$ and column $j$. Sign pattern:</p>
+  $$\begin{pmatrix}+&-&+\\-&+&-\\+&-&+\end{pmatrix}$$
+  <div class="note tip"><div class="t">Exam shortcut</div>Expand along the row/column with the most zeros. Better still: use row operations to create zeros first (rule 3 below leaves det unchanged), then expand. Triangular ⟹ det = product of the diagonal.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Properties<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>#</th><th>Operation / fact</th><th>Effect on det</th></tr>
+    <tr><td>1</td><td>Swap two rows</td><td>$\det\to-\det$</td></tr>
+    <tr><td>2</td><td>Multiply one row by $c$</td><td>$\det\to c\det$</td></tr>
+    <tr><td>3</td><td>Add multiple of a row to another</td><td class="g">unchanged</td></tr>
+    <tr><td>4</td><td>$\det(cA)$, $A$ is $n\times n$</td><td>$c^n\det A$ <span class="r">(not $c\det A$)</span></td></tr>
+    <tr><td>5</td><td>$\det(AB)$</td><td>$=\det A\cdot\det B$</td></tr>
+    <tr><td>6</td><td>$\det(A^{\mathsf T})$</td><td>$=\det A$</td></tr>
+    <tr><td>7</td><td>$\det(A^{-1})$</td><td>$=1/\det A$</td></tr>
+    <tr><td>8</td><td>$\det(A^k)$</td><td>$=(\det A)^k$</td></tr>
+    <tr><td>9</td><td>Triangular / diagonal</td><td>product of diagonal entries</td></tr>
+    <tr><td>10</td><td>Two equal or proportional rows</td><td>$0$</td></tr>
+    <tr><td>11</td><td>A zero row or column</td><td>$0$</td></tr>
+    <tr><td>12</td><td>$\det I$</td><td>$1$</td></tr>
+    <tr><td>13</td><td>$\det(A+B)$</td><td class="r">$\neq\det A+\det B$ in general</td></tr>
+    <tr><td>14</td><td>Orthogonal $Q$</td><td>$\pm1$</td></tr>
+    <tr><td>15</td><td>$\det A=\prod\lambda_i$</td><td>product of eigenvalues</td></tr>
+  </table>
+  <h3>Geometric meaning</h3>
+  <p>$|\det A|$ = factor by which $A$ scales area (2D) / volume (3D). Columns of $A$ span a parallelogram of area $|\det A|$. Sign negative ⟹ orientation flipped. $\det A=0$ ⟹ the columns are squashed into a lower dimension (dependent columns).</p>
+  <h3>Cramer's rule (square, $\det A\neq0$)</h3>
+  $$x_i=\frac{\det A_i}{\det A}$$
+  <p>$A_i$ = $A$ with column $i$ replaced by $\mathbf{b}$. Fine for 2×2 and 3×3, too slow beyond.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Determinant as signed area — drag the sliders<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>a <input type="range" id="d_a" min="-3" max="3" step="0.1" value="2"><span class="val" id="d_a_v">2.0</span></label>
+    <label>b <input type="range" id="d_b" min="-3" max="3" step="0.1" value="1"><span class="val" id="d_b_v">1.0</span></label>
+    <label>c <input type="range" id="d_c" min="-3" max="3" step="0.1" value="0.5"><span class="val" id="d_c_v">0.5</span></label>
+    <label>d <input type="range" id="d_d" min="-3" max="3" step="0.1" value="1.5"><span class="val" id="d_d_v">1.5</span></label>
+    <span class="btns"><button onclick="detSet(1,0,0,1)">I</button><button onclick="detSet(2,1,1,0.5)">singular</button><button onclick="detSet(0,1,1,0)">swap</button><button onclick="detSet(0,-1,1,0)">rotate 90°</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="detsvg" viewBox="0 0 320 320"></svg>
+    <figcaption>Unit square (grey) is mapped to the parallelogram spanned by the columns (a,c)ᵀ in blue and (b,d)ᵀ in green. Area = |ad − bc|. Red fill = negative determinant (orientation flipped).</figcaption></figure>
+    <div>
+      <div class="readout" id="detread"></div>
+      <p style="margin-top:10px">$A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$, columns $\mathbf{a}_1=\binom{a}{c}$ and $\mathbf{a}_2=\binom{b}{d}$.</p>
+      <ul>
+        <li>Make the columns parallel (try the <code>singular</code> preset): the parallelogram collapses to a line, $\det=0$, $A$ is not invertible.</li>
+        <li>Swap the columns: area identical, sign flips.</li>
+        <li>Rotation: $\det=1$, area preserved, orientation preserved.</li>
+        <li>Double one column: det doubles (rule 2). Double both: det ×4 (rule 4 with $n=2$).</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: 3×3 determinant two ways + Cramer<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A=\begin{pmatrix}2&1&-1\\-3&-1&2\\-2&1&2\end{pmatrix}$$
+  <div class="grid2">
+  <div>
+  <h3>Sarrus</h3>
+  $$\begin{aligned}\det A&=2(-1)(2)+1(2)(-2)+(-1)(-3)(1)\\&\quad-(-1)(-1)(-2)-1(-3)(2)-2(2)(1)\\&=-4-4+3+2+6-4=\color{#3ea76a}{-1}\end{aligned}$$
+  <h3>Cofactor along row 1</h3>
+  $$\det A=2\begin{vmatrix}-1&2\\1&2\end{vmatrix}-1\begin{vmatrix}-3&2\\-2&2\end{vmatrix}+(-1)\begin{vmatrix}-3&-1\\-2&1\end{vmatrix}$$
+  $$=2(-4)-1(-2)-1(-5)=-8+2+5=\color{#3ea76a}{-1}\;\checkmark$$
+  </div>
+  <div>
+  <h3>Cramer for $x$ with $\mathbf{b}=(8,-11,-3)^{\mathsf T}$</h3>
+  $$A_1=\begin{pmatrix}\color{#4c8dff}{8}&1&-1\\\color{#4c8dff}{-11}&-1&2\\\color{#4c8dff}{-3}&1&2\end{pmatrix},\quad\det A_1=-2$$
+  $$x=\frac{\det A_1}{\det A}=\frac{-2}{-1}=2\;\checkmark\text{ (matches module 3)}$$
+  <div class="note warn"><div class="t">Trap</div>Signs in cofactor expansion follow the checkerboard, <b>not</b> the sign of the entry. Second most common error: forgetting that $\det(2A)=2^3\det A=8\det A$ for a 3×3.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

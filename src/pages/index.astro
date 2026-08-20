@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import linalg from '../courses/linear-algebra/meta.json';
+---
+<Base title="PrepUSI · Study Hub">
+
+<div class="topbar">
+  <span class="brand">PREPUSI · STUDY HUB</span>
+  <span class="tag">MSc Finance · Assessment</span>
+  <div class="right">
+    <button id="themebtn">◐ theme: dark</button>
+  </div>
+</div>
+
+<main class="home">
+  <div class="hero">
+    <div class="bar"><span class="pill g">v1.0</span><span>Course library ⟶ pick a course</span><span class="ctl" style="margin-left:auto;color:var(--dim)">⊡ ✕</span></div>
+    <div class="body" style="grid-template-columns:1fr">
+      <div>
+        <h1>Study Hub</h1>
+        <p>Cheat sheets for the MSc Finance assessment. Each course: definitions, key theorems, worked examples at exam level, and the traps examiners like.</p>
+      </div>
+    </div>
+  </div>
+
+  <a class="course-card" href="/linear-algebra">
+    <div class="panel" style="margin-bottom:0">
+      <div class="bar"><span class="pill g">LIVE</span> Linear Algebra<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body">
+        <p>{linalg.stats}</p>
+        <p class="muted">Vectors → matrices → linear systems → determinants → eigenvalues → quadratic forms → orthogonality → finance applications.</p>
+      </div>
+    </div>
+  </a>
+
+  <div class="course-card dim">
+    <div class="panel" style="margin-bottom:0">
+      <div class="bar"><span class="pill a">PLANNED</span> Statistics<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body"><p class="muted">Descriptive statistics, estimation, hypothesis testing, regression.</p></div>
+    </div>
+  </div>
+
+  <div class="course-card dim">
+    <div class="panel" style="margin-bottom:0">
+      <div class="bar"><span class="pill a">PLANNED</span> Probability<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body"><p class="muted">Random variables, distributions, expectation, limit theorems.</p></div>
+    </div>
+  </div>
+</main>
+
+<script>
+  import '../scripts/course.js';
+</script>
+</Base>

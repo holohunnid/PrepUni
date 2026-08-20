@@ -1,0 +1,124 @@
+<!-- ============ 02 MATRICES ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Matrices</h2><span class="sub">arrays of numbers, or: linear maps written down</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Types of matrix<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>An $m\times n$ matrix has $m$ rows and $n$ columns; entry $a_{ij}$ is row $i$, column $j$. Always state rows × columns.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
+    <div><div class="muted" style="font-size:11.5px">Square (n×n)</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span><span>i</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Diagonal</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span class="hi">d₁</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">d₂</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">d₃</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Identity I</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span class="hi">1</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">1</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">1</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Upper triangular</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span class="hb">a</span><span class="hb">b</span><span class="hb">c</span><span class="z">0</span><span class="hb">d</span><span class="hb">e</span><span class="z">0</span><span class="z">0</span><span class="hb">f</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Symmetric (A = Aᵀ)</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span>a</span><span class="ha">b</span><span class="hb">c</span><span class="ha">b</span><span>d</span><span class="hi">e</span><span class="hb">c</span><span class="hi">e</span><span>f</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Zero</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span></div></div>
+  </div>
+  <table>
+    <tr><th>Type</th><th>Condition</th><th>Why it matters</th></tr>
+    <tr><td>Square</td><td>$m=n$</td><td>only square matrices have determinants, inverses, eigenvalues</td></tr>
+    <tr><td>Diagonal</td><td>$a_{ij}=0$ for $i\neq j$</td><td>powers and inverses are trivial: $D^k=\text{diag}(d_i^k)$, $D^{-1}=\text{diag}(1/d_i)$</td></tr>
+    <tr><td>Identity $I_n$</td><td>diagonal of ones</td><td>$AI=IA=A$; the "1" of matrix multiplication</td></tr>
+    <tr><td>Triangular</td><td>zeros below (upper) or above (lower) diagonal</td><td>determinant = product of diagonal; eigenvalues = diagonal entries</td></tr>
+    <tr><td>Symmetric</td><td>$A=A^{\mathsf T}$</td><td>covariance matrices; real eigenvalues, orthogonal eigenvectors</td></tr>
+    <tr><td>Orthogonal</td><td>$Q^{\mathsf T}Q=I$, i.e. $Q^{-1}=Q^{\mathsf T}$</td><td>rotations/reflections; preserves lengths and angles</td></tr>
+    <tr><td>Idempotent</td><td>$P^2=P$</td><td>projection matrices (OLS hat matrix $H=X(X^{\mathsf T}X)^{-1}X^{\mathsf T}$)</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Matrix multiplication<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$AB$ is defined only if <b>columns of A = rows of B</b>. $(m\times n)(n\times p)=(m\times p)$.</p>
+  $$(AB)_{ij}=\sum_{k=1}^n a_{ik}\,b_{kj}=(\text{row } i \text{ of } A)\cdot(\text{col } j \text{ of } B)$$
+  <figure>
+  <svg viewBox="0 0 420 150">
+    <!-- A 2x3 -->
+    <text x="14" y="20" class="svgtxt w">A (2×3)</text>
+    <g>
+      <rect x="14" y="30" width="28" height="24" fill="var(--greenbg)" stroke="var(--green2)"/><rect x="42" y="30" width="28" height="24" fill="var(--greenbg)" stroke="var(--green2)"/><rect x="70" y="30" width="28" height="24" fill="var(--greenbg)" stroke="var(--green2)"/>
+      <rect x="14" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="42" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="70" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/>
+      <text x="23" y="47" class="svgtxt g">a₁₁</text><text x="51" y="47" class="svgtxt g">a₁₂</text><text x="79" y="47" class="svgtxt g">a₁₃</text>
+      <text x="23" y="71" class="svgtxt">a₂₁</text><text x="51" y="71" class="svgtxt">a₂₂</text><text x="79" y="71" class="svgtxt">a₂₃</text>
+    </g>
+    <text x="112" y="60" class="svgtxt w" font-size="16">×</text>
+    <!-- B 3x2 -->
+    <text x="140" y="20" class="svgtxt w">B (3×2)</text>
+    <g>
+      <rect x="140" y="30" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="168" y="30" width="28" height="24" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <rect x="140" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="168" y="54" width="28" height="24" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <rect x="140" y="78" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="168" y="78" width="28" height="24" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <text x="149" y="47" class="svgtxt">b₁₁</text><text x="177" y="47" class="svgtxt b">b₁₂</text>
+      <text x="149" y="71" class="svgtxt">b₂₁</text><text x="177" y="71" class="svgtxt b">b₂₂</text>
+      <text x="149" y="95" class="svgtxt">b₃₁</text><text x="177" y="95" class="svgtxt b">b₃₂</text>
+    </g>
+    <text x="210" y="60" class="svgtxt w" font-size="16">=</text>
+    <!-- C 2x2 -->
+    <text x="238" y="20" class="svgtxt w">AB (2×2)</text>
+    <g>
+      <rect x="238" y="30" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="266" y="30" width="28" height="24" fill="var(--amberbg)" stroke="var(--amber)"/>
+      <rect x="238" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="266" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/>
+      <text x="247" y="47" class="svgtxt">c₁₁</text><text x="275" y="47" class="svgtxt a">c₁₂</text>
+      <text x="247" y="71" class="svgtxt">c₂₁</text><text x="275" y="71" class="svgtxt">c₂₂</text>
+    </g>
+    <text x="14" y="128" class="svgtxt a">c₁₂ = a₁₁b₁₂ + a₁₂b₂₂ + a₁₃b₃₂   (row 1 of A · col 2 of B)</text>
+    <text x="14" y="144" class="svgtxt">inner dims must match: (2×3)(3×2) → outer dims give result (2×2)</text>
+  </svg>
+  </figure>
+  <table>
+    <tr><th>Property</th><th>Holds?</th></tr>
+    <tr><td>Associative $(AB)C=A(BC)$</td><td class="g">yes</td></tr>
+    <tr><td>Distributive $A(B+C)=AB+AC$</td><td class="g">yes</td></tr>
+    <tr><td>Commutative $AB=BA$</td><td class="r">NO in general</td></tr>
+    <tr><td>$AB=0 \Rightarrow A=0$ or $B=0$</td><td class="r">NO</td></tr>
+    <tr><td>$AB=AC \Rightarrow B=C$</td><td class="r">NO (unless A invertible)</td></tr>
+    <tr><td>$(A+B)^2=A^2+2AB+B^2$</td><td class="r">NO: it is $A^2+AB+BA+B^2$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Transpose &amp; trace<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Transpose swaps rows and columns: $(A^{\mathsf T})_{ij}=a_{ji}$. An $m\times n$ becomes $n\times m$.</p>
+  <table class="formula-table">
+    <tr><td>$(A^{\mathsf T})^{\mathsf T}$</td><td>$=A$</td></tr>
+    <tr><td>$(A+B)^{\mathsf T}$</td><td>$=A^{\mathsf T}+B^{\mathsf T}$</td></tr>
+    <tr><td>$(cA)^{\mathsf T}$</td><td>$=cA^{\mathsf T}$</td></tr>
+    <tr><td>$(AB)^{\mathsf T}$</td><td>$=B^{\mathsf T}A^{\mathsf T}$ <span class="r">order reverses</span></td></tr>
+    <tr><td>$(ABC)^{\mathsf T}$</td><td>$=C^{\mathsf T}B^{\mathsf T}A^{\mathsf T}$</td></tr>
+    <tr><td>$A^{\mathsf T}A$, $AA^{\mathsf T}$</td><td>always symmetric (and positive semidefinite)</td></tr>
+    <tr><td>$\mathbf{x}^{\mathsf T}A\mathbf{y}$</td><td>is a scalar, so equals its own transpose $\mathbf{y}^{\mathsf T}A^{\mathsf T}\mathbf{x}$</td></tr>
+  </table>
+  <h3>Trace (square matrices only)</h3>
+  $$\text{tr}(A)=\sum_{i=1}^n a_{ii}$$
+  <table class="formula-table">
+    <tr><td>Linearity</td><td>$\text{tr}(A+B)=\text{tr}A+\text{tr}B$, $\;\text{tr}(cA)=c\,\text{tr}A$</td></tr>
+    <tr><td>Transpose</td><td>$\text{tr}(A^{\mathsf T})=\text{tr}(A)$</td></tr>
+    <tr><td>Cyclic</td><td>$\text{tr}(AB)=\text{tr}(BA)$, $\;\text{tr}(ABC)=\text{tr}(CAB)=\text{tr}(BCA)$</td></tr>
+    <tr><td>Eigenvalues</td><td>$\text{tr}(A)=\sum\lambda_i$ (module 7)</td></tr>
+  </table>
+  <div class="note tip"><div class="t">Exam shortcut</div>Scalar trick: $\mathbf{x}^{\mathsf T}A\mathbf{x}=\text{tr}(\mathbf{x}^{\mathsf T}A\mathbf{x})=\text{tr}(A\mathbf{x}\mathbf{x}^{\mathsf T})$. Used to show $E[\mathbf{x}^{\mathsf T}A\mathbf{x}]=\text{tr}(A\Sigma)+\mu^{\mathsf T}A\mu$.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: multiplication, transpose, trace<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A=\begin{pmatrix}1&2\\3&4\end{pmatrix},\quad B=\begin{pmatrix}0&1\\-1&2\end{pmatrix}$$
+  <div class="grid2">
+  <div>
+  $$AB=\begin{pmatrix}1\cdot0+2\cdot(-1) & 1\cdot1+2\cdot2\\ 3\cdot0+4\cdot(-1) & 3\cdot1+4\cdot2\end{pmatrix}=\begin{pmatrix}-2&5\\-4&11\end{pmatrix}$$
+  $$BA=\begin{pmatrix}3&4\\5&6\end{pmatrix}\neq AB$$
+  </div>
+  <div>
+  $$(AB)^{\mathsf T}=\begin{pmatrix}-2&-4\\5&11\end{pmatrix}=B^{\mathsf T}A^{\mathsf T}=\begin{pmatrix}0&-1\\1&2\end{pmatrix}\begin{pmatrix}1&3\\2&4\end{pmatrix}\;\checkmark$$
+  $$\text{tr}(AB)=-2+11=9=\text{tr}(BA)=3+6\;\checkmark$$
+  </div>
+  </div>
+  <div class="note warn"><div class="t">Trap</div>Before multiplying, write the dimensions: $(2\times2)(2\times2)$. If asked for $\mathbf{x}^{\mathsf T}A$ with $\mathbf{x}\in\mathbb{R}^2$, the result is $(1\times2)(2\times2)=1\times2$, a row vector. Dimension bookkeeping catches half of all errors.</div>
+  </div>
+</div>
+</section>

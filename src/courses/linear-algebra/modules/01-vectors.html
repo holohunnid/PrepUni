@@ -1,0 +1,83 @@
+<!-- ============ 01 VECTORS ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>Vectors</h2><span class="sub">the atoms of everything that follows</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Notation &amp; basic operations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A vector in ℝⁿ is an ordered list of n real numbers. Default is a <b>column</b> vector; a row vector is its transpose.</p>
+  $$\mathbf{x}=\begin{pmatrix}x_1\\ x_2\\ \vdots\\ x_n\end{pmatrix},\qquad \mathbf{x}^{\mathsf T}=(x_1,\;x_2,\;\dots,\;x_n)$$
+  <table class="formula-table">
+    <tr><td>Addition</td><td>$(\mathbf{x}+\mathbf{y})_i = x_i + y_i$ — componentwise, same dimension only</td></tr>
+    <tr><td>Scalar mult.</td><td>$(c\mathbf{x})_i = c\,x_i$ — stretches (|c|&gt;1), shrinks (|c|&lt;1), flips (c&lt;0)</td></tr>
+    <tr><td>Linear comb.</td><td>$c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \dots + c_k\mathbf{v}_k$</td></tr>
+    <tr><td>Zero vector</td><td>$\mathbf{0}$, identity for addition</td></tr>
+  </table>
+  <p class="muted">A portfolio is a linear combination: weights $w_i$ times asset return vectors.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Dot product, norm, distance, angle<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Dot product</td><td>$\mathbf{x}\cdot\mathbf{y}=\mathbf{x}^{\mathsf T}\mathbf{y}=\sum_{i=1}^n x_i y_i$</td></tr>
+    <tr><td>Norm (length)</td><td>$\|\mathbf{x}\|=\sqrt{\mathbf{x}^{\mathsf T}\mathbf{x}}=\sqrt{x_1^2+\dots+x_n^2}$</td></tr>
+    <tr><td>Distance</td><td>$d(\mathbf{x},\mathbf{y})=\|\mathbf{x}-\mathbf{y}\|$</td></tr>
+    <tr><td>Angle</td><td>$\cos\theta=\dfrac{\mathbf{x}^{\mathsf T}\mathbf{y}}{\|\mathbf{x}\|\,\|\mathbf{y}\|}$</td></tr>
+    <tr><td>Orthogonal</td><td>$\mathbf{x}\perp\mathbf{y}\iff \mathbf{x}^{\mathsf T}\mathbf{y}=0$</td></tr>
+    <tr><td>Unit vector</td><td>$\hat{\mathbf{x}}=\mathbf{x}/\|\mathbf{x}\|$</td></tr>
+    <tr><td>Cauchy–Schwarz</td><td>$|\mathbf{x}^{\mathsf T}\mathbf{y}|\le\|\mathbf{x}\|\,\|\mathbf{y}\|$</td></tr>
+    <tr><td>Triangle ineq.</td><td>$\|\mathbf{x}+\mathbf{y}\|\le\|\mathbf{x}\|+\|\mathbf{y}\|$</td></tr>
+  </table>
+  <p class="muted">Properties of the dot product: commutative, distributive over +, $\,(c\mathbf{x})\cdot\mathbf{y}=c(\mathbf{x}\cdot\mathbf{y})$, $\,\mathbf{x}\cdot\mathbf{x}\ge 0$ with equality only at $\mathbf{0}$.</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Projection<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Projection of $\mathbf{b}$ onto the line spanned by $\mathbf{a}$:</p>
+  $$\text{proj}_{\mathbf{a}}\mathbf{b}=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\mathbf{a}^{\mathsf T}\mathbf{a}}\,\mathbf{a}, \qquad \text{scalar component}=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\|\mathbf{a}\|}$$
+  <p>The residual $\mathbf{b}-\text{proj}_{\mathbf{a}}\mathbf{b}$ is orthogonal to $\mathbf{a}$. This single idea becomes least squares and OLS in modules 9 and 10.</p>
+  <figure>
+  <svg viewBox="0 0 420 200">
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
+    <line x1="40" y1="160" x2="400" y2="160" stroke="var(--border2)"/>
+    <line x1="40" y1="160" x2="40" y2="20" stroke="var(--border2)"/>
+    <!-- a -->
+    <line x1="40" y1="160" x2="360" y2="100" stroke="var(--blue)" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="365" y="98" class="svgtxt b">a</text>
+    <!-- b -->
+    <line x1="40" y1="160" x2="200" y2="40" stroke="var(--green)" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="205" y="38" class="svgtxt g">b</text>
+    <!-- projection point: a dir (320,-60)/|a|; b=(160,-120); t=(a.b)/(a.a)=(51200+7200)/(102400+3600)=58400/106000=0.551 -->
+    <line x1="40" y1="160" x2="216.3" y2="126.9" stroke="var(--amber)" stroke-width="3" marker-end="url(#ar)"/>
+    <text x="110" y="158" class="svgtxt a">proj_a b</text>
+    <line x1="216.3" y1="126.9" x2="200" y2="40" stroke="var(--red)" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="230" y="85" class="svgtxt r">b − proj (⊥ a)</text>
+    <path d="M 207.5 122 l 2.5 8.5 l -8.5 2.5" fill="none" stroke="var(--red)"/>
+  </svg>
+  <figcaption>Projection splits b into a part along a (amber) and a part perpendicular to a (red dashed). The perpendicular part is the shortest distance from b to the line.</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $\mathbf{x}=(1,2,2)^{\mathsf T}$, $\mathbf{y}=(2,0,-1)^{\mathsf T}$.</p>
+  <ol class="steps">
+    <li>$\mathbf{x}^{\mathsf T}\mathbf{y}=1\cdot2+2\cdot0+2\cdot(-1)=0 \Rightarrow \mathbf{x}\perp\mathbf{y}$</li>
+    <li>$\|\mathbf{x}\|=\sqrt{1+4+4}=3$, $\;\|\mathbf{y}\|=\sqrt{4+0+1}=\sqrt5$</li>
+    <li>$\hat{\mathbf{x}}=\tfrac13(1,2,2)^{\mathsf T}$</li>
+    <li>$d(\mathbf{x},\mathbf{y})=\|(-1,2,3)\|=\sqrt{14}$</li>
+    <li>Project $\mathbf{z}=(3,3,0)^{\mathsf T}$ onto $\mathbf{x}$: $\dfrac{\mathbf{x}^{\mathsf T}\mathbf{z}}{\mathbf{x}^{\mathsf T}\mathbf{x}}\mathbf{x}=\dfrac{9}{9}\mathbf{x}=(1,2,2)^{\mathsf T}$</li>
+  </ol>
+  <div class="note warn"><div class="t">Trap</div>$\|\mathbf{x}+\mathbf{y}\|\neq\|\mathbf{x}\|+\|\mathbf{y}\|$ in general. Only equal when the vectors point the same way. Also $\mathbf{x}\cdot\mathbf{y}$ is a <b>scalar</b>, never a vector.</div>
+  <div class="note fin"><div class="t">Finance link</div>Correlation between two demeaned return series $\mathbf{r}_1,\mathbf{r}_2$ is exactly $\cos\theta$: $\rho=\dfrac{\mathbf{r}_1^{\mathsf T}\mathbf{r}_2}{\|\mathbf{r}_1\|\|\mathbf{r}_2\|}$. Uncorrelated = orthogonal.</div>
+  </div>
+</div>
+</div>
+</section>

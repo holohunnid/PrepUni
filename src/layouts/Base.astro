@@ -1,0 +1,29 @@
+---
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+const { title } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+<script is:inline>
+/* apply saved theme before first paint to avoid a flash of dark mode */
+(function () {
+  try {
+    var t = localStorage.getItem('prepusi-theme');
+    if (t === 'light' || t === 'solar') document.body.classList.add(t);
+  } catch (e) {}
+})();
+</script>
+<slot />
+</body>
+</html>

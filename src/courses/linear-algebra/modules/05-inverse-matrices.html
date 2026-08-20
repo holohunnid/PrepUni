@@ -1,0 +1,74 @@
+<!-- ============ 05 INVERSE ============ -->
+<section id="s5">
+<div class="sec-head"><span class="num">05</span><h2>Inverse matrices</h2><span class="sub">undoing a linear map</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Definition &amp; computing<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$A$ (square) is <b>invertible</b> (nonsingular) if there is $A^{-1}$ with</p>
+  $$AA^{-1}=A^{-1}A=I$$
+  <p>Exists ⟺ $\det A\neq0$. The inverse is unique. Then $A\mathbf{x}=\mathbf{b}\Rightarrow\mathbf{x}=A^{-1}\mathbf{b}$.</p>
+  <h3>2×2 formula (memorise)</h3>
+  $$\begin{pmatrix}a&b\\c&d\end{pmatrix}^{-1}=\frac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$$
+  <p class="muted">Swap the diagonal, negate the off-diagonal, divide by det.</p>
+  <h3>General: Gauss–Jordan</h3>
+  $$[\,A\;|\;I\,]\xrightarrow{\text{row ops}}[\,I\;|\;A^{-1}\,]$$
+  <p>If you cannot reach $I$ on the left (a zero row appears), $A$ is singular.</p>
+  <h3>Adjugate formula</h3>
+  $$A^{-1}=\frac{1}{\det A}\,\text{adj}(A),\qquad \text{adj}(A)=C^{\mathsf T}$$
+  <p>$C$ = matrix of cofactors $C_{ij}$. Note the <b>transpose</b>. Useful for 3×3 when asked for one entry of the inverse: $(A^{-1})_{ij}=C_{ji}/\det A$.</p>
+  <h3>Diagonal &amp; special cases</h3>
+  $$\text{diag}(d_1,\dots,d_n)^{-1}=\text{diag}(1/d_1,\dots,1/d_n),\qquad Q^{-1}=Q^{\mathsf T}\text{ (orthogonal)}$$
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Properties &amp; the big theorem<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>$(A^{-1})^{-1}$</td><td>$=A$</td></tr>
+    <tr><td>$(AB)^{-1}$</td><td>$=B^{-1}A^{-1}$ <span class="r">order reverses</span></td></tr>
+    <tr><td>$(A^{\mathsf T})^{-1}$</td><td>$=(A^{-1})^{\mathsf T}$, often written $A^{-\mathsf T}$</td></tr>
+    <tr><td>$(cA)^{-1}$</td><td>$=\tfrac1c A^{-1}$</td></tr>
+    <tr><td>$(A^k)^{-1}$</td><td>$=(A^{-1})^k$</td></tr>
+    <tr><td>$\det(A^{-1})$</td><td>$=1/\det A$</td></tr>
+    <tr><td>$(A+B)^{-1}$</td><td class="r">$\neq A^{-1}+B^{-1}$</td></tr>
+    <tr><td>Symmetric $A$</td><td>$A^{-1}$ also symmetric</td></tr>
+  </table>
+  <h3>Invertible Matrix Theorem — for $n\times n$ $A$, all equivalent:</h3>
+  <ul class="chk">
+    <li>$A$ is invertible</li>
+    <li>$\det A\neq0$</li>
+    <li>rank$(A)=n$ (full rank)</li>
+    <li>$A\mathbf{x}=\mathbf{b}$ has exactly one solution for every $\mathbf{b}$</li>
+    <li>$A\mathbf{x}=\mathbf{0}$ has only the trivial solution</li>
+    <li>Columns of $A$ are linearly independent</li>
+    <li>Rows of $A$ are linearly independent</li>
+    <li>Columns of $A$ span ℝⁿ (form a basis)</li>
+    <li>RREF of $A$ is $I_n$</li>
+    <li>$N(A)=\{\mathbf{0}\}$, nullity $=0$</li>
+    <li>$0$ is <b>not</b> an eigenvalue of $A$</li>
+    <li>$A^{\mathsf T}$ is invertible</li>
+  </ul>
+  <div class="note tip"><div class="t">Exam shortcut</div>Any question "is A invertible / do the columns form a basis / does Ax=0 have nontrivial solutions / is 0 an eigenvalue" is the same question. Compute $\det A$ once and answer all of them.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: Gauss–Jordan on a 3×3<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A=\begin{pmatrix}1&2&0\\0&1&1\\1&0&1\end{pmatrix},\quad\det A=1(1-0)-2(0-1)+0=3\neq0 \;\Rightarrow\text{ invertible}$$
+  <ol class="steps">
+    <li>$\left(\begin{array}{ccc|ccc}1&2&0&1&0&0\\0&1&1&0&1&0\\1&0&1&0&0&1\end{array}\right)$</li>
+    <li>$R_3\to R_3-R_1$: $\left(\begin{array}{ccc|ccc}1&2&0&1&0&0\\0&1&1&0&1&0\\0&-2&1&-1&0&1\end{array}\right)$</li>
+    <li>$R_3\to R_3+2R_2$: $\left(\begin{array}{ccc|ccc}1&2&0&1&0&0\\0&1&1&0&1&0\\0&0&3&-1&2&1\end{array}\right)$</li>
+    <li>$R_3\to\tfrac13R_3$, then $R_2\to R_2-R_3$: $\left(\begin{array}{ccc|ccc}1&2&0&1&0&0\\0&1&0&\tfrac13&\tfrac13&-\tfrac13\\0&0&1&-\tfrac13&\tfrac23&\tfrac13\end{array}\right)$</li>
+    <li>$R_1\to R_1-2R_2$: $\left(\begin{array}{ccc|ccc}1&0&0&\tfrac13&-\tfrac23&\tfrac23\\0&1&0&\tfrac13&\tfrac13&-\tfrac13\\0&0&1&-\tfrac13&\tfrac23&\tfrac13\end{array}\right)$</li>
+  </ol>
+  $$A^{-1}=\frac13\begin{pmatrix}1&-2&2\\1&1&-1\\-1&2&1\end{pmatrix}$$
+  <p>Check one entry: row 1 of $A$ · col 1 of $A^{-1}$ $=\tfrac13(1\cdot1+2\cdot1+0\cdot(-1))=1$ ✓. Notice the common factor $\tfrac13=\tfrac1{\det A}$, consistent with the adjugate formula.</p>
+  <div class="note warn"><div class="t">Trap</div>You cannot "divide by a matrix". $\mathbf{x}=\mathbf{b}/A$ is meaningless; write $A^{-1}\mathbf{b}$, and mind the side: $XA=B\Rightarrow X=BA^{-1}$, not $A^{-1}B$.</div>
+  </div>
+</div>
+</section>

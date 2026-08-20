@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Algebra · Cheat Sheet · MSc Finance Assessment</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0e0e; --panel:#151515; --panel2:#1b1b1b; --head:#202020;
+  --border:#2e2e2e; --border2:#3a3a3a;
+  --text:#e4e4e4; --muted:#8f8f8f; --dim:#5c5c5c;
+  --green:#3ea76a; --green2:#2d8a52; --greenbg:#12261a;
+  --red:#e5484d; --redbg:#2a1416;
+  --blue:#4c8dff; --bluebg:#111a2c;
+  --amber:#e0a93a; --amberbg:#2a2210;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13.5px;line-height:1.6}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+.katex{font-size:1.08em}
+.katex-display{margin:.6em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:50;height:32px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:14px;font-size:12px;color:var(--muted)}
+.topbar .brand{color:var(--text)}
+.topbar .tag{background:var(--greenbg);color:var(--green);padding:0 6px;border:1px solid var(--green2)}
+.topbar .right{margin-left:auto;display:flex;gap:10px}
+.topbar button{background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:2px 8px;cursor:pointer}
+.topbar button:hover{border-color:var(--green)}
+
+.layout{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 32px)}
+.side{border-right:1px solid var(--border);background:var(--panel);position:sticky;top:32px;height:calc(100vh - 32px);overflow-y:auto;padding:10px 0}
+.side .lbl{font-size:11px;color:var(--muted);padding:6px 14px;text-transform:uppercase;letter-spacing:.05em}
+.side a{display:block;padding:4px 14px 4px 22px;color:var(--muted);font-size:12px;border-left:2px solid transparent}
+.side a:hover{color:var(--text);text-decoration:none;background:var(--panel2)}
+.side a.active{color:var(--green);border-left-color:var(--green);background:var(--panel2)}
+.side a .n{color:var(--dim);margin-right:6px}
+
+.main{padding:18px 22px 80px;max-width:1120px;width:100%;min-width:0}
+.layout.collapsed .main{margin:0 auto}
+
+/* hero */
+.hero{border:1px solid var(--border);background:var(--panel);margin-bottom:18px}
+.hero .bar{background:var(--head);border-bottom:1px solid var(--border);padding:5px 12px;font-size:12px;display:flex;gap:8px;align-items:center}
+.hero .body{padding:16px 18px;display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+.hero h1{margin:0 0 6px;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.hero p{margin:0;color:var(--muted)}
+.hero .meta{font-size:12px;color:var(--muted);line-height:1.9}
+.hero .meta b{color:var(--text);font-weight:500}
+
+/* section */
+section{margin-bottom:34px;scroll-margin-top:44px}
+.sec-head{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--border2);padding-bottom:6px;margin-bottom:14px}
+.sec-head .num{color:var(--green);font-size:12px}
+.sec-head h2{margin:0;font-size:17px;font-weight:700}
+.sec-head .sub{color:var(--muted);font-size:12px;margin-left:auto}
+
+/* panel (window) */
+.panel{border:1px solid var(--border);background:var(--panel);margin-bottom:14px}
+.panel > .bar{background:var(--head);border-bottom:1px solid var(--border);padding:4px 10px;font-size:12px;display:flex;align-items:center;gap:8px;color:var(--text)}
+.panel > .bar .ctl{margin-left:auto;color:var(--dim);letter-spacing:2px}
+.panel > .bar .pill{font-size:10.5px;padding:0 5px;border:1px solid;line-height:16px}
+.pill.g{color:var(--green);border-color:var(--green2);background:var(--greenbg)}
+.pill.b{color:var(--blue);border-color:#2a4a80;background:var(--bluebg)}
+.pill.a{color:var(--amber);border-color:#7a5a1a;background:var(--amberbg)}
+.pill.r{color:var(--red);border-color:#7a2a2d;background:var(--redbg)}
+.panel > .body{padding:12px 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.grid2 .panel,.grid3 .panel{margin-bottom:0}
+@media(max-width:900px){.grid2,.grid3,.hero .body{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.side{display:none}}
+
+h3{font-size:13px;margin:14px 0 6px;color:var(--text);font-weight:700}
+h3:first-child{margin-top:0}
+p{margin:6px 0}
+ul{margin:4px 0 8px;padding-left:18px}
+li{margin:2px 0}
+.muted{color:var(--muted)}
+.g{color:var(--green)} .r{color:var(--red)} .b{color:var(--blue)} .a{color:var(--amber)}
+code,.k{background:var(--panel2);border:1px solid var(--border);padding:0 4px;font-size:12.5px}
+
+/* callouts */
+.note{border:1px solid var(--border);border-left:3px solid var(--green);background:var(--panel2);padding:8px 12px;margin:10px 0;font-size:12.5px}
+.note.warn{border-left-color:var(--red)}
+.note.tip{border-left-color:var(--amber)}
+.note.fin{border-left-color:var(--blue)}
+.note .t{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.note.warn .t{color:var(--red)} .note.tip .t{color:var(--amber)} .note.fin .t{color:var(--blue)} .note .t{color:var(--green)}
+
+/* tables */
+table{border-collapse:collapse;width:100%;font-size:12.5px;margin:8px 0}
+th{background:var(--head);text-align:left;padding:5px 8px;border:1px solid var(--border);font-weight:500;color:var(--muted)}
+td{padding:5px 8px;border:1px solid var(--border);vertical-align:top}
+tr:nth-child(even) td{background:#131313}
+td.g,th.g{color:var(--green)}
+td.c{text-align:center}
+.formula-table td:first-child{color:var(--muted);white-space:nowrap}
+
+/* worked example */
+.ex{border:1px solid var(--border);background:#111;margin:10px 0}
+.ex .bar{background:var(--bluebg);border-bottom:1px solid #2a4a80;color:var(--blue);padding:3px 10px;font-size:11.5px;font-weight:500}
+.ex .body{padding:8px 12px}
+.steps{counter-reset:s;padding-left:0;list-style:none}
+.steps li{counter-increment:s;position:relative;padding-left:28px;margin:4px 0}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:2px;color:var(--dim);font-size:11px}
+
+/* svg figures */
+figure{margin:8px 0;border:1px solid var(--border);background:#101010;padding:8px}
+figure svg{display:block;width:100%;height:auto;font-family:var(--mono)}
+figcaption{font-size:11.5px;color:var(--muted);margin-top:6px;border-top:1px solid var(--border);padding-top:5px}
+.svgtxt{font-size:11px;fill:var(--muted)}
+.svgtxt.w{fill:var(--text)} .svgtxt.g{fill:var(--green)} .svgtxt.b{fill:var(--blue)} .svgtxt.r{fill:var(--red)} .svgtxt.a{fill:var(--amber)}
+
+/* interactive */
+.ctrl{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:12px;margin-bottom:8px}
+.ctrl label{display:flex;gap:6px;align-items:center;color:var(--muted)}
+.ctrl input[type=range]{width:110px;accent-color:var(--green)}
+.ctrl .val{color:var(--text);min-width:38px;display:inline-block}
+.readout{font-size:12px;background:var(--panel2);border:1px solid var(--border);padding:6px 10px;display:flex;gap:18px;flex-wrap:wrap}
+.readout b{color:var(--green);font-weight:500}
+.btns button{background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:2px 8px;cursor:pointer;margin-right:4px}
+.btns button:hover{border-color:var(--green);color:var(--green)}
+
+/* matrix visual blocks */
+.mx{display:inline-grid;gap:2px;vertical-align:middle;margin:4px 6px}
+.mx span{width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:11.5px;border:1px solid var(--border);background:var(--panel2)}
+.mx span.hi{background:var(--greenbg);border-color:var(--green2);color:var(--green)}
+.mx span.hb{background:var(--bluebg);border-color:#2a4a80;color:var(--blue)}
+.mx span.ha{background:var(--amberbg);border-color:#7a5a1a;color:var(--amber)}
+.mx span.z{color:var(--dim)}
+
+/* checklist */
+.chk li{list-style:none;padding-left:18px;position:relative}
+.chk li::before{content:"□";position:absolute;left:0;color:var(--green)}
+
+/* worked examples */
+.wx{border:1px solid var(--border);background:var(--panel);margin-bottom:12px}
+.wx>.bar{background:var(--head);border-bottom:1px solid var(--border);padding:5px 10px;font-size:12.5px;display:flex;align-items:center;gap:8px}
+.wx>.bar .n{color:var(--green);font-weight:700}
+.wx>.bar .tag{color:var(--muted);font-size:11px;border:1px solid var(--border);padding:0 5px}
+.wx>.bar .pill{font-size:9px;letter-spacing:1px;padding:0 4px;line-height:15px}
+.wx .prob{padding:10px 14px;border-left:3px solid var(--blue);background:var(--panel2);margin:10px 14px}
+.wx details{margin:0 14px 12px}
+.wx summary{cursor:pointer;font-size:12px;color:var(--green);padding:4px 0;user-select:none;list-style:none}
+.wx summary::before{content:"▸ ";}
+.wx details[open] summary::before{content:"▾ ";}
+.wx summary:hover{text-decoration:underline}
+.wx .sol{padding:8px 0 0;border-top:1px solid var(--border)}
+.wx .sol .steps li{margin:6px 0}
+@media print{.wx details{display:block}.wx details>*{display:block}.wx summary{display:none}.wx{page-break-inside:avoid}}
+
+/* light print mode */
+@media print{
+  body{background:#fff;color:#111;font-size:11px}
+  :root{--bg:#fff;--panel:#fff;--panel2:#f4f4f4;--head:#eaeaea;--border:#bbb;--border2:#999;--text:#111;--muted:#555;--dim:#888;--green:#1d7a45;--greenbg:#e6f3ea;--blue:#1f4fbf;--bluebg:#e8eefb;--amber:#9a6d00;--amberbg:#fbf3dd;--red:#b3262b;--redbg:#fbe6e7}
+  .side,.topbar{display:none}
+  .layout{display:block}
+  .main{max-width:none;padding:0}
+  section{page-break-inside:avoid}
+  .panel,figure,.ex{page-break-inside:avoid}
+  tr:nth-child(even) td{background:#f7f7f7}
+  figure{background:#fafafa}
+  .ex{background:#fafafa}
+}
+body.light{--bg:#f6f6f4;--panel:#ffffff;--panel2:#f0f0ee;--head:#e8e8e5;--border:#cfcfca;--border2:#b5b5b0;--text:#151515;--muted:#5a5a5a;--dim:#999;--green:#1f7f49;--green2:#2b9a5c;--greenbg:#e4f2e9;--blue:#1e4fc2;--bluebg:#e6ecfb;--amber:#8a6200;--amberbg:#f8f0d9;--red:#b9262c;--redbg:#f9e4e5}
+body.light tr:nth-child(even) td{background:#f7f7f5}
+/* solarized light: low-contrast warm palette designed for long reading sessions */
+body.solar{--bg:#fdf6e3;--panel:#fdf6e3;--panel2:#eee8d5;--head:#eee8d5;--border:#d3cbb7;--border2:#b8b09c;--text:#586e75;--muted:#839496;--dim:#a8a08c;--green:#859900;--green2:#6f8000;--greenbg:#eef0d0;--blue:#268bd2;--bluebg:#dfeaf4;--amber:#b58900;--amberbg:#f5ecc8;--red:#dc322f;--redbg:#f8dcd9}
+body.solar h1,body.solar h2,body.solar h3,body.solar .hero .meta b{color:#073642}
+body.solar tr:nth-child(even) td{background:#f7f1de}
+body.solar figure,body.solar .ex{background:#f7f1de}
+body.solar .katex{color:#073642}
+/* collapsible sidebar */
+.layout.collapsed{grid-template-columns:1fr}
+.layout.collapsed .side{display:none}
+.topbar .tog{background:none;border:1px solid var(--border);color:var(--muted);width:26px;padding:2px 0;text-align:center}
+body.light figure,body.light .ex{background:#fbfbfa}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="tog" onclick="toggleSide()" title="toggle sidebar">≡</button><span class="brand">LINALG · CHEAT SHEET</span>
+  <span class="tag">MSc Finance · Assessment</span>
+  <span>12 modules · formulas · 27 worked examples · interactive figures</span>
+  <div class="right">
+    <button onclick="cycleTheme()" id="themebtn">◐ theme: dark</button>
+    <button onclick="window.print()">⎙ print / PDF</button>
+  </div>
+</div>
+
+<div class="layout">
+<nav class="side">
+  <div class="lbl">Modules</div>
+  <a href="#s1"><span class="n">01</span>Vectors</a>
+  <a href="#s2"><span class="n">02</span>Matrices</a>
+  <a href="#s3"><span class="n">03</span>Linear systems</a>
+  <a href="#s4"><span class="n">04</span>Determinants</a>
+  <a href="#s5"><span class="n">05</span>Inverse matrices</a>
+  <a href="#s6"><span class="n">06</span>Vector spaces</a>
+  <a href="#s7"><span class="n">07</span>Eigenvalues</a>
+  <a href="#s8"><span class="n">08</span>Quadratic forms</a>
+  <a href="#s9"><span class="n">09</span>Orthogonality</a>
+  <a href="#s10"><span class="n">10</span>Finance applications</a>
+  <a href="#s11"><span class="n">11</span>Quick reference</a>
+  <a href="#s12"><span class="n">12</span>Worked examples</a>
+  <div class="lbl" style="margin-top:14px">Legend</div>
+  <div style="padding:0 14px;font-size:11.5px;color:var(--muted);line-height:1.9">
+    <span class="pill g">DEF</span> definition<br>
+    <span class="pill b">EX</span> worked example<br>
+    <span class="pill a">TIP</span> exam shortcut<br>
+    <span class="pill r">TRAP</span> common mistake
+  </div>
+</nav>
+
+<main class="main">
+
+<div class="hero">
+  <div class="bar"><span class="pill g">v1.0</span><span>Linear Algebra ⟶ Fundamentals for the MSc Finance assessment</span><span class="ctl" style="margin-left:auto;color:var(--dim)">⊡ ✕</span></div>
+  <div class="body">
+    <div>
+      <h1>Linear Algebra Cheat Sheet</h1>
+      <p>Everything from vectors to eigenvalues, with the finance applications (portfolio variance, OLS, covariance matrices) that make the abstract material concrete. Each module has definitions, the key theorems, a worked example at exam level, and the traps examiners like.</p>
+      <p style="margin-top:8px" class="muted">How to use: read modules 1–7 in order the first time. Modules 8–10 build on 7. Module 11 is the one-page memory dump to rewrite from memory the night before. Module 12 has 27 exam-style problems with full solutions; do them on paper before opening the answers.</p>
+    </div>
+    <div class="meta">
+      <b>Notation</b> · vectors bold lowercase <b>x</b>, matrices capital <b>A</b>, scalars italic <i>c</i><br>
+      <b>Default</b> · vectors are columns, <b>x</b> ∈ ℝⁿ means n×1<br>
+      <b>Transpose</b> · Aᵀ or A′ (finance texts use the prime)<br>
+      <b>Field</b> · all scalars real unless stated<br>
+      <b>Interactive figures</b> · modules 4, 7, 8 have sliders<br>
+      <b>Print</b> · top-right button gives a light-theme PDF
+    </div>
+  </div>
+</div>
+<!-- ============ 01 VECTORS ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>Vectors</h2><span class="sub">the atoms of everything that follows</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Notation &amp; basic operations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A vector in ℝⁿ is an ordered list of n real numbers. Default is a <b>column</b> vector; a row vector is its transpose.</p>
+  $$\mathbf{x}=\begin{pmatrix}x_1\\ x_2\\ \vdots\\ x_n\end{pmatrix},\qquad \mathbf{x}^{\mathsf T}=(x_1,\;x_2,\;\dots,\;x_n)$$
+  <table class="formula-table">
+    <tr><td>Addition</td><td>$(\mathbf{x}+\mathbf{y})_i = x_i + y_i$ — componentwise, same dimension only</td></tr>
+    <tr><td>Scalar mult.</td><td>$(c\mathbf{x})_i = c\,x_i$ — stretches (|c|&gt;1), shrinks (|c|&lt;1), flips (c&lt;0)</td></tr>
+    <tr><td>Linear comb.</td><td>$c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \dots + c_k\mathbf{v}_k$</td></tr>
+    <tr><td>Zero vector</td><td>$\mathbf{0}$, identity for addition</td></tr>
+  </table>
+  <p class="muted">A portfolio is a linear combination: weights $w_i$ times asset return vectors.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Dot product, norm, distance, angle<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Dot product</td><td>$\mathbf{x}\cdot\mathbf{y}=\mathbf{x}^{\mathsf T}\mathbf{y}=\sum_{i=1}^n x_i y_i$</td></tr>
+    <tr><td>Norm (length)</td><td>$\|\mathbf{x}\|=\sqrt{\mathbf{x}^{\mathsf T}\mathbf{x}}=\sqrt{x_1^2+\dots+x_n^2}$</td></tr>
+    <tr><td>Distance</td><td>$d(\mathbf{x},\mathbf{y})=\|\mathbf{x}-\mathbf{y}\|$</td></tr>
+    <tr><td>Angle</td><td>$\cos\theta=\dfrac{\mathbf{x}^{\mathsf T}\mathbf{y}}{\|\mathbf{x}\|\,\|\mathbf{y}\|}$</td></tr>
+    <tr><td>Orthogonal</td><td>$\mathbf{x}\perp\mathbf{y}\iff \mathbf{x}^{\mathsf T}\mathbf{y}=0$</td></tr>
+    <tr><td>Unit vector</td><td>$\hat{\mathbf{x}}=\mathbf{x}/\|\mathbf{x}\|$</td></tr>
+    <tr><td>Cauchy–Schwarz</td><td>$|\mathbf{x}^{\mathsf T}\mathbf{y}|\le\|\mathbf{x}\|\,\|\mathbf{y}\|$</td></tr>
+    <tr><td>Triangle ineq.</td><td>$\|\mathbf{x}+\mathbf{y}\|\le\|\mathbf{x}\|+\|\mathbf{y}\|$</td></tr>
+  </table>
+  <p class="muted">Properties of the dot product: commutative, distributive over +, $\,(c\mathbf{x})\cdot\mathbf{y}=c(\mathbf{x}\cdot\mathbf{y})$, $\,\mathbf{x}\cdot\mathbf{x}\ge 0$ with equality only at $\mathbf{0}$.</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Projection<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Projection of $\mathbf{b}$ onto the line spanned by $\mathbf{a}$:</p>
+  $$\text{proj}_{\mathbf{a}}\mathbf{b}=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\mathbf{a}^{\mathsf T}\mathbf{a}}\,\mathbf{a}, \qquad \text{scalar component}=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\|\mathbf{a}\|}$$
+  <p>The residual $\mathbf{b}-\text{proj}_{\mathbf{a}}\mathbf{b}$ is orthogonal to $\mathbf{a}$. This single idea becomes least squares and OLS in modules 9 and 10.</p>
+  <figure>
+  <svg viewBox="0 0 420 200">
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
+    <line x1="40" y1="160" x2="400" y2="160" stroke="var(--border2)"/>
+    <line x1="40" y1="160" x2="40" y2="20" stroke="var(--border2)"/>
+    <!-- a -->
+    <line x1="40" y1="160" x2="360" y2="100" stroke="var(--blue)" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="365" y="98" class="svgtxt b">a</text>
+    <!-- b -->
+    <line x1="40" y1="160" x2="200" y2="40" stroke="var(--green)" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="205" y="38" class="svgtxt g">b</text>
+    <!-- projection point: a dir (320,-60)/|a|; b=(160,-120); t=(a.b)/(a.a)=(51200+7200)/(102400+3600)=58400/106000=0.551 -->
+    <line x1="40" y1="160" x2="216.3" y2="126.9" stroke="var(--amber)" stroke-width="3" marker-end="url(#ar)"/>
+    <text x="110" y="158" class="svgtxt a">proj_a b</text>
+    <line x1="216.3" y1="126.9" x2="200" y2="40" stroke="var(--red)" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="230" y="85" class="svgtxt r">b − proj (⊥ a)</text>
+    <path d="M 207.5 122 l 2.5 8.5 l -8.5 2.5" fill="none" stroke="var(--red)"/>
+  </svg>
+  <figcaption>Projection splits b into a part along a (amber) and a part perpendicular to a (red dashed). The perpendicular part is the shortest distance from b to the line.</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $\mathbf{x}=(1,2,2)^{\mathsf T}$, $\mathbf{y}=(2,0,-1)^{\mathsf T}$.</p>
+  <ol class="steps">
+    <li>$\mathbf{x}^{\mathsf T}\mathbf{y}=1\cdot2+2\cdot0+2\cdot(-1)=0 \Rightarrow \mathbf{x}\perp\mathbf{y}$</li>
+    <li>$\|\mathbf{x}\|=\sqrt{1+4+4}=3$, $\;\|\mathbf{y}\|=\sqrt{4+0+1}=\sqrt5$</li>
+    <li>$\hat{\mathbf{x}}=\tfrac13(1,2,2)^{\mathsf T}$</li>
+    <li>$d(\mathbf{x},\mathbf{y})=\|(-1,2,3)\|=\sqrt{14}$</li>
+    <li>Project $\mathbf{z}=(3,3,0)^{\mathsf T}$ onto $\mathbf{x}$: $\dfrac{\mathbf{x}^{\mathsf T}\mathbf{z}}{\mathbf{x}^{\mathsf T}\mathbf{x}}\mathbf{x}=\dfrac{9}{9}\mathbf{x}=(1,2,2)^{\mathsf T}$</li>
+  </ol>
+  <div class="note warn"><div class="t">Trap</div>$\|\mathbf{x}+\mathbf{y}\|\neq\|\mathbf{x}\|+\|\mathbf{y}\|$ in general. Only equal when the vectors point the same way. Also $\mathbf{x}\cdot\mathbf{y}$ is a <b>scalar</b>, never a vector.</div>
+  <div class="note fin"><div class="t">Finance link</div>Correlation between two demeaned return series $\mathbf{r}_1,\mathbf{r}_2$ is exactly $\cos\theta$: $\rho=\dfrac{\mathbf{r}_1^{\mathsf T}\mathbf{r}_2}{\|\mathbf{r}_1\|\|\mathbf{r}_2\|}$. Uncorrelated = orthogonal.</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ============ 02 MATRICES ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Matrices</h2><span class="sub">arrays of numbers, or: linear maps written down</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Types of matrix<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>An $m\times n$ matrix has $m$ rows and $n$ columns; entry $a_{ij}$ is row $i$, column $j$. Always state rows × columns.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
+    <div><div class="muted" style="font-size:11.5px">Square (n×n)</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span><span>i</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Diagonal</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span class="hi">d₁</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">d₂</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">d₃</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Identity I</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span class="hi">1</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">1</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">1</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Upper triangular</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span class="hb">a</span><span class="hb">b</span><span class="hb">c</span><span class="z">0</span><span class="hb">d</span><span class="hb">e</span><span class="z">0</span><span class="z">0</span><span class="hb">f</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Symmetric (A = Aᵀ)</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span>a</span><span class="ha">b</span><span class="hb">c</span><span class="ha">b</span><span>d</span><span class="hi">e</span><span class="hb">c</span><span class="hi">e</span><span>f</span></div></div>
+    <div><div class="muted" style="font-size:11.5px">Zero</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="z">0</span></div></div>
+  </div>
+  <table>
+    <tr><th>Type</th><th>Condition</th><th>Why it matters</th></tr>
+    <tr><td>Square</td><td>$m=n$</td><td>only square matrices have determinants, inverses, eigenvalues</td></tr>
+    <tr><td>Diagonal</td><td>$a_{ij}=0$ for $i\neq j$</td><td>powers and inverses are trivial: $D^k=\text{diag}(d_i^k)$, $D^{-1}=\text{diag}(1/d_i)$</td></tr>
+    <tr><td>Identity $I_n$</td><td>diagonal of ones</td><td>$AI=IA=A$; the "1" of matrix multiplication</td></tr>
+    <tr><td>Triangular</td><td>zeros below (upper) or above (lower) diagonal</td><td>determinant = product of diagonal; eigenvalues = diagonal entries</td></tr>
+    <tr><td>Symmetric</td><td>$A=A^{\mathsf T}$</td><td>covariance matrices; real eigenvalues, orthogonal eigenvectors</td></tr>
+    <tr><td>Orthogonal</td><td>$Q^{\mathsf T}Q=I$, i.e. $Q^{-1}=Q^{\mathsf T}$</td><td>rotations/reflections; preserves lengths and angles</td></tr>
+    <tr><td>Idempotent</td><td>$P^2=P$</td><td>projection matrices (OLS hat matrix $H=X(X^{\mathsf T}X)^{-1}X^{\mathsf T}$)</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Matrix multiplication<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$AB$ is defined only if <b>columns of A = rows of B</b>. $(m\times n)(n\times p)=(m\times p)$.</p>
+  $$(AB)_{ij}=\sum_{k=1}^n a_{ik}\,b_{kj}=(\text{row } i \text{ of } A)\cdot(\text{col } j \text{ of } B)$$
+  <figure>
+  <svg viewBox="0 0 420 150">
+    <!-- A 2x3 -->
+    <text x="14" y="20" class="svgtxt w">A (2×3)</text>
+    <g>
+      <rect x="14" y="30" width="28" height="24" fill="var(--greenbg)" stroke="var(--green2)"/><rect x="42" y="30" width="28" height="24" fill="var(--greenbg)" stroke="var(--green2)"/><rect x="70" y="30" width="28" height="24" fill="var(--greenbg)" stroke="var(--green2)"/>
+      <rect x="14" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="42" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="70" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/>
+      <text x="23" y="47" class="svgtxt g">a₁₁</text><text x="51" y="47" class="svgtxt g">a₁₂</text><text x="79" y="47" class="svgtxt g">a₁₃</text>
+      <text x="23" y="71" class="svgtxt">a₂₁</text><text x="51" y="71" class="svgtxt">a₂₂</text><text x="79" y="71" class="svgtxt">a₂₃</text>
+    </g>
+    <text x="112" y="60" class="svgtxt w" font-size="16">×</text>
+    <!-- B 3x2 -->
+    <text x="140" y="20" class="svgtxt w">B (3×2)</text>
+    <g>
+      <rect x="140" y="30" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="168" y="30" width="28" height="24" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <rect x="140" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="168" y="54" width="28" height="24" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <rect x="140" y="78" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="168" y="78" width="28" height="24" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <text x="149" y="47" class="svgtxt">b₁₁</text><text x="177" y="47" class="svgtxt b">b₁₂</text>
+      <text x="149" y="71" class="svgtxt">b₂₁</text><text x="177" y="71" class="svgtxt b">b₂₂</text>
+      <text x="149" y="95" class="svgtxt">b₃₁</text><text x="177" y="95" class="svgtxt b">b₃₂</text>
+    </g>
+    <text x="210" y="60" class="svgtxt w" font-size="16">=</text>
+    <!-- C 2x2 -->
+    <text x="238" y="20" class="svgtxt w">AB (2×2)</text>
+    <g>
+      <rect x="238" y="30" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="266" y="30" width="28" height="24" fill="var(--amberbg)" stroke="var(--amber)"/>
+      <rect x="238" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/><rect x="266" y="54" width="28" height="24" fill="var(--panel2)" stroke="var(--border2)"/>
+      <text x="247" y="47" class="svgtxt">c₁₁</text><text x="275" y="47" class="svgtxt a">c₁₂</text>
+      <text x="247" y="71" class="svgtxt">c₂₁</text><text x="275" y="71" class="svgtxt">c₂₂</text>
+    </g>
+    <text x="14" y="128" class="svgtxt a">c₁₂ = a₁₁b₁₂ + a₁₂b₂₂ + a₁₃b₃₂   (row 1 of A · col 2 of B)</text>
+    <text x="14" y="144" class="svgtxt">inner dims must match: (2×3)(3×2) → outer dims give result (2×2)</text>
+  </svg>
+  </figure>
+  <table>
+    <tr><th>Property</th><th>Holds?</th></tr>
+    <tr><td>Associative $(AB)C=A(BC)$</td><td class="g">yes</td></tr>
+    <tr><td>Distributive $A(B+C)=AB+AC$</td><td class="g">yes</td></tr>
+    <tr><td>Commutative $AB=BA$</td><td class="r">NO in general</td></tr>
+    <tr><td>$AB=0 \Rightarrow A=0$ or $B=0$</td><td class="r">NO</td></tr>
+    <tr><td>$AB=AC \Rightarrow B=C$</td><td class="r">NO (unless A invertible)</td></tr>
+    <tr><td>$(A+B)^2=A^2+2AB+B^2$</td><td class="r">NO: it is $A^2+AB+BA+B^2$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Transpose &amp; trace<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Transpose swaps rows and columns: $(A^{\mathsf T})_{ij}=a_{ji}$. An $m\times n$ becomes $n\times m$.</p>
+  <table class="formula-table">
+    <tr><td>$(A^{\mathsf T})^{\mathsf T}$</td><td>$=A$</td></tr>
+    <tr><td>$(A+B)^{\mathsf T}$</td><td>$=A^{\mathsf T}+B^{\mathsf T}$</td></tr>
+    <tr><td>$(cA)^{\mathsf T}$</td><td>$=cA^{\mathsf T}$</td></tr>
+    <tr><td>$(AB)^{\mathsf T}$</td><td>$=B^{\mathsf T}A^{\mathsf T}$ <span class="r">order reverses</span></td></tr>
+    <tr><td>$(ABC)^{\mathsf T}$</td><td>$=C^{\mathsf T}B^{\mathsf T}A^{\mathsf T}$</td></tr>
+    <tr><td>$A^{\mathsf T}A$, $AA^{\mathsf T}$</td><td>always symmetric (and positive semidefinite)</td></tr>
+    <tr><td>$\mathbf{x}^{\mathsf T}A\mathbf{y}$</td><td>is a scalar, so equals its own transpose $\mathbf{y}^{\mathsf T}A^{\mathsf T}\mathbf{x}$</td></tr>
+  </table>
+  <h3>Trace (square matrices only)</h3>
+  $$\text{tr}(A)=\sum_{i=1}^n a_{ii}$$
+  <table class="formula-table">
+    <tr><td>Linearity</td><td>$\text{tr}(A+B)=\text{tr}A+\text{tr}B$, $\;\text{tr}(cA)=c\,\text{tr}A$</td></tr>
+    <tr><td>Transpose</td><td>$\text{tr}(A^{\mathsf T})=\text{tr}(A)$</td></tr>
+    <tr><td>Cyclic</td><td>$\text{tr}(AB)=\text{tr}(BA)$, $\;\text{tr}(ABC)=\text{tr}(CAB)=\text{tr}(BCA)$</td></tr>
+    <tr><td>Eigenvalues</td><td>$\text{tr}(A)=\sum\lambda_i$ (module 7)</td></tr>
+  </table>
+  <div class="note tip"><div class="t">Exam shortcut</div>Scalar trick: $\mathbf{x}^{\mathsf T}A\mathbf{x}=\text{tr}(\mathbf{x}^{\mathsf T}A\mathbf{x})=\text{tr}(A\mathbf{x}\mathbf{x}^{\mathsf T})$. Used to show $E[\mathbf{x}^{\mathsf T}A\mathbf{x}]=\text{tr}(A\Sigma)+\mu^{\mathsf T}A\mu$.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: multiplication, transpose, trace<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A=\begin{pmatrix}1&2\\3&4\end{pmatrix},\quad B=\begin{pmatrix}0&1\\-1&2\end{pmatrix}$$
+  <div class="grid2">
+  <div>
+  $$AB=\begin{pmatrix}1\cdot0+2\cdot(-1) & 1\cdot1+2\cdot2\\ 3\cdot0+4\cdot(-1) & 3\cdot1+4\cdot2\end{pmatrix}=\begin{pmatrix}-2&5\\-4&11\end{pmatrix}$$
+  $$BA=\begin{pmatrix}3&4\\5&6\end{pmatrix}\neq AB$$
+  </div>
+  <div>
+  $$(AB)^{\mathsf T}=\begin{pmatrix}-2&-4\\5&11\end{pmatrix}=B^{\mathsf T}A^{\mathsf T}=\begin{pmatrix}0&-1\\1&2\end{pmatrix}\begin{pmatrix}1&3\\2&4\end{pmatrix}\;\checkmark$$
+  $$\text{tr}(AB)=-2+11=9=\text{tr}(BA)=3+6\;\checkmark$$
+  </div>
+  </div>
+  <div class="note warn"><div class="t">Trap</div>Before multiplying, write the dimensions: $(2\times2)(2\times2)$. If asked for $\mathbf{x}^{\mathsf T}A$ with $\mathbf{x}\in\mathbb{R}^2$, the result is $(1\times2)(2\times2)=1\times2$, a row vector. Dimension bookkeeping catches half of all errors.</div>
+  </div>
+</div>
+</section>
+<!-- ============ 03 LINEAR SYSTEMS ============ -->
+<section id="s3">
+<div class="sec-head"><span class="num">03</span><h2>Systems of linear equations</h2><span class="sub">Ax = b and how to solve it</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Matrix form<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\begin{cases}a_{11}x_1+a_{12}x_2+a_{13}x_3=b_1\\ a_{21}x_1+a_{22}x_2+a_{23}x_3=b_2\end{cases}\iff A\mathbf{x}=\mathbf{b}$$
+  <p>$A$ is the $m\times n$ coefficient matrix ($m$ equations, $n$ unknowns), $\mathbf{x}\in\mathbb{R}^n$ unknowns, $\mathbf{b}\in\mathbb{R}^m$ right-hand side.</p>
+  <p>Two readings of $A\mathbf{x}=\mathbf{b}$:</p>
+  <ul>
+    <li><b>Row picture</b>: intersection of $m$ hyperplanes (lines in ℝ², planes in ℝ³).</li>
+    <li><b>Column picture</b>: $\mathbf{b}=x_1\mathbf{a}_1+x_2\mathbf{a}_2+\dots$, i.e. is $\mathbf{b}$ a linear combination of the columns of $A$?</li>
+  </ul>
+  <p>The <b>augmented matrix</b> $[A\,|\,\mathbf{b}]$ carries everything needed.</p>
+  <h3>Three possible outcomes</h3>
+  <table>
+    <tr><th>Solutions</th><th>Condition (after row reduction)</th><th>Geometry (ℝ²)</th></tr>
+    <tr><td class="g">Exactly one</td><td>rank$(A)$ = rank$[A|\mathbf{b}]$ = $n$</td><td>lines cross at a point</td></tr>
+    <tr><td class="a">Infinitely many</td><td>rank$(A)$ = rank$[A|\mathbf{b}]$ &lt; $n$</td><td>same line</td></tr>
+    <tr><td class="r">None</td><td>rank$(A)$ &lt; rank$[A|\mathbf{b}]$, i.e. a row $[0\;0\cdots0\,|\,c]$, $c\neq0$</td><td>parallel lines</td></tr>
+  </table>
+  <p class="muted">Rouché–Capelli theorem: consistent ⟺ rank$(A)$ = rank$[A|\mathbf{b}]$. Number of free parameters = $n-$ rank.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Row echelon forms<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Elementary row operations</b> (do not change the solution set):</p>
+  <ol class="steps">
+    <li>Swap two rows: $R_i\leftrightarrow R_j$</li>
+    <li>Multiply a row by a nonzero scalar: $R_i\to cR_i$</li>
+    <li>Add a multiple of one row to another: $R_i\to R_i+cR_j$</li>
+  </ol>
+  <table>
+    <tr><th>Row echelon form (REF)</th><th>Reduced REF (RREF)</th></tr>
+    <tr><td>All-zero rows at the bottom<br>Each leading entry (pivot) is to the right of the pivot above<br>Entries below each pivot are 0</td><td>REF, plus:<br>Every pivot equals 1<br>Every pivot is the only nonzero entry in its column</td></tr>
+    <tr><td>$\begin{pmatrix}\color{#3ea76a}{2}&1&-1&\big|&8\\0&\color{#3ea76a}{\tfrac12}&\tfrac12&\big|&1\\0&0&\color{#3ea76a}{-1}&\big|&1\end{pmatrix}$</td><td>$\begin{pmatrix}\color{#3ea76a}{1}&0&0&\big|&2\\0&\color{#3ea76a}{1}&0&\big|&3\\0&0&\color{#3ea76a}{1}&\big|&-1\end{pmatrix}$</td></tr>
+    <tr><td>Gaussian elimination, then back-substitute</td><td>Gauss–Jordan: read solution directly</td></tr>
+  </table>
+  <p><b>Rank</b> = number of pivots = number of nonzero rows in REF. <b>Pivot columns</b> ↔ basic variables; non-pivot columns ↔ free variables.</p>
+  <div class="note tip"><div class="t">Exam shortcut</div>For a square system, compute $\det A$ first (module 4). $\det A\neq0$ ⟹ unique solution, no need to row reduce to decide existence. $\det A=0$ ⟹ either none or infinitely many; then reduce.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Gaussian elimination, full walkthrough<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\begin{cases}2x+y-z=8\\-3x-y+2z=-11\\-2x+y+2z=-3\end{cases}$$
+  <ol class="steps">
+    <li>Augmented: $\left(\begin{array}{ccc|c}2&1&-1&8\\-3&-1&2&-11\\-2&1&2&-3\end{array}\right)$</li>
+    <li>$R_2\to R_2+\tfrac32R_1$, $R_3\to R_3+R_1$: $\left(\begin{array}{ccc|c}2&1&-1&8\\0&\tfrac12&\tfrac12&1\\0&2&1&5\end{array}\right)$</li>
+    <li>$R_3\to R_3-4R_2$: $\left(\begin{array}{ccc|c}2&1&-1&8\\0&\tfrac12&\tfrac12&1\\0&0&-1&1\end{array}\right)$ ← REF, 3 pivots, rank 3</li>
+    <li>Back-substitute: $z=-1$; $\tfrac12y+\tfrac12(-1)=1\Rightarrow y=3$; $2x+3+1=8\Rightarrow x=2$</li>
+    <li>Check: $2(2)+3-(-1)=8$ ✓</li>
+  </ol>
+  <p>Solution $(x,y,z)=(2,3,-1)$, unique since rank $=3=n$.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Infinite &amp; no solutions; homogeneous systems<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Infinitely many</h3>
+  $$\left(\begin{array}{ccc|c}1&2&-1&3\\0&0&1&2\\0&0&0&0\end{array}\right)\;\Rightarrow\; x_2=t \text{ free},\; x_3=2,\; x_1=3-2t+2=5-2t$$
+  $$\mathbf{x}=\begin{pmatrix}5\\0\\2\end{pmatrix}+t\begin{pmatrix}-2\\1\\0\end{pmatrix},\; t\in\mathbb{R}$$
+  <p class="muted">Particular solution + null-space direction. Rank 2, $n=3$, so $3-2=1$ free parameter.</p>
+  <h3>No solution</h3>
+  $$\left(\begin{array}{cc|c}1&2&3\\0&0&\color{#e5484d}{5}\end{array}\right)\;\Rightarrow\;0=5 \text{ impossible}$$
+  <h3>Homogeneous: $A\mathbf{x}=\mathbf{0}$</h3>
+  <ul>
+    <li>Always consistent: $\mathbf{x}=\mathbf{0}$ (trivial solution).</li>
+    <li>Nontrivial solutions exist ⟺ rank$(A)<n$ ⟺ (square case) $\det A=0$.</li>
+    <li>Solution set is the <b>null space</b> $N(A)$, a subspace of dimension $n-$rank (module 6).</li>
+    <li>More unknowns than equations ($n>m$) ⟹ always nontrivial solutions.</li>
+  </ul>
+  <div class="note fin"><div class="t">Finance link</div>Replicating portfolio: payoff matrix $D$ ($m$ states × $n$ assets), target payoff $\mathbf{b}$. Solve $D\mathbf{x}=\mathbf{b}$ for holdings $\mathbf{x}$. Unique solution ⟺ market complete with rank$(D)=m=n$. No solution ⟹ payoff not replicable.</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ============ 04 DETERMINANTS ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>Determinants</h2><span class="sub">one number that says whether a square matrix is invertible</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Computing det<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>2×2</h3>
+  $$\det\begin{pmatrix}a&b\\c&d\end{pmatrix}=\begin{vmatrix}a&b\\c&d\end{vmatrix}=ad-bc$$
+  <h3>3×3 (Sarrus rule)</h3>
+  $$\begin{vmatrix}a&b&c\\d&e&f\\g&h&i\end{vmatrix}=aei+bfg+cdh-ceg-bdi-afh$$
+  <figure>
+  <svg viewBox="0 0 560 130">
+    <g font-size="13" fill="var(--text)" font-family="JetBrains Mono,monospace">
+      <text x="20" y="32">a</text><text x="60" y="32">b</text><text x="100" y="32">c</text><text x="140" y="32" fill="var(--muted)">a</text><text x="180" y="32" fill="var(--muted)">b</text>
+      <text x="20" y="66">d</text><text x="60" y="66">e</text><text x="100" y="66">f</text><text x="140" y="66" fill="var(--muted)">d</text><text x="180" y="66" fill="var(--muted)">e</text>
+      <text x="20" y="100">g</text><text x="60" y="100">h</text><text x="100" y="100">i</text><text x="140" y="100" fill="var(--muted)">g</text><text x="180" y="100" fill="var(--muted)">h</text>
+    </g>
+    <g stroke="var(--green)" stroke-width="1.5" fill="none" opacity=".8">
+      <line x1="26" y1="36" x2="108" y2="104"/><line x1="66" y1="36" x2="148" y2="104"/><line x1="106" y1="36" x2="188" y2="104"/>
+    </g>
+    <g stroke="var(--red)" stroke-width="1.5" fill="none" opacity=".8">
+      <line x1="106" y1="26" x2="26" y2="94"/><line x1="146" y1="26" x2="66" y2="94"/><line x1="186" y1="26" x2="106" y2="94"/>
+    </g>
+    <text x="225" y="40" class="svgtxt g">+ aei + bfg + cdh  (↘ diagonals)</text>
+    <text x="230" y="66" class="svgtxt r">− ceg − afh − bdi  (↙ diagonals)</text>
+    <text x="230" y="100" class="svgtxt">copy first two columns to the right</text>
+    <text x="230" y="116" class="svgtxt">works for 3×3 ONLY</text>
+  </svg>
+  </figure>
+  <h3>n×n: cofactor (Laplace) expansion</h3>
+  <p>Along any row $i$ (or column $j$):</p>
+  $$\det A=\sum_{j=1}^n a_{ij}\,C_{ij},\qquad C_{ij}=(-1)^{i+j}M_{ij}$$
+  <p>$M_{ij}$ = minor = det of the $(n-1)\times(n-1)$ matrix after deleting row $i$ and column $j$. Sign pattern:</p>
+  $$\begin{pmatrix}+&-&+\\-&+&-\\+&-&+\end{pmatrix}$$
+  <div class="note tip"><div class="t">Exam shortcut</div>Expand along the row/column with the most zeros. Better still: use row operations to create zeros first (rule 3 below leaves det unchanged), then expand. Triangular ⟹ det = product of the diagonal.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Properties<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>#</th><th>Operation / fact</th><th>Effect on det</th></tr>
+    <tr><td>1</td><td>Swap two rows</td><td>$\det\to-\det$</td></tr>
+    <tr><td>2</td><td>Multiply one row by $c$</td><td>$\det\to c\det$</td></tr>
+    <tr><td>3</td><td>Add multiple of a row to another</td><td class="g">unchanged</td></tr>
+    <tr><td>4</td><td>$\det(cA)$, $A$ is $n\times n$</td><td>$c^n\det A$ <span class="r">(not $c\det A$)</span></td></tr>
+    <tr><td>5</td><td>$\det(AB)$</td><td>$=\det A\cdot\det B$</td></tr>
+    <tr><td>6</td><td>$\det(A^{\mathsf T})$</td><td>$=\det A$</td></tr>
+    <tr><td>7</td><td>$\det(A^{-1})$</td><td>$=1/\det A$</td></tr>
+    <tr><td>8</td><td>$\det(A^k)$</td><td>$=(\det A)^k$</td></tr>
+    <tr><td>9</td><td>Triangular / diagonal</td><td>product of diagonal entries</td></tr>
+    <tr><td>10</td><td>Two equal or proportional rows</td><td>$0$</td></tr>
+    <tr><td>11</td><td>A zero row or column</td><td>$0$</td></tr>
+    <tr><td>12</td><td>$\det I$</td><td>$1$</td></tr>
+    <tr><td>13</td><td>$\det(A+B)$</td><td class="r">$\neq\det A+\det B$ in general</td></tr>
+    <tr><td>14</td><td>Orthogonal $Q$</td><td>$\pm1$</td></tr>
+    <tr><td>15</td><td>$\det A=\prod\lambda_i$</td><td>product of eigenvalues</td></tr>
+  </table>
+  <h3>Geometric meaning</h3>
+  <p>$|\det A|$ = factor by which $A$ scales area (2D) / volume (3D). Columns of $A$ span a parallelogram of area $|\det A|$. Sign negative ⟹ orientation flipped. $\det A=0$ ⟹ the columns are squashed into a lower dimension (dependent columns).</p>
+  <h3>Cramer's rule (square, $\det A\neq0$)</h3>
+  $$x_i=\frac{\det A_i}{\det A}$$
+  <p>$A_i$ = $A$ with column $i$ replaced by $\mathbf{b}$. Fine for 2×2 and 3×3, too slow beyond.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Determinant as signed area — drag the sliders<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>a <input type="range" id="d_a" min="-3" max="3" step="0.1" value="2"><span class="val" id="d_a_v">2.0</span></label>
+    <label>b <input type="range" id="d_b" min="-3" max="3" step="0.1" value="1"><span class="val" id="d_b_v">1.0</span></label>
+    <label>c <input type="range" id="d_c" min="-3" max="3" step="0.1" value="0.5"><span class="val" id="d_c_v">0.5</span></label>
+    <label>d <input type="range" id="d_d" min="-3" max="3" step="0.1" value="1.5"><span class="val" id="d_d_v">1.5</span></label>
+    <span class="btns"><button onclick="detSet(1,0,0,1)">I</button><button onclick="detSet(2,1,1,0.5)">singular</button><button onclick="detSet(0,1,1,0)">swap</button><button onclick="detSet(0,-1,1,0)">rotate 90°</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="detsvg" viewBox="0 0 320 320"></svg>
+    <figcaption>Unit square (grey) is mapped to the parallelogram spanned by the columns (a,c)ᵀ in blue and (b,d)ᵀ in green. Area = |ad − bc|. Red fill = negative determinant (orientation flipped).</figcaption></figure>
+    <div>
+      <div class="readout" id="detread"></div>
+      <p style="margin-top:10px">$A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$, columns $\mathbf{a}_1=\binom{a}{c}$ and $\mathbf{a}_2=\binom{b}{d}$.</p>
+      <ul>
+        <li>Make the columns parallel (try the <code>singular</code> preset): the parallelogram collapses to a line, $\det=0$, $A$ is not invertible.</li>
+        <li>Swap the columns: area identical, sign flips.</li>
+        <li>Rotation: $\det=1$, area preserved, orientation preserved.</li>
+        <li>Double one column: det doubles (rule 2). Double both: det ×4 (rule 4 with $n=2$).</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: 3×3 determinant two ways + Cramer<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A=\begin{pmatrix}2&1&-1\\-3&-1&2\\-2&1&2\end{pmatrix}$$
+  <div class="grid2">
+  <div>
+  <h3>Sarrus</h3>
+  $$\begin{aligned}\det A&=2(-1)(2)+1(2)(-2)+(-1)(-3)(1)\\&\quad-(-1)(-1)(-2)-1(-3)(2)-2(2)(1)\\&=-4-4+3+2+6-4=\color{#3ea76a}{-1}\end{aligned}$$
+  <h3>Cofactor along row 1</h3>
+  $$\det A=2\begin{vmatrix}-1&2\\1&2\end{vmatrix}-1\begin{vmatrix}-3&2\\-2&2\end{vmatrix}+(-1)\begin{vmatrix}-3&-1\\-2&1\end{vmatrix}$$
+  $$=2(-4)-1(-2)-1(-5)=-8+2+5=\color{#3ea76a}{-1}\;\checkmark$$
+  </div>
+  <div>
+  <h3>Cramer for $x$ with $\mathbf{b}=(8,-11,-3)^{\mathsf T}$</h3>
+  $$A_1=\begin{pmatrix}\color{#4c8dff}{8}&1&-1\\\color{#4c8dff}{-11}&-1&2\\\color{#4c8dff}{-3}&1&2\end{pmatrix},\quad\det A_1=-2$$
+  $$x=\frac{\det A_1}{\det A}=\frac{-2}{-1}=2\;\checkmark\text{ (matches module 3)}$$
+  <div class="note warn"><div class="t">Trap</div>Signs in cofactor expansion follow the checkerboard, <b>not</b> the sign of the entry. Second most common error: forgetting that $\det(2A)=2^3\det A=8\det A$ for a 3×3.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>
+<!-- ============ 05 INVERSE ============ -->
+<section id="s5">
+<div class="sec-head"><span class="num">05</span><h2>Inverse matrices</h2><span class="sub">undoing a linear map</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Definition &amp; computing<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$A$ (square) is <b>invertible</b> (nonsingular) if there is $A^{-1}$ with</p>
+  $$AA^{-1}=A^{-1}A=I$$
+  <p>Exists ⟺ $\det A\neq0$. The inverse is unique. Then $A\mathbf{x}=\mathbf{b}\Rightarrow\mathbf{x}=A^{-1}\mathbf{b}$.</p>
+  <h3>2×2 formula (memorise)</h3>
+  $$\begin{pmatrix}a&b\\c&d\end{pmatrix}^{-1}=\frac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$$
+  <p class="muted">Swap the diagonal, negate the off-diagonal, divide by det.</p>
+  <h3>General: Gauss–Jordan</h3>
+  $$[\,A\;|\;I\,]\xrightarrow{\text{row ops}}[\,I\;|\;A^{-1}\,]$$
+  <p>If you cannot reach $I$ on the left (a zero row appears), $A$ is singular.</p>
+  <h3>Adjugate formula</h3>
+  $$A^{-1}=\frac{1}{\det A}\,\text{adj}(A),\qquad \text{adj}(A)=C^{\mathsf T}$$
+  <p>$C$ = matrix of cofactors $C_{ij}$. Note the <b>transpose</b>. Useful for 3×3 when asked for one entry of the inverse: $(A^{-1})_{ij}=C_{ji}/\det A$.</p>
+  <h3>Diagonal &amp; special cases</h3>
+  $$\text{diag}(d_1,\dots,d_n)^{-1}=\text{diag}(1/d_1,\dots,1/d_n),\qquad Q^{-1}=Q^{\mathsf T}\text{ (orthogonal)}$$
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Properties &amp; the big theorem<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>$(A^{-1})^{-1}$</td><td>$=A$</td></tr>
+    <tr><td>$(AB)^{-1}$</td><td>$=B^{-1}A^{-1}$ <span class="r">order reverses</span></td></tr>
+    <tr><td>$(A^{\mathsf T})^{-1}$</td><td>$=(A^{-1})^{\mathsf T}$, often written $A^{-\mathsf T}$</td></tr>
+    <tr><td>$(cA)^{-1}$</td><td>$=\tfrac1c A^{-1}$</td></tr>
+    <tr><td>$(A^k)^{-1}$</td><td>$=(A^{-1})^k$</td></tr>
+    <tr><td>$\det(A^{-1})$</td><td>$=1/\det A$</td></tr>
+    <tr><td>$(A+B)^{-1}$</td><td class="r">$\neq A^{-1}+B^{-1}$</td></tr>
+    <tr><td>Symmetric $A$</td><td>$A^{-1}$ also symmetric</td></tr>
+  </table>
+  <h3>Invertible Matrix Theorem — for $n\times n$ $A$, all equivalent:</h3>
+  <ul class="chk">
+    <li>$A$ is invertible</li>
+    <li>$\det A\neq0$</li>
+    <li>rank$(A)=n$ (full rank)</li>
+    <li>$A\mathbf{x}=\mathbf{b}$ has exactly one solution for every $\mathbf{b}$</li>
+    <li>$A\mathbf{x}=\mathbf{0}$ has only the trivial solution</li>
+    <li>Columns of $A$ are linearly independent</li>
+    <li>Rows of $A$ are linearly independent</li>
+    <li>Columns of $A$ span ℝⁿ (form a basis)</li>
+    <li>RREF of $A$ is $I_n$</li>
+    <li>$N(A)=\{\mathbf{0}\}$, nullity $=0$</li>
+    <li>$0$ is <b>not</b> an eigenvalue of $A$</li>
+    <li>$A^{\mathsf T}$ is invertible</li>
+  </ul>
+  <div class="note tip"><div class="t">Exam shortcut</div>Any question "is A invertible / do the columns form a basis / does Ax=0 have nontrivial solutions / is 0 an eigenvalue" is the same question. Compute $\det A$ once and answer all of them.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: Gauss–Jordan on a 3×3<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A=\begin{pmatrix}1&2&0\\0&1&1\\1&0&1\end{pmatrix},\quad\det A=1(1-0)-2(0-1)+0=3\neq0 \;\Rightarrow\text{ invertible}$$
+  <ol class="steps">
+    <li>$\left(\begin{array}{ccc|ccc}1&2&0&1&0&0\\0&1&1&0&1&0\\1&0&1&0&0&1\end{array}\right)$</li>
+    <li>$R_3\to R_3-R_1$: $\left(\begin{array}{ccc|ccc}1&2&0&1&0&0\\0&1&1&0&1&0\\0&-2&1&-1&0&1\end{array}\right)$</li>
+    <li>$R_3\to R_3+2R_2$: $\left(\begin{array}{ccc|ccc}1&2&0&1&0&0\\0&1&1&0&1&0\\0&0&3&-1&2&1\end{array}\right)$</li>
+    <li>$R_3\to\tfrac13R_3$, then $R_2\to R_2-R_3$: $\left(\begin{array}{ccc|ccc}1&2&0&1&0&0\\0&1&0&\tfrac13&\tfrac13&-\tfrac13\\0&0&1&-\tfrac13&\tfrac23&\tfrac13\end{array}\right)$</li>
+    <li>$R_1\to R_1-2R_2$: $\left(\begin{array}{ccc|ccc}1&0&0&\tfrac13&-\tfrac23&\tfrac23\\0&1&0&\tfrac13&\tfrac13&-\tfrac13\\0&0&1&-\tfrac13&\tfrac23&\tfrac13\end{array}\right)$</li>
+  </ol>
+  $$A^{-1}=\frac13\begin{pmatrix}1&-2&2\\1&1&-1\\-1&2&1\end{pmatrix}$$
+  <p>Check one entry: row 1 of $A$ · col 1 of $A^{-1}$ $=\tfrac13(1\cdot1+2\cdot1+0\cdot(-1))=1$ ✓. Notice the common factor $\tfrac13=\tfrac1{\det A}$, consistent with the adjugate formula.</p>
+  <div class="note warn"><div class="t">Trap</div>You cannot "divide by a matrix". $\mathbf{x}=\mathbf{b}/A$ is meaningless; write $A^{-1}\mathbf{b}$, and mind the side: $XA=B\Rightarrow X=BA^{-1}$, not $A^{-1}B$.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ 06 VECTOR SPACES ============ -->
+<section id="s6">
+<div class="sec-head"><span class="num">06</span><h2>Vector spaces</h2><span class="sub">course-style chapter: span, independence, basis, dimension, the four subspaces, rank</span></div>
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What this chapter is about, in plain words<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Modules 1–5 were about <i>computing</i>: multiply, invert, take determinants. This chapter is about <i>describing sets of vectors</i>. The questions it answers are:</p>
+  <ul>
+    <li>Given some vectors, what is <b>everything you can build</b> from them? (span)</li>
+    <li>Are any of them <b>redundant</b>? (linear independence)</li>
+    <li>What is the <b>smallest set</b> that still builds everything? (basis)</li>
+    <li><b>How many</b> vectors is that? (dimension)</li>
+    <li>For a matrix $A$: what can $A\mathbf{x}$ reach, and what does $A$ destroy? (column space, null space, rank)</li>
+  </ul>
+  <p>The payoff: every question of the form "does $A\mathbf{x}=\mathbf{b}$ have a solution, and how many" becomes a statement about these sets. And in finance: "how many independent risk factors drive these 50 assets" is a rank question, "is this asset redundant" is an independence question, "can I replicate this payoff" is a span question.</p>
+  <div class="note tip"><div class="t">Reading strategy</div>Work through the panels in order. Each one introduces exactly one idea, gives the picture in ℝ² or ℝ³, then the precise definition, then how to test it with a computation. Do not move on until the "check yourself" line at the end of each panel makes sense.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Subspaces: the sets that linear algebra can talk about<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Not every subset of ℝⁿ is interesting. A <b>subspace</b> is a set $W$ where you can add and scale without ever leaving the set:</p>
+  <ol class="steps">
+    <li>$\mathbf{0}\in W$</li>
+    <li>$\mathbf{u},\mathbf{v}\in W\Rightarrow\mathbf{u}+\mathbf{v}\in W$ (closed under addition)</li>
+    <li>$\mathbf{u}\in W,\;c\in\mathbb{R}\Rightarrow c\mathbf{u}\in W$ (closed under scaling)</li>
+  </ol>
+  <p>Conditions 2 and 3 together say: any linear combination of vectors in $W$ stays in $W$.</p>
+  <table>
+    <tr><th>Set</th><th>Subspace?</th><th>Why</th></tr>
+    <tr><td>A line through the origin in ℝ²</td><td class="g">yes</td><td>scaling and adding points on the line keeps you on it</td></tr>
+    <tr><td>A line <b>not</b> through the origin</td><td class="r">no</td><td>fails condition 1; also $2\mathbf{u}$ leaves the line</td></tr>
+    <tr><td>A plane through the origin in ℝ³</td><td class="g">yes</td><td></td></tr>
+    <tr><td>The first quadrant $\{x\ge0,y\ge0\}$</td><td class="r">no</td><td>$(-1)\cdot(1,1)=(-1,-1)$ leaves it</td></tr>
+    <tr><td>$\{\mathbf{x}:A\mathbf{x}=\mathbf{0}\}$</td><td class="g">yes</td><td>$A(\mathbf{u}+\mathbf{v})=\mathbf{0}$, $A(c\mathbf{u})=\mathbf{0}$</td></tr>
+    <tr><td>$\{\mathbf{x}:A\mathbf{x}=\mathbf{b}\}$, $\mathbf{b}\neq\mathbf{0}$</td><td class="r">no</td><td>$\mathbf{0}$ is not a solution</td></tr>
+    <tr><td>$\{\mathbf{0}\}$ and all of ℝⁿ</td><td class="g">yes</td><td>the trivial subspaces</td></tr>
+    <tr><td>Portfolios with $\sum w_i=1$</td><td class="r">no</td><td>$2\mathbf{w}$ sums to 2; it is a shifted subspace (affine set)</td></tr>
+    <tr><td>Zero-cost portfolios $\sum w_i=0$</td><td class="g">yes</td><td>it is $N(\mathbf{1}^{\mathsf T})$</td></tr>
+  </table>
+  <p>In ℝ³ the only subspaces are: the origin, lines through the origin, planes through the origin, and ℝ³ itself. Their "sizes" 0, 1, 2, 3 are the <b>dimensions</b> we define below.</p>
+  <p class="muted"><b>Check yourself:</b> is the set of symmetric $2\times2$ matrices a subspace of all $2\times2$ matrices? (Yes: sum and scalar multiple of symmetric matrices are symmetric. The zero matrix is symmetric.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Span: everything you can build<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Take vectors $\mathbf{v}_1,\dots,\mathbf{v}_k$. Their <b>span</b> is the set of all linear combinations:</p>
+  $$\text{span}\{\mathbf{v}_1,\dots,\mathbf{v}_k\}=\{c_1\mathbf{v}_1+\dots+c_k\mathbf{v}_k:\;c_i\in\mathbb{R}\}$$
+  <p>It is always a subspace (the smallest one containing all the $\mathbf{v}_i$). Think of it as: "place the vectors at the origin, then reach everywhere you can by stretching and adding them."</p>
+  <figure>
+  <svg viewBox="0 0 560 180">
+    <g transform="translate(10,0)">
+      <text x="0" y="16" class="svgtxt w">one vector</text>
+      <line x1="20" y1="140" x2="160" y2="60" stroke="var(--green)" stroke-dasharray="3 3" opacity=".6"/>
+      <line x1="55" y1="120" x2="110" y2="89" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="0" y="165" class="svgtxt">span = a line</text>
+    </g>
+    <g transform="translate(190,0)">
+      <text x="0" y="16" class="svgtxt w">two non-parallel vectors</text>
+      <polygon points="10,150 170,150 170,40 10,40" fill="var(--greenbg)" stroke="var(--green2)" opacity=".8"/>
+      <line x1="60" y1="120" x2="130" y2="105" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <line x1="60" y1="120" x2="85" y2="60" stroke="var(--amber)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="0" y="165" class="svgtxt">span = the whole plane</text>
+    </g>
+    <g transform="translate(380,0)">
+      <text x="0" y="16" class="svgtxt w">two parallel vectors</text>
+      <line x1="10" y1="145" x2="170" y2="45" stroke="var(--green)" stroke-dasharray="3 3" opacity=".6"/>
+      <line x1="60" y1="114" x2="120" y2="76" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <line x1="60" y1="114" x2="90" y2="95" stroke="var(--amber)" stroke-width="4" marker-end="url(#ar)" opacity=".8"/>
+      <text x="0" y="165" class="svgtxt">span = still just a line</text>
+    </g>
+  </svg>
+  <figcaption>Adding a vector only enlarges the span if it points somewhere new. The third picture is the whole idea of linear dependence: the amber vector adds nothing.</figcaption>
+  </figure>
+  <h3>The key question: is $\mathbf{b}$ in the span?</h3>
+  <p>"$\mathbf{b}\in\text{span}\{\mathbf{v}_1,\dots,\mathbf{v}_k\}$" means there are coefficients with $c_1\mathbf{v}_1+\dots+c_k\mathbf{v}_k=\mathbf{b}$. Put the $\mathbf{v}_i$ as columns of $A$: this is exactly the system $A\mathbf{c}=\mathbf{b}$. So:</p>
+  <div class="note"><div class="t">Translation</div>$\mathbf{b}$ is in the span of the columns of $A$ ⟺ $A\mathbf{x}=\mathbf{b}$ is consistent ⟺ rank$[A|\mathbf{b}]$ = rank$(A)$. The span of the columns has a name: the <b>column space</b> $C(A)$.</div>
+  <p class="muted"><b>Check yourself:</b> is $(1,2,3)^{\mathsf T}$ in span$\{(1,0,1)^{\mathsf T},(0,1,1)^{\mathsf T}\}$? Solve $c_1(1,0,1)+c_2(0,1,1)=(1,2,3)$: $c_1=1,c_2=2$, third component $1+2=3$ ✓. Yes.</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Linear independence: no redundancy<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The third picture above shows the problem: two vectors that span only a line. One of them is <b>redundant</b>: it is a multiple of the other. Linear independence is the general version of "nothing is redundant".</p>
+  <h3>Two equivalent definitions</h3>
+  <p><b>Intuitive:</b> $\mathbf{v}_1,\dots,\mathbf{v}_k$ are dependent if one of them can be written as a combination of the others (so dropping it does not shrink the span). Independent if none can.</p>
+  <p><b>Formal:</b> independent if the only solution of</p>
+  $$c_1\mathbf{v}_1+c_2\mathbf{v}_2+\dots+c_k\mathbf{v}_k=\mathbf{0}$$
+  <p>is $c_1=c_2=\dots=c_k=0$. Dependent if some non-trivial combination gives $\mathbf{0}$.</p>
+  <p>Why are these the same? If $c_1\mathbf{v}_1+\dots+c_k\mathbf{v}_k=\mathbf{0}$ with, say, $c_1\neq0$, divide by $c_1$: $\mathbf{v}_1=-\tfrac{c_2}{c_1}\mathbf{v}_2-\dots$, so $\mathbf{v}_1$ is a combination of the others. And conversely.</p>
+  <h3>Why the formal version is the useful one</h3>
+  <p>It is a homogeneous system $A\mathbf{c}=\mathbf{0}$ with the $\mathbf{v}_i$ as columns. You already know how to solve that (module 3):</p>
+  <table>
+    <tr><th>Situation</th><th>Test</th></tr>
+    <tr><td>$k$ vectors in ℝⁿ, general</td><td>row reduce $A$ ($n\times k$); independent ⟺ every column has a pivot ⟺ rank $=k$</td></tr>
+    <tr><td>$n$ vectors in ℝⁿ (square)</td><td>independent ⟺ $\det A\neq0$</td></tr>
+    <tr><td>$k>n$ vectors in ℝⁿ</td><td>always dependent (more columns than pivots possible)</td></tr>
+    <tr><td>Two vectors</td><td>dependent ⟺ one is a multiple of the other</td></tr>
+    <tr><td>A set containing $\mathbf{0}$</td><td>always dependent ($1\cdot\mathbf{0}=\mathbf{0}$)</td></tr>
+    <tr><td>Non-zero mutually orthogonal vectors</td><td>always independent</td></tr>
+  </table>
+  <h3>Small example, fully</h3>
+  <p>$\mathbf{v}_1=(1,2)^{\mathsf T}$, $\mathbf{v}_2=(3,1)^{\mathsf T}$, $\mathbf{v}_3=(5,5)^{\mathsf T}$. Three vectors in ℝ²: dependent before we compute. Find the relation: $c_1+3c_2+5c_3=0$, $2c_1+c_2+5c_3=0$. $R_2-2R_1$: $-5c_2-5c_3=0$ ⟹ $c_2=-c_3$, $c_1=-3c_2-5c_3=-2c_3$. Take $c_3=1$: $-2\mathbf{v}_1-\mathbf{v}_2+\mathbf{v}_3=\mathbf{0}$, i.e. $\mathbf{v}_3=2\mathbf{v}_1+\mathbf{v}_2$. Check: $2(1,2)+(3,1)=(5,5)$ ✓.</p>
+  <p class="muted"><b>Check yourself:</b> are $(1,1,1),(1,2,3),(1,4,9)$ independent? $\det=1(18-12)-1(9-3)+1(4-2)=6-6+2=2\neq0$. Yes.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 4</span> Basis: a minimal spanning set. Dimension: its size<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Span asks for <i>enough</i> vectors (reach everything). Independence asks for <i>not too many</i> (no redundancy). A <b>basis</b> of a subspace $W$ is a set that does both:</p>
+  <ol class="steps">
+    <li>spans $W$, and</li>
+    <li>is linearly independent.</li>
+  </ol>
+  <p>A basis is a coordinate system for $W$. The <b>standard basis</b> of ℝ³ is $\mathbf{e}_1,\mathbf{e}_2,\mathbf{e}_3$ (the columns of $I$), but $\{(1,1,0),(1,-1,0),(0,0,2)\}$ is also a basis of ℝ³, and so is any three independent vectors.</p>
+  <h3>Uniqueness of coordinates</h3>
+  <p>If $\{\mathbf{b}_1,\dots,\mathbf{b}_k\}$ is a basis of $W$, every $\mathbf{x}\in W$ can be written as $\mathbf{x}=c_1\mathbf{b}_1+\dots+c_k\mathbf{b}_k$ in <b>exactly one way</b>. (Spanning gives existence; independence gives uniqueness: two different representations would subtract to a non-trivial combination equal to $\mathbf{0}$.) The numbers $(c_1,\dots,c_k)$ are the coordinates of $\mathbf{x}$ in that basis.</p>
+  <h3>Dimension</h3>
+  <p><b>Theorem.</b> All bases of a subspace have the same number of vectors. That number is the <b>dimension</b> $\dim W$.</p>
+  <table>
+    <tr><th>Subspace</th><th>dim</th><th>Basis example</th></tr>
+    <tr><td>$\{\mathbf{0}\}$</td><td>0</td><td>empty set</td></tr>
+    <tr><td>line through origin spanned by $\mathbf{v}$</td><td>1</td><td>$\{\mathbf{v}\}$</td></tr>
+    <tr><td>plane $x+y+z=0$ in ℝ³</td><td>2</td><td>$\{(1,-1,0),(1,0,-1)\}$</td></tr>
+    <tr><td>ℝⁿ</td><td>$n$</td><td>$\{\mathbf{e}_1,\dots,\mathbf{e}_n\}$</td></tr>
+    <tr><td>zero-cost portfolios in $n$ assets</td><td>$n-1$</td><td>$\{\mathbf{e}_1-\mathbf{e}_n,\dots,\mathbf{e}_{n-1}-\mathbf{e}_n\}$</td></tr>
+  </table>
+  <h3>Useful consequences (for a subspace of dimension $d$)</h3>
+  <ul>
+    <li>Any $d$ independent vectors in $W$ automatically span $W$ (so they are a basis).</li>
+    <li>Any $d$ vectors that span $W$ are automatically independent.</li>
+    <li>Fewer than $d$ vectors cannot span $W$; more than $d$ cannot be independent.</li>
+    <li>Any independent set in $W$ can be extended to a basis; any spanning set contains a basis.</li>
+  </ul>
+  <div class="note tip"><div class="t">Exam shortcut</div>To show that $n$ given vectors form a basis of ℝⁿ you only need to check <b>one</b> of the two conditions. The determinant test does it: $\det\neq0$ ⟹ independent ⟹ (since there are $n$ of them) basis.</div>
+  <p class="muted"><b>Check yourself:</b> can 2 vectors span ℝ³? No: $\dim\mathbb{R}^3=3$. Can 4 vectors in ℝ³ be independent? No, same reason.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 5</span> Finding a basis of a span: the row-reduction recipe, explained<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Given $\mathbf{v}_1,\dots,\mathbf{v}_k$, find a basis of their span and its dimension.</p>
+  <ol class="steps">
+    <li>Write the vectors as <b>columns</b> of $A$.</li>
+    <li>Row reduce to echelon form. Note which columns contain pivots.</li>
+    <li>The <b>original</b> vectors in the pivot positions are a basis. Dimension = number of pivots = rank$(A)$.</li>
+  </ol>
+  <p>Why does this work? Row operations do not change the dependence relations among the columns: if $\mathbf{v}_3=2\mathbf{v}_1+\mathbf{v}_2$ before, the same relation holds among the reduced columns. In echelon form the pivot columns are visibly independent and the non-pivot columns are visibly combinations of the pivot columns to their left. So the same is true of the originals.</p>
+  <p>Why <b>original</b> columns? Row operations change the column vectors themselves (they mix the entries), so the reduced columns are different vectors living in a different span. Only the <i>pattern</i> of which columns are independent survives.</p>
+  </div>
+  <div>
+  <h3>Example</h3>
+  $$\mathbf{v}_1=\begin{pmatrix}1\\2\\1\end{pmatrix},\mathbf{v}_2=\begin{pmatrix}2\\4\\2\end{pmatrix},\mathbf{v}_3=\begin{pmatrix}0\\1\\1\end{pmatrix},\mathbf{v}_4=\begin{pmatrix}1\\3\\2\end{pmatrix}$$
+  $$A=\begin{pmatrix}1&2&0&1\\2&4&1&3\\1&2&1&2\end{pmatrix}\to\begin{pmatrix}\color{#3ea76a}1&2&0&1\\0&0&\color{#3ea76a}1&1\\0&0&0&0\end{pmatrix}$$
+  <p>Pivots in columns 1 and 3. Basis of the span: $\{\mathbf{v}_1,\mathbf{v}_3\}$, dimension 2. The span is a plane in ℝ³.</p>
+  <p>The reduced matrix also tells you the relations: column 2 = 2·column 1 ⟹ $\mathbf{v}_2=2\mathbf{v}_1$ ✓. Column 4 = column 1 + column 3 ⟹ $\mathbf{v}_4=\mathbf{v}_1+\mathbf{v}_3$: $(1,2,1)+(0,1,1)=(1,3,2)$ ✓.</p>
+  <div class="note warn"><div class="t">Trap</div>Writing $\{(1,2,0,1),(0,0,1,1)\}$ (the reduced rows) as "the basis" is wrong here: those are vectors in ℝ⁴, the span lives in ℝ³. Rows of the echelon form are a basis of the <i>row</i> space, a different subspace.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 6</span> Two subspaces attached to every matrix: what $A$ reaches, what $A$ kills<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>Column space $C(A)$ = what $A$ can reach</h3>
+  <p>$A\mathbf{x}=x_1\mathbf{a}_1+x_2\mathbf{a}_2+\dots+x_n\mathbf{a}_n$ is a linear combination of the columns with weights $x_i$. So as $\mathbf{x}$ ranges over ℝⁿ, $A\mathbf{x}$ ranges over exactly the span of the columns:</p>
+  $$C(A)=\{A\mathbf{x}:\mathbf{x}\in\mathbb{R}^n\}=\text{span}\{\mathbf{a}_1,\dots,\mathbf{a}_n\}\subseteq\mathbb{R}^m$$
+  <p>$A\mathbf{x}=\mathbf{b}$ is solvable ⟺ $\mathbf{b}\in C(A)$. If $C(A)=\mathbb{R}^m$ (rank $m$), every $\mathbf{b}$ is reachable.</p>
+  <h3>Null space $N(A)$ = what $A$ sends to zero</h3>
+  $$N(A)=\{\mathbf{x}\in\mathbb{R}^n:A\mathbf{x}=\mathbf{0}\}$$
+  <p>If $N(A)$ contains more than $\mathbf{0}$, then $A$ is not one-to-one: $A(\mathbf{x}+\mathbf{z})=A\mathbf{x}$ for every $\mathbf{z}\in N(A)$. That is exactly why solutions are non-unique: <b>all solutions of $A\mathbf{x}=\mathbf{b}$ = one particular solution + $N(A)$</b>.</p>
+  <p>Finding $N(A)$: row reduce to RREF, set each free variable to 1 in turn (others 0), read off the pivot variables. You get one basis vector per free variable, so $\dim N(A)$ = number of free variables $=n-\text{rank}$.</p>
+  </div>
+  <div>
+  <h3>The same example, both spaces</h3>
+  $$A=\begin{pmatrix}1&2&0&1\\2&4&1&3\\1&2&1&2\end{pmatrix},\quad\text{RREF}=\begin{pmatrix}1&2&0&1\\0&0&1&1\\0&0&0&0\end{pmatrix}$$
+  <p><b>$C(A)$</b>: pivot columns 1, 3 of the original: basis $\{(1,2,1)^{\mathsf T},(0,1,1)^{\mathsf T}\}$, a plane in ℝ³. The vector $(0,0,1)^{\mathsf T}$ is <i>not</i> in it (try: $c_1=0$ from row 1, then $c_2=0$ from row 2, then row 3 gives $0=1$), so $A\mathbf{x}=(0,0,1)^{\mathsf T}$ has no solution.</p>
+  <p><b>$N(A)$</b>: free variables $x_2,x_4$. Equations: $x_1=-2x_2-x_4$, $x_3=-x_4$.<br>
+  $x_2=1,x_4=0$: $(-2,1,0,0)^{\mathsf T}$. $x_2=0,x_4=1$: $(-1,0,-1,1)^{\mathsf T}$.<br>
+  Basis of $N(A)$: those two vectors, dimension 2, a plane in ℝ⁴.</p>
+  <p>Interpretation of $(-2,1,0,0)$: "$-2$ of column 1 plus 1 of column 2 gives zero", i.e. $\mathbf{a}_2=2\mathbf{a}_1$. Null-space vectors <b>are</b> the dependence relations among the columns.</p>
+  <h3>Rank–nullity, and why it must hold</h3>
+  $$\underbrace{\text{rank}(A)}_{\text{pivot columns}}+\underbrace{\text{nullity}(A)}_{\text{free columns}}=n$$
+  <p>Every column is either a pivot column or a free column. That is the whole proof. Here: $2+2=4$ ✓.</p>
+  </div>
+  </div>
+  <figure>
+  <svg viewBox="0 0 560 190">
+    <g font-size="11" font-family="JetBrains Mono,monospace">
+      <rect x="20" y="30" width="200" height="130" fill="var(--panel2)" stroke="var(--border2)"/>
+      <text x="28" y="48" fill="var(--text)">ℝⁿ  inputs x</text>
+      <ellipse cx="80" cy="110" rx="42" ry="30" fill="var(--redbg)" stroke="var(--red)"/>
+      <text x="55" y="107" fill="var(--red)">N(A)</text><text x="48" y="121" fill="var(--red)">Ax = 0</text>
+      <circle cx="170" cy="80" r="3" fill="var(--text)"/><text x="176" y="76" fill="var(--text)">x</text>
+      <circle cx="170" cy="130" r="3" fill="var(--text)"/><text x="176" y="146" fill="var(--text)">x + z, z∈N(A)</text>
+      <rect x="340" y="30" width="200" height="130" fill="var(--panel2)" stroke="var(--border2)"/>
+      <text x="348" y="48" fill="var(--text)">ℝᵐ  outputs Ax</text>
+      <polygon points="360,150 520,150 520,70 400,70" fill="var(--greenbg)" stroke="var(--green2)"/>
+      <text x="430" y="140" fill="var(--green)">C(A)</text>
+      <circle cx="460" cy="105" r="3" fill="var(--green)"/><text x="467" y="101" fill="var(--green)">Ax = b</text>
+      <circle cx="380" cy="60" r="3" fill="var(--red)"/><text x="388" y="58" fill="var(--red)">b′ unreachable</text>
+      <circle cx="420" cy="150" r="3" fill="var(--text)"/><text x="426" y="163" fill="var(--text)">0</text>
+    </g>
+    <g stroke="var(--muted)" fill="none" marker-end="url(#ar)">
+      <path d="M173,82 C 260,82 380,100 455,105"/>
+      <path d="M173,128 C 260,128 380,110 455,106"/>
+      <path d="M122,110 C 250,120 380,150 416,150" stroke="var(--red)" stroke-dasharray="4 3"/>
+    </g>
+    <text x="240" y="178" class="svgtxt">A collapses N(A) to 0, so x and x+z land on the same b</text>
+  </svg>
+  <figcaption>Non-uniqueness and non-existence have separate causes: a fat null space (left) makes solutions non-unique; a column space smaller than ℝᵐ (right) makes some b unreachable.</figcaption>
+  </figure>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 7</span> Rank: the single most informative number<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$\text{rank}(A)$ = number of pivots = $\dim C(A)$ = number of independent columns = number of independent rows. It measures how much of the input space survives the map.</p>
+  <table>
+    <tr><th>$A$ is $m\times n$ with rank $r$</th><th>Then</th></tr>
+    <tr><td>$r=n$ (full column rank)</td><td>columns independent, $N(A)=\{\mathbf{0}\}$, solutions (when they exist) are unique; $A^{\mathsf T}A$ invertible (OLS works)</td></tr>
+    <tr><td>$r=m$ (full row rank)</td><td>$C(A)=\mathbb{R}^m$, $A\mathbf{x}=\mathbf{b}$ solvable for every $\mathbf{b}$ (complete market)</td></tr>
+    <tr><td>$r=m=n$</td><td>invertible; the Invertible Matrix Theorem (module 5)</td></tr>
+    <tr><td>$r<\min(m,n)$</td><td>rank deficient: some $\mathbf{b}$ unreachable <i>and</i> solutions non-unique</td></tr>
+  </table>
+  <h3>Rank facts</h3>
+  <ul>
+    <li>$\text{rank}(A)=\text{rank}(A^{\mathsf T})$ (row rank = column rank; not obvious, but true)</li>
+    <li>$\text{rank}(A)\le\min(m,n)$</li>
+    <li>$\text{rank}(AB)\le\min(\text{rank}A,\text{rank}B)$: multiplying can only lose rank</li>
+    <li>$\text{rank}(A^{\mathsf T}A)=\text{rank}(AA^{\mathsf T})=\text{rank}(A)$</li>
+    <li>Multiplying by an invertible matrix does not change rank</li>
+    <li>$\text{rank}(\mathbf{u}\mathbf{v}^{\mathsf T})=1$ for non-zero $\mathbf{u},\mathbf{v}$ (every column is a multiple of $\mathbf{u}$)</li>
+  </ul>
+  <div class="note fin"><div class="t">Finance link</div>Sample covariance $\hat\Sigma=\tfrac{1}{T-1}R^{\mathsf T}R$ with $R$ the $T\times n$ demeaned return matrix has rank $\le\min(T-1,n)$. With $n=100$ assets and $T=60$ months, rank $\le59<100$: $\hat\Sigma$ is singular, cannot be inverted, and mean–variance optimisation breaks. That is a rank statement, and it is why shrinkage and factor models exist.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 8</span> The complete picture: four subspaces and orthogonality<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Besides $C(A)$ and $N(A)$ there are the same two objects for $A^{\mathsf T}$: the <b>row space</b> $C(A^{\mathsf T})$ (span of the rows, in ℝⁿ) and the <b>left null space</b> $N(A^{\mathsf T})$ (in ℝᵐ).</p>
+  <table>
+    <tr><th>Subspace</th><th>Lives in</th><th>Dimension</th><th>How to find a basis</th></tr>
+    <tr><td>$C(A)$</td><td>ℝᵐ</td><td>$r$</td><td>pivot columns of original $A$</td></tr>
+    <tr><td>$N(A)$</td><td>ℝⁿ</td><td>$n-r$</td><td>special solutions from RREF</td></tr>
+    <tr><td>$C(A^{\mathsf T})$</td><td>ℝⁿ</td><td>$r$</td><td>non-zero rows of RREF</td></tr>
+    <tr><td>$N(A^{\mathsf T})$</td><td>ℝᵐ</td><td>$m-r$</td><td>null space of $A^{\mathsf T}$</td></tr>
+  </table>
+  <h3>Why $N(A)\perp$ row space</h3>
+  <p>$A\mathbf{x}=\mathbf{0}$ says: (row 1)$\cdot\mathbf{x}=0$, (row 2)$\cdot\mathbf{x}=0$, … So $\mathbf{x}$ is orthogonal to every row, hence to every combination of rows. The null space is the orthogonal complement of the row space, and their dimensions add to $n$. Same argument in ℝᵐ: $N(A^{\mathsf T})\perp C(A)$.</p>
+  <p>This is the structure behind least squares: $\mathbf{b}$ splits into a part in $C(A)$ (the fitted values) and a part in $N(A^{\mathsf T})$ (the residuals, which satisfy $A^{\mathsf T}\mathbf{e}=\mathbf{0}$).</p>
+  <p class="muted">Check with the running example: row-space basis $\{(1,2,0,1),(0,0,1,1)\}$, null basis $\{(-2,1,0,0),(-1,0,-1,1)\}$. Dot products: $(1,2,0,1)\cdot(-2,1,0,0)=0$, $(1,2,0,1)\cdot(-1,0,-1,1)=0$, $(0,0,1,1)\cdot(-1,0,-1,1)=0$ ✓. Dimensions $2+2=4$ ✓.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">PROCEDURES</span> Recipes for the questions that actually get asked<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Question</th><th>Do this</th><th>Answer is</th></tr>
+    <tr><td>Are these vectors independent?</td><td>columns of $A$, row reduce</td><td>yes ⟺ pivot in every column (square: $\det\neq0$)</td></tr>
+    <tr><td>Do they span ℝᵐ?</td><td>columns of $A$, row reduce</td><td>yes ⟺ pivot in every <i>row</i> (rank $=m$)</td></tr>
+    <tr><td>Are they a basis of ℝⁿ?</td><td>count, then $\det$</td><td>exactly $n$ vectors and $\det\neq0$</td></tr>
+    <tr><td>Basis and dimension of span</td><td>row reduce</td><td>original pivot columns; dim = rank</td></tr>
+    <tr><td>Is $\mathbf{b}$ in the span / in $C(A)$?</td><td>row reduce $[A|\mathbf{b}]$</td><td>yes ⟺ no row $[0\cdots0|c\neq0]$</td></tr>
+    <tr><td>Basis of $N(A)$</td><td>RREF, free variables</td><td>one vector per free variable</td></tr>
+    <tr><td>Express $\mathbf{v}_3$ via $\mathbf{v}_1,\mathbf{v}_2$</td><td>solve $[\mathbf{v}_1\,\mathbf{v}_2|\mathbf{v}_3]$</td><td>the coefficients, if consistent</td></tr>
+    <tr><td>Coordinates of $\mathbf{x}$ in basis $B$</td><td>solve $P\mathbf{c}=\mathbf{x}$, $P=[\mathbf{b}_1\cdots\mathbf{b}_n]$</td><td>$\mathbf{c}=P^{-1}\mathbf{x}$</td></tr>
+    <tr><td>Dimension of solution set of $A\mathbf{x}=\mathbf{b}$</td><td>rank</td><td>$n-\text{rank}$ (if consistent)</td></tr>
+    <tr><td>Is a subset a subspace?</td><td>test $\mathbf{0}$, then closure</td><td>usually: contains $\mathbf{0}$ and is defined by homogeneous linear equations</td></tr>
+  </table>
+  <h3>Common confusions, cleared</h3>
+  <table>
+    <tr><th>Confusion</th><th>Resolution</th></tr>
+    <tr><td>"Span" vs "basis"</td><td>Span is a <i>set of vectors</i> (usually infinite: a line, a plane). A basis is a short <i>list</i> that generates it. Many bases, one span.</td></tr>
+    <tr><td>"Independent" vs "orthogonal"</td><td>Orthogonal (non-zero) ⟹ independent. Not conversely: $(1,0),(1,1)$ are independent but not orthogonal.</td></tr>
+    <tr><td>"Rank" vs "dimension"</td><td>Rank is the dimension of the column space (equivalently row space). "Dimension of $A$" is meaningless; "dimension of $C(A)$" is the rank.</td></tr>
+    <tr><td>$C(A)$ vs $N(A)$ live in different spaces</td><td>$C(A)\subseteq\mathbb{R}^m$ (length of columns), $N(A)\subseteq\mathbb{R}^n$ (number of columns). Their dimensions add to nothing in particular; it is rank + nullity $=n$.</td></tr>
+    <tr><td>Solution set of $A\mathbf{x}=\mathbf{b}$ is "a subspace"</td><td>Only when $\mathbf{b}=\mathbf{0}$. Otherwise it is a shifted copy of $N(A)$, not through the origin.</td></tr>
+    <tr><td>Reduced columns as basis of $C(A)$</td><td>Never. Use original columns at pivot positions. Reduced <i>rows</i> are fine for the row space.</td></tr>
+  </table>
+  <div class="note"><div class="t">One-paragraph summary</div>A subspace is a flat set through the origin. The span of some vectors is the subspace they generate. They are independent if none is redundant. A basis is an independent spanning set; its size is the dimension. For a matrix, the columns span $C(A)$ (what is reachable) and the solutions of $A\mathbf{x}=\mathbf{0}$ form $N(A)$ (what is collapsed). Rank counts pivots and equals $\dim C(A)$; nullity counts free variables; they add to the number of columns. Existence of solutions is a $C(A)$ question, uniqueness is an $N(A)$ question.</div>
+  </div>
+</div>
+
+<h3 style="margin:18px 0 8px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em">Reference panels (condensed versions of the above)</h3>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Linear independence<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Vectors $\mathbf{v}_1,\dots,\mathbf{v}_k$ are <b>linearly independent</b> if</p>
+  $$c_1\mathbf{v}_1+\dots+c_k\mathbf{v}_k=\mathbf{0}\;\Longrightarrow\;c_1=\dots=c_k=0$$
+  <p>Otherwise <b>dependent</b>: some vector is a combination of the others (redundant information).</p>
+  <h3>How to test</h3>
+  <ol class="steps">
+    <li>Put the vectors as columns of $A$. Solve $A\mathbf{c}=\mathbf{0}$.</li>
+    <li>Only trivial solution ⟺ independent ⟺ rank$(A)=k$ (every column is a pivot column).</li>
+    <li>Square case: independent ⟺ $\det A\neq0$.</li>
+  </ol>
+  <h3>Quick facts</h3>
+  <ul>
+    <li>Any set containing $\mathbf{0}$ is dependent.</li>
+    <li>Two vectors: dependent ⟺ one is a scalar multiple of the other.</li>
+    <li>More than $n$ vectors in ℝⁿ are always dependent.</li>
+    <li>Nonzero orthogonal vectors are always independent.</li>
+  </ul>
+  <figure>
+  <svg viewBox="0 0 420 140">
+    <g transform="translate(20,0)">
+      <text x="0" y="16" class="svgtxt w">Independent in ℝ²</text>
+      <line x1="60" y1="110" x2="60" y2="30" stroke="var(--border2)"/><line x1="10" y1="110" x2="150" y2="110" stroke="var(--border2)"/>
+      <line x1="60" y1="110" x2="140" y2="80" stroke="var(--blue)" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="60" y1="110" x2="90" y2="40" stroke="var(--green)" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="0" y="132" class="svgtxt">span = whole plane, det ≠ 0</text>
+    </g>
+    <g transform="translate(230,0)">
+      <text x="0" y="16" class="svgtxt w">Dependent in ℝ²</text>
+      <line x1="60" y1="110" x2="60" y2="30" stroke="var(--border2)"/><line x1="10" y1="110" x2="150" y2="110" stroke="var(--border2)"/>
+      <line x1="60" y1="110" x2="140" y2="70" stroke="var(--blue)" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="60" y1="110" x2="100" y2="90" stroke="var(--green)" stroke-width="3" marker-end="url(#ar)"/>
+      <line x1="20" y1="130" x2="160" y2="60" stroke="var(--red)" stroke-dasharray="3 3"/>
+      <text x="0" y="132" class="svgtxt">span = a line, det = 0</text>
+    </g>
+  </svg>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Span, basis, dimension<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Term</th><th>Meaning</th></tr>
+    <tr><td><b>Subspace</b></td><td>Subset $W\subseteq\mathbb{R}^n$ closed under addition and scalar multiplication; always contains $\mathbf{0}$. Lines and planes through the origin.</td></tr>
+    <tr><td><b>Span</b></td><td>$\text{span}\{\mathbf{v}_1,\dots,\mathbf{v}_k\}$ = set of all linear combinations. Always a subspace.</td></tr>
+    <tr><td><b>Basis</b></td><td>A set that is (i) linearly independent and (ii) spans the space. Every vector has a <b>unique</b> representation in a basis.</td></tr>
+    <tr><td><b>Dimension</b></td><td>Number of vectors in any basis. $\dim\mathbb{R}^n=n$. Every basis of a space has the same size.</td></tr>
+    <tr><td><b>Standard basis</b></td><td>$\mathbf{e}_1=(1,0,\dots)^{\mathsf T},\;\mathbf{e}_2=(0,1,\dots)^{\mathsf T},\dots$ — the columns of $I$</td></tr>
+    <tr><td><b>Coordinates</b></td><td>If $\mathbf{x}=c_1\mathbf{b}_1+\dots+c_n\mathbf{b}_n$ then $[\mathbf{x}]_B=(c_1,\dots,c_n)^{\mathsf T}$; change of basis $\mathbf{x}=B[\mathbf{x}]_B$, $[\mathbf{x}]_B=B^{-1}\mathbf{x}$</td></tr>
+  </table>
+  <h3>Checklist: is $\{\mathbf{v}_1,\dots,\mathbf{v}_n\}$ a basis of ℝⁿ?</h3>
+  <ul class="chk">
+    <li>Exactly $n$ vectors? (if $k<n$ cannot span; if $k>n$ cannot be independent)</li>
+    <li>$\det[\mathbf{v}_1\cdots\mathbf{v}_n]\neq0$? ⟹ yes, basis</li>
+  </ul>
+  <div class="note"><div class="t">Intuition</div>A basis is a minimal set of coordinate axes. Dimension counts degrees of freedom. In finance: the number of independent risk factors driving a set of assets is the rank of the factor loading matrix.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The four fundamental subspaces &amp; rank<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For $A$ of size $m\times n$ with rank $r$:</p>
+  <table>
+    <tr><th>Subspace</th><th>Definition</th><th>Lives in</th><th>Dimension</th></tr>
+    <tr><td>Column space $C(A)$</td><td>span of the columns; all possible $A\mathbf{x}$</td><td>ℝᵐ</td><td>$r$</td></tr>
+    <tr><td>Null space $N(A)$</td><td>$\{\mathbf{x}:A\mathbf{x}=\mathbf{0}\}$</td><td>ℝⁿ</td><td>$n-r$</td></tr>
+    <tr><td>Row space $C(A^{\mathsf T})$</td><td>span of the rows</td><td>ℝⁿ</td><td>$r$</td></tr>
+    <tr><td>Left null space $N(A^{\mathsf T})$</td><td>$\{\mathbf{y}:A^{\mathsf T}\mathbf{y}=\mathbf{0}\}$</td><td>ℝᵐ</td><td>$m-r$</td></tr>
+  </table>
+  <p><b>Rank–nullity theorem:</b></p>
+  $$\text{rank}(A)+\text{nullity}(A)=n\;(\text{number of columns})$$
+  <p><b>Rank facts:</b> row rank = column rank; rank$(A)\le\min(m,n)$; rank$(A^{\mathsf T}A)$=rank$(A)$; rank$(AB)\le\min(\text{rank}A,\text{rank}B)$; row operations preserve rank.</p>
+  <p>Orthogonality: $N(A)\perp C(A^{\mathsf T})$ and $N(A^{\mathsf T})\perp C(A)$.</p>
+  <figure>
+  <svg viewBox="0 0 420 150">
+    <rect x="20" y="20" width="160" height="110" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="28" y="36" class="svgtxt w">ℝⁿ  (input side)</text>
+    <rect x="30" y="46" width="65" height="74" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <text x="36" y="64" class="svgtxt b">row space</text><text x="36" y="78" class="svgtxt b">dim r</text>
+    <rect x="105" y="46" width="65" height="74" fill="var(--redbg)" stroke="var(--red)"/>
+    <text x="111" y="64" class="svgtxt r">null space</text><text x="111" y="78" class="svgtxt r">dim n−r</text>
+    <text x="90" y="112" class="svgtxt">⊥</text>
+    <rect x="240" y="20" width="160" height="110" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="248" y="36" class="svgtxt w">ℝᵐ  (output side)</text>
+    <rect x="250" y="46" width="65" height="74" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="256" y="64" class="svgtxt g">column</text><text x="256" y="78" class="svgtxt g">space</text><text x="256" y="92" class="svgtxt g">dim r</text>
+    <rect x="325" y="46" width="65" height="74" fill="var(--amberbg)" stroke="var(--amber)"/>
+    <text x="331" y="64" class="svgtxt a">left null</text><text x="331" y="78" class="svgtxt a">space</text><text x="331" y="92" class="svgtxt a">dim m−r</text>
+    <text x="310" y="112" class="svgtxt">⊥</text>
+    <line x1="95" y1="83" x2="250" y2="83" stroke="var(--muted)" marker-end="url(#ar)"/>
+    <text x="150" y="76" class="svgtxt w">A</text>
+    <line x1="137" y1="120" x2="137" y2="142" stroke="var(--red)" stroke-dasharray="3 2"/>
+    <text x="142" y="146" class="svgtxt r">A sends null space to 0</text>
+  </svg>
+  <figcaption>A maps the row space one-to-one onto the column space and kills the null space. Dimensions add up on each side: r + (n−r) = n and r + (m−r) = m.</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: rank, bases of the subspaces<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A=\begin{pmatrix}1&2&1&3\\2&4&0&2\\3&6&1&5\end{pmatrix}\;(m=3,\,n=4)$$
+  <ol class="steps">
+    <li>$R_2\to R_2-2R_1$, $R_3\to R_3-3R_1$: $\begin{pmatrix}1&2&1&3\\0&0&-2&-4\\0&0&-2&-4\end{pmatrix}$</li>
+    <li>$R_3\to R_3-R_2$, $R_2\to-\tfrac12R_2$: $\begin{pmatrix}\color{#3ea76a}1&2&1&3\\0&0&\color{#3ea76a}1&2\\0&0&0&0\end{pmatrix}$</li>
+    <li>Pivots in columns 1 and 3 ⟹ <b>rank 2</b>, nullity $=4-2=2$.</li>
+    <li>RREF: $R_1\to R_1-R_2$: $\begin{pmatrix}1&2&0&1\\0&0&1&2\\0&0&0&0\end{pmatrix}$</li>
+  </ol>
+  <table>
+    <tr><th>Subspace</th><th>Basis (from the computation)</th></tr>
+    <tr><td>$C(A)$</td><td>pivot columns of the <b>original</b> $A$: $\{(1,2,3)^{\mathsf T},(1,0,1)^{\mathsf T}\}$</td></tr>
+    <tr><td>Row space</td><td>nonzero rows of RREF: $\{(1,2,0,1),(0,0,1,2)\}$</td></tr>
+    <tr><td>$N(A)$</td><td>free vars $x_2=s,x_4=t$: $x_1=-2s-t$, $x_3=-2t$ ⟹ $\{(-2,1,0,0)^{\mathsf T},(-1,0,-2,1)^{\mathsf T}\}$</td></tr>
+  </table>
+  <p>Check: $(1,2,0,1)\cdot(-2,1,0,0)=0$ ✓ (row space ⊥ null space).</p>
+  <div class="note warn"><div class="t">Trap</div>Column-space basis comes from the <b>original</b> columns at the pivot positions, never from the reduced matrix (row ops change the column space). Row space can be read from the reduced rows (row ops keep it).</div>
+  </div>
+</div>
+</div>
+</section>
+<!-- ============ 07 EIGEN ============ -->
+<section id="s7">
+<div class="sec-head"><span class="num">07</span><h2>Eigenvalues &amp; eigenvectors</h2><span class="sub">the directions a matrix only stretches</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Definition &amp; how to find them<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For square $A$, a nonzero $\mathbf{v}$ is an <b>eigenvector</b> with <b>eigenvalue</b> $\lambda$ if</p>
+  $$A\mathbf{v}=\lambda\mathbf{v}$$
+  <p>$A$ acts on $\mathbf{v}$ as pure scaling by $\lambda$: no rotation. $\lambda=0$ means $\mathbf{v}\in N(A)$.</p>
+  <h3>Recipe</h3>
+  <ol class="steps">
+    <li>Rewrite: $(A-\lambda I)\mathbf{v}=\mathbf{0}$. Nontrivial $\mathbf{v}$ requires $A-\lambda I$ singular.</li>
+    <li><b>Characteristic equation</b>: $\det(A-\lambda I)=0$. This is a degree-$n$ polynomial in $\lambda$; its roots are the eigenvalues.</li>
+    <li>For each $\lambda_i$, solve $(A-\lambda_iI)\mathbf{v}=\mathbf{0}$ by row reduction. The solution space is the <b>eigenspace</b> $E_{\lambda_i}=N(A-\lambda_iI)$.</li>
+    <li>Check: $A\mathbf{v}$ should equal $\lambda\mathbf{v}$.</li>
+  </ol>
+  <h3>2×2 shortcut</h3>
+  $$\lambda^2-\text{tr}(A)\,\lambda+\det A=0\quad\Rightarrow\quad\lambda=\frac{\text{tr}A\pm\sqrt{(\text{tr}A)^2-4\det A}}{2}$$
+  <h3>Multiplicities</h3>
+  <ul>
+    <li><b>Algebraic</b> (AM): how many times $\lambda$ is a root of the char. polynomial.</li>
+    <li><b>Geometric</b> (GM): $\dim E_\lambda=n-\text{rank}(A-\lambda I)$.</li>
+    <li>Always $1\le$ GM $\le$ AM.</li>
+  </ul>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Properties<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Fact</th><th>Statement</th></tr>
+    <tr><td>Trace</td><td>$\text{tr}(A)=\lambda_1+\dots+\lambda_n$</td></tr>
+    <tr><td>Determinant</td><td>$\det A=\lambda_1\cdots\lambda_n$</td></tr>
+    <tr><td>Invertible</td><td>⟺ no eigenvalue is 0</td></tr>
+    <tr><td>Triangular / diagonal</td><td>eigenvalues = diagonal entries</td></tr>
+    <tr><td>$A^{\mathsf T}$</td><td>same eigenvalues as $A$ (different eigenvectors)</td></tr>
+    <tr><td>$A^k$</td><td>eigenvalues $\lambda_i^k$, same eigenvectors</td></tr>
+    <tr><td>$A^{-1}$</td><td>eigenvalues $1/\lambda_i$, same eigenvectors</td></tr>
+    <tr><td>$A+cI$</td><td>eigenvalues $\lambda_i+c$, same eigenvectors</td></tr>
+    <tr><td>$cA$</td><td>eigenvalues $c\lambda_i$</td></tr>
+    <tr><td>Distinct $\lambda$'s</td><td>⟹ corresponding eigenvectors are independent</td></tr>
+    <tr><td>Scaling</td><td>if $\mathbf{v}$ is an eigenvector, so is $c\mathbf{v}$ ($c\neq0$)</td></tr>
+    <tr><td>Real matrices</td><td>eigenvalues can be complex (e.g. rotations); they come in conjugate pairs</td></tr>
+    <tr><td>Symmetric $A$</td><td>all eigenvalues <b>real</b>; eigenvectors for distinct $\lambda$ are <b>orthogonal</b></td></tr>
+  </table>
+  <div class="note tip"><div class="t">Exam shortcut</div>Use trace and det to check your eigenvalues before finding eigenvectors. For a 2×2 with integer entries: if $\lambda_1+\lambda_2=\text{tr}$ and $\lambda_1\lambda_2=\det$, you are right. For a 3×3, after finding one root by trial (try 0, ±1, ±2), divide the cubic by $(\lambda-\lambda_1)$.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Eigenvectors of a 2×2 — watch which directions stay on their own line<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>a <input type="range" id="e_a" min="-3" max="3" step="0.1" value="2"><span class="val" id="e_a_v">2.0</span></label>
+    <label>b <input type="range" id="e_b" min="-3" max="3" step="0.1" value="1"><span class="val" id="e_b_v">1.0</span></label>
+    <label>c <input type="range" id="e_c" min="-3" max="3" step="0.1" value="1"><span class="val" id="e_c_v">1.0</span></label>
+    <label>d <input type="range" id="e_d" min="-3" max="3" step="0.1" value="2"><span class="val" id="e_d_v">2.0</span></label>
+    <span class="btns"><button onclick="eigSet(2,1,1,2)">symmetric</button><button onclick="eigSet(3,0,0,1)">diagonal</button><button onclick="eigSet(1,1,0,1)">shear</button><button onclick="eigSet(0,-1,1,0)">rotation</button><button onclick="eigSet(2,4,1,2)">singular</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="eigsvg" viewBox="0 0 320 320"></svg>
+    <figcaption>Grey arrows: unit vectors v around the circle. Coloured arrows: Av. Green lines: eigenvector directions, along which Av is parallel to v. If no green lines appear the eigenvalues are complex (the map rotates everything).</figcaption></figure>
+    <div>
+      <div class="readout" id="eigread"></div>
+      <p style="margin-top:10px">Things to notice:</p>
+      <ul>
+        <li><b>symmetric</b>: the two eigen-directions are perpendicular. Always true for symmetric matrices.</li>
+        <li><b>diagonal</b>: eigenvectors are the axes, eigenvalues are the diagonal.</li>
+        <li><b>shear</b>: only one eigen-direction; AM = 2, GM = 1, not diagonalisable.</li>
+        <li><b>rotation</b>: no real eigenvectors; $\lambda=\pm i$.</li>
+        <li><b>singular</b>: one eigenvalue is 0; its eigenvector is sent to the origin.</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Diagonalisation<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$A$ is <b>diagonalisable</b> if $A=PDP^{-1}$ with $D$ diagonal. Then</p>
+  $$P=[\mathbf{v}_1\,\cdots\,\mathbf{v}_n]\ (\text{eigenvectors as columns}),\qquad D=\text{diag}(\lambda_1,\dots,\lambda_n)$$
+  <p><b>Condition:</b> $A$ has $n$ linearly independent eigenvectors ⟺ GM = AM for every eigenvalue. Sufficient: $n$ distinct eigenvalues.</p>
+  <h3>Why you care: powers</h3>
+  $$A^k=PD^kP^{-1}=P\,\text{diag}(\lambda_1^k,\dots,\lambda_n^k)\,P^{-1}$$
+  <p>Also $e^{A}=Pe^{D}P^{-1}$, $A^{-1}=PD^{-1}P^{-1}$.</p>
+  <h3>Spectral theorem (symmetric matrices)</h3>
+  <p>If $A=A^{\mathsf T}$, then $A$ is always diagonalisable, with an <b>orthonormal</b> eigenvector matrix $Q$ ($Q^{\mathsf T}Q=I$):</p>
+  $$A=Q\Lambda Q^{\mathsf T}=\sum_{i=1}^n\lambda_i\,\mathbf{q}_i\mathbf{q}_i^{\mathsf T}$$
+  <p>No inverse to compute. This is the basis of PCA on a covariance matrix.</p>
+  <div class="note fin"><div class="t">Finance link</div>Markov transition matrix $T$ for credit ratings: the $k$-year matrix is $T^k=PD^kP^{-1}$. The long-run distribution is the eigenvector with $\lambda=1$. PCA: eigenvectors of the covariance matrix $\Sigma$ are principal components; eigenvalues are the variance explained.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: eigen-decomposition &amp; $A^{10}$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A=\begin{pmatrix}4&1\\2&3\end{pmatrix}$$
+  <ol class="steps">
+    <li>$\text{tr}=7$, $\det=10$: $\lambda^2-7\lambda+10=0\Rightarrow(\lambda-5)(\lambda-2)=0$, so $\lambda_1=5,\lambda_2=2$. Check $5+2=7$ ✓, $5\cdot2=10$ ✓.</li>
+    <li>$\lambda=5$: $A-5I=\begin{pmatrix}-1&1\\2&-2\end{pmatrix}$, row 2 = −2·row 1 ⟹ $-v_1+v_2=0$ ⟹ $\mathbf{v}_1=\binom11$.</li>
+    <li>$\lambda=2$: $A-2I=\begin{pmatrix}2&1\\2&1\end{pmatrix}$ ⟹ $2v_1+v_2=0$ ⟹ $\mathbf{v}_2=\binom{1}{-2}$.</li>
+    <li>Check: $A\binom11=\binom55=5\binom11$ ✓; $A\binom1{-2}=\binom2{-4}=2\binom1{-2}$ ✓.</li>
+    <li>$P=\begin{pmatrix}1&1\\1&-2\end{pmatrix}$, $D=\begin{pmatrix}5&0\\0&2\end{pmatrix}$, $P^{-1}=\frac{1}{-3}\begin{pmatrix}-2&-1\\-1&1\end{pmatrix}=\frac13\begin{pmatrix}2&1\\1&-1\end{pmatrix}$</li>
+    <li>$A^{10}=P\begin{pmatrix}5^{10}&0\\0&2^{10}\end{pmatrix}P^{-1}=\frac13\begin{pmatrix}2\cdot5^{10}+2^{10}&5^{10}-2^{10}\\2\cdot5^{10}-2\cdot2^{10}&5^{10}+2\cdot2^{10}\end{pmatrix}$</li>
+  </ol>
+  <p class="muted">Not symmetric, so eigenvectors are not orthogonal: $(1,1)\cdot(1,-2)=-1\neq0$. Fine, $P^{-1}$ still exists since $\lambda$'s are distinct.</p>
+  <div class="note warn"><div class="t">Trap</div>The eigenvector for $\lambda$ comes from the null space of $A-\lambda I$, which <b>must</b> be singular. If your row reduction of $A-\lambda I$ gives a pivot in every column, your $\lambda$ is wrong. Also: keep the order of columns in $P$ matched with the order of $\lambda$'s in $D$.</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ============ 08 QUADRATIC FORMS ============ -->
+<section id="s8">
+<div class="sec-head"><span class="num">08</span><h2>Quadratic forms &amp; definiteness</h2><span class="sub">x′Ax, the shape of variance</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Quadratic forms<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For symmetric $A$ ($n\times n$), the quadratic form is the scalar function</p>
+  $$Q(\mathbf{x})=\mathbf{x}^{\mathsf T}A\mathbf{x}=\sum_{i}\sum_{j}a_{ij}x_ix_j$$
+  $$\text{2D: }\;\begin{pmatrix}x_1&x_2\end{pmatrix}\begin{pmatrix}a&b\\b&c\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix}=a x_1^2+2b\,x_1x_2+c\,x_2^2$$
+  <p class="muted">Cross term coefficient is $2b$, so the matrix entry is half the cross-term coefficient. Any quadratic form can be written with a symmetric matrix.</p>
+  <table>
+    <tr><th>Classification</th><th>Condition</th><th>Eigenvalues</th><th>Leading principal minors $D_k$</th></tr>
+    <tr><td class="g">Positive definite (PD)</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}>0$ for all $\mathbf{x}\neq0$</td><td>all $\lambda_i>0$</td><td>all $D_k>0$</td></tr>
+    <tr><td>Positive semidefinite (PSD)</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}\ge0$</td><td>all $\lambda_i\ge0$</td><td>all <i>principal</i> minors $\ge0$ (not just leading)</td></tr>
+    <tr><td class="r">Negative definite (ND)</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}<0$ for all $\mathbf{x}\neq0$</td><td>all $\lambda_i<0$</td><td>$D_1<0,D_2>0,D_3<0,\dots$ (alternating, starting negative)</td></tr>
+    <tr><td>Negative semidefinite</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}\le0$</td><td>all $\lambda_i\le0$</td><td>$(-1)^kD_k\ge0$ for all principal minors</td></tr>
+    <tr><td class="a">Indefinite</td><td>takes both signs</td><td>mixed signs</td><td>e.g. $D_2<0$</td></tr>
+  </table>
+  <p>$D_k$ = determinant of the top-left $k\times k$ block. $D_1=a_{11}$, $D_2=a_{11}a_{22}-a_{12}^2$, $D_n=\det A$.</p>
+  <div class="note tip"><div class="t">Exam shortcut</div>2×2 symmetric: PD ⟺ $a>0$ and $\det>0$. ND ⟺ $a<0$ and $\det>0$. $\det<0$ ⟹ indefinite. $\det=0$ ⟹ semidefinite (check the sign of $a$ or the trace).</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Why it matters<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Context</th><th>Role of definiteness</th></tr>
+    <tr><td>Optimisation (Hessian $H$)</td><td>$H$ PD at a critical point ⟹ local min; ND ⟹ local max; indefinite ⟹ saddle</td></tr>
+    <tr><td>Convexity</td><td>$f$ convex ⟺ Hessian PSD everywhere; strictly convex if PD</td></tr>
+    <tr><td>Covariance matrix $\Sigma$</td><td>always PSD (variance cannot be negative); PD if no asset is a perfect combination of the others</td></tr>
+    <tr><td>Portfolio variance</td><td>$\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}\ge0$ is a quadratic form</td></tr>
+    <tr><td>Mean–variance optimisation</td><td>minimising $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$ is convex because $\Sigma$ is PSD ⟹ unique global min when PD</td></tr>
+    <tr><td>OLS</td><td>$X^{\mathsf T}X$ PD ⟺ columns of $X$ independent ⟺ $\hat\beta$ unique</td></tr>
+    <tr><td>Cholesky $A=LL^{\mathsf T}$</td><td>exists ⟺ $A$ PD; used to simulate correlated returns</td></tr>
+  </table>
+  <h3>Level sets</h3>
+  <p>$\mathbf{x}^{\mathsf T}A\mathbf{x}=1$ is an ellipse (PD), a hyperbola (indefinite), parallel lines (PSD singular). Ellipse axes = eigenvectors, semi-axis lengths $=1/\sqrt{\lambda_i}$.</p>
+  <p>Bounds: $\lambda_{\min}\|\mathbf{x}\|^2\le\mathbf{x}^{\mathsf T}A\mathbf{x}\le\lambda_{\max}\|\mathbf{x}\|^2$ (Rayleigh quotient).</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Shape of x′Ax for a symmetric 2×2<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>a <input type="range" id="q_a" min="-3" max="3" step="0.1" value="2"><span class="val" id="q_a_v">2.0</span></label>
+    <label>b <input type="range" id="q_b" min="-3" max="3" step="0.1" value="0.5"><span class="val" id="q_b_v">0.5</span></label>
+    <label>c <input type="range" id="q_c" min="-3" max="3" step="0.1" value="1"><span class="val" id="q_c_v">1.0</span></label>
+    <span class="btns"><button onclick="qSet(2,0.5,1)">PD</button><button onclick="qSet(-2,0.5,-1)">ND</button><button onclick="qSet(1,2,1)">indefinite</button><button onclick="qSet(1,1,1)">PSD</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="qsvg" viewBox="0 0 320 320"></svg>
+    <figcaption>Heat map of Q(x) = ax₁² + 2bx₁x₂ + cx₂² on [−2,2]². Green = positive, red = negative. White lines = eigenvector directions (principal axes).</figcaption></figure>
+    <div>
+      <div class="readout" id="qread"></div>
+      <p style="margin-top:10px">$A=\begin{pmatrix}a&b\\b&c\end{pmatrix}$. Read the classification three ways at once: sign of $Q$ on the plot, eigenvalues, and leading minors. All three must agree.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: classify a 3×3<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$Q(\mathbf{x})=2x_1^2+2x_2^2+3x_3^2+2x_1x_2-2x_2x_3\quad\Rightarrow\quad A=\begin{pmatrix}2&1&0\\1&2&-1\\0&-1&3\end{pmatrix}$$
+  <p class="muted">Off-diagonal entries are half the cross coefficients: $x_1x_2$ coefficient 2 ⟹ $a_{12}=1$; $x_2x_3$ coefficient −2 ⟹ $a_{23}=-1$; no $x_1x_3$ ⟹ $a_{13}=0$.</p>
+  <div class="grid2">
+  <div>
+  <h3>Leading principal minors</h3>
+  $$D_1=2>0,\qquad D_2=\begin{vmatrix}2&1\\1&2\end{vmatrix}=3>0$$
+  $$D_3=\det A=2(6-1)-1(3-0)+0=10-3=7>0$$
+  <p>All positive ⟹ <span class="g">positive definite</span>.</p>
+  </div>
+  <div>
+  <h3>Cross-check with trace and det</h3>
+  <p>$\text{tr}=7=\sum\lambda_i>0$ and $\det=7=\prod\lambda_i>0$ are consistent with all $\lambda_i>0$ (necessary, not sufficient on their own; the minors test is the proof).</p>
+  <p>Consequence: $Q$ has a unique global minimum at $\mathbf{x}=\mathbf{0}$; if $A$ were a covariance matrix, every non-zero portfolio would have strictly positive variance.</p>
+  </div>
+  </div>
+  <div class="note warn"><div class="t">Trap</div>For <b>semi</b>definiteness you must check <b>all</b> principal minors (every square submatrix on the diagonal), not only the leading ones. Counterexample: $\text{diag}(0,-1)$ has $D_1=0,D_2=0$ but is not PSD.</div>
+  </div>
+</div>
+</section>
+<!-- ============ 09 ORTHOGONALITY ============ -->
+<section id="s9">
+<div class="sec-head"><span class="num">09</span><h2>Orthogonality</h2><span class="sub">perpendicular bases, Gram–Schmidt, least squares</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Orthogonal &amp; orthonormal sets, orthogonal matrices<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Term</th><th>Condition</th></tr>
+    <tr><td>Orthogonal set</td><td>$\mathbf{v}_i^{\mathsf T}\mathbf{v}_j=0$ for all $i\neq j$</td></tr>
+    <tr><td>Orthonormal set</td><td>orthogonal and $\|\mathbf{v}_i\|=1$, i.e. $\mathbf{v}_i^{\mathsf T}\mathbf{v}_j=\delta_{ij}$</td></tr>
+    <tr><td>Orthogonal matrix $Q$</td><td>square with orthonormal columns: $Q^{\mathsf T}Q=QQ^{\mathsf T}=I$, $Q^{-1}=Q^{\mathsf T}$</td></tr>
+    <tr><td>Orthogonal complement $W^\perp$</td><td>all vectors orthogonal to every vector in $W$; $\dim W+\dim W^\perp=n$</td></tr>
+  </table>
+  <h3>Why orthonormal bases are nice</h3>
+  <p>Coordinates need no inverse: if $\{\mathbf{q}_1,\dots,\mathbf{q}_n\}$ is orthonormal,</p>
+  $$\mathbf{x}=\sum_i(\mathbf{q}_i^{\mathsf T}\mathbf{x})\,\mathbf{q}_i,\qquad\|\mathbf{x}\|^2=\sum_i(\mathbf{q}_i^{\mathsf T}\mathbf{x})^2\;(\text{Parseval})$$
+  <p>Orthogonal $Q$ preserves lengths and angles: $\|Q\mathbf{x}\|=\|\mathbf{x}\|$, $(Q\mathbf{x})^{\mathsf T}(Q\mathbf{y})=\mathbf{x}^{\mathsf T}\mathbf{y}$, $\det Q=\pm1$. Examples: rotation $\begin{pmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{pmatrix}$, permutation matrices, reflections.</p>
+  <h3>Projection onto a subspace</h3>
+  <p>If $W=C(A)$ with $A$ having independent columns, the projection matrix is</p>
+  $$P=A(A^{\mathsf T}A)^{-1}A^{\mathsf T},\qquad P^2=P,\;P^{\mathsf T}=P$$
+  <p>With orthonormal columns $Q$: $P=QQ^{\mathsf T}$. Onto a single vector $\mathbf{a}$: $P=\dfrac{\mathbf{a}\mathbf{a}^{\mathsf T}}{\mathbf{a}^{\mathsf T}\mathbf{a}}$.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Gram–Schmidt process<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Turns an independent set $\{\mathbf{a}_1,\dots,\mathbf{a}_k\}$ into an orthogonal set $\{\mathbf{u}_i\}$ with the same span (then normalise to get $\{\mathbf{q}_i\}$):</p>
+  $$\begin{aligned}
+  \mathbf{u}_1&=\mathbf{a}_1\\
+  \mathbf{u}_2&=\mathbf{a}_2-\frac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_2}{\mathbf{u}_1^{\mathsf T}\mathbf{u}_1}\mathbf{u}_1\\
+  \mathbf{u}_3&=\mathbf{a}_3-\frac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_3}{\mathbf{u}_1^{\mathsf T}\mathbf{u}_1}\mathbf{u}_1-\frac{\mathbf{u}_2^{\mathsf T}\mathbf{a}_3}{\mathbf{u}_2^{\mathsf T}\mathbf{u}_2}\mathbf{u}_2\\
+  \mathbf{q}_i&=\mathbf{u}_i/\|\mathbf{u}_i\|
+  \end{aligned}$$
+  <p>Each step subtracts the projections onto all previous $\mathbf{u}$'s. Result: $A=QR$ with $R$ upper triangular.</p>
+  <figure>
+  <svg viewBox="0 0 420 170">
+    <line x1="40" y1="140" x2="400" y2="140" stroke="var(--border2)"/><line x1="40" y1="140" x2="40" y2="20" stroke="var(--border2)"/>
+    <line x1="40" y1="140" x2="300" y2="140" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="305" y="136" class="svgtxt b">u₁ = a₁</text>
+    <line x1="40" y1="140" x2="220" y2="50" stroke="var(--muted)" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="225" y="48" class="svgtxt">a₂</text>
+    <line x1="40" y1="140" x2="220" y2="140" stroke="var(--amber)" stroke-width="3" opacity=".8"/>
+    <text x="110" y="158" class="svgtxt a">proj of a₂ onto u₁ (subtract this)</text>
+    <line x1="220" y1="140" x2="220" y2="50" stroke="var(--red)" stroke-dasharray="4 3"/>
+    <line x1="40" y1="140" x2="40" y2="50" stroke="var(--green)" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="48" y="56" class="svgtxt g">u₂ = a₂ − proj  (⊥ u₁)</text>
+  </svg>
+  <figcaption>Gram–Schmidt step 2: remove from a₂ the part lying along u₁; what remains is perpendicular to u₁.</figcaption>
+  </figure>
+  <div class="note warn"><div class="t">Trap</div>Project onto the already-orthogonalised $\mathbf{u}_j$, not onto the original $\mathbf{a}_j$. Keep fractions exact until the final normalisation, and normalise last.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Least squares &amp; the normal equations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$A\mathbf{x}=\mathbf{b}$ has no solution when $\mathbf{b}\notin C(A)$ (more equations than unknowns, typical for data). Best we can do: minimise the squared error</p>
+  $$\min_{\mathbf{x}}\|A\mathbf{x}-\mathbf{b}\|^2$$
+  <p>Solution: choose $\hat{\mathbf{x}}$ so that $A\hat{\mathbf{x}}$ is the projection of $\mathbf{b}$ onto $C(A)$. Residual $\mathbf{e}=\mathbf{b}-A\hat{\mathbf{x}}$ must be ⊥ every column: $A^{\mathsf T}\mathbf{e}=\mathbf{0}$, giving the <b>normal equations</b></p>
+  $$A^{\mathsf T}A\,\hat{\mathbf{x}}=A^{\mathsf T}\mathbf{b}\qquad\Longrightarrow\qquad\hat{\mathbf{x}}=(A^{\mathsf T}A)^{-1}A^{\mathsf T}\mathbf{b}$$
+  <p>$A^{\mathsf T}A$ is invertible ⟺ columns of $A$ are independent. Fitted values $\hat{\mathbf{b}}=A\hat{\mathbf{x}}=P\mathbf{b}$, $P=A(A^{\mathsf T}A)^{-1}A^{\mathsf T}$.</p>
+  <figure>
+  <svg viewBox="0 0 420 190">
+    <polygon points="60,150 330,150 390,90 120,90" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <text x="300" y="104" class="svgtxt b">column space C(A)</text>
+    <line x1="200" y1="125" x2="200" y2="30" stroke="var(--red)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ar)"/>
+    <text x="208" y="70" class="svgtxt r">e = b − Ax̂  (⊥ C(A))</text>
+    <line x1="70" y1="175" x2="200" y2="30" stroke="var(--muted)" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="203" y="26" class="svgtxt w">b</text>
+    <line x1="70" y1="175" x2="200" y2="125" stroke="var(--green)" stroke-width="2.5" marker-end="url(#ar)"/>
+    <text x="120" y="160" class="svgtxt g">Ax̂ = Pb  (projection)</text>
+    <path d="M 192 125 l 0 -8 l 8 0" fill="none" stroke="var(--red)"/>
+  </svg>
+  <figcaption>b lives outside the column space. The closest point inside it is the projection Ax̂; the error e is perpendicular to the plane. That perpendicularity is the normal equations.</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked examples: Gram–Schmidt and a least-squares line<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Gram–Schmidt on $\mathbf{a}_1=(1,1,0)^{\mathsf T}$, $\mathbf{a}_2=(1,0,1)^{\mathsf T}$</h3>
+  <ol class="steps">
+    <li>$\mathbf{u}_1=(1,1,0)^{\mathsf T}$</li>
+    <li>$\dfrac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_2}{\mathbf{u}_1^{\mathsf T}\mathbf{u}_1}=\dfrac12$, so $\mathbf{u}_2=(1,0,1)^{\mathsf T}-\tfrac12(1,1,0)^{\mathsf T}=(\tfrac12,-\tfrac12,1)^{\mathsf T}$</li>
+    <li>Check $\mathbf{u}_1^{\mathsf T}\mathbf{u}_2=\tfrac12-\tfrac12+0=0$ ✓</li>
+    <li>$\mathbf{q}_1=\tfrac1{\sqrt2}(1,1,0)^{\mathsf T}$, $\;\mathbf{q}_2=\tfrac1{\sqrt{6}}(1,-1,2)^{\mathsf T}$</li>
+  </ol>
+  <h3>Fit $y=\beta_0+\beta_1t$ through $(0,1),(1,3),(2,4)$</h3>
+  $$A=\begin{pmatrix}1&0\\1&1\\1&2\end{pmatrix},\;\mathbf{b}=\begin{pmatrix}1\\3\\4\end{pmatrix},\;A^{\mathsf T}A=\begin{pmatrix}3&3\\3&5\end{pmatrix},\;A^{\mathsf T}\mathbf{b}=\begin{pmatrix}8\\11\end{pmatrix}$$
+  $$\hat{\boldsymbol\beta}=\frac{1}{6}\begin{pmatrix}5&-3\\-3&3\end{pmatrix}\begin{pmatrix}8\\11\end{pmatrix}=\frac16\begin{pmatrix}7\\9\end{pmatrix}=\begin{pmatrix}7/6\\3/2\end{pmatrix}$$
+  <p>Line: $\hat y=\tfrac76+\tfrac32t$. Residuals $\mathbf{e}=\mathbf{b}-A\hat\beta=(-\tfrac16,\tfrac13,-\tfrac16)^{\mathsf T}$; check $A^{\mathsf T}\mathbf{e}=\mathbf{0}$: column 1: $-\tfrac16+\tfrac13-\tfrac16=0$ ✓. Residuals sum to zero because there is an intercept column of ones.</p>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ============ 10 FINANCE ============ -->
+<section id="s10">
+<div class="sec-head"><span class="num">10</span><h2>Finance applications</h2><span class="sub">where every module above shows up</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill b">FIN</span> Portfolio return &amp; variance in matrix form<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$n$ assets, weights $\mathbf{w}\in\mathbb{R}^n$ with $\mathbf{1}^{\mathsf T}\mathbf{w}=1$, expected returns $\boldsymbol\mu$, covariance matrix $\Sigma$ ($\Sigma_{ij}=\text{Cov}(r_i,r_j)=\rho_{ij}\sigma_i\sigma_j$).</p>
+  $$\mu_p=\mathbf{w}^{\mathsf T}\boldsymbol\mu=\sum_iw_i\mu_i,\qquad\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\sum_i\sum_jw_iw_j\sigma_{ij}$$
+  <p>Two assets, written out:</p>
+  $$\sigma_p^2=\begin{pmatrix}w_1&w_2\end{pmatrix}\begin{pmatrix}\sigma_1^2&\rho\sigma_1\sigma_2\\\rho\sigma_1\sigma_2&\sigma_2^2\end{pmatrix}\begin{pmatrix}w_1\\w_2\end{pmatrix}=w_1^2\sigma_1^2+w_2^2\sigma_2^2+2w_1w_2\rho\sigma_1\sigma_2$$
+  <h3>Covariance matrix properties</h3>
+  <ul>
+    <li>Symmetric: $\Sigma=\Sigma^{\mathsf T}$ (module 2).</li>
+    <li>Positive semidefinite: $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\text{Var}(\mathbf{w}^{\mathsf T}\mathbf{r})\ge0$ (module 8).</li>
+    <li>PD unless some asset is a linear combination of the others (redundant asset ⟹ $\det\Sigma=0$, singular, cannot invert).</li>
+    <li>Diagonal = variances; $\Sigma=D\,R\,D$ with $D=\text{diag}(\sigma_i)$ and $R$ the correlation matrix.</li>
+    <li>Eigen-decomposition $\Sigma=Q\Lambda Q^{\mathsf T}$: PCA; $\lambda_1/\sum\lambda_i$ = share of variance explained by the first factor (module 7).</li>
+    <li>Sample estimate from demeaned $T\times n$ return matrix $R$: $\hat\Sigma=\frac{1}{T-1}R^{\mathsf T}R$, rank $\le\min(T-1,n)$, so with fewer observations than assets $\hat\Sigma$ is singular.</li>
+  </ul>
+  <h3>Minimum-variance portfolio (Lagrange)</h3>
+  $$\min_{\mathbf{w}}\tfrac12\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}\;\text{ s.t. }\;\mathbf{1}^{\mathsf T}\mathbf{w}=1\quad\Rightarrow\quad\mathbf{w}^*=\frac{\Sigma^{-1}\mathbf{1}}{\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1}},\quad\sigma^{2}_{\min}=\frac{1}{\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1}}$$
+  <p class="muted">Derivation: $\mathcal L=\tfrac12\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}-\gamma(\mathbf{1}^{\mathsf T}\mathbf{w}-1)$; $\partial\mathcal L/\partial\mathbf{w}=\Sigma\mathbf{w}-\gamma\mathbf{1}=\mathbf{0}$ ⟹ $\mathbf{w}=\gamma\Sigma^{-1}\mathbf{1}$; impose the constraint to get $\gamma$. Needs $\Sigma$ invertible (module 5).</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">FIN</span> OLS regression<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Model $\mathbf{y}=X\boldsymbol\beta+\boldsymbol\varepsilon$, $\mathbf{y}\in\mathbb{R}^T$, $X$ is $T\times k$ (first column of ones for the intercept).</p>
+  $$\hat{\boldsymbol\beta}=(X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$$
+  <table>
+    <tr><th>Object</th><th>Formula</th><th>Linear algebra behind it</th></tr>
+    <tr><td>Fitted values</td><td>$\hat{\mathbf{y}}=X\hat\beta=H\mathbf{y}$, $H=X(X^{\mathsf T}X)^{-1}X^{\mathsf T}$</td><td>projection onto $C(X)$; $H$ symmetric idempotent, tr$(H)=k$</td></tr>
+    <tr><td>Residuals</td><td>$\mathbf{e}=(I-H)\mathbf{y}$</td><td>$\mathbf{e}\perp C(X)$, so $X^{\mathsf T}\mathbf{e}=\mathbf{0}$</td></tr>
+    <tr><td>Identification</td><td>$X^{\mathsf T}X$ invertible</td><td>rank$(X)=k$: no perfect multicollinearity (module 6)</td></tr>
+    <tr><td>Variance of $\hat\beta$</td><td>$\sigma^2(X^{\mathsf T}X)^{-1}$</td><td>PD matrix; diagonal gives standard errors²</td></tr>
+    <tr><td>Sum of squares</td><td>$\mathbf{y}^{\mathsf T}\mathbf{y}=\hat{\mathbf{y}}^{\mathsf T}\hat{\mathbf{y}}+\mathbf{e}^{\mathsf T}\mathbf{e}$</td><td>Pythagoras, since $\hat{\mathbf{y}}\perp\mathbf{e}$ (module 9)</td></tr>
+  </table>
+  <p>Single-factor (CAPM) case: $X=[\mathbf{1}\;\mathbf{r}_m]$, $\hat\beta_1=\dfrac{\text{Cov}(r_i,r_m)}{\text{Var}(r_m)}$, which is the projection coefficient from module 1.</p>
+  <h3>Replication &amp; arbitrage (linear systems)</h3>
+  <p>Payoff matrix $D$ ($m$ states × $n$ securities), prices $\mathbf{p}\in\mathbb{R}^n$, state prices $\boldsymbol\psi\in\mathbb{R}^m$:</p>
+  $$D^{\mathsf T}\boldsymbol\psi=\mathbf{p}$$
+  <ul>
+    <li>Complete market ⟺ rank$(D)=m$ (every payoff reachable; $D\mathbf{x}=\mathbf{b}$ always solvable).</li>
+    <li>No arbitrage ⟺ exists $\boldsymbol\psi>0$ solving the system (Fundamental theorem, first part).</li>
+    <li>Unique $\boldsymbol\psi$ ⟺ complete and arbitrage-free. Risk-neutral probabilities $q_s=\psi_s/\sum\psi$.</li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: three-asset portfolio &amp; a two-state replication<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>Portfolio</h3>
+  $$\boldsymbol\mu=\begin{pmatrix}0.08\\0.12\\0.05\end{pmatrix},\;\Sigma=\begin{pmatrix}0.04&0.01&0\\0.01&0.09&0.02\\0&0.02&0.01\end{pmatrix},\;\mathbf{w}=\begin{pmatrix}0.5\\0.3\\0.2\end{pmatrix}$$
+  <ol class="steps">
+    <li>$\mu_p=0.5(0.08)+0.3(0.12)+0.2(0.05)=0.04+0.036+0.01=0.086$</li>
+    <li>$\Sigma\mathbf{w}=\begin{pmatrix}0.02+0.003+0\\0.005+0.027+0.004\\0+0.006+0.002\end{pmatrix}=\begin{pmatrix}0.023\\0.036\\0.008\end{pmatrix}$</li>
+    <li>$\sigma_p^2=\mathbf{w}^{\mathsf T}(\Sigma\mathbf{w})=0.0115+0.0108+0.0016=0.0239$, $\;\sigma_p\approx0.155$</li>
+    <li>Is $\Sigma$ PD? $D_1=0.04>0$, $D_2=0.0036-0.0001=0.0035>0$, $D_3=0.04(0.0009-0.0004)-0.01(0.0001-0)=0.00002-0.000001=0.000019>0$ ✓</li>
+  </ol>
+  <p class="muted">Compute $\Sigma\mathbf{w}$ first, then dot with $\mathbf{w}$: two cheap steps instead of expanding nine terms.</p>
+  </div>
+  <div>
+  <h3>Replication</h3>
+  <p>Two states (up/down), stock $S$: 120 / 80, bond $B$: 105 / 105. Replicate a call with strike 100: payoff 20 / 0.</p>
+  $$\begin{pmatrix}120&105\\80&105\end{pmatrix}\begin{pmatrix}\Delta\\ b\end{pmatrix}=\begin{pmatrix}20\\0\end{pmatrix}$$
+  <ol class="steps">
+    <li>$\det=120(105)-105(80)=4200\neq0$ ⟹ market complete, unique replication.</li>
+    <li>Cramer: $\Delta=\dfrac{\begin{vmatrix}20&105\\0&105\end{vmatrix}}{4200}=\dfrac{2100}{4200}=0.5$</li>
+    <li>$b=\dfrac{\begin{vmatrix}120&20\\80&0\end{vmatrix}}{4200}=\dfrac{-1600}{4200}=-\dfrac{8}{21}\approx-0.381$</li>
+    <li>Price today (with $S_0=100$, $B_0=100$): $0.5(100)-0.381(100)\approx11.9$</li>
+  </ol>
+  <p class="muted">Hold half a share, borrow ≈38.1 at the risk-free rate. Same answer as binomial pricing with $q=(105-80)/(120-80)=0.625$: $(0.625\cdot20)/1.05=11.9$ ✓</p>
+  </div>
+  </div>
+  </div>
+</div>
+</section>
+<!-- ============ 11 QUICK REFERENCE ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>Quick reference</h2><span class="sub">the one-page memory dump</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">REF</span> Key formulas<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Dot / norm</td><td>$\mathbf{x}^{\mathsf T}\mathbf{y}=\sum x_iy_i$, $\;\|\mathbf{x}\|=\sqrt{\mathbf{x}^{\mathsf T}\mathbf{x}}$, $\;\cos\theta=\frac{\mathbf{x}^{\mathsf T}\mathbf{y}}{\|\mathbf{x}\|\|\mathbf{y}\|}$</td></tr>
+    <tr><td>Projection</td><td>$\text{proj}_{\mathbf{a}}\mathbf{b}=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\mathbf{a}^{\mathsf T}\mathbf{a}}\mathbf{a}$</td></tr>
+    <tr><td>Mult. entry</td><td>$(AB)_{ij}=\sum_ka_{ik}b_{kj}$, dims $(m\times n)(n\times p)=m\times p$</td></tr>
+    <tr><td>det 2×2</td><td>$ad-bc$</td></tr>
+    <tr><td>det 3×3</td><td>Sarrus or cofactors $\sum_ja_{ij}(-1)^{i+j}M_{ij}$</td></tr>
+    <tr><td>inv 2×2</td><td>$\frac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$</td></tr>
+    <tr><td>inv general</td><td>$[A|I]\to[I|A^{-1}]$ or $\text{adj}(A)/\det A$</td></tr>
+    <tr><td>Cramer</td><td>$x_i=\det A_i/\det A$</td></tr>
+    <tr><td>Rank–nullity</td><td>$\text{rank}+\text{nullity}=n$</td></tr>
+    <tr><td>Char. eq.</td><td>$\det(A-\lambda I)=0$; 2×2: $\lambda^2-\text{tr}\lambda+\det=0$</td></tr>
+    <tr><td>Eigenvectors</td><td>$N(A-\lambda I)$</td></tr>
+    <tr><td>Diagonalise</td><td>$A=PDP^{-1}$, $A^k=PD^kP^{-1}$; symmetric: $A=Q\Lambda Q^{\mathsf T}$</td></tr>
+    <tr><td>Quadratic form</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}$; PD ⟺ all $\lambda>0$ ⟺ all $D_k>0$</td></tr>
+    <tr><td>Gram–Schmidt</td><td>$\mathbf{u}_k=\mathbf{a}_k-\sum_{j<k}\frac{\mathbf{u}_j^{\mathsf T}\mathbf{a}_k}{\mathbf{u}_j^{\mathsf T}\mathbf{u}_j}\mathbf{u}_j$</td></tr>
+    <tr><td>Least squares</td><td>$\hat{\mathbf{x}}=(A^{\mathsf T}A)^{-1}A^{\mathsf T}\mathbf{b}$, $\;P=A(A^{\mathsf T}A)^{-1}A^{\mathsf T}$</td></tr>
+    <tr><td>Portfolio</td><td>$\mu_p=\mathbf{w}^{\mathsf T}\boldsymbol\mu$, $\;\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$</td></tr>
+    <tr><td>Min-var</td><td>$\mathbf{w}^*=\Sigma^{-1}\mathbf{1}/(\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1})$</td></tr>
+    <tr><td>OLS</td><td>$\hat\beta=(X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">REF</span> Identities you will need<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Transpose</th><th>Inverse</th><th>Determinant</th></tr>
+    <tr><td>$(AB)^{\mathsf T}=B^{\mathsf T}A^{\mathsf T}$</td><td>$(AB)^{-1}=B^{-1}A^{-1}$</td><td>$\det(AB)=\det A\det B$</td></tr>
+    <tr><td>$(A^{\mathsf T})^{\mathsf T}=A$</td><td>$(A^{-1})^{-1}=A$</td><td>$\det A^{\mathsf T}=\det A$</td></tr>
+    <tr><td>$(A+B)^{\mathsf T}=A^{\mathsf T}+B^{\mathsf T}$</td><td>$(A^{\mathsf T})^{-1}=(A^{-1})^{\mathsf T}$</td><td>$\det A^{-1}=1/\det A$</td></tr>
+    <tr><td>$(cA)^{\mathsf T}=cA^{\mathsf T}$</td><td>$(cA)^{-1}=A^{-1}/c$</td><td>$\det(cA)=c^n\det A$</td></tr>
+    <tr><td>$\mathbf{x}^{\mathsf T}A\mathbf{y}=\mathbf{y}^{\mathsf T}A^{\mathsf T}\mathbf{x}$</td><td>$(A^k)^{-1}=(A^{-1})^k$</td><td>$\det A^k=(\det A)^k$</td></tr>
+  </table>
+  <table>
+    <tr><th>Trace</th><th>Eigen</th></tr>
+    <tr><td>$\text{tr}(AB)=\text{tr}(BA)$</td><td>$\text{tr}A=\sum\lambda_i$, $\det A=\prod\lambda_i$</td></tr>
+    <tr><td>$\text{tr}(A+B)=\text{tr}A+\text{tr}B$</td><td>$A^k$: $\lambda^k$; $A^{-1}$: $1/\lambda$; $A+cI$: $\lambda+c$</td></tr>
+    <tr><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}=\text{tr}(A\mathbf{x}\mathbf{x}^{\mathsf T})$</td><td>triangular ⟹ $\lambda$ = diagonal</td></tr>
+  </table>
+  <h3>Things that are NOT true</h3>
+  <ul>
+    <li class="r">$AB=BA$</li>
+    <li class="r">$(AB)^{-1}=A^{-1}B^{-1}$ (order must reverse)</li>
+    <li class="r">$\det(A+B)=\det A+\det B$</li>
+    <li class="r">$\det(cA)=c\det A$ (it is $c^n$)</li>
+    <li class="r">$(A+B)^{-1}=A^{-1}+B^{-1}$</li>
+    <li class="r">$AB=0\Rightarrow A=0$ or $B=0$</li>
+    <li class="r">$\|\mathbf{x}+\mathbf{y}\|=\|\mathbf{x}\|+\|\mathbf{y}\|$</li>
+    <li class="r">Eigenvectors of non-symmetric $A$ are orthogonal</li>
+    <li class="r">Column-space basis read off the reduced matrix</li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill a">MAP</span> How the modules connect<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 520 300">
+    <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="var(--dim)"/></marker></defs>
+    <g font-size="11" font-family="JetBrains Mono,monospace">
+      <rect x="20" y="20" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="30" y="41" fill="var(--text)">01 vectors</text>
+      <rect x="20" y="80" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="30" y="101" fill="var(--text)">02 matrices</text>
+      <rect x="20" y="140" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="30" y="161" fill="var(--text)">03 systems</text>
+      <rect x="200" y="80" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="210" y="101" fill="var(--text)">04 det</text>
+      <rect x="200" y="140" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="210" y="161" fill="var(--text)">05 inverse</text>
+      <rect x="200" y="200" width="110" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="210" y="221" fill="var(--text)">06 spaces/rank</text>
+      <rect x="380" y="80" width="120" height="34" fill="var(--greenbg)" stroke="var(--green2)"/><text x="390" y="101" fill="var(--green)">07 eigen</text>
+      <rect x="380" y="140" width="120" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="390" y="161" fill="var(--text)">08 quad forms</text>
+      <rect x="380" y="200" width="120" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="390" y="221" fill="var(--text)">09 orthogonality</text>
+      <rect x="200" y="255" width="300" height="34" fill="var(--bluebg)" stroke="var(--blue)"/><text x="210" y="276" fill="var(--blue)">10 finance: w′Σw · OLS · replication · PCA</text>
+    </g>
+    <g stroke="var(--dim)" fill="none" marker-end="url(#ar2)">
+      <line x1="75" y1="54" x2="75" y2="78"/><line x1="75" y1="114" x2="75" y2="138"/>
+      <line x1="130" y1="97" x2="198" y2="97"/><line x1="130" y1="157" x2="198" y2="157"/>
+      <line x1="255" y1="114" x2="255" y2="138"/><line x1="255" y1="174" x2="255" y2="198"/>
+      <line x1="310" y1="97" x2="378" y2="97"/><line x1="310" y1="210" x2="378" y2="165"/>
+      <line x1="440" y1="114" x2="440" y2="138"/><line x1="440" y1="174" x2="440" y2="198"/>
+      <line x1="130" y1="40" x2="378" y2="210" stroke-dasharray="3 3"/>
+      <line x1="350" y1="234" x2="350" y2="253"/><line x1="255" y1="234" x2="255" y2="253"/>
+    </g>
+  </svg>
+  <figcaption>det decides invertibility; invertibility decides unique solutions; eigenvalues feed definiteness; projections (module 1) become least squares (module 9); everything lands in module 10.</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">CHECK</span> Exam-day procedure<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Before every matrix computation</h3>
+  <ul class="chk">
+    <li>Write dimensions next to each matrix; confirm inner dimensions match.</li>
+    <li>Is the matrix square? Only then: det, inverse, eigenvalues.</li>
+    <li>Is it symmetric? Then eigenvalues real, eigenvectors orthogonal, definiteness tests apply.</li>
+    <li>Is it triangular/diagonal? Then det and eigenvalues are on the diagonal.</li>
+  </ul>
+  <h3>When asked to solve $A\mathbf{x}=\mathbf{b}$</h3>
+  <ul class="chk">
+    <li>Square: compute $\det A$. Nonzero ⟹ unique; use inverse, Cramer, or elimination.</li>
+    <li>$\det=0$ or non-square: row reduce $[A|\mathbf{b}]$, compare ranks.</li>
+    <li>Write infinite solutions as particular + $t\cdot$(null vector).</li>
+  </ul>
+  <h3>When asked for eigenvalues</h3>
+  <ul class="chk">
+    <li>Set up $\det(A-\lambda I)$; for 2×2 use tr and det directly.</li>
+    <li>Verify: sum = trace, product = det.</li>
+    <li>Each eigenvector: row reduce $A-\lambda I$; it must have a zero row.</li>
+    <li>Verify $A\mathbf{v}=\lambda\mathbf{v}$ numerically.</li>
+  </ul>
+  <h3>Self-checks that cost 10 seconds</h3>
+  <ul class="chk">
+    <li>$AA^{-1}=I$ for one row.</li>
+    <li>Residual ⊥ columns after least squares.</li>
+    <li>$\mathbf{u}_i^{\mathsf T}\mathbf{u}_j=0$ after Gram–Schmidt.</li>
+    <li>Portfolio variance $\ge0$; weights sum to 1.</li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">REF</span> Vocabulary: English ↔ Italian<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>EN</th><th>IT</th><th>EN</th><th>IT</th><th>EN</th><th>IT</th></tr>
+    <tr><td>row / column</td><td>riga / colonna</td><td>determinant</td><td>determinante</td><td>eigenvalue</td><td>autovalore</td></tr>
+    <tr><td>dot product</td><td>prodotto scalare</td><td>inverse</td><td>inversa</td><td>eigenvector</td><td>autovettore</td></tr>
+    <tr><td>norm</td><td>norma</td><td>rank</td><td>rango</td><td>characteristic polynomial</td><td>polinomio caratteristico</td></tr>
+    <tr><td>transpose</td><td>trasposta</td><td>null space / kernel</td><td>nucleo</td><td>diagonalisable</td><td>diagonalizzabile</td></tr>
+    <tr><td>linearly independent</td><td>linearmente indipendenti</td><td>column space / image</td><td>immagine</td><td>positive definite</td><td>definita positiva</td></tr>
+    <tr><td>span</td><td>span / sottospazio generato</td><td>row reduction</td><td>riduzione a scala (Gauss)</td><td>quadratic form</td><td>forma quadratica</td></tr>
+    <tr><td>basis</td><td>base</td><td>pivot</td><td>pivot</td><td>orthonormal</td><td>ortonormale</td></tr>
+    <tr><td>dimension</td><td>dimensione</td><td>augmented matrix</td><td>matrice completa / aumentata</td><td>least squares</td><td>minimi quadrati</td></tr>
+    <tr><td>trace</td><td>traccia</td><td>Cramer's rule</td><td>regola di Cramer</td><td>leading principal minor</td><td>minore principale di testa</td></tr>
+  </table>
+  </div>
+</div>
+</section>
+
+<!-- ============ 12 WORKED EXAMPLES ============ -->
+<section id="s12">
+<div class="sec-head"><span class="num">12</span><h2>Worked examples</h2><span class="sub">27 exam-style problems, full solutions, one insight each</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">HOW TO USE</span> Attempt first, then open the solution<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
+  <div class="body">
+  <p>Each problem is written the way assessment questions are. Cover the solution, write your own on paper, then compare. The <b>Insight</b> box at the end of each is the transferable idea; if you only reread one thing per example, reread that. Difficulty: <span class="pill g">●</span> routine · <span class="pill a">●●</span> standard · <span class="pill r">●●●</span> needs two ideas combined.</p>
+  </div>
+</div>
+
+<!-- 1 -->
+<div class="wx">
+<div class="bar"><span class="n">W01</span><span class="pill g">●</span><span class="tag">vectors</span>Angle and orthogonal decomposition</div>
+<div class="prob">Let $\mathbf{u}=(1,1,0)^{\mathsf T}$ and $\mathbf{v}=(1,0,1)^{\mathsf T}$. (a) Find the angle between them. (b) Write $\mathbf{v}$ as the sum of a vector parallel to $\mathbf{u}$ and a vector orthogonal to $\mathbf{u}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathbf{u}^{\mathsf T}\mathbf{v}=1$, $\|\mathbf{u}\|=\|\mathbf{v}\|=\sqrt2$. So $\cos\theta=\dfrac{1}{\sqrt2\sqrt2}=\dfrac12$, $\theta=60^\circ$.</li>
+<li>Parallel part: $\text{proj}_{\mathbf{u}}\mathbf{v}=\dfrac{\mathbf{u}^{\mathsf T}\mathbf{v}}{\mathbf{u}^{\mathsf T}\mathbf{u}}\mathbf{u}=\dfrac12(1,1,0)^{\mathsf T}=(\tfrac12,\tfrac12,0)^{\mathsf T}$.</li>
+<li>Orthogonal part: $\mathbf{v}-\text{proj}=(\tfrac12,-\tfrac12,1)^{\mathsf T}$. Check: $(\tfrac12,-\tfrac12,1)\cdot(1,1,0)=0$ ✓.</li>
+<li>So $\mathbf{v}=\underbrace{(\tfrac12,\tfrac12,0)}_{\parallel\mathbf{u}}+\underbrace{(\tfrac12,-\tfrac12,1)}_{\perp\mathbf{u}}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Every vector splits uniquely into "along $\mathbf{u}$" plus "perpendicular to $\mathbf{u}$". Regression does exactly this with $\mathbf{y}$ and the columns of $X$: fitted values are the parallel part, residuals are the perpendicular part.</div>
+</div></details>
+</div>
+
+<!-- 2 -->
+<div class="wx">
+<div class="bar"><span class="n">W02</span><span class="pill g">●</span><span class="tag">vectors</span>Parameter for orthogonality, vector perpendicular to two others</div>
+<div class="prob">(a) For which $k$ are $\mathbf{a}=(k,2,-1)^{\mathsf T}$ and $\mathbf{b}=(1,k,3)^{\mathsf T}$ orthogonal? (b) With that $k$, find all vectors orthogonal to both.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathbf{a}^{\mathsf T}\mathbf{b}=k+2k-3=3k-3=0\Rightarrow k=1$. So $\mathbf{a}=(1,2,-1)^{\mathsf T}$, $\mathbf{b}=(1,1,3)^{\mathsf T}$.</li>
+<li>$\mathbf{x}\perp\mathbf{a}$ and $\mathbf{x}\perp\mathbf{b}$ means $\begin{pmatrix}1&2&-1\\1&1&3\end{pmatrix}\mathbf{x}=\mathbf{0}$: a homogeneous system, i.e. a null space.</li>
+<li>$R_2\to R_2-R_1$: $\begin{pmatrix}1&2&-1\\0&-1&4\end{pmatrix}$. Free variable $x_3=t$: $x_2=4t$, $x_1=-2x_2+x_3=-7t$.</li>
+<li>$\mathbf{x}=t(-7,4,1)^{\mathsf T}$. Check: $-7+8-1=0$ ✓, $-7+4+3=0$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>"Orthogonal to all of these vectors" always means "in the null space of the matrix whose rows are those vectors". Two independent rows in ℝ³ leave a one-dimensional null space: a line. This is rank–nullity: $3-2=1$.</div>
+</div></details>
+</div>
+
+<!-- 3 -->
+<div class="wx">
+<div class="bar"><span class="n">W03</span><span class="pill g">●</span><span class="tag">matrices</span>AB versus BA with non-square matrices</div>
+<div class="prob">$A=\begin{pmatrix}1&0&2\\-1&3&1\end{pmatrix}$, $B=\begin{pmatrix}2&1\\0&1\\1&0\end{pmatrix}$. Compute $AB$ and $BA$, their traces and their determinants. What do you notice?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Dimensions: $AB$ is $(2\times3)(3\times2)=2\times2$; $BA$ is $(3\times2)(2\times3)=3\times3$.</li>
+<li>$AB=\begin{pmatrix}2+0+2&1+0+0\\-2+0+1&-1+3+0\end{pmatrix}=\begin{pmatrix}4&1\\-1&2\end{pmatrix}$.</li>
+<li>$BA=\begin{pmatrix}2-1&0+3&4+1\\0-1&0+3&0+1\\1+0&0+0&2+0\end{pmatrix}=\begin{pmatrix}1&3&5\\-1&3&1\\1&0&2\end{pmatrix}$.</li>
+<li>$\text{tr}(AB)=6$, $\text{tr}(BA)=1+3+2=6$. Equal, as the cyclic property promises.</li>
+<li>$\det(AB)=8+1=9$. $\det(BA)=1(6-0)-3(-2-1)+5(0-3)=6+9-15=0$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$BA$ is $3\times3$ but $\text{rank}(BA)\le\text{rank}(B)\le2$, so it is <b>always</b> singular: you could have predicted $\det(BA)=0$ without computing. Traces agree, determinants do not. A product of "thin" matrices cannot be full rank.</div>
+</div></details>
+</div>
+
+<!-- 4 -->
+<div class="wx">
+<div class="bar"><span class="n">W04</span><span class="pill a">●●</span><span class="tag">matrices</span>Symmetric and skew-symmetric parts</div>
+<div class="prob">$A=\begin{pmatrix}1&4\\2&3\end{pmatrix}$. Write $A=S+K$ with $S$ symmetric and $K$ skew-symmetric ($K^{\mathsf T}=-K$). Show that $\mathbf{x}^{\mathsf T}A\mathbf{x}=\mathbf{x}^{\mathsf T}S\mathbf{x}$ for every $\mathbf{x}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$S=\tfrac12(A+A^{\mathsf T})=\tfrac12\begin{pmatrix}2&6\\6&6\end{pmatrix}=\begin{pmatrix}1&3\\3&3\end{pmatrix}$, $\;K=\tfrac12(A-A^{\mathsf T})=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$.</li>
+<li>Check $S+K=A$ ✓, $S^{\mathsf T}=S$ ✓, $K^{\mathsf T}=-K$ ✓.</li>
+<li>$\mathbf{x}^{\mathsf T}K\mathbf{x}$ is a scalar, so equals its transpose: $\mathbf{x}^{\mathsf T}K\mathbf{x}=(\mathbf{x}^{\mathsf T}K\mathbf{x})^{\mathsf T}=\mathbf{x}^{\mathsf T}K^{\mathsf T}\mathbf{x}=-\mathbf{x}^{\mathsf T}K\mathbf{x}$. Hence it equals 0.</li>
+<li>Therefore $\mathbf{x}^{\mathsf T}A\mathbf{x}=\mathbf{x}^{\mathsf T}S\mathbf{x}+0$. Concretely: $x_1^2+4x_1x_2+2x_1x_2+3x_2^2=x_1^2+6x_1x_2+3x_2^2$, which is exactly what $S$ gives.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>This is why quadratic forms are always written with a symmetric matrix: the skew part is invisible to $\mathbf{x}^{\mathsf T}(\cdot)\mathbf{x}$. If an exam gives a non-symmetric matrix in a quadratic form, symmetrise first, then test definiteness on $S$.</div>
+</div></details>
+</div>
+
+<!-- 5 -->
+<div class="wx">
+<div class="bar"><span class="n">W05</span><span class="pill r">●●●</span><span class="tag">systems</span>Discussing a system with a parameter</div>
+<div class="prob">Discuss, as $k$ and $\beta$ vary, the number of solutions of
+$$\begin{cases}x+y+z=1\\x+2y+kz=2\\x+4y+k^2z=\beta\end{cases}$$</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Coefficient matrix $A=\begin{pmatrix}1&1&1\\1&2&k\\1&4&k^2\end{pmatrix}$. $\det A=1(2k^2-4k)-1(k^2-k)+1(4-2)=k^2-3k+2=(k-1)(k-2)$.</li>
+<li><b>$k\neq1,2$</b>: $\det A\neq0$ ⟹ exactly one solution for every $\beta$.</li>
+<li><b>$k=1$</b>: $R_2-R_1$: $y=1$; $R_3-R_1$: $3y=\beta-1$. Consistent iff $3=\beta-1$, i.e. $\beta=4$. Then $y=1$, $x+z=0$: infinitely many, $(x,y,z)=(-t,1,t)$. If $\beta\neq4$: none.</li>
+<li><b>$k=2$</b>: $R_2-R_1$: $y+z=1$; $R_3-R_1$: $3y+3z=\beta-1$. Consistent iff $\beta=4$. Then $x=0$, $(x,y,z)=(0,1-t,t)$. If $\beta\neq4$: none.</li>
+</ol>
+<table>
+<tr><th>Case</th><th>rank $A$</th><th>rank $[A|\mathbf{b}]$</th><th>Solutions</th></tr>
+<tr><td>$k\neq1,2$</td><td>3</td><td>3</td><td class="g">one</td></tr>
+<tr><td>$k\in\{1,2\}$, $\beta=4$</td><td>2</td><td>2</td><td class="a">infinitely many (1 parameter)</td></tr>
+<tr><td>$k\in\{1,2\}$, $\beta\neq4$</td><td>2</td><td>3</td><td class="r">none</td></tr>
+</table>
+<div class="note"><div class="t">Insight</div>Always compute $\det A$ as a polynomial in the parameter first; its roots are the only values where anything interesting happens. Then treat each root separately with row reduction, comparing rank$(A)$ with rank$[A|\mathbf{b}]$. The right-hand side parameter only matters at those roots.</div>
+</div></details>
+</div>
+
+<!-- 6 -->
+<div class="wx">
+<div class="bar"><span class="n">W06</span><span class="pill a">●●</span><span class="tag">systems</span>Underdetermined system: particular + null space</div>
+<div class="prob">Solve $\begin{cases}x_1+2x_2-x_3+x_4=3\\2x_1+4x_2+x_3-x_4=3\end{cases}$ and describe the solution set geometrically.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\left(\begin{array}{cccc|c}1&2&-1&1&3\\2&4&1&-1&3\end{array}\right)\xrightarrow{R_2-2R_1}\left(\begin{array}{cccc|c}1&2&-1&1&3\\0&0&3&-3&-3\end{array}\right)\xrightarrow{R_2/3}\left(\begin{array}{cccc|c}1&2&-1&1&3\\0&0&1&-1&-1\end{array}\right)$</li>
+<li>$R_1+R_2$: $\left(\begin{array}{cccc|c}1&2&0&0&2\\0&0&1&-1&-1\end{array}\right)$. Pivots in columns 1, 3. Free: $x_2=s$, $x_4=t$.</li>
+<li>$x_1=2-2s$, $x_3=-1+t$.</li>
+<li>$\mathbf{x}=\begin{pmatrix}2\\0\\-1\\0\end{pmatrix}+s\begin{pmatrix}-2\\1\\0\\0\end{pmatrix}+t\begin{pmatrix}0\\0\\1\\1\end{pmatrix}$</li>
+<li>Check the particular solution: $2+0+1+0=3$ ✓, $4+0-1-0=3$ ✓. Check a null vector: $A(0,0,1,1)^{\mathsf T}=(-1+1,\,1-1)=\mathbf{0}$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Rank 2, $n=4$ ⟹ nullity 2: the solution set is a 2-dimensional plane in ℝ⁴, not through the origin, obtained by shifting $N(A)$ by one particular solution. Every solution of a consistent system is "one solution + anything from the null space".</div>
+</div></details>
+</div>
+
+<!-- 7 -->
+<div class="wx">
+<div class="bar"><span class="n">W07</span><span class="pill a">●●</span><span class="tag">determinants</span>4×4 determinant by row reduction</div>
+<div class="prob">Compute $\det\begin{pmatrix}1&2&0&1\\2&5&1&3\\0&1&3&1\\1&3&1&4\end{pmatrix}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Use only "add a multiple of a row" operations (det unchanged). $R_2-2R_1$, $R_4-R_1$: $\begin{pmatrix}1&2&0&1\\0&1&1&1\\0&1&3&1\\0&1&1&3\end{pmatrix}$</li>
+<li>$R_3-R_2$, $R_4-R_2$: $\begin{pmatrix}1&2&0&1\\0&1&1&1\\0&0&2&0\\0&0&0&2\end{pmatrix}$</li>
+<li>Upper triangular: $\det=1\cdot1\cdot2\cdot2=4$.</li>
+</ol>
+<p>Cofactor expansion along column 1 of the original would have required three 3×3 determinants. Row reduction needed four subtractions.</p>
+<div class="note"><div class="t">Insight</div>For anything bigger than 3×3, reduce to triangular form. Keep a tally of sign changes (row swaps) and scalings (if you divide a row by $c$, multiply the final det by $c$). Row-addition operations are free.</div>
+</div></details>
+</div>
+
+<!-- 8 -->
+<div class="wx">
+<div class="bar"><span class="n">W08</span><span class="pill a">●●</span><span class="tag">determinants</span>Determinants of expressions, no matrices given</div>
+<div class="prob">$A,B$ are $3\times3$ with $\det A=2$, $\det B=-3$. Find $\det(2A^{\mathsf T}B^{-1})$, $\det(A^2B)$, $\det(-A)$, $\det(A^{-1}B^{\mathsf T}A)$. Is $\det(A+B)$ determined?</div>
+<details><summary>Solution</summary><div class="sol">
+<table class="formula-table">
+<tr><td>$\det(2A^{\mathsf T}B^{-1})$</td><td>$=2^3\cdot\det A^{\mathsf T}\cdot\det B^{-1}=8\cdot2\cdot\left(-\tfrac13\right)=-\tfrac{16}{3}$</td></tr>
+<tr><td>$\det(A^2B)$</td><td>$=(\det A)^2\det B=4\cdot(-3)=-12$</td></tr>
+<tr><td>$\det(-A)$</td><td>$=(-1)^3\det A=-2$</td></tr>
+<tr><td>$\det(A^{-1}B^{\mathsf T}A)$</td><td>$=\tfrac{1}{2}\cdot(-3)\cdot2=-3$ (conjugation by $A$ leaves det unchanged)</td></tr>
+<tr><td>$\det(A+B)$</td><td class="r">not determined: e.g. $A=\text{diag}(2,1,1)$, $B=\text{diag}(-3,1,1)$ gives $\det(A+B)=-4$; $B=\text{diag}(1,1,-3)$ gives $\det(A+B)=3\cdot2\cdot(-2)=-12$</td></tr>
+</table>
+<div class="note"><div class="t">Insight</div>The determinant is multiplicative, never additive. The scalar rule $\det(cA)=c^n\det A$ is the most forgotten: the factor $c$ comes out of <b>each</b> of the $n$ rows. Conjugation $P^{-1}AP$ preserves det (and trace, and eigenvalues), which is why diagonalisation is allowed to "change" the matrix without changing these.</div>
+</div></details>
+</div>
+
+<!-- 9 -->
+<div class="wx">
+<div class="bar"><span class="n">W09</span><span class="pill a">●●</span><span class="tag">inverse</span>One entry of an inverse via the adjugate</div>
+<div class="prob">$A=\begin{pmatrix}2&0&1\\1&1&0\\0&3&1\end{pmatrix}$. (a) Find $(A^{-1})_{13}$ without computing the whole inverse. (b) Then compute $A^{-1}$ fully and verify.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\det A=2(1-0)-0+1(3-0)=5$.</li>
+<li>$(A^{-1})_{ij}=C_{ji}/\det A$ (note the swap). So $(A^{-1})_{13}=C_{31}/5$. $C_{31}=(-1)^{3+1}\begin{vmatrix}0&1\\1&0\end{vmatrix}=-1$. Hence $(A^{-1})_{13}=-\tfrac15$.</li>
+<li>All cofactors: $C_{11}=1$, $C_{12}=-1$, $C_{13}=3$, $C_{21}=3$, $C_{22}=2$, $C_{23}=-6$, $C_{31}=-1$, $C_{32}=1$, $C_{33}=2$.</li>
+<li>$\text{adj}A=C^{\mathsf T}=\begin{pmatrix}1&3&-1\\-1&2&1\\3&-6&2\end{pmatrix}$, $\;A^{-1}=\tfrac15\,\text{adj}A$.</li>
+<li>Verify row 1 of $A$ times $\text{adj}A$: $(2,0,1)\cdot\text{cols}=(2+0+3,\;6+0-6,\;-2+0+2)=(5,0,0)=5\,\mathbf{e}_1^{\mathsf T}$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>When a question asks for a single entry of $A^{-1}$, the adjugate is faster than Gauss–Jordan: one 2×2 determinant and one 3×3. Remember the transpose: entry $(i,j)$ of the inverse uses cofactor $(j,i)$.</div>
+</div></details>
+</div>
+
+<!-- 10 -->
+<div class="wx">
+<div class="bar"><span class="n">W10</span><span class="pill a">●●</span><span class="tag">inverse</span>Solving a matrix equation</div>
+<div class="prob">Find $X$ such that $AXB=C$, where $A=\begin{pmatrix}1&1\\0&1\end{pmatrix}$, $B=\begin{pmatrix}2&0\\1&1\end{pmatrix}$, $C=\begin{pmatrix}3&1\\1&1\end{pmatrix}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\det A=1$, $\det B=2$: both invertible. Multiply on the left by $A^{-1}$ and on the right by $B^{-1}$: $X=A^{-1}CB^{-1}$. Sides matter.</li>
+<li>$A^{-1}=\begin{pmatrix}1&-1\\0&1\end{pmatrix}$, $\;B^{-1}=\tfrac12\begin{pmatrix}1&0\\-1&2\end{pmatrix}$.</li>
+<li>$A^{-1}C=\begin{pmatrix}3-1&1-1\\1&1\end{pmatrix}=\begin{pmatrix}2&0\\1&1\end{pmatrix}$.</li>
+<li>$X=\begin{pmatrix}2&0\\1&1\end{pmatrix}\cdot\tfrac12\begin{pmatrix}1&0\\-1&2\end{pmatrix}=\tfrac12\begin{pmatrix}2&0\\0&2\end{pmatrix}=I$.</li>
+<li>Check: $AIB=AB=\begin{pmatrix}2+1&0+1\\1&1\end{pmatrix}=C$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>You cannot write $X=C/(AB)$. Undo $A$ from the left and $B$ from the right, in that geometric sense. The same logic gives $X=CB^{-1}$ for $XB=C$ and $X=A^{-1}C$ for $AX=C$. In finance, $\Sigma\mathbf{w}=\gamma\mathbf{1}$ is solved as $\mathbf{w}=\gamma\Sigma^{-1}\mathbf{1}$ for the same reason.</div>
+</div></details>
+</div>
+
+<!-- 11 -->
+<div class="wx">
+<div class="bar"><span class="n">W11</span><span class="pill a">●●</span><span class="tag">vector spaces</span>Linear dependence with a parameter</div>
+<div class="prob">For which $k$ are $\mathbf{v}_1=(1,2,3)^{\mathsf T}$, $\mathbf{v}_2=(2,1,0)^{\mathsf T}$, $\mathbf{v}_3=(1,-1,k)^{\mathsf T}$ linearly dependent? For that $k$, express $\mathbf{v}_3$ in terms of the others.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Three vectors in ℝ³ are dependent ⟺ $\det[\mathbf{v}_1\,\mathbf{v}_2\,\mathbf{v}_3]=0$.</li>
+<li>$\begin{vmatrix}1&2&1\\2&1&-1\\3&0&k\end{vmatrix}=1(k-0)-2(2k+3)+1(0-3)=k-4k-6-3=-3k-9$.</li>
+<li>Zero ⟺ $k=-3$. For every other $k$ they form a basis of ℝ³.</li>
+<li>With $k=-3$: solve $a\mathbf{v}_1+b\mathbf{v}_2=\mathbf{v}_3$: $a+2b=1$, $2a+b=-1$ ⟹ $b=1$, $a=-1$. Third component: $3(-1)+0=-3$ ✓. So $\mathbf{v}_3=-\mathbf{v}_1+\mathbf{v}_2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>With exactly $n$ vectors in ℝⁿ, independence is a single determinant. When it fails, the dependence relation is a solution of $A\mathbf{c}=\mathbf{0}$; you can find it by row reducing or, as here, by solving the first two equations and checking the third.</div>
+</div></details>
+</div>
+
+<!-- 12 -->
+<div class="wx">
+<div class="bar"><span class="n">W12</span><span class="pill r">●●●</span><span class="tag">vector spaces</span>Column space, null space, membership</div>
+<div class="prob">$A=\begin{pmatrix}1&-1&2&0\\2&-2&5&1\\-1&1&-1&1\end{pmatrix}$. Find rank, a basis of $N(A)$, a basis of $C(A)$, and decide whether $\mathbf{b}=(1,3,0)^{\mathsf T}$ is in $C(A)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$R_2-2R_1$, $R_3+R_1$: $\begin{pmatrix}1&-1&2&0\\0&0&1&1\\0&0&1&1\end{pmatrix}$; $R_3-R_2$: third row zero. $R_1-2R_2$: RREF $\begin{pmatrix}1&-1&0&-2\\0&0&1&1\\0&0&0&0\end{pmatrix}$.</li>
+<li>Pivot columns 1, 3 ⟹ rank 2, nullity $4-2=2$.</li>
+<li>$N(A)$: $x_2=s$, $x_4=t$, $x_3=-t$, $x_1=s+2t$. Basis $\{(1,1,0,0)^{\mathsf T},(2,0,-1,1)^{\mathsf T}\}$. Check second against row 2 of $A$: $4-0-5+1=0$ ✓.</li>
+<li>$C(A)$: pivot columns of the <b>original</b>: $\{(1,2,-1)^{\mathsf T},(2,5,-1)^{\mathsf T}\}$.</li>
+<li>Is $\mathbf{b}\in C(A)$? Solve $a(1,2,-1)+c(2,5,-1)=(1,3,0)$: $a+2c=1$, $2a+5c=3$ ⟹ $c=1$, $a=-1$. Third: $1-1=0$ ✓. Yes, $\mathbf{b}=-\mathbf{a}_1+\mathbf{a}_3$, so $A\mathbf{x}=\mathbf{b}$ is consistent with e.g. $\mathbf{x}=(-1,0,1,0)^{\mathsf T}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$C(A)$ is a 2-dimensional plane in ℝ³; $A\mathbf{x}=\mathbf{b}$ is solvable exactly when $\mathbf{b}$ lies on that plane. Since $N(A)$ is 2-dimensional, once one solution exists there is a whole plane of them. The four numbers rank, nullity, $m$, $n$ tell you the whole story before you look at $\mathbf{b}$.</div>
+</div></details>
+</div>
+
+<!-- 13 -->
+<div class="wx">
+<div class="bar"><span class="n">W13</span><span class="pill a">●●</span><span class="tag">vector spaces · eigen</span>Coordinates in a new basis, and why eigenvectors are the best basis</div>
+<div class="prob">Let $B=\{\mathbf{b}_1=(1,1)^{\mathsf T},\mathbf{b}_2=(1,-1)^{\mathsf T}\}$ and $A=\begin{pmatrix}2&1\\1&2\end{pmatrix}$. (a) Find the coordinates of $\mathbf{x}=(3,1)^{\mathsf T}$ in $B$. (b) Find the matrix of $A$ in basis $B$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$P=[\mathbf{b}_1\,\mathbf{b}_2]=\begin{pmatrix}1&1\\1&-1\end{pmatrix}$, $\det P=-2$, $P^{-1}=-\tfrac12\begin{pmatrix}-1&-1\\-1&1\end{pmatrix}=\tfrac12\begin{pmatrix}1&1\\1&-1\end{pmatrix}$.</li>
+<li>$[\mathbf{x}]_B=P^{-1}\mathbf{x}=\tfrac12(4,2)^{\mathsf T}=(2,1)^{\mathsf T}$. Check: $2\mathbf{b}_1+1\mathbf{b}_2=(3,1)^{\mathsf T}$ ✓.</li>
+<li>Matrix of $A$ in basis $B$: $P^{-1}AP$. $AP=\begin{pmatrix}3&1\\3&-1\end{pmatrix}$, so $P^{-1}AP=\tfrac12\begin{pmatrix}6&0\\0&2\end{pmatrix}=\begin{pmatrix}3&0\\0&1\end{pmatrix}$.</li>
+<li>Diagonal! Because $\mathbf{b}_1,\mathbf{b}_2$ are eigenvectors of $A$: $A\mathbf{b}_1=3\mathbf{b}_1$, $A\mathbf{b}_2=\mathbf{b}_2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Diagonalisation <b>is</b> a change of basis: $D=P^{-1}AP$ is the same linear map written in eigenvector coordinates, where it just stretches each axis. That is the whole reason eigenvectors matter: in their basis, the map becomes bookkeeping.</div>
+</div></details>
+</div>
+
+<!-- 14 -->
+<div class="wx">
+<div class="bar"><span class="n">W14</span><span class="pill r">●●●</span><span class="tag">eigen</span>3×3 with a repeated eigenvalue</div>
+<div class="prob">$A=\begin{pmatrix}2&0&0\\1&3&1\\1&1&3\end{pmatrix}$. Find all eigenvalues and eigenvectors. Is $A$ diagonalisable?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Expand $\det(A-\lambda I)$ along row 1 (two zeros): $(2-\lambda)\begin{vmatrix}3-\lambda&1\\1&3-\lambda\end{vmatrix}=(2-\lambda)\big((3-\lambda)^2-1\big)=(2-\lambda)(\lambda-2)(\lambda-4)$.</li>
+<li>$\lambda=2$ (AM 2), $\lambda=4$ (AM 1). Check: sum $2+2+4=8=\text{tr}A$ ✓; product $16=\det A=2(9-1)$ ✓.</li>
+<li>$\lambda=4$: $A-4I=\begin{pmatrix}-2&0&0\\1&-1&1\\1&1&-1\end{pmatrix}$ ⟹ $x_1=0$, $x_2=x_3$. $\mathbf{v}_3=(0,1,1)^{\mathsf T}$.</li>
+<li>$\lambda=2$: $A-2I=\begin{pmatrix}0&0&0\\1&1&1\\1&1&1\end{pmatrix}$, rank 1 ⟹ GM $=3-1=2$. Eigenspace: $x_1+x_2+x_3=0$, basis $\mathbf{v}_1=(1,-1,0)^{\mathsf T}$, $\mathbf{v}_2=(1,0,-1)^{\mathsf T}$.</li>
+<li>GM = AM for both eigenvalues ⟹ diagonalisable: $P=\begin{pmatrix}1&1&0\\-1&0&1\\0&-1&1\end{pmatrix}$, $D=\text{diag}(2,2,4)$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>A repeated eigenvalue is not a problem by itself; what matters is whether $A-\lambda I$ loses enough rank. Here rank 1 gives a 2-dimensional eigenspace, matching AM 2. Compare W16 where rank drops by only one.</div>
+</div></details>
+</div>
+
+<!-- 15 -->
+<div class="wx">
+<div class="bar"><span class="n">W15</span><span class="pill a">●●</span><span class="tag">eigen · quadratic forms</span>Spectral decomposition of a symmetric matrix</div>
+<div class="prob">$A=\begin{pmatrix}5&-2\\-2&2\end{pmatrix}$. Find an orthogonal $Q$ and diagonal $\Lambda$ with $A=Q\Lambda Q^{\mathsf T}$. Describe the curve $\mathbf{x}^{\mathsf T}A\mathbf{x}=1$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\text{tr}=7$, $\det=6$ ⟹ $\lambda^2-7\lambda+6=(\lambda-6)(\lambda-1)$, $\lambda_1=6$, $\lambda_2=1$.</li>
+<li>$\lambda=6$: $A-6I=\begin{pmatrix}-1&-2\\-2&-4\end{pmatrix}$ ⟹ $x_1=-2x_2$, $\mathbf{v}_1=(-2,1)^{\mathsf T}$. $\lambda=1$: $A-I=\begin{pmatrix}4&-2\\-2&1\end{pmatrix}$ ⟹ $x_2=2x_1$, $\mathbf{v}_2=(1,2)^{\mathsf T}$.</li>
+<li>$\mathbf{v}_1^{\mathsf T}\mathbf{v}_2=-2+2=0$: orthogonal, as guaranteed for symmetric $A$. Normalise: $Q=\tfrac1{\sqrt5}\begin{pmatrix}-2&1\\1&2\end{pmatrix}$, $\Lambda=\begin{pmatrix}6&0\\0&1\end{pmatrix}$.</li>
+<li>$Q^{\mathsf T}Q=\tfrac15\begin{pmatrix}5&0\\0&5\end{pmatrix}=I$ ✓, so $Q^{-1}=Q^{\mathsf T}$, no inversion needed.</li>
+<li>With $\mathbf{y}=Q^{\mathsf T}\mathbf{x}$: $\mathbf{x}^{\mathsf T}A\mathbf{x}=\mathbf{y}^{\mathsf T}\Lambda\mathbf{y}=6y_1^2+y_2^2$. The curve $6y_1^2+y_2^2=1$ is an ellipse with semi-axes $1/\sqrt6$ along $\mathbf{q}_1$ and $1$ along $\mathbf{q}_2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>For symmetric matrices the eigenvectors are the principal axes of the quadratic form. Large eigenvalue = short axis (the form grows fast in that direction). For a covariance matrix, large eigenvalue = direction of <b>most</b> variance, which is the first principal component (W25).</div>
+</div></details>
+</div>
+
+<!-- 16 -->
+<div class="wx">
+<div class="bar"><span class="n">W16</span><span class="pill a">●●</span><span class="tag">eigen</span>A matrix that cannot be diagonalised, and its powers anyway</div>
+<div class="prob">$A=\begin{pmatrix}3&1\\0&3\end{pmatrix}$. Show $A$ is not diagonalisable, then find $A^n$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Triangular ⟹ $\lambda=3$ with AM 2.</li>
+<li>$A-3I=\begin{pmatrix}0&1\\0&0\end{pmatrix}$ has rank 1 ⟹ GM $=2-1=1<2$. Only one independent eigenvector, $(1,0)^{\mathsf T}$. Not diagonalisable.</li>
+<li>Write $A=3I+N$ with $N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, $N^2=0$. Since $I$ and $N$ commute, the binomial theorem applies: $A^n=(3I+N)^n=3^nI+n3^{n-1}N+0$.</li>
+<li>$A^n=\begin{pmatrix}3^n&n\,3^{n-1}\\0&3^n\end{pmatrix}$. Check $n=2$: $A^2=\begin{pmatrix}9&6\\0&9\end{pmatrix}$ ✓ by direct multiplication.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>"Not diagonalisable" means the eigenvectors do not span the space, not that eigenvalues are missing. Shear matrices are the standard example. The $nI+N$ trick with nilpotent $N$ is the 2×2 version of the Jordan form.</div>
+</div></details>
+</div>
+
+<!-- 17 -->
+<div class="wx">
+<div class="bar"><span class="n">W17</span><span class="pill a">●●</span><span class="tag">eigen · finance</span>Markov chain steady state and speed of convergence</div>
+<div class="prob">Each year a bond rated A stays A with probability 0.9 and drops to B with probability 0.1; a B bond is upgraded to A with probability 0.2 and stays B with 0.8. Let $\mathbf{x}_t=(\text{share A},\text{share B})^{\mathsf T}$. Find the long-run distribution and how fast it is reached.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathbf{x}_{t+1}=T\mathbf{x}_t$ with $T=\begin{pmatrix}0.9&0.2\\0.1&0.8\end{pmatrix}$ (columns sum to 1: column-stochastic).</li>
+<li>Eigenvalues: $\text{tr}=1.7$, $\det=0.72-0.02=0.70$ ⟹ $\lambda^2-1.7\lambda+0.7=(\lambda-1)(\lambda-0.7)$. A stochastic matrix always has $\lambda=1$.</li>
+<li>$\lambda=1$: $(T-I)\boldsymbol\pi=\mathbf{0}$: $-0.1\pi_1+0.2\pi_2=0$ ⟹ $\pi_1=2\pi_2$. Normalise to sum 1: $\boldsymbol\pi=(\tfrac23,\tfrac13)^{\mathsf T}$.</li>
+<li>$\lambda=0.7$: $T-0.7I=\begin{pmatrix}0.2&0.2\\0.1&0.1\end{pmatrix}$ ⟹ $\mathbf{v}=(1,-1)^{\mathsf T}$.</li>
+<li>Any start $\mathbf{x}_0=\boldsymbol\pi+c\,(1,-1)^{\mathsf T}$ (possible since the two eigenvectors form a basis and both $\mathbf{x}_0$ and $\boldsymbol\pi$ sum to 1). Then $\mathbf{x}_t=T^t\mathbf{x}_0=\boldsymbol\pi+c\,0.7^t(1,-1)^{\mathsf T}\to\boldsymbol\pi$.</li>
+<li>The gap shrinks by 30% per year; after 10 years $0.7^{10}\approx0.028$, i.e. 97% of the way to steady state.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The steady state is the $\lambda=1$ eigenvector; the <b>second-largest</b> eigenvalue controls the convergence speed. This is the structure behind rating-migration matrices, regime-switching models and PageRank alike.</div>
+</div></details>
+</div>
+
+<!-- 18 -->
+<div class="wx">
+<div class="bar"><span class="n">W18</span><span class="pill r">●●●</span><span class="tag">eigen</span>Closed form for a recurrence (Fibonacci)</div>
+<div class="prob">$F_{n+1}=F_n+F_{n-1}$, $F_0=0$, $F_1=1$. Use a matrix to derive a closed-form expression for $F_n$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>State vector $\mathbf{s}_n=(F_{n+1},F_n)^{\mathsf T}$. Then $\mathbf{s}_n=A\mathbf{s}_{n-1}$ with $A=\begin{pmatrix}1&1\\1&0\end{pmatrix}$, so $\mathbf{s}_n=A^n\mathbf{s}_0=A^n(1,0)^{\mathsf T}$.</li>
+<li>$\text{tr}=1$, $\det=-1$ ⟹ $\lambda^2-\lambda-1=0$ ⟹ $\varphi=\tfrac{1+\sqrt5}{2}\approx1.618$, $\psi=\tfrac{1-\sqrt5}{2}\approx-0.618$.</li>
+<li>Eigenvectors: $(A-\lambda I)\mathbf{v}=0$ gives $v_1=\lambda v_2$, so $\mathbf{v}_\varphi=(\varphi,1)^{\mathsf T}$, $\mathbf{v}_\psi=(\psi,1)^{\mathsf T}$.</li>
+<li>Decompose $(1,0)^{\mathsf T}=a\mathbf{v}_\varphi+b\mathbf{v}_\psi$: second component $a+b=0$; first $a\varphi+b\psi=1$ ⟹ $a(\varphi-\psi)=1$ ⟹ $a=1/\sqrt5$, $b=-1/\sqrt5$.</li>
+<li>$\mathbf{s}_n=a\varphi^n\mathbf{v}_\varphi+b\psi^n\mathbf{v}_\psi$; second component: $F_n=\dfrac{\varphi^n-\psi^n}{\sqrt5}$ (Binet). Check $n=5$: $(11.09-(-0.09))/2.236\approx5$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Any linear recurrence is $\mathbf{s}_n=A^n\mathbf{s}_0$, and $A^n$ is trivial once you have eigenvalues. The dominant eigenvalue $\varphi$ sets the growth rate; $|\psi|<1$ so its term dies. The same template gives closed forms for AR(2) processes, amortisation schedules and multi-period compounding with switching rates.</div>
+</div></details>
+</div>
+
+<!-- 19 -->
+<div class="wx">
+<div class="bar"><span class="n">W19</span><span class="pill a">●●</span><span class="tag">quadratic forms</span>Definiteness as a parameter varies</div>
+<div class="prob">Classify $Q(\mathbf{x})=x^2+2axy+4y^2+2z^2$ for every real $a$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$A=\begin{pmatrix}1&a&0\\a&4&0\\0&0&2\end{pmatrix}$ (half of the $xy$ coefficient goes in each off-diagonal slot).</li>
+<li>Leading minors: $D_1=1>0$, $D_2=4-a^2$, $D_3=2(4-a^2)$.</li>
+<li>$|a|<2$: all $D_k>0$ ⟹ <span class="g">positive definite</span>.</li>
+<li>$|a|=2$: $D_2=D_3=0$. Eigenvalues of the $2\times2$ block $\begin{pmatrix}1&\pm2\\\pm2&4\end{pmatrix}$: tr 5, det 0 ⟹ $\{5,0\}$; plus 2. All $\ge0$ ⟹ positive semidefinite, not definite.</li>
+<li>$|a|>2$: $D_2<0$ ⟹ <span class="a">indefinite</span>.</li>
+<li>Completing the square confirms: $Q=(x+ay)^2+(4-a^2)y^2+2z^2$. The sign of $4-a^2$ decides everything.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>For a block-diagonal matrix, test each block separately. Completing the square is the hand-computation version of diagonalising: each squared term's coefficient plays the role of an eigenvalue sign (Sylvester's law of inertia says the counts of positive, negative and zero coefficients agree with the eigenvalue signs).</div>
+</div></details>
+</div>
+
+<!-- 20 -->
+<div class="wx">
+<div class="bar"><span class="n">W20</span><span class="pill a">●●</span><span class="tag">quadratic forms</span>Classifying critical points with the Hessian</div>
+<div class="prob">$f(x,y)=x^3-3x+y^2$. Find and classify all critical points.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$f_x=3x^2-3=0$ ⟹ $x=\pm1$; $f_y=2y=0$ ⟹ $y=0$. Critical points $(1,0)$ and $(-1,0)$.</li>
+<li>Hessian $H=\begin{pmatrix}f_{xx}&f_{xy}\\f_{xy}&f_{yy}\end{pmatrix}=\begin{pmatrix}6x&0\\0&2\end{pmatrix}$.</li>
+<li>At $(1,0)$: $H=\text{diag}(6,2)$, $D_1=6>0$, $D_2=12>0$ ⟹ PD ⟹ <span class="g">local minimum</span>, $f=-2$.</li>
+<li>At $(-1,0)$: $H=\text{diag}(-6,2)$, eigenvalues of opposite sign ⟹ indefinite ⟹ <span class="a">saddle point</span>, $f=2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Second-order conditions in optimisation are definiteness tests of the Hessian. For mean–variance portfolios the objective $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$ has Hessian $2\Sigma$, PSD everywhere, so any critical point of the Lagrangian is a global minimum: no second-order check needed once $\Sigma$ is PD.</div>
+</div></details>
+</div>
+
+<!-- 21 -->
+<div class="wx">
+<div class="bar"><span class="n">W21</span><span class="pill a">●●</span><span class="tag">orthogonality</span>Gram–Schmidt with three vectors</div>
+<div class="prob">Orthonormalise $\mathbf{a}_1=(1,1,1)^{\mathsf T}$, $\mathbf{a}_2=(0,1,1)^{\mathsf T}$, $\mathbf{a}_3=(0,0,1)^{\mathsf T}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathbf{u}_1=\mathbf{a}_1=(1,1,1)^{\mathsf T}$, $\mathbf{u}_1^{\mathsf T}\mathbf{u}_1=3$.</li>
+<li>$\mathbf{u}_2=\mathbf{a}_2-\dfrac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_2}{3}\mathbf{u}_1=(0,1,1)^{\mathsf T}-\tfrac23(1,1,1)^{\mathsf T}=(-\tfrac23,\tfrac13,\tfrac13)^{\mathsf T}$. $\mathbf{u}_2^{\mathsf T}\mathbf{u}_2=\tfrac49+\tfrac19+\tfrac19=\tfrac23$.</li>
+<li>$\mathbf{u}_1^{\mathsf T}\mathbf{a}_3=1$, $\mathbf{u}_2^{\mathsf T}\mathbf{a}_3=\tfrac13$. $\mathbf{u}_3=\mathbf{a}_3-\tfrac13\mathbf{u}_1-\dfrac{1/3}{2/3}\mathbf{u}_2=(0,0,1)-(\tfrac13,\tfrac13,\tfrac13)-(-\tfrac13,\tfrac16,\tfrac16)=(0,-\tfrac12,\tfrac12)^{\mathsf T}$.</li>
+<li>Checks: $\mathbf{u}_3^{\mathsf T}\mathbf{u}_1=0$ ✓, $\mathbf{u}_3^{\mathsf T}\mathbf{u}_2=-\tfrac16+\tfrac16=0$ ✓.</li>
+<li>Normalise: $\mathbf{q}_1=\tfrac{1}{\sqrt3}(1,1,1)^{\mathsf T}$, $\mathbf{q}_2=\tfrac{1}{\sqrt6}(-2,1,1)^{\mathsf T}$, $\mathbf{q}_3=\tfrac{1}{\sqrt2}(0,-1,1)^{\mathsf T}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Scale the intermediate $\mathbf{u}$'s freely to clear fractions ($\mathbf{u}_2\propto(-2,1,1)$) since only the direction matters; normalise once at the end. Each $\mathbf{q}_k$ is "what is new in $\mathbf{a}_k$ relative to the previous ones". In regression, orthogonalising regressors this way is exactly the Frisch–Waugh idea.</div>
+</div></details>
+</div>
+
+<!-- 22 -->
+<div class="wx">
+<div class="bar"><span class="n">W22</span><span class="pill a">●●</span><span class="tag">least squares</span>Regression line by normal equations, and the two checks</div>
+<div class="prob">Fit $y=\beta_0+\beta_1t$ to $(1,2),(2,3),(3,5),(4,6)$. Verify that the residuals are orthogonal to both columns, and that $\hat\beta_1=\text{Cov}(t,y)/\text{Var}(t)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$A=\begin{pmatrix}1&1\\1&2\\1&3\\1&4\end{pmatrix}$, $\mathbf{b}=(2,3,5,6)^{\mathsf T}$. $A^{\mathsf T}A=\begin{pmatrix}4&10\\10&30\end{pmatrix}$, $A^{\mathsf T}\mathbf{b}=\begin{pmatrix}16\\47\end{pmatrix}$.</li>
+<li>$(A^{\mathsf T}A)^{-1}=\tfrac1{20}\begin{pmatrix}30&-10\\-10&4\end{pmatrix}$. $\hat\beta=\tfrac1{20}\begin{pmatrix}480-470\\-160+188\end{pmatrix}=\begin{pmatrix}0.5\\1.4\end{pmatrix}$.</li>
+<li>Fitted: $1.9,3.3,4.7,6.1$. Residuals $\mathbf{e}=(0.1,-0.3,0.3,-0.1)^{\mathsf T}$.</li>
+<li>Orthogonality: $\mathbf{1}^{\mathsf T}\mathbf{e}=0$ ✓; $\mathbf{t}^{\mathsf T}\mathbf{e}=0.1-0.6+0.9-0.4=0$ ✓.</li>
+<li>Covariance form: $\bar t=2.5$, $\bar y=4$. $\sum(t_i-\bar t)(y_i-\bar y)=3+0.5+0.5+3=7$, $\sum(t_i-\bar t)^2=5$. Ratio $1.4=\hat\beta_1$ ✓. Intercept $\bar y-\hat\beta_1\bar t=4-3.5=0.5$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The normal equations $A^{\mathsf T}\mathbf{e}=\mathbf{0}$ say: residuals have zero mean (column of ones) and zero correlation with every regressor. Those two facts are not assumptions; they are forced by the geometry of projection and hold in every OLS fit, good or bad.</div>
+</div></details>
+</div>
+
+<!-- 23 -->
+<div class="wx">
+<div class="bar"><span class="n">W23</span><span class="pill a">●●</span><span class="tag">finance</span>Global minimum-variance portfolio with two assets</div>
+<div class="prob">$\sigma_1=10\%$, $\sigma_2=20\%$, $\rho=0.3$. Find the minimum-variance weights using $\Sigma^{-1}$, and the resulting volatility.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\Sigma=\begin{pmatrix}0.01&0.006\\0.006&0.04\end{pmatrix}$ with $\sigma_{12}=0.3\cdot0.1\cdot0.2=0.006$. $\det\Sigma=0.0004-0.000036=0.000364>0$ and $\sigma_1^2>0$ ⟹ PD.</li>
+<li>$\Sigma^{-1}=\dfrac{1}{0.000364}\begin{pmatrix}0.04&-0.006\\-0.006&0.01\end{pmatrix}$.</li>
+<li>$\Sigma^{-1}\mathbf{1}\propto(0.034,\;0.004)^{\mathsf T}$ (the constant cancels in the ratio). $\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1}\propto0.038$.</li>
+<li>$\mathbf{w}^*=\dfrac{(0.034,0.004)}{0.038}=(0.895,\;0.105)^{\mathsf T}$.</li>
+<li>$\sigma^2_{\min}=\dfrac{1}{\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1}}=\dfrac{0.000364}{0.038}=0.00958$, $\sigma_{\min}=9.79\%$.</li>
+<li>Cross-check with the textbook formula $w_1=\dfrac{\sigma_2^2-\rho\sigma_1\sigma_2}{\sigma_1^2+\sigma_2^2-2\rho\sigma_1\sigma_2}=\dfrac{0.034}{0.038}$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The minimum-variance volatility $9.79\%$ is below the safer asset's $10\%$: diversification benefit from $\rho<1$. The matrix route $\Sigma^{-1}\mathbf{1}$ generalises to any number of assets; the two-asset formula does not. Notice $\Sigma^{-1}\mathbf{1}$ gives weights proportional to "row sums of the inverse covariance".</div>
+</div></details>
+</div>
+
+<!-- 24 -->
+<div class="wx">
+<div class="bar"><span class="n">W24</span><span class="pill r">●●●</span><span class="tag">finance · eigen</span>Equally weighted portfolio, correlation matrix eigenvalues, diversification limit</div>
+<div class="prob">Three assets, each with $\sigma=20\%$, every pairwise correlation $\rho=0.5$. (a) Variance of the equal-weight portfolio. (b) Eigenvalues of the correlation matrix. (c) What happens as the number of such assets $n\to\infty$?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\Sigma=\sigma^2R$, $R=\begin{pmatrix}1&.5&.5\\.5&1&.5\\.5&.5&1\end{pmatrix}$, $\mathbf{w}=\tfrac13\mathbf{1}$.</li>
+<li>$\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\tfrac19\sigma^2\,\mathbf{1}^{\mathsf T}R\mathbf{1}=\tfrac19(0.04)(3+6\cdot0.5)=\tfrac{6}{9}(0.04)=0.0267$, $\sigma_p=16.3\%$.</li>
+<li>$R=(1-\rho)I+\rho\mathbf{1}\mathbf{1}^{\mathsf T}$. $\mathbf{1}\mathbf{1}^{\mathsf T}$ has eigenvalues $n=3$ (eigenvector $\mathbf{1}$) and $0,0$ (any vector with entries summing to 0). So $R$ has eigenvalues $1-\rho+3\rho=2$ and $1-\rho=0.5$ (twice). All positive ⟹ PD.</li>
+<li>General $n$: $\mathbf{1}^{\mathsf T}R\mathbf{1}=n+n(n-1)\rho$, so with $\mathbf{w}=\tfrac1n\mathbf{1}$: $\sigma_p^2=\sigma^2\left[\tfrac1n+\left(1-\tfrac1n\right)\rho\right]$. Equivalently $\sigma_p^2=\tfrac{\sigma^2}{n}\lambda_{\max}(R)$ since $\mathbf{w}$ is along the top eigenvector.</li>
+<li>As $n\to\infty$: $\sigma_p^2\to\rho\sigma^2=0.02$, $\sigma_p\to14.1\%$. Idiosyncratic variance $\tfrac{\sigma^2}{n}(1-\rho)$ vanishes; the common part $\rho\sigma^2$ cannot be diversified.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The eigenvector $\mathbf{1}$ with the big eigenvalue $1+(n-1)\rho$ is the "market factor": all assets moving together. The remaining $n-1$ directions (long–short spreads) each carry only $1-\rho$. Equal weighting loads entirely on the big eigenvalue, which is exactly why its variance floors at $\rho\sigma^2$.</div>
+</div></details>
+</div>
+
+<!-- 25 -->
+<div class="wx">
+<div class="bar"><span class="n">W25</span><span class="pill a">●●</span><span class="tag">finance · eigen</span>PCA on a 2×2 covariance matrix</div>
+<div class="prob">Two assets with $\Sigma=\begin{pmatrix}4&2\\2&4\end{pmatrix}$ (in %²). Find the principal components, the share of variance explained by the first, and the variance of the equal-weight portfolio via the eigen-decomposition.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\text{tr}=8$, $\det=12$ ⟹ $\lambda^2-8\lambda+12=(\lambda-6)(\lambda-2)$: $\lambda_1=6$, $\lambda_2=2$.</li>
+<li>$\lambda=6$: $\Sigma-6I=\begin{pmatrix}-2&2\\2&-2\end{pmatrix}$ ⟹ $\mathbf{q}_1=\tfrac1{\sqrt2}(1,1)^{\mathsf T}$ (both assets up together: the "level" factor). $\lambda=2$: $\mathbf{q}_2=\tfrac1{\sqrt2}(1,-1)^{\mathsf T}$ (the "spread" factor).</li>
+<li>Variance explained by PC1: $\lambda_1/(\lambda_1+\lambda_2)=6/8=75\%$. Total variance $=\text{tr}\Sigma=8$ is preserved by the rotation.</li>
+<li>Equal weights $\mathbf{w}=(\tfrac12,\tfrac12)^{\mathsf T}=\tfrac{1}{\sqrt2}\mathbf{q}_1$. So $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\tfrac12\lambda_1=3$. Direct check: $\tfrac14(4+2+2+4)=3$ ✓.</li>
+<li>The long–short portfolio $(\tfrac12,-\tfrac12)$ has variance $\tfrac12\lambda_2=1$: three times less risky, because it only loads on the small eigenvalue.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\sum_i\lambda_i(\mathbf{q}_i^{\mathsf T}\mathbf{w})^2$: portfolio variance is a weighted sum of squared loadings on the principal components, weighted by eigenvalues. Risk lives in the big-eigenvalue directions. PCA is nothing more than the spectral theorem applied to $\Sigma$.</div>
+</div></details>
+</div>
+
+<!-- 26 -->
+<div class="wx">
+<div class="bar"><span class="n">W26</span><span class="pill a">●●</span><span class="tag">finance · systems</span>State prices, no-arbitrage, pricing a new claim</div>
+<div class="prob">One period, two states. A stock costs 100 and pays 110 (up) or 90 (down). A bond costs 100 and pays 105 in both states. Find the state prices, check for arbitrage, and price a put with strike 100.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Payoff matrix $D=\begin{pmatrix}110&105\\90&105\end{pmatrix}$ (rows = states, columns = securities). State prices $\boldsymbol\psi$ solve $D^{\mathsf T}\boldsymbol\psi=\mathbf{p}$: $\begin{pmatrix}110&90\\105&105\end{pmatrix}\begin{pmatrix}\psi_u\\\psi_d\end{pmatrix}=\begin{pmatrix}100\\100\end{pmatrix}$.</li>
+<li>$\det=110\cdot105-90\cdot105=2100\neq0$ ⟹ unique $\boldsymbol\psi$ ⟹ market complete.</li>
+<li>Row 2: $\psi_u+\psi_d=\tfrac{100}{105}=0.9524$. Row 1: $110\psi_u+90(0.9524-\psi_u)=100$ ⟹ $20\psi_u=100-85.71=14.29$ ⟹ $\psi_u=0.7143$, $\psi_d=0.2381$.</li>
+<li>Both strictly positive ⟹ <span class="g">no arbitrage</span>. Risk-neutral probabilities $q=\boldsymbol\psi/\sum\boldsymbol\psi=(0.75,0.25)$; indeed $q_u=\tfrac{105-90}{110-90}=0.75$ ✓.</li>
+<li>Put payoff $(0,10)^{\mathsf T}$. Price $=\boldsymbol\psi^{\mathsf T}\text{payoff}=0.2381\cdot10=2.38$. Equivalently $\tfrac{0.25\cdot10}{1.05}=2.38$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Pricing is linear: price $=\boldsymbol\psi^{\mathsf T}(\text{payoff})$ is a dot product with the state-price vector, which is why any replicable claim has exactly one arbitrage-free price. A negative state price would mean a state you get paid to insure, the linear-algebra signature of arbitrage.</div>
+</div></details>
+</div>
+
+<!-- 27 -->
+<div class="wx">
+<div class="bar"><span class="n">W27</span><span class="pill a">●●</span><span class="tag">finance · least squares</span>CAPM beta by OLS from raw data</div>
+<div class="prob">Four monthly excess returns (%): market $r_m=(2,-1,3,0)$, stock $r_i=(3,-2,4,1)$. Estimate $\alpha$ and $\beta$ in $r_i=\alpha+\beta r_m+\varepsilon$ using $(X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$, then confirm $\beta$ with the covariance formula.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$X=\begin{pmatrix}1&2\\1&-1\\1&3\\1&0\end{pmatrix}$, $\mathbf{y}=(3,-2,4,1)^{\mathsf T}$. $X^{\mathsf T}X=\begin{pmatrix}4&4\\4&14\end{pmatrix}$, $X^{\mathsf T}\mathbf{y}=\begin{pmatrix}6\\20\end{pmatrix}$.</li>
+<li>$\det=56-16=40$; $(X^{\mathsf T}X)^{-1}=\tfrac1{40}\begin{pmatrix}14&-4\\-4&4\end{pmatrix}$.</li>
+<li>$\hat{\boldsymbol\beta}=\tfrac1{40}\begin{pmatrix}84-80\\-24+80\end{pmatrix}=\begin{pmatrix}0.1\\1.4\end{pmatrix}$: $\hat\alpha=0.1\%$, $\hat\beta=1.4$.</li>
+<li>Covariance check: $\bar r_m=1$, $\bar r_i=1.5$. $\sum(r_m-1)(r_i-1.5)=1.5+7+5+0.5=14$; $\sum(r_m-1)^2=1+4+4+1=10$. $\hat\beta=14/10=1.4$ ✓.</li>
+<li>Fitted $\hat r_i=(2.9,-1.3,4.3,0.1)$, residuals $(0.1,-0.7,-0.3,0.9)$: sum $0$ ✓, $\sum r_m e=0.2+0.7-0.9+0=0$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$\hat\beta=\text{Cov}(r_i,r_m)/\text{Var}(r_m)$ is the projection coefficient from module 1 in disguise: project the demeaned stock return onto the demeaned market return. OLS with an intercept is literally "demean, then project". The matrix formula and the covariance formula are the same computation.</div>
+</div></details>
+</div>
+
+</section>
+<p class="muted" style="font-size:11.5px;border-top:1px solid var(--border);padding-top:10px">Linear algebra cheat sheet · built for the MSc Finance assessment test · modules 01–12 · interactive figures need JavaScript; the print button produces a light-theme PDF.</p>
+</main>
+</div>
+
+<script>
+window.addEventListener("beforeprint",()=>toggleAll(true));
+function toggleAll(o){document.querySelectorAll('.wx details').forEach(d=>d.open=o);}
+
+// ---------- KaTeX ----------
+document.addEventListener("DOMContentLoaded", function(){
+  renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});
+});
+
+// ---------- sidebar + themes ----------
+function toggleSide(){document.querySelector('.layout').classList.toggle('collapsed');}
+const themes=['dark','light','solar'];let ti=0;
+function applyTheme(){document.body.classList.remove('light','solar');if(themes[ti]!=='dark')document.body.classList.add(themes[ti]);document.getElementById('themebtn').textContent='◐ theme: '+({dark:'dark',light:'light',solar:'solarized'})[themes[ti]];}
+function cycleTheme(){ti=(ti+1)%themes.length;applyTheme();detDraw();eigDraw();qDraw();}
+// ---------- nav highlight ----------
+const secs=[...document.querySelectorAll('section')], links=[...document.querySelectorAll('.side a')];
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));}})},{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>io.observe(s));
+
+// ---------- helpers ----------
+const NS='http://www.w3.org/2000/svg';
+function cv(n){return getComputedStyle(document.body).getPropertyValue(n).trim();}
+function rgba(hex,a){hex=hex.replace('#','');if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');const n=parseInt(hex,16);return `rgba(${n>>16},${(n>>8)&255},${n&255},${a})`;}
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent.appendChild(e);return e;}
+function axes(svg,scale){const c=160;svg.innerHTML='';
+  for(let i=-3;i<=3;i++){el('line',{x1:c+i*scale,y1:0,x2:c+i*scale,y2:320,stroke:cv('--border')},svg);el('line',{x1:0,y1:c+i*scale,x2:320,y2:c+i*scale,stroke:cv('--border')},svg);}
+  el('line',{x1:0,y1:c,x2:320,y2:c,stroke:cv('--border2')},svg);el('line',{x1:c,y1:0,x2:c,y2:320,stroke:cv('--border2')},svg);
+  return (x,y)=>[c+x*scale,c-y*scale];}
+function fmt(x){return (Math.round(x*100)/100).toFixed(2);}
+function bindSliders(ids,fn){ids.forEach(id=>{const s=document.getElementById(id);s.addEventListener('input',()=>{document.getElementById(id+'_v').textContent=parseFloat(s.value).toFixed(1);fn();});});}
+function setSliders(ids,vals){ids.forEach((id,i)=>{document.getElementById(id).value=vals[i];document.getElementById(id+'_v').textContent=vals[i].toFixed(1);});}
+
+// ---------- determinant ----------
+const dIds=['d_a','d_b','d_c','d_d'];
+function detDraw(){const [a,b,c,d]=dIds.map(i=>parseFloat(document.getElementById(i).value));
+  const svg=document.getElementById('detsvg');const P=axes(svg,40);const det=a*d-b*c;
+  const u=P(1,0),v=P(0,1),uv=P(1,1),o=P(0,0);
+  el('polygon',{points:`${o} ${u} ${uv} ${v}`,fill:cv('--panel2'),stroke:cv('--dim'),'stroke-dasharray':'3 3'},svg);
+  const A1=P(a,c),A2=P(b,d),A12=P(a+b,c+d);
+  el('polygon',{points:`${o} ${A1} ${A12} ${A2}`,fill:det>=0?rgba(cv('--green'),.25):rgba(cv('--red'),.28),stroke:det>=0?cv('--green'):cv('--red')},svg);
+  el('line',{x1:o[0],y1:o[1],x2:A1[0],y2:A1[1],stroke:cv('--blue'),'stroke-width':2.5},svg);
+  el('line',{x1:o[0],y1:o[1],x2:A2[0],y2:A2[1],stroke:cv('--green'),'stroke-width':2.5},svg);
+  const t1=el('text',{x:A1[0]+4,y:A1[1]-4,fill:cv('--blue'),'font-size':11},svg);t1.textContent='(a,c)';
+  const t2=el('text',{x:A2[0]+4,y:A2[1]-4,fill:cv('--green'),'font-size':11},svg);t2.textContent='(b,d)';
+  document.getElementById('detread').innerHTML=`<span>det = ad − bc = ${fmt(a*d)} − ${fmt(b*c)} = <b>${fmt(det)}</b></span><span>area = <b>${fmt(Math.abs(det))}</b></span><span>${Math.abs(det)<1e-9?'<span class="r">singular</span>':'invertible'}</span><span>orientation: ${det<0?'<span class="r">flipped</span>':'preserved'}</span>`;}
+function detSet(a,b,c,d){setSliders(dIds,[a,b,c,d]);detDraw();}
+bindSliders(dIds,detDraw);detDraw();
+
+// ---------- eigen ----------
+const eIds=['e_a','e_b','e_c','e_d'];
+function eigDraw(){const [a,b,c,d]=eIds.map(i=>parseFloat(document.getElementById(i).value));
+  const svg=document.getElementById('eigsvg');const P=axes(svg,40);const o=P(0,0);
+  const tr=a+d,det=a*d-b*c,disc=tr*tr-4*det;
+  let read=`<span>tr = <b>${fmt(tr)}</b></span><span>det = <b>${fmt(det)}</b></span><span>λ² − ${fmt(tr)}λ + ${fmt(det)} = 0</span>`;
+  if(disc>=-1e-9){const s=Math.sqrt(Math.max(disc,0));const l1=(tr+s)/2,l2=(tr-s)/2;
+    read+=`<span>λ₁ = <b>${fmt(l1)}</b>, λ₂ = <b>${fmt(l2)}</b></span>`;
+    [l1,l2].forEach((l,k)=>{let vx,vy;
+      if(Math.abs(b)>1e-9){vx=b;vy=l-a;}else if(Math.abs(c)>1e-9){vx=l-d;vy=c;}else{vx=k===0?1:0;vy=k===0?0:1; if(Math.abs(a-d)<1e-9){vx=k===0?1:0;vy=k===0?0:1;}}
+      const n=Math.hypot(vx,vy)||1;vx/=n;vy/=n;const p1=P(vx*4,vy*4),p2=P(-vx*4,-vy*4);
+      el('line',{x1:p1[0],y1:p1[1],x2:p2[0],y2:p2[1],stroke:cv('--green'),'stroke-width':1.5,'stroke-dasharray':k?'5 4':''},svg);
+      const t=el('text',{x:P(vx*3.2,vy*3.2)[0]+4,y:P(vx*3.2,vy*3.2)[1]-4,fill:cv('--green'),'font-size':11},svg);t.textContent='λ='+fmt(l);
+      read+=`<span>v${k+1} ∝ (${fmt(vx)}, ${fmt(vy)})</span>`;});
+  } else {read+=`<span class="r">complex eigenvalues: ${fmt(tr/2)} ± ${fmt(Math.sqrt(-disc)/2)}i (no real eigenvectors)</span>`;}
+  for(let k=0;k<16;k++){const th=k*Math.PI/8;const x=Math.cos(th),y=Math.sin(th);const X=a*x+b*y,Y=c*x+d*y;
+    const p=P(x,y),q=P(X,Y);
+    el('line',{x1:o[0],y1:o[1],x2:p[0],y2:p[1],stroke:cv('--dim'),'stroke-width':1},svg);
+    const cross=Math.abs(x*Y-y*X);const col=cross<0.08?cv('--amber'):cv('--blue');
+    el('line',{x1:o[0],y1:o[1],x2:q[0],y2:q[1],stroke:col,'stroke-width':1.4,opacity:.9},svg);
+    el('circle',{cx:q[0],cy:q[1],r:2.2,fill:col},svg);}
+  document.getElementById('eigread').innerHTML=read;}
+function eigSet(a,b,c,d){setSliders(eIds,[a,b,c,d]);eigDraw();}
+bindSliders(eIds,eigDraw);eigDraw();
+
+// ---------- quadratic form ----------
+const qIds=['q_a','q_b','q_c'];
+function qDraw(){const [a,b,c]=qIds.map(i=>parseFloat(document.getElementById(i).value));
+  const svg=document.getElementById('qsvg');svg.innerHTML='';const N=24,cell=320/N;
+  let vals=[],mx=0;for(let i=0;i<N;i++){for(let j=0;j<N;j++){const x=-2+(i+.5)*4/N,y=2-(j+.5)*4/N;const v=a*x*x+2*b*x*y+c*y*y;vals.push(v);mx=Math.max(mx,Math.abs(v));}}
+  let k=0;for(let i=0;i<N;i++){for(let j=0;j<N;j++){const v=vals[k++];const t=mx?Math.abs(v)/mx:0;const col=v>=0?rgba(cv('--green'),0.08+0.85*t):rgba(cv('--red'),0.08+0.85*t);el('rect',{x:i*cell,y:j*cell,width:cell+.5,height:cell+.5,fill:col},svg);}}
+  el('line',{x1:0,y1:160,x2:320,y2:160,stroke:cv('--border2')},svg);el('line',{x1:160,y1:0,x2:160,y2:320,stroke:cv('--border2')},svg);
+  const tr=a+c,det=a*c-b*b,s=Math.sqrt(Math.max(tr*tr-4*det,0));const l1=(tr+s)/2,l2=(tr-s)/2;
+  [l1,l2].forEach(l=>{let vx,vy;if(Math.abs(b)>1e-9){vx=b;vy=l-a;}else{vx=Math.abs(l-a)<1e-9?1:0;vy=vx?0:1;}const n=Math.hypot(vx,vy)||1;vx/=n;vy/=n;
+    el('line',{x1:160-vx*300,y1:160+vy*300,x2:160+vx*300,y2:160-vy*300,stroke:cv('--text'),'stroke-width':1,opacity:.7},svg);});
+  let cls;const eps=1e-9;
+  if(l1>eps&&l2>eps)cls='<span class="g">positive definite</span>';else if(l1<-eps&&l2<-eps)cls='<span class="r">negative definite</span>';else if(l1>eps&&l2<-eps)cls='<span class="a">indefinite</span>';else if(l2>-eps&&l1>eps)cls='positive semidefinite';else if(l1<eps&&l2<-eps)cls='negative semidefinite';else cls='zero form';
+  document.getElementById('qread').innerHTML=`<span>λ₁ = <b>${fmt(l1)}</b>, λ₂ = <b>${fmt(l2)}</b></span><span>D₁ = a = <b>${fmt(a)}</b></span><span>D₂ = ac − b² = <b>${fmt(det)}</b></span><span>${cls}</span>`;}
+function qSet(a,b,c){setSliders(qIds,[a,b,c]);qDraw();}
+bindSliders(qIds,qDraw);qDraw();
+</script>
+</body>
+</html>

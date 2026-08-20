@@ -1,0 +1,83 @@
+<!-- ============ 10 FINANCE ============ -->
+<section id="s10">
+<div class="sec-head"><span class="num">10</span><h2>Finance applications</h2><span class="sub">where every module above shows up</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill b">FIN</span> Portfolio return &amp; variance in matrix form<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$n$ assets, weights $\mathbf{w}\in\mathbb{R}^n$ with $\mathbf{1}^{\mathsf T}\mathbf{w}=1$, expected returns $\boldsymbol\mu$, covariance matrix $\Sigma$ ($\Sigma_{ij}=\text{Cov}(r_i,r_j)=\rho_{ij}\sigma_i\sigma_j$).</p>
+  $$\mu_p=\mathbf{w}^{\mathsf T}\boldsymbol\mu=\sum_iw_i\mu_i,\qquad\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\sum_i\sum_jw_iw_j\sigma_{ij}$$
+  <p>Two assets, written out:</p>
+  $$\sigma_p^2=\begin{pmatrix}w_1&w_2\end{pmatrix}\begin{pmatrix}\sigma_1^2&\rho\sigma_1\sigma_2\\\rho\sigma_1\sigma_2&\sigma_2^2\end{pmatrix}\begin{pmatrix}w_1\\w_2\end{pmatrix}=w_1^2\sigma_1^2+w_2^2\sigma_2^2+2w_1w_2\rho\sigma_1\sigma_2$$
+  <h3>Covariance matrix properties</h3>
+  <ul>
+    <li>Symmetric: $\Sigma=\Sigma^{\mathsf T}$ (module 2).</li>
+    <li>Positive semidefinite: $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}=\text{Var}(\mathbf{w}^{\mathsf T}\mathbf{r})\ge0$ (module 8).</li>
+    <li>PD unless some asset is a linear combination of the others (redundant asset ⟹ $\det\Sigma=0$, singular, cannot invert).</li>
+    <li>Diagonal = variances; $\Sigma=D\,R\,D$ with $D=\text{diag}(\sigma_i)$ and $R$ the correlation matrix.</li>
+    <li>Eigen-decomposition $\Sigma=Q\Lambda Q^{\mathsf T}$: PCA; $\lambda_1/\sum\lambda_i$ = share of variance explained by the first factor (module 7).</li>
+    <li>Sample estimate from demeaned $T\times n$ return matrix $R$: $\hat\Sigma=\frac{1}{T-1}R^{\mathsf T}R$, rank $\le\min(T-1,n)$, so with fewer observations than assets $\hat\Sigma$ is singular.</li>
+  </ul>
+  <h3>Minimum-variance portfolio (Lagrange)</h3>
+  $$\min_{\mathbf{w}}\tfrac12\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}\;\text{ s.t. }\;\mathbf{1}^{\mathsf T}\mathbf{w}=1\quad\Rightarrow\quad\mathbf{w}^*=\frac{\Sigma^{-1}\mathbf{1}}{\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1}},\quad\sigma^{2}_{\min}=\frac{1}{\mathbf{1}^{\mathsf T}\Sigma^{-1}\mathbf{1}}$$
+  <p class="muted">Derivation: $\mathcal L=\tfrac12\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}-\gamma(\mathbf{1}^{\mathsf T}\mathbf{w}-1)$; $\partial\mathcal L/\partial\mathbf{w}=\Sigma\mathbf{w}-\gamma\mathbf{1}=\mathbf{0}$ ⟹ $\mathbf{w}=\gamma\Sigma^{-1}\mathbf{1}$; impose the constraint to get $\gamma$. Needs $\Sigma$ invertible (module 5).</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">FIN</span> OLS regression<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Model $\mathbf{y}=X\boldsymbol\beta+\boldsymbol\varepsilon$, $\mathbf{y}\in\mathbb{R}^T$, $X$ is $T\times k$ (first column of ones for the intercept).</p>
+  $$\hat{\boldsymbol\beta}=(X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$$
+  <table>
+    <tr><th>Object</th><th>Formula</th><th>Linear algebra behind it</th></tr>
+    <tr><td>Fitted values</td><td>$\hat{\mathbf{y}}=X\hat\beta=H\mathbf{y}$, $H=X(X^{\mathsf T}X)^{-1}X^{\mathsf T}$</td><td>projection onto $C(X)$; $H$ symmetric idempotent, tr$(H)=k$</td></tr>
+    <tr><td>Residuals</td><td>$\mathbf{e}=(I-H)\mathbf{y}$</td><td>$\mathbf{e}\perp C(X)$, so $X^{\mathsf T}\mathbf{e}=\mathbf{0}$</td></tr>
+    <tr><td>Identification</td><td>$X^{\mathsf T}X$ invertible</td><td>rank$(X)=k$: no perfect multicollinearity (module 6)</td></tr>
+    <tr><td>Variance of $\hat\beta$</td><td>$\sigma^2(X^{\mathsf T}X)^{-1}$</td><td>PD matrix; diagonal gives standard errors²</td></tr>
+    <tr><td>Sum of squares</td><td>$\mathbf{y}^{\mathsf T}\mathbf{y}=\hat{\mathbf{y}}^{\mathsf T}\hat{\mathbf{y}}+\mathbf{e}^{\mathsf T}\mathbf{e}$</td><td>Pythagoras, since $\hat{\mathbf{y}}\perp\mathbf{e}$ (module 9)</td></tr>
+  </table>
+  <p>Single-factor (CAPM) case: $X=[\mathbf{1}\;\mathbf{r}_m]$, $\hat\beta_1=\dfrac{\text{Cov}(r_i,r_m)}{\text{Var}(r_m)}$, which is the projection coefficient from module 1.</p>
+  <h3>Replication &amp; arbitrage (linear systems)</h3>
+  <p>Payoff matrix $D$ ($m$ states × $n$ securities), prices $\mathbf{p}\in\mathbb{R}^n$, state prices $\boldsymbol\psi\in\mathbb{R}^m$:</p>
+  $$D^{\mathsf T}\boldsymbol\psi=\mathbf{p}$$
+  <ul>
+    <li>Complete market ⟺ rank$(D)=m$ (every payoff reachable; $D\mathbf{x}=\mathbf{b}$ always solvable).</li>
+    <li>No arbitrage ⟺ exists $\boldsymbol\psi>0$ solving the system (Fundamental theorem, first part).</li>
+    <li>Unique $\boldsymbol\psi$ ⟺ complete and arbitrage-free. Risk-neutral probabilities $q_s=\psi_s/\sum\psi$.</li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Worked example: three-asset portfolio &amp; a two-state replication<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>Portfolio</h3>
+  $$\boldsymbol\mu=\begin{pmatrix}0.08\\0.12\\0.05\end{pmatrix},\;\Sigma=\begin{pmatrix}0.04&0.01&0\\0.01&0.09&0.02\\0&0.02&0.01\end{pmatrix},\;\mathbf{w}=\begin{pmatrix}0.5\\0.3\\0.2\end{pmatrix}$$
+  <ol class="steps">
+    <li>$\mu_p=0.5(0.08)+0.3(0.12)+0.2(0.05)=0.04+0.036+0.01=0.086$</li>
+    <li>$\Sigma\mathbf{w}=\begin{pmatrix}0.02+0.003+0\\0.005+0.027+0.004\\0+0.006+0.002\end{pmatrix}=\begin{pmatrix}0.023\\0.036\\0.008\end{pmatrix}$</li>
+    <li>$\sigma_p^2=\mathbf{w}^{\mathsf T}(\Sigma\mathbf{w})=0.0115+0.0108+0.0016=0.0239$, $\;\sigma_p\approx0.155$</li>
+    <li>Is $\Sigma$ PD? $D_1=0.04>0$, $D_2=0.0036-0.0001=0.0035>0$, $D_3=0.04(0.0009-0.0004)-0.01(0.0001-0)=0.00002-0.000001=0.000019>0$ ✓</li>
+  </ol>
+  <p class="muted">Compute $\Sigma\mathbf{w}$ first, then dot with $\mathbf{w}$: two cheap steps instead of expanding nine terms.</p>
+  </div>
+  <div>
+  <h3>Replication</h3>
+  <p>Two states (up/down), stock $S$: 120 / 80, bond $B$: 105 / 105. Replicate a call with strike 100: payoff 20 / 0.</p>
+  $$\begin{pmatrix}120&105\\80&105\end{pmatrix}\begin{pmatrix}\Delta\\ b\end{pmatrix}=\begin{pmatrix}20\\0\end{pmatrix}$$
+  <ol class="steps">
+    <li>$\det=120(105)-105(80)=4200\neq0$ ⟹ market complete, unique replication.</li>
+    <li>Cramer: $\Delta=\dfrac{\begin{vmatrix}20&105\\0&105\end{vmatrix}}{4200}=\dfrac{2100}{4200}=0.5$</li>
+    <li>$b=\dfrac{\begin{vmatrix}120&20\\80&0\end{vmatrix}}{4200}=\dfrac{-1600}{4200}=-\dfrac{8}{21}\approx-0.381$</li>
+    <li>Price today (with $S_0=100$, $B_0=100$): $0.5(100)-0.381(100)\approx11.9$</li>
+  </ol>
+  <p class="muted">Hold half a share, borrow ≈38.1 at the risk-free rate. Same answer as binomial pricing with $q=(105-80)/(120-80)=0.625$: $(0.625\cdot20)/1.05=11.9$ ✓</p>
+  </div>
+  </div>
+  </div>
+</div>
+</section>
