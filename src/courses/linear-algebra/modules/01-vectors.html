@@ -2,49 +2,113 @@
 <section id="s1">
 <div class="sec-head"><span class="num">01</span><h2>Vectors</h2><span class="sub">the atoms of everything that follows</span></div>
 
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What is a vector, and why should you care?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>vector</b> is simply an ordered list of numbers. That's it. The list $(3, 5)$ is a vector with two entries; $(1, 0, -2, 7)$ is a vector with four. What makes vectors more than "just lists" is that we give them two superpowers — you can <b>add</b> two of them, and you can <b>scale</b> one by a number — and a way to measure how they relate to each other (the dot product). All of linear algebra is built from these three operations.</p>
+  <p>There are two ways to picture the same vector, and you should get comfortable switching between them:</p>
+  <ul>
+    <li><b>As a point / arrow.</b> The vector $(3,5)$ is an arrow starting at the origin and ending at the point 3 steps right, 5 steps up. This picture gives you geometry: length, direction, angle.</li>
+    <li><b>As data.</b> The vector $(0.02, -0.01, 0.03)$ could be the daily returns of three stocks, or three days of one stock. This picture is why finance uses linear algebra everywhere: a portfolio, a price history, a set of factor exposures — all vectors.</li>
+  </ul>
+  <p>The arrow picture only works up to 3 dimensions, but every formula in this module works identically in ℝ¹⁰⁰. That is the trick of the subject: build intuition in 2D, compute in any dimension.</p>
+  <div class="note tip"><div class="t">Chapter map</div>First, notation and the two basic operations (add, scale). Then the dot product, which gives you length, distance, and angle. Finally projection — "how much of one vector points along another" — which quietly becomes least squares and regression in module 9.</div>
+  </div>
+</div>
+
 <div class="grid2">
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Notation &amp; basic operations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 1</span> Notation &amp; the two basic operations<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>A vector in ℝⁿ is an ordered list of n real numbers. Default is a <b>column</b> vector; a row vector is its transpose.</p>
+  <p>A vector in $\mathbb{R}^n$ ("R-n") is an ordered list of $n$ real numbers. The symbol $\mathbb{R}^n$ just means "the set of all such lists": $\mathbb{R}^2$ is the plane, $\mathbb{R}^3$ is 3D space, $\mathbb{R}^{50}$ is the space of 50-number lists (no picture available, formulas unchanged).</p>
+  <p>By convention a vector is written as a <b>column</b> (stacked vertically). The <b>transpose</b>, written $\mathbf{x}^{\mathsf T}$, lays the same numbers out as a row. This distinction seems pedantic now, but from module 2 onward it decides whether a multiplication is even allowed, so build the habit early.</p>
   $$\mathbf{x}=\begin{pmatrix}x_1\\ x_2\\ \vdots\\ x_n\end{pmatrix},\qquad \mathbf{x}^{\mathsf T}=(x_1,\;x_2,\;\dots,\;x_n)$$
-  <table class="formula-table">
-    <tr><td>Addition</td><td>$(\mathbf{x}+\mathbf{y})_i = x_i + y_i$ — componentwise, same dimension only</td></tr>
-    <tr><td>Scalar mult.</td><td>$(c\mathbf{x})_i = c\,x_i$ — stretches (|c|&gt;1), shrinks (|c|&lt;1), flips (c&lt;0)</td></tr>
-    <tr><td>Linear comb.</td><td>$c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \dots + c_k\mathbf{v}_k$</td></tr>
-    <tr><td>Zero vector</td><td>$\mathbf{0}$, identity for addition</td></tr>
-  </table>
-  <p class="muted">A portfolio is a linear combination: weights $w_i$ times asset return vectors.</p>
+  <h3>Operation 1: addition</h3>
+  <p>Add two vectors <b>entry by entry</b>. Only vectors of the same dimension can be added — there is no way to add a 2-list to a 3-list.</p>
+  $$\begin{pmatrix}1\\2\end{pmatrix}+\begin{pmatrix}3\\-1\end{pmatrix}=\begin{pmatrix}1+3\\2+(-1)\end{pmatrix}=\begin{pmatrix}4\\1\end{pmatrix}$$
+  <p>Geometrically this is the <b>tip-to-tail</b> rule: slide the second arrow so it starts where the first one ends; the sum is the arrow from the origin to the final tip.</p>
+  <h3>Operation 2: scaling</h3>
+  <p>Multiply a vector by a single number $c$ (called a <b>scalar</b>, precisely because it <i>scales</i>): every entry gets multiplied by $c$.</p>
+  $$3\begin{pmatrix}1\\2\end{pmatrix}=\begin{pmatrix}3\\6\end{pmatrix},\qquad -\tfrac12\begin{pmatrix}4\\2\end{pmatrix}=\begin{pmatrix}-2\\-1\end{pmatrix}$$
+  <p>The arrow keeps its direction and gets stretched ($|c|&gt;1$), shrunk ($|c|&lt;1$), or flipped to point the opposite way ($c&lt;0$). The <b>zero vector</b> $\mathbf{0}$ (all entries 0) is what you get from $c=0$; adding it changes nothing.</p>
+  <figure>
+  <svg viewBox="0 0 560 190">
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
+    <g transform="translate(10,0)">
+      <text x="0" y="16" class="svgtxt w">addition: tip-to-tail</text>
+      <line x1="20" y1="160" x2="100" y2="120" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="50" y="152" class="svgtxt b">x</text>
+      <line x1="100" y1="120" x2="140" y2="50" stroke="var(--green)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="128" y="90" class="svgtxt g">y</text>
+      <line x1="20" y1="160" x2="140" y2="50" stroke="var(--amber)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="60" y="90" class="svgtxt a">x + y</text>
+    </g>
+    <g transform="translate(220,0)">
+      <text x="0" y="16" class="svgtxt w">scaling: same line, different length</text>
+      <line x1="30" y1="160" x2="90" y2="130" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="92" y="126" class="svgtxt b">x</text>
+      <line x1="120" y1="160" x2="240" y2="100" stroke="var(--green)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="244" y="98" class="svgtxt g">2x</text>
+      <line x1="270" y1="130" x2="210" y2="160" stroke="var(--red)" stroke-width="2.5" marker-end="url(#ar)"/>
+      <text x="274" y="128" class="svgtxt r">−x</text>
+    </g>
+  </svg>
+  <figcaption>Left: to add, walk along x, then along y; the sum is the direct route. Right: scaling stretches or flips the arrow but never rotates it.</figcaption>
+  </figure>
+  <h3>Combining both: the linear combination</h3>
+  <p>Do both at once — scale several vectors and add the results — and you get the single most important expression in this course:</p>
+  $$c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \dots + c_k\mathbf{v}_k$$
+  <p>Read it as "a recipe": take $c_1$ parts of $\mathbf{v}_1$, $c_2$ parts of $\mathbf{v}_2$, and so on. Almost every question in later modules ("does this system have a solution?", "are these vectors redundant?") is secretly a question about which vectors a set of recipes can produce.</p>
+  <div class="note fin"><div class="t">Finance link</div>A portfolio <i>is</i> a linear combination: if asset $i$ has return vector $\mathbf{r}_i$ (its returns over time) and you hold weight $w_i$, the portfolio's return vector is $w_1\mathbf{r}_1+\dots+w_n\mathbf{r}_n$.</div>
+  <p class="muted"><b>Check yourself:</b> with $\mathbf{u}=(1,0)^{\mathsf T}$, $\mathbf{v}=(0,1)^{\mathsf T}$, which vector is $2\mathbf{u}-3\mathbf{v}$? (Answer: $(2,-3)^{\mathsf T}$. Note that <i>any</i> vector in ℝ² is some combination of these two.)</p>
   </div>
 </div>
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Dot product, norm, distance, angle<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 2</span> The dot product: one number that measures alignment<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
+  <p>The <b>dot product</b> (also written $\mathbf{x}^{\mathsf T}\mathbf{y}$, "x transpose y") multiplies two vectors of the same dimension entry by entry and adds everything up. The result is a single number, <b>not</b> a vector:</p>
+  $$\mathbf{x}\cdot\mathbf{y}=\mathbf{x}^{\mathsf T}\mathbf{y}=\sum_{i=1}^n x_i y_i = x_1y_1+x_2y_2+\dots+x_ny_n$$
+  <p>Example: $(1,2,3)\cdot(4,0,-1)=1\cdot4+2\cdot0+3\cdot(-1)=1$.</p>
+  <p>What does that number <i>mean</i>? It measures <b>how much the two vectors point the same way</b>:</p>
+  <ul>
+    <li>Large positive → roughly the same direction.</li>
+    <li>Zero → perpendicular (the vectors are called <b>orthogonal</b>, written $\mathbf{x}\perp\mathbf{y}$).</li>
+    <li>Negative → pointing in roughly opposite directions.</li>
+  </ul>
+  <h3>Everything the dot product gives you</h3>
+  <p><b>Length.</b> Dot a vector with itself: $\mathbf{x}^{\mathsf T}\mathbf{x}=x_1^2+\dots+x_n^2$, the sum of squared entries. Its square root is the length (the <b>norm</b>) — in 2D this is literally Pythagoras:</p>
+  $$\|\mathbf{x}\|=\sqrt{\mathbf{x}^{\mathsf T}\mathbf{x}}=\sqrt{x_1^2+\dots+x_n^2}\qquad\text{e.g. }\|(3,4)\|=\sqrt{9+16}=5$$
+  <p><b>Distance.</b> The distance between two points is the length of the difference vector: $d(\mathbf{x},\mathbf{y})=\|\mathbf{x}-\mathbf{y}\|$.</p>
+  <p><b>Angle.</b> The angle $\theta$ between two vectors satisfies</p>
+  $$\cos\theta=\frac{\mathbf{x}^{\mathsf T}\mathbf{y}}{\|\mathbf{x}\|\,\|\mathbf{y}\|}$$
+  <p>This formula explains the sign behaviour above: $\cos\theta$ is $+1$ for parallel vectors, $0$ at 90°, $-1$ for opposite. Setting the numerator to zero recovers the orthogonality test: $\mathbf{x}\perp\mathbf{y}\iff \mathbf{x}^{\mathsf T}\mathbf{y}=0$.</p>
+  <p><b>Direction only.</b> Dividing a vector by its own length produces a <b>unit vector</b> (length exactly 1) pointing the same way: $\hat{\mathbf{x}}=\mathbf{x}/\|\mathbf{x}\|$. Useful whenever you care about direction but not magnitude.</p>
+  <h3>Rules it obeys</h3>
   <table class="formula-table">
-    <tr><td>Dot product</td><td>$\mathbf{x}\cdot\mathbf{y}=\mathbf{x}^{\mathsf T}\mathbf{y}=\sum_{i=1}^n x_i y_i$</td></tr>
-    <tr><td>Norm (length)</td><td>$\|\mathbf{x}\|=\sqrt{\mathbf{x}^{\mathsf T}\mathbf{x}}=\sqrt{x_1^2+\dots+x_n^2}$</td></tr>
-    <tr><td>Distance</td><td>$d(\mathbf{x},\mathbf{y})=\|\mathbf{x}-\mathbf{y}\|$</td></tr>
-    <tr><td>Angle</td><td>$\cos\theta=\dfrac{\mathbf{x}^{\mathsf T}\mathbf{y}}{\|\mathbf{x}\|\,\|\mathbf{y}\|}$</td></tr>
-    <tr><td>Orthogonal</td><td>$\mathbf{x}\perp\mathbf{y}\iff \mathbf{x}^{\mathsf T}\mathbf{y}=0$</td></tr>
-    <tr><td>Unit vector</td><td>$\hat{\mathbf{x}}=\mathbf{x}/\|\mathbf{x}\|$</td></tr>
-    <tr><td>Cauchy–Schwarz</td><td>$|\mathbf{x}^{\mathsf T}\mathbf{y}|\le\|\mathbf{x}\|\,\|\mathbf{y}\|$</td></tr>
-    <tr><td>Triangle ineq.</td><td>$\|\mathbf{x}+\mathbf{y}\|\le\|\mathbf{x}\|+\|\mathbf{y}\|$</td></tr>
+    <tr><td>Symmetric</td><td>$\mathbf{x}\cdot\mathbf{y}=\mathbf{y}\cdot\mathbf{x}$</td></tr>
+    <tr><td>Distributes over +</td><td>$\mathbf{x}\cdot(\mathbf{y}+\mathbf{z})=\mathbf{x}\cdot\mathbf{y}+\mathbf{x}\cdot\mathbf{z}$</td></tr>
+    <tr><td>Scalars pull out</td><td>$(c\mathbf{x})\cdot\mathbf{y}=c\,(\mathbf{x}\cdot\mathbf{y})$</td></tr>
+    <tr><td>Never negative with itself</td><td>$\mathbf{x}\cdot\mathbf{x}\ge0$, and $=0$ only for $\mathbf{x}=\mathbf{0}$</td></tr>
+    <tr><td>Cauchy–Schwarz</td><td>$|\mathbf{x}^{\mathsf T}\mathbf{y}|\le\|\mathbf{x}\|\,\|\mathbf{y}\|$ — why $\cos\theta$ above is always in $[-1,1]$</td></tr>
+    <tr><td>Triangle inequality</td><td>$\|\mathbf{x}+\mathbf{y}\|\le\|\mathbf{x}\|+\|\mathbf{y}\|$ — a detour is never shorter</td></tr>
   </table>
-  <p class="muted">Properties of the dot product: commutative, distributive over +, $\,(c\mathbf{x})\cdot\mathbf{y}=c(\mathbf{x}\cdot\mathbf{y})$, $\,\mathbf{x}\cdot\mathbf{x}\ge 0$ with equality only at $\mathbf{0}$.</p>
+  <p class="muted"><b>Check yourself:</b> compute $(2,1)\cdot(-1,2)$. (Answer: $-2+2=0$ — the vectors are orthogonal. Sketch them: one is the other rotated 90°.)</p>
   </div>
 </div>
 </div>
 
 <div class="grid2">
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Projection<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 3</span> Projection: the shadow of one vector on another<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>Projection of $\mathbf{b}$ onto the line spanned by $\mathbf{a}$:</p>
-  $$\text{proj}_{\mathbf{a}}\mathbf{b}=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\mathbf{a}^{\mathsf T}\mathbf{a}}\,\mathbf{a}, \qquad \text{scalar component}=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\|\mathbf{a}\|}$$
-  <p>The residual $\mathbf{b}-\text{proj}_{\mathbf{a}}\mathbf{b}$ is orthogonal to $\mathbf{a}$. This single idea becomes least squares and OLS in modules 9 and 10.</p>
+  <p>Question: given two vectors $\mathbf{a}$ and $\mathbf{b}$, <b>how much of $\mathbf{b}$ points along $\mathbf{a}$?</b> Imagine the sun directly above the line through $\mathbf{a}$: the <b>projection</b> is the shadow $\mathbf{b}$ casts onto that line.</p>
+  <p>To find it, note the shadow must be some multiple $t\mathbf{a}$ of $\mathbf{a}$, and the leftover $\mathbf{b}-t\mathbf{a}$ must be perpendicular to $\mathbf{a}$ (a shadow is directly below the object). Perpendicular means dot product zero:</p>
+  $$\mathbf{a}^{\mathsf T}(\mathbf{b}-t\mathbf{a})=0\;\Longrightarrow\;t=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\mathbf{a}^{\mathsf T}\mathbf{a}}$$
+  <p>So the projection formula — worth memorising, it reappears constantly — is:</p>
+  $$\text{proj}_{\mathbf{a}}\mathbf{b}=\frac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\mathbf{a}^{\mathsf T}\mathbf{a}}\,\mathbf{a}$$
+  <p>The projection splits $\mathbf{b}$ into two clean pieces: a part <i>along</i> $\mathbf{a}$ and a part <i>perpendicular</i> to $\mathbf{a}$. The perpendicular part $\mathbf{b}-\text{proj}_{\mathbf{a}}\mathbf{b}$ is the <b>shortest possible gap</b> between $\mathbf{b}$ and the line — "closest point on a line" is a projection. Replace "line" with "plane of all possible regression fits" and this same idea becomes least squares and OLS in module 9.</p>
   <figure>
   <svg viewBox="0 0 420 200">
-    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
     <line x1="40" y1="160" x2="400" y2="160" stroke="var(--border2)"/>
     <line x1="40" y1="160" x2="40" y2="20" stroke="var(--border2)"/>
     <!-- a -->
@@ -62,21 +126,24 @@
   </svg>
   <figcaption>Projection splits b into a part along a (amber) and a part perpendicular to a (red dashed). The perpendicular part is the shortest distance from b to the line.</figcaption>
   </figure>
+  <p>The length of the shadow (with a sign for direction) is called the <b>scalar component</b>: $\dfrac{\mathbf{a}^{\mathsf T}\mathbf{b}}{\|\mathbf{a}\|}$.</p>
+  <p class="muted"><b>Check yourself:</b> project $\mathbf{b}=(2,2)^{\mathsf T}$ onto $\mathbf{a}=(1,0)^{\mathsf T}$. (Answer: $t=2/1=2$, projection $(2,0)^{\mathsf T}$ — the shadow of the point $(2,2)$ on the x-axis, as expected.)</p>
   </div>
 </div>
 <div class="panel">
-  <div class="bar"><span class="pill b">EX</span> Worked example<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill b">EX</span> Worked example: every formula once<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>Let $\mathbf{x}=(1,2,2)^{\mathsf T}$, $\mathbf{y}=(2,0,-1)^{\mathsf T}$.</p>
+  <p>Let $\mathbf{x}=(1,2,2)^{\mathsf T}$, $\mathbf{y}=(2,0,-1)^{\mathsf T}$. We compute everything from this module.</p>
   <ol class="steps">
-    <li>$\mathbf{x}^{\mathsf T}\mathbf{y}=1\cdot2+2\cdot0+2\cdot(-1)=0 \Rightarrow \mathbf{x}\perp\mathbf{y}$</li>
-    <li>$\|\mathbf{x}\|=\sqrt{1+4+4}=3$, $\;\|\mathbf{y}\|=\sqrt{4+0+1}=\sqrt5$</li>
-    <li>$\hat{\mathbf{x}}=\tfrac13(1,2,2)^{\mathsf T}$</li>
-    <li>$d(\mathbf{x},\mathbf{y})=\|(-1,2,3)\|=\sqrt{14}$</li>
-    <li>Project $\mathbf{z}=(3,3,0)^{\mathsf T}$ onto $\mathbf{x}$: $\dfrac{\mathbf{x}^{\mathsf T}\mathbf{z}}{\mathbf{x}^{\mathsf T}\mathbf{x}}\mathbf{x}=\dfrac{9}{9}\mathbf{x}=(1,2,2)^{\mathsf T}$</li>
+    <li><b>Dot product.</b> $\mathbf{x}^{\mathsf T}\mathbf{y}=1\cdot2+2\cdot0+2\cdot(-1)=2+0-2=0$. Zero, so $\mathbf{x}\perp\mathbf{y}$: these vectors are perpendicular in 3D space even though you can't easily sketch them.</li>
+    <li><b>Lengths.</b> $\|\mathbf{x}\|=\sqrt{1^2+2^2+2^2}=\sqrt9=3$ and $\|\mathbf{y}\|=\sqrt{4+0+1}=\sqrt5$.</li>
+    <li><b>Unit vector.</b> Divide by the length: $\hat{\mathbf{x}}=\tfrac13(1,2,2)^{\mathsf T}$. Sanity check: its length is $\tfrac13\cdot3=1$ ✓.</li>
+    <li><b>Distance.</b> $\mathbf{x}-\mathbf{y}=(-1,2,3)^{\mathsf T}$, so $d(\mathbf{x},\mathbf{y})=\sqrt{1+4+9}=\sqrt{14}$.</li>
+    <li><b>Angle.</b> $\cos\theta=\dfrac{0}{3\sqrt5}=0$, so $\theta=90°$ — consistent with step 1.</li>
+    <li><b>Projection.</b> Project $\mathbf{z}=(3,3,0)^{\mathsf T}$ onto $\mathbf{x}$: first $\mathbf{x}^{\mathsf T}\mathbf{z}=3+6+0=9$ and $\mathbf{x}^{\mathsf T}\mathbf{x}=9$, so $t=9/9=1$ and $\text{proj}_{\mathbf{x}}\mathbf{z}=1\cdot\mathbf{x}=(1,2,2)^{\mathsf T}$. The leftover $\mathbf{z}-\mathbf{x}=(2,1,-2)^{\mathsf T}$ should be ⊥ $\mathbf{x}$: check $2+2-4=0$ ✓.</li>
   </ol>
-  <div class="note warn"><div class="t">Trap</div>$\|\mathbf{x}+\mathbf{y}\|\neq\|\mathbf{x}\|+\|\mathbf{y}\|$ in general. Only equal when the vectors point the same way. Also $\mathbf{x}\cdot\mathbf{y}$ is a <b>scalar</b>, never a vector.</div>
-  <div class="note fin"><div class="t">Finance link</div>Correlation between two demeaned return series $\mathbf{r}_1,\mathbf{r}_2$ is exactly $\cos\theta$: $\rho=\dfrac{\mathbf{r}_1^{\mathsf T}\mathbf{r}_2}{\|\mathbf{r}_1\|\|\mathbf{r}_2\|}$. Uncorrelated = orthogonal.</div>
+  <div class="note warn"><div class="t">Trap</div>$\|\mathbf{x}+\mathbf{y}\|\neq\|\mathbf{x}\|+\|\mathbf{y}\|$ in general — lengths don't add unless the vectors point the same way (walk 3 km east then 4 km north: you are 5 km from home, not 7). And $\mathbf{x}\cdot\mathbf{y}$ is a <b>scalar</b>, never a vector — writing a vector answer for a dot product is an instant lost mark.</div>
+  <div class="note fin"><div class="t">Finance link</div>Take two return series, subtract each one's mean ("demean" them) to get $\mathbf{r}_1,\mathbf{r}_2$. Their correlation is <i>exactly</i> the cosine formula: $\rho=\dfrac{\mathbf{r}_1^{\mathsf T}\mathbf{r}_2}{\|\mathbf{r}_1\|\|\mathbf{r}_2\|}=\cos\theta$. Correlated = small angle; uncorrelated = orthogonal; perfectly negatively correlated = opposite directions. Geometry and statistics are the same picture.</div>
   </div>
 </div>
 </div>

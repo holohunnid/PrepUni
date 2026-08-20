@@ -3,9 +3,23 @@
 <div class="sec-head"><span class="num">02</span><h2>Matrices</h2><span class="sub">arrays of numbers, or: linear maps written down</span></div>
 
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Types of matrix<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill a">READ FIRST</span> Two ways to see a matrix<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>An $m\times n$ matrix has $m$ rows and $n$ columns; entry $a_{ij}$ is row $i$, column $j$. Always state rows × columns.</p>
+  <p>A <b>matrix</b> is a rectangular grid of numbers. Like vectors, matrices have a double life, and the whole course depends on holding both views at once:</p>
+  <ul>
+    <li><b>As a table of data.</b> A spreadsheet of 100 days × 10 stocks of returns is a $100\times10$ matrix. Rows are observations, columns are assets.</li>
+    <li><b>As a machine.</b> A matrix <i>acts</i> on vectors: feed a vector in, get a vector out, via multiplication $\mathbf{x}\mapsto A\mathbf{x}$. Under this view a matrix rotates, stretches, reflects, or squashes space. Modules 4–9 are all about understanding this machine (does it squash? can it be undone? which directions does it only stretch?).</li>
+  </ul>
+  <p>This module covers the vocabulary (matrix types), the arithmetic (multiplication, transpose, trace), and the rules that differ from ordinary numbers — the biggest culture shock being that $AB\neq BA$.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Anatomy &amp; the types you must recognise<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>An $m\times n$ matrix has $m$ <b>rows</b> and $n$ <b>columns</b> — always in that order, "rows × columns". The entry $a_{ij}$ sits in row $i$, column $j$ (row index first). Getting the dimension habit right now will save you from most errors later: <b>before any matrix operation, write down the dimensions</b>.</p>
+  $$A=\begin{pmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\end{pmatrix}\quad\text{is }2\times3:\ 2\text{ rows},\ 3\text{ columns}$$
+  <p>Certain shapes come up so often they have names. Learn to spot them at a glance — each one comes with shortcuts:</p>
   <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
     <div><div class="muted" style="font-size:11.5px">Square (n×n)</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span><span>i</span></div></div>
     <div><div class="muted" style="font-size:11.5px">Diagonal</div><div class="mx" style="grid-template-columns:repeat(3,26px)"><span class="hi">d₁</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">d₂</span><span class="z">0</span><span class="z">0</span><span class="z">0</span><span class="hi">d₃</span></div></div>
@@ -16,23 +30,48 @@
   </div>
   <table>
     <tr><th>Type</th><th>Condition</th><th>Why it matters</th></tr>
-    <tr><td>Square</td><td>$m=n$</td><td>only square matrices have determinants, inverses, eigenvalues</td></tr>
-    <tr><td>Diagonal</td><td>$a_{ij}=0$ for $i\neq j$</td><td>powers and inverses are trivial: $D^k=\text{diag}(d_i^k)$, $D^{-1}=\text{diag}(1/d_i)$</td></tr>
-    <tr><td>Identity $I_n$</td><td>diagonal of ones</td><td>$AI=IA=A$; the "1" of matrix multiplication</td></tr>
+    <tr><td>Square</td><td>$m=n$</td><td>only square matrices have determinants, inverses, eigenvalues (modules 4, 5, 7)</td></tr>
+    <tr><td>Diagonal</td><td>$a_{ij}=0$ for $i\neq j$</td><td>behaves like $n$ separate numbers: powers and inverses are trivial, $D^k=\text{diag}(d_i^k)$, $D^{-1}=\text{diag}(1/d_i)$</td></tr>
+    <tr><td>Identity $I_n$</td><td>diagonal of ones</td><td>$AI=IA=A$; the "1" of matrix multiplication — it leaves every vector unchanged</td></tr>
     <tr><td>Triangular</td><td>zeros below (upper) or above (lower) diagonal</td><td>determinant = product of diagonal; eigenvalues = diagonal entries</td></tr>
-    <tr><td>Symmetric</td><td>$A=A^{\mathsf T}$</td><td>covariance matrices; real eigenvalues, orthogonal eigenvectors</td></tr>
-    <tr><td>Orthogonal</td><td>$Q^{\mathsf T}Q=I$, i.e. $Q^{-1}=Q^{\mathsf T}$</td><td>rotations/reflections; preserves lengths and angles</td></tr>
-    <tr><td>Idempotent</td><td>$P^2=P$</td><td>projection matrices (OLS hat matrix $H=X(X^{\mathsf T}X)^{-1}X^{\mathsf T}$)</td></tr>
+    <tr><td>Symmetric</td><td>$A=A^{\mathsf T}$ — entry $(i,j)$ equals entry $(j,i)$, mirror across the diagonal</td><td>covariance matrices are symmetric; real eigenvalues, orthogonal eigenvectors (module 7)</td></tr>
+    <tr><td>Orthogonal</td><td>$Q^{\mathsf T}Q=I$, i.e. $Q^{-1}=Q^{\mathsf T}$</td><td>rotations/reflections; preserves lengths and angles (module 9)</td></tr>
+    <tr><td>Idempotent</td><td>$P^2=P$ — applying it twice = applying it once</td><td>projection matrices (project a shadow, project again: nothing moves; OLS hat matrix $H=X(X^{\mathsf T}X)^{-1}X^{\mathsf T}$)</td></tr>
   </table>
+  <p class="muted"><b>Check yourself:</b> is a diagonal matrix symmetric? (Yes — everything off the diagonal is 0 on both sides, so it equals its own transpose.)</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Matrix × vector: the machine in action<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Before multiplying two matrices, understand a matrix times a <i>vector</i> — this is the fundamental operation. If $A$ is $m\times n$ and $\mathbf{x}\in\mathbb{R}^n$ (dimensions must match: columns of $A$ = entries of $\mathbf{x}$), then $A\mathbf{x}$ is a vector in $\mathbb{R}^m$. There are two equivalent ways to compute it, and each teaches you something different:</p>
+  <div class="grid2">
+  <div>
+  <h3>Row view: a stack of dot products</h3>
+  <p>Entry $i$ of $A\mathbf{x}$ is the dot product of <b>row $i$</b> with $\mathbf{x}$:</p>
+  $$\begin{pmatrix}1&2\\3&4\end{pmatrix}\begin{pmatrix}5\\6\end{pmatrix}=\begin{pmatrix}1\cdot5+2\cdot6\\3\cdot5+4\cdot6\end{pmatrix}=\begin{pmatrix}17\\39\end{pmatrix}$$
+  <p class="muted">This is the mechanical recipe you compute with.</p>
+  </div>
+  <div>
+  <h3>Column view: a recipe of columns</h3>
+  <p>$A\mathbf{x}$ is a <b>linear combination of the columns</b> of $A$, with the entries of $\mathbf{x}$ as weights:</p>
+  $$\begin{pmatrix}1&2\\3&4\end{pmatrix}\begin{pmatrix}5\\6\end{pmatrix}=5\begin{pmatrix}1\\3\end{pmatrix}+6\begin{pmatrix}2\\4\end{pmatrix}=\begin{pmatrix}17\\39\end{pmatrix}$$
+  <p class="muted">This is the view that explains theory: what $A$ can produce = all combinations of its columns.</p>
+  </div>
+  </div>
+  <p><b>Why "linear map"?</b> The operation respects the two vector operations from module 1: $A(\mathbf{x}+\mathbf{y})=A\mathbf{x}+A\mathbf{y}$ and $A(c\mathbf{x})=cA\mathbf{x}$. Grids stay grids, the origin stays put, lines stay straight — that is what "linear" means geometrically. Every rotation, reflection, stretch, shear, and projection of space is some matrix, and its columns tell you exactly where the basis arrows $(1,0,\dots)^{\mathsf T},(0,1,\dots)^{\mathsf T}$ land.</p>
+  <p class="muted"><b>Check yourself:</b> what is $\begin{pmatrix}0&-1\\1&0\end{pmatrix}\binom{1}{0}$? And $\begin{pmatrix}0&-1\\1&0\end{pmatrix}\binom{0}{1}$? (Answers: $(0,1)^{\mathsf T}$ and $(-1,0)^{\mathsf T}$ — each basis arrow is rotated 90° anticlockwise. This matrix rotates the whole plane by 90°.)</p>
   </div>
 </div>
 
 <div class="grid2">
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Matrix multiplication<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 3</span> Matrix × matrix<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>$AB$ is defined only if <b>columns of A = rows of B</b>. $(m\times n)(n\times p)=(m\times p)$.</p>
+  <p>Multiplying matrix $A$ by matrix $B$ means: apply the machine $B$ first, then the machine $A$. ($AB$ acting on $\mathbf{x}$ is $A(B\mathbf{x})$ — read right to left, like function composition $f(g(x))$.) Practically, each column of $AB$ is $A$ times the corresponding column of $B$, which boils down to:</p>
   $$(AB)_{ij}=\sum_{k=1}^n a_{ik}\,b_{kj}=(\text{row } i \text{ of } A)\cdot(\text{col } j \text{ of } B)$$
+  <p><b>Dimension rule:</b> $AB$ exists only if <b>columns of A = rows of B</b>. The inner dimensions must match and then cancel: $(m\times n)(n\times p)=(m\times p)$.</p>
   <figure>
   <svg viewBox="0 0 420 150">
     <!-- A 2x3 -->
@@ -67,6 +106,7 @@
     <text x="14" y="144" class="svgtxt">inner dims must match: (2×3)(3×2) → outer dims give result (2×2)</text>
   </svg>
   </figure>
+  <h3>Which rules survive from ordinary algebra?</h3>
   <table>
     <tr><th>Property</th><th>Holds?</th></tr>
     <tr><td>Associative $(AB)C=A(BC)$</td><td class="g">yes</td></tr>
@@ -76,30 +116,36 @@
     <tr><td>$AB=AC \Rightarrow B=C$</td><td class="r">NO (unless A invertible)</td></tr>
     <tr><td>$(A+B)^2=A^2+2AB+B^2$</td><td class="r">NO: it is $A^2+AB+BA+B^2$</td></tr>
   </table>
+  <p><b>Why does commutativity fail?</b> Because order of operations matters for transformations: rotating then stretching is not the same as stretching then rotating. Even the dimensions can differ — if $A$ is $2\times3$ and $B$ is $3\times2$, $AB$ is $2\times2$ but $BA$ is $3\times3$. Never swap the order of a matrix product; every "no" row in the table above is a consequence of this one fact.</p>
+  <p class="muted"><b>Check yourself:</b> $A$ is $3\times2$ and $B$ is $2\times5$. Does $AB$ exist, and what size? Does $BA$? (Answers: $AB$ is $3\times5$; $BA$ does not exist — $(2\times5)(3\times2)$ has inner dims 5 ≠ 3.)</p>
   </div>
 </div>
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Transpose &amp; trace<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 4</span> Transpose &amp; trace<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>Transpose swaps rows and columns: $(A^{\mathsf T})_{ij}=a_{ji}$. An $m\times n$ becomes $n\times m$.</p>
+  <p>The <b>transpose</b> $A^{\mathsf T}$ flips the matrix across its main diagonal: rows become columns and vice versa, $(A^{\mathsf T})_{ij}=a_{ji}$. An $m\times n$ matrix becomes $n\times m$:</p>
+  $$\begin{pmatrix}1&2&3\\4&5&6\end{pmatrix}^{\mathsf T}=\begin{pmatrix}1&4\\2&5\\3&6\end{pmatrix}$$
+  <p>Why care? Transposes are the notation glue of applied linear algebra: the dot product is $\mathbf{x}^{\mathsf T}\mathbf{y}$, portfolio variance is $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$, the OLS estimator is $(X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$. You need to manipulate them fluently:</p>
   <table class="formula-table">
-    <tr><td>$(A^{\mathsf T})^{\mathsf T}$</td><td>$=A$</td></tr>
+    <tr><td>$(A^{\mathsf T})^{\mathsf T}$</td><td>$=A$ — flipping twice does nothing</td></tr>
     <tr><td>$(A+B)^{\mathsf T}$</td><td>$=A^{\mathsf T}+B^{\mathsf T}$</td></tr>
     <tr><td>$(cA)^{\mathsf T}$</td><td>$=cA^{\mathsf T}$</td></tr>
     <tr><td>$(AB)^{\mathsf T}$</td><td>$=B^{\mathsf T}A^{\mathsf T}$ <span class="r">order reverses</span></td></tr>
-    <tr><td>$(ABC)^{\mathsf T}$</td><td>$=C^{\mathsf T}B^{\mathsf T}A^{\mathsf T}$</td></tr>
-    <tr><td>$A^{\mathsf T}A$, $AA^{\mathsf T}$</td><td>always symmetric (and positive semidefinite)</td></tr>
-    <tr><td>$\mathbf{x}^{\mathsf T}A\mathbf{y}$</td><td>is a scalar, so equals its own transpose $\mathbf{y}^{\mathsf T}A^{\mathsf T}\mathbf{x}$</td></tr>
+    <tr><td>$(ABC)^{\mathsf T}$</td><td>$=C^{\mathsf T}B^{\mathsf T}A^{\mathsf T}$ — like reversing "socks then shoes"</td></tr>
+    <tr><td>$A^{\mathsf T}A$, $AA^{\mathsf T}$</td><td>always defined, always symmetric (and positive semidefinite, module 8)</td></tr>
+    <tr><td>$\mathbf{x}^{\mathsf T}A\mathbf{y}$</td><td>is a $1\times1$ matrix, i.e. a scalar — so it equals its own transpose $\mathbf{y}^{\mathsf T}A^{\mathsf T}\mathbf{x}$</td></tr>
   </table>
+  <p class="muted">Why does the order reverse in $(AB)^{\mathsf T}=B^{\mathsf T}A^{\mathsf T}$? Dimensions force it: if $A$ is $m\times n$ and $B$ is $n\times p$, then $(AB)^{\mathsf T}$ is $p\times m$, and only $B^{\mathsf T}A^{\mathsf T}=(p\times n)(n\times m)$ produces that shape. $A^{\mathsf T}B^{\mathsf T}$ usually doesn't even exist.</p>
   <h3>Trace (square matrices only)</h3>
+  <p>The <b>trace</b> is the sum of the diagonal entries — a quick single-number summary of a square matrix:</p>
   $$\text{tr}(A)=\sum_{i=1}^n a_{ii}$$
   <table class="formula-table">
     <tr><td>Linearity</td><td>$\text{tr}(A+B)=\text{tr}A+\text{tr}B$, $\;\text{tr}(cA)=c\,\text{tr}A$</td></tr>
-    <tr><td>Transpose</td><td>$\text{tr}(A^{\mathsf T})=\text{tr}(A)$</td></tr>
-    <tr><td>Cyclic</td><td>$\text{tr}(AB)=\text{tr}(BA)$, $\;\text{tr}(ABC)=\text{tr}(CAB)=\text{tr}(BCA)$</td></tr>
-    <tr><td>Eigenvalues</td><td>$\text{tr}(A)=\sum\lambda_i$ (module 7)</td></tr>
+    <tr><td>Transpose</td><td>$\text{tr}(A^{\mathsf T})=\text{tr}(A)$ — the diagonal doesn't move when you flip</td></tr>
+    <tr><td>Cyclic</td><td>$\text{tr}(AB)=\text{tr}(BA)$, $\;\text{tr}(ABC)=\text{tr}(CAB)=\text{tr}(BCA)$ — rotate the factors, don't shuffle them</td></tr>
+    <tr><td>Eigenvalues</td><td>$\text{tr}(A)=\sum\lambda_i$ — the trace secretly knows the eigenvalues (module 7)</td></tr>
   </table>
-  <div class="note tip"><div class="t">Exam shortcut</div>Scalar trick: $\mathbf{x}^{\mathsf T}A\mathbf{x}=\text{tr}(\mathbf{x}^{\mathsf T}A\mathbf{x})=\text{tr}(A\mathbf{x}\mathbf{x}^{\mathsf T})$. Used to show $E[\mathbf{x}^{\mathsf T}A\mathbf{x}]=\text{tr}(A\Sigma)+\mu^{\mathsf T}A\mu$.</div>
+  <div class="note tip"><div class="t">Exam shortcut</div>Scalar trick: a $1\times1$ matrix is its own trace, so $\mathbf{x}^{\mathsf T}A\mathbf{x}=\text{tr}(\mathbf{x}^{\mathsf T}A\mathbf{x})=\text{tr}(A\mathbf{x}\mathbf{x}^{\mathsf T})$ by the cyclic rule. This is how one proves $E[\mathbf{x}^{\mathsf T}A\mathbf{x}]=\text{tr}(A\Sigma)+\mu^{\mathsf T}A\mu$ in econometrics.</div>
   </div>
 </div>
 </div>
@@ -108,17 +154,22 @@
   <div class="bar"><span class="pill b">EX</span> Worked example: multiplication, transpose, trace<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
   $$A=\begin{pmatrix}1&2\\3&4\end{pmatrix},\quad B=\begin{pmatrix}0&1\\-1&2\end{pmatrix}$$
+  <p>Compute $AB$ entry by entry. Entry $(1,1)$ is row 1 of $A$ dotted with column 1 of $B$: $1\cdot0+2\cdot(-1)=-2$. Entry $(1,2)$: row 1 · column 2 $=1\cdot1+2\cdot2=5$. And so on:</p>
   <div class="grid2">
   <div>
   $$AB=\begin{pmatrix}1\cdot0+2\cdot(-1) & 1\cdot1+2\cdot2\\ 3\cdot0+4\cdot(-1) & 3\cdot1+4\cdot2\end{pmatrix}=\begin{pmatrix}-2&5\\-4&11\end{pmatrix}$$
+  <p>Now the other order — same procedure, different answer:</p>
   $$BA=\begin{pmatrix}3&4\\5&6\end{pmatrix}\neq AB$$
+  <p class="muted">Concrete proof that matrix multiplication does not commute.</p>
   </div>
   <div>
+  <p>Verify the reversal rule $(AB)^{\mathsf T}=B^{\mathsf T}A^{\mathsf T}$:</p>
   $$(AB)^{\mathsf T}=\begin{pmatrix}-2&-4\\5&11\end{pmatrix}=B^{\mathsf T}A^{\mathsf T}=\begin{pmatrix}0&-1\\1&2\end{pmatrix}\begin{pmatrix}1&3\\2&4\end{pmatrix}\;\checkmark$$
+  <p>And the cyclic trace rule — $AB$ and $BA$ are different matrices but share a trace:</p>
   $$\text{tr}(AB)=-2+11=9=\text{tr}(BA)=3+6\;\checkmark$$
   </div>
   </div>
-  <div class="note warn"><div class="t">Trap</div>Before multiplying, write the dimensions: $(2\times2)(2\times2)$. If asked for $\mathbf{x}^{\mathsf T}A$ with $\mathbf{x}\in\mathbb{R}^2$, the result is $(1\times2)(2\times2)=1\times2$, a row vector. Dimension bookkeeping catches half of all errors.</div>
+  <div class="note warn"><div class="t">Trap</div>Before multiplying, write the dimensions: $(2\times2)(2\times2)$ ✓. If asked for $\mathbf{x}^{\mathsf T}A$ with $\mathbf{x}\in\mathbb{R}^2$, the result is $(1\times2)(2\times2)=1\times2$, a row vector — not a column. Dimension bookkeeping catches half of all errors in this course.</div>
   </div>
 </div>
 </section>

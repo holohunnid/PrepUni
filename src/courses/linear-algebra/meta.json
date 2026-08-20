@@ -1,10 +1,10 @@
 {
   "id": "linear-algebra",
-  "brand": "LINALG · CHEAT SHEET",
-  "title": "Linear Algebra · Cheat Sheet · MSc Finance Assessment",
+  "brand": "LINALG · COURSE",
+  "title": "Linear Algebra · Full Course · MSc Finance Assessment",
   "tag": "MSc Finance · Assessment",
-  "stats": "12 modules · formulas · 27 worked examples · interactive figures",
-  "footer": "Linear algebra cheat sheet · built for the MSc Finance assessment test · modules 01–12 · interactive figures need JavaScript; the print button produces a light-theme PDF.",
+  "stats": "12 modules · full explanations · 27 worked examples · interactive figures",
+  "footer": "Linear algebra course · built for the MSc Finance assessment test · modules 01–12 · interactive figures need JavaScript; the print button produces a light-theme PDF.",
   "modules": [
     { "anchor": "s1", "num": "01", "title": "Vectors" },
     { "anchor": "s2", "num": "02", "title": "Matrices" },

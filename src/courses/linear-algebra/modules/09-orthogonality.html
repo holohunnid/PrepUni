@@ -2,40 +2,55 @@
 <section id="s9">
 <div class="sec-head"><span class="num">09</span><h2>Orthogonality</h2><span class="sub">perpendicular bases, Gram–Schmidt, least squares</span></div>
 
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why perpendicular is powerful<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 1 defined orthogonal ($\mathbf{x}^{\mathsf T}\mathbf{y}=0$, perpendicular). This module explains why you should <i>want</i> orthogonality everywhere. The standard axes of ℝ² are pleasant to work with precisely because they are perpendicular unit vectors: to find a point's coordinates you just read off components — no equations to solve. A general basis (module 6) makes you solve a linear system for every coordinate; an <b>orthonormal</b> basis gives coordinates by dot products alone.</p>
+  <p>The module builds up in three steps:</p>
+  <ul>
+    <li><b>Orthonormal sets and orthogonal matrices</b> — the vocabulary, and why these matrices represent rotations/reflections.</li>
+    <li><b>Gram–Schmidt</b> — an algorithm that upgrades any basis to an orthonormal one, by repeatedly subtracting shadows (projections, module 1).</li>
+    <li><b>Least squares</b> — the big application. When $A\mathbf{x}=\mathbf{b}$ has <i>no</i> solution (typical with real data: more equations than unknowns), the best compromise is found by projecting $\mathbf{b}$ onto what $A$ can reach. This is exactly linear regression: OLS is this module's mathematics wearing a statistics hat.</li>
+  </ul>
+  </div>
+</div>
+
 <div class="grid2">
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Orthogonal &amp; orthonormal sets, orthogonal matrices<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 1</span> Orthonormal sets &amp; orthogonal matrices<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
   <table>
     <tr><th>Term</th><th>Condition</th></tr>
-    <tr><td>Orthogonal set</td><td>$\mathbf{v}_i^{\mathsf T}\mathbf{v}_j=0$ for all $i\neq j$</td></tr>
-    <tr><td>Orthonormal set</td><td>orthogonal and $\|\mathbf{v}_i\|=1$, i.e. $\mathbf{v}_i^{\mathsf T}\mathbf{v}_j=\delta_{ij}$</td></tr>
-    <tr><td>Orthogonal matrix $Q$</td><td>square with orthonormal columns: $Q^{\mathsf T}Q=QQ^{\mathsf T}=I$, $Q^{-1}=Q^{\mathsf T}$</td></tr>
+    <tr><td>Orthogonal set</td><td>every pair perpendicular: $\mathbf{v}_i^{\mathsf T}\mathbf{v}_j=0$ for all $i\neq j$</td></tr>
+    <tr><td>Orthonormal set</td><td>orthogonal <i>and</i> each of unit length: $\mathbf{v}_i^{\mathsf T}\mathbf{v}_j=\delta_{ij}$ (1 if $i=j$, else 0)</td></tr>
+    <tr><td>Orthogonal matrix $Q$</td><td>square with orthonormal columns: $Q^{\mathsf T}Q=QQ^{\mathsf T}=I$, so $Q^{-1}=Q^{\mathsf T}$ — the inverse is free</td></tr>
     <tr><td>Orthogonal complement $W^\perp$</td><td>all vectors orthogonal to every vector in $W$; $\dim W+\dim W^\perp=n$</td></tr>
   </table>
   <h3>Why orthonormal bases are nice</h3>
-  <p>Coordinates need no inverse: if $\{\mathbf{q}_1,\dots,\mathbf{q}_n\}$ is orthonormal,</p>
+  <p>With a general basis, finding the coordinates of $\mathbf{x}$ means solving a system. With an orthonormal basis $\{\mathbf{q}_1,\dots,\mathbf{q}_n\}$, each coordinate is a single dot product — project onto each axis and you're done:</p>
   $$\mathbf{x}=\sum_i(\mathbf{q}_i^{\mathsf T}\mathbf{x})\,\mathbf{q}_i,\qquad\|\mathbf{x}\|^2=\sum_i(\mathbf{q}_i^{\mathsf T}\mathbf{x})^2\;(\text{Parseval})$$
-  <p>Orthogonal $Q$ preserves lengths and angles: $\|Q\mathbf{x}\|=\|\mathbf{x}\|$, $(Q\mathbf{x})^{\mathsf T}(Q\mathbf{y})=\mathbf{x}^{\mathsf T}\mathbf{y}$, $\det Q=\pm1$. Examples: rotation $\begin{pmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{pmatrix}$, permutation matrices, reflections.</p>
+  <p class="muted">Why it works: dot the expansion $\mathbf{x}=c_1\mathbf{q}_1+\dots+c_n\mathbf{q}_n$ with $\mathbf{q}_j$; every term dies except $c_j$, because $\mathbf{q}_i^{\mathsf T}\mathbf{q}_j=0$ for $i\neq j$ and $1$ for $i=j$.</p>
+  <p>An orthogonal matrix $Q$ moves vectors <b>rigidly</b> — lengths and angles survive: $\|Q\mathbf{x}\|=\|\mathbf{x}\|$ and $(Q\mathbf{x})^{\mathsf T}(Q\mathbf{y})=\mathbf{x}^{\mathsf T}\mathbf{y}$ (proof of the second: $\mathbf{x}^{\mathsf T}Q^{\mathsf T}Q\mathbf{y}=\mathbf{x}^{\mathsf T}I\mathbf{y}$). So orthogonal matrices are precisely rotations and reflections; $\det Q=\pm1$ ($+1$ rotation, $-1$ reflection). Examples: rotation $\begin{pmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{pmatrix}$, permutation matrices.</p>
   <h3>Projection onto a subspace</h3>
-  <p>If $W=C(A)$ with $A$ having independent columns, the projection matrix is</p>
-  $$P=A(A^{\mathsf T}A)^{-1}A^{\mathsf T},\qquad P^2=P,\;P^{\mathsf T}=P$$
-  <p>With orthonormal columns $Q$: $P=QQ^{\mathsf T}$. Onto a single vector $\mathbf{a}$: $P=\dfrac{\mathbf{a}\mathbf{a}^{\mathsf T}}{\mathbf{a}^{\mathsf T}\mathbf{a}}$.</p>
+  <p>Module 1 projected onto a line. To project onto a whole subspace $W=C(A)$ (with $A$'s columns independent), the same "shadow" idea gives a <b>projection matrix</b>:</p>
+  $$P=A(A^{\mathsf T}A)^{-1}A^{\mathsf T},\qquad P^2=P\ (\text{projecting twice changes nothing}),\;P^{\mathsf T}=P$$
+  <p>With orthonormal columns $Q$ the ugly middle factor collapses: $P=QQ^{\mathsf T}$. Onto a single vector $\mathbf{a}$: $P=\dfrac{\mathbf{a}\mathbf{a}^{\mathsf T}}{\mathbf{a}^{\mathsf T}\mathbf{a}}$ — module 1's formula in matrix clothing.</p>
+  <p class="muted"><b>Check yourself:</b> verify the columns of $Q=\frac1{\sqrt2}\begin{pmatrix}1&-1\\1&1\end{pmatrix}$ are orthonormal. (Each has length 1; their dot product is $\frac12(−1+1)=0$. This $Q$ is rotation by 45°.)</p>
   </div>
 </div>
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Gram–Schmidt process<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 2</span> Gram–Schmidt: manufacturing orthonormal bases<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>Turns an independent set $\{\mathbf{a}_1,\dots,\mathbf{a}_k\}$ into an orthogonal set $\{\mathbf{u}_i\}$ with the same span (then normalise to get $\{\mathbf{q}_i\}$):</p>
+  <p>Given any independent set $\{\mathbf{a}_1,\dots,\mathbf{a}_k\}$, Gram–Schmidt produces an <b>orthogonal</b> set $\{\mathbf{u}_i\}$ with the same span. The idea is just module 1's projection used repeatedly: <b>keep each new vector's perpendicular part only</b> — subtract from $\mathbf{a}_i$ its shadows on all directions already built, so what remains is perpendicular to all of them:</p>
   $$\begin{aligned}
-  \mathbf{u}_1&=\mathbf{a}_1\\
-  \mathbf{u}_2&=\mathbf{a}_2-\frac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_2}{\mathbf{u}_1^{\mathsf T}\mathbf{u}_1}\mathbf{u}_1\\
-  \mathbf{u}_3&=\mathbf{a}_3-\frac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_3}{\mathbf{u}_1^{\mathsf T}\mathbf{u}_1}\mathbf{u}_1-\frac{\mathbf{u}_2^{\mathsf T}\mathbf{a}_3}{\mathbf{u}_2^{\mathsf T}\mathbf{u}_2}\mathbf{u}_2\\
-  \mathbf{q}_i&=\mathbf{u}_i/\|\mathbf{u}_i\|
+  \mathbf{u}_1&=\mathbf{a}_1 &&\text{(keep the first as is)}\\
+  \mathbf{u}_2&=\mathbf{a}_2-\frac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_2}{\mathbf{u}_1^{\mathsf T}\mathbf{u}_1}\mathbf{u}_1 &&\text{(remove the part along }\mathbf{u}_1)\\
+  \mathbf{u}_3&=\mathbf{a}_3-\frac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_3}{\mathbf{u}_1^{\mathsf T}\mathbf{u}_1}\mathbf{u}_1-\frac{\mathbf{u}_2^{\mathsf T}\mathbf{a}_3}{\mathbf{u}_2^{\mathsf T}\mathbf{u}_2}\mathbf{u}_2 &&\text{(remove both shadows)}\\
+  \mathbf{q}_i&=\mathbf{u}_i/\|\mathbf{u}_i\| &&\text{(normalise at the very end)}
   \end{aligned}$$
-  <p>Each step subtracts the projections onto all previous $\mathbf{u}$'s. Result: $A=QR$ with $R$ upper triangular.</p>
   <figure>
   <svg viewBox="0 0 420 170">
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
     <line x1="40" y1="140" x2="400" y2="140" stroke="var(--border2)"/><line x1="40" y1="140" x2="40" y2="20" stroke="var(--border2)"/>
     <line x1="40" y1="140" x2="300" y2="140" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar)"/>
     <text x="305" y="136" class="svgtxt b">u₁ = a₁</text>
@@ -47,22 +62,23 @@
     <line x1="40" y1="140" x2="40" y2="50" stroke="var(--green)" stroke-width="2.5" marker-end="url(#ar)"/>
     <text x="48" y="56" class="svgtxt g">u₂ = a₂ − proj  (⊥ u₁)</text>
   </svg>
-  <figcaption>Gram–Schmidt step 2: remove from a₂ the part lying along u₁; what remains is perpendicular to u₁.</figcaption>
+  <figcaption>Gram–Schmidt step 2: remove from a₂ the part lying along u₁; what remains is perpendicular to u₁. Each later step subtracts one shadow per direction already built.</figcaption>
   </figure>
-  <div class="note warn"><div class="t">Trap</div>Project onto the already-orthogonalised $\mathbf{u}_j$, not onto the original $\mathbf{a}_j$. Keep fractions exact until the final normalisation, and normalise last.</div>
+  <p>The span never changes at any step (you only subtract multiples of earlier vectors), so $\{\mathbf{q}_i\}$ is an orthonormal basis of the original span. Bookkeeping the subtracted coefficients gives the <b>QR factorisation</b> $A=QR$ with $R$ upper triangular — the numerically stable route to least squares.</p>
+  <div class="note warn"><div class="t">Trap</div>Project onto the already-orthogonalised $\mathbf{u}_j$, <b>not</b> onto the original $\mathbf{a}_j$ — that's the whole point of the method. Keep fractions exact throughout, and normalise only at the end (normalising early buries you in square roots).</div>
   </div>
 </div>
 </div>
 
 <div class="grid2">
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Least squares &amp; the normal equations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 3</span> Least squares: the best wrong answer<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>$A\mathbf{x}=\mathbf{b}$ has no solution when $\mathbf{b}\notin C(A)$ (more equations than unknowns, typical for data). Best we can do: minimise the squared error</p>
+  <p>Fit a line through 3 data points and you get 3 equations in 2 unknowns — usually <b>no exact solution</b>: $\mathbf{b}$ lies outside the column space $C(A)$ (module 6), the set of right-hand sides $A$ can actually produce. Rather than give up, minimise the total squared error:</p>
   $$\min_{\mathbf{x}}\|A\mathbf{x}-\mathbf{b}\|^2$$
-  <p>Solution: choose $\hat{\mathbf{x}}$ so that $A\hat{\mathbf{x}}$ is the projection of $\mathbf{b}$ onto $C(A)$. Residual $\mathbf{e}=\mathbf{b}-A\hat{\mathbf{x}}$ must be ⊥ every column: $A^{\mathsf T}\mathbf{e}=\mathbf{0}$, giving the <b>normal equations</b></p>
-  $$A^{\mathsf T}A\,\hat{\mathbf{x}}=A^{\mathsf T}\mathbf{b}\qquad\Longrightarrow\qquad\hat{\mathbf{x}}=(A^{\mathsf T}A)^{-1}A^{\mathsf T}\mathbf{b}$$
-  <p>$A^{\mathsf T}A$ is invertible ⟺ columns of $A$ are independent. Fitted values $\hat{\mathbf{b}}=A\hat{\mathbf{x}}=P\mathbf{b}$, $P=A(A^{\mathsf T}A)^{-1}A^{\mathsf T}$.</p>
+  <p><b>The geometric solution.</b> As $\mathbf{x}$ ranges over everything, $A\mathbf{x}$ sweeps out the subspace $C(A)$. We want the point of that subspace <b>closest to $\mathbf{b}$</b> — and the closest point is always the perpendicular foot: the projection of $\mathbf{b}$ onto $C(A)$. So the optimal $\hat{\mathbf{x}}$ is characterised by the error $\mathbf{e}=\mathbf{b}-A\hat{\mathbf{x}}$ being <b>orthogonal to every column of $A$</b>:</p>
+  $$A^{\mathsf T}\mathbf{e}=\mathbf{0}\quad\Longrightarrow\quad A^{\mathsf T}A\,\hat{\mathbf{x}}=A^{\mathsf T}\mathbf{b}\quad\Longrightarrow\quad\hat{\mathbf{x}}=(A^{\mathsf T}A)^{-1}A^{\mathsf T}\mathbf{b}$$
+  <p>The middle equation is the famous <b>normal equations</b> ("normal" = perpendicular). $A^{\mathsf T}A$ is invertible ⟺ columns of $A$ independent. Fitted values: $\hat{\mathbf{b}}=A\hat{\mathbf{x}}=P\mathbf{b}$ with the projection matrix $P=A(A^{\mathsf T}A)^{-1}A^{\mathsf T}$ from Idea 1 — the circle closes.</p>
   <figure>
   <svg viewBox="0 0 420 190">
     <polygon points="60,150 330,150 390,90 120,90" fill="var(--bluebg)" stroke="var(--blue)"/>
@@ -75,8 +91,9 @@
     <text x="120" y="160" class="svgtxt g">Ax̂ = Pb  (projection)</text>
     <path d="M 192 125 l 0 -8 l 8 0" fill="none" stroke="var(--red)"/>
   </svg>
-  <figcaption>b lives outside the column space. The closest point inside it is the projection Ax̂; the error e is perpendicular to the plane. That perpendicularity is the normal equations.</figcaption>
+  <figcaption>b lives outside the column space. The closest reachable point is the projection Ax̂; the error e is perpendicular to the plane. That perpendicularity IS the normal equations.</figcaption>
   </figure>
+  <div class="note fin"><div class="t">Finance link</div>Rename the symbols and this is OLS regression: $A\to X$ (data matrix), $\mathbf{b}\to\mathbf{y}$, $\hat{\mathbf{x}}\to\hat\beta=(X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf{y}$. "Residuals orthogonal to regressors" is not a statistical assumption — it is the geometry of projection. Estimating a stock's beta is projecting its returns onto the market's.</div>
   </div>
 </div>
 <div class="panel">
@@ -84,15 +101,17 @@
   <div class="body">
   <h3>Gram–Schmidt on $\mathbf{a}_1=(1,1,0)^{\mathsf T}$, $\mathbf{a}_2=(1,0,1)^{\mathsf T}$</h3>
   <ol class="steps">
-    <li>$\mathbf{u}_1=(1,1,0)^{\mathsf T}$</li>
-    <li>$\dfrac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_2}{\mathbf{u}_1^{\mathsf T}\mathbf{u}_1}=\dfrac12$, so $\mathbf{u}_2=(1,0,1)^{\mathsf T}-\tfrac12(1,1,0)^{\mathsf T}=(\tfrac12,-\tfrac12,1)^{\mathsf T}$</li>
-    <li>Check $\mathbf{u}_1^{\mathsf T}\mathbf{u}_2=\tfrac12-\tfrac12+0=0$ ✓</li>
-    <li>$\mathbf{q}_1=\tfrac1{\sqrt2}(1,1,0)^{\mathsf T}$, $\;\mathbf{q}_2=\tfrac1{\sqrt{6}}(1,-1,2)^{\mathsf T}$</li>
+    <li>Keep the first: $\mathbf{u}_1=(1,1,0)^{\mathsf T}$</li>
+    <li>Shadow coefficient of $\mathbf{a}_2$ on $\mathbf{u}_1$: $\dfrac{\mathbf{u}_1^{\mathsf T}\mathbf{a}_2}{\mathbf{u}_1^{\mathsf T}\mathbf{u}_1}=\dfrac{1}{2}$, so $\mathbf{u}_2=(1,0,1)^{\mathsf T}-\tfrac12(1,1,0)^{\mathsf T}=(\tfrac12,-\tfrac12,1)^{\mathsf T}$</li>
+    <li>Check orthogonality (always): $\mathbf{u}_1^{\mathsf T}\mathbf{u}_2=\tfrac12-\tfrac12+0=0$ ✓</li>
+    <li>Normalise last: $\mathbf{q}_1=\tfrac1{\sqrt2}(1,1,0)^{\mathsf T}$, $\;\mathbf{q}_2=\tfrac1{\sqrt{6}}(1,-1,2)^{\mathsf T}$ (scaled $\mathbf{u}_2$ by 2 first — allowed, direction is all that matters)</li>
   </ol>
   <h3>Fit $y=\beta_0+\beta_1t$ through $(0,1),(1,3),(2,4)$</h3>
+  <p>Three points, two unknowns — overdetermined, so least squares. Each row of $A$ is one point: a 1 (for the intercept) and its $t$-value:</p>
   $$A=\begin{pmatrix}1&0\\1&1\\1&2\end{pmatrix},\;\mathbf{b}=\begin{pmatrix}1\\3\\4\end{pmatrix},\;A^{\mathsf T}A=\begin{pmatrix}3&3\\3&5\end{pmatrix},\;A^{\mathsf T}\mathbf{b}=\begin{pmatrix}8\\11\end{pmatrix}$$
+  <p>Solve the normal equations with the 2×2 inverse formula ($\det=15-9=6$):</p>
   $$\hat{\boldsymbol\beta}=\frac{1}{6}\begin{pmatrix}5&-3\\-3&3\end{pmatrix}\begin{pmatrix}8\\11\end{pmatrix}=\frac16\begin{pmatrix}7\\9\end{pmatrix}=\begin{pmatrix}7/6\\3/2\end{pmatrix}$$
-  <p>Line: $\hat y=\tfrac76+\tfrac32t$. Residuals $\mathbf{e}=\mathbf{b}-A\hat\beta=(-\tfrac16,\tfrac13,-\tfrac16)^{\mathsf T}$; check $A^{\mathsf T}\mathbf{e}=\mathbf{0}$: column 1: $-\tfrac16+\tfrac13-\tfrac16=0$ ✓. Residuals sum to zero because there is an intercept column of ones.</p>
+  <p>Best-fit line: $\hat y=\tfrac76+\tfrac32t$. Residuals $\mathbf{e}=\mathbf{b}-A\hat\beta=(-\tfrac16,\tfrac13,-\tfrac16)^{\mathsf T}$ — no point is hit exactly, but check the defining property $A^{\mathsf T}\mathbf{e}=\mathbf{0}$: column 1 gives $-\tfrac16+\tfrac13-\tfrac16=0$ ✓. The residuals sum to zero precisely because the model has an intercept column of ones.</p>
   </div>
 </div>
 </div>

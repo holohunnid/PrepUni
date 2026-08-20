@@ -2,13 +2,56 @@
 <section id="s4">
 <div class="sec-head"><span class="num">04</span><h2>Determinants</h2><span class="sub">one number that says whether a square matrix is invertible</span></div>
 
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What the determinant actually measures<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>determinant</b> assigns one number, $\det A$, to every <b>square</b> matrix. Before learning to compute it, know what it means — think of the matrix as the machine from module 2, transforming space:</p>
+  <ul>
+    <li>$|\det A|$ is the <b>scaling factor for area</b> (2D) or volume (3D): feed the machine a shape of area 1, and out comes a shape of area $|\det A|$.</li>
+    <li>The <b>sign</b> records orientation: negative means the machine flips space over (like a reflection in a mirror).</li>
+    <li>$\det A=0$ is the disaster case: the machine <b>squashes space flat</b> — 2D collapses onto a line, 3D onto a plane. Squashing destroys information, so a $\det=0$ matrix cannot be undone: <b>no inverse exists</b>. This single test, $\det A\neq0$ ⟺ invertible, is the main practical use of determinants.</li>
+  </ul>
+  <p>Play with the interactive figure below to see all of this live. The rest of the module is computation: the 2×2 and 3×3 formulas you must know cold, the general cofactor method, and the algebra rules that let you avoid grinding.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Determinant as signed area — drag the sliders<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>a <input type="range" id="d_a" min="-3" max="3" step="0.1" value="2"><span class="val" id="d_a_v">2.0</span></label>
+    <label>b <input type="range" id="d_b" min="-3" max="3" step="0.1" value="1"><span class="val" id="d_b_v">1.0</span></label>
+    <label>c <input type="range" id="d_c" min="-3" max="3" step="0.1" value="0.5"><span class="val" id="d_c_v">0.5</span></label>
+    <label>d <input type="range" id="d_d" min="-3" max="3" step="0.1" value="1.5"><span class="val" id="d_d_v">1.5</span></label>
+    <span class="btns"><button onclick="detSet(1,0,0,1)">I</button><button onclick="detSet(2,1,1,0.5)">singular</button><button onclick="detSet(0,1,1,0)">swap</button><button onclick="detSet(0,-1,1,0)">rotate 90°</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="detsvg" viewBox="0 0 320 320"></svg>
+    <figcaption>Unit square (grey) is mapped to the parallelogram spanned by the columns (a,c)ᵀ in blue and (b,d)ᵀ in green. Area = |ad − bc|. Red fill = negative determinant (orientation flipped).</figcaption></figure>
+    <div>
+      <div class="readout" id="detread"></div>
+      <p style="margin-top:10px">$A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$, columns $\mathbf{a}_1=\binom{a}{c}$ and $\mathbf{a}_2=\binom{b}{d}$. Experiments to run:</p>
+      <ul>
+        <li>Make the columns parallel (try the <code>singular</code> preset): the parallelogram collapses to a line, $\det=0$, $A$ is not invertible — this is what "squashing space" looks like.</li>
+        <li>Swap the columns (<code>swap</code> preset): area identical, sign flips — orientation reversed.</li>
+        <li><code>rotate 90°</code>: $\det=1$, area preserved, orientation preserved — rotations don't distort.</li>
+        <li>Double one column: det doubles (rule 2 below). Double both: det ×4 (rule 4 with $n=2$).</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</div>
+
 <div class="grid2">
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Computing det<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 1</span> Computing det: 2×2, 3×3, then any size<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <h3>2×2</h3>
+  <h3>2×2 — memorise this</h3>
+  <p>Product of the main diagonal minus product of the anti-diagonal:</p>
   $$\det\begin{pmatrix}a&b\\c&d\end{pmatrix}=\begin{vmatrix}a&b\\c&d\end{vmatrix}=ad-bc$$
-  <h3>3×3 (Sarrus rule)</h3>
+  <p class="muted">E.g. $\begin{vmatrix}3&1\\4&2\end{vmatrix}=6-4=2$. The vertical-bar notation $|\cdot|$ means "determinant of".</p>
+  <h3>3×3 — Sarrus rule</h3>
+  <p>Copy the first two columns to the right, then add the three ↘ diagonal products and subtract the three ↙ ones:</p>
   $$\begin{vmatrix}a&b&c\\d&e&f\\g&h&i\end{vmatrix}=aei+bfg+cdh-ceg-bdi-afh$$
   <figure>
   <svg viewBox="0 0 560 130">
@@ -30,87 +73,66 @@
   </svg>
   </figure>
   <h3>n×n: cofactor (Laplace) expansion</h3>
-  <p>Along any row $i$ (or column $j$):</p>
+  <p>The general method reduces an $n\times n$ determinant to $n$ smaller ones. Pick any row $i$ (or column): walk along it, and for each entry $a_{ij}$ multiply it by the determinant of what remains when you <b>delete row $i$ and column $j$</b> (that smaller determinant is the <b>minor</b> $M_{ij}$), with an alternating sign:</p>
   $$\det A=\sum_{j=1}^n a_{ij}\,C_{ij},\qquad C_{ij}=(-1)^{i+j}M_{ij}$$
-  <p>$M_{ij}$ = minor = det of the $(n-1)\times(n-1)$ matrix after deleting row $i$ and column $j$. Sign pattern:</p>
+  <p>The signs $(-1)^{i+j}$ follow a checkerboard — top-left is always $+$:</p>
   $$\begin{pmatrix}+&-&+\\-&+&-\\+&-&+\end{pmatrix}$$
-  <div class="note tip"><div class="t">Exam shortcut</div>Expand along the row/column with the most zeros. Better still: use row operations to create zeros first (rule 3 below leaves det unchanged), then expand. Triangular ⟹ det = product of the diagonal.</div>
+  <p>Each 3×3 expands into three 2×2s; a 4×4 into four 3×3s; and so on recursively.</p>
+  <div class="note tip"><div class="t">Exam shortcut</div>You may expand along <b>any</b> row or column — the answer is the same — so pick the one with the most zeros (each zero kills a whole term). Better still: use row operations to create zeros first (rule 3 below leaves det unchanged), then expand. And if the matrix is triangular, skip everything: det = product of the diagonal.</div>
+  <p class="muted"><b>Check yourself:</b> $\begin{vmatrix}2&0\\5&3\end{vmatrix}=?$ (Answer: $6-0=6$ — triangular, so just $2\cdot3$.)</p>
   </div>
 </div>
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Properties<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 2</span> Properties: compute less, know more<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
+  <p>These rules follow from the area interpretation (e.g. doubling one column doubles the area; a flip changes the sign) and turn many exam questions into one-liners:</p>
   <table>
     <tr><th>#</th><th>Operation / fact</th><th>Effect on det</th></tr>
-    <tr><td>1</td><td>Swap two rows</td><td>$\det\to-\det$</td></tr>
+    <tr><td>1</td><td>Swap two rows</td><td>$\det\to-\det$ (orientation flips)</td></tr>
     <tr><td>2</td><td>Multiply one row by $c$</td><td>$\det\to c\det$</td></tr>
-    <tr><td>3</td><td>Add multiple of a row to another</td><td class="g">unchanged</td></tr>
-    <tr><td>4</td><td>$\det(cA)$, $A$ is $n\times n$</td><td>$c^n\det A$ <span class="r">(not $c\det A$)</span></td></tr>
-    <tr><td>5</td><td>$\det(AB)$</td><td>$=\det A\cdot\det B$</td></tr>
+    <tr><td>3</td><td>Add multiple of a row to another</td><td class="g">unchanged — the elimination move is free!</td></tr>
+    <tr><td>4</td><td>$\det(cA)$, $A$ is $n\times n$</td><td>$c^n\det A$ <span class="r">(not $c\det A$ — every one of the $n$ rows picks up a $c$)</span></td></tr>
+    <tr><td>5</td><td>$\det(AB)$</td><td>$=\det A\cdot\det B$ (scale factors multiply when machines compose)</td></tr>
     <tr><td>6</td><td>$\det(A^{\mathsf T})$</td><td>$=\det A$</td></tr>
-    <tr><td>7</td><td>$\det(A^{-1})$</td><td>$=1/\det A$</td></tr>
+    <tr><td>7</td><td>$\det(A^{-1})$</td><td>$=1/\det A$ (undoing a ×3 scaling is a ×⅓ scaling)</td></tr>
     <tr><td>8</td><td>$\det(A^k)$</td><td>$=(\det A)^k$</td></tr>
     <tr><td>9</td><td>Triangular / diagonal</td><td>product of diagonal entries</td></tr>
-    <tr><td>10</td><td>Two equal or proportional rows</td><td>$0$</td></tr>
+    <tr><td>10</td><td>Two equal or proportional rows</td><td>$0$ (dependent rows = flattened space)</td></tr>
     <tr><td>11</td><td>A zero row or column</td><td>$0$</td></tr>
-    <tr><td>12</td><td>$\det I$</td><td>$1$</td></tr>
-    <tr><td>13</td><td>$\det(A+B)$</td><td class="r">$\neq\det A+\det B$ in general</td></tr>
-    <tr><td>14</td><td>Orthogonal $Q$</td><td>$\pm1$</td></tr>
-    <tr><td>15</td><td>$\det A=\prod\lambda_i$</td><td>product of eigenvalues</td></tr>
+    <tr><td>12</td><td>$\det I$</td><td>$1$ (the do-nothing map scales area by 1)</td></tr>
+    <tr><td>13</td><td>$\det(A+B)$</td><td class="r">$\neq\det A+\det B$ in general — no sum rule exists</td></tr>
+    <tr><td>14</td><td>Orthogonal $Q$</td><td>$\pm1$ (rotations/reflections preserve volume)</td></tr>
+    <tr><td>15</td><td>$\det A=\prod\lambda_i$</td><td>product of eigenvalues (module 7)</td></tr>
   </table>
-  <h3>Geometric meaning</h3>
-  <p>$|\det A|$ = factor by which $A$ scales area (2D) / volume (3D). Columns of $A$ span a parallelogram of area $|\det A|$. Sign negative ⟹ orientation flipped. $\det A=0$ ⟹ the columns are squashed into a lower dimension (dependent columns).</p>
   <h3>Cramer's rule (square, $\det A\neq0$)</h3>
-  $$x_i=\frac{\det A_i}{\det A}$$
-  <p>$A_i$ = $A$ with column $i$ replaced by $\mathbf{b}$. Fine for 2×2 and 3×3, too slow beyond.</p>
+  <p>A determinant-only formula for solving $A\mathbf{x}=\mathbf{b}$: to get unknown $x_i$, replace column $i$ of $A$ with $\mathbf{b}$ and take the ratio of determinants:</p>
+  $$x_i=\frac{\det A_i}{\det A},\qquad A_i=A\text{ with column }i\text{ replaced by }\mathbf{b}$$
+  <p class="muted">Fine for 2×2 and 3×3, or when you need just one unknown; far too slow beyond that — use elimination instead.</p>
   </div>
 </div>
-</div>
-
-<div class="panel">
-  <div class="bar"><span class="pill a">INTERACTIVE</span> Determinant as signed area — drag the sliders<span class="ctl">— ⊡ ✕</span></div>
-  <div class="body">
-  <div class="ctrl">
-    <label>a <input type="range" id="d_a" min="-3" max="3" step="0.1" value="2"><span class="val" id="d_a_v">2.0</span></label>
-    <label>b <input type="range" id="d_b" min="-3" max="3" step="0.1" value="1"><span class="val" id="d_b_v">1.0</span></label>
-    <label>c <input type="range" id="d_c" min="-3" max="3" step="0.1" value="0.5"><span class="val" id="d_c_v">0.5</span></label>
-    <label>d <input type="range" id="d_d" min="-3" max="3" step="0.1" value="1.5"><span class="val" id="d_d_v">1.5</span></label>
-    <span class="btns"><button onclick="detSet(1,0,0,1)">I</button><button onclick="detSet(2,1,1,0.5)">singular</button><button onclick="detSet(0,1,1,0)">swap</button><button onclick="detSet(0,-1,1,0)">rotate 90°</button></span>
-  </div>
-  <div class="grid2" style="align-items:start">
-    <figure style="margin:0"><svg id="detsvg" viewBox="0 0 320 320"></svg>
-    <figcaption>Unit square (grey) is mapped to the parallelogram spanned by the columns (a,c)ᵀ in blue and (b,d)ᵀ in green. Area = |ad − bc|. Red fill = negative determinant (orientation flipped).</figcaption></figure>
-    <div>
-      <div class="readout" id="detread"></div>
-      <p style="margin-top:10px">$A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$, columns $\mathbf{a}_1=\binom{a}{c}$ and $\mathbf{a}_2=\binom{b}{d}$.</p>
-      <ul>
-        <li>Make the columns parallel (try the <code>singular</code> preset): the parallelogram collapses to a line, $\det=0$, $A$ is not invertible.</li>
-        <li>Swap the columns: area identical, sign flips.</li>
-        <li>Rotation: $\det=1$, area preserved, orientation preserved.</li>
-        <li>Double one column: det doubles (rule 2). Double both: det ×4 (rule 4 with $n=2$).</li>
-      </ul>
-    </div>
-  </div>
-  </div>
 </div>
 
 <div class="panel">
   <div class="bar"><span class="pill b">EX</span> Worked example: 3×3 determinant two ways + Cramer<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
+  <p>Same matrix as the module-3 walkthrough — we now confirm, without solving, that its system had to have a unique solution:</p>
   $$A=\begin{pmatrix}2&1&-1\\-3&-1&2\\-2&1&2\end{pmatrix}$$
   <div class="grid2">
   <div>
-  <h3>Sarrus</h3>
+  <h3>Method 1: Sarrus</h3>
   $$\begin{aligned}\det A&=2(-1)(2)+1(2)(-2)+(-1)(-3)(1)\\&\quad-(-1)(-1)(-2)-1(-3)(2)-2(2)(1)\\&=-4-4+3+2+6-4=\color{#3ea76a}{-1}\end{aligned}$$
-  <h3>Cofactor along row 1</h3>
+  <h3>Method 2: cofactor along row 1</h3>
+  <p>Walk along the top row; signs from the checkerboard are $+,-,+$:</p>
   $$\det A=2\begin{vmatrix}-1&2\\1&2\end{vmatrix}-1\begin{vmatrix}-3&2\\-2&2\end{vmatrix}+(-1)\begin{vmatrix}-3&-1\\-2&1\end{vmatrix}$$
-  $$=2(-4)-1(-2)-1(-5)=-8+2+5=\color{#3ea76a}{-1}\;\checkmark$$
+  $$=2(-2-2)-1(-6+4)-1(-3-2)=-8+2+5=\color{#3ea76a}{-1}\;\checkmark$$
+  <p class="muted">Two independent methods agreeing is your arithmetic insurance. Since $\det A=-1\neq0$: invertible, unique solution for any $\mathbf{b}$.</p>
   </div>
   <div>
   <h3>Cramer for $x$ with $\mathbf{b}=(8,-11,-3)^{\mathsf T}$</h3>
+  <p>Replace column 1 with $\mathbf{b}$ and expand:</p>
   $$A_1=\begin{pmatrix}\color{#4c8dff}{8}&1&-1\\\color{#4c8dff}{-11}&-1&2\\\color{#4c8dff}{-3}&1&2\end{pmatrix},\quad\det A_1=-2$$
   $$x=\frac{\det A_1}{\det A}=\frac{-2}{-1}=2\;\checkmark\text{ (matches module 3)}$$
-  <div class="note warn"><div class="t">Trap</div>Signs in cofactor expansion follow the checkerboard, <b>not</b> the sign of the entry. Second most common error: forgetting that $\det(2A)=2^3\det A=8\det A$ for a 3×3.</div>
+  <div class="note warn"><div class="t">Trap</div>Signs in cofactor expansion follow the checkerboard, <b>not</b> the sign of the entry — expanding along row 2 starts with a minus. Second most common error: forgetting that $\det(2A)=2^3\det A=8\det A$ for a 3×3 (rule 4).</div>
   </div>
   </div>
   </div>

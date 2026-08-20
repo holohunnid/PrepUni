@@ -2,42 +2,56 @@
 <section id="s8">
 <div class="sec-head"><span class="num">08</span><h2>Quadratic forms &amp; definiteness</h2><span class="sub">x′Ax, the shape of variance</span></div>
 
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> From ax² to x′Ax<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>In one variable, the simplest curved function is the parabola $q(x)=ax^2$. Its whole personality is the sign of $a$: positive → a valley with a minimum at 0; negative → a hill with a maximum. A <b>quadratic form</b> is the many-variable version: a function $Q(\mathbf{x})=\mathbf{x}^{\mathsf T}A\mathbf{x}$ built from squares ($x_1^2$, $x_2^2$, …) and cross products ($x_1x_2$, …), packaged with a symmetric matrix $A$.</p>
+  <p>The question "is $a$ positive or negative?" becomes: <b>is $Q(\mathbf{x})$ positive for every direction $\mathbf{x}$, negative for every direction, or does it depend on the direction?</b> That property of $A$ is called its <b>definiteness</b>, and in several variables there's a genuinely new possibility: a surface shaped like a horse saddle — a valley along one axis, a hill along another.</p>
+  <p>Why a finance student must care: <b>portfolio variance is a quadratic form</b>, $\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$, and variance can never be negative — which is precisely the statement that a covariance matrix $\Sigma$ is positive semidefinite. Definiteness is also the second-order condition of optimisation: it tells you whether a critical point is a min, a max, or a saddle.</p>
+  </div>
+</div>
+
 <div class="grid2">
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Quadratic forms<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 1</span> The definition &amp; the classification<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
   <p>For symmetric $A$ ($n\times n$), the quadratic form is the scalar function</p>
   $$Q(\mathbf{x})=\mathbf{x}^{\mathsf T}A\mathbf{x}=\sum_{i}\sum_{j}a_{ij}x_ix_j$$
-  $$\text{2D: }\;\begin{pmatrix}x_1&x_2\end{pmatrix}\begin{pmatrix}a&b\\b&c\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix}=a x_1^2+2b\,x_1x_2+c\,x_2^2$$
-  <p class="muted">Cross term coefficient is $2b$, so the matrix entry is half the cross-term coefficient. Any quadratic form can be written with a symmetric matrix.</p>
+  <p>Multiply it out in 2D to see the anatomy — diagonal entries multiply squares, off-diagonal entries feed the cross term:</p>
+  $$\begin{pmatrix}x_1&x_2\end{pmatrix}\begin{pmatrix}a&b\\b&c\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix}=a x_1^2+2b\,x_1x_2+c\,x_2^2$$
+  <p class="muted">Note the 2: the cross term $x_1x_2$ collects contributions from <i>both</i> off-diagonal entries, so the matrix entry is <b>half</b> the cross-term coefficient. Going from a formula to the matrix: squares on the diagonal, half of each cross coefficient off it. Any quadratic form can be written with a symmetric matrix this way.</p>
+  <h3>The five classes</h3>
   <table>
     <tr><th>Classification</th><th>Condition</th><th>Eigenvalues</th><th>Leading principal minors $D_k$</th></tr>
-    <tr><td class="g">Positive definite (PD)</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}>0$ for all $\mathbf{x}\neq0$</td><td>all $\lambda_i>0$</td><td>all $D_k>0$</td></tr>
-    <tr><td>Positive semidefinite (PSD)</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}\ge0$</td><td>all $\lambda_i\ge0$</td><td>all <i>principal</i> minors $\ge0$ (not just leading)</td></tr>
-    <tr><td class="r">Negative definite (ND)</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}<0$ for all $\mathbf{x}\neq0$</td><td>all $\lambda_i<0$</td><td>$D_1<0,D_2>0,D_3<0,\dots$ (alternating, starting negative)</td></tr>
-    <tr><td>Negative semidefinite</td><td>$\mathbf{x}^{\mathsf T}A\mathbf{x}\le0$</td><td>all $\lambda_i\le0$</td><td>$(-1)^kD_k\ge0$ for all principal minors</td></tr>
-    <tr><td class="a">Indefinite</td><td>takes both signs</td><td>mixed signs</td><td>e.g. $D_2<0$</td></tr>
+    <tr><td class="g">Positive definite (PD)</td><td>$Q(\mathbf{x})&gt;0$ for all $\mathbf{x}\neq0$ — a bowl</td><td>all $\lambda_i&gt;0$</td><td>all $D_k&gt;0$</td></tr>
+    <tr><td>Positive semidefinite (PSD)</td><td>$Q(\mathbf{x})\ge0$ — a bowl with flat valley directions</td><td>all $\lambda_i\ge0$</td><td>all <i>principal</i> minors $\ge0$ (not just leading!)</td></tr>
+    <tr><td class="r">Negative definite (ND)</td><td>$Q(\mathbf{x})&lt;0$ for all $\mathbf{x}\neq0$ — a dome</td><td>all $\lambda_i&lt;0$</td><td>$D_1&lt;0,D_2&gt;0,D_3&lt;0,\dots$ (alternating, starting negative)</td></tr>
+    <tr><td>Negative semidefinite</td><td>$Q(\mathbf{x})\le0$</td><td>all $\lambda_i\le0$</td><td>$(-1)^kD_k\ge0$ for all principal minors</td></tr>
+    <tr><td class="a">Indefinite</td><td>takes both signs — a saddle</td><td>mixed signs</td><td>e.g. $D_2&lt;0$</td></tr>
   </table>
-  <p>$D_k$ = determinant of the top-left $k\times k$ block. $D_1=a_{11}$, $D_2=a_{11}a_{22}-a_{12}^2$, $D_n=\det A$.</p>
-  <div class="note tip"><div class="t">Exam shortcut</div>2×2 symmetric: PD ⟺ $a>0$ and $\det>0$. ND ⟺ $a<0$ and $\det>0$. $\det<0$ ⟹ indefinite. $\det=0$ ⟹ semidefinite (check the sign of $a$ or the trace).</div>
+  <p><b>Why do eigenvalues decide it?</b> By the spectral theorem (module 7), in eigen-coordinates the cross terms vanish: $Q=\lambda_1y_1^2+\dots+\lambda_ny_n^2$. A sum of $\lambda_i\times(\text{square})$ is positive for every input exactly when every $\lambda_i&gt;0$; one negative $\lambda$ gives a downhill direction.</p>
+  <p><b>The minor test</b> ($D_k$ = determinant of the top-left $k\times k$ block; $D_1=a_{11}$, $D_2=a_{11}a_{22}-a_{12}^2$, …, $D_n=\det A$) is usually the fastest hand computation — no eigenvalues needed.</p>
+  <div class="note tip"><div class="t">Exam shortcut</div>2×2 symmetric: PD ⟺ $a&gt;0$ and $\det&gt;0$. ND ⟺ $a&lt;0$ and $\det&gt;0$. $\det&lt;0$ ⟹ indefinite (always). $\det=0$ ⟹ semidefinite; the sign of the trace tells you which kind.</div>
+  <p class="muted"><b>Check yourself:</b> classify $Q=x_1^2+4x_1x_2+x_2^2$. (Matrix $\left(\begin{smallmatrix}1&2\\2&1\end{smallmatrix}\right)$, $D_2=1-4=-3&lt;0$ ⟹ indefinite: try $(1,1)$ → $Q=6$ but $(1,-1)$ → $Q=-2$.)</p>
   </div>
 </div>
 <div class="panel">
-  <div class="bar"><span class="pill g">DEF</span> Why it matters<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill g">IDEA 2</span> Where definiteness shows up<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
   <table>
     <tr><th>Context</th><th>Role of definiteness</th></tr>
-    <tr><td>Optimisation (Hessian $H$)</td><td>$H$ PD at a critical point ⟹ local min; ND ⟹ local max; indefinite ⟹ saddle</td></tr>
+    <tr><td>Optimisation (Hessian $H$)</td><td>at a critical point: $H$ PD ⟹ local min (bowl); ND ⟹ local max (dome); indefinite ⟹ saddle — this is the multivariable second-derivative test</td></tr>
     <tr><td>Convexity</td><td>$f$ convex ⟺ Hessian PSD everywhere; strictly convex if PD</td></tr>
-    <tr><td>Covariance matrix $\Sigma$</td><td>always PSD (variance cannot be negative); PD if no asset is a perfect combination of the others</td></tr>
-    <tr><td>Portfolio variance</td><td>$\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}\ge0$ is a quadratic form</td></tr>
-    <tr><td>Mean–variance optimisation</td><td>minimising $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$ is convex because $\Sigma$ is PSD ⟹ unique global min when PD</td></tr>
-    <tr><td>OLS</td><td>$X^{\mathsf T}X$ PD ⟺ columns of $X$ independent ⟺ $\hat\beta$ unique</td></tr>
-    <tr><td>Cholesky $A=LL^{\mathsf T}$</td><td>exists ⟺ $A$ PD; used to simulate correlated returns</td></tr>
+    <tr><td>Covariance matrix $\Sigma$</td><td>always PSD (a variance $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$ cannot be negative); PD iff no asset is a perfect linear combination of the others</td></tr>
+    <tr><td>Portfolio variance</td><td>$\sigma_p^2=\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$ is literally a quadratic form in the weights</td></tr>
+    <tr><td>Mean–variance optimisation</td><td>minimising $\mathbf{w}^{\mathsf T}\Sigma\mathbf{w}$ is a convex problem because $\Sigma$ is PSD ⟹ unique global optimum when PD</td></tr>
+    <tr><td>OLS</td><td>$X^{\mathsf T}X$ PD ⟺ regressors independent ⟺ $\hat\beta$ unique</td></tr>
+    <tr><td>Cholesky $A=LL^{\mathsf T}$</td><td>exists ⟺ $A$ PD; the standard tool for simulating correlated returns</td></tr>
   </table>
-  <h3>Level sets</h3>
-  <p>$\mathbf{x}^{\mathsf T}A\mathbf{x}=1$ is an ellipse (PD), a hyperbola (indefinite), parallel lines (PSD singular). Ellipse axes = eigenvectors, semi-axis lengths $=1/\sqrt{\lambda_i}$.</p>
-  <p>Bounds: $\lambda_{\min}\|\mathbf{x}\|^2\le\mathbf{x}^{\mathsf T}A\mathbf{x}\le\lambda_{\max}\|\mathbf{x}\|^2$ (Rayleigh quotient).</p>
+  <h3>What the level sets look like</h3>
+  <p>The set $\{\mathbf{x}: \mathbf{x}^{\mathsf T}A\mathbf{x}=1\}$ ("contour line at height 1") is an <b>ellipse</b> when $A$ is PD, a <b>hyperbola</b> when indefinite, parallel lines when PSD singular. The ellipse's axes point along the eigenvectors of $A$, with semi-axis lengths $1/\sqrt{\lambda_i}$ — big eigenvalue = steep direction = short axis. (These are exactly the iso-variance ellipses of portfolio theory.)</p>
+  <p>Useful bounds (Rayleigh quotient): the form is always squeezed between its extreme eigenvalues,</p>
+  $$\lambda_{\min}\|\mathbf{x}\|^2\le\mathbf{x}^{\mathsf T}A\mathbf{x}\le\lambda_{\max}\|\mathbf{x}\|^2$$
   </div>
 </div>
 </div>
@@ -56,7 +70,13 @@
     <figcaption>Heat map of Q(x) = ax₁² + 2bx₁x₂ + cx₂² on [−2,2]². Green = positive, red = negative. White lines = eigenvector directions (principal axes).</figcaption></figure>
     <div>
       <div class="readout" id="qread"></div>
-      <p style="margin-top:10px">$A=\begin{pmatrix}a&b\\b&c\end{pmatrix}$. Read the classification three ways at once: sign of $Q$ on the plot, eigenvalues, and leading minors. All three must agree.</p>
+      <p style="margin-top:10px">$A=\begin{pmatrix}a&b\\b&c\end{pmatrix}$. Read the classification three ways at once — sign of $Q$ on the plot, eigenvalues, leading minors — and confirm all three always agree:</p>
+      <ul>
+        <li><b>PD</b>: all green — every direction goes uphill from the origin (a bowl seen from above).</li>
+        <li><b>indefinite</b>: green and red quadrants split by the white eigen-axes — the saddle.</li>
+        <li><b>PSD</b>: green everywhere except a line where $Q=0$ — the flat valley floor; note $\lambda_2=0$.</li>
+        <li>Increase $b$ slowly from a PD start and watch $D_2=ac-b^2$ hit zero: the moment cross-coupling outweighs the squares, the bowl cracks into a saddle.</li>
+      </ul>
     </div>
   </div>
   </div>
@@ -65,22 +85,23 @@
 <div class="panel">
   <div class="bar"><span class="pill b">EX</span> Worked example: classify a 3×3<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
+  <p>Step 1 is always the same: read the matrix off the formula — squares on the diagonal, <b>half</b> of each cross coefficient off it:</p>
   $$Q(\mathbf{x})=2x_1^2+2x_2^2+3x_3^2+2x_1x_2-2x_2x_3\quad\Rightarrow\quad A=\begin{pmatrix}2&1&0\\1&2&-1\\0&-1&3\end{pmatrix}$$
-  <p class="muted">Off-diagonal entries are half the cross coefficients: $x_1x_2$ coefficient 2 ⟹ $a_{12}=1$; $x_2x_3$ coefficient −2 ⟹ $a_{23}=-1$; no $x_1x_3$ ⟹ $a_{13}=0$.</p>
+  <p class="muted">$x_1x_2$ coefficient 2 ⟹ $a_{12}=a_{21}=1$; $x_2x_3$ coefficient −2 ⟹ $a_{23}=a_{32}=-1$; no $x_1x_3$ term ⟹ $a_{13}=0$.</p>
   <div class="grid2">
   <div>
   <h3>Leading principal minors</h3>
-  $$D_1=2>0,\qquad D_2=\begin{vmatrix}2&1\\1&2\end{vmatrix}=3>0$$
-  $$D_3=\det A=2(6-1)-1(3-0)+0=10-3=7>0$$
-  <p>All positive ⟹ <span class="g">positive definite</span>.</p>
+  $$D_1=2&gt;0,\qquad D_2=\begin{vmatrix}2&1\\1&2\end{vmatrix}=4-1=3&gt;0$$
+  $$D_3=\det A=2(6-1)-1(3-0)+0=10-3=7&gt;0$$
+  <p>All three positive ⟹ <span class="g">positive definite</span>. Done — no eigenvalues needed.</p>
   </div>
   <div>
   <h3>Cross-check with trace and det</h3>
-  <p>$\text{tr}=7=\sum\lambda_i>0$ and $\det=7=\prod\lambda_i>0$ are consistent with all $\lambda_i>0$ (necessary, not sufficient on their own; the minors test is the proof).</p>
-  <p>Consequence: $Q$ has a unique global minimum at $\mathbf{x}=\mathbf{0}$; if $A$ were a covariance matrix, every non-zero portfolio would have strictly positive variance.</p>
+  <p>$\text{tr}=7=\sum\lambda_i&gt;0$ and $\det=7=\prod\lambda_i&gt;0$ are consistent with all $\lambda_i&gt;0$ (necessary but not sufficient on their own — the minors test is the actual proof).</p>
+  <p>Consequence: $Q$ is a bowl with a unique global minimum at $\mathbf{x}=\mathbf{0}$; if $A$ were a covariance matrix, every non-zero portfolio would carry strictly positive variance — no riskless combination exists.</p>
   </div>
   </div>
-  <div class="note warn"><div class="t">Trap</div>For <b>semi</b>definiteness you must check <b>all</b> principal minors (every square submatrix on the diagonal), not only the leading ones. Counterexample: $\text{diag}(0,-1)$ has $D_1=0,D_2=0$ but is not PSD.</div>
+  <div class="note warn"><div class="t">Trap</div>For <b>semi</b>definiteness the leading minors are not enough — you must check <b>all</b> principal minors (every square submatrix symmetric about the diagonal). Counterexample: $\text{diag}(0,-1)$ has $D_1=0,D_2=0$, passing "all $D_k\ge0$", yet it is clearly not PSD (direction $(0,1)$ gives $Q=-1$).</div>
   </div>
 </div>
 </section>
