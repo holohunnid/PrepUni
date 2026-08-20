@@ -1,0 +1,135 @@
+<!-- ============ 07 JOINT DISTRIBUTIONS ============ -->
+<section id="s7">
+<div class="sec-head"><span class="num">07</span><h2>Joint distributions, covariance &amp; correlation</h2><span class="sub">two random variables at once — where portfolios begin</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Joint, marginal, conditional — one table holds everything<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>The <b>joint PMF</b> $p(x,y)=P(X=x,\ Y=y)$ gives the probability of each <i>pair</i> of values. Everything else is read off it:</p>
+  <table class="formula-table">
+    <tr><td>Marginal of X</td><td>$p_X(x)=\sum_y p(x,y)$ — sum the row: "forget Y"</td></tr>
+    <tr><td>Marginal of Y</td><td>$p_Y(y)=\sum_x p(x,y)$ — sum the column</td></tr>
+    <tr><td>Conditional</td><td>$p_{X\mid Y}(x\mid y)=\dfrac{p(x,y)}{p_Y(y)}$ — one column, rescaled to sum to 1</td></tr>
+    <tr><td>Continuous</td><td>same story with a joint density $f(x,y)$ and integrals; $P((X,Y)\in A)=\iint_A f$</td></tr>
+  </table>
+  <h3>Independence</h3>
+  <p>$X, Y$ independent $\iff$ the joint <b>factorises</b> into the marginals, for every pair:</p>
+  $$p(x,y)=p_X(x)\,p_Y(y)\quad\text{— every cell = row total × column total}$$
+  <p class="muted">One failing cell kills independence. Checking all cells (or spotting one violation) is a standard exam task.</p>
+  </div>
+  <div>
+  <p><b>Running example</b> — stock ($X$) and bond ($Y$) yearly moves, in %:</p>
+  <table>
+    <tr><th>$p(x,y)$</th><th>$Y=-5$</th><th>$Y=+5$</th><th class="g">$p_X$</th></tr>
+    <tr><td><b>$X=-10$</b></td><td class="c">0.10</td><td class="c">0.20</td><td class="c g">0.30</td></tr>
+    <tr><td><b>$X=+20$</b></td><td class="c">0.35</td><td class="c">0.35</td><td class="c g">0.70</td></tr>
+    <tr><td class="g"><b>$p_Y$</b></td><td class="c g">0.45</td><td class="c g">0.55</td><td class="c g">1.00</td></tr>
+  </table>
+  <p>Reading it: $P(X=20, Y=-5)=0.35$. Marginals in the margins (hence the name). Conditional: $P(X=20\mid Y=-5)=\frac{0.35}{0.45}\approx 0.78$ — higher than the unconditional 0.70, so a falling bond market makes the stock rally <i>more</i> likely here: the two are dependent.</p>
+  <p class="muted">Independence check, cell (−10, −5): row × column $=0.30\times0.45=0.135\ne 0.10$ — not independent, confirmed.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Conditional expectation &amp; the tower rule<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>$E[X\mid Y=y]$ is the mean of $X$ computed with the conditional distribution — "the best guess of $X$ after seeing $Y=y$". As $y$ varies it defines a random variable $E[X\mid Y]$.</p>
+  <h3>Law of iterated expectations (tower rule)</h3>
+  $$E\big[\,E[X\mid Y]\,\big]=E[X]$$
+  <p>In words: <b>average the scenario-averages, weighted by scenario probabilities, and you get the overall average.</b> It is the expectation version of the law of total probability, and the standard trick for computing a mean in two stages ("first condition on the first draw…").</p>
+  <p><b>Example</b> (table above): $E[X\mid Y=-5]=\frac{0.10(-10)+0.35(20)}{0.45}\approx 13.33$; $E[X\mid Y=5]=\frac{0.20(-10)+0.35(20)}{0.55}\approx 9.09$. Tower check: $0.45(13.33)+0.55(9.09)=11 = E[X]$ ✓ (indeed $E[X]=0.3(-10)+0.7(20)=11$).</p>
+  </div>
+  <div>
+  <h3>Law of total variance</h3>
+  $$\operatorname{Var}(X)=\underbrace{E\big[\operatorname{Var}(X\mid Y)\big]}_{\text{within-scenario}}+\underbrace{\operatorname{Var}\big(E[X\mid Y]\big)}_{\text{between-scenario}}$$
+  <p>Total risk = average risk <i>inside</i> each scenario + risk <i>from not knowing</i> the scenario. Both pieces are ≥ 0, so conditioning never increases expected variance — information helps.</p>
+  <div class="note fin"><div class="t">Finance</div>Decompose return risk into "risk given the macro regime" plus "regime risk". Fund-of-funds, credit models, and mixture models (e.g. returns with random volatility) all run on this identity — it is also how the variance of a random sum $S=X_1+\dots+X_N$ (N random, e.g. number of claims) is computed: $\operatorname{Var}(S)=E[N]\sigma^2+\operatorname{Var}(N)\mu^2$.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Covariance &amp; correlation — do they move together?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  $$\operatorname{Cov}(X,Y)=E\big[(X-\mu_X)(Y-\mu_Y)\big]=E[XY]-E[X]E[Y]$$
+  <p>Positive: above-average $X$ tends to come with above-average $Y$. Negative: they move oppositely. The computational form $E[XY]-\mu_X\mu_Y$ is the one to use.</p>
+  <h3>Rules (bilinearity — covariance behaves like a product)</h3>
+  <table class="formula-table">
+    <tr><td>Self</td><td>$\operatorname{Cov}(X,X)=\operatorname{Var}(X)$</td></tr>
+    <tr><td>Symmetry</td><td>$\operatorname{Cov}(X,Y)=\operatorname{Cov}(Y,X)$</td></tr>
+    <tr><td>Scaling</td><td>$\operatorname{Cov}(aX+b,\,cY+d)=ac\operatorname{Cov}(X,Y)$ — constants b, d vanish</td></tr>
+    <tr><td>Additivity</td><td>$\operatorname{Cov}(X+Z,\,Y)=\operatorname{Cov}(X,Y)+\operatorname{Cov}(Z,Y)$</td></tr>
+    <tr><td>Independence ⇒</td><td>$\operatorname{Cov}(X,Y)=0$ (because $E[XY]=E[X]E[Y]$)</td></tr>
+  </table>
+  <h3>Correlation — covariance made unit-free</h3>
+  $$\rho_{XY}=\frac{\operatorname{Cov}(X,Y)}{\sigma_X\,\sigma_Y},\qquad -1\le\rho\le 1$$
+  <p>$\rho=\pm1$ iff $Y$ is an exact linear function of $X$ (slope sign = sign of ρ). ρ measures <b>linear</b> association only.</p>
+  </div>
+  <div>
+  <div class="ctrl">
+    <label>ρ <input type="range" id="co_r" min="-1" max="1" step="0.05" value="0.7"><span class="val" id="co_r_v">0.70</span></label>
+    <span class="btns"><button onclick="coSet(-1)">−1</button><button onclick="coSet(-0.5)">−0.5</button><button onclick="coSet(0)">0</button><button onclick="coSet(0.5)">0.5</button><button onclick="coSet(1)">+1</button></span>
+  </div>
+  <figure style="margin:0"><svg id="cosvg" viewBox="0 0 320 240"></svg>
+  <figcaption>Simulated (X, Y) pairs with the chosen correlation. ρ = ±1 collapses the cloud onto a line; ρ = 0 gives a round, patternless cloud. Intermediate ρ tilts and squeezes the ellipse.</figcaption></figure>
+  <div class="note warn"><div class="t">Trap</div>Uncorrelated ≠ independent. Take $X\in\{-1,0,1\}$ equally likely, $Y=X^2$: totally dependent (Y is a function of X), yet $\operatorname{Cov}=E[X^3]-E[X]E[X^2]=0$. Correlation is blind to nonlinear dependence. <b>Exception:</b> for <i>jointly normal</i> (X, Y), uncorrelated ⇔ independent.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> Variance of a sum — the portfolio formula<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  $$\operatorname{Var}(X+Y)=\operatorname{Var}(X)+\operatorname{Var}(Y)+2\operatorname{Cov}(X,Y)$$
+  $$\operatorname{Var}(aX+bY)=a^2\sigma_X^2+b^2\sigma_Y^2+2ab\,\rho\,\sigma_X\sigma_Y$$
+  <p>The cross term is the whole story: positive covariance amplifies risk, negative covariance cancels it. With weights $w$ and $1-w$ on two assets this is <b>the</b> two-asset portfolio variance — computed end-to-end in module 10.</p>
+  <p>General case, $n$ variables:</p>
+  $$\operatorname{Var}\Big(\sum_i w_iX_i\Big)=\sum_i w_i^2\sigma_i^2+2\sum_{i\lt j}w_iw_j\operatorname{Cov}(X_i,X_j)=\mathbf w^{\mathsf T}\Sigma\,\mathbf w$$
+  <p class="muted">$\Sigma$ is the covariance matrix — symmetric, positive semidefinite. $\mathbf w^{\mathsf T}\Sigma\mathbf w$ is exactly the quadratic form of Linear Algebra module 8; that is why it is never negative.</p>
+  </div>
+  <div>
+  <h3>Also needed: expectation of products &amp; sums</h3>
+  <table class="formula-table">
+    <tr><td>Always</td><td>$E[X+Y]=E[X]+E[Y]$</td></tr>
+    <tr><td>Independent only</td><td>$E[XY]=E[X]\,E[Y]$</td></tr>
+    <tr><td>General</td><td>$E[XY]=E[X]E[Y]+\operatorname{Cov}(X,Y)$</td></tr>
+  </table>
+  <h3>Bivariate normal — a preview of regression</h3>
+  <p>If $(X,Y)$ is jointly normal with correlation ρ, the conditional distribution is again normal with a <b>linear</b> mean:</p>
+  $$E[Y\mid X=x]=\mu_Y+\rho\frac{\sigma_Y}{\sigma_X}(x-\mu_X)$$
+  $$\operatorname{Var}(Y\mid X=x)=\sigma_Y^2(1-\rho^2)$$
+  <p class="muted">The slope $\rho\sigma_Y/\sigma_X$ is the regression beta; $1-\rho^2$ is the unexplained share — the $R^2$ story of the statistics course, one year early.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Full joint-table workout (the exam classic)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Using the stock/bond table above: compute Cov(X, Y), ρ, and the variance of the equally-weighted portfolio $P=\tfrac12X+\tfrac12Y$.</b></p>
+  <ol class="steps">
+    <li>Means: $E[X]=11$ (found earlier); $E[Y]=0.45(-5)+0.55(5)=0.5$.</li>
+    <li>$E[XY]=\!\sum xy\,p(x,y)\!=(-10)(-5)(0.10)+(-10)(5)(0.20)+(20)(-5)(0.35)+(20)(5)(0.35)=5-10-35+35=-5$.</li>
+    <li>$\operatorname{Cov}=E[XY]-E[X]E[Y]=-5-11(0.5)=-10.5$ — negative: mild hedge.</li>
+    <li>Variances: $E[X^2]=0.3(100)+0.7(400)=310\Rightarrow\sigma_X^2=310-121=189$. $E[Y^2]=25\Rightarrow\sigma_Y^2=25-0.25=24.75$.</li>
+    <li>$\rho=\dfrac{-10.5}{\sqrt{189}\sqrt{24.75}}\approx\dfrac{-10.5}{68.4}\approx -0.15$.</li>
+    <li>$\operatorname{Var}(P)=\tfrac14(189)+\tfrac14(24.75)+2\cdot\tfrac14(-10.5)=47.25+6.19-5.25=\mathbf{48.2}$ — less than half the stock's variance 189: diversification, with the negative covariance doing extra work.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The complete chain — joint table → marginals → E[XY] → covariance → correlation → portfolio variance — is probably the single most-examined multi-step computation in finance-flavoured probability. Practise it until it is mechanical.</div>
+  </div>
+</div>
+
+</section>

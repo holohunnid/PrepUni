@@ -1,0 +1,149 @@
+<!-- ============ 04 EXPECTATION & MOMENTS ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>Expectation, variance &amp; moments</h2><span class="sub">the centre, the spread, and the shape of a distribution</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Expected value — the long-run average<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>The <b>expected value</b> (mean) of $X$ is the probability-weighted average of its values:</p>
+  $$E[X]=\sum_x x\,p(x)\ \ \text{(discrete)}\qquad E[X]=\int_{-\infty}^{\infty} x f(x)\,dx\ \ \text{(continuous)}$$
+  <p>Two ways to read it: (1) <b>long-run average</b> — repeat the experiment thousands of times and the running average of outcomes settles at $E[X]$ (that is the Law of Large Numbers, module 9); (2) <b>centre of mass</b> — put the PMF/PDF on a see-saw; $E[X]$ is where it balances.</p>
+  <p><b>Example.</b> Die: $E[X]=\frac{1+2+\dots+6}{6}=3.5$. Note $X$ can never equal 3.5 — the mean is a balance point, not a typical value.</p>
+  <p><b>Example.</b> A lottery ticket costs 2 and pays 100 with probability 1%. Net payoff $E = 0.01(98)+0.99(-2)=-1$: on average you lose 1 per ticket.</p>
+  </div>
+  <div>
+  <h3>LOTUS — expectation of a function</h3>
+  <p>For $g(X)$ you do <b>not</b> need the distribution of $g(X)$; weight $g$'s values by the original probabilities ("Law Of The Unconscious Statistician"):</p>
+  $$E[g(X)]=\sum_x g(x)\,p(x)\qquad\text{or}\qquad \int g(x)f(x)\,dx$$
+  <h3>Linearity — the most-used theorem in the course</h3>
+  $$E[aX+b]=a\,E[X]+b\qquad E[X+Y]=E[X]+E[Y]\ \ \textbf{always}$$
+  <p>Linearity holds for <b>any</b> random variables — dependent, correlated, whatever. No independence needed. Expectations of sums are painless; that is why so many tricks reduce problems to sums.</p>
+  <div class="note tip"><div class="t">Tip — indicator trick</div>To count "how many of $n$ events happen", write $X=\mathbf 1_{A_1}+\dots+\mathbf 1_{A_n}$ where the indicator $\mathbf 1_A$ is 1 if $A$ occurs, else 0. Since $E[\mathbf 1_A]=P(A)$: $E[X]=\sum_i P(A_i)$ — even when the events are dependent. This one-liner cracks otherwise nasty problems (see W10).</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Variance and standard deviation — how spread out<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Variance is the expected <b>squared</b> distance from the mean; the standard deviation brings it back to the original units:</p>
+  $$\operatorname{Var}(X)=E\big[(X-\mu)^2\big]=E[X^2]-\big(E[X]\big)^2,\qquad \sigma=\sqrt{\operatorname{Var}(X)}$$
+  <p>The right-hand form ("mean of the square minus square of the mean") is the one you compute with: get $E[X]$, get $E[X^2]$ via LOTUS, subtract.</p>
+  <p><b>Example.</b> Die: $E[X^2]=\frac{1+4+9+16+25+36}{6}=\frac{91}{6}$, so $\operatorname{Var}=\frac{91}{6}-3.5^2=\frac{35}{12}\approx 2.92$, $\sigma\approx 1.71$.</p>
+  <div class="note fin"><div class="t">Finance</div>For a return $R$, $E[R]$ is the expected return and $\sigma$ is the <b>volatility</b> — the standard unit of risk. Mean–variance portfolio theory is literally these two numbers per asset plus the covariances of module 7.</div>
+  </div>
+  <div>
+  <h3>Rules</h3>
+  <table class="formula-table">
+    <tr><td>Shift &amp; scale</td><td>$\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)$ — shifting doesn't change spread; the sign of $a$ disappears</td></tr>
+    <tr><td>Always ≥ 0</td><td>$\operatorname{Var}(X)=0$ iff $X$ is a constant</td></tr>
+    <tr><td>Sum, independent</td><td>$\operatorname{Var}(X+Y)=\operatorname{Var}(X)+\operatorname{Var}(Y)$ if independent (uncorrelated is enough)</td></tr>
+    <tr><td>Sum, general</td><td>$\operatorname{Var}(X+Y)=\operatorname{Var}(X)+\operatorname{Var}(Y)+2\operatorname{Cov}(X,Y)$ — module 7</td></tr>
+    <tr><td>Standardising</td><td>$Z=\dfrac{X-\mu}{\sigma}$ has mean 0, variance 1 — used constantly with the normal</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>Standard deviations do <b>not</b> add: $\sigma_{X+Y}\ne\sigma_X+\sigma_Y$. Variances add (under independence), then take the square root. Also $\operatorname{Var}(2X) = 4\operatorname{Var}(X) \ne \operatorname{Var}(X_1+X_2)=2\operatorname{Var}(X)$: doubling one bet is riskier than two independent bets — this <i>is</i> diversification, in one line.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Moments, skewness, kurtosis — the shape numbers<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The $k$-th moment is $E[X^k]$; the $k$-th <i>central</i> moment is $E[(X-\mu)^k]$. The first two give mean and variance; the next two, standardised, describe shape:</p>
+  <table class="formula-table">
+    <tr><td>Skewness</td><td>$\gamma_1=E\Big[\big(\tfrac{X-\mu}{\sigma}\big)^3\Big]$ — asymmetry. $\gt 0$: long <b>right</b> tail; $\lt 0$: long <b>left</b> tail; symmetric ⇒ 0</td></tr>
+    <tr><td>Kurtosis</td><td>$\gamma_2=E\Big[\big(\tfrac{X-\mu}{\sigma}\big)^4\Big]$ — tail weight. Normal has kurtosis 3; "excess kurtosis" = $\gamma_2-3$. Above 3 ⇒ <b>fat tails</b>: extreme outcomes more likely than the normal predicts</td></tr>
+  </table>
+  <figure>
+  <svg viewBox="0 0 340 150">
+    <line x1="15" y1="125" x2="160" y2="125" stroke="var(--border2)"/>
+    <path d="M20,124 C45,15 80,90 155,122" fill="none" stroke="var(--green)" stroke-width="2"/>
+    <text x="95" y="60" class="svgtxt g">right-skewed</text>
+    <text x="95" y="74" class="svgtxt">mean &gt; median</text>
+    <line x1="185" y1="125" x2="330" y2="125" stroke="var(--border2)"/>
+    <path d="M190,123 C240,110 245,20 257,20 C269,20 274,110 324,123" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <path d="M190,116 C238,104 247,52 257,52 C267,52 276,104 324,116" fill="none" stroke="var(--red)" stroke-width="2" stroke-dasharray="5 3"/>
+    <text x="196" y="35" class="svgtxt b">normal</text>
+    <text x="196" y="49" class="svgtxt r">fat tails</text>
+  </svg>
+  <figcaption>Left: positive skew — most mass on the left, rare large values to the right (typical of house prices, lognormal asset prices). Right: fat-tailed density (dashed) vs normal — more mass in the centre AND in the extremes.</figcaption>
+  </figure>
+  <div class="note fin"><div class="t">Finance</div>Daily equity returns show <b>negative skew</b> (crashes are bigger than rallies) and <b>excess kurtosis</b> (extreme days far more common than a normal model predicts). Risk models that assume normality understate tail risk — module 10 returns to this.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Moment generating function<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The MGF packs every moment into one function:</p>
+  $$M_X(t)=E\big[e^{tX}\big]$$
+  <p>Two superpowers:</p>
+  <table class="formula-table">
+    <tr><td>Moments by differentiation</td><td>$E[X^k]=M_X^{(k)}(0)$ — differentiate $k$ times, set $t=0$</td></tr>
+    <tr><td>Sums of independent RVs</td><td>$M_{X+Y}(t)=M_X(t)\,M_Y(t)$ — products, not convolutions</td></tr>
+    <tr><td>Uniqueness</td><td>if two RVs have the same MGF (near 0), they have the same distribution — used to identify the distribution of a sum in module 8</td></tr>
+    <tr><td>Linear transform</td><td>$M_{aX+b}(t)=e^{bt}M_X(at)$</td></tr>
+  </table>
+  <p><b>Example.</b> $X\sim\text{Bernoulli}(p)$: $M(t)=E[e^{tX}]=(1-p)e^{0}+pe^{t}=1-p+pe^t$. Then $M'(0)=p=E[X]$ ✓ and $M''(0)=p=E[X^2]$, so $\operatorname{Var}=p-p^2=p(1-p)$ ✓.</p>
+  <p class="muted">Exam use: mostly (1) compute an MGF from a PMF/PDF, (2) recognise a known MGF to identify a distribution, (3) extract moments. The zoo tables in modules 5–6 list every MGF.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> The three inequalities — bounds when you know almost nothing<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>Markov (needs only the mean, X ≥ 0)</h3>
+  $$P(X\ge a)\le \frac{E[X]}{a}\qquad (a\gt 0)$$
+  <p>Crude but universal: if average income is 50k, at most half the population can earn ≥ 100k.</p>
+  <h3>Chebyshev (needs mean and variance)</h3>
+  $$P\big(|X-\mu|\ge k\sigma\big)\le \frac{1}{k^2}$$
+  <p>At most $1/k^2$ of the probability lies more than $k$ standard deviations from the mean — for <b>any</b> distribution. $k=2$: ≤ 25% (the normal's actual figure is 4.6% — Chebyshev is a worst-case guarantee, not an estimate). Chebyshev powers the proof of the Law of Large Numbers in module 9.</p>
+  </div>
+  <div>
+  <h3>Jensen (needs convexity)</h3>
+  <p>If $g$ is <b>convex</b> (curves upward, like $x^2$, $e^x$, $1/x$ on $x\gt0$):</p>
+  $$E[g(X)]\ \ge\ g\big(E[X]\big)$$
+  <p>Flipped for concave $g$ (like $\log x$, $\sqrt x$): $E[g(X)]\le g(E[X])$.</p>
+  <figure style="margin:8px 0 0">
+  <svg viewBox="0 0 320 185">
+    <line x1="30" y1="165" x2="300" y2="165" stroke="var(--border2)"/>
+    <path d="M100,45 Q160,285 220,45" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <line x1="115" y1="97" x2="205" y2="97" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <circle cx="115" cy="97" r="3" fill="var(--blue)"/><circle cx="205" cy="97" r="3" fill="var(--blue)"/>
+    <circle cx="160" cy="97" r="3.5" fill="var(--amber)"/>
+    <circle cx="160" cy="160" r="3.5" fill="var(--green)"/>
+    <text x="168" y="93" class="svgtxt a">E[g(X)]</text>
+    <text x="168" y="152" class="svgtxt g">g(E[X])</text>
+    <text x="240" y="60" class="svgtxt b">g convex</text>
+  </svg>
+  <figcaption>X takes two equally likely values (blue dots on the curve). Averaging the outputs lands on the chord (amber) — always above the curve at the average input (green). That gap is Jensen's inequality.</figcaption>
+  </figure>
+  <div class="note fin"><div class="t">Finance</div>Utility functions are <b>concave</b> (diminishing marginal utility), so $E[u(W)]\le u(E[W])$: a risky wealth is worth less than its expected value for sure — that gap is why risk premia exist. Also: $E[e^X]\ge e^{E[X]}$ explains why lognormal mean exceeds $e^{\mu}$ (module 6).</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Insurance contract — mean, variance, and the E[1/X] trap<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>An insurer sells a policy for a premium of 12. With probability 0.1 the client claims 100, otherwise nothing. Let $\Pi$ be the insurer's profit. (a) Find $E[\Pi]$ and $\sigma_\Pi$. (b) Show that $E[1/X]\neq 1/E[X]$ for $X$ = claim size + 100.</b></p>
+  <ol class="steps">
+    <li>Profit: $\Pi=12-100=-88$ with prob. 0.1; $\Pi=12$ with prob. 0.9. $E[\Pi]=0.1(-88)+0.9(12)=2$: profitable on average.</li>
+    <li>$E[\Pi^2]=0.1(7744)+0.9(144)=904$, so $\operatorname{Var}(\Pi)=904-4=900$, $\sigma_\Pi=30$. A mean of 2 with a SD of 30 — one policy is a gamble; only a large, diversified book (module 9) makes insurance a business.</li>
+    <li>(b) $X=200$ w.p. 0.1, $X=100$ w.p. 0.9: $E[X]=110$, so $1/E[X]\approx 0.00909$. But $E[1/X]=0.1/200+0.9/100=0.0095$. Different — and $E[1/X]\gt 1/E[X]$, exactly as Jensen predicts for the convex function $1/x$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Never push expectations through nonlinear functions: $E[g(X)]\ne g(E[X])$ unless $g$ is linear. LOTUS computes the left side; Jensen tells you which way the inequality goes.</div>
+  </div>
+</div>
+
+</section>

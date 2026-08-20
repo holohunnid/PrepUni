@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import linalg from '../courses/linear-algebra/meta.json';
+import prob from '../courses/probability/meta.json';
 ---
 <Base title="PrepUSI · Study Hub">
 
@@ -33,17 +34,20 @@ import linalg from '../courses/linear-algebra/meta.json';
     </div>
   </a>
 
+  <a class="course-card" href="/probability">
+    <div class="panel" style="margin-bottom:0">
+      <div class="bar"><span class="pill g">LIVE</span> Probability<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body">
+        <p>{prob.stats}</p>
+        <p class="muted">Counting → conditional probability → random variables → expectation → distributions → joint behaviour → limit theorems → finance applications.</p>
+      </div>
+    </div>
+  </a>
+
   <div class="course-card dim">
     <div class="panel" style="margin-bottom:0">
       <div class="bar"><span class="pill a">PLANNED</span> Statistics<span class="ctl">— ⊡ ✕</span></div>
       <div class="body"><p class="muted">Descriptive statistics, estimation, hypothesis testing, regression.</p></div>
-    </div>
-  </div>
-
-  <div class="course-card dim">
-    <div class="panel" style="margin-bottom:0">
-      <div class="bar"><span class="pill a">PLANNED</span> Probability<span class="ctl">— ⊡ ✕</span></div>
-      <div class="body"><p class="muted">Random variables, distributions, expectation, limit theorems.</p></div>
     </div>
   </div>
 </main>

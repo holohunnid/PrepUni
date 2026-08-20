@@ -1,0 +1,104 @@
+<!-- ============ 09 LIMIT THEOREMS ============ -->
+<section id="s9">
+<div class="sec-head"><span class="num">09</span><h2>Limit theorems</h2><span class="sub">why averages stabilise and why the bell curve is everywhere</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The sample mean and its two vital statistics<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Take $X_1,\dots,X_n$ <b>iid</b> (independent, identically distributed) with mean μ and variance σ². Their average is the <b>sample mean</b>:</p>
+  $$\bar X_n=\frac{1}{n}\sum_{i=1}^n X_i$$
+  <p>Its mean and variance follow from linearity and independence — memorise both:</p>
+  $$E[\bar X_n]=\mu\qquad\qquad \operatorname{Var}(\bar X_n)=\frac{\sigma^2}{n}$$
+  <p>The average is <b>unbiased</b> (centred on the truth) and its spread shrinks like $\sigma/\sqrt n$ — the <b>standard error</b>. Everything in this module unpacks these two facts.</p>
+  </div>
+  <div>
+  <div class="note tip"><div class="t">The √n rule</div>To halve the uncertainty of an average you need <b>4×</b> the observations; to get one extra decimal digit of accuracy, 100×. Precision is bought at a quadratic price — this governs simulation budgets, polling sample sizes, and why diversification's benefits flatten out.</div>
+  <div class="note fin"><div class="t">Finance</div>Equal-weight portfolio of n uncorrelated assets (each variance σ²): portfolio variance is σ²/n → 0. With <i>correlated</i> assets it converges to the average covariance instead — the undiversifiable "market risk" floor. Diversification kills idiosyncratic risk, never systematic risk.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> Law of Large Numbers — averages converge<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p><b>Weak LLN.</b> For iid $X_i$ with finite mean μ: for every $\varepsilon\gt0$,</p>
+  $$P\big(|\bar X_n-\mu|\gt\varepsilon\big)\ \longrightarrow\ 0\qquad(n\to\infty)$$
+  <p>The sample mean ends up as close to μ as you like, with probability as high as you like. <b>Proof in one line</b> (with finite σ², via Chebyshev):</p>
+  $$P\big(|\bar X_n-\mu|\gt\varepsilon\big)\le\frac{\operatorname{Var}(\bar X_n)}{\varepsilon^2}=\frac{\sigma^2}{n\varepsilon^2}\to 0$$
+  <p>This is why probability's definition as "long-run frequency" is self-consistent: relative frequencies <i>are</i> sample means of indicators, so they converge to the probability.</p>
+  <div class="note warn"><div class="t">Trap — what the LLN does NOT say</div>It does not say deviations get "corrected". After 10 heads in a row, tails is not "due" — the coin has no memory. The average settles because early fluctuations get <b>diluted</b> by dividing by an ever-larger n, not because later flips compensate. Believing otherwise is the gambler's fallacy.</div>
+  </div>
+  <div>
+  <div class="ctrl">
+    <span class="btns"><button onclick="llnNew()">new sample path</button><button onclick="llnMore()">extend to 2000 flips</button></span>
+  </div>
+  <figure style="margin:0"><svg id="llnsvg" viewBox="0 0 340 200"></svg>
+  <figcaption>Running proportion of heads in a fair-coin sequence. Early on it swings wildly; by a few hundred flips it is pinned near 0.5 (dashed). Each "new sample path" wanders differently — but they all converge.</figcaption></figure>
+  <div class="readout" id="llnread" style="margin-top:8px"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> Central Limit Theorem — the shape of the fluctuations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>The LLN says $\bar X_n$ → μ; the CLT describes the <i>shape</i> of the remaining wobble. For iid $X_i$ with mean μ, variance σ² (any distribution!):</p>
+  $$\frac{\bar X_n-\mu}{\sigma/\sqrt n}=\frac{S_n-n\mu}{\sigma\sqrt n}\ \xrightarrow{\ d\ }\ N(0,1)$$
+  <p>Practical reading: for large n (rule of thumb n ≳ 30),</p>
+  $$\bar X_n\ \approx\ N\Big(\mu,\ \frac{\sigma^2}{n}\Big)\qquad S_n=\textstyle\sum X_i\ \approx\ N\big(n\mu,\ n\sigma^2\big)$$
+  <p><b>The remarkable part:</b> the source distribution can be skewed, discrete, bimodal — its shape is forgotten. Only μ and σ² survive into the limit. That universality is why the normal rules statistics and why "many small independent shocks" so often ends in a bell curve.</p>
+  <h3>Normal approximation to the binomial</h3>
+  <p>$X\sim$ Bin(n, p) is a sum of Bernoullis, so for large n (rule: $np(1-p)\gtrsim 10$):</p>
+  $$X\approx N\big(np,\ np(1-p)\big)$$
+  <p>With the <b>continuity correction</b> (a discrete k occupies $[k-\tfrac12,k+\tfrac12]$):</p>
+  $$P(X\le k)\approx\Phi\Big(\frac{k+\tfrac12-np}{\sqrt{np(1-p)}}\Big)$$
+  </div>
+  <div>
+  <div class="ctrl">
+    <label>n per average <input type="range" id="cl_n" min="1" max="50" step="1" value="1"><span class="val" id="cl_n_v">1</span></label>
+    <span class="btns"><button onclick="clSet(1)">n=1</button><button onclick="clSet(2)">n=2</button><button onclick="clSet(5)">n=5</button><button onclick="clSet(30)">n=30</button></span>
+  </div>
+  <figure style="margin:0"><svg id="clsvg" viewBox="0 0 340 220"></svg>
+  <figcaption>Histogram of 4000 sample means, each averaging n draws from a sharply right-skewed distribution (source shown at n=1). By n≈30 the histogram matches the normal curve (blue) — skewness melts away like 1/√n.</figcaption></figure>
+  <div class="readout" id="clread" style="margin-top:8px"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Convergence concepts — exam-level version<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>In probability<br>$X_n\xrightarrow{p}c$</td><td>$P(|X_n-c|\gt\varepsilon)\to0$: the RV itself pins down to a value. <b>LLN</b> is convergence in probability of $\bar X_n$ to μ</td></tr>
+    <tr><td>In distribution<br>$X_n\xrightarrow{d}X$</td><td>the CDFs converge: $F_{X_n}(x)\to F_X(x)$ (at continuity points). Only the <i>shape</i> stabilises. <b>CLT</b> is convergence in distribution of the standardised mean to N(0,1)</td></tr>
+  </table>
+  <p>Hierarchy: convergence in probability ⇒ in distribution (converse only when the limit is a constant). The two theorems don't clash: $\bar X_n$ collapses to the constant μ, while the <i>rescaled</i> deviation $\sqrt n(\bar X_n-\mu)$ keeps a stable normal shape. The $\sqrt n$ magnifier is what separates them.</p>
+  <div class="note fin"><div class="t">Finance — Monte Carlo</div>To price a payoff, simulate many scenarios and average: the LLN guarantees the average converges to the expectation, and the CLT gives the error bar: estimate ± $1.96\,s/\sqrt n$. Doubling accuracy costs 4× the simulations — the √n rule again.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> CLT in action, both flavours<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>(a) Daily P&amp;L of a desk is iid with mean 0.1 and SD 2 (in k€). Approximate P(yearly P&amp;L over 250 days exceeds 50). (b) A fair coin is flipped 100 times; approximate P(at most 45 heads) with continuity correction.</b></p>
+  <ol class="steps">
+    <li>(a) Sum: $S\approx N(250\times0.1,\ 250\times4)=N(25,1000)$, $\sigma_S=\sqrt{1000}\approx31.6$.</li>
+    <li>$P(S\gt50)=1-\Phi\big(\frac{50-25}{31.6}\big)=1-\Phi(0.79)\approx 1-0.785=\mathbf{0.215}$.</li>
+    <li>(b) $X\sim$ Bin(100, ½): μ = 50, σ = 5. Continuity correction: $P(X\le45)\approx\Phi\big(\frac{45.5-50}{5}\big)=\Phi(-0.9)$.</li>
+    <li>$\Phi(-0.9)=1-\Phi(0.9)=1-0.8159=\mathbf{0.184}$ (exact value 0.184 — the correction earns its keep; without it you would get 0.159).</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Sums scale as $(n\mu,\ n\sigma^2)$, averages as $(\mu,\ \sigma^2/n)$ — decide which one the question asks about <i>before</i> touching Φ. For discrete counts, add the ±½ unless n is huge.</div>
+  </div>
+</div>
+</div>
+
+</section>

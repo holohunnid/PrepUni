@@ -1,0 +1,159 @@
+<!-- ============ 03 RANDOM VARIABLES ============ -->
+<section id="s3">
+<div class="sec-head"><span class="num">03</span><h2>Random variables</h2><span class="sub">turning outcomes into numbers: PMF, PDF, CDF</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> What a random variable is<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>A <b>random variable</b> (RV) $X$ is a rule that attaches a <b>number</b> to each outcome of the experiment. Roll two dice → $X$ = the sum. Flip 10 coins → $X$ = number of heads. Hold a stock for a day → $X$ = the return. Once outcomes are numbers you can average them, measure their spread, plot them — that is the entire point.</p>
+  <p>Notation: capital $X$ is the random variable (the rule, value unknown in advance); lowercase $x$ is a particular value it might take. "$X=x$", "$X\le x$" are <i>events</i>, so they have probabilities.</p>
+  </div>
+  <div>
+  <table class="formula-table">
+    <tr><td><b>Discrete</b> RV</td><td>takes countably many values (0, 1, 2, …). Described by a <b>PMF</b>. E.g. number of defaults among 50 loans.</td></tr>
+    <tr><td><b>Continuous</b> RV</td><td>takes values in a continuum. Described by a <b>PDF</b>. E.g. a return, a waiting time.</td></tr>
+    <tr><td>Both</td><td>described by a <b>CDF</b> — the universal object that always exists.</td></tr>
+  </table>
+  <p class="muted">Quick test: can you <i>list</i> the possible values? Discrete. Is any value in an interval possible? Continuous.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Discrete: PMF and CDF<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>The <b>probability mass function</b> (PMF) lists the probability of each value:</p>
+  $$p(x)=P(X=x),\qquad p(x)\ge 0,\qquad \sum_{x}p(x)=1$$
+  <p>The <b>cumulative distribution function</b> (CDF) accumulates it from the left:</p>
+  $$F(x)=P(X\le x)=\sum_{t\le x}p(t)$$
+  <p>For a fair die: $p(x)=\tfrac16$ for $x=1,\dots,6$. The CDF is a <b>staircase</b>: flat between values, jumping by $p(x)$ at each possible value $x$. The jump size at $x$ <i>is</i> $P(X=x)$.</p>
+  <p>Any probability comes from summing the PMF: $P(X\in A)=\sum_{x\in A}p(x)$, e.g. $P(2\le X\le 4)=p(2)+p(3)+p(4)=\tfrac12$.</p>
+  </div>
+  <figure style="margin:0">
+  <svg viewBox="0 0 340 190">
+    <!-- PMF stems (left half) -->
+    <line x1="20" y1="150" x2="160" y2="150" stroke="var(--border2)"/>
+    <line x1="20" y1="150" x2="20" y2="20" stroke="var(--border2)"/>
+    <text x="22" y="30" class="svgtxt">p(x)</text>
+    <text x="16" y="98" class="svgtxt" text-anchor="end">1/6</text>
+    <line x1="20" y1="94" x2="160" y2="94" stroke="var(--border)" stroke-dasharray="3 3"/>
+    <line x1="34" y1="150" x2="34" y2="94" stroke="var(--green)" stroke-width="2"/><circle cx="34" cy="94" r="3" fill="var(--green)"/>
+    <line x1="56" y1="150" x2="56" y2="94" stroke="var(--green)" stroke-width="2"/><circle cx="56" cy="94" r="3" fill="var(--green)"/>
+    <line x1="78" y1="150" x2="78" y2="94" stroke="var(--green)" stroke-width="2"/><circle cx="78" cy="94" r="3" fill="var(--green)"/>
+    <line x1="100" y1="150" x2="100" y2="94" stroke="var(--green)" stroke-width="2"/><circle cx="100" cy="94" r="3" fill="var(--green)"/>
+    <line x1="122" y1="150" x2="122" y2="94" stroke="var(--green)" stroke-width="2"/><circle cx="122" cy="94" r="3" fill="var(--green)"/>
+    <line x1="144" y1="150" x2="144" y2="94" stroke="var(--green)" stroke-width="2"/><circle cx="144" cy="94" r="3" fill="var(--green)"/>
+    <text x="30" y="165" class="svgtxt">1</text><text x="52" y="165" class="svgtxt">2</text><text x="74" y="165" class="svgtxt">3</text><text x="96" y="165" class="svgtxt">4</text><text x="118" y="165" class="svgtxt">5</text><text x="140" y="165" class="svgtxt">6</text>
+    <text x="60" y="182" class="svgtxt w">PMF of a die</text>
+    <!-- CDF staircase (right half) -->
+    <line x1="190" y1="150" x2="330" y2="150" stroke="var(--border2)"/>
+    <line x1="190" y1="150" x2="190" y2="20" stroke="var(--border2)"/>
+    <text x="192" y="30" class="svgtxt">F(x)</text>
+    <line x1="190" y1="30" x2="330" y2="30" stroke="var(--border)" stroke-dasharray="3 3"/>
+    <text x="333" y="34" class="svgtxt">1</text>
+    <line x1="190" y1="150" x2="204" y2="150" stroke="var(--blue)" stroke-width="2"/>
+    <line x1="204" y1="130" x2="226" y2="130" stroke="var(--blue)" stroke-width="2"/><circle cx="204" cy="130" r="2.5" fill="var(--blue)"/>
+    <line x1="226" y1="110" x2="248" y2="110" stroke="var(--blue)" stroke-width="2"/><circle cx="226" cy="110" r="2.5" fill="var(--blue)"/>
+    <line x1="248" y1="90" x2="270" y2="90" stroke="var(--blue)" stroke-width="2"/><circle cx="248" cy="90" r="2.5" fill="var(--blue)"/>
+    <line x1="270" y1="70" x2="292" y2="70" stroke="var(--blue)" stroke-width="2"/><circle cx="270" cy="70" r="2.5" fill="var(--blue)"/>
+    <line x1="292" y1="50" x2="314" y2="50" stroke="var(--blue)" stroke-width="2"/><circle cx="292" cy="50" r="2.5" fill="var(--blue)"/>
+    <line x1="314" y1="30" x2="330" y2="30" stroke="var(--blue)" stroke-width="2"/><circle cx="314" cy="30" r="2.5" fill="var(--blue)"/>
+    <text x="200" y="165" class="svgtxt">1</text><text x="222" y="165" class="svgtxt">2</text><text x="244" y="165" class="svgtxt">3</text><text x="266" y="165" class="svgtxt">4</text><text x="288" y="165" class="svgtxt">5</text><text x="310" y="165" class="svgtxt">6</text>
+    <text x="225" y="182" class="svgtxt w">CDF of a die</text>
+  </svg>
+  <figcaption>Left: the PMF puts mass 1/6 on each face. Right: the CDF climbs the staircase — each jump equals the PMF at that value; between values it is flat.</figcaption>
+  </figure>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Continuous: PDF and CDF — probability is area<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>A continuous RV has a <b>probability density function</b> (PDF) $f(x)\ge 0$ with total area 1. Probabilities are <b>areas under the density curve</b>:</p>
+  $$P(a\le X\le b)=\int_a^b f(x)\,dx,\qquad \int_{-\infty}^{\infty}f(x)\,dx=1$$
+  <p>The CDF is the accumulated area from the left, and differentiating it recovers the density:</p>
+  $$F(x)=P(X\le x)=\int_{-\infty}^{x}f(t)\,dt,\qquad f(x)=F'(x)$$
+  <p>The single most useful computational identity — probability of an interval from CDF values:</p>
+  $$P(a\lt X\le b)=F(b)-F(a)$$
+  <div class="note warn"><div class="t">Trap</div>For a continuous RV, $P(X=x)=0$ for every single point (a line has no area). Consequences: (1) $\le$ vs $\lt$ makes <b>no difference</b> — $P(a\le X\le b)=P(a\lt X\lt b)$; (2) $f(x)$ is <b>not</b> a probability — it is a density, and can exceed 1 (only areas must stay ≤ 1). Think "probability per unit length": $P(x\lt X\lt x+dx)\approx f(x)\,dx$.</div>
+  </div>
+  <div>
+  <h3>Properties every CDF has</h3>
+  <table class="formula-table">
+    <tr><td>Range &amp; limits</td><td>$F$ goes from $0$ (at $-\infty$) to $1$ (at $+\infty$)</td></tr>
+    <tr><td>Monotone</td><td>non-decreasing — accumulating area can't go down</td></tr>
+    <tr><td>Right tail</td><td>$P(X\gt x)=1-F(x)$ (the "survival function")</td></tr>
+    <tr><td>Discrete case</td><td>staircase with jumps; jump at $x$ = $P(X=x)$</td></tr>
+    <tr><td>Continuous case</td><td>smooth curve, slope = density $f(x)$</td></tr>
+  </table>
+  <p>Where the PDF is <b>tall</b>, the CDF climbs <b>steeply</b> — the two plots in the interactive figure below are the same information viewed twice.</p>
+  <div class="note tip"><div class="t">Tip</div>Given a density with an unknown constant ("find $c$ such that $f$ is a valid pdf"): integrate over the support, set the result equal to 1, solve for $c$. This is a guaranteed-marks exam opener — see the example below.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> PDF ↔ CDF — the same distribution, two views<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Waiting time until the next trade, $X\sim\text{Exp}(\lambda)$: density $f(x)=\lambda e^{-\lambda x}$, CDF $F(x)=1-e^{-\lambda x}$. Slide $x$ and watch the shaded area on the left become the height of the dot on the right.</p>
+  <div class="ctrl">
+    <label>x <input type="range" id="pc_x" min="0.1" max="5" step="0.1" value="1.5"><span class="val" id="pc_x_v">1.5</span></label>
+    <label>rate λ <input type="range" id="pc_l" min="0.4" max="2.5" step="0.1" value="1"><span class="val" id="pc_l_v">1.0</span></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="pcsvg" viewBox="0 0 640 220"></svg>
+    <figcaption>Left: density f with the area up to x shaded — that area IS F(x). Right: the CDF; the dot's height equals the shaded area. Steep CDF ⇔ tall PDF.</figcaption></figure>
+    <div>
+      <div class="readout" id="pcread"></div>
+      <p style="margin-top:10px">Everything you compute with continuous distributions is one of these three moves:</p>
+      <ul>
+        <li>$P(X\le x)=F(x)$ — read the CDF,</li>
+        <li>$P(X\gt x)=1-F(x)$ — complement,</li>
+        <li>$P(a\lt X\le b)=F(b)-F(a)$ — difference.</li>
+      </ul>
+      <p class="muted">Raise λ (trades arrive faster): the density piles up near 0 and the CDF shoots up sooner — short waits become likely.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Quantiles, median, mode<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>quantile function</b> runs the CDF backwards: the $p$-quantile $x_p$ is the value with a fraction $p$ of the probability to its left,</p>
+  $$F(x_p)=p\qquad\text{i.e.}\qquad x_p=F^{-1}(p)$$
+  <table class="formula-table">
+    <tr><td>Median</td><td>$x_{0.5}$ — splits the distribution 50/50. More robust than the mean for skewed data</td></tr>
+    <tr><td>Quartiles</td><td>$x_{0.25}$, $x_{0.75}$; IQR $=x_{0.75}-x_{0.25}$</td></tr>
+    <tr><td>Percentile</td><td>$x_{0.95}$ = 95th percentile: only 5% of outcomes lie above</td></tr>
+    <tr><td>Mode</td><td>value where the PMF/PDF is highest (the peak)</td></tr>
+  </table>
+  <div class="note fin"><div class="t">Finance</div><b>Value-at-Risk is a quantile.</b> The 95% VaR of a portfolio is (minus) the 5th percentile of the P&amp;L distribution: the loss threshold exceeded only 5% of the time. Module 10 computes it explicitly.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> A full continuous-RV workout<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Let $f(x)=cx$ for $0\le x\le 1$ (and 0 elsewhere). Find $c$, the CDF, $P(X\gt \tfrac12)$, and the median.</b></p>
+  <ol class="steps">
+    <li>Total area 1: $\int_0^1 cx\,dx=\tfrac{c}{2}=1\Rightarrow c=2$. So $f(x)=2x$: a triangle rising to the right.</li>
+    <li>CDF: $F(x)=\int_0^x 2t\,dt=x^2$ on $[0,1]$ (0 to the left, 1 to the right).</li>
+    <li>$P(X\gt\tfrac12)=1-F(\tfrac12)=1-\tfrac14=\tfrac34$. Makes sense: the density's mass leans right.</li>
+    <li>Median: $F(m)=m^2=\tfrac12\Rightarrow m=\tfrac{1}{\sqrt2}\approx 0.707$ — <i>not</i> 0.5, because the distribution is skewed.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The full pipeline: normalise → integrate to CDF → answer every probability question from $F$ alone. Note $f(1)=2\gt 1$: densities above 1 are perfectly legal.</div>
+  </div>
+</div>
+</div>
+
+</section>

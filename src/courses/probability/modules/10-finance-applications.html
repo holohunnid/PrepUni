@@ -1,0 +1,126 @@
+<!-- ============ 10 FINANCE APPLICATIONS ============ -->
+<section id="s10">
+<div class="sec-head"><span class="num">10</span><h2>Finance applications</h2><span class="sub">everything above, pointed at markets</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Returns as random variables<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Price today $S_0$, price tomorrow $S_1$ (random). Two ways to measure the move:</p>
+  <table class="formula-table">
+    <tr><td>Simple return</td><td>$R=\dfrac{S_1-S_0}{S_0}$, so $S_1=S_0(1+R)$</td></tr>
+    <tr><td>Log return</td><td>$r=\ln\dfrac{S_1}{S_0}=\ln(1+R)$, so $S_1=S_0e^{r}$</td></tr>
+  </table>
+  <p>Why logs? They <b>add over time</b>: $r_{0\to T}=r_1+r_2+\dots+r_T$ (the product of growth factors becomes a sum of logs). Sums of iid random variables are exactly what modules 8–9 handle — so the whole limit-theorem machinery applies to log returns.</p>
+  <p class="muted">For small moves $r\approx R$ (e.g. R = 1% → r = 0.995%); they diverge for big moves (R = −50% → r = −69%).</p>
+  </div>
+  <div>
+  <h3>Aggregation of iid log returns</h3>
+  <p>Daily log returns iid with mean μ, variance σ². Over T days:</p>
+  $$E[r_{0\to T}]=\mu T\qquad \operatorname{Var}(r_{0\to T})=\sigma^2T\qquad \sigma_{0\to T}=\sigma\sqrt T$$
+  <div class="note tip"><div class="t">The √T rule</div>Means scale with time, volatility with its <b>square root</b>: annualise daily vol with $\sqrt{252}$ (σ_annual ≈ 16 × σ_daily). A 1% daily vol is a ≈16% annual vol. This asymmetry (drift grows faster than noise) is why long horizons favour risky assets in expectation.</div>
+  <div class="note warn"><div class="t">Trap</div>Never annualise by multiplying σ by 252, and never add <i>simple</i> returns across time (they compound, not add). Log returns add across <b>time</b>; simple returns add across a <b>portfolio</b> (with weights). Use each in its lane.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> The lognormal price model<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>If the cumulative log return is normal — which the CLT makes plausible, since it is a sum of many small shocks — then with $Z\sim N(0,1)$:</p>
+  $$S_T=S_0\,e^{\mu T+\sigma\sqrt T\,Z}\qquad\Longrightarrow\qquad S_T\ \text{is lognormal}$$
+  <p>From module 6's lognormal formulas:</p>
+  $$\text{median}(S_T)=S_0e^{\mu T}\qquad E[S_T]=S_0\,e^{\mu T+\sigma^2T/2}$$
+  <p>The mean sits <b>above</b> the median by the Jensen term $e^{\sigma^2T/2}$: volatility itself lifts the expected price, while the typical (median) outcome is lower. Skewed distributions force you to say <i>which</i> "average" you mean.</p>
+  </div>
+  <div>
+  <h3>Probability the asset beats a target</h3>
+  <p>All such questions reduce to taking logs and standardising:</p>
+  $$P(S_T\gt K)=P\Big(Z\gt\frac{\ln(K/S_0)-\mu T}{\sigma\sqrt T}\Big)$$
+  <p><b>Example.</b> $S_0=100$, μ = 8%/yr, σ = 20%/yr, T = 1: $P(S_1\gt120)=1-\Phi\big(\frac{\ln1.2-0.08}{0.2}\big)=1-\Phi(0.51)\approx \mathbf{30.5\%}$.</p>
+  <p class="muted">The same standardised quantity, with a $\sigma^2/2$ adjustment, is the $d_2$ inside Black–Scholes — you will meet it again in the MSc.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Diversification — the only free lunch<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Two assets: A with σ = 20%, B with σ = 30%, weights $w$ and $1-w$. Portfolio variance (module 7): $\sigma_P^2=w^2\sigma_A^2+(1-w)^2\sigma_B^2+2w(1-w)\rho\,\sigma_A\sigma_B$. Slide the correlation:</p>
+  <div class="ctrl">
+    <label>ρ <input type="range" id="dv_r" min="-1" max="1" step="0.05" value="0.3"><span class="val" id="dv_r_v">0.30</span></label>
+    <span class="btns"><button onclick="dvSet(1)">ρ = 1</button><button onclick="dvSet(0.3)">typical</button><button onclick="dvSet(0)">ρ = 0</button><button onclick="dvSet(-1)">ρ = −1</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="dvsvg" viewBox="0 0 340 220"></svg>
+    <figcaption>Portfolio volatility σ_P as the weight on asset A goes 0 → 1 (grey curves: other correlations for reference). At ρ = 1 the curve is a straight line — no diversification. Lower ρ bends it down; at ρ = −1 it touches zero: a perfect hedge exists.</figcaption></figure>
+    <div>
+      <div class="readout" id="dvread"></div>
+      <p style="margin-top:10px">Read off the chart: the minimum of the curve is the <b>minimum-variance portfolio</b>; its weight is $w^*=\dfrac{\sigma_B^2-\rho\sigma_A\sigma_B}{\sigma_A^2+\sigma_B^2-2\rho\sigma_A\sigma_B}$.</p>
+      <p>The whole magic is the cross term $2w(1-w)\rho\sigma_A\sigma_B$: with ρ &lt; 1, risks partially cancel while expected returns simply average — risk falls with no cost in expectation.</p>
+      <p class="muted">n-asset version: $\sigma_P^2=\mathbf w^{\mathsf T}\Sigma\mathbf w$ (LinAlg module 10). Idiosyncratic risk dies like 1/n; average covariance survives as the market-risk floor (module 9).</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Value-at-Risk — a quantile wearing a suit<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The α-VaR (say α = 95%) is the loss level exceeded with probability only $1-\alpha$: the $(1-\alpha)$-quantile of the P&amp;L distribution, sign-flipped into a positive "amount at risk".</p>
+  <p>If the portfolio return over the horizon is $R\sim N(\mu,\sigma^2)$ and $V$ is portfolio value:</p>
+  $$\text{VaR}_\alpha=V\big(z_\alpha\sigma-\mu\big),\qquad z_{0.95}=1.645,\ z_{0.99}=2.326$$
+  <p><b>Example.</b> V = €10m, monthly μ = 0.5%, σ = 4%: $\text{VaR}_{95\%}=10\text{m}\times(1.645\times0.04-0.005)=\mathbf{€608{,}000}$ — the monthly loss exceeded only 1 month in 20.</p>
+  <figure style="margin:8px 0 0"><svg id="vrsvg" viewBox="0 0 340 150"></svg>
+  <figcaption>Return density with the worst 5% shaded red. VaR is the boundary of that tail. Everything about it comes from module 3 (quantiles) + module 6 (normal tables).</figcaption></figure>
+  <div class="note warn"><div class="t">Trap</div>VaR says nothing about how bad losses are <i>beyond</i> the threshold, and normal-based VaR inherits the thin tails of the normal — real returns (fat-tailed, module 4) breach it more often than advertised. State assumptions when you quote a VaR.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Binomial tree &amp; risk-neutral probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Each period the price moves up by factor $u$ or down by $d$. After $n$ periods with $k$ up-moves: $S_n=S_0u^kd^{\,n-k}$, and the number of up-moves is <b>Binomial(n, p)</b> — the whole tree is module 5 wearing prices.</p>
+  <figure style="margin:8px 0"><svg viewBox="0 0 340 170">
+    <line x1="60" y1="85" x2="150" y2="40" stroke="var(--border2)"/><line x1="60" y1="85" x2="150" y2="130" stroke="var(--border2)"/>
+    <line x1="150" y1="40" x2="240" y2="18" stroke="var(--border2)"/><line x1="150" y1="40" x2="240" y2="63" stroke="var(--border2)"/>
+    <line x1="150" y1="130" x2="240" y2="107" stroke="var(--border2)"/><line x1="150" y1="130" x2="240" y2="152" stroke="var(--border2)"/>
+    <circle cx="60" cy="85" r="4" fill="var(--blue)"/><circle cx="150" cy="40" r="4" fill="var(--green)"/><circle cx="150" cy="130" r="4" fill="var(--red)"/>
+    <circle cx="240" cy="18" r="4" fill="var(--green)"/><circle cx="240" cy="63" r="4" fill="var(--amber)"/><circle cx="240" cy="107" r="4" fill="var(--amber)"/><circle cx="240" cy="152" r="4" fill="var(--red)"/>
+    <text x="30" y="89" class="svgtxt w">100</text>
+    <text x="126" y="32" class="svgtxt g">110</text><text x="124" y="147" class="svgtxt r">90.9</text>
+    <text x="248" y="22" class="svgtxt g">121</text><text x="248" y="67" class="svgtxt a">100</text><text x="248" y="111" class="svgtxt a">100</text><text x="248" y="156" class="svgtxt r">82.6</text>
+    <text x="95" y="52" class="svgtxt">p</text><text x="92" y="122" class="svgtxt">1−p</text>
+  </svg>
+  <figcaption>Two-period tree with u = 1.1, d = 1/u. The middle value is reached by two paths (up-down, down-up) — path counting is the binomial coefficient.</figcaption></figure>
+  <p>For pricing, the market replaces the real p with the <b>risk-neutral probability</b> — the unique q making the expected growth equal the risk-free rate:</p>
+  $$q=\frac{(1+r_f)-d}{u-d}\qquad\text{price}=\frac{E_q[\text{payoff}]}{(1+r_f)^n}$$
+  <p><b>Example.</b> u = 1.1, d = 0.909, r_f = 2%: $q=\frac{1.02-0.909}{1.1-0.909}\approx0.581$. One-period call, strike 100: payoff 10 up / 0 down. Price $=\frac{0.581\times10}{1.02}\approx\mathbf{5.70}$.</p>
+  <p class="muted">Note what q is <i>not</i>: nobody believes the up-move has probability 58% — q is a change of measure that absorbs risk aversion. Expected payoffs under q, discounted at r_f, give arbitrage-free prices; the E, Var, Binomial machinery is unchanged.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Sharpe ratio — and an honesty check on the whole module<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Risk-adjusted performance = excess return per unit of volatility:</p>
+  $$\text{Sharpe}=\frac{E[R]-r_f}{\sigma_R}$$
+  <p>Annualisation (iid returns): multiply a daily Sharpe by $\sqrt{252}$ — the mean scales with T, σ with √T, so the ratio scales with √T. Comparing funds on Sharpe is comparing their entire (μ, σ) pairs in one number.</p>
+  <p><b>Example.</b> Fund: 9% expected return, 15% vol; r_f = 1%: Sharpe = 0.53. Market at 7%/12%: Sharpe = 0.50 — the fund's extra return does (slightly) pay for its extra risk.</p>
+  </div>
+  <div>
+  <div class="note warn"><div class="t">Model risk — the fine print</div>This module's clean formulas assume returns are iid and (log)normal. Real returns have <b>negative skew</b>, <b>fat tails</b> (kurtosis ≫ 3), and <b>volatility clustering</b> (calm and stormy periods — not iid). Consequences: normal VaR understates tail risk; Sharpe ignores skew (selling crash insurance looks great until the crash); √T-scaling misprices long-horizon risk. The formulas are the exam answer <i>and</i> the first-order model — knowing where they bend is what separates using them from believing them.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+</section>

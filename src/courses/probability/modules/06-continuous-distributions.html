@@ -1,0 +1,154 @@
+<!-- ============ 06 CONTINUOUS DISTRIBUTIONS ============ -->
+<section id="s6">
+<div class="sec-head"><span class="num">06</span><h2>Continuous distributions</h2><span class="sub">the zoo, part II — uniform, exponential, normal and friends</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Continuous uniform — total ignorance on an interval<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$X\sim U(a,b)$: every sub-interval of equal length is equally likely. The density is flat:</p>
+  $$f(x)=\frac{1}{b-a}\ \ (a\le x\le b),\qquad F(x)=\frac{x-a}{b-a}$$
+  $$E[X]=\frac{a+b}{2},\qquad \operatorname{Var}(X)=\frac{(b-a)^2}{12}$$
+  <p>Probabilities are just length fractions: $P(c\le X\le d)=\frac{d-c}{b-a}$.</p>
+  <p class="muted">$U(0,1)$ is the atom of simulation: every other distribution can be manufactured from it (probability integral transform, module 8).</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Exponential — waiting times, memoryless<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$X\sim\text{Exp}(\lambda)$: waiting time until the next event when events arrive at rate λ (the continuous twin of the geometric; the gap between Poisson arrivals).</p>
+  $$f(x)=\lambda e^{-\lambda x},\quad F(x)=1-e^{-\lambda x}\ (x\ge0),\quad E[X]=\frac1\lambda,\quad \operatorname{Var}(X)=\frac1{\lambda^2}$$
+  <h3>Memoryless — the defining property</h3>
+  $$P(X\gt s+t\mid X\gt s)=P(X\gt t)$$
+  <p><b>Proof sketch:</b> $\frac{P(X\gt s+t)}{P(X\gt s)}=\frac{e^{-\lambda(s+t)}}{e^{-\lambda s}}=e^{-\lambda t}$. Having already waited $s$ tells you nothing about the remaining wait. The exponential is the <i>only</i> continuous distribution with this property.</p>
+  <p class="muted">Min of independent exponentials: $\min(X_1,\dots,X_n)\sim\text{Exp}(\lambda_1+\dots+\lambda_n)$ — "first default among n loans" (module 8).</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The normal distribution — the centre of the universe<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>$X\sim N(\mu,\sigma^2)$: the bell curve, centred at $\mu$, with spread $\sigma$.</p>
+  $$f(x)=\frac{1}{\sigma\sqrt{2\pi}}\;e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+  <p>Why it is everywhere: <b>sums of many small independent effects are approximately normal</b> (Central Limit Theorem, module 9) — measurement errors, aggregate returns, sample means.</p>
+  <h3>Standardisation — the only skill you need</h3>
+  <p>There is no closed-form CDF; all probabilities go through the <b>standard normal</b> $Z\sim N(0,1)$ with CDF $\Phi$ (tabulated):</p>
+  $$X\sim N(\mu,\sigma^2)\ \Longrightarrow\ Z=\frac{X-\mu}{\sigma}\sim N(0,1)$$
+  $$P(X\le x)=\Phi\!\Big(\frac{x-\mu}{\sigma}\Big)$$
+  <p>The recipe for every normal question: <b>standardise → look up Φ → combine with symmetry</b>.</p>
+  <h3>Symmetry rules (tables only list z ≥ 0)</h3>
+  <table class="formula-table">
+    <tr><td>Negative z</td><td>$\Phi(-z)=1-\Phi(z)$</td></tr>
+    <tr><td>Right tail</td><td>$P(Z\gt z)=1-\Phi(z)$</td></tr>
+    <tr><td>Symmetric band</td><td>$P(|Z|\le z)=2\Phi(z)-1$</td></tr>
+  </table>
+  </div>
+  <div>
+  <h3>Numbers worth memorising</h3>
+  <table>
+    <tr><th>band / tail</th><th>value</th></tr>
+    <tr><td>$P(|X-\mu|\le 1\sigma)$</td><td>≈ 68.3%</td></tr>
+    <tr><td>$P(|X-\mu|\le 2\sigma)$</td><td>≈ 95.4%</td></tr>
+    <tr><td>$P(|X-\mu|\le 3\sigma)$</td><td>≈ 99.7%</td></tr>
+    <tr><td>$\Phi(1.645)=0.95$</td><td>→ 5% right tail (95% VaR)</td></tr>
+    <tr><td>$\Phi(1.96)=0.975$</td><td>→ 95% central interval</td></tr>
+    <tr><td>$\Phi(2.326)=0.99$</td><td>→ 1% right tail (99% VaR)</td></tr>
+    <tr><td>$\Phi(2.576)=0.995$</td><td>→ 99% central interval</td></tr>
+  </table>
+  <h3>Closure under sums — the superpower</h3>
+  <p>Linear transforms and independent sums of normals are normal:</p>
+  $$aX+b\sim N(a\mu+b,\;a^2\sigma^2)$$
+  $$X+Y\sim N(\mu_X+\mu_Y,\;\sigma_X^2+\sigma_Y^2)\ \ \text{(indep.)}$$
+  <p class="muted">Means add; <b>variances</b> add (not the σ's). For correlated normals add $2\rho\sigma_X\sigma_Y$ inside the variance — module 7.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Normal explorer — standardisation made visible<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>μ <input type="range" id="nr_m" min="-3" max="3" step="0.1" value="0"><span class="val" id="nr_m_v">0.0</span></label>
+    <label>σ <input type="range" id="nr_s" min="0.4" max="2.5" step="0.1" value="1"><span class="val" id="nr_s_v">1.0</span></label>
+    <label>x <input type="range" id="nr_x" min="-6" max="6" step="0.1" value="1.5"><span class="val" id="nr_x_v">1.5</span></label>
+    <span class="btns"><button onclick="nrSet(0,1,1.645)">z = 1.645</button><button onclick="nrSet(0,1,1.96)">z = 1.96</button><button onclick="nrSet(0.05,1.2,-1.5)">return dist.</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="nrsvg" viewBox="0 0 340 200"></svg>
+    <figcaption>N(μ, σ²) with the area up to x shaded (green) and the right tail unshaded. The readout shows the standardised z — the same x can be "extreme" or "ordinary" depending on σ.</figcaption></figure>
+    <div>
+      <div class="readout" id="nrread"></div>
+      <p style="margin-top:10px">Play with it: fix x = 1.5 and increase σ — the shaded probability falls toward ½ because 1.5 becomes "close to the centre" in units of σ. That z-units rescaling is all standardisation is.</p>
+      <div class="note tip"><div class="t">Tip</div>Before any table lookup, guess from the memorised anchors (68 / 95 / 99.7). If your final answer disagrees wildly with the guess, you standardised wrong — usually a sign error or σ vs σ² mix-up.</div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Lognormal — prices, not returns<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$X$ is <b>lognormal</b> when its logarithm is normal: $X=e^{Y}$, $Y\sim N(\mu,\sigma^2)$. Positive, right-skewed — the standard model for asset <i>prices</i> (module 10 derives it from compounded returns).</p>
+  $$E[X]=e^{\mu+\sigma^2/2},\qquad \text{median}(X)=e^{\mu}$$
+  $$\operatorname{Var}(X)=e^{2\mu+\sigma^2}\big(e^{\sigma^2}-1\big)$$
+  <div class="note warn"><div class="t">Trap — the σ²/2 term</div>$E[e^Y]\neq e^{E[Y]}$. The mean $e^{\mu+\sigma^2/2}$ is strictly <b>above</b> the median $e^\mu$: Jensen's inequality ($e^x$ is convex) plus right skew. Forgetting the $+\sigma^2/2$ is the single most common error in lognormal questions — and in real option-pricing formulas it is exactly the term that appears.</div>
+  <p class="muted">To compute $P(X\le x)$: take logs, standardise: $P(X\le x)=\Phi\big(\frac{\ln x-\mu}{\sigma}\big)$.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Chi-square, Student t, F — the sampling trio<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Built from standard normals; they run the inference machinery of the statistics course, so meet them now:</p>
+  <table class="formula-table">
+    <tr><td>$\chi^2_n$</td><td>$Z_1^2+\dots+Z_n^2$ (indep. std normals). $E=n$, $\operatorname{Var}=2n$. Distribution of sample variances</td></tr>
+    <tr><td>$t_n$</td><td>$\dfrac{Z}{\sqrt{\chi^2_n/n}}$. Symmetric, <b>fatter tails</b> than normal; → $N(0,1)$ as $n\to\infty$. $\operatorname{Var}=\frac{n}{n-2}$ for $n\gt2$. Small-sample means, and a realistic model for fat-tailed returns</td></tr>
+    <tr><td>$F_{m,n}$</td><td>$\dfrac{\chi^2_m/m}{\chi^2_n/n}$. Ratios of variances, regression F-tests</td></tr>
+    <tr><td>Gamma(α,λ)</td><td>generalises the exponential (α=1) and $\chi^2$ (α=n/2, λ=½); sum of α indep. Exp(λ) waits</td></tr>
+    <tr><td>Beta(α,β)</td><td>lives on $[0,1]$, $E=\frac{\alpha}{\alpha+\beta}$; models random proportions/probabilities</td></tr>
+  </table>
+  <div class="ctrl" style="margin-top:8px">
+    <label>t degrees of freedom <input type="range" id="tv_n" min="1" max="30" step="1" value="3"><span class="val" id="tv_n_v">3</span></label>
+  </div>
+  <figure style="margin:0"><svg id="tvsvg" viewBox="0 0 340 170"></svg>
+  <figcaption>Student t (red) vs standard normal (blue). At small df the t has visibly heavier tails — extreme outcomes are far more likely. Slide df up and watch it merge into the normal by ≈ 30.</figcaption></figure>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Normal computation, full exam layout<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Monthly returns $R\sim N(1\%,\ (4\%)^2)$. Find (a) P(R &lt; 0), (b) P(−3% &lt; R &lt; 5%), (c) the return level exceeded with only 5% probability.</b></p>
+  <ol class="steps">
+    <li>(a) Standardise: $z=\frac{0-0.01}{0.04}=-0.25$. $P(R\lt 0)=\Phi(-0.25)=1-\Phi(0.25)=1-0.5987=\mathbf{0.4013}$.</li>
+    <li>(b) $z$-bounds: $\frac{-0.03-0.01}{0.04}=-1$ and $\frac{0.05-0.01}{0.04}=1$. $P=\Phi(1)-\Phi(-1)=2\Phi(1)-1=2(0.8413)-1=\mathbf{0.6826}$ — the 68% band, recognised instantly since the interval is exactly $\mu\pm\sigma$.</li>
+    <li>(c) Want $x$ with $P(R\gt x)=0.05$, i.e. $\Phi(z)=0.95$, so $z=1.645$. Un-standardise: $x=\mu+z\sigma=0.01+1.645(0.04)=\mathbf{7.58\%}$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Forward questions standardise ($x\to z$), backward questions un-standardise ($z\to x=\mu+z\sigma$). Being fluent in both directions is 90% of normal-distribution marks; (c) is precisely how the VaR of module 10 is computed, with a minus sign.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Continuous zoo — summary table<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Distribution</th><th>PDF $f(x)$</th><th>Support</th><th>$E[X]$</th><th>$\operatorname{Var}(X)$</th><th>MGF $M(t)$</th></tr>
+    <tr><td class="g">Uniform(a,b)</td><td>$\frac{1}{b-a}$</td><td>$[a,b]$</td><td>$\frac{a+b}{2}$</td><td>$\frac{(b-a)^2}{12}$</td><td>$\frac{e^{tb}-e^{ta}}{t(b-a)}$</td></tr>
+    <tr><td class="g">Exponential(λ)</td><td>$\lambda e^{-\lambda x}$</td><td>$x\ge0$</td><td>$\frac1\lambda$</td><td>$\frac1{\lambda^2}$</td><td>$\frac{\lambda}{\lambda-t}$, $t\lt\lambda$</td></tr>
+    <tr><td class="g">Normal(μ,σ²)</td><td>$\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$</td><td>$\mathbb R$</td><td>$\mu$</td><td>$\sigma^2$</td><td>$e^{\mu t+\frac{\sigma^2t^2}{2}}$</td></tr>
+    <tr><td class="g">Lognormal(μ,σ²)</td><td>$\frac{1}{x\sigma\sqrt{2\pi}}e^{-\frac{(\ln x-\mu)^2}{2\sigma^2}}$</td><td>$x\gt0$</td><td>$e^{\mu+\sigma^2/2}$</td><td>$e^{2\mu+\sigma^2}(e^{\sigma^2}-1)$</td><td>—</td></tr>
+    <tr><td class="g">Gamma(α,λ)</td><td>$\frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\lambda x}$</td><td>$x\gt0$</td><td>$\frac\alpha\lambda$</td><td>$\frac\alpha{\lambda^2}$</td><td>$\big(\frac{\lambda}{\lambda-t}\big)^\alpha$</td></tr>
+    <tr><td class="g">Chi-square(n)</td><td>Gamma$(\frac n2,\frac12)$</td><td>$x\gt0$</td><td>$n$</td><td>$2n$</td><td>$(1-2t)^{-n/2}$</td></tr>
+    <tr><td class="g">Student t(n)</td><td>—</td><td>$\mathbb R$</td><td>$0$ ($n\gt1$)</td><td>$\frac{n}{n-2}$ ($n\gt2$)</td><td>—</td></tr>
+    <tr><td class="g">Beta(α,β)</td><td>$\propto x^{\alpha-1}(1-x)^{\beta-1}$</td><td>$[0,1]$</td><td>$\frac{\alpha}{\alpha+\beta}$</td><td>$\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$</td><td>—</td></tr>
+  </table>
+  <p class="muted">Relations worth knowing: Exp = Gamma(1, λ); χ²ₙ = Gamma(n/2, ½); t₁ = Cauchy (no mean!); tₙ → N(0,1); sum of squares of n std normals = χ²ₙ.</p>
+  </div>
+</div>
+
+</section>

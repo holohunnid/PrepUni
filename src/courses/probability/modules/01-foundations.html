@@ -1,0 +1,184 @@
+<!-- ============ 01 FOUNDATIONS & COUNTING ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>Foundations &amp; counting</h2><span class="sub">the language: outcomes, events, and how to count them</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Experiment, sample space, event — the three words everything is built on<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>random experiment</b> is any procedure whose outcome you cannot predict in advance: flipping a coin, rolling a die, observing tomorrow's stock return. Probability theory does not predict the outcome — it assigns a number between 0 and 1 to each <i>possible</i> outcome, measuring how likely it is.</p>
+  <table class="formula-table">
+    <tr><td>Sample space $\Omega$</td><td>the set of <b>all possible outcomes</b> of the experiment</td></tr>
+    <tr><td>Outcome $\omega$</td><td>one single element of $\Omega$ — exactly one occurs when you run the experiment</td></tr>
+    <tr><td>Event $A$</td><td>any <b>subset</b> of $\Omega$ — a collection of outcomes. "$A$ occurs" means the realised outcome is in $A$</td></tr>
+    <tr><td>Probability $P(A)$</td><td>a number in $[0,1]$ attached to each event; $P(A)=0.3$ means: repeat the experiment very many times and $A$ happens about 30% of the time</td></tr>
+  </table>
+  <table>
+    <tr><th>Experiment</th><th>Sample space $\Omega$</th><th>Example of an event</th></tr>
+    <tr><td>one coin flip</td><td>$\{H, T\}$</td><td>$A=\{H\}$ "heads"</td></tr>
+    <tr><td>one die roll</td><td>$\{1,2,3,4,5,6\}$</td><td>$A=\{2,4,6\}$ "even number"</td></tr>
+    <tr><td>two dice</td><td>36 ordered pairs $(i,j)$</td><td>$A=\{(1,6),(2,5),\dots\}$ "sum is 7"</td></tr>
+    <tr><td>tomorrow's return</td><td>$\mathbb{R}$ (a continuum)</td><td>$A=\{r : r \lt -0.02\}$ "loss worse than 2%"</td></tr>
+  </table>
+  <p class="muted">The first three sample spaces are <b>finite</b> (you can list the outcomes); the last is <b>continuous</b>. Modules 1–2 work with finite spaces; module 3 introduces the machinery for continuous ones.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Combining events — the set-operation dictionary<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Events are sets, so they combine with set operations. Read each symbol as the English word next to it — every probability statement you will ever meet is built from these three.</p>
+  <table class="formula-table">
+    <tr><td>Union $A\cup B$</td><td>"$A$ <b>or</b> $B$ (or both)" — at least one of the two occurs</td></tr>
+    <tr><td>Intersection $A\cap B$</td><td>"$A$ <b>and</b> $B$" — both occur. Also written $AB$</td></tr>
+    <tr><td>Complement $A^{c}$</td><td>"<b>not</b> $A$" — $A$ does not occur. Also written $\bar A$</td></tr>
+    <tr><td>Difference $A\setminus B$</td><td>"$A$ but not $B$" $= A\cap B^{c}$</td></tr>
+    <tr><td>Disjoint (mutually exclusive)</td><td>$A\cap B=\varnothing$ — they cannot both happen (e.g. a die shows 1 <i>and</i> 6)</td></tr>
+    <tr><td>De Morgan's laws</td><td>$(A\cup B)^{c}=A^{c}\cap B^{c}$, $\qquad (A\cap B)^{c}=A^{c}\cup B^{c}$</td></tr>
+  </table>
+  <div class="note tip"><div class="t">Tip</div>De Morgan in words: "not (at least one)" = "none", and "not (both)" = "at least one fails". This is the engine behind the "at least one" trick below — the complement of "at least one 6 in four rolls" is "no 6 in any of the four rolls".</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Venn diagram — click a formula, see the region<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <span class="btns">
+      <button onclick="vennShow('A')">A</button>
+      <button onclick="vennShow('B')">B</button>
+      <button onclick="vennShow('AuB')">A ∪ B</button>
+      <button onclick="vennShow('AnB')">A ∩ B</button>
+      <button onclick="vennShow('Ac')">Aᶜ</button>
+      <button onclick="vennShow('AmB')">A \ B</button>
+      <button onclick="vennShow('sym')">exactly one</button>
+      <button onclick="vennShow('none')">(A ∪ B)ᶜ</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="vennsvg" viewBox="0 0 320 200"></svg>
+    <figcaption>The rectangle is the whole sample space Ω; every outcome lives somewhere inside it. The highlighted region is the event named in the readout — its probability is the "area" it covers.</figcaption></figure>
+    <div>
+      <div class="readout" id="vennread"></div>
+      <p style="margin-top:10px">Thinking of probability as <b>area</b> makes the addition rule below obvious: adding the area of $A$ and the area of $B$ counts the overlap $A\cap B$ twice, so you subtract it once.</p>
+      <p class="muted">Try "exactly one": that region is $(A\setminus B)\cup(B\setminus A)$ — it excludes the overlap. Exams like asking for it because it forces you to distinguish "or" (which includes both) from "exactly one".</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The three axioms — all of probability from three lines<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Every probability rule is a consequence of these three axioms (Kolmogorov, 1933):</p>
+  <table class="formula-table">
+    <tr><td>1 · Non-negativity</td><td>$P(A)\ge 0$ for every event $A$</td></tr>
+    <tr><td>2 · Normalisation</td><td>$P(\Omega)=1$ — <i>something</i> must happen</td></tr>
+    <tr><td>3 · Additivity</td><td>if $A_1, A_2, \dots$ are pairwise disjoint, $P\big(\bigcup_i A_i\big)=\sum_i P(A_i)$</td></tr>
+  </table>
+  <p>Axiom 3 in words: if events cannot overlap, probabilities simply <b>add</b>. That is the only "hard" axiom, and it is exactly how areas behave.</p>
+  <h3>Consequences you use constantly</h3>
+  <table class="formula-table">
+    <tr><td>Complement rule</td><td>$P(A^{c})=1-P(A)$</td></tr>
+    <tr><td>Empty set</td><td>$P(\varnothing)=0$</td></tr>
+    <tr><td>Monotonicity</td><td>$A\subseteq B \Rightarrow P(A)\le P(B)$</td></tr>
+    <tr><td>Addition rule</td><td>$P(A\cup B)=P(A)+P(B)-P(A\cap B)$</td></tr>
+    <tr><td>Three events</td><td>$P(A\cup B\cup C)=\sum P(\text{singles})-\sum P(\text{pairs})+P(A\cap B\cap C)$</td></tr>
+    <tr><td>Union bound</td><td>$P(A\cup B)\le P(A)+P(B)$ (equality iff disjoint)</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Classical probability — when all outcomes are equally likely<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>If $\Omega$ has $N$ outcomes and symmetry makes them all equally likely (fair coin, fair die, well-shuffled deck), then probability is just <b>counting</b>:</p>
+  $$P(A)=\frac{\#A}{\#\Omega}=\frac{\text{favourable outcomes}}{\text{possible outcomes}}$$
+  <p>This is why the counting toolkit below matters: most exam questions on finite spaces reduce to "count the favourable cases, count all cases, divide".</p>
+  <div class="note warn"><div class="t">Trap</div>The formula requires <b>equally likely</b> outcomes. "The market goes up or down, so P(up) = 1/2" is wrong — those two outcomes are not symmetric. Always ask: <i>is there a physical symmetry (fair die, shuffled deck) that justifies equal likelihood?</i></div>
+  <div class="note warn"><div class="t">Trap</div>Count outcomes <b>consistently</b>: with two dice, use all 36 <i>ordered</i> pairs. The sums 2–12 are NOT equally likely (sum 7 has 6 ways, sum 2 has 1 way). Working with unordered or aggregated outcomes and treating them as equally likely is the classic error.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Warm-up: two dice, three questions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Roll two fair dice. Find (a) P(sum = 7), (b) P(at least one 6), (c) P(sum = 7 or at least one 6).</b></p>
+  <ol class="steps">
+    <li>Sample space: 36 ordered pairs $(i,j)$, all equally likely, each with probability $1/36$.</li>
+    <li>(a) Sum 7: $(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)$ — 6 outcomes. $P=6/36=1/6$.</li>
+    <li>(b) "At least one 6" is painful to list directly, so use the complement: "no 6 at all" means both dice show 1–5, which is $5\times 5=25$ outcomes. $P(\text{at least one }6)=1-\tfrac{25}{36}=\tfrac{11}{36}$.</li>
+    <li>(c) Addition rule: $P(A\cup B)=P(A)+P(B)-P(A\cap B)$. The overlap "sum 7 <i>and</i> at least one 6" is $\{(1,6),(6,1)\}$: $2/36$. So $P=\tfrac{6}{36}+\tfrac{11}{36}-\tfrac{2}{36}=\tfrac{15}{36}=\tfrac{5}{12}$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Two reflexes on display: (1) <b>"at least one" → complement</b>, always; (2) unions need the <b>overlap subtracted</b>. Between them these two moves solve half of all elementary probability questions.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Counting toolkit — multiplication rule, permutations, combinations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>Multiplication rule</h3>
+  <p>If a procedure has stage 1 with $n_1$ options, stage 2 with $n_2$ options, …, the total number of results is $n_1 n_2 \cdots n_k$. (4-digit PIN: $10^4$ possibilities.)</p>
+  <h3>Permutations — order matters</h3>
+  <p>Number of ways to <b>arrange</b> $k$ objects chosen from $n$ distinct objects:</p>
+  $$P(n,k)=n(n-1)\cdots(n-k+1)=\frac{n!}{(n-k)!}$$
+  <p>All $n$ objects in a row: $n!$ ways. Convention: $0! = 1$.</p>
+  <h3>Combinations — order does not matter</h3>
+  <p>Number of ways to <b>choose</b> a group of $k$ from $n$, ignoring order:</p>
+  $$\binom{n}{k}=\frac{n!}{k!\,(n-k)!}=\frac{P(n,k)}{k!}$$
+  <p>Divide by $k!$ because each group of $k$ was counted once per internal ordering.</p>
+  </div>
+  <div>
+  <h3>Useful identities</h3>
+  <table class="formula-table">
+    <tr><td>Symmetry</td><td>$\binom{n}{k}=\binom{n}{n-k}$ — choosing who is in = choosing who is out</td></tr>
+    <tr><td>Edge values</td><td>$\binom{n}{0}=\binom{n}{n}=1$, $\binom{n}{1}=n$</td></tr>
+    <tr><td>Pascal</td><td>$\binom{n}{k}=\binom{n-1}{k-1}+\binom{n-1}{k}$</td></tr>
+    <tr><td>Binomial theorem</td><td>$(a+b)^n=\sum_{k=0}^{n}\binom{n}{k}a^k b^{n-k}$</td></tr>
+    <tr><td>Total subsets</td><td>$\sum_k \binom{n}{k}=2^n$</td></tr>
+  </table>
+  <h3>The sampling 2×2 — which formula when</h3>
+  <p class="muted">Drawing $k$ from $n$ objects:</p>
+  <table>
+    <tr><th></th><th>order matters</th><th>order doesn't</th></tr>
+    <tr><td class="g">with replacement</td><td>$n^k$</td><td>$\binom{n+k-1}{k}$ (rare in exams)</td></tr>
+    <tr><td class="g">without replacement</td><td>$\dfrac{n!}{(n-k)!}$</td><td>$\dbinom{n}{k}$</td></tr>
+  </table>
+  <p class="muted">First ask: <i>can the same object appear twice?</i> Then: <i>do two draws in different order count as different results?</i></p>
+  </div>
+  </div>
+  <div class="note tip"><div class="t">Tip</div>Passwords/PINs/sequences → order matters. Committees/hands of cards/portfolios of stocks → order doesn't. If the question says "arrange", "sequence", "ranking" think permutations; "choose", "select", "committee", "hand" think combinations.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Committee counting<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>From 6 women and 4 men, a committee of 3 is drawn at random. Find P(exactly 2 women).</b></p>
+  <ol class="steps">
+    <li>All committees: $\binom{10}{3}=120$, all equally likely (random draw).</li>
+    <li>Favourable: choose 2 of the 6 women <i>and</i> 1 of the 4 men — multiplication rule across the two independent choices: $\binom{6}{2}\binom{4}{1}=15\cdot4=60$.</li>
+    <li>$P=\dfrac{60}{120}=\dfrac12$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>"Exactly $k$ of one type" always factors as $\binom{\text{type 1}}{k}\binom{\text{type 2}}{\text{rest}}$ over $\binom{\text{total}}{\text{committee size}}$. This exact pattern returns as the <b>hypergeometric distribution</b> in module 5.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> The birthday problem — why intuition fails<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>23 people in a room. What is the probability at least two share a birthday (365 days, all equally likely)?</b></p>
+  <ol class="steps">
+    <li>"At least one shared birthday" → complement: compute P(all 23 birthdays different).</li>
+    <li>All assignments: $365^{23}$. All-different assignments: $365\cdot364\cdots343$ (each new person must avoid the previous ones).</li>
+    <li>$P(\text{all different})=\dfrac{365\cdot364\cdots343}{365^{23}}\approx 0.493$.</li>
+    <li>$P(\text{shared})\approx 1-0.493=\mathbf{0.507}$ — better than a coin flip with only 23 people.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Intuition compares 23 to 365; the maths compares $\binom{23}{2}=253$ <i>pairs</i> to 365. Coincidences among many pairs are cheap. In finance the same logic warns you: among many strategies, some will look great purely by chance.</div>
+  </div>
+</div>
+</div>
+
+</section>

@@ -1,0 +1,153 @@
+<!-- ============ 11 QUICK REFERENCE ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>Quick reference</h2><span class="sub">the one-page memory dump — rewrite this from memory the night before</span></div>
+
+<div class="grid3">
+<div class="panel">
+  <div class="bar"><span class="pill g">01–02</span> Events &amp; conditioning<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Complement</td><td>$P(A^c)=1-P(A)$</td></tr>
+    <tr><td>Union</td><td>$P(A\cup B)=P(A)+P(B)-P(A\cap B)$</td></tr>
+    <tr><td>De Morgan</td><td>$(A\cup B)^c=A^c\cap B^c$</td></tr>
+    <tr><td>Classical</td><td>$P(A)=\#A/\#\Omega$ (equally likely!)</td></tr>
+    <tr><td>Conditional</td><td>$P(A\mid B)=\frac{P(A\cap B)}{P(B)}$</td></tr>
+    <tr><td>Chain</td><td>$P(AB)=P(A)P(B\mid A)$</td></tr>
+    <tr><td>Total prob.</td><td>$P(A)=\sum_i P(A\mid B_i)P(B_i)$</td></tr>
+    <tr><td>Bayes</td><td>$P(B\mid A)=\frac{P(A\mid B)P(B)}{P(A)}$</td></tr>
+    <tr><td>Independent</td><td>$P(AB)=P(A)P(B)$</td></tr>
+    <tr><td>At least one</td><td>$1-\prod_i(1-p_i)$ (indep.)</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">01</span> Counting<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Sequences</td><td>$n_1n_2\cdots n_k$</td></tr>
+    <tr><td>Arrangements</td><td>$n!$; of k from n: $\frac{n!}{(n-k)!}$</td></tr>
+    <tr><td>Choices</td><td>$\binom nk=\frac{n!}{k!(n-k)!}$</td></tr>
+    <tr><td>Symmetry</td><td>$\binom nk=\binom{n}{n-k}$</td></tr>
+    <tr><td>Pascal</td><td>$\binom nk=\binom{n-1}{k-1}+\binom{n-1}{k}$</td></tr>
+    <tr><td>Binomial thm</td><td>$(a+b)^n=\sum_k\binom nk a^kb^{n-k}$</td></tr>
+    <tr><td>With repl., ordered</td><td>$n^k$</td></tr>
+    <tr><td>Without, ordered</td><td>$n!/(n-k)!$</td></tr>
+    <tr><td>Without, unordered</td><td>$\binom nk$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">03–04</span> RVs &amp; moments<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>CDF</td><td>$F(x)=P(X\le x)$; $P(a\lt X\le b)=F(b)-F(a)$</td></tr>
+    <tr><td>Density</td><td>$f=F'$; $P(X=x)=0$ (cont.)</td></tr>
+    <tr><td>Mean</td><td>$E[X]=\sum xp(x)$ or $\int xf$</td></tr>
+    <tr><td>LOTUS</td><td>$E[g(X)]=\sum g(x)p(x)$</td></tr>
+    <tr><td>Linearity</td><td>$E[aX+bY]=aE[X]+bE[Y]$ always</td></tr>
+    <tr><td>Variance</td><td>$E[X^2]-(E[X])^2$</td></tr>
+    <tr><td>Scale</td><td>$\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)$</td></tr>
+    <tr><td>Markov</td><td>$P(X\ge a)\le E[X]/a$</td></tr>
+    <tr><td>Chebyshev</td><td>$P(|X-\mu|\ge k\sigma)\le 1/k^2$</td></tr>
+    <tr><td>Jensen</td><td>g convex: $E[g(X)]\ge g(E[X])$</td></tr>
+    <tr><td>MGF</td><td>$M(t)=E[e^{tX}]$; $E[X^k]=M^{(k)}(0)$; $M_{X+Y}=M_XM_Y$ (indep.)</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">05–06</span> Distribution zoo — one line each<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Name</th><th>PMF / PDF</th><th>$E$</th><th>$\operatorname{Var}$</th></tr>
+    <tr><td class="g">Bernoulli(p)</td><td>$p^k(1-p)^{1-k}$</td><td>$p$</td><td>$p(1-p)$</td></tr>
+    <tr><td class="g">Binomial(n,p)</td><td>$\binom nk p^k(1-p)^{n-k}$</td><td>$np$</td><td>$np(1-p)$</td></tr>
+    <tr><td class="g">Geometric(p)</td><td>$(1-p)^{k-1}p$</td><td>$1/p$</td><td>$\frac{1-p}{p^2}$</td></tr>
+    <tr><td class="g">NegBin(r,p)</td><td>$\binom{k-1}{r-1}p^r(1-p)^{k-r}$</td><td>$r/p$</td><td>$\frac{r(1-p)}{p^2}$</td></tr>
+    <tr><td class="g">Poisson(λ)</td><td>$e^{-\lambda}\lambda^k/k!$</td><td>$\lambda$</td><td>$\lambda$</td></tr>
+    <tr><td class="g">Hypergeom.</td><td>$\binom Kk\binom{N-K}{n-k}/\binom Nn$</td><td>$nK/N$</td><td>× fpc $\frac{N-n}{N-1}$</td></tr>
+    <tr><td class="g">Uniform(a,b)</td><td>$\frac1{b-a}$</td><td>$\frac{a+b}2$</td><td>$\frac{(b-a)^2}{12}$</td></tr>
+    <tr><td class="g">Exponential(λ)</td><td>$\lambda e^{-\lambda x}$</td><td>$1/\lambda$</td><td>$1/\lambda^2$</td></tr>
+    <tr><td class="g">Normal(μ,σ²)</td><td>$\frac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/2\sigma^2}$</td><td>$\mu$</td><td>$\sigma^2$</td></tr>
+    <tr><td class="g">Lognormal</td><td>$e^Y,\ Y\sim N(\mu,\sigma^2)$</td><td>$e^{\mu+\sigma^2/2}$</td><td>$e^{2\mu+\sigma^2}(e^{\sigma^2}\!-\!1)$</td></tr>
+    <tr><td class="g">χ²(n)</td><td>$\sum_1^n Z_i^2$</td><td>$n$</td><td>$2n$</td></tr>
+    <tr><td class="g">t(n)</td><td>fat-tailed, → N(0,1)</td><td>$0$</td><td>$\frac{n}{n-2}$</td></tr>
+  </table>
+  <p class="muted">Memoryless: geometric (discrete), exponential (continuous). Mean = variance: Poisson. Approximations: Bin → Poisson(np) for large n small p; Bin → N(np, np(1−p)) when np(1−p) ≳ 10.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">07–09</span> Joint, sums, limits<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Covariance</td><td>$E[XY]-E[X]E[Y]$; $=0$ if indep. (not conversely)</td></tr>
+    <tr><td>Correlation</td><td>$\rho=\frac{\operatorname{Cov}}{\sigma_X\sigma_Y}\in[-1,1]$</td></tr>
+    <tr><td>Var of sum</td><td>$\sigma_X^2+\sigma_Y^2+2\operatorname{Cov}(X,Y)$</td></tr>
+    <tr><td>Portfolio</td><td>$\operatorname{Var}(\sum w_iX_i)=\mathbf w^{\mathsf T}\Sigma\mathbf w$</td></tr>
+    <tr><td>Tower</td><td>$E[E[X\mid Y]]=E[X]$</td></tr>
+    <tr><td>Total variance</td><td>$\operatorname{Var}X=E[\operatorname{Var}(X\mid Y)]+\operatorname{Var}(E[X\mid Y])$</td></tr>
+    <tr><td>Max / min (iid)</td><td>$F_{\max}=F^n$; $\ 1-F_{\min}=(1-F)^n$</td></tr>
+    <tr><td>Sample mean</td><td>$E[\bar X_n]=\mu$, $\operatorname{Var}(\bar X_n)=\sigma^2/n$</td></tr>
+    <tr><td>LLN</td><td>$\bar X_n\xrightarrow{p}\mu$</td></tr>
+    <tr><td>CLT</td><td>$\frac{\bar X_n-\mu}{\sigma/\sqrt n}\xrightarrow{d}N(0,1)$; sum ≈ $N(n\mu,n\sigma^2)$</td></tr>
+    <tr><td>Cont. correction</td><td>$P(X\le k)\approx\Phi\big(\frac{k+0.5-np}{\sqrt{np(1-p)}}\big)$</td></tr>
+  </table>
+  <h3>z-values to know cold</h3>
+  <table>
+    <tr><th>$z$</th><th>$\Phi(z)$</th><th>use</th></tr>
+    <tr><td class="c">1.282</td><td class="c">0.90</td><td>10% tail</td></tr>
+    <tr><td class="c">1.645</td><td class="c">0.95</td><td>5% tail · 95% VaR</td></tr>
+    <tr><td class="c">1.960</td><td class="c">0.975</td><td>95% central interval</td></tr>
+    <tr><td class="c">2.326</td><td class="c">0.99</td><td>1% tail · 99% VaR</td></tr>
+    <tr><td class="c">2.576</td><td class="c">0.995</td><td>99% central interval</td></tr>
+  </table>
+  <p class="muted">Bands: μ±1σ ≈ 68.3% · μ±2σ ≈ 95.4% · μ±3σ ≈ 99.7%.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP LIST</span> The 15 classic mistakes, collected<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <ul class="chk">
+    <li>Treating non-equally-likely outcomes as equally likely (sums of two dice).</li>
+    <li>Computing "at least one" directly instead of via the complement.</li>
+    <li>Adding $P(A)+P(B)$ for a union without subtracting the overlap.</li>
+    <li>Confusing $P(A\mid B)$ with $P(B\mid A)$ (base-rate fallacy).</li>
+    <li>Ignoring the prior in Bayes problems.</li>
+    <li>Confusing disjoint with independent — they are near-opposites.</li>
+    <li>Treating the density $f(x)$ as a probability (it can exceed 1).</li>
+    <li>Worrying about $\lt$ vs $\le$ for continuous RVs (no difference).</li>
+  </ul>
+  <ul class="chk">
+    <li>$E[g(X)]\ne g(E[X])$ — pushing E through a nonlinear function.</li>
+    <li>Adding standard deviations instead of variances.</li>
+    <li>Forgetting the covariance term in Var(X+Y) for dependent RVs.</li>
+    <li>Uncorrelated ≠ independent (except jointly normal).</li>
+    <li>Geometric convention mix-up: trials (mean 1/p) vs failures (mean (1−p)/p).</li>
+    <li>Lognormal mean: forgetting the $+\sigma^2/2$; mean ≠ median under skew.</li>
+    <li>Binomial approximation without the continuity correction (±½).</li>
+    <li>Annualising volatility with T instead of √T; adding simple returns over time.</li>
+  </ul>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Exam checklist — before you write anything<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ul class="chk">
+    <li>Name the experiment and the random variable. Discrete or continuous?</li>
+    <li>Match the story to a distribution: fixed n? waiting? rare counts? without replacement? sums of many?</li>
+    <li>"At least/at most" → complement or CDF difference. Union → inclusion–exclusion.</li>
+    <li>Normal question? Standardise, sketch the tail you want, then look up Φ.</li>
+    <li>Sum of RVs? Means always add; variances add only with zero covariance.</li>
+    <li>Sanity-check: probabilities in [0,1] and summing to 1; variance ≥ 0; answer plausible vs the 68–95–99.7 anchors.</li>
+  </ul>
+  </div>
+</div>
+
+</section>

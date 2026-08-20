@@ -1,0 +1,421 @@
+<!-- ============ 12 WORKED EXAMPLES ============ -->
+<section id="s12">
+<div class="sec-head"><span class="num">12</span><h2>Worked examples</h2><span class="sub">28 exam-style problems, full solutions, one insight each</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">HOW TO USE</span> Attempt first, then open the solution<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
+  <div class="body">
+  <p>Each problem is written the way assessment questions are. Cover the solution, write your own on paper, then compare. The <b>Insight</b> box at the end is the transferable idea; if you only reread one thing per example, reread that. Difficulty: <span class="pill g">●</span> routine · <span class="pill a">●●</span> standard · <span class="pill r">●●●</span> needs two ideas combined. Ordered to follow modules 01–10.</p>
+  </div>
+</div>
+
+<!-- 1 -->
+<div class="wx">
+<div class="bar"><span class="n">W01</span><span class="pill g">●</span><span class="tag">counting</span>PIN codes and repeated digits</div>
+<div class="prob">A 4-digit PIN is chosen at random (each digit 0–9). Find the probability that (a) all digits are different, (b) at least one digit repeats.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>All PINs: $10^4=10000$ (multiplication rule; digits can repeat, order matters).</li>
+<li>(a) All different: $10\cdot9\cdot8\cdot7=5040$ (each digit must avoid the previous ones). $P=\dfrac{5040}{10000}=0.504$.</li>
+<li>(b) "At least one repeat" is the complement of "all different": $P=1-0.504=0.496$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Two counting modes in one problem: free choice ($10^4$) vs no-repetition ($10\cdot9\cdot8\cdot7$), and the complement disposing of "at least one" instantly. Almost half of random PINs contain a repeat — coincidences are common.</div>
+</div></details>
+</div>
+
+<!-- 2 -->
+<div class="wx">
+<div class="bar"><span class="n">W02</span><span class="pill a">●●</span><span class="tag">counting</span>Exactly one pair in a poker hand</div>
+<div class="prob">Five cards are dealt from a shuffled 52-card deck. Find the probability of exactly one pair (two cards of one rank, the other three of three different other ranks).</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>All hands: $\binom{52}{5}=2{,}598{,}960$ — unordered, no replacement.</li>
+<li>Build a pair hand by choices: rank of the pair ($13$), its two suits ($\binom42=6$), the three other ranks ($\binom{12}{3}=220$ — chosen <i>together</i> to avoid ordering them), one suit each ($4^3=64$).</li>
+<li>Favourable: $13\cdot6\cdot220\cdot64=1{,}098{,}240$.</li>
+<li>$P=\dfrac{1{,}098{,}240}{2{,}598{,}960}\approx \mathbf{0.4226}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Structure the count as a sequence of independent decisions and multiply. The classic error is $12\cdot11\cdot10$ instead of $\binom{12}{3}$ for the side ranks — that would count each hand $3!$ times. Decide once: is this stage ordered or not?</div>
+</div></details>
+</div>
+
+<!-- 3 -->
+<div class="wx">
+<div class="bar"><span class="n">W03</span><span class="pill a">●●</span><span class="tag">counting</span>Shared birth months</div>
+<div class="prob">Five people are in a seminar. Assuming all 12 birth months are equally likely and independent, find the probability that at least two share a birth month.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Complement: all five months different.</li>
+<li>$P(\text{all different})=\dfrac{12\cdot11\cdot10\cdot9\cdot8}{12^5}=\dfrac{95040}{248832}\approx 0.382$.</li>
+<li>$P(\text{at least one shared})\approx 1-0.382=\mathbf{0.618}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The birthday problem in miniature: $\binom52=10$ pairs each get a $1/12$ shot at colliding, so a collision is more likely than not. Whenever "at least two share…", go straight to the all-different complement.</div>
+</div></details>
+</div>
+
+<!-- 4 -->
+<div class="wx">
+<div class="bar"><span class="n">W04</span><span class="pill g">●</span><span class="tag">conditional</span>Second card is an ace</div>
+<div class="prob">Two cards are drawn without replacement. Show, using the law of total probability, that P(second card is an ace) = 4/52 — the same as for the first card.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Partition on the first card: $A_1$ = "first is an ace", $P(A_1)=\frac{4}{52}$.</li>
+<li>$P(A_2)=P(A_2\mid A_1)P(A_1)+P(A_2\mid A_1^c)P(A_1^c)=\frac{3}{51}\cdot\frac{4}{52}+\frac{4}{51}\cdot\frac{48}{52}$.</li>
+<li>$=\frac{12+192}{51\cdot52}=\frac{204}{2652}=\frac{4}{52}=\mathbf{\tfrac1{13}}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>By symmetry, every position in a shuffled deck is equally likely to hold an ace — conditioning is only needed if you <i>learn</i> what the first card was. Distinguish "unknown" (symmetry applies) from "known" (condition on it).</div>
+</div></details>
+</div>
+
+<!-- 5 -->
+<div class="wx">
+<div class="bar"><span class="n">W05</span><span class="pill a">●●</span><span class="tag">bayes</span>Which urn did the ball come from?</div>
+<div class="prob">Urn I holds 3 red and 2 blue balls; urn II holds 1 red and 4 blue. A fair coin picks the urn, then one ball is drawn. It is red. Find P(urn I | red).</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Priors: $P(I)=P(II)=\tfrac12$. Likelihoods: $P(R\mid I)=\tfrac35$, $P(R\mid II)=\tfrac15$.</li>
+<li>Total probability: $P(R)=\tfrac12\cdot\tfrac35+\tfrac12\cdot\tfrac15=\tfrac25$.</li>
+<li>Bayes: $P(I\mid R)=\dfrac{\tfrac12\cdot\tfrac35}{\tfrac25}=\mathbf{\tfrac34}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The posterior odds are the ratio of the paths: $\tfrac{3}{10}$ vs $\tfrac{1}{10}$, i.e. 3:1 → probability $\tfrac34$. Comparing path weights is faster than evaluating the full formula and immune to denominator slips.</div>
+</div></details>
+</div>
+
+<!-- 6 -->
+<div class="wx">
+<div class="bar"><span class="n">W06</span><span class="pill r">●●●</span><span class="tag">bayes</span>Two positive tests in a row</div>
+<div class="prob">A disease has prevalence 1%. A test has sensitivity 95% and false-positive rate 10%, and repeated tests are independent given the true status. A person tests positive twice. Find the probability they have the disease after the first positive, and after the second.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>First test. Paths to a positive: $0.01\times0.95=0.0095$ (sick) vs $0.99\times0.10=0.099$ (healthy). Posterior $=\frac{0.0095}{0.0095+0.099}\approx \mathbf{0.088}$ — still probably healthy!</li>
+<li>Second test: rerun Bayes with the <b>posterior as the new prior</b>, $p=0.088$.</li>
+<li>Paths: $0.088\times0.95=0.0836$ vs $0.912\times0.10=0.0912$. New posterior $=\frac{0.0836}{0.0836+0.0912}\approx \mathbf{0.478}$.</li>
+<li>Two positives move 1% → 8.8% → 47.8%: each test multiplies the odds by the likelihood ratio $0.95/0.10=9.5$. Check via odds: $\frac{1}{99}\times9.5^2\approx0.912$ odds → $0.477$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Bayesian updating chains: today's posterior is tomorrow's prior. In odds form each independent piece of evidence just multiplies the odds by its likelihood ratio — the cleanest way to handle repeated evidence, and the reason a single noisy signal (one flag, one backtest) should move your beliefs only modestly.</div>
+</div></details>
+</div>
+
+<!-- 7 -->
+<div class="wx">
+<div class="bar"><span class="n">W07</span><span class="pill a">●●</span><span class="tag">independence</span>Pairwise but not mutually independent</div>
+<div class="prob">Flip two fair coins. Let A = "first is heads", B = "second is heads", C = "exactly one head". Show that A, B, C are pairwise independent but not mutually independent.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Sample space: HH, HT, TH, TT, each $\tfrac14$. $P(A)=P(B)=\tfrac12$; $C=\{HT,TH\}$ so $P(C)=\tfrac12$.</li>
+<li>Pairs: $P(A\cap B)=P(HH)=\tfrac14=P(A)P(B)$ ✓. $P(A\cap C)=P(HT)=\tfrac14=P(A)P(C)$ ✓. $P(B\cap C)=P(TH)=\tfrac14$ ✓. All pairs pass.</li>
+<li>Triple: $A\cap B\cap C$ = "both heads and exactly one head" $=\varnothing$, so $P=0\ne P(A)P(B)P(C)=\tfrac18$. Not mutually independent.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Knowing any <i>one</i> of A, B tells you nothing about C — but knowing <i>both</i> determines C completely. Pairwise checks miss joint information; that is exactly why the mutual-independence definition demands the triple product too.</div>
+</div></details>
+</div>
+
+<!-- 8 -->
+<div class="wx">
+<div class="bar"><span class="n">W08</span><span class="pill g">●</span><span class="tag">conditional</span>Conditioning shrinks the dice table</div>
+<div class="prob">Two fair dice are rolled and you are told the sum is 8. What is the probability at least one die shows a 6?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>New (conditional) sample space: outcomes with sum 8: $(2,6),(3,5),(4,4),(5,3),(6,2)$ — five outcomes, still equally likely.</li>
+<li>Favourable among them: $(2,6),(6,2)$ — two.</li>
+<li>$P=\mathbf{\tfrac25}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>For equally likely outcomes, conditioning = "cross out the excluded rows and recount". No formula needed — the definition $P(A\mid B)=\frac{\#(A\cap B)}{\#B}$ does everything. Note $(4,4)$ appears once, not twice: ordered pairs, always.</div>
+</div></details>
+</div>
+
+<!-- 9 -->
+<div class="wx">
+<div class="bar"><span class="n">W09</span><span class="pill g">●</span><span class="tag">rv</span>Build a discrete distribution from scratch</div>
+<div class="prob">A random variable has $P(X=k)=ck$ for $k=1,2,3,4$. Find c, $E[X]$, $\operatorname{Var}(X)$ and $P(X\ge 3)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Normalise: $c(1+2+3+4)=10c=1\Rightarrow c=\tfrac1{10}$.</li>
+<li>$E[X]=\tfrac{1}{10}(1\cdot1+2\cdot2+3\cdot3+4\cdot4)=\tfrac{30}{10}=3$.</li>
+<li>$E[X^2]=\tfrac1{10}(1+8+27+64)=10$, so $\operatorname{Var}(X)=10-3^2=\mathbf{1}$.</li>
+<li>$P(X\ge3)=p(3)+p(4)=\tfrac{3}{10}+\tfrac4{10}=\mathbf{0.7}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The invariable four-step drill: normalise, mean, $E[X^2]$ then variance by the computational formula, tail by summing. Do it mechanically and bank the marks.</div>
+</div></details>
+</div>
+
+<!-- 10 -->
+<div class="wx">
+<div class="bar"><span class="n">W10</span><span class="pill a">●●</span><span class="tag">expectation</span>The hat-check problem — linearity beats dependence</div>
+<div class="prob">n guests leave their hats; the hats are returned uniformly at random, one each. Find the expected number of guests who get their own hat back.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Let $X_i=\mathbf 1\{\text{guest } i \text{ gets own hat}\}$; the count is $X=X_1+\dots+X_n$.</li>
+<li>Each hat is equally likely to land anywhere: $E[X_i]=P(\text{match})=\tfrac1n$.</li>
+<li>Linearity (dependence irrelevant): $E[X]=n\cdot\tfrac1n=\mathbf{1}$ — one match on average, whatever n is.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The matches are heavily dependent (if $n-1$ guests get their own hats, so does the last) — and linearity does not care. Decompose counts into indicators, sum the probabilities, done. Direct computation of this distribution is a famous hard problem; the mean is one line.</div>
+</div></details>
+</div>
+
+<!-- 11 -->
+<div class="wx">
+<div class="bar"><span class="n">W11</span><span class="pill g">●</span><span class="tag">continuous</span>Density workout with a symmetric pdf</div>
+<div class="prob">$f(x)=c(1-x^2)$ on $[-1,1]$, zero elsewhere. Find c, $E[X]$, $\operatorname{Var}(X)$ and $P(X\gt\tfrac12)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\int_{-1}^{1}c(1-x^2)dx=c\big(2-\tfrac23\big)=\tfrac{4c}{3}=1\Rightarrow c=\tfrac34$.</li>
+<li>$E[X]=0$ — the density is symmetric about 0; no integration needed.</li>
+<li>$\operatorname{Var}=E[X^2]=\tfrac34\int_{-1}^1 x^2(1-x^2)dx=\tfrac34\big(\tfrac23-\tfrac25\big)=\tfrac34\cdot\tfrac{4}{15}=\mathbf{\tfrac15}$.</li>
+<li>$P(X\gt\tfrac12)=\tfrac34\int_{1/2}^{1}(1-x^2)dx=\tfrac34\Big[x-\tfrac{x^3}{3}\Big]_{1/2}^{1}=\tfrac34\big(\tfrac23-\tfrac{11}{24}\big)=\mathbf{\tfrac{5}{32}}\approx0.156$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Exploit symmetry before integrating: symmetric density ⇒ mean 0 and $\operatorname{Var}=E[X^2]$. Half the arithmetic disappears.</div>
+</div></details>
+</div>
+
+<!-- 12 -->
+<div class="wx">
+<div class="bar"><span class="n">W12</span><span class="pill a">●●</span><span class="tag">continuous</span>Memoryless servers and the first failure</div>
+<div class="prob">A server's lifetime is exponential with mean 5 years. (a) It has already run 3 years; find P(it survives 5 more). (b) Two such servers run independently; find the distribution of the time to the first failure and P(no failure in 5 years).</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Mean 5 ⇒ rate $\lambda=0.2$. (a) Memoryless: the 3 years already served are irrelevant: $P(T\gt3+5\mid T\gt3)=P(T\gt5)=e^{-0.2\cdot5}=e^{-1}\approx\mathbf{0.368}$.</li>
+<li>(b) $\min(T_1,T_2)\gt t$ iff both survive: $P=(e^{-0.2t})^2=e^{-0.4t}$ — so the first failure is $\text{Exp}(0.4)$, mean $2.5$ years.</li>
+<li>$P(\text{no failure in 5y})=e^{-0.4\cdot5}=e^{-2}\approx\mathbf{0.135}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Two exponential signatures: conditioning resets the clock (memoryless), and minima of independent exponentials are exponential with summed rates. "Time to first default/failure/arrival among n" questions are all this pattern.</div>
+</div></details>
+</div>
+
+<!-- 13 -->
+<div class="wx">
+<div class="bar"><span class="n">W13</span><span class="pill a">●●</span><span class="tag">mgf</span>Identify the distribution from its MGF</div>
+<div class="prob">A random variable has $M_X(t)=\big(0.3+0.7e^{t}\big)^{10}$. Identify its distribution and state $E[X]$ and $\operatorname{Var}(X)$. Then verify the mean via $M'(0)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Recall Bernoulli(p): $M(t)=1-p+pe^t$. A product of 10 identical such factors is the MGF of a sum of 10 independent Bernoulli(0.7).</li>
+<li>By uniqueness of MGFs: $X\sim\text{Binomial}(10,\,0.7)$. Hence $E[X]=7$, $\operatorname{Var}(X)=10(0.7)(0.3)=\mathbf{2.1}$.</li>
+<li>Check: $M'(t)=10(0.3+0.7e^t)^9\cdot0.7e^t$, so $M'(0)=10\cdot1\cdot0.7=7$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>MGF questions are recognition questions: factor the expression into known MGFs. A power of an MGF ⇔ a sum of iid copies — that single observation identifies the distribution with no computation.</div>
+</div></details>
+</div>
+
+<!-- 14 -->
+<div class="wx">
+<div class="bar"><span class="n">W14</span><span class="pill g">●</span><span class="tag">discrete</span>Guessing on a multiple-choice test</div>
+<div class="prob">A test has 8 questions with 4 options each; a student guesses everything. Find the probability of (a) exactly 2 correct, (b) at least 2 correct.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Story: 8 independent trials, success $p=\tfrac14$ → $X\sim\text{Bin}(8, 0.25)$.</li>
+<li>(a) $P(X=2)=\binom82(0.25)^2(0.75)^6=28\cdot0.0625\cdot0.1780\approx\mathbf{0.311}$.</li>
+<li>(b) Complement of {0, 1}: $P(X=0)=(0.75)^8\approx0.1001$; $P(X=1)=8(0.25)(0.75)^7\approx0.2670$.</li>
+<li>$P(X\ge2)=1-0.1001-0.2670\approx\mathbf{0.633}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>"At least k" for small k: complement over the few small cases. Never sum the long side. And always name the distribution and its parameters before computing — it earns method marks even if arithmetic slips.</div>
+</div></details>
+</div>
+
+<!-- 15 -->
+<div class="wx">
+<div class="bar"><span class="n">W15</span><span class="pill a">●●</span><span class="tag">discrete</span>Poisson approximation for rare defaults</div>
+<div class="prob">A portfolio holds 500 independent loans, each defaulting within the year with probability 0.004. Approximate the probability of (a) no defaults, (b) at least 3 defaults.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Bin(500, 0.004) with n large, p small → Poisson with $\lambda=np=2$.</li>
+<li>(a) $P(X=0)=e^{-2}\approx\mathbf{0.135}$.</li>
+<li>(b) $P(X\ge3)=1-e^{-2}\big(1+2+\tfrac{2^2}{2}\big)=1-5e^{-2}\approx\mathbf{0.323}$.</li>
+<li>(Exact binomial: 0.1341 and 0.3229 — the approximation is excellent.)</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Rare events in a big book: only $\lambda=np$ matters, not n and p separately. A 1000-loan book at 0.2% behaves identically. This collapse of two parameters into one is why Poisson is the universal model for counts of rare events.</div>
+</div></details>
+</div>
+
+<!-- 16 -->
+<div class="wx">
+<div class="bar"><span class="n">W16</span><span class="pill g">●</span><span class="tag">discrete</span>Waiting for the first success</div>
+<div class="prob">Each cold call converts with probability 0.2, independently. Find (a) P(first sale on the 4th call), (b) the expected number of calls until the first sale, (c) P(more than 6 calls needed).</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Geometric(0.2), counting trials. (a) Three failures then a success: $(0.8)^3(0.2)=\mathbf{0.1024}$.</li>
+<li>(b) $E[X]=1/p=\mathbf{5}$ calls.</li>
+<li>(c) "More than 6" = first six all fail: $(0.8)^6\approx\mathbf{0.262}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The tail shortcut $P(X\gt k)=(1-p)^k$ needs no summation — "more than k" just means k straight failures. Also note the convention: counting trials (mean $1/p$), not failures.</div>
+</div></details>
+</div>
+
+<!-- 17 -->
+<div class="wx">
+<div class="bar"><span class="n">W17</span><span class="pill a">●●</span><span class="tag">discrete</span>Quality control without replacement</div>
+<div class="prob">A lot of 20 items contains 4 defective. An inspector samples 5 items without replacement. Find (a) P(exactly 1 defective in the sample), (b) the expected number of defectives, (c) why Binomial(5, 0.2) is the wrong model here.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Hypergeometric: N = 20, K = 4, n = 5.</li>
+<li>(a) $P(X=1)=\dfrac{\binom41\binom{16}{4}}{\binom{20}{5}}=\dfrac{4\cdot1820}{15504}\approx\mathbf{0.469}$.</li>
+<li>(b) $E[X]=n\frac KN=5\cdot\frac{4}{20}=\mathbf{1}$ — same as the binomial mean.</li>
+<li>(c) Draws are dependent: each defective removed lowers the defect rate for later draws. The binomial assumes a constant p; here the variance carries the finite-population correction $\frac{N-n}{N-1}=\frac{15}{19}$, so the true spread is smaller. (Binomial(5,0.2) gives $P(X=1)\approx0.410$ — noticeably off since n/N = 25%.)</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The replacement question decides the model. Sampling a small fraction of a huge population → binomial is fine; sampling 25% of a lot of 20 → it is not. The mean never notices; the variance and the probabilities do.</div>
+</div></details>
+</div>
+
+<!-- 18 -->
+<div class="wx">
+<div class="bar"><span class="n">W18</span><span class="pill g">●</span><span class="tag">normal</span>Forward and backward through the z-table</div>
+<div class="prob">Scores are $N(100, 15^2)$. Find (a) P(X &gt; 130), (b) P(85 &lt; X &lt; 115), (c) the score that only 10% of the population exceeds.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>(a) $z=\frac{130-100}{15}=2$: $P=1-\Phi(2)=1-0.9772=\mathbf{0.0228}$.</li>
+<li>(b) The interval is $\mu\pm1\sigma$: $P=2\Phi(1)-1=\mathbf{0.6826}$ — quoted from the 68/95/99.7 anchors, no table needed.</li>
+<li>(c) Backward: $\Phi(z)=0.90\Rightarrow z=1.282$. $x=\mu+z\sigma=100+1.282\cdot15\approx\mathbf{119.2}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Sketch the curve and shade what you want <i>before</i> touching the table — it prevents every "wrong tail" error. Forward: standardise. Backward: find z, then un-standardise with $x=\mu+z\sigma$.</div>
+</div></details>
+</div>
+
+<!-- 19 -->
+<div class="wx">
+<div class="bar"><span class="n">W19</span><span class="pill r">●●●</span><span class="tag">transform</span>Deriving χ²₁ from a standard normal</div>
+<div class="prob">Let $Z\sim N(0,1)$ and $Y=Z^2$. Derive the density of Y.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$g(z)=z^2$ is not monotone → CDF method, collecting both roots. For $y\gt0$:
+$$F_Y(y)=P(Z^2\le y)=P(-\sqrt y\le Z\le\sqrt y)=\Phi(\sqrt y)-\Phi(-\sqrt y)=2\Phi(\sqrt y)-1.$$</li>
+<li>Differentiate (chain rule): $f_Y(y)=2\varphi(\sqrt y)\cdot\frac{1}{2\sqrt y}=\frac{\varphi(\sqrt y)}{\sqrt y}$.</li>
+<li>Substitute $\varphi(u)=\frac{1}{\sqrt{2\pi}}e^{-u^2/2}$:
+$$f_Y(y)=\frac{1}{\sqrt{2\pi y}}\,e^{-y/2},\qquad y\gt0.$$</li>
+<li>This is Gamma$(\tfrac12,\tfrac12)$ — the $\chi^2_1$ density. (Sanity: support positive ✓, integrates to 1 ✓, $E[Y]=E[Z^2]=1$ ✓.)</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Non-monotone transformations force the CDF route, and the two roots produce the factor 2 that beginners lose. The check $E[Y]=\operatorname{Var}(Z)=1$ costs five seconds and catches most slips.</div>
+</div></details>
+</div>
+
+<!-- 20 -->
+<div class="wx">
+<div class="bar"><span class="n">W20</span><span class="pill a">●●</span><span class="tag">finance</span>Lognormal stock price</div>
+<div class="prob">A stock trades at $S_0=50$; its one-year log return is $N(0.06,\ 0.2^2)$. Find (a) P(S₁ &gt; 60), (b) the median and mean of S₁, and explain why they differ.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>(a) $P(S_1\gt60)=P\big(\ln(S_1/S_0)\gt\ln1.2\big)=P\Big(Z\gt\frac{0.1823-0.06}{0.2}\Big)=1-\Phi(0.61)\approx\mathbf{0.271}$.</li>
+<li>(b) Median: $50e^{0.06}\approx\mathbf{53.09}$ (the middle log return maps to the middle price — monotone transformations preserve medians).</li>
+<li>Mean: $E[S_1]=50e^{0.06+0.2^2/2}=50e^{0.08}\approx\mathbf{54.16}$.</li>
+<li>Mean &gt; median because the lognormal is right-skewed: rare huge gains pull the average up while the typical outcome stays lower. The gap is exactly Jensen's $e^{\sigma^2/2}$ factor.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Monotone transforms preserve quantiles but not means. "Expected price" and "typical price" are different claims about a skewed asset — precision about which one you mean is exactly what the σ²/2 term encodes.</div>
+</div></details>
+</div>
+
+<!-- 21 -->
+<div class="wx">
+<div class="bar"><span class="n">W21</span><span class="pill g">●</span><span class="tag">continuous</span>Uniform waiting for a bus</div>
+<div class="prob">A bus arrives at a uniform random time in the next 30 minutes. Find (a) P(you wait more than 20 min), (b) P(you wait more than 20 min given you have already waited 10), (c) expected wait.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$W\sim U(0,30)$: probabilities are length fractions. (a) $P(W\gt20)=\frac{10}{30}=\mathbf{\tfrac13}$.</li>
+<li>(b) $P(W\gt20\mid W\gt10)=\frac{P(W\gt20)}{P(W\gt10)}=\frac{10/30}{20/30}=\mathbf{\tfrac12}$ — bigger than ⅓: unlike the exponential, the uniform <b>remembers</b>; time already waited squeezes the remaining window.</li>
+    <li>(c) $E[W]=\frac{0+30}{2}=\mathbf{15}$ min.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Put this next to W12: uniform waits age (the deadline approaches), exponential waits don't (memoryless). Conditioning is just renormalising the remaining interval — no integrals required for uniforms.</div>
+</div></details>
+</div>
+
+<!-- 22 -->
+<div class="wx">
+<div class="bar"><span class="n">W22</span><span class="pill a">●●</span><span class="tag">joint</span>Joint table: the full chain</div>
+<div class="prob">$X\in\{0,1\}$, $Y\in\{0,1,2\}$ with joint probabilities: $p(0,0)=0.10$, $p(0,1)=0.20$, $p(0,2)=0.10$, $p(1,0)=0.15$, $p(1,1)=0.25$, $p(1,2)=0.20$. Find the marginals, show X and Y are dependent, and compute Cov(X, Y) and ρ.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Marginals: $p_X(0)=0.40$, $p_X(1)=0.60$; $p_Y=(0.25,\ 0.45,\ 0.30)$.</li>
+<li>Dependence: test a cell. $p(0,1)=0.20$ but $p_X(0)p_Y(1)=0.40\times0.45=0.18\ne0.20$ — dependent. (Beware: cell (0,0) happens to satisfy $0.40\times0.25=0.10$ — one matching cell proves nothing; one failing cell settles it.)</li>
+<li>Means: $E[X]=0.6$; $E[Y]=0.45+2(0.30)=1.05$.</li>
+<li>$E[XY]$: only cells with $x=1,y\ge1$ contribute: $1\cdot1\cdot0.25+1\cdot2\cdot0.20=0.65$. $\operatorname{Cov}=0.65-0.6\times1.05=\mathbf{0.02}$.</li>
+<li>$\operatorname{Var}(X)=0.6-0.36=0.24$; $E[Y^2]=0.45+4(0.30)=1.65$, $\operatorname{Var}(Y)=1.65-1.1025=0.5475$. $\rho=\frac{0.02}{\sqrt{0.24\times0.5475}}\approx\mathbf{0.055}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Weak correlation, clear dependence — ρ near 0 does not mean "unrelated", it means "not much <i>linear</i> relation". And in independence checks, a single counterexample cell is a complete proof.</div>
+</div></details>
+</div>
+
+<!-- 23 -->
+<div class="wx">
+<div class="bar"><span class="n">W23</span><span class="pill a">●●</span><span class="tag">joint</span>Sum and difference of two dice — uncorrelated yet dependent</div>
+<div class="prob">Roll a die twice; let $S=X+Y$ and $D=X-Y$. Show Cov(S, D) = 0, and show S and D are nevertheless not independent.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Bilinearity: $\operatorname{Cov}(X+Y,\,X-Y)=\operatorname{Var}(X)-\operatorname{Cov}(X,Y)+\operatorname{Cov}(Y,X)-\operatorname{Var}(Y)=\operatorname{Var}(X)-\operatorname{Var}(Y)$.</li>
+<li>The two rolls are identically distributed, so $\operatorname{Var}(X)=\operatorname{Var}(Y)$ and $\operatorname{Cov}(S,D)=\mathbf{0}$: uncorrelated.</li>
+<li>Independent? $P(S=12)=\tfrac1{36}$ and $P(D=0)=\tfrac{6}{36}$, but $P(S=12,\ D=0)=P(\text{double six})=\tfrac1{36}\ne\tfrac1{36}\cdot\tfrac16$. Dependent — knowing $S=12$ forces $D=0$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>A structural zero: sum and difference of any two iid variables are uncorrelated, by pure algebra. Yet they share information. Zero covariance kills the <i>linear</i> link only — the counterexample to "uncorrelated ⇒ independent" you should carry into any exam.</div>
+</div></details>
+</div>
+
+<!-- 24 -->
+<div class="wx">
+<div class="bar"><span class="n">W24</span><span class="pill r">●●●</span><span class="tag">joint</span>A random number of claims — tower rule at work</div>
+<div class="prob">An insurer receives $N\sim\text{Poisson}(20)$ claims per year; claim sizes are iid with mean 500 and SD 300, independent of N. Find the mean and SD of the total annual payout $T=\sum_{i=1}^{N}X_i$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Condition on N. Given $N=n$: $E[T\mid N=n]=500n$, $\operatorname{Var}(T\mid N=n)=300^2 n$.</li>
+<li>Tower rule: $E[T]=E\big[E[T\mid N]\big]=E[500N]=500\times20=\mathbf{10{,}000}$.</li>
+<li>Law of total variance: $\operatorname{Var}(T)=E[\operatorname{Var}(T\mid N)]+\operatorname{Var}(E[T\mid N])=E[300^2N]+\operatorname{Var}(500N)$.</li>
+<li>$=90{,}000\times20+250{,}000\times20=1.8\text{M}+5.0\text{M}=6.8\text{M}$, so $\sigma_T=\sqrt{6.8\times10^6}\approx\mathbf{2{,}608}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Random sums decompose cleanly: mean = (mean count)(mean size); variance = within-scenario part + between-scenario part. Note the second term: even if every claim were exactly 500 (σ = 0), the payout would still be risky because N is. Uncertainty about "how many" is risk too.</div>
+</div></details>
+</div>
+
+<!-- 25 -->
+<div class="wx">
+<div class="bar"><span class="n">W25</span><span class="pill a">●●</span><span class="tag">portfolio</span>Minimum-variance portfolio, end to end</div>
+<div class="prob">Asset A: σ = 20%; asset B: σ = 30%; correlation ρ = 0.2. Find the weight on A that minimises portfolio variance, and the resulting portfolio volatility. Why is it below 20%?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\sigma_P^2(w)=w^2(0.04)+(1-w)^2(0.09)+2w(1-w)(0.2)(0.2)(0.3)$, cross term coefficient $\rho\sigma_A\sigma_B=0.012$.</li>
+<li>Minimise (set derivative to 0, or quote the formula): $w^*=\dfrac{\sigma_B^2-\rho\sigma_A\sigma_B}{\sigma_A^2+\sigma_B^2-2\rho\sigma_A\sigma_B}=\dfrac{0.09-0.012}{0.04+0.09-0.024}=\dfrac{0.078}{0.106}\approx\mathbf{0.736}$.</li>
+<li>Plug back: $\sigma_P^2=0.736^2(0.04)+0.264^2(0.09)+2(0.736)(0.264)(0.012)\approx0.0217+0.0063+0.0047=0.0326$.</li>
+<li>$\sigma_P\approx\mathbf{18.1\%}$ — below even the safer asset's 20%.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Adding a <i>riskier</i> asset lowered total risk: with ρ well below 1, B's fluctuations partially offset A's. Diversification is a property of covariances, not of individual volatilities — the deepest one-liner in portfolio theory.</div>
+</div></details>
+</div>
+
+<!-- 26 -->
+<div class="wx">
+<div class="bar"><span class="n">W26</span><span class="pill g">●</span><span class="tag">clt</span>CLT for a sum of uniforms</div>
+<div class="prob">$X_1,\dots,X_{100}$ iid $U(0,1)$. Approximate $P\big(\sum X_i\gt55\big)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Per draw: $\mu=\tfrac12$, $\sigma^2=\tfrac1{12}$.</li>
+<li>Sum: $S\approx N\big(100\times\tfrac12,\ 100\times\tfrac1{12}\big)=N(50,\ 8.33)$, $\sigma_S\approx2.887$.</li>
+<li>$P(S\gt55)=1-\Phi\big(\tfrac{55-50}{2.887}\big)=1-\Phi(1.73)\approx\mathbf{0.042}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The flat uniform is nothing like a bell curve — after 100 additions that is irrelevant. Only μ and σ² enter. Recognising "sum of many iid → normal, parameters $(n\mu, n\sigma^2)$" is the entire skill.</div>
+</div></details>
+</div>
+
+<!-- 27 -->
+<div class="wx">
+<div class="bar"><span class="n">W27</span><span class="pill a">●●</span><span class="tag">clt</span>Chebyshev vs CLT — guarantee vs estimate</div>
+<div class="prob">Daily demand is iid with mean 50 and SD 10; consider the average over 100 days. Bound $P(|\bar X-50|\ge2)$ with Chebyshev, then approximate it with the CLT. Compare.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\operatorname{Var}(\bar X)=\tfrac{10^2}{100}=1$, so $\sigma_{\bar X}=1$.</li>
+<li>Chebyshev with $k=2$: $P(|\bar X-50|\ge2)\le\tfrac{1}{4}=\mathbf{0.25}$ — valid for any distribution.</li>
+<li>CLT: $\bar X\approx N(50,1)$, so $P=2\big(1-\Phi(2)\big)=2(0.0228)=\mathbf{0.046}$.</li>
+<li>Chebyshev's 25% vs CLT's 4.6%: the bound is loose but assumption-free; the CLT figure is sharp but needs n large enough for normality of the average.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Know which tool a question wants: "bound / at most, no distribution given" → Chebyshev; "approximate, n large" → CLT. They answer different questions — worst case vs typical case.</div>
+</div></details>
+</div>
+
+<!-- 28 -->
+<div class="wx">
+<div class="bar"><span class="n">W28</span><span class="pill a">●●</span><span class="tag">finance</span>VaR and a one-step risk-neutral price</div>
+<div class="prob">(a) A €5m portfolio has daily returns $N(0,\ 0.015^2)$. Compute the 99% one-day VaR and scale it to 10 days. (b) A stock at 100 moves to 110 or 95 in one period; the risk-free rate is 1%. Price a call with strike 100.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>(a) $\text{VaR}_{99\%}=5\text{m}\times2.326\times0.015\approx\mathbf{€174{,}500}$ (μ = 0 so no drift adjustment).</li>
+<li>10-day horizon (iid): σ scales with √10: $\text{VaR}_{10d}\approx174{,}500\times3.162\approx\mathbf{€551{,}800}$.</li>
+<li>(b) $u=1.10$, $d=0.95$: $q=\dfrac{1.01-0.95}{1.10-0.95}=\dfrac{0.06}{0.15}=0.4$.</li>
+<li>Payoffs: 10 (up), 0 (down). Price $=\dfrac{0.4\times10}{1.01}\approx\mathbf{3.96}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Both halves are pure probability wearing finance clothes: VaR is a normal quantile times a √T scaling (modules 6 &amp; 10); the option price is an expectation under an adjusted probability measure (modules 4 &amp; 10). The mathematics never got harder — only the vocabulary changed.</div>
+</div></details>
+</div>
+
+</section>

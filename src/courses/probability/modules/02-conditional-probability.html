@@ -1,0 +1,111 @@
+<!-- ============ 02 CONDITIONAL PROBABILITY ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Conditional probability &amp; independence</h2><span class="sub">updating probabilities when you learn something</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Conditional probability — probability inside a shrunken world<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>$P(A\mid B)$ reads "the probability of $A$ <b>given that</b> $B$ happened". The idea: once you know $B$ occurred, the sample space shrinks from $\Omega$ down to $B$ — outcomes outside $B$ are no longer possible. Inside that smaller world, the share belonging to $A$ is the overlap:</p>
+  $$P(A\mid B)=\frac{P(A\cap B)}{P(B)}\qquad (P(B)\gt 0)$$
+  <p>Picture the Venn diagram of module 1: conditioning on $B$ means "zoom into circle $B$ and rescale its area to 1". $P(A\mid B)$ is the fraction of $B$'s area covered by $A$.</p>
+  <p><b>Example.</b> Roll a die. $A=\{6\}$, $B=\{\text{even}\}$. Knowing the roll is even leaves three equally likely outcomes $\{2,4,6\}$, so $P(A\mid B)=\tfrac{1}{3}$ — up from $\tfrac16$. Information changed the probability.</p>
+  </div>
+  <div>
+  <h3>Multiplication rule (chain rule)</h3>
+  <p>Rearranging the definition gives the tool for sequential experiments:</p>
+  $$P(A\cap B)=P(B)\,P(A\mid B)=P(A)\,P(B\mid A)$$
+  $$P(A\cap B\cap C)=P(A)\,P(B\mid A)\,P(C\mid A\cap B)$$
+  <p>In words: multiply along the path of the story, each factor conditioned on everything before it.</p>
+  <p><b>Example.</b> Two cards from a deck, no replacement. $P(\text{both aces})=\frac{4}{52}\cdot\frac{3}{51}=\frac{1}{221}$. The second factor is conditional: after one ace leaves, 3 aces remain among 51 cards.</p>
+  <div class="note warn"><div class="t">Trap</div>$P(A\mid B)\ne P(B\mid A)$ in general. "Probability of a positive test given the disease" and "probability of the disease given a positive test" are wildly different numbers — confusing them is the <i>base-rate fallacy</i>, dissected below.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> Law of total probability — average over the scenarios<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>partition</b> $B_1,\dots,B_n$ splits $\Omega$ into non-overlapping scenarios that cover everything (exactly one of them happens). Then any event $A$ can be computed scenario by scenario:</p>
+  $$P(A)=\sum_{i=1}^{n}P(A\mid B_i)\,P(B_i)$$
+  <p>In words: <b>the overall probability of $A$ is the weighted average of its probability in each scenario, weighted by how likely each scenario is.</b> The simplest partition is $\{B, B^c\}$:</p>
+  $$P(A)=P(A\mid B)P(B)+P(A\mid B^{c})P(B^{c})$$
+  <div class="note fin"><div class="t">Finance</div>A bond defaults with probability 3% in a recession and 0.5% in an expansion. If P(recession) = 0.2: $P(\text{default}) = 0.03(0.2)+0.005(0.8)=1\%$. Scenario-weighted averaging <i>is</i> the law of total probability.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> Bayes' theorem — reversing the conditioning<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>You know how likely the <i>evidence</i> is under each <i>hypothesis</i>; you want how likely the hypothesis is given the evidence. Bayes flips the arrow:</p>
+  $$P(B\mid A)=\frac{P(A\mid B)\,P(B)}{P(A)}=\frac{P(A\mid B)\,P(B)}{P(A\mid B)P(B)+P(A\mid B^{c})P(B^{c})}$$
+  <p>Anatomy: $P(B)$ is the <b>prior</b> (belief before evidence), $P(A\mid B)$ the <b>likelihood</b>, $P(B\mid A)$ the <b>posterior</b> (belief after). The denominator is just the law of total probability — it makes the posteriors over all hypotheses sum to 1.</p>
+  <div class="note tip"><div class="t">Tip</div>In an exam, never memorise the big fraction. Draw the tree (below), multiply along branches to get every path probability, then: posterior = (path you want) / (sum of all paths producing the observed evidence).</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Bayes tree — drag the sliders, watch the posterior<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Setting: a fraction $p$ of firms will default this year (prior). A rating model flags a firm as "risky" with probability $s$ if it will truly default (sensitivity), and falsely flags a healthy firm with probability $f$ (false-positive rate). A firm just got flagged — what is the probability it actually defaults?</p>
+  <div class="ctrl">
+    <label>prior P(D) <input type="range" id="by_p" min="0.01" max="0.5" step="0.01" value="0.05"><span class="val" id="by_p_v">0.05</span></label>
+    <label>sensitivity P(F|D) <input type="range" id="by_s" min="0.5" max="1" step="0.01" value="0.9"><span class="val" id="by_s_v">0.90</span></label>
+    <label>false pos. P(F|Dᶜ) <input type="range" id="by_f" min="0.01" max="0.5" step="0.01" value="0.1"><span class="val" id="by_f_v">0.10</span></label>
+    <span class="btns"><button onclick="bySet(0.05,0.9,0.1)">rating model</button><button onclick="bySet(0.01,0.99,0.05)">rare disease</button><button onclick="bySet(0.3,0.8,0.2)">crisis year</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="bysvg" viewBox="0 0 360 230"></svg>
+    <figcaption>Multiply along each branch to get the four path probabilities. The posterior P(D|F) is the "default AND flagged" path divided by the sum of the two flagged paths.</figcaption></figure>
+    <div>
+      <div class="readout" id="byread"></div>
+      <p style="margin-top:10px">With the default settings the posterior is only ≈ 32% — even though the model catches 90% of defaulters. The reason: healthy firms are so numerous (95%) that even a 10% false-flag rate produces <i>more</i> false alarms than true hits.</p>
+      <div class="note warn"><div class="t">Trap — base-rate fallacy</div>Ignoring the prior. A "90% accurate" test on a rare condition still yields mostly false positives. The prior $P(D)$ drags the posterior heavily — try sliding it and watch.</div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Independence — when information changes nothing<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>$A$ and $B$ are <b>independent</b> when learning that one happened does not change the probability of the other:</p>
+  $$P(A\mid B)=P(A)\iff P(A\cap B)=P(A)\,P(B)$$
+  <p>The product form $P(A\cap B)=P(A)P(B)$ is the official definition (it also works when $P(B)=0$) and the version you use to <i>check</i> independence. If $A,B$ are independent, so are $A, B^c$ and $A^c, B^c$.</p>
+  <p><b>Physically distinct mechanisms</b> (two different dice, two different coin flips) are modelled as independent. But independence can also hold "by accident" numerically, and fail where you expect it — always verify with the product rule when asked.</p>
+  <h3>Pairwise vs mutual</h3>
+  <p>Three events are <b>mutually independent</b> only if the product rule holds for every pair <i>and</i> for the triple: $P(A\cap B\cap C)=P(A)P(B)P(C)$. Pairwise independence alone does not imply the triple condition — a classic counterexample appears in module 12 (W07).</p>
+  </div>
+  <div>
+  <div class="note warn"><div class="t">Trap — independent ≠ disjoint</div>These are near-opposites. <b>Disjoint</b> events cannot co-occur: knowing $A$ happened tells you $B$ certainly did <b>not</b> — maximal information, so disjoint events with positive probability are <i>never</i> independent. Independence means the overlap is exactly $P(A)P(B)$ — they do co-occur, at just the "neutral" rate.</div>
+  <h3>Independence of many events — the workhorse</h3>
+  <p>For independent events, "none of them happens" multiplies:</p>
+  $$P(\text{none of } A_1,\dots,A_n)=\prod_{i=1}^n\big(1-P(A_i)\big)$$
+  $$P(\text{at least one})=1-\prod_{i=1}^n\big(1-P(A_i)\big)$$
+  <p><b>Example.</b> A system fails if any of 3 independent components fails; each fails with prob. 0.05. $P(\text{system fails})=1-0.95^3\approx 14.3\%$ — much bigger than any single 5%.</p>
+  <div class="note fin"><div class="t">Finance</div>10 loans, each defaulting independently with prob. 2%: P(at least one default) $=1-0.98^{10}\approx 18.3\%$. Portfolio risk accumulates fast — and real defaults are <i>positively correlated</i>, which makes joint bad outcomes even likelier than the independent model says. Module 7 quantifies this.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Full Bayes computation, exam layout<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Factory machines A, B, C produce 50%, 30%, 20% of output with defect rates 1%, 2%, 4%. A random item is defective. Which machine most likely produced it?</b></p>
+  <ol class="steps">
+    <li>Partition by machine. Priors: $P(A)=0.5$, $P(B)=0.3$, $P(C)=0.2$. Likelihoods: $P(D\mid A)=0.01$, $P(D\mid B)=0.02$, $P(D\mid C)=0.04$.</li>
+    <li>Path probabilities (prior × likelihood): $0.005$, $0.006$, $0.008$. Total probability of a defect: $P(D)=0.019$.</li>
+    <li>Posteriors: $P(A\mid D)=\tfrac{5}{19}\approx0.263$, $P(B\mid D)=\tfrac{6}{19}\approx0.316$, $P(C\mid D)=\tfrac{8}{19}\approx0.421$.</li>
+    <li>Machine C — despite producing only 20% of items, its high defect rate dominates. Check: posteriors sum to 1 ✓.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The posterior ranks hypotheses by <b>prior × likelihood</b> — the denominator is the same for all of them, so you can compare paths before dividing. Sanity checks: every posterior in $[0,1]$, and they must sum to 1.</div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,23 @@
+---
+import CourseLayout from '../layouts/CourseLayout.astro';
+import course from '../courses/probability/meta.json';
+import hero from '../courses/probability/hero.html?raw';
+
+// module fragments are verbatim HTML, one file per module, rendered in filename order
+const files = import.meta.glob('../courses/probability/modules/*.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+const modulesHtml = Object.keys(files)
+  .sort()
+  .map((k) => files[k]);
+---
+<CourseLayout course={course}>
+  <Fragment set:html={hero} />
+  {modulesHtml.map((html) => <Fragment set:html={html} />)}
+</CourseLayout>
+
+<script>
+  import '../courses/probability/interactive.js';
+</script>

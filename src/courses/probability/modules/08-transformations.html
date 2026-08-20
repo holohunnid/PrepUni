@@ -1,0 +1,94 @@
+<!-- ============ 08 TRANSFORMATIONS & SUMS ============ -->
+<section id="s8">
+<div class="sec-head"><span class="num">08</span><h2>Transformations &amp; sums of random variables</h2><span class="sub">what happens to distributions when you compute with them</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Functions of one RV — the CDF method (always works)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Given the distribution of $X$, what is the distribution of $Y=g(X)$? The bulletproof recipe:</p>
+  <ol class="steps">
+    <li>Write $F_Y(y)=P(Y\le y)=P(g(X)\le y)$.</li>
+    <li>Solve the inequality $g(x)\le y$ for $x$ (careful with direction if $g$ is decreasing).</li>
+    <li>Express the result through $F_X$; differentiate to get $f_Y=F_Y'$.</li>
+  </ol>
+  <p><b>Worked in full — the lognormal, properly derived.</b> $Y=e^{X}$, $X\sim N(\mu,\sigma^2)$:</p>
+  $$F_Y(y)=P(e^X\le y)=P(X\le \ln y)=\Phi\Big(\frac{\ln y-\mu}{\sigma}\Big)$$
+  <p>Differentiate (chain rule, $\Phi'=\varphi$ the standard normal pdf):</p>
+  $$f_Y(y)=\varphi\Big(\frac{\ln y-\mu}{\sigma}\Big)\frac{1}{\sigma y}=\frac{1}{y\sigma\sqrt{2\pi}}\,e^{-\frac{(\ln y-\mu)^2}{2\sigma^2}},\ \ y\gt0$$
+  <p class="muted">— exactly module 6's lognormal density. No memorisation needed: the CDF method rebuilds it in four lines.</p>
+  </div>
+  <div>
+  <h3>Change-of-variable formula (monotone g)</h3>
+  <p>If $g$ is strictly monotone with inverse $g^{-1}$:</p>
+  $$f_Y(y)=f_X\big(g^{-1}(y)\big)\cdot\Big|\frac{d}{dy}g^{-1}(y)\Big|$$
+  <p>Read it as conservation of probability: the mass $f_X(x)dx$ lands on the interval $dy$, and $|d g^{-1}/dy|$ is the stretching factor. The absolute value keeps the density positive when $g$ decreases.</p>
+  <h3>Standard cases</h3>
+  <table class="formula-table">
+    <tr><td>$Y=aX+b$</td><td>$f_Y(y)=\frac{1}{|a|}f_X\big(\frac{y-b}{a}\big)$ — shift &amp; stretch</td></tr>
+    <tr><td>$Y=e^X$</td><td>$f_Y(y)=\frac1y f_X(\ln y)$, $y\gt0$</td></tr>
+    <tr><td>$Y=X^2$ (not monotone!)</td><td>$F_Y(y)=P(-\sqrt y\le X\le\sqrt y)=F_X(\sqrt y)-F_X(-\sqrt y)$, then differentiate: $f_Y(y)=\frac{f_X(\sqrt y)+f_X(-\sqrt y)}{2\sqrt y}$</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>For non-monotone $g$ (like $x^2$) the one-line formula is invalid — you must go through the CDF and collect <b>every</b> $x$-region mapping below $y$. Applying $Z^2$ to a standard normal this way yields the $\chi^2_1$ density — a favourite exam derivation (W19).</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> Sums of independent RVs — three tools<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>1 · Moments (no distribution needed)</h3>
+  <p>$E[X+Y]=E[X]+E[Y]$ always; $\operatorname{Var}(X+Y)=\sigma_X^2+\sigma_Y^2$ under independence. Often the question only asks for these — don't derive a distribution you don't need.</p>
+  <h3>2 · Convolution (the honest way)</h3>
+  $$f_{X+Y}(s)=\int_{-\infty}^{\infty}f_X(x)\,f_Y(s-x)\,dx$$
+  <p class="muted">"All the ways to split s into x + (s−x)". Rarely computed by hand in exams beyond simple cases — recognise it, then reach for tool 3.</p>
+  <h3>3 · MGFs (the fast way)</h3>
+  $$M_{X+Y}(t)=M_X(t)\,M_Y(t)$$
+  <p>Multiply the MGFs, recognise the product as a known MGF, conclude by uniqueness. Example: two independent Poissons, $e^{\lambda_1(e^t-1)}e^{\lambda_2(e^t-1)}=e^{(\lambda_1+\lambda_2)(e^t-1)}$ — a Poisson MGF, so $X+Y\sim\text{Poisson}(\lambda_1+\lambda_2)$. Three lines, no convolution.</p>
+  <h3>Stability table (independent summands)</h3>
+  <table>
+    <tr><th>Add these</th><th>Get this</th></tr>
+    <tr><td>Bin(n,p) + Bin(m,p) <span class="muted">(same p)</span></td><td>Bin(n+m, p)</td></tr>
+    <tr><td>Poisson(λ₁) + Poisson(λ₂)</td><td>Poisson(λ₁+λ₂)</td></tr>
+    <tr><td>N(μ₁,σ₁²) + N(μ₂,σ₂²)</td><td>N(μ₁+μ₂, σ₁²+σ₂²)</td></tr>
+    <tr><td>Gamma(α₁,λ) + Gamma(α₂,λ)</td><td>Gamma(α₁+α₂, λ)</td></tr>
+    <tr><td>χ²ₘ + χ²ₙ</td><td>χ²ₘ₊ₙ</td></tr>
+    <tr><td>r independent Geometric(p)</td><td>NegBin(r, p)</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> Max &amp; min — order statistics, light version<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For $X_1,\dots,X_n$ iid with CDF $F$, the extremes have clean CDFs because "max ≤ y" means <b>all</b> ≤ y, and "min &gt; y" means <b>all</b> &gt; y:</p>
+  $$F_{\max}(y)=\big[F(y)\big]^n\qquad\qquad P(\min\gt y)=\big[1-F(y)\big]^n$$
+  $$\text{so}\quad F_{\min}(y)=1-\big[1-F(y)\big]^n$$
+  <p><b>Example — first default.</b> $n$ loans with independent Exp(λ) default times: $P(\min\gt t)=(e^{-\lambda t})^n=e^{-n\lambda t}$, so the first default time is <b>Exp(nλ)</b> — mean time to first default $\frac{1}{n\lambda}$: ten times the loans, one tenth the wait.</p>
+  <p><b>Example — max of uniforms.</b> $X_i\sim U(0,1)$: $F_{\max}(y)=y^n$, density $ny^{n-1}$, $E[\max]=\frac{n}{n+1}$ — the record creeps toward 1.</p>
+  <div class="note fin"><div class="t">Finance</div>Worst-of / best-of structures: a "worst-of" note pays on the minimum of several asset returns; barrier and first-to-default products live entirely on min/max distributions.</div>
+  <h3>Probability integral transform — why U(0,1) generates everything</h3>
+  <p>If $X$ has continuous CDF $F$, then $F(X)\sim U(0,1)$. Reverse direction: for $U\sim U(0,1)$,</p>
+  $$X=F^{-1}(U)\ \text{ has CDF } F$$
+  <p class="muted">This is how simulation works: draw uniforms, push them through the inverse CDF. Exp(λ) example: $X=-\frac{1}{\lambda}\ln(1-U)$. Monte Carlo (modules 9–10) is built on this one line.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Transformation drill<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>$X\sim U(0,1)$. Find the density of $Y=-2\ln X$, and identify the distribution.</b></p>
+  <ol class="steps">
+    <li>Range: $x\in(0,1)\Rightarrow \ln x\in(-\infty,0)\Rightarrow y\in(0,\infty)$.</li>
+    <li>CDF method: $F_Y(y)=P(-2\ln X\le y)=P\big(\ln X\ge -\tfrac y2\big)=P\big(X\ge e^{-y/2}\big)=1-e^{-y/2}$ (using $F_X(x)=x$ on (0,1); note the inequality flipped when dividing by −2).</li>
+    <li>Differentiate: $f_Y(y)=\tfrac12 e^{-y/2}$, $y\gt0$.</li>
+    <li>Recognise: Exponential with λ = ½ — equivalently Gamma(1, ½) = $\chi^2_2$. So $-2\ln U\sim\chi^2_2$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Two habits: track the <b>support</b> first (it tells you where the density can live and catches algebra slips), and watch inequality directions under decreasing transformations. The result itself is the engine of classic simulation methods for normals and chi-squares.</div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,22 @@
+{
+  "id": "probability",
+  "brand": "PROB · CHEAT SHEET",
+  "title": "Probability · Cheat Sheet · MSc Finance Assessment",
+  "tag": "MSc Finance · Assessment",
+  "stats": "12 modules · full distribution zoo · 28 worked examples · interactive figures",
+  "footer": "Probability cheat sheet · built for the MSc Finance assessment test · modules 01–12 · interactive figures need JavaScript; the print button produces a light-theme PDF.",
+  "modules": [
+    { "anchor": "s1", "num": "01", "title": "Foundations & counting" },
+    { "anchor": "s2", "num": "02", "title": "Conditional probability" },
+    { "anchor": "s3", "num": "03", "title": "Random variables" },
+    { "anchor": "s4", "num": "04", "title": "Expectation & moments" },
+    { "anchor": "s5", "num": "05", "title": "Discrete distributions" },
+    { "anchor": "s6", "num": "06", "title": "Continuous distributions" },
+    { "anchor": "s7", "num": "07", "title": "Joint distributions" },
+    { "anchor": "s8", "num": "08", "title": "Transformations & sums" },
+    { "anchor": "s9", "num": "09", "title": "Limit theorems" },
+    { "anchor": "s10", "num": "10", "title": "Finance applications" },
+    { "anchor": "s11", "num": "11", "title": "Quick reference" },
+    { "anchor": "s12", "num": "12", "title": "Worked examples" }
+  ]
+}
