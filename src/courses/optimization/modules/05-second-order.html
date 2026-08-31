@@ -1,0 +1,163 @@
+<!-- ============ 05 SECOND-ORDER CONDITIONS ============ -->
+<section id="s5">
+<div class="sec-head"><span class="num">05</span><h2>Second-order conditions</h2><span class="sub">the Hessian decides: maximum, minimum, or saddle</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Where calculus meets linear algebra<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 04 produced candidates. This module classifies them, and it does so by reducing a calculus question to a linear algebra one you have already solved.</p>
+  <p>The argument is the same Taylor expansion as in one variable, written in $n$ dimensions. At a stationary point the gradient term vanishes, leaving</p>
+  $$f(\mathbf x^*+\mathbf h)-f(\mathbf x^*)=\underbrace{\nabla f(\mathbf x^*)^{\mathsf T}\mathbf h}_{=\;0}+\tfrac12\,\mathbf h^{\mathsf T}H(\mathbf x^*)\,\mathbf h+o(\|\mathbf h\|^2)$$
+  <p>So whether every small move raises or lowers $f$ is decided entirely by the sign of the <b>quadratic form</b> $\mathbf h^{\mathsf T}H\mathbf h$:</p>
+  <table class="formula-table">
+    <tr><td>$\mathbf h^{\mathsf T}H\mathbf h&lt;0$ for all $\mathbf h\ne\mathbf 0$</td><td>every move lowers $f$ ⇒ local <b>maximum</b></td></tr>
+    <tr><td>$\mathbf h^{\mathsf T}H\mathbf h&gt;0$ for all $\mathbf h\ne\mathbf 0$</td><td>every move raises $f$ ⇒ local <b>minimum</b></td></tr>
+    <tr><td>both signs occur</td><td>some moves up, some down ⇒ <b>saddle</b></td></tr>
+  </table>
+  <p>Those three cases have names — <b>negative definite</b>, <b>positive definite</b>, <b>indefinite</b> — and they are precisely the classification of quadratic forms from <b>linear algebra module 08</b>. Nothing new needs to be invented; the second derivative test in $n$ variables <i>is</i> the definiteness test, and the tools (leading principal minors, eigenvalue signs) transfer unchanged.</p>
+  <div class="note tip"><div class="t">Chapter map</div>The Hessian and its symmetry → the classification theorem → the fast $2\times2$ test → leading principal minors for general $n$ → eigenvalues → saddle points → the semidefinite case, where the test goes silent.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The Hessian and the classification theorem<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>Hessian</b> is the matrix of second partial derivatives, evaluated at the point of interest:</p>
+  $$H(\mathbf x)=\begin{pmatrix} f_{x_1x_1}&amp;\cdots&amp;f_{x_1x_n}\\ \vdots&amp;\ddots&amp;\vdots\\ f_{x_nx_1}&amp;\cdots&amp;f_{x_nx_n}\end{pmatrix},\qquad\text{in two variables}\quad H=\begin{pmatrix}f_{xx}&amp;f_{xy}\\ f_{yx}&amp;f_{yy}\end{pmatrix}$$
+  <p>By Young's theorem (calculus module 09) $f_{xy}=f_{yx}$, so <b>$H$ is symmetric</b> — which is exactly the hypothesis every definiteness test needs, and the reason its eigenvalues are all real.</p>
+  <div class="note"><div class="t">Second-order conditions, at a stationary point $\mathbf x^*$</div>
+  <b>Sufficient:</b><br>
+  $H(\mathbf x^*)$ <b>negative definite</b> $\Rightarrow$ strict local <b>maximum</b><br>
+  $H(\mathbf x^*)$ <b>positive definite</b> $\Rightarrow$ strict local <b>minimum</b><br>
+  $H(\mathbf x^*)$ <b>indefinite</b> $\Rightarrow$ <b>saddle point</b> (this one is conclusive too — it rules out both)<br>
+  <b>Necessary:</b><br>
+  local maximum $\Rightarrow$ $H(\mathbf x^*)$ negative <b>semi</b>definite<br>
+  local minimum $\Rightarrow$ $H(\mathbf x^*)$ positive <b>semi</b>definite
+  </div>
+  <p>The gap between the two halves is the semidefinite-but-not-definite case ($\det H=0$), where the quadratic term vanishes in some direction and higher-order terms take over. There the test is <b>silent</b> — see the last panel.</p>
+  <div class="note warn"><div class="t">Trap</div>The SOC classifies a <b>stationary point</b>. Applying it at a point where $\nabla f\ne\mathbf 0$ is meaningless — the linear term dominates and the expansion above does not apply. Always solve the FOC first.</div>
+  <div class="note warn"><div class="t">Trap</div>Checking only $f_{xx}$ and $f_{yy}$ is <b>not enough</b>. For $f(x,y)=x^2-3xy+y^2$ both are $+2$, yet $\det H=4-9=-5&lt;0$ and the origin is a saddle. The cross-partial carries essential information, and ignoring it is the single most common error in this module.</div>
+  <p class="muted"><b>Check yourself:</b> why must $H$ be evaluated <i>at the stationary point</i> rather than symbolically? (Answer: because $H$ generally varies with $\mathbf x$; a function can be convex in one region and concave in another. The exception is a quadratic objective, whose Hessian is constant.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> The $2\times2$ test — memorise this one<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For two variables the whole classification reduces to two numbers. Write $A=f_{xx}$, $B=f_{xy}$, $C=f_{yy}$, and</p>
+  $$D=\det H=AC-B^2$$
+  <div class="note"><div class="t">The rule</div>
+  $D&gt;0$ and $A&lt;0$ &nbsp;⇒ local <b>maximum</b><br>
+  $D&gt;0$ and $A&gt;0$ &nbsp;⇒ local <b>minimum</b><br>
+  $D&lt;0$ &nbsp;⇒ <b>saddle point</b> (whatever $A$ is)<br>
+  $D=0$ &nbsp;⇒ <b>inconclusive</b>
+  </div>
+  <p>Worth understanding rather than memorising blindly. $D=AC-B^2&gt;0$ forces $A$ and $C$ to share a sign, so the two axis-slices curve the same way and $A$ alone reveals which. $D&lt;0$ means the cross term $B^2$ beats the product $AC$ — the surface is being twisted enough that some direction curves the opposite way, which is a saddle.</p>
+  <div class="ex"><div class="bar">$f(x,y)=x^3-3xy+y^3$ — the module 04 candidates</div><div class="body">
+  <p>From module 04 the stationary points are $(0,0)$ and $(1,1)$. Second partials: $f_{xx}=6x$, $f_{yy}=6y$, $f_{xy}=-3$.</p>
+  <p><b>At $(0,0)$:</b> $H=\begin{pmatrix}0&amp;-3\\-3&amp;0\end{pmatrix}$, so $D=0-9=-9&lt;0$ ⇒ <b>saddle</b>.</p>
+  <p><b>At $(1,1)$:</b> $H=\begin{pmatrix}6&amp;-3\\-3&amp;6\end{pmatrix}$, so $D=36-9=27&gt;0$ and $A=6&gt;0$ ⇒ strict local <b>minimum</b>, value $f(1,1)=1-3+1=-1$.</p>
+  <p class="muted">Is it global? No: $f(x,0)=x^3\to-\infty$ as $x\to-\infty$. The FOC and SOC are local statements, and here there is no global minimum at all.</p>
+  </div></div>
+  <div class="ex"><div class="bar">$f(x,y)=-2x^2-3y^2+2xy+8x+4y$</div><div class="body">
+  <p>Module 04 found the stationary point $(2.8,1.6)$. Here $f_{xx}=-4$, $f_{yy}=-6$, $f_{xy}=2$.</p>
+  <p>$D=(-4)(-6)-2^2=24-4=20&gt;0$ and $A=-4&lt;0$ ⇒ strict local <b>maximum</b>.</p>
+  <p>And because the objective is quadratic, $H$ is <b>the same at every point</b>, so $f$ is strictly concave everywhere and the point is the unique <b>global</b> maximum (module 03, Theorem 2).</p>
+  </div></div>
+  <p class="muted"><b>Check yourself:</b> classify the stationary point of $f(x,y)=x^2+y^2-4x-6y+5$. (Answer: $H=\begin{pmatrix}2&amp;0\\0&amp;2\end{pmatrix}$, $D=4&gt;0$, $A=2&gt;0$ ⇒ strict local minimum at $(2,3)$; constant Hessian ⇒ global.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Definiteness, seen in every direction at once<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The surface is the quadratic form $q(x,y)=\tfrac12\big(a\,x^2+2b\,xy+c\,y^2\big)$, whose Hessian is $\begin{pmatrix}a&amp;b\\ b&amp;c\end{pmatrix}$ everywhere. The right panel plots $q$ along the <b>unit circle</b> — that is, the value of the quadratic form in every direction $\theta$. Definiteness is literally whether that curve stays on one side of zero.</p>
+  <div class="ctrl">
+    <label>a = f<sub>xx</sub> <input type="range" id="hs_a" min="-3" max="3" step="0.1" value="2"><span class="val" id="hs_a_v">2.0</span></label>
+    <label>b = f<sub>xy</sub> <input type="range" id="hs_b" min="-3" max="3" step="0.1" value="0.6"><span class="val" id="hs_b_v">0.6</span></label>
+    <label>c = f<sub>yy</sub> <input type="range" id="hs_c" min="-3" max="3" step="0.1" value="1.4"><span class="val" id="hs_c_v">1.4</span></label>
+  </div>
+  <div class="ctrl">
+    <span class="btns"><button onclick="hsSet(2,0.6,1.4)">min</button><button onclick="hsSet(-2,0.6,-1.4)">max</button><button onclick="hsSet(1.5,2,-1)">saddle</button><button onclick="hsSet(2,2,2)">semidefinite</button><button onclick="hsSet(2,0,2)">circular</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="hssvg" viewBox="0 0 460 300"></svg>
+    <figcaption>Left: contours of $q$ (blue below zero, amber above), with the two eigenvector directions in green. Right: $q(\cos\theta,\sin\theta)$ — the value of the form in direction $\theta$, over a full turn.</figcaption></figure>
+    <div>
+      <div class="readout" id="hsread"></div>
+      <div id="hstable" style="margin-top:10px"></div>
+      <p style="margin-top:10px">Read the right panel and the classification falls out:</p>
+      <ul>
+        <li><b>Entirely above zero</b> ⇒ positive definite ⇒ local minimum. Contours are nested ellipses.</li>
+        <li><b>Entirely below</b> ⇒ negative definite ⇒ local maximum.</li>
+        <li><b>Crosses zero</b> ⇒ indefinite ⇒ saddle. The crossings are the directions in which the surface is flat to second order, and the contours become hyperbolas with those directions as asymptotes.</li>
+        <li><b>Touches zero without crossing</b> ⇒ semidefinite ⇒ the test is <b>silent</b>; the form vanishes along one direction and higher-order terms decide.</li>
+      </ul>
+      <p class="muted">The maximum and minimum of the right-hand curve are exactly the two <b>eigenvalues</b> of $H$, attained in the eigenvector directions drawn on the left. That is what "the eigenvalues measure curvature along the principal axes" means, made visible.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Testing definiteness for general $n$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Two standard tests, both from linear algebra module 08. Use whichever is cheaper.</p>
+  <h3>Test 1 — leading principal minors</h3>
+  <p>Let $D_k$ be the determinant of the top-left $k\times k$ block of $H$.</p>
+  <table class="formula-table">
+    <tr><td><b>Positive definite</b></td><td>$D_1&gt;0,\;D_2&gt;0,\;\dots,\;D_n&gt;0$ — <b>all positive</b></td></tr>
+    <tr><td><b>Negative definite</b></td><td>$D_1&lt;0,\;D_2&gt;0,\;D_3&lt;0,\dots$ — <b>alternating, starting negative</b>; i.e. $(-1)^kD_k&gt;0$</td></tr>
+    <tr><td><b>Indefinite</b></td><td>$D_n\ne0$ but neither pattern holds</td></tr>
+    <tr><td><b>Inconclusive</b></td><td>$D_n=0$ — leading minors cannot settle semidefiniteness</td></tr>
+  </table>
+  <p>The alternating pattern for negative definiteness is not arbitrary: $H$ is negative definite exactly when $-H$ is positive definite, and each $k\times k$ determinant picks up a factor $(-1)^k$.</p>
+  <div class="note warn"><div class="t">Trap</div>Leading principal minors test <b>strict</b> definiteness only. For <b>semi</b>definiteness you must check <b>all</b> principal minors (every symmetric selection of rows and columns), not just the top-left ones. $H=\begin{pmatrix}0&amp;0\\0&amp;-1\end{pmatrix}$ has $D_1=0,D_2=0$; it is negative semidefinite, but the leading-minor test cannot say so.</div>
+  <h3>Test 2 — eigenvalues</h3>
+  <p>Since $H$ is symmetric, its eigenvalues $\lambda_1,\dots,\lambda_n$ are all real, and</p>
+  <table class="formula-table">
+    <tr><td>all $\lambda_i&gt;0$</td><td>positive definite ⇒ minimum</td></tr>
+    <tr><td>all $\lambda_i&lt;0$</td><td>negative definite ⇒ maximum</td></tr>
+    <tr><td>mixed signs</td><td>indefinite ⇒ saddle</td></tr>
+    <tr><td>some $\lambda_i=0$, rest one sign</td><td>semidefinite ⇒ inconclusive</td></tr>
+  </table>
+  <p>Two shortcuts that often settle a $2\times2$ instantly, since $\det H=\prod\lambda_i$ and $\operatorname{tr}H=\sum\lambda_i$:</p>
+  <ul>
+    <li>$\det H&lt;0$ in two variables ⇒ the eigenvalues have opposite signs ⇒ <b>saddle</b>, no further work.</li>
+    <li>$\det H&gt;0$ ⇒ same signs ⇒ the sign of the trace (or of $f_{xx}$) tells you which.</li>
+  </ul>
+  <div class="note tip"><div class="t">Which test?</div>Minors are faster to compute by hand for $n=2,3$. Eigenvalues are more informative — they also tell you <i>which directions</i> are the steep ones, which matters for the principal-component reading of a covariance matrix in module 11.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Saddles, and the silent case<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Saddle points</h3>
+  <p>A <b>saddle</b> satisfies the FOC in full and is neither a maximum nor a minimum: it is a minimum along some directions and a maximum along others. The canonical example is $f(x,y)=x^2-y^2$ at the origin, where $f(x,0)=x^2$ has a minimum and $f(0,y)=-y^2$ has a maximum.</p>
+  <p>Saddles are the reason the FOC cannot be trusted alone in several variables. There is no comparably common one-dimensional phenomenon — $x^3$ at $0$ is the closest analogue, and it is a degenerate case rather than the generic one. In $n$ dimensions saddles are <b>typical</b>: a random symmetric matrix is far more likely to have mixed-sign eigenvalues than to be definite, and the more variables you have the more likely a stationary point is a saddle.</p>
+  <div class="note fin"><div class="t">Why numerical optimisers care</div>Gradient methods stall at saddles — the gradient is zero, so there is nothing to follow — even though escape directions exist. In high-dimensional problems this, not local minima, is the usual obstacle, and it is why second-order information is worth computing.</div>
+  <h3>When $\det H=0$: the test is silent</h3>
+  <p>Semidefinite means the quadratic term vanishes along at least one direction, so the $o(\|\mathbf h\|^2)$ remainder decides. All three of these have $H=\mathbf 0$ at the origin:</p>
+  <table class="formula-table">
+    <tr><td>$f=x^4+y^4$</td><td>strict local <b>minimum</b></td></tr>
+    <tr><td>$f=-x^4-y^4$</td><td>strict local <b>maximum</b></td></tr>
+    <tr><td>$f=x^4-y^4$</td><td><b>saddle</b></td></tr>
+  </table>
+  <p>Three ways forward when this happens:</p>
+  <ol class="steps">
+    <li><b>Examine slices.</b> If $f$ increases along one line through the point and decreases along another, it is a saddle — one line each way settles it.</li>
+    <li><b>Use higher-order terms.</b> Expand further and look at the first non-vanishing term.</li>
+    <li><b>Use global structure.</b> If $f$ is concave on the whole domain, a stationary point is a global maximum regardless of what the Hessian does at that point (module 03). This is usually the cleanest escape.</li>
+  </ol>
+  <div class="ex"><div class="bar">A silent case resolved by structure</div><div class="body">
+  <p>$f(x,y)=-x^4-y^2$. FOC: $-4x^3=0$ and $-2y=0$, so $(0,0)$.</p>
+  <p>$H(0,0)=\begin{pmatrix}0&amp;0\\0&amp;-2\end{pmatrix}$: $D=0$, inconclusive.</p>
+  <p>But $-x^4$ and $-y^2$ are each concave, and a sum of concave functions is concave. So $f$ is concave everywhere and $(0,0)$ is the <b>global maximum</b> by module 03's Theorem 2 — no Hessian needed.</p>
+  </div></div>
+  <p class="muted"><b>Check yourself:</b> $f(x,y)=x^2y^2$ has $H=\mathbf 0$ at the origin. Minimum or not? (Answer: a minimum — $f\ge0$ everywhere with $f(0,0)=0$ — but the SOC cannot see it. A direct argument beats the test here.)</p>
+  </div>
+</div>
+</div>
+</section>

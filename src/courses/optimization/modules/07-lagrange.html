@@ -1,0 +1,137 @@
+<!-- ============ 07 THE LAGRANGE METHOD ============ -->
+<section id="s7">
+<div class="sec-head"><span class="num">07</span><h2>The Lagrange method</h2><span class="sub">equality constraints, and the tangency that explains them</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why $\nabla f=\mathbf 0$ stops working<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Every argument so far rested on one sentence: <i>if the gradient is not zero, move along it and improve</i>. Once a constraint is imposed, that move may be <b>illegal</b> — it takes you off the constraint set. So a constrained optimum can sit at a point where $\nabla f\ne\mathbf 0$, and the unconstrained FOC is simply the wrong condition.</p>
+  <p>What replaces it? At a constrained optimum you cannot improve <b>using only the moves you are allowed</b>. The allowed moves are those along the constraint curve, so the requirement is that $f$ has no first-order change in any <b>feasible direction</b>. That is a weaker demand than $\nabla f=\mathbf 0$, and it is exactly what the Lagrange condition encodes.</p>
+  <p>Consider the problem</p>
+  $$\max_{x,y} f(x,y)\quad\text{subject to}\quad g(x,y)=c$$
+  <p>Sometimes you can dodge it entirely: solve the constraint for $y$, substitute, and you have an unconstrained problem in one variable (module 01). That is often the fastest route and you should use it when it works. It fails when the constraint cannot be solved explicitly ($x^3+y^3=xy$), when substitution destroys a symmetry, when there are many variables and many constraints, or when you actually want the multiplier — which, as module 09 shows, is one of the most economically informative numbers in the whole problem.</p>
+  <div class="note tip"><div class="t">Chapter map</div>The tangency picture → the condition $\nabla f=\lambda\nabla g$ → the Lagrangian as a bookkeeping device → the recipe and three worked examples → constraint qualification → several constraints.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> The geometry: level curves must be tangent<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Picture the contour map of $f$ with the constraint curve $g=c$ drawn across it. Walking along the constraint, you cross contours of $f$ and its value rises or falls. Where can you be at a maximum?</p>
+  <div class="note"><div class="t">The argument</div>If the constraint curve <b>crosses</b> a level curve of $f$ at a point, then locally the constraint has points on both sides of that level curve — one direction along the constraint leads to higher $f$. So you can improve, and the point is not optimal.<br><br>The only points where no improvement is available are those where the constraint curve is <b>tangent</b> to a level curve of $f$.</div>
+  <p>Now translate tangency into algebra using a fact from calculus module 09: <b>the gradient is perpendicular to the level curve</b>. Two curves are tangent at a point exactly when their normals are parallel. So at the optimum, $\nabla f$ and $\nabla g$ must be parallel — which means one is a scalar multiple of the other:</p>
+  <div class="note"><div class="t">Lagrange condition</div>$$\nabla f(\mathbf x^*)=\lambda\,\nabla g(\mathbf x^*)$$ for some scalar $\lambda$, the <b>Lagrange multiplier</b>.</div>
+  <p>A second, equivalent reading is worth having because it is the one that generalises to many constraints. Decompose $\nabla f$ into a component along the constraint and a component perpendicular to it. Improvement is possible exactly when the along-the-constraint component is non-zero. So optimality means that component vanishes — i.e. <b>$\nabla f$ is entirely perpendicular to the constraint</b>, and since $\nabla g$ is also perpendicular to it, the two must be parallel.</p>
+  <div class="note warn"><div class="t">Trap</div>Tangency is <b>necessary, not sufficient</b> — exactly like $\nabla f=\mathbf 0$. The constrained minimum, and any other stationary point along the constraint, satisfies the same condition. The method delivers candidates; module 08 classifies them.</div>
+  <p class="muted"><b>Check yourself:</b> why does the sign or size of $\lambda$ not matter for the tangency argument? (Answer: the argument only needs the two gradients to be <b>parallel</b>; $\lambda$ is whatever scale factor makes that an equation. Its value carries separate information — see module 09.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The Lagrangian and the recipe<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The Lagrange condition plus the constraint is a system of three equations in three unknowns $(x,y,\lambda)$. There is a device that generates all three at once. Define the <b>Lagrangian</b></p>
+  $$\mathcal{L}(x,y,\lambda)=f(x,y)-\lambda\big(g(x,y)-c\big)$$
+  <p>and set all three of its partial derivatives to zero:</p>
+  <table class="formula-table">
+    <tr><td>$\dfrac{\partial\mathcal L}{\partial x}=f_x-\lambda g_x=0$</td><td rowspan="2">these two are $\nabla f=\lambda\nabla g$</td></tr>
+    <tr><td>$\dfrac{\partial\mathcal L}{\partial y}=f_y-\lambda g_y=0$</td></tr>
+    <tr><td>$\dfrac{\partial\mathcal L}{\partial \lambda}=-\big(g(x,y)-c\big)=0$</td><td>this recovers the constraint $g=c$</td></tr>
+  </table>
+  <p>That is the whole trick: treating $\lambda$ as an extra variable turns a <b>constrained</b> problem in two variables into an <b>unconstrained</b> stationary-point problem in three. The third equation is not an extra assumption — it is the constraint, reappearing automatically.</p>
+  <div class="note"><div class="t">The recipe</div><b>1.</b> Write $\mathcal L=f-\lambda(g-c)$. <b>2.</b> Set $\mathcal L_x=\mathcal L_y=\mathcal L_\lambda=0$. <b>3.</b> Solve the system for all $(x,y,\lambda)$. <b>4.</b> Evaluate $f$ at each solution and compare (or classify — module 08).</div>
+  <h3>On the sign convention</h3>
+  <p>Some texts write $\mathcal L=f+\lambda(g-c)$ or $f+\lambda(c-g)$. All are correct and give the same $\mathbf x^*$; only the <b>sign of $\lambda$</b> changes. This course uses $\mathcal L=f-\lambda(g-c)$ throughout, because with that choice $\lambda$ has the clean interpretation $\lambda=\mathrm{d}V/\mathrm{d}c$ — the rate at which the optimal value improves when the constraint is relaxed (module 09). Pick one convention and keep it.</p>
+  <div class="note tip"><div class="t">Solving the system in practice</div>The system is usually nonlinear, and the standard move is to <b>eliminate $\lambda$ first</b>: divide the first FOC by the second to get $$\frac{f_x}{f_y}=\frac{g_x}{g_y}$$ a single equation in $x$ and $y$ with no multiplier in it. Combine that with the constraint and you have two equations in two unknowns. Recover $\lambda$ at the end if the question asks for it.</div>
+  <div class="note fin"><div class="t">You have seen this equation before</div>$f_x/f_y=g_x/g_y$ with $f$ a utility and $g$ a budget $p_1x+p_2y$ reads $$\frac{MU_1}{MU_2}=\frac{p_1}{p_2}$$ — marginal rate of substitution equals the price ratio. The central condition of consumer theory is a Lagrange FOC with $\lambda$ divided out.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Walk along the constraint and watch the gradients line up<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Move the point along the amber constraint curve. The green arrow is $\nabla f$, the red arrow is $\nabla g$. Everywhere except the optimum they point in <b>different</b> directions — and the component of $\nabla f$ along the constraint tells you which way to walk to improve. At the optimum the two arrows become <b>parallel</b> and the constraint is tangent to a contour of $f$.</p>
+  <div class="ctrl">
+    <span class="btns">
+      <button onclick="lgPick('prod')">max xy s.t. x+y=4</button><button onclick="lgPick('sum')">max x+y s.t. x²+y²=4</button><button onclick="lgPick('dist')">min x²+y² s.t. x+2y=5</button>
+    </span>
+  </div>
+  <div class="ctrl">
+    <label>position along the constraint <input type="range" id="lg_t" min="0" max="1" step="0.002" value="0.18"><span class="val" id="lg_t_v">0.18</span></label>
+    <span class="btns"><button onclick="lgSolve()">jump to the optimum</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="lgsvg" viewBox="0 0 460 300"></svg>
+    <figcaption>Left: contours of $f$ (blue low → amber high) with the constraint in amber, $\nabla f$ green and $\nabla g$ red. Right: the value of $f$ <i>along</i> the constraint, with the current position marked.</figcaption></figure>
+    <div>
+      <div class="readout" id="lgread"></div>
+      <p style="margin-top:10px">What the figure is showing:</p>
+      <ul>
+        <li>Away from the optimum, $\nabla f$ has a component <b>along</b> the constraint. That component is the slope of the right-hand curve — walk that way and $f$ improves.</li>
+        <li>At the optimum the right-hand curve is flat and $\nabla f$ has <b>no</b> along-constraint component, so it is entirely perpendicular to the constraint — i.e. parallel to $\nabla g$. The readout's angle between them drops to 0° or 180°.</li>
+        <li>$\nabla f$ is generally <b>not zero</b> there. The unconstrained FOC fails, which is precisely why a new condition was needed.</li>
+        <li>In the <b>min</b> case the arrows are <b>anti</b>-parallel and $\lambda&lt;0$. Parallel or anti-parallel are both "$\nabla f=\lambda\nabla g$" — the sign lives in $\lambda$.</li>
+      </ul>
+      <p class="muted">The right-hand panel is the substitution method made visible: $f$ restricted to the constraint is a one-variable function, and the Lagrange condition is its ordinary FOC.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Three complete solutions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ex"><div class="bar">1 · $\max xy$ subject to $x+y=4$</div><div class="body">
+  <ol class="steps">
+    <li>$\mathcal L=xy-\lambda(x+y-4)$.</li>
+    <li>$\mathcal L_x=y-\lambda=0$; &nbsp;$\mathcal L_y=x-\lambda=0$; &nbsp;$\mathcal L_\lambda=-(x+y-4)=0$.</li>
+    <li>The first two give $x=y=\lambda$. The constraint then gives $2x=4$, so $x=y=2$ and $\lambda=2$.</li>
+    <li>$f^*=4$.</li>
+  </ol>
+  <p class="muted">Check by substitution: $\max_x x(4-x)$ has its peak at $x=2$ with value 4 ✓. And $\lambda=2$ predicts that raising the budget from 4 to 5 raises the maximum by about 2 — the true new value is $6.25$, up $2.25$ ✓ (module 09).</p>
+  </div></div>
+  <div class="ex"><div class="bar">2 · $\max x+y$ subject to $x^2+y^2=4$</div><div class="body">
+  <ol class="steps">
+    <li>$\mathcal L=x+y-\lambda(x^2+y^2-4)$.</li>
+    <li>$1-2\lambda x=0$ and $1-2\lambda y=0$ ⇒ $x=y=\dfrac{1}{2\lambda}$ (note $\lambda\ne0$, else $1=0$).</li>
+    <li>Constraint: $2x^2=4\Rightarrow x=\pm\sqrt2$, giving the two candidates $(\sqrt2,\sqrt2)$ and $(-\sqrt2,-\sqrt2)$.</li>
+    <li>Values: $2\sqrt2\approx2.83$ and $-2\sqrt2$. So the <b>maximum</b> is $2\sqrt2$ at $(\sqrt2,\sqrt2)$ with $\lambda=\tfrac{1}{2\sqrt2}$; the other candidate is the minimum.</li>
+  </ol>
+  <p class="muted">Two candidates, and the method found <b>both</b> extremes at once. The circle is compact and $f$ continuous, so Weierstrass guarantees both exist and comparing values settles which is which — no second-order test needed.</p>
+  </div></div>
+  <div class="ex"><div class="bar">3 · $\min x^2+y^2$ subject to $x+2y=5$</div><div class="body">
+  <ol class="steps">
+    <li>$\mathcal L=x^2+y^2-\lambda(x+2y-5)$.</li>
+    <li>$2x-\lambda=0$ and $2y-2\lambda=0$ ⇒ $x=\lambda/2$, $y=\lambda$, hence $y=2x$.</li>
+    <li>Constraint: $x+2(2x)=5\Rightarrow 5x=5\Rightarrow x=1$, $y=2$, $\lambda=2$.</li>
+    <li>$f^*=1+4=5$, so the shortest distance from the origin to the line is $\sqrt5$.</li>
+  </ol>
+  <p class="muted">The answer $y=2x$ says the optimal point lies along $(1,2)$ — the <b>normal direction</b> of the line. Minimising distance to a line is orthogonal projection, exactly as in the linear algebra course. Two methods, one answer.</p>
+  </div></div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Constraint qualification, and several constraints<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>When the method can fail</h3>
+  <div class="note"><div class="t">Constraint qualification</div>The Lagrange condition is necessary at a constrained optimum <b>provided</b> $$\nabla g(\mathbf x^*)\ne\mathbf 0.$$ A point where $\nabla g=\mathbf 0$ is a <b>singular</b> point of the constraint and must be checked separately.</div>
+  <p><b>Why it is needed.</b> The whole argument said "the tangent direction to the constraint is the perpendicular of $\nabla g$". If $\nabla g=\mathbf 0$ there is no well-defined normal, the constraint set may have a cusp or a self-crossing, and the tangency picture collapses.</p>
+  <div class="ex"><div class="bar">The standard counterexample</div><div class="body">
+  <p>$\min x^2+y^2$ subject to $(x-1)^3=y^2$.</p>
+  <p>The constraint has a cusp at $(1,0)$, which is clearly the closest feasible point to the origin. But $\nabla g=(3(x-1)^2,-2y)=(0,0)$ there, so no $\lambda$ can satisfy $\nabla f=\lambda\nabla g$ — indeed $\nabla f=(2,0)\ne\mathbf 0$.</p>
+  <p>The Lagrange system has <b>no solution</b>, yet the problem has one. The method did not err; its hypothesis failed.</p>
+  </div></div>
+  <p class="muted">In exam problems the qualification almost always holds — for a linear constraint $\nabla g$ is a non-zero constant vector — but you should be able to state it, and to check it when the constraint is nonlinear.</p>
+  <h3>Several constraints</h3>
+  <p>With $m$ equality constraints $g_1=c_1,\dots,g_m=c_m$ on $n$ variables (needing $m&lt;n$, else the constraints generically pin the point down and there is nothing to optimise), give each its own multiplier:</p>
+  $$\mathcal L=f-\sum_{j=1}^{m}\lambda_j\big(g_j-c_j\big),\qquad \nabla f=\sum_{j=1}^{m}\lambda_j\nabla g_j$$
+  <p>The geometry is unchanged in spirit: $\nabla f$ must lie in the <b>span</b> of the constraint gradients — that is, it has no component in any feasible direction. The constraint qualification becomes: the gradients $\nabla g_1,\dots,\nabla g_m$ must be <b>linearly independent</b> at $\mathbf x^*$, which is the rank condition from the linear algebra course.</p>
+  <p>The FOC system has $n+m$ equations ($n$ from $\partial\mathcal L/\partial x_i$, $m$ from $\partial\mathcal L/\partial\lambda_j$) in $n+m$ unknowns.</p>
+  <div class="note fin"><div class="t">Two constraints in portfolio theory</div>Minimising $\mathbf w^{\mathsf T}\Sigma\mathbf w$ subject to $\mathbf w^{\mathsf T}\mathbf 1=1$ (fully invested) and $\mathbf w^{\mathsf T}\boldsymbol\mu=\mu_0$ (target return) is exactly this case, with two multipliers. Module 11 solves it and the answer traces the efficient frontier.</div>
+  <p class="muted"><b>Check yourself:</b> how many equations does the Lagrange system have for 4 variables and 2 constraints? (Answer: $4+2=6$, in the unknowns $x_1,\dots,x_4,\lambda_1,\lambda_2$.)</p>
+  </div>
+</div>
+</div>
+</section>

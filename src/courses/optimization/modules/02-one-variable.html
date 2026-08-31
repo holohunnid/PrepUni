@@ -1,0 +1,136 @@
+<!-- ============ 02 ONE VARIABLE ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Optimisation in one variable</h2><span class="sub">the template that every later module generalises</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Learn the shape of the argument here<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>You already know how to find maxima of a function of one variable — calculus module 06 did it. This module redoes it as an <b>optimisation</b> problem, because the logical structure is what generalises, and if you learn it properly in one dimension you will recognise it in every later module.</p>
+  <p>The structure has two halves, and keeping them apart is the single most useful habit in the course:</p>
+  <table class="formula-table">
+    <tr><td><b>Necessary</b> condition</td><td>every optimum must satisfy it — so it <b>generates candidates</b>. It may also flag points that are not optima.</td></tr>
+    <tr><td><b>Sufficient</b> condition</td><td>anything satisfying it <b>is</b> an optimum — so it <b>certifies</b>. It may miss some genuine optima.</td></tr>
+  </table>
+  <p>$f'(x)=0$ is necessary (at an interior optimum, for a differentiable $f$) and not sufficient. $f'(x^*)=0$ together with $f''(x^*)&lt;0$ is sufficient for a strict local maximum and not necessary. Every "$\nabla f=\mathbf 0$" and "Hessian negative definite" statement later is the same pair of sentences in more variables.</p>
+  <div class="note tip"><div class="t">Chapter map</div>The first-order condition and why interior matters → the second-order condition, and the case where it goes silent → the closed-interval method for global optima → corner solutions → unbounded domains and coercivity → how to set up a word problem.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> First-order condition — and the word "interior"<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note"><div class="t">FOC (Fermat)</div>If $f$ has a local maximum or minimum at an <b>interior</b> point $x^*$ of the feasible set, and $f$ is differentiable at $x^*$, then $$f'(x^*)=0.$$</div>
+  <p><b>Why.</b> Suppose $f'(x^*)&gt;0$. Then $f$ is strictly increasing at $x^*$, so moving a little to the right raises $f$ — and being interior guarantees a little to the right is <i>allowed</i>. So $x^*$ was not a maximum. Symmetrically for $f'(x^*)&lt;0$. The only remaining possibility is $f'(x^*)=0$.</p>
+  <p>Read that argument again, because it shows exactly where each hypothesis is used, and both hypotheses fail in problems you will meet:</p>
+  <ul>
+    <li><b>Interior.</b> At an endpoint you cannot move both ways. On $[0,1]$ the function $f(x)=x$ has its maximum at $x=1$ with $f'(1)=1\ne0$ — the FOC simply does not apply there. This is a <b>corner solution</b>, and it is why endpoints are always checked separately.</li>
+    <li><b>Differentiable.</b> $f(x)=-|x|$ has a maximum at $0$ where $f'$ does not exist.</li>
+  </ul>
+  <div class="note"><div class="t">Critical points</div>$x^*$ is a <b>critical (stationary) point</b> if $f'(x^*)=0$ <b>or</b> $f'(x^*)$ fails to exist. Interior optima are always critical points — so the critical points are the complete candidate list for the interior.</div>
+  <div class="note warn"><div class="t">Trap</div>The FOC is <b>necessary, not sufficient</b>. $f(x)=x^3$ has $f'(0)=0$ and no extremum there at all. A solved FOC gives you candidates, never an answer. Writing "$f'=0$ at $x=2$, therefore the maximum is at $x=2$" is an unfinished argument, and examiners mark it as one.</div>
+  <p class="muted"><b>Check yourself:</b> the FOC found $x=0$ for $f(x)=x^3$ on $[-1,2]$. Is the maximum there? (Answer: no. Compare candidates: $f(-1)=-1$, $f(0)=0$, $f(2)=8$. The maximum is the endpoint $x=2$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Second-order conditions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Given a critical point, the second derivative usually settles what it is — because curvature is exactly the missing information.</p>
+  <div class="note"><div class="t">Sufficient SOC</div>Suppose $f'(x^*)=0$.<br>If $f''(x^*)&lt;0$ then $x^*$ is a <b>strict local maximum</b>.<br>If $f''(x^*)&gt;0$ then $x^*$ is a <b>strict local minimum</b>.<br>If $f''(x^*)=0$ the test is <b>silent</b>.</div>
+  <p>The reason is the Taylor expansion of calculus module 06. Near a critical point the linear term vanishes, so</p>
+  $$f(x^*+h)-f(x^*)=\underbrace{f'(x^*)h}_{=\,0}+\tfrac12 f''(x^*)h^2+o(h^2)\;\approx\;\tfrac12 f''(x^*)h^2$$
+  <p>Since $h^2&gt;0$ for every $h\ne0$, the <b>sign of $f''$ alone</b> decides whether every small move raises or lowers $f$. This is worth remembering as the engine of the whole course: in $n$ dimensions the same expansion produces $\tfrac12\mathbf{h}^{\mathsf T}H\mathbf{h}$, a quadratic form, and "the sign of $f''$" becomes "the definiteness of $H$".</p>
+  <h3>The necessary version, which is weaker</h3>
+  <p>Do not confuse the sufficient condition with its necessary counterpart:</p>
+  <table class="formula-table">
+    <tr><td>Necessary at a local max</td><td>$f''(x^*)\le0$ — note the weak inequality</td></tr>
+    <tr><td>Sufficient for a local max</td><td>$f'(x^*)=0$ and $f''(x^*)&lt;0$ — strict</td></tr>
+  </table>
+  <p>The gap between them is exactly the $f''=0$ case, where anything can happen. All three of these have $f'(0)=f''(0)=0$:</p>
+  <table class="formula-table">
+    <tr><td>$f(x)=-x^4$</td><td>local (and global) <b>maximum</b> at 0</td></tr>
+    <tr><td>$f(x)=x^4$</td><td>local <b>minimum</b> at 0</td></tr>
+    <tr><td>$f(x)=x^3$</td><td><b>neither</b> — an inflection</td></tr>
+  </table>
+  <div class="note tip"><div class="t">When the SOC is silent, use the first-derivative test</div>Look at the <b>sign change</b> of $f'$ across $x^*$: $+\to-$ is a maximum, $-\to+$ a minimum, no change is neither. It never fails, it works at non-differentiable points, and it needs no second derivative. Treat the SOC as the fast route and the sign table as the reliable one.</div>
+  <p class="muted"><b>Check yourself:</b> $f(x)=x^4-4x$. Classify its critical point. (Answer: $f'=4x^3-4=0$ at $x=1$; $f''=12x^2$ so $f''(1)=12&gt;0$ ⇒ strict local minimum.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> The candidate list, built and compared<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The objective is $f(x)=x^3-3x^2-9x+5$, so $f'(x)=3(x-3)(x+1)$ with critical points at $x=-1$ and $x=3$. Move the interval and watch the candidate list change — critical points drop out when they fall outside, and the winner switches between interior peaks and endpoints.</p>
+  <div class="ctrl">
+    <label>a <input type="range" id="ci_a" min="-4" max="2" step="0.1" value="-2.5"><span class="val" id="ci_a_v">-2.5</span></label>
+    <label>b <input type="range" id="ci_b" min="-3" max="6" step="0.1" value="4.6"><span class="val" id="ci_b_v">4.6</span></label>
+    <span class="btns"><button onclick="ciSet(-2.5,4.6)">both interior</button><button onclick="ciSet(0,5)">peak excluded</button><button onclick="ciSet(-3,-1.5)">corner max</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="cisvg" viewBox="0 0 460 270"></svg>
+    <figcaption>Blue: $f$ over the feasible interval, faded outside it. Amber dots: critical points inside the interval. Grey dots: the two endpoints. Green ring: the global maximiser; red ring: the global minimiser.</figcaption></figure>
+    <div>
+      <div class="readout" id="ciread"></div>
+      <div id="citable" style="margin-top:10px"></div>
+      <div class="note tip" style="margin-top:10px"><div class="t">Closed-interval method</div><b>1.</b> Find all critical points of $f$ in $(a,b)$. <b>2.</b> Evaluate $f$ at each of them <b>and at both endpoints</b>. <b>3.</b> The largest value is the global maximum, the smallest the global minimum.</div>
+      <p class="muted">No classification is needed — you are just comparing numbers, and Weierstrass guarantees the winner of the list really is the global optimum. This is the finite-list escape from the local/global problem of module 01, and it is the most reliable method in the course whenever the feasible set is a closed interval.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Corner solutions and unbounded domains<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Corners</h3>
+  <p>A <b>corner solution</b> is an optimum at a boundary point of the feasible set. At a corner the FOC is replaced by an <b>inequality</b>, because only one direction of movement is allowed. On $[a,b]$:</p>
+  <table class="formula-table">
+    <tr><td>Max at the left end $a$</td><td>$f'(a)\le0$ — moving right must not help</td></tr>
+    <tr><td>Max at the right end $b$</td><td>$f'(b)\ge0$ — moving left must not help</td></tr>
+  </table>
+  <p>That "equality becomes inequality at a boundary" is not a one-dimensional curiosity. It is precisely the shape of the Kuhn–Tucker conditions in module 10, where a binding constraint replaces $\partial\mathcal{L}/\partial x=0$ with $\partial\mathcal{L}/\partial x\le0$.</p>
+  <div class="note fin"><div class="t">Corners are economically normal</div>A consumer who buys none of a good, an investor at a short-sale bound of $w_i=0$, a firm producing zero — all are corner solutions. Marginal conditions like "MRS = price ratio" hold only at interior optima; at a corner they become inequalities. Assuming an interior solution when the data force a corner is a substantive modelling error, not a technicality.</div>
+  <h3>Unbounded domains</h3>
+  <p>On $\mathbb{R}$ or $[0,\infty)$ there are no endpoints to check, so Weierstrass does not apply and a maximum need not exist. Two standard repairs:</p>
+  <ol class="steps">
+    <li><b>Check the limits.</b> Compute $\lim_{x\to\pm\infty}f(x)$. If $f\to-\infty$ at both ends and $f$ is continuous, a global maximum exists and must be among the critical points — the search has been confined to a bounded region. This is <b>coercivity</b>.</li>
+    <li><b>Use concavity.</b> If $f$ is concave, any critical point is automatically a global maximum with no limit-checking at all (module 3).</li>
+  </ol>
+  <div class="ex"><div class="bar">$\max_{x\in\mathbb{R}}\;-x^2+4x-1$</div><div class="body">
+  <p>$f'=-2x+4=0\Rightarrow x^*=2$, $f''=-2&lt;0$ everywhere.</p>
+  <p>The domain is unbounded, so justify the global claim: $f''&lt;0$ everywhere means $f$ is <b>strictly concave</b>, hence $x^*=2$ is the unique global maximum, $f(2)=3$. (Or: $f\to-\infty$ as $x\to\pm\infty$, so the max exists and must be the single critical point.)</p>
+  </div></div>
+  <p class="muted"><b>Check yourself:</b> does $\max_{x\ge0}\,\ln(1+x)-\tfrac12 x$ have a solution? (Answer: yes. $f'=\frac{1}{1+x}-\frac12=0$ at $x=1$, and $f''=-\frac{1}{(1+x)^2}&lt;0$, so $f$ is strictly concave and $x^*=1$ is the global maximum.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Setting up a word problem<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Most marks in applied questions are lost before any calculus happens. The setup is a fixed routine:</p>
+  <ol class="steps">
+    <li><b>Name the variables</b> and say what they mean, with units.</li>
+    <li><b>Write the objective</b> as a formula.</li>
+    <li><b>Write the constraint(s)</b> — including the implicit ones like $q\ge0$.</li>
+    <li><b>Reduce to one variable</b> by substituting the constraint.</li>
+    <li><b>State the domain</b>, including what is physically or economically meaningful.</li>
+    <li>Only now: FOC, SOC, compare candidates, and <b>answer the question that was asked</b>.</li>
+  </ol>
+  <div class="ex"><div class="bar">Monopoly pricing</div><div class="body">
+  <p>Demand $p=100-2q$; cost $C(q)=20q+200$. Choose $q\ge0$ to maximise profit.</p>
+  <ol class="steps">
+    <li>Objective: $\pi(q)=pq-C(q)=(100-2q)q-20q-200=80q-2q^2-200$.</li>
+    <li>Domain: $q\ge0$ and (for $p\ge0$) $q\le50$ — a closed interval, so Weierstrass applies ✓.</li>
+    <li>FOC: $\pi'=80-4q=0\Rightarrow q^*=20$.</li>
+    <li>SOC: $\pi''=-4&lt;0$ ⇒ strict local max; and since $\pi''&lt;0$ everywhere, $\pi$ is strictly concave, so it is <b>global</b>.</li>
+    <li>Endpoints: $\pi(0)=-200$, $\pi(50)=4000-5000-200=-1200$. Both worse ✓.</li>
+    <li>Answer: produce $q^*=20$, charge $p^*=60$, earn $\pi^*=600$.</li>
+  </ol>
+  <p class="muted">The FOC rearranges to $100-4q=20$, i.e. <b>marginal revenue = marginal cost</b>. Every marginal condition in economics is an FOC in disguise.</p>
+  </div></div>
+  <div class="note warn"><div class="t">Two habits</div><b>Check the domain endpoints even when the interior answer looks obvious</b> — it costs two evaluations. And <b>answer in the units asked for</b>: if the question wants the price, do not stop at the quantity.</div>
+  </div>
+</div>
+</div>
+</section>

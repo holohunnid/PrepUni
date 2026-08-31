@@ -1,0 +1,193 @@
+<!-- ============ 03 CONVEXITY ============ -->
+<section id="s3">
+<div class="sec-head"><span class="num">03</span><h2>Convexity &amp; concavity</h2><span class="sub">the structure that turns local answers into global ones</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why this is the most important module in the course<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 01 left us with a genuine problem: calculus is local, optimisation questions are global, and no amount of differentiating at a single point can close that gap. This module closes it.</p>
+  <p>The resolution is a structural assumption rather than a computation. If the objective is <b>concave</b>, then</p>
+  <ul>
+    <li>every local maximum is automatically a <b>global</b> maximum;</li>
+    <li>the first-order condition stops being merely necessary and becomes <b>sufficient</b> — solving $f'=0$ finishes the problem;</li>
+    <li>if the concavity is <b>strict</b>, the maximiser is <b>unique</b>.</li>
+  </ul>
+  <p>That is an enormous return on one assumption, and it explains a fact about economics that otherwise looks like laziness: utility functions are <i>assumed</i> concave, production functions are <i>assumed</i> concave, cost and risk functions are <i>assumed</i> convex. These assumptions are not primarily about realism. They are what makes the marginal conditions everyone writes down actually characterise the optimum instead of merely being consistent with it.</p>
+  <p>The mirror image holds throughout: <b>convex</b> functions are for minimisation. Minimising a convex function is the easy problem, and "convex optimisation" is a well-solved field for exactly the reasons above.</p>
+  <div class="note tip"><div class="t">Chapter map</div>Convex sets → concave and convex functions by the chord test → the tangent characterisation → the second-derivative and Hessian tests → the three big theorems → what preserves convexity → strictness and uniqueness → quasi-concavity.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Convex sets — the domain has to behave too<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note"><div class="t">Definition</div>A set $S$ is <b>convex</b> if for every $\mathbf{x},\mathbf{y}\in S$ and every $\lambda\in[0,1]$, $$\lambda\mathbf{x}+(1-\lambda)\mathbf{y}\in S.$$</div>
+  <p>In words: <b>the straight segment joining any two points of $S$ stays inside $S$.</b> No dents, no holes, no separate pieces. As $\lambda$ runs from 1 to 0 the expression $\lambda\mathbf x+(1-\lambda)\mathbf y$ traces exactly that segment — a linear combination whose weights are non-negative and sum to one, which is why it is called a <b>convex combination</b>.</p>
+  <table>
+    <tr><th>Convex</th><th>Not convex</th></tr>
+    <tr><td>intervals; $\mathbb{R}^n$; $\mathbb{R}^n_+$</td><td>the union of two disjoint intervals</td></tr>
+    <tr><td>half-spaces $\{\mathbf a^{\mathsf T}\mathbf x\le b\}$</td><td>a ring or annulus</td></tr>
+    <tr><td>balls $\{\|\mathbf x-\mathbf c\|\le r\}$</td><td>a crescent, a star</td></tr>
+    <tr><td>hyperplanes $\{\mathbf a^{\mathsf T}\mathbf x=b\}$</td><td>the integers (any discrete set)</td></tr>
+  </table>
+  <figure>
+  <svg viewBox="0 0 400 130">
+    <g transform="translate(20,0)">
+      <text x="10" y="16" class="svgtxt g">convex</text>
+      <path d="M 20 108 C 8 60 40 24 80 26 C 130 28 148 70 132 104 C 118 122 44 124 20 108 Z" fill="var(--greenbg)" stroke="var(--green)" stroke-width="1.5"/>
+      <line x1="40" y1="92" x2="122" y2="52" stroke="var(--green)" stroke-width="1.6"/>
+      <circle cx="40" cy="92" r="3.5" fill="var(--green)"/><circle cx="122" cy="52" r="3.5" fill="var(--green)"/>
+      <text x="30" y="126" class="svgtxt">segment stays inside</text>
+    </g>
+    <g transform="translate(215,0)">
+      <text x="10" y="16" class="svgtxt r">not convex</text>
+      <path d="M 20 108 C 10 50 46 24 84 30 C 70 62 108 60 128 34 C 148 74 130 116 96 114 C 60 112 40 122 20 108 Z" fill="var(--redbg)" stroke="var(--red)" stroke-width="1.5"/>
+      <line x1="46" y1="60" x2="132" y2="72" stroke="var(--red)" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <circle cx="46" cy="60" r="3.5" fill="var(--red)"/><circle cx="132" cy="72" r="3.5" fill="var(--red)"/>
+      <text x="34" y="126" class="svgtxt">segment leaves the set</text>
+    </g>
+  </svg>
+  <figcaption>Convexity of a set is a statement about every pair of its points at once.</figcaption>
+  </figure>
+  <div class="note"><div class="t">The useful closure property</div>An <b>intersection</b> of convex sets is convex. Since each linear constraint $\mathbf a^{\mathsf T}\mathbf x\le b$ or $\mathbf a^{\mathsf T}\mathbf x=b$ defines a convex set, <b>any feasible set defined by linear constraints is convex</b>. (Unions are not — that is why "buy asset A or asset B but not both" is a genuinely hard problem while "hold any mix" is easy.)</div>
+  <div class="note fin"><div class="t">Finance link</div>A budget set $\{\mathbf x\ge\mathbf 0:\;\mathbf p^{\mathsf T}\mathbf x\le m\}$ is an intersection of half-spaces, hence convex. So is the set of fully-invested portfolios $\{\mathbf w:\mathbf w^{\mathsf T}\mathbf 1=1\}$. Adding a short-sale ban $\mathbf w\ge\mathbf 0$ keeps it convex. Adding "at most 5 holdings" destroys convexity — and that is exactly the constraint that makes real portfolio construction computationally hard.</div>
+  <p class="muted"><b>Check yourself:</b> is $\{(x,y):x^2+y^2=1\}$ (the circle itself, not the disc) convex? (Answer: no — the chord between two points on the circle passes through the interior, which is not in the set. The <i>disc</i> $x^2+y^2\le1$ is convex.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Concave and convex functions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note"><div class="t">Definition (chord test)</div>On a convex set $S$, $f$ is <b>concave</b> if for all $\mathbf x,\mathbf y\in S$ and $\lambda\in[0,1]$ $$f\big(\lambda\mathbf x+(1-\lambda)\mathbf y\big)\;\ge\;\lambda f(\mathbf x)+(1-\lambda)f(\mathbf y)$$ and <b>convex</b> if the inequality is reversed ($\le$). Replace $\ge$ by $&gt;$ (for $\mathbf x\ne\mathbf y$, $\lambda\in(0,1)$) for <b>strictly</b> concave.</div>
+  <p>Both sides are easy to read. The left is the <b>function</b> evaluated at a point between $\mathbf x$ and $\mathbf y$; the right is the <b>chord</b> — the straight line joining $(\mathbf x,f(\mathbf x))$ to $(\mathbf y,f(\mathbf y))$ — evaluated at the same place. So:</p>
+  <table class="formula-table">
+    <tr><td class="g"><b>Concave</b></td><td>the curve lies <b>above</b> the chord — it bulges up, ∩</td></tr>
+    <tr><td class="b"><b>Convex</b></td><td>the curve lies <b>below</b> the chord — it dips down, ∪</td></tr>
+  </table>
+  <p>Note the definition needs <b>no derivatives</b>. That matters: $f(x)=-|x|$ is concave despite having no derivative at 0, and the theorems below apply to it in full.</p>
+  <div class="note warn"><div class="t">Terminology clash — read carefully</div>Calculus books say "concave up" for what economics calls <b>convex</b>, and "concave down" for <b>concave</b>. This course uses the economics words throughout: <b>convex = ∪ = $f''\ge0$</b>, <b>concave = ∩ = $f''\le0$</b>. Also: a function is concave $\iff$ $-f$ is convex, so every result has a mirror image and you only ever need to learn one side.</div>
+  <h3>The tangent characterisation (differentiable case)</h3>
+  <p>An equivalent and often more useful description:</p>
+  $$f\text{ concave}\iff f(\mathbf y)\le f(\mathbf x)+\nabla f(\mathbf x)^{\mathsf T}(\mathbf y-\mathbf x)\quad\text{for all }\mathbf x,\mathbf y$$
+  <p><b>A concave function lies below all of its tangents.</b> This is the fact that proves the big theorem below, and it has a plain reading: the linear approximation always <i>over</i>-estimates a concave function, so if the tangent at $\mathbf x$ is flat, nothing anywhere can be higher than $f(\mathbf x)$. For convex functions the tangent lies below and under-estimates.</p>
+  <p class="muted"><b>Check yourself:</b> in calculus module 06 you estimated $\ln(1.05)\approx0.05$ from the tangent at $x=1$, and the true value is $0.0488$. Which way does that confirm? (Answer: the estimate is too high, so $\ln$ lies below its tangent — $\ln$ is concave ✓.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> The chord test, run by hand<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Pick a function and two points. The amber chord joins $(x_1,f(x_1))$ to $(x_2,f(x_2))$; the readout compares the curve and the chord at the midpoint. For a concave function the curve wins <b>every time, for every pair</b> — and one failing pair is enough to disqualify it.</p>
+  <div class="ctrl">
+    <span class="btns">
+      <button onclick="cxPick('sq')">x²</button><button onclick="cxPick('ln')">ln x</button><button onclick="cxPick('exp')">eˣ</button><button onclick="cxPick('sqrt')">√x</button><button onclick="cxPick('cub')">x³</button><button onclick="cxPick('wave')">wavy</button><button onclick="cxPick('abs')">−|x|</button>
+    </span>
+  </div>
+  <div class="ctrl">
+    <label>x₁ <input type="range" id="cx_1" min="-2.7" max="2.7" step="0.05" value="-1.6"><span class="val" id="cx_1_v">-1.60</span></label>
+    <label>x₂ <input type="range" id="cx_2" min="-2.7" max="2.7" step="0.05" value="1.9"><span class="val" id="cx_2_v">1.90</span></label>
+    <label><input type="checkbox" id="cx_t" checked> show tangent at x₁</label>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="cxsvg" viewBox="0 0 460 280"></svg>
+    <figcaption>Blue: $f$. Amber: the chord between the two chosen points. Green dashed: the tangent at $x_1$. The vertical bar at the midpoint shows the gap between curve and chord.</figcaption></figure>
+    <div>
+      <div class="readout" id="cxread"></div>
+      <p style="margin-top:10px">What to notice:</p>
+      <ul>
+        <li><b>ln x</b> and <b>√x</b> — the curve is above the chord for every pair, and below the tangent everywhere. Concave.</li>
+        <li><b>x²</b> and <b>eˣ</b> — the mirror image. Convex.</li>
+        <li><b>x³</b> — concave on the left half, convex on the right. Pick both points on one side and the test passes; straddle zero and it fails. This is why "concave" is a statement about a whole <b>domain</b>, never about a point.</li>
+        <li><b>wavy</b> — fails badly, and this is the shape that makes optimisation hard: several local maxima, none of which the FOC can distinguish.</li>
+        <li><b>−|x|</b> — concave with a corner. No derivative at 0, yet the maximum is unambiguously there. Concavity does not need smoothness.</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Testing with derivatives<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The chord definition is the right definition but a poor test. With derivatives it becomes mechanical.</p>
+  <div class="note"><div class="t">One variable</div>For $f$ twice differentiable on an interval:<br>$f''(x)\ge0$ for all $x$ $\iff$ $f$ is <b>convex</b><br>$f''(x)\le0$ for all $x$ $\iff$ $f$ is <b>concave</b><br>$f''(x)&gt;0$ everywhere $\Rightarrow$ <b>strictly</b> convex (the converse fails — see the trap)</div>
+  <div class="note"><div class="t">Several variables</div>For $f$ twice continuously differentiable on a convex set, with Hessian $H(\mathbf x)$:<br>$H(\mathbf x)$ positive semidefinite for all $\mathbf x$ $\iff$ $f$ <b>convex</b><br>$H(\mathbf x)$ negative semidefinite for all $\mathbf x$ $\iff$ $f$ <b>concave</b><br>$H(\mathbf x)$ negative definite for all $\mathbf x$ $\Rightarrow$ $f$ <b>strictly concave</b></div>
+  <p>Two things deserve emphasis. First, the condition must hold at <b>every point of the domain</b>, not just at the critical point — that is the whole difference between a local classification (module 5) and a global structural claim (module 6). Second, semidefiniteness is checked with <b>all</b> principal minors, not just the leading ones; the leading-minor shortcut is only valid for strict definiteness. Linear algebra module 08 has the tests.</p>
+  <div class="note warn"><div class="t">Trap</div>$f''&gt;0$ everywhere is sufficient for strict convexity but <b>not necessary</b>. $f(x)=x^4$ is strictly convex, yet $f''(0)=0$. So finding $f''=0$ at one point does not break strict convexity — you have to look at the whole picture.</div>
+  <h3>Operations that preserve concavity</h3>
+  <p>Rather than differentiating a monster, decompose it:</p>
+  <table class="formula-table">
+    <tr><td>Sum</td><td>$f,g$ concave $\Rightarrow f+g$ concave</td></tr>
+    <tr><td>Positive scaling</td><td>$f$ concave, $c&gt;0$ $\Rightarrow cf$ concave</td></tr>
+    <tr><td>Negation</td><td>$f$ concave $\Rightarrow -f$ convex</td></tr>
+    <tr><td>Affine composition</td><td>$f$ concave $\Rightarrow f(A\mathbf x+\mathbf b)$ concave</td></tr>
+    <tr><td>Minimum</td><td>the pointwise <b>min</b> of concave functions is concave (max, for convex)</td></tr>
+    <tr><td>Concave increasing of concave</td><td>$\varphi$ concave and increasing, $f$ concave $\Rightarrow\varphi(f)$ concave</td></tr>
+  </table>
+  <p class="muted">Note what is <b>missing</b>: products and quotients of concave functions are generally neither. $f=g=x$ are both concave (they are linear) but $fg=x^2$ is convex.</p>
+  <div class="ex"><div class="bar">Is $f(\mathbf w)=\boldsymbol\mu^{\mathsf T}\mathbf w-\tfrac{\gamma}{2}\mathbf w^{\mathsf T}\Sigma\mathbf w$ concave?</div><div class="body">
+  <p>The first term is linear, hence concave. The second is $-\tfrac\gamma2$ times a quadratic form with $\Sigma$ positive semidefinite (every covariance matrix is), so $\mathbf w^{\mathsf T}\Sigma\mathbf w$ is convex and its negative multiple is concave. A sum of concave functions is concave ✓.</p>
+  <p>Directly: $H=-\gamma\Sigma$, negative semidefinite for $\gamma&gt;0$. So mean–variance utility is concave, and module 6 will conclude that its FOC alone locates the global optimum.</p>
+  </div></div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> The three theorems — the payoff<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note"><div class="t">Theorem 1 — local implies global</div>If $f$ is concave on a convex set $S$, then every <b>local</b> maximum of $f$ on $S$ is a <b>global</b> maximum.</div>
+  <p><b>Why.</b> Let $\mathbf x^*$ be a local max and suppose some $\mathbf y\in S$ has $f(\mathbf y)&gt;f(\mathbf x^*)$. Look at points on the segment between them, $\mathbf z_\lambda=\lambda\mathbf y+(1-\lambda)\mathbf x^*$, which stay in $S$ because $S$ is convex. Concavity gives</p>
+  $$f(\mathbf z_\lambda)\ \ge\ \lambda f(\mathbf y)+(1-\lambda)f(\mathbf x^*)\ &gt;\ f(\mathbf x^*)$$
+  <p>for every $\lambda\in(0,1]$. Taking $\lambda$ tiny puts such a point <i>arbitrarily close</i> to $\mathbf x^*$ while still beating it — contradicting local maximality. So no such $\mathbf y$ exists. Notice that <b>both</b> convexity of $S$ and concavity of $f$ were used.</p>
+  <div class="note"><div class="t">Theorem 2 — the FOC becomes sufficient</div>If $f$ is concave and differentiable, then $\nabla f(\mathbf x^*)=\mathbf 0$ is <b>sufficient</b> (as well as necessary) for $\mathbf x^*$ to be a global maximum.</div>
+  <p><b>Why.</b> Use the tangent characterisation: $f(\mathbf y)\le f(\mathbf x^*)+\nabla f(\mathbf x^*)^{\mathsf T}(\mathbf y-\mathbf x^*)$. With $\nabla f(\mathbf x^*)=\mathbf 0$ the last term vanishes, leaving $f(\mathbf y)\le f(\mathbf x^*)$ for <b>all</b> $\mathbf y$ — global maximality, in one line. This is the single most valuable theorem in the course: under concavity, solving the FOC <b>finishes the problem</b>, with no second-order check and no comparison of candidates.</p>
+  <div class="note"><div class="t">Theorem 3 — strictness gives uniqueness</div>If $f$ is <b>strictly</b> concave, the maximiser (if one exists) is <b>unique</b>. Without strictness the set of maximisers is still convex — a flat plateau, never two isolated peaks.</div>
+  <p><b>Why.</b> If $\mathbf x_1\ne\mathbf x_2$ were both maximisers with common value $M$, then strict concavity gives $f\big(\tfrac12\mathbf x_1+\tfrac12\mathbf x_2\big)&gt;\tfrac12M+\tfrac12M=M$ — a feasible point strictly better than the maximum. Contradiction.</p>
+  <table class="formula-table">
+    <tr><td>Concave $f$, convex $S$</td><td>maximisation is <b>easy</b>: FOC suffices</td></tr>
+    <tr><td>Convex $f$, convex $S$</td><td><b>minimisation</b> is easy: FOC suffices</td></tr>
+    <tr><td>Convex $f$, maximise</td><td><b>hard</b> — the maximum sits at a corner of $S$; the FOC finds the <i>minimum</i></td></tr>
+  </table>
+  <div class="note fin"><div class="t">Jensen, and why concavity is risk aversion</div>The chord inequality applied to a random variable is <b>Jensen's inequality</b>: for concave $u$, $$E[u(X)]\le u\big(E[X]\big).$$ A concave utility means a gamble is worth less than its expected value received for certain — that <i>is</i> risk aversion. The same inequality appears in the probability course, and $-u''/u'$ is the Arrow–Pratt coefficient measuring how concave $u$ is.</div>
+  <p class="muted"><b>Check yourself:</b> $f(x,y)=-(x-1)^2-(y+2)^2$. How many steps to the global maximum? (Answer: $H=\begin{pmatrix}-2&amp;0\\0&amp;-2\end{pmatrix}$ is negative definite everywhere ⇒ strictly concave. So solve $\nabla f=\mathbf 0$: $(1,-2)$, unique global maximum. No SOC check, no candidate comparison.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Quasi-concavity — the weaker assumption economics actually needs<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Concavity is stronger than many economic arguments require, and it has an awkward feature: it is <b>not preserved by monotone transformations</b>. Utility is only meaningful up to such a transformation ($u$ and $u^3$ describe the same preferences), yet $\sqrt{xy}$ is concave while $xy$ is not. Something is wrong with using concavity to describe preferences.</p>
+  <div class="note"><div class="t">Definition</div>$f$ is <b>quasi-concave</b> if its upper contour sets $$U_k=\{\mathbf x\in S: f(\mathbf x)\ge k\}$$ are <b>convex</b> for every $k$. Equivalently: $f\big(\lambda\mathbf x+(1-\lambda)\mathbf y\big)\ge\min\{f(\mathbf x),f(\mathbf y)\}$.</div>
+  <p>The contour reading is the useful one: <b>the set of bundles at least as good as a given one is convex</b>. That is precisely the standard picture of indifference curves bowed towards the origin, and it is what "diminishing marginal rate of substitution" means geometrically.</p>
+  <p>Facts worth carrying:</p>
+  <ul>
+    <li>Concave $\Rightarrow$ quasi-concave. The converse is false.</li>
+    <li>Quasi-concavity <b>is</b> preserved by increasing transformations — so it is a property of preferences, not of the particular utility representation. This is why economics states its assumptions in terms of quasi-concavity.</li>
+    <li>Both $\sqrt{xy}$ and $xy$ are quasi-concave, as they must be, since they represent the same preferences.</li>
+  </ul>
+  </div>
+  <div>
+  <div class="note warn"><div class="t">What you give up</div>Quasi-concavity is enough to guarantee that the set of maximisers is convex and — with strict quasi-concavity and a convex feasible set — that the maximiser is unique. It is <b>not</b> enough for Theorem 2: a critical point of a quasi-concave function need not be a maximum at all. $f(x)=x^3$ is quasi-concave on $\mathbb{R}$ (its upper contour sets are half-lines, hence convex), yet $f'(0)=0$ at a point that is not an optimum.</div>
+  <p class="muted">So: quasi-concavity for describing preferences and getting uniqueness; full concavity when you want the FOC to certify a global maximum on its own.</p>
+  <h3>The functions you should be able to classify on sight</h3>
+  <table>
+    <tr><th>Function</th><th>Class</th></tr>
+    <tr><td>$\mathbf a^{\mathsf T}\mathbf x+b$ (affine)</td><td>concave <b>and</b> convex (not strictly either)</td></tr>
+    <tr><td>$\mathbf x^{\mathsf T}A\mathbf x$, $A$ PSD</td><td>convex</td></tr>
+    <tr><td>$\ln x$, $\sqrt x$, $x^{\alpha}$ ($0&lt;\alpha&lt;1$)</td><td>strictly concave on $x&gt;0$</td></tr>
+    <tr><td>$e^{x}$, $x^2$, $|x|$, $-\ln x$</td><td>convex</td></tr>
+    <tr><td>$x^{\alpha}y^{\beta}$, $\alpha+\beta\le1$, $\alpha,\beta&gt;0$</td><td>concave on the positive quadrant</td></tr>
+    <tr><td>$x^{\alpha}y^{\beta}$, $\alpha+\beta&gt;1$</td><td>quasi-concave but <b>not</b> concave</td></tr>
+    <tr><td>$-\|\mathbf x-\mathbf c\|^2$</td><td>strictly concave</td></tr>
+    <tr><td>$\max_i(\mathbf a_i^{\mathsf T}\mathbf x+b_i)$</td><td>convex (a max of affine functions)</td></tr>
+  </table>
+  <div class="note fin"><div class="t">Returns to scale, read off the exponents</div>For Cobb–Douglas $F(K,L)=K^\alpha L^\beta$, the sum $\alpha+\beta$ is the degree of homogeneity: $&lt;1$ decreasing returns (and $F$ concave, so profit maximisation is well behaved), $=1$ constant returns (concave, but the optimal scale is indeterminate), $&gt;1$ increasing returns (not concave — the firm wants to grow without bound, and the problem has no interior solution). The mathematics and the economics fail at exactly the same point.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

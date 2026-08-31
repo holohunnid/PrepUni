@@ -1,0 +1,23 @@
+{
+  "id": "optimization",
+  "brand": "OPT · COURSE",
+  "title": "Optimization · Full Course · MSc Finance Assessment",
+  "tag": "MSc Finance · Assessment",
+  "stats": "13 modules · full explanations · 30 worked examples · interactive figures",
+  "footer": "Optimization course · built for the USI refresher syllabus block 4 (unconstrained and constrained optimisation, optimality conditions, the Lagrange method) · modules 01–13 · interactive figures need JavaScript; the print button produces a light-theme PDF.",
+  "modules": [
+    { "anchor": "s1",  "num": "01", "title": "The problem" },
+    { "anchor": "s2",  "num": "02", "title": "One variable" },
+    { "anchor": "s3",  "num": "03", "title": "Convexity" },
+    { "anchor": "s4",  "num": "04", "title": "First-order conditions" },
+    { "anchor": "s5",  "num": "05", "title": "Second-order conditions" },
+    { "anchor": "s6",  "num": "06", "title": "Global optima" },
+    { "anchor": "s7",  "num": "07", "title": "The Lagrange method" },
+    { "anchor": "s8",  "num": "08", "title": "Constrained SOC" },
+    { "anchor": "s9",  "num": "09", "title": "Shadow prices" },
+    { "anchor": "s10", "num": "10", "title": "Inequality constraints" },
+    { "anchor": "s11", "num": "11", "title": "Finance applications" },
+    { "anchor": "s12", "num": "12", "title": "Quick reference" },
+    { "anchor": "s13", "num": "13", "title": "Worked examples" }
+  ]
+}

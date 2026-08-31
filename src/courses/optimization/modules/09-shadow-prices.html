@@ -1,0 +1,133 @@
+<!-- ============ 09 SHADOW PRICES & THE ENVELOPE THEOREM ============ -->
+<section id="s9">
+<div class="sec-head"><span class="num">09</span><h2>Shadow prices &amp; the envelope theorem</h2><span class="sub">what the multiplier means, and how the answer moves when the problem moves</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> $\lambda$ was never just bookkeeping<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 07 introduced $\lambda$ as an auxiliary unknown — a scale factor making $\nabla f=\lambda\nabla g$ an equation. Most students solve for it, discard it, and report only $\mathbf x^*$. That throws away the most useful number in the problem.</p>
+  <div class="note"><div class="t">The interpretation</div>$$\lambda^*=\frac{dV}{dc}$$ where $V(c)$ is the <b>optimal value</b> as a function of the constraint level $c$. The multiplier is the rate at which the best achievable value improves when the constraint is <b>relaxed by one unit</b>.</div>
+  <p>Hence the name <b>shadow price</b>: $\lambda$ is what one more unit of the constrained resource is worth to you — the most you would rationally pay for it. Not the market price; the price implied by your own problem.</p>
+  <p>Concrete readings you will meet:</p>
+  <table class="formula-table">
+    <tr><td>Budget constraint</td><td>$\lambda$ = <b>marginal utility of income</b> — extra utility per extra euro</td></tr>
+    <tr><td>Resource / capacity</td><td>$\lambda$ = extra profit per extra unit of capacity ⇒ the maximum rent worth paying</td></tr>
+    <tr><td>Target return $\mu_0$</td><td>$\lambda$ = extra portfolio variance incurred per unit of extra required return</td></tr>
+    <tr><td>Slack constraint</td><td>$\lambda=0$ — the constraint is not binding, so relaxing it is worth nothing</td></tr>
+  </table>
+  <p>Behind this sits a general principle, the <b>envelope theorem</b>: when a parameter of an optimisation problem moves a little, the change in the optimal <i>value</i> can be computed <b>ignoring the change in the optimal choice</b>. That sounds too good to be true and is the second half of this module.</p>
+  <div class="note tip"><div class="t">Chapter map</div>The value function → why $\lambda=V'(c)$ → the envelope theorem, unconstrained and constrained → comparative statics → the sign and units of $\lambda$.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> The value function, and why $\lambda=V'(c)$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Fix the problem $\max f(x,y)$ subject to $g(x,y)=c$ and let the constraint level $c$ vary. For each $c$ the solution moves, so write $x^*(c)$, $y^*(c)$, and define the <b>value function</b></p>
+  $$V(c)=f\big(x^*(c),\,y^*(c)\big)$$
+  <p>the best achievable value at constraint level $c$. The claim is that $V'(c)=\lambda^*(c)$.</p>
+  <div class="note"><div class="t">Why it is true</div>Differentiate $V$ with the chain rule: $$V'(c)=f_x\frac{dx^*}{dc}+f_y\frac{dy^*}{dc}$$ At the optimum the Lagrange conditions give $f_x=\lambda g_x$ and $f_y=\lambda g_y$, so $$V'(c)=\lambda\left(g_x\frac{dx^*}{dc}+g_y\frac{dy^*}{dc}\right)$$ The bracket is $\dfrac{d}{dc}g\big(x^*(c),y^*(c)\big)$. But the solution always satisfies the constraint, $g(x^*(c),y^*(c))=c$, so differentiating both sides gives that the bracket equals $1$. Hence $V'(c)=\lambda$.</div>
+  <p>Two features of that proof are worth noticing, because they recur in the envelope theorem. First, the awkward derivatives $dx^*/dc$ — how the optimal choice responds — <b>cancel</b>. Second, what makes them cancel is precisely the fact that the FOC holds; the argument would fail at a non-optimal point.</p>
+  <div class="ex"><div class="bar">Verify it directly</div><div class="body">
+  <p>$\max xy$ subject to $x+y=c$. The FOC gives $x=y=\lambda$, and the constraint gives $x^*=y^*=c/2$ with $\lambda^*=c/2$.</p>
+  <p>Then $V(c)=\dfrac{c}{2}\cdot\dfrac{c}{2}=\dfrac{c^2}{4}$, so $V'(c)=\dfrac{c}{2}=\lambda^*$ ✓.</p>
+  <p>At $c=4$ (module 07's example) $\lambda=2$: raising the budget from 4 to 5 should raise the maximum by about 2. Exactly: $V(5)-V(4)=6.25-4=2.25$ — the discrepancy is the second-order term, since $\lambda$ is a <b>marginal</b> rate.</p>
+  </div></div>
+  <div class="note warn"><div class="t">Trap</div>$\lambda$ predicts the effect of a <b>small</b> change. It is a derivative, so $\Delta V\approx\lambda\,\Delta c$ is a first-order approximation exactly like the tangent line of calculus module 04. For a large change in $c$ the estimate degrades, and the direction of the error is governed by the curvature of $V$.</div>
+  <p class="muted"><b>Check yourself:</b> a firm's profit-maximisation has a capacity constraint with $\lambda^*=40$. A supplier offers 3 extra units of capacity for €100 total. Take it? (Answer: yes — the extra capacity is worth about $3\times40=€120&gt;€100$, provided 3 units counts as a small change.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> The envelope theorem<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The same cancellation works for any parameter, not just the constraint level.</p>
+  <div class="note"><div class="t">Envelope theorem — unconstrained</div>Let $V(a)=\max_{\mathbf x} f(\mathbf x,a)$ with maximiser $\mathbf x^*(a)$. Then $$\frac{dV}{da}=\frac{\partial f}{\partial a}\Big|_{\mathbf x=\mathbf x^*(a)}$$ — differentiate $f$ with respect to the parameter <b>holding $\mathbf x$ fixed</b>, then evaluate at the optimum.</div>
+  <p><b>Why.</b> $\dfrac{dV}{da}=\nabla_{\mathbf x}f^{\mathsf T}\dfrac{d\mathbf x^*}{da}+\dfrac{\partial f}{\partial a}$, and the first term vanishes because $\nabla_{\mathbf x}f=\mathbf 0$ at an interior optimum.</p>
+  <p>The economic content is genuinely surprising: <b>the indirect effect of a parameter — through the induced change in your optimal choice — is zero to first order.</b> The reason is that you were already optimising: at the top of a hill the ground is flat, so small adjustments to your position change your altitude only at second order.</p>
+  <div class="note"><div class="t">Envelope theorem — constrained</div>For $V(a)=\max f(\mathbf x,a)$ subject to $g(\mathbf x,a)=0$, $$\frac{dV}{da}=\frac{\partial\mathcal L}{\partial a}\Big|_{\text{optimum}}$$ differentiating the <b>Lagrangian</b> with respect to $a$, holding $\mathbf x$ and $\lambda$ fixed.</div>
+  <p>With $\mathcal L=f-\lambda(g-c)$ and $a=c$, this gives $\partial\mathcal L/\partial c=\lambda$ — so the shadow-price result of Idea 1 is a <b>special case</b> of the envelope theorem, not a separate fact.</p>
+  <div class="ex"><div class="bar">Hotelling's lemma in one line</div><div class="body">
+  <p>A firm's profit is $\pi(p)=\max_q\big(pq-C(q)\big)$. How does maximum profit respond to the output price?</p>
+  <p>Envelope: $\dfrac{d\pi}{dp}=\dfrac{\partial}{\partial p}\big(pq-C(q)\big)\Big|_{q=q^*}=q^*(p)$.</p>
+  <p><b>The derivative of the profit function is the optimal supply.</b> No need to compute $dq^*/dp$ at all — and it would be a mess, since it involves $C''$.</p>
+  </div></div>
+  <div class="ex"><div class="bar">Roy's identity, the same way</div><div class="body">
+  <p>Indirect utility $v(\mathbf p,m)=\max u(\mathbf x)$ s.t. $\mathbf p^{\mathsf T}\mathbf x=m$. Here $\mathcal L=u(\mathbf x)-\lambda(\mathbf p^{\mathsf T}\mathbf x-m)$.</p>
+  <p>$\dfrac{\partial v}{\partial m}=\dfrac{\partial\mathcal L}{\partial m}=\lambda$ &nbsp;— the marginal utility of income.</p>
+  <p>$\dfrac{\partial v}{\partial p_i}=\dfrac{\partial\mathcal L}{\partial p_i}=-\lambda x_i^*$.</p>
+  <p>Dividing eliminates $\lambda$: $\;x_i^*=-\dfrac{\partial v/\partial p_i}{\partial v/\partial m}$ — demand recovered from the value function alone.</p>
+  </div></div>
+  <p class="muted">The name comes from the picture: $V(a)$ is the upper <b>envelope</b> of the family of curves $f(\mathbf x,a)$ indexed by fixed choices $\mathbf x$. At each $a$ the envelope touches one member of the family, and touching means sharing a tangent — which is the theorem.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Relax the constraint and read off $\lambda$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Move the constraint level $c$. On the left the constraint shifts across the contours of $f$ and the optimum slides along a path; on the right the optimal value $V(c)$ is traced out, with its tangent at the current $c$. <b>The slope of that tangent is $\lambda$</b> — compare it with the multiplier the Lagrange conditions produce.</p>
+  <div class="ctrl">
+    <span class="btns">
+      <button onclick="spPick('prod')">max xy s.t. x+y=c</button><button onclick="spPick('cobb')">max √(xy) s.t. x+y=c</button><button onclick="spPick('circ')">max x+y s.t. x²+y²=c</button>
+    </span>
+    <label>constraint level c <input type="range" id="sp_c" min="1" max="8" step="0.05" value="4"><span class="val" id="sp_c_v">4.00</span></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="spsvg" viewBox="0 0 460 300"></svg>
+    <figcaption>Left: contours of $f$, the constraint at level $c$ (amber), and the path traced by the optimum as $c$ varies (green). Right: the value function $V(c)$ with its tangent at the current $c$; the tangent's slope is $\lambda$.</figcaption></figure>
+    <div>
+      <div class="readout" id="spread"></div>
+      <p style="margin-top:10px">Three things to check for yourself:</p>
+      <ul>
+        <li>The readout compares $\lambda$ from the FOC with the numerically-measured slope of $V$. They agree, always — that is the theorem.</li>
+        <li>For <b>max xy</b>, $V(c)=c^2/4$ is <b>convex</b>: $\lambda$ grows with $c$, so each extra unit of budget is worth <i>more</i> than the last. Increasing returns.</li>
+        <li>For <b>max √(xy)</b>, $V(c)=c/2$ is <b>linear</b> and $\lambda=\tfrac12$ is constant — constant returns to scale, visible directly in the value function.</li>
+        <li>For <b>max x+y s.t. x²+y²=c</b>, $V(c)=\sqrt{2c}$ is <b>concave</b>: $\lambda$ falls as $c$ rises. Diminishing returns to relaxing the constraint, the usual economic case.</li>
+      </ul>
+      <p class="muted">The shape of $V$ is itself economic information: convex means "buy more of the resource", concave means "the first units are the valuable ones".</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Sign, units, and reading $\lambda$ correctly<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Units</h3>
+  <p>$\lambda$ has the units of <b>objective per unit of constraint</b>. If $f$ is profit in euros and $g$ is labour in hours, then $\lambda$ is euros per hour — directly comparable with a wage, which is exactly what makes it a decision tool. Always state the units; an unlabelled $\lambda$ is uninterpretable.</p>
+  <h3>Sign</h3>
+  <p>With the convention $\mathcal L=f-\lambda(g-c)$ used throughout this course:</p>
+  <table class="formula-table">
+    <tr><td>$\lambda&gt;0$</td><td>relaxing the constraint <b>helps</b> — the usual case for a binding resource limit in a maximisation</td></tr>
+    <tr><td>$\lambda&lt;0$</td><td>relaxing it <b>hurts</b> — e.g. a minimum-output requirement in a cost-minimisation, or the minimisation problems of module 07</td></tr>
+    <tr><td>$\lambda=0$</td><td>the constraint is <b>not binding</b>: the constrained and unconstrained solutions coincide</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>The sign of $\lambda$ depends on the convention. Writing $\mathcal L=f+\lambda(g-c)$ flips it. This matters for the inequality-constrained conditions of module 10, where the sign of $\lambda$ is part of the answer — so fix your convention before you start and state it.</div>
+  <h3>Comparative statics</h3>
+  <p>The envelope theorem gives the effect of a parameter on the <b>value</b>. Getting the effect on the <b>choice</b> — $dx^*/da$ — is a different and harder question, and it needs the implicit function theorem applied to the FOC system. In two variables, differentiate the FOCs with respect to the parameter and solve the resulting linear system for $dx^*/da$ and $dy^*/da$; the coefficient matrix is the bordered Hessian of module 08, which is where that object earns a second use.</p>
+  <div class="note fin"><div class="t">Why economists reach for the envelope theorem first</div>Questions like "how does maximum profit respond to a tax?" or "how does the investor's welfare respond to a transaction cost?" are envelope questions, and they have one-line answers. Questions like "how does the optimal portfolio respond?" are comparative-statics questions and require solving a linear system. Recognising which kind you have been asked saves a great deal of work.</div>
+  <p class="muted"><b>Check yourself:</b> $V(c)$ has $\lambda=5$ at $c=10$. Estimate $V(10.4)-V(10)$. (Answer: $\approx5\times0.4=2$ — a first-order estimate, accurate for small changes.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> A complete shadow-price calculation<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ex"><div class="bar">Production with a labour constraint</div><div class="body">
+  <p>A firm produces $F(K,L)=K^{1/2}L^{1/2}$, sells output at $p=10$, rents capital at $r=5$, and is limited to $L=\bar L$ hours of labour (a contract, not a market). Choose $K$ to maximise profit, and value an extra hour.</p>
+  <ol class="steps">
+    <li><b>Objective.</b> $\pi(K)=10K^{1/2}\bar L^{1/2}-5K$ (labour is fixed, so its cost is a constant we may drop).</li>
+    <li><b>FOC.</b> $5K^{-1/2}\bar L^{1/2}-5=0\Rightarrow K^{1/2}=\bar L^{1/2}\Rightarrow K^*=\bar L$.</li>
+    <li><b>SOC.</b> $\pi''=-2.5K^{-3/2}&lt;0$ ⇒ concave in $K$ ⇒ global maximum.</li>
+    <li><b>Value function.</b> $V(\bar L)=10\bar L^{1/2}\bar L^{1/2}-5\bar L=10\bar L-5\bar L=5\bar L$.</li>
+    <li><b>Shadow price.</b> $\lambda=V'(\bar L)=5$ euros per hour, at every $\bar L$.</li>
+  </ol>
+  <p><b>Decision.</b> The firm should pay up to €5 per extra hour. At a market wage of €4 it should hire more; at €6 it should not. Note the linearity: constant returns to scale ($\tfrac12+\tfrac12=1$) makes the shadow price independent of scale.</p>
+  <p class="muted">Cross-check with the envelope theorem, avoiding the value function entirely: $\dfrac{d\pi}{d\bar L}=\dfrac{\partial}{\partial\bar L}\left(10K^{1/2}\bar L^{1/2}-5K\right)\bigg|_{K=\bar L}=5K^{1/2}\bar L^{-1/2}\Big|_{K=\bar L}=5$ ✓ — one line instead of five.</p>
+  </div></div>
+  <div class="note tip"><div class="t">The pattern worth extracting</div>Whenever a question asks <b>"how much would you pay for one more unit of X?"</b> or <b>"what is the marginal value of relaxing this restriction?"</b>, the answer is the multiplier on that constraint. You do not need to re-solve the problem at the new constraint level — that is the entire point of computing $\lambda$ in the first place.</div>
+  </div>
+</div>
+</div>
+</section>

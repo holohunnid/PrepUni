@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import linalg from '../courses/linear-algebra/meta.json';
 import prob from '../courses/probability/meta.json';
 import calc from '../courses/calculus/meta.json';
+import opt from '../courses/optimization/meta.json';
 ---
 <Base title="PrepUSI · Study Hub">
 
@@ -55,12 +56,15 @@ import calc from '../courses/calculus/meta.json';
     </div>
   </a>
 
-  <div class="course-card dim">
+  <a class="course-card" href="/optimization">
     <div class="panel" style="margin-bottom:0">
-      <div class="bar"><span class="pill a">PLANNED</span> Optimization<span class="ctl">— ⊡ ✕</span></div>
-      <div class="body"><p class="muted">Unconstrained optimisation in one and several dimensions, first- and second-order conditions, concave and convex problems, Lagrange multipliers. (Syllabus block 4.)</p></div>
+      <div class="bar"><span class="pill g">LIVE</span> Optimization<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body">
+        <p>{opt.stats}</p>
+        <p class="muted">The problem → one variable → convexity → first- and second-order conditions → global optima → the Lagrange method → shadow prices → inequality constraints → portfolio theory.</p>
+      </div>
     </div>
-  </div>
+  </a>
 </main>
 
 <script>

@@ -1,0 +1,134 @@
+<!-- ============ 01 THE OPTIMISATION PROBLEM ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>The optimisation problem</h2><span class="sub">vocabulary, and the one distinction everything rests on</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What this course is about<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Almost every question in economics and finance is the same question: <b>out of everything I am allowed to do, which choice is best?</b> A consumer picks a bundle to maximise utility subject to a budget. A firm picks output to maximise profit subject to technology. An investor picks weights to minimise risk subject to a target return. Least squares picks coefficients to minimise squared error. Maximum likelihood picks parameters to maximise a probability.</p>
+  <p>Written abstractly, all of these are</p>
+  $$\max_{\mathbf{x}\in S} f(\mathbf{x})\qquad\text{or}\qquad \min_{\mathbf{x}\in S} f(\mathbf{x})$$
+  <p>and the course is about how to solve that. The method has the same three beats every time, and if you internalise nothing else, internalise this:</p>
+  <ol class="steps">
+    <li><b>First-order conditions</b> produce a short list of <i>candidates</i> — the points where the objective stops improving to first order. Necessary, never sufficient.</li>
+    <li><b>Second-order conditions</b> decide which candidates are maxima, which are minima, and which are neither.</li>
+    <li><b>Structure</b> — convexity or concavity — is what upgrades a local answer to a <i>global</i> one, and it is the only thing that ever does.</li>
+  </ol>
+  <p>Everything else is technique: how the conditions change when there are many variables (modules 4–5), and how they change when there are constraints (modules 7–8). The logic never changes.</p>
+  <div class="note tip"><div class="t">Chapter map</div>The standard form and its three ingredients → local vs global, and why the difference is the whole subject → maximum vs supremum, and when a solution exists at all → the Weierstrass (extreme value) theorem → how max and min are the same problem.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The standard form and its vocabulary<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Every problem in this course can be written</p>
+  $$\max_{\mathbf{x}} f(\mathbf{x})\quad\text{subject to}\quad \mathbf{x}\in S$$
+  <p>with three ingredients you should name explicitly before doing any calculus:</p>
+  <table class="formula-table">
+    <tr><td>Choice variables</td><td>$\mathbf{x}=(x_1,\dots,x_n)$ — what you get to pick</td></tr>
+    <tr><td>Objective function</td><td>$f:\mathbb{R}^n\to\mathbb{R}$ — the single number being made large or small</td></tr>
+    <tr><td>Feasible set</td><td>$S$ — every $\mathbf{x}$ you are allowed to choose</td></tr>
+  </table>
+  <p>Two words that are constantly confused, and are worth separating once and for all:</p>
+  <table class="formula-table">
+    <tr><td>The <b>maximum</b></td><td>the largest <i>value</i> $f$ attains — a number</td></tr>
+    <tr><td>The <b>maximiser</b> (argmax)</td><td>the <i>point</i> $\mathbf{x}^*$ where it happens</td></tr>
+  </table>
+  <p>For $f(x)=-(x-3)^2$ on $\mathbb{R}$: the maximum is $0$, the maximiser is $x^*=3$. A question asking "find the maximum" wants $0$; "find the optimal choice" wants $3$. Exam answers routinely lose marks for giving one when the other was asked.</p>
+  <p>The feasible set is called <b>unconstrained</b> when $S$ is all of $\mathbb{R}^n$ (or an open set), and <b>constrained</b> otherwise. That distinction organises the course: modules 2–6 assume you can move freely in every direction, which is exactly what lets you set derivatives to zero. Once a constraint binds, that argument breaks, and modules 7–10 repair it.</p>
+  <div class="note fin"><div class="t">Naming the pieces first</div>In an exam, write out the three ingredients before touching a derivative. "Choose $w$ to minimise $\sigma_p^2(w)$ subject to nothing" is a different problem from "…subject to $\mathbf{w}^{\mathsf T}\boldsymbol\mu=\mu_0$", and the setup is where most of the marks are.</div>
+  <p class="muted"><b>Check yourself:</b> in "a firm chooses $L$ and $K$ to maximise $pF(L,K)-wL-rK$", what are the choice variables and what are $p,w,r$? (Answer: choice variables $L,K$; $p,w,r$ are <b>parameters</b> — fixed during the optimisation, though module 9 asks what happens when they move.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Local vs global — the distinction that runs the course<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note"><div class="t">Definitions</div><b>Global maximum</b> at $\mathbf{x}^*$: $f(\mathbf{x}^*)\ge f(\mathbf{x})$ for <b>all</b> $\mathbf{x}\in S$.<br><b>Local maximum</b> at $\mathbf{x}^*$: $f(\mathbf{x}^*)\ge f(\mathbf{x})$ for all $\mathbf{x}\in S$ <b>near</b> $\mathbf{x}^*$ (within some small ball).<br>Replace $\ge$ with $&gt;$ for $\mathbf{x}\ne\mathbf{x}^*$ and each becomes <b>strict</b>.</div>
+  <p>Every global maximum is local; the converse is what causes all the trouble. Here is the uncomfortable fact that shapes everything after module 3:</p>
+  <div class="note warn"><div class="t">The central difficulty</div>Calculus is <b>local</b>. Derivatives only ever describe behaviour in an infinitesimal neighbourhood of a point. So first- and second-order conditions can, on their own, only ever certify a <b>local</b> optimum. Nothing you compute at a single point can tell you whether some far-away point is better.</div>
+  <p>There are exactly two escapes from this, and you will use both:</p>
+  <ul>
+    <li><b>Compare a finite list.</b> If the candidates are few — critical points plus boundary points — evaluate $f$ at each and pick the winner. This works whenever the list is finite and you know the maximum exists (module 2's closed-interval method).</li>
+    <li><b>Exploit structure.</b> If $f$ is <b>concave</b>, every local maximum is automatically global. This is not a computational trick but a theorem, and it is the reason concavity is assumed everywhere in economics. Module 3 proves it; module 6 uses it.</li>
+  </ul>
+  <p>A hill-walking picture is worth carrying: standing anywhere, you can feel the slope under your feet (the gradient) and the curvature (the Hessian). Neither tells you whether a higher peak exists behind the next ridge. Concavity is the assurance that <b>there is only one hill</b>.</p>
+  <p class="muted"><b>Check yourself:</b> $f(x)=x^3-3x$ has a local maximum at $x=-1$ with $f=2$. Is it global on $\mathbb{R}$? (Answer: no — $f(10)=970$. On $\mathbb{R}$ there is no global maximum at all.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Local, global, and what the domain does<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The same objective, viewed through different feasible sets. Drag the endpoints of the interval $[a,b]$ and watch where the optimum jumps to — sometimes an interior peak, sometimes an endpoint. Toggle the endpoints open to see the maximum cease to exist.</p>
+  <div class="ctrl">
+    <label>a <input type="range" id="os_a" min="-3" max="1.5" step="0.05" value="-2.4"><span class="val" id="os_a_v">-2.40</span></label>
+    <label>b <input type="range" id="os_b" min="-1" max="3.2" step="0.05" value="2.6"><span class="val" id="os_b_v">2.60</span></label>
+    <span class="btns"><button onclick="osOpen()">toggle open / closed interval</button><button onclick="osSet(-2.4,2.6)">reset</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="ossvg" viewBox="0 0 460 270"></svg>
+    <figcaption>Blue: the objective. Shaded: the feasible interval. Green dot: the global maximiser on that interval. Red dot: the global minimiser. Hollow endpoints mean the interval is open.</figcaption></figure>
+    <div>
+      <div class="readout" id="osread"></div>
+      <p style="margin-top:10px">Three things to produce deliberately:</p>
+      <ul>
+        <li><b>An interior optimum.</b> With a wide interval, the winner is a genuine peak where the tangent is flat. This is the case the calculus of modules 2–6 is built for.</li>
+        <li><b>A corner optimum.</b> Shrink the interval so the peak falls outside it: the best feasible point is now an <b>endpoint</b>, where the derivative is <i>not</i> zero. Solving $f'=0$ would never have found it — which is why endpoints must always be checked separately.</li>
+        <li><b>No optimum at all.</b> Open the interval. The values climb towards a boundary value they never attain, so the supremum exists but the maximum does not.</li>
+      </ul>
+      <p class="muted">This single figure contains the whole reason for the extreme value theorem below, and for the closed-interval method of module 2.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Does a solution even exist?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Before hunting for the maximiser it is worth knowing whether there is one. Three ways a problem can fail to have a solution:</p>
+  <table>
+    <tr><th>Failure</th><th>Example</th><th>What goes wrong</th></tr>
+    <tr><td class="r">Unbounded</td><td>$\max\,x$ on $[0,\infty)$</td><td>values grow without limit</td></tr>
+    <tr><td class="a">Not attained</td><td>$\max\,x$ on $[0,1)$</td><td>bounded above by 1, never reaches it</td></tr>
+    <tr><td class="a">Discontinuous</td><td>$f(x)=x$ on $[0,1]$, $f(1)=0$</td><td>the jump removes the top value</td></tr>
+  </table>
+  <p>The middle case motivates a distinction worth having:</p>
+  <table class="formula-table">
+    <tr><td><b>Supremum</b> $\sup f$</td><td>the least upper bound — always exists if $f$ is bounded above</td></tr>
+    <tr><td><b>Maximum</b> $\max f$</td><td>a supremum that is <b>attained</b> by some feasible point</td></tr>
+  </table>
+  <p>On $[0,1)$ the function $f(x)=x$ has $\sup f=1$ but no maximum. Writing "$\max$" when only a supremum exists is a genuine error, not pedantry: it asserts the existence of an $x^*$ that does not exist.</p>
+  <div class="note"><div class="t">Weierstrass / Extreme Value Theorem</div>If $f$ is <b>continuous</b> and the feasible set $S$ is <b>closed and bounded</b> (in $\mathbb{R}^n$: <b>compact</b>) and non-empty, then $f$ attains both a global maximum and a global minimum on $S$.</div>
+  <p>All three hypotheses are doing work, and the three failures above are exactly what happens when you drop each one. This is the same theorem you met in calculus module 03; here it earns its keep, because it is the licence for the entire "list the candidates and compare" method. Without it, comparing a finite list proves nothing — the best of your candidates might still not be the best feasible point.</p>
+  <div class="note tip"><div class="t">When the set is not compact</div>Economics problems often have $S=\mathbb{R}^n$ or $\mathbb{R}^n_+$, which is unbounded, so Weierstrass does not apply directly. Two standard repairs: show $f(\mathbf{x})\to-\infty$ as $\|\mathbf{x}\|\to\infty$ (<b>coercivity</b>), which confines the search to a bounded region; or use concavity, which gives a global result without any compactness at all. Module 6 does both.</div>
+  <p class="muted"><b>Check yourself:</b> does $\max e^{-x^2}$ on $\mathbb{R}$ have a solution, despite $\mathbb{R}$ being unbounded? (Answer: yes, $x^*=0$ — the function decays to 0 at infinity, so the search reduces to a compact set. Coercivity in action.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Min is max in disguise, and other simplifications<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>You never have to learn two sets of rules. Minimisation is maximisation of the negative:</p>
+  $$\min_{\mathbf{x}\in S} f(\mathbf{x}) = -\max_{\mathbf{x}\in S}\big(-f(\mathbf{x})\big)$$
+  <p>and crucially <b>the optimal $\mathbf{x}^*$ is the same</b> — only the optimal <i>value</i> flips sign. So every theorem in this course has a mirror image, and this is why the tables always come in pairs (concave/convex, negative definite/positive definite).</p>
+  <h3>Monotone transformations do not move the maximiser</h3>
+  <p>If $\varphi$ is <b>strictly increasing</b>, then $f$ and $\varphi\circ f$ have exactly the same maximisers:</p>
+  $$\arg\max f(\mathbf{x})=\arg\max \varphi\big(f(\mathbf{x})\big)$$
+  <p>because $\varphi$ preserves the ordering of values. Three uses you will reach for constantly:</p>
+  <table class="formula-table">
+    <tr><td>Take logs</td><td>maximise $\ln f$ instead of $f$ — turns products into sums; this is why maximum likelihood always works with the <b>log</b>-likelihood</td></tr>
+    <tr><td>Drop a positive constant</td><td>$\max\,3f$ has the same solution as $\max f$</td></tr>
+    <tr><td>Square a distance</td><td>minimising $\|\mathbf{r}\|$ and $\|\mathbf{r}\|^2$ give the same answer — the reason least squares is <i>squares</i>, since the squared version is differentiable at zero</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>The <b>value</b> does change. If you maximise $\ln f$ you get $\ln$ of the optimal value, not the optimal value — remember to exponentiate before reporting. And the transformation must be strictly <i>increasing</i>: applying a decreasing one turns your maximum into a minimum.</div>
+  <h3>Cutting a variable out with a constraint</h3>
+  <p>When a constraint can be solved explicitly for one variable, <b>substitute it in</b> and you have an unconstrained problem in fewer variables. Maximising $xy$ subject to $x+y=10$ becomes maximising $x(10-x)$, a one-line calculation.</p>
+  <p>This is worth knowing because it is often faster than Lagrange, and because it makes clear what Lagrange is <i>for</i>: the constraint may be impossible to solve explicitly ($x^3+y^3=xy$), or substituting may destroy a symmetry you want to keep. Module 7 makes that case properly.</p>
+  <p class="muted"><b>Check yourself:</b> you must minimise $\sum(y_i-a-bx_i)^2$. Would maximising $-\sum(y_i-a-bx_i)^2$ give different $a,b$? (Answer: no — identical. Only the reported optimal value changes sign.)</p>
+  </div>
+</div>
+</div>
+</section>

@@ -1,0 +1,140 @@
+<!-- ============ 04 FIRST-ORDER CONDITIONS ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>First-order conditions in $n$ variables</h2><span class="sub">flat in every direction at once</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> One equation becomes $n$ equations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>In one variable an interior optimum needed $f'(x^*)=0$: no direction of movement improves things, and there were only two directions to worry about. With $n$ variables there are infinitely many directions, so the requirement looks much stronger — and, pleasantly, it is not.</p>
+  <p>The reason is the directional derivative formula from calculus module 09. The rate of change of $f$ at $\mathbf x$ in a unit direction $\mathbf u$ is</p>
+  $$D_{\mathbf u}f(\mathbf x)=\nabla f(\mathbf x)^{\mathsf T}\mathbf u$$
+  <p>a single dot product. Demanding it be zero for <b>every</b> $\mathbf u$ forces $\nabla f(\mathbf x)=\mathbf 0$ — because a vector orthogonal to everything is the zero vector (take $\mathbf u=\nabla f/\|\nabla f\|$ and the dot product becomes $\|\nabla f\|$, which is zero only when the gradient is). So infinitely many conditions collapse into exactly $n$ scalar equations, one per variable.</p>
+  <p>There is an even shorter way to see it, and it is the one to remember: <b>if the gradient is not zero, it points uphill</b>. Move a little along $\nabla f$ and $f$ strictly increases; at an interior point that move is allowed, so you were not at a maximum. A maximum can only sit where there is no uphill direction at all.</p>
+  <div class="note tip"><div class="t">Chapter map</div>The condition and its geometry → what a stationary point is → solving the system in practice → three worked setups → where the condition does not apply.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The first-order condition<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note"><div class="t">FOC — necessary condition</div>If $f$ is differentiable and has a local maximum or minimum at an <b>interior</b> point $\mathbf x^*$ of the feasible set, then $$\nabla f(\mathbf x^*)=\mathbf 0,\qquad\text{i.e.}\qquad \frac{\partial f}{\partial x_1}(\mathbf x^*)=\dots=\frac{\partial f}{\partial x_n}(\mathbf x^*)=0.$$</div>
+  <p>A point satisfying this is a <b>stationary</b> or <b>critical</b> point. In two variables it is two equations in two unknowns:</p>
+  $$f_x(x^*,y^*)=0\qquad\text{and}\qquad f_y(x^*,y^*)=0$$
+  <p>Three readings of the same statement, each useful in a different context:</p>
+  <table class="formula-table">
+    <tr><td><b>Slices</b></td><td>holding $y$ fixed, $f$ is flat in $x$; holding $x$ fixed, flat in $y$. Every one-dimensional slice through the point is at a critical point of its own.</td></tr>
+    <tr><td><b>Geometry</b></td><td>the tangent plane to the surface $z=f(x,y)$ is <b>horizontal</b>.</td></tr>
+    <tr><td><b>Contours</b></td><td>$\|\nabla f\|=0$, so the level curves degenerate — a peak, a pit, or a crossing point (a saddle).</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>Both partials must vanish <b>at the same point</b>. Solving $f_x=0$ gives a curve of points, not a point; solving $f_y=0$ gives another curve. The stationary points are where those curves <b>intersect</b>. Solving one equation and stopping is the most common error in this module.</div>
+  <div class="note warn"><div class="t">Trap</div>Exactly as in one variable, the FOC is <b>necessary, not sufficient</b>. A stationary point may be a maximum, a minimum, or a <b>saddle</b> — a point that is a maximum along one direction and a minimum along another. Saddles have no one-dimensional analogue worth the name, and they are why module 05 exists.</div>
+  <p class="muted"><b>Check yourself:</b> find the stationary points of $f(x,y)=x^2+y^2-4x-6y+5$. (Answer: $f_x=2x-4=0$ and $f_y=2y-6=0$, so the unique stationary point is $(2,3)$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Solving the system — three cases<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The FOC is a system of equations, and how you solve it depends entirely on whether it is linear.</p>
+  <div class="ex"><div class="bar">1 · Linear system (quadratic objective)</div><div class="body">
+  <p>$f(x,y)=-2x^2-3y^2+2xy+8x+4y$.</p>
+  <p>$f_x=-4x+2y+8=0$ and $f_y=-6y+2x+4=0$.</p>
+  <p>From the first, $y=2x-4$. Substituting: $-6(2x-4)+2x+4=0\Rightarrow-10x+28=0\Rightarrow x=2.8$, then $y=1.6$.</p>
+  <p class="muted">A quadratic objective always gives a <b>linear</b> FOC system — which is why every quadratic optimisation problem in finance reduces to solving $A\mathbf x=\mathbf b$, and why the linear algebra course is a prerequisite for the portfolio problems in module 11.</p>
+  </div></div>
+  <div class="ex"><div class="bar">2 · Nonlinear system — substitute and factor</div><div class="body">
+  <p>$f(x,y)=x^3-3xy+y^3$.</p>
+  <p>$f_x=3x^2-3y=0\Rightarrow y=x^2$. &nbsp; $f_y=-3x+3y^2=0\Rightarrow x=y^2$.</p>
+  <p>Substitute the first into the second: $x=(x^2)^2=x^4$, so $x^4-x=0$, i.e. $x(x^3-1)=0$, giving $x=0$ or $x=1$.</p>
+  <p>Stationary points: $(0,0)$ and $(1,1)$.</p>
+  <p class="muted">Two candidates from one system. Module 05 will find that $(1,1)$ is a local minimum and $(0,0)$ is a saddle — the FOC alone cannot tell them apart.</p>
+  </div></div>
+  <div class="ex"><div class="bar">3 · An economic setup: two inputs</div><div class="body">
+  <p>A firm chooses $L,K\ge0$ to maximise $\pi=pF(L,K)-wL-rK$ with $F(L,K)=L^{1/3}K^{1/3}$, $p=6$, $w=1$, $r=1$.</p>
+  <p>$\pi_L=2L^{-2/3}K^{1/3}-1=0$ and $\pi_K=2L^{1/3}K^{-2/3}-1=0$.</p>
+  <p>Dividing one by the other: $\dfrac{K^{1/3}L^{-2/3}}{L^{1/3}K^{-2/3}}=\dfrac{K}{L}=1$, so $K=L$.</p>
+  <p>Substituting back: $2L^{-2/3}L^{1/3}=2L^{-1/3}=1\Rightarrow L^{1/3}=2\Rightarrow L=K=8$.</p>
+  <p class="muted">Each FOC says <b>value of the marginal product = input price</b>: $p\,\partial F/\partial L=w$. Dividing the two FOCs cancels the awkward common factor and leaves the cost-minimising input ratio — a standard and very useful trick with Cobb–Douglas.</p>
+  </div></div>
+  <div class="note tip"><div class="t">Method</div>Write both equations. If linear, solve directly. If not: solve one for a variable and substitute, or <b>divide one FOC by the other</b> (which kills common multiplicative terms), or subtract them to exploit symmetry. Always report <b>all</b> solutions — nonlinear systems routinely have several, and dropping one loses the answer.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Two slices, one condition<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The left panel is the contour map with the gradient arrow at the chosen point. The right panels are the two <b>slices</b> through that point: $f(x,y_0)$ with $y$ frozen, and $f(x_0,y)$ with $x$ frozen. The FOC holds exactly when <b>both</b> slices are flat at the marked point — and the arrow disappears.</p>
+  <div class="ctrl">
+    <span class="btns">
+      <button onclick="foPick('bowl')">min</button><button onclick="foPick('dome')">max</button><button onclick="foPick('saddle')">saddle</button><button onclick="foPick('tilt')">tilted</button>
+    </span>
+    <span class="btns"><button onclick="foSolve()">jump to the stationary point</button></span>
+  </div>
+  <div class="ctrl">
+    <label>x <input type="range" id="fo_x" min="-2.6" max="2.6" step="0.05" value="1.3"><span class="val" id="fo_x_v">1.30</span></label>
+    <label>y <input type="range" id="fo_y" min="-2.6" max="2.6" step="0.05" value="-0.9"><span class="val" id="fo_y_v">-0.90</span></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="fosvg" viewBox="0 0 460 300"></svg>
+    <figcaption>Left: contours with the gradient (green). Right: the $x$-slice (blue) and the $y$-slice (amber), each with its tangent at the current point. Flat tangent ⟺ that partial derivative is zero.</figcaption></figure>
+    <div>
+      <div class="readout" id="foread"></div>
+      <p style="margin-top:10px">Press <b>jump to the stationary point</b> for each surface and compare:</p>
+      <ul>
+        <li><b>min</b> and <b>max</b> — both slices become flat, and both curve the same way. The point is a genuine extremum.</li>
+        <li><b>saddle</b> — both slices are flat, so the FOC is satisfied in full, yet one slice curves <b>up</b> and the other <b>down</b>. Moving along $x$ you are at a minimum; moving along $y$, at a maximum. This is exactly what the FOC cannot detect.</li>
+        <li><b>tilted</b> — a quadratic with a cross term $xy$. The stationary point is still found by $\nabla f=\mathbf 0$, but now the axis slices are misleading: the interesting directions are the eigenvector directions, which is what module 05 formalises.</li>
+      </ul>
+      <p class="muted">Away from the stationary point the arrow points uphill, and it is always perpendicular to the contour. That "there is still an uphill direction" is the proof that a non-stationary interior point cannot be an optimum.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> When the FOC does not apply<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The theorem has three hypotheses, and real problems break all of them. Learn to check each before writing $\nabla f=\mathbf 0$.</p>
+  <table>
+    <tr><th>Hypothesis</th><th>What breaks it</th><th>What to do instead</th></tr>
+    <tr><td>Interior</td><td>the optimum is on a boundary of $S$ (e.g. $w_i=0$ under a short-sale ban)</td><td>check boundaries separately; module 10's KKT conditions</td></tr>
+    <tr><td>Differentiable</td><td>kinks: $|x|$, $\max\{\cdot\}$, piecewise definitions</td><td>examine the pieces and the kinks by hand</td></tr>
+    <tr><td>Local extremum exists</td><td>unbounded objective, non-compact feasible set</td><td>check limits / coercivity, or invoke concavity</td></tr>
+  </table>
+  <div class="note fin"><div class="t">Why economics assumes interior solutions</div>Textbook conditions like "$MRS$ = price ratio" or "value of marginal product = wage" are <b>interior</b> FOCs. They fail at corners. When a model predicts zero consumption of a good, or a portfolio pinned at its short-sale bound, the equality is replaced by an inequality. Stating "assume an interior solution" is not a throwaway phrase — it is the hypothesis that licenses the entire calculation.</div>
+  <h3>The boundary matters in $n$ dimensions too</h3>
+  <p>The closed-interval method of module 02 generalises, but the boundary is now a <b>surface</b> rather than two points, so you cannot simply enumerate it. The full procedure for a compact feasible set is:</p>
+  <ol class="steps">
+    <li>Find the stationary points in the <b>interior</b> and evaluate $f$ at each.</li>
+    <li>Optimise $f$ <b>restricted to the boundary</b> — itself a constrained problem, which is what module 07 solves.</li>
+    <li>Compare all the values.</li>
+  </ol>
+  <p class="muted">This is one honest reason the Lagrange method matters: even a purely "unconstrained" problem on a bounded region needs constrained optimisation to handle its edges.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> What the FOC looks like in matrix form<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Most objectives in finance are <b>quadratic</b>, and for those the FOC has a closed form worth memorising. With $A$ symmetric,</p>
+  $$f(\mathbf x)=\tfrac12\mathbf x^{\mathsf T}A\mathbf x+\mathbf b^{\mathsf T}\mathbf x+c \qquad\Longrightarrow\qquad \nabla f(\mathbf x)=A\mathbf x+\mathbf b$$
+  <p>so the FOC is the linear system $A\mathbf x^*=-\mathbf b$, with the unique solution $\mathbf x^*=-A^{-1}\mathbf b$ whenever $A$ is invertible. Two gradient rules generate everything:</p>
+  <table class="formula-table">
+    <tr><td>$\nabla\big(\mathbf b^{\mathsf T}\mathbf x\big)$</td><td>$=\mathbf b$</td></tr>
+    <tr><td>$\nabla\big(\mathbf x^{\mathsf T}A\mathbf x\big)$</td><td>$=2A\mathbf x$ &nbsp;(for symmetric $A$)</td></tr>
+    <tr><td>Hessian of $\tfrac12\mathbf x^{\mathsf T}A\mathbf x$</td><td>$=A$ — constant, independent of $\mathbf x$</td></tr>
+  </table>
+  <p>The last line is why quadratic problems are so well behaved: the Hessian is the same everywhere, so a <b>local</b> classification is automatically a <b>global</b> statement about concavity or convexity. Solve the FOC once and you are done.</p>
+  <div class="ex"><div class="bar">Least squares as a quadratic FOC</div><div class="body">
+  <p>Minimise $S(\boldsymbol\beta)=\|\mathbf y-X\boldsymbol\beta\|^2=\mathbf y^{\mathsf T}\mathbf y-2\boldsymbol\beta^{\mathsf T}X^{\mathsf T}\mathbf y+\boldsymbol\beta^{\mathsf T}X^{\mathsf T}X\boldsymbol\beta$.</p>
+  <p>$\nabla S=-2X^{\mathsf T}\mathbf y+2X^{\mathsf T}X\boldsymbol\beta=\mathbf 0$, giving the <b>normal equations</b></p>
+  $$X^{\mathsf T}X\boldsymbol\beta=X^{\mathsf T}\mathbf y\qquad\Longrightarrow\qquad \hat{\boldsymbol\beta}=(X^{\mathsf T}X)^{-1}X^{\mathsf T}\mathbf y$$
+  <p>The Hessian is $2X^{\mathsf T}X$, positive semidefinite for any $X$ (since $\mathbf v^{\mathsf T}X^{\mathsf T}X\mathbf v=\|X\mathbf v\|^2\ge0$), so $S$ is <b>convex</b> and by module 03's Theorem 2 the FOC alone certifies a global minimum. If $X$ has full column rank the Hessian is positive definite and the minimiser is unique.</p>
+  <p class="muted">This is the same result the linear algebra course derives by projection. Two routes, one answer: OLS is an optimisation problem whose FOC happens to be a linear system.</p>
+  </div></div>
+  <p class="muted"><b>Check yourself:</b> for $f(\mathbf x)=\tfrac12\mathbf x^{\mathsf T}A\mathbf x-\mathbf b^{\mathsf T}\mathbf x$ with $A$ positive definite, where is the minimum? (Answer: $\nabla f=A\mathbf x-\mathbf b=\mathbf 0$, so $\mathbf x^*=A^{-1}\mathbf b$ — unique and global, since $A\succ0$ makes $f$ strictly convex.)</p>
+  </div>
+</div>
+</div>
+</section>

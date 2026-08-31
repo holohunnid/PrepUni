@@ -1,0 +1,177 @@
+<!-- ============ 12 QUICK REFERENCE ============ -->
+<section id="s12">
+<div class="sec-head"><span class="num">12</span><h2>Quick reference</h2><span class="sub">the one-page memory dump — rewrite this from memory the night before</span></div>
+
+<div class="grid3">
+<div class="panel">
+  <div class="bar"><span class="pill g">01–02</span> Setup &amp; one variable<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Standard form</td><td>$\max_{\mathbf x\in S}f(\mathbf x)$</td></tr>
+    <tr><td>Maximum vs maximiser</td><td>the <b>value</b> vs the <b>point</b></td></tr>
+    <tr><td>Min from max</td><td>$\min f=-\max(-f)$; same $\mathbf x^*$</td></tr>
+    <tr><td>Monotone transform</td><td>$\arg\max f=\arg\max\varphi(f)$, $\varphi$ increasing</td></tr>
+    <tr><td>Sup vs max</td><td>max = a sup that is <b>attained</b></td></tr>
+    <tr><td>Weierstrass</td><td>$f$ continuous + $S$ compact ⇒ max and min exist</td></tr>
+    <tr><td>FOC (interior)</td><td>$f'(x^*)=0$ — <b>necessary</b></td></tr>
+    <tr><td>Critical point</td><td>$f'=0$ <b>or</b> $f'$ undefined</td></tr>
+    <tr><td>SOC sufficient</td><td>$f''(x^*)&lt;0$ ⇒ strict local max</td></tr>
+    <tr><td>SOC necessary</td><td>local max ⇒ $f''(x^*)\le0$</td></tr>
+    <tr><td>$f''=0$</td><td>inconclusive — use the sign of $f'$</td></tr>
+    <tr><td>Closed interval</td><td>compare $f$ at critical points <b>and endpoints</b></td></tr>
+    <tr><td>Corner max at $a$ / $b$</td><td>$f'(a)\le0$ / $f'(b)\ge0$</td></tr>
+    <tr><td>Coercive</td><td>$f\to-\infty$ as $\|x\|\to\infty$ ⇒ max exists</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">03</span> Convexity<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Convex set</td><td>$\lambda\mathbf x+(1-\lambda)\mathbf y\in S$</td></tr>
+    <tr><td>Intersections</td><td>of convex sets are convex (unions are not)</td></tr>
+    <tr><td>Concave $f$</td><td>$f(\lambda\mathbf x+(1-\lambda)\mathbf y)\ge\lambda f(\mathbf x)+(1-\lambda)f(\mathbf y)$</td></tr>
+    <tr><td>Picture</td><td>concave = above the chord, below the tangents, ∩</td></tr>
+    <tr><td>1-D test</td><td>concave $\iff f''\le0$ everywhere</td></tr>
+    <tr><td>$n$-D test</td><td>concave $\iff H(\mathbf x)$ NSD for <b>all</b> $\mathbf x$</td></tr>
+    <tr><td class="g">Theorem 1</td><td>concave ⇒ every local max is <b>global</b></td></tr>
+    <tr><td class="g">Theorem 2</td><td>concave ⇒ $\nabla f=\mathbf 0$ is <b>sufficient</b></td></tr>
+    <tr><td class="g">Theorem 3</td><td>strictly concave ⇒ maximiser <b>unique</b></td></tr>
+    <tr><td>Preserved by</td><td>sums, positive scaling, affine composition, min</td></tr>
+    <tr><td>NOT preserved by</td><td>products, quotients</td></tr>
+    <tr><td>Concave</td><td>$\ln x$, $\sqrt x$, $x^\alpha(0&lt;\alpha&lt;1)$, affine</td></tr>
+    <tr><td>Convex</td><td>$e^x$, $x^2$, $|x|$, $\mathbf x^{\mathsf T}A\mathbf x$ with $A\succeq0$</td></tr>
+    <tr><td>Jensen</td><td>$u$ concave ⇒ $E[u(X)]\le u(E[X])$</td></tr>
+    <tr><td>Quasi-concave</td><td>upper contour sets convex; survives $\varphi$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">04–06</span> Unconstrained, $n$ variables<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>FOC</td><td>$\nabla f(\mathbf x^*)=\mathbf 0$ — $n$ equations</td></tr>
+    <tr><td>Why</td><td>$D_{\mathbf u}f=\nabla f^{\mathsf T}\mathbf u=0$ for all $\mathbf u$</td></tr>
+    <tr><td>Quadratic $f$</td><td>$f=\tfrac12\mathbf x^{\mathsf T}A\mathbf x+\mathbf b^{\mathsf T}\mathbf x$ ⇒ $\nabla f=A\mathbf x+\mathbf b$, $H=A$</td></tr>
+    <tr><td>Gradient rules</td><td>$\nabla(\mathbf b^{\mathsf T}\mathbf x)=\mathbf b$; $\nabla(\mathbf x^{\mathsf T}A\mathbf x)=2A\mathbf x$</td></tr>
+    <tr><td>Hessian</td><td>symmetric by Young's theorem</td></tr>
+    <tr><td class="g">$H$ neg. definite</td><td>strict local <b>max</b></td></tr>
+    <tr><td class="b">$H$ pos. definite</td><td>strict local <b>min</b></td></tr>
+    <tr><td class="a">$H$ indefinite</td><td><b>saddle</b></td></tr>
+    <tr><td>$\det H=0$</td><td>inconclusive</td></tr>
+    <tr><td><b>2×2 rule</b></td><td>$D=f_{xx}f_{yy}-f_{xy}^2$</td></tr>
+    <tr><td></td><td>$D&gt;0,\;f_{xx}&lt;0$ ⇒ max</td></tr>
+    <tr><td></td><td>$D&gt;0,\;f_{xx}&gt;0$ ⇒ min</td></tr>
+    <tr><td></td><td>$D&lt;0$ ⇒ saddle</td></tr>
+    <tr><td>PD test</td><td>all leading minors $&gt;0$</td></tr>
+    <tr><td>ND test</td><td>minors alternate: $(-1)^kD_k&gt;0$</td></tr>
+    <tr><td>Eigenvalues</td><td>all $&gt;0$ PD; all $&lt;0$ ND; mixed indefinite</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+<div class="grid3">
+<div class="panel">
+  <div class="bar"><span class="pill g">07–08</span> Equality constraints<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Problem</td><td>$\max f$ s.t. $g=c$</td></tr>
+    <tr><td class="g">Lagrangian</td><td>$\mathcal L=f-\lambda(g-c)$</td></tr>
+    <tr><td class="g">FOC</td><td>$\nabla f=\lambda\nabla g$ &nbsp;and&nbsp; $g=c$</td></tr>
+    <tr><td>Equivalently</td><td>$\mathcal L_x=\mathcal L_y=\mathcal L_\lambda=0$</td></tr>
+    <tr><td>Geometry</td><td>level curve of $f$ <b>tangent</b> to the constraint</td></tr>
+    <tr><td>Eliminate $\lambda$</td><td>$\dfrac{f_x}{f_y}=\dfrac{g_x}{g_y}$ &nbsp;(⇒ MRS = price ratio)</td></tr>
+    <tr><td>Qualification</td><td>$\nabla g\ne\mathbf 0$; many constraints: $\nabla g_j$ independent</td></tr>
+    <tr><td>$m$ constraints</td><td>$\nabla f=\sum_j\lambda_j\nabla g_j$; $n+m$ equations</td></tr>
+    <tr><td>Bordered Hessian</td><td>$\bar H=\begin{pmatrix}0&amp;g_x&amp;g_y\\ g_x&amp;\mathcal L_{xx}&amp;\mathcal L_{xy}\\ g_y&amp;\mathcal L_{yx}&amp;\mathcal L_{yy}\end{pmatrix}$</td></tr>
+    <tr><td>$n=2,m=1$</td><td>$\det\bar H&gt;0$ ⇒ <b>max</b>; $&lt;0$ ⇒ <b>min</b></td></tr>
+    <tr><td>Use $\mathcal L$, not $f$</td><td>$\mathcal L_{xx}=f_{xx}-\lambda g_{xx}$</td></tr>
+    <tr><td>General rule</td><td>last $n-m$ minors; max alternates from $(-1)^{m+1}$; min all $(-1)^m$</td></tr>
+    <tr><td class="g">Avoid it by</td><td>comparing candidates (compact set)</td></tr>
+    <tr><td class="g">or</td><td>substituting and using $h''$</td></tr>
+    <tr><td class="g">or</td><td>concave $f$ + linear constraint ⇒ global</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">09–10</span> Multipliers &amp; inequalities<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td class="g">Shadow price</td><td>$\lambda^*=\dfrac{dV}{dc}$</td></tr>
+    <tr><td>Estimate</td><td>$\Delta V\approx\lambda\,\Delta c$ (small $\Delta c$)</td></tr>
+    <tr><td>Units</td><td>objective per unit of constraint</td></tr>
+    <tr><td>$\lambda=0$</td><td>constraint not binding</td></tr>
+    <tr><td>Envelope (uncons.)</td><td>$\dfrac{dV}{da}=\dfrac{\partial f}{\partial a}\Big|_{\mathbf x^*}$</td></tr>
+    <tr><td>Envelope (cons.)</td><td>$\dfrac{dV}{da}=\dfrac{\partial\mathcal L}{\partial a}\Big|_{*}$</td></tr>
+    <tr><td>Meaning</td><td>indirect effect via $\mathbf x^*$ is <b>zero</b> to first order</td></tr>
+    <tr><td>Hotelling</td><td>$d\pi/dp=q^*$</td></tr>
+    <tr><td colspan="2" class="g"><b>KKT</b> — $\max f$ s.t. $g\le c$</td></tr>
+    <tr><td>Stationarity</td><td>$\nabla f=\lambda\nabla g$</td></tr>
+    <tr><td>Primal feas.</td><td>$g\le c$</td></tr>
+    <tr><td>Dual feas.</td><td>$\lambda\ge0$</td></tr>
+    <tr><td>Compl. slackness</td><td>$\lambda(g-c)=0$</td></tr>
+    <tr><td>$x_i\ge0$ form</td><td>$\mathcal L_{x_i}\le0$, $x_i\ge0$, $x_i\mathcal L_{x_i}=0$</td></tr>
+    <tr><td>Method</td><td>try slack ($\lambda=0$, check $g\le c$), then binding ($g=c$, check $\lambda\ge0$)</td></tr>
+    <tr><td>Sufficient if</td><td>$f$ concave, $g_j$ convex ⇒ KKT ⇒ global</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">11</span> Finance formulas<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>$\Sigma$</td><td>always positive semidefinite ⇒ $\sigma_p^2$ convex</td></tr>
+    <tr><td class="g">Min-variance</td><td>$\mathbf w^*=\dfrac{\Sigma^{-1}\mathbf 1}{\mathbf 1^{\mathsf T}\Sigma^{-1}\mathbf 1}$</td></tr>
+    <tr><td>Two assets</td><td>$w^*=\dfrac{\sigma_B^2-\sigma_{AB}}{\sigma_A^2+\sigma_B^2-2\sigma_{AB}}$</td></tr>
+    <tr><td>Portfolio variance</td><td>$w^2\sigma_A^2+(1-w)^2\sigma_B^2+2w(1-w)\sigma_{AB}$</td></tr>
+    <tr><td>Frontier FOC</td><td>$\Sigma\mathbf w=\gamma\boldsymbol\mu+\lambda\mathbf 1$</td></tr>
+    <tr><td>Two-fund sep.</td><td>every efficient $\mathbf w$ mixes $\Sigma^{-1}\boldsymbol\mu$ and $\Sigma^{-1}\mathbf 1$</td></tr>
+    <tr><td>Tangency</td><td>$\mathbf w\propto\Sigma^{-1}(\boldsymbol\mu-r_f\mathbf 1)$</td></tr>
+    <tr><td>MV utility</td><td>$\max\ \mathbf w^{\mathsf T}\boldsymbol\mu-\tfrac\gamma2\mathbf w^{\mathsf T}\Sigma\mathbf w$, concave</td></tr>
+    <tr><td>$\gamma\to\infty$</td><td>⇒ minimum-variance portfolio</td></tr>
+    <tr><td>OLS</td><td>$X^{\mathsf T}X\hat{\boldsymbol\beta}=X^{\mathsf T}\mathbf y$; $H=2X^{\mathsf T}X\succeq0$</td></tr>
+    <tr><td>MLE</td><td>maximise $\ell=\ln L$ (same argmax)</td></tr>
+    <tr><td>Fisher info</td><td>$-\ell''(\hat\theta)$; inverse = asymptotic variance</td></tr>
+    <tr><td>Consumer</td><td>$\dfrac{MU_i}{MU_j}=\dfrac{p_i}{p_j}$, $\lambda=$ MU of income</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Things that are NOT true<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td class="r">$\nabla f=\mathbf 0\;\not\Rightarrow$ optimum</td><td>could be a saddle — always classify</td></tr>
+    <tr><td class="r">$H(\mathbf x^*)$ ND $\not\Rightarrow$ <b>global</b> max</td><td>that is a local statement; you need concavity <b>everywhere</b></td></tr>
+    <tr><td class="r">$f_{xx}&lt;0$ and $f_{yy}&lt;0\;\not\Rightarrow$ max</td><td>the cross-partial matters: check $D=f_{xx}f_{yy}-f_{xy}^2$</td></tr>
+    <tr><td class="r">$\det H=0\;\not\Rightarrow$ saddle</td><td>it means <b>inconclusive</b></td></tr>
+    <tr><td class="r">quasi-concave $\not\Rightarrow$ FOC sufficient</td><td>$x^3$ is quasi-concave with a useless critical point</td></tr>
+    <tr><td class="r">constrained max $\not\Rightarrow$ $\nabla f=\mathbf 0$</td><td>generally $\nabla f=\lambda\nabla g\ne\mathbf 0$</td></tr>
+    <tr><td class="r">unconstrained $H$ for a constrained problem</td><td>use the <b>bordered</b> Hessian, or restrict to the constraint</td></tr>
+    <tr><td class="r">forgetting endpoints / corners</td><td>the optimum is often there and the FOC never finds it</td></tr>
+    <tr><td class="r">reporting one Lagrange candidate</td><td>the system usually has several — find them all</td></tr>
+    <tr><td class="r">$\lambda&lt;0$ accepted in KKT</td><td>for $\max$ with $g\le c$, $\lambda\ge0$ is required — discard the case</td></tr>
+    <tr><td class="r">$f$ concave + $g$ concave ⇒ convex problem</td><td>constraints must be <b>convex</b> for $\{g\le c\}$ to be convex</td></tr>
+    <tr><td class="r">"maximum" when only a sup exists</td><td>on an open or unbounded set it may not be attained</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Exam routines<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Unconstrained</h3>
+  <p class="muted">State the problem → compute $H(\mathbf x)$ <b>symbolically first</b> (if NSD everywhere, say "concave" and the FOC finishes it) → check existence (compact? coercive?) → solve $\nabla f=\mathbf 0$ for <b>all</b> stationary points → classify each with $H$ at that point → check boundaries → compare and state which global argument you used.</p>
+  <h3>Equality-constrained</h3>
+  <p class="muted">Write $\mathcal L=f-\lambda(g-c)$ → set the $n+m$ partials to zero → eliminate $\lambda$ by dividing FOCs → solve with the constraint → find <b>all</b> candidates → classify by comparing values (if compact), by substitution, by concavity, or by the bordered Hessian → report $\mathbf x^*$, $f^*$, <b>and</b> $\lambda^*$ with its interpretation.</p>
+  <h3>Inequality-constrained</h3>
+  <p class="muted">Convert to standard form (max, $g\le c$) → Case A: $\lambda=0$, solve unconstrained, check $g\le c$ → Case B: $g=c$, solve by Lagrange, check $\lambda\ge0$ → keep the surviving cases and compare → if $f$ concave and $g$ convex, say so: KKT is then sufficient.</p>
+  <h3>"How much would you pay for…"</h3>
+  <p class="muted">That is $\lambda$. Do not re-solve the problem — report the multiplier, with units, and note that it is a marginal (first-order) valuation.</p>
+  <div class="note tip"><div class="t">Ten-second self-checks</div>Did I classify every candidate, or just find them? Did I check the endpoints and corners? Is my global claim supported by concavity, compactness, or coercivity — or by nothing? Did I use $\mathcal L$ rather than $f$ in the bordered Hessian? Is $\lambda\ge0$ where it has to be? Did I answer with the maximiser or the maximum, whichever was asked?</div>
+  </div>
+</div>
+</div>
+</section>

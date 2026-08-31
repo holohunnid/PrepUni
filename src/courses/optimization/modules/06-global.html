@@ -1,0 +1,129 @@
+<!-- ============ 06 GLOBAL OPTIMA ============ -->
+<section id="s6">
+<div class="sec-head"><span class="num">06</span><h2>Global optima</h2><span class="sub">putting it together: when is a candidate the answer?</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Assembling the unconstrained procedure<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>You now have all the pieces: the FOC generates candidates (module 04), the Hessian classifies them (module 05), and concavity upgrades local to global (module 03). This module assembles them into one procedure and is honest about when it fails.</p>
+  <p>The honest summary is short. There are exactly <b>three</b> arguments available for a global claim, and every correct solution uses one of them:</p>
+  <ol class="steps">
+    <li><b>Concavity.</b> $f$ concave on a convex feasible set ⇒ any stationary point is a global maximum. The strongest and cleanest argument, and the one economics leans on.</li>
+    <li><b>A finite candidate list.</b> The feasible set is compact, so Weierstrass guarantees the maximum exists; evaluate $f$ at every interior stationary point and on the boundary, and compare.</li>
+    <li><b>Coercivity.</b> The set is unbounded but $f\to-\infty$ in every direction, so the search collapses to a bounded region and argument 2 applies.</li>
+  </ol>
+  <p>Anything else — "the SOC says local maximum, therefore it is <i>the</i> maximum" — is a gap in the argument, and it is the most commonly-lost mark in this part of the course. A local classification never, by itself, licenses a global conclusion.</p>
+  <div class="note tip"><div class="t">Chapter map</div>The complete procedure → concave programming and why it is the easy case → coercivity → what happens without concavity, and what numerical methods do about it → the write-up checklist.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Concave programming — the easy case<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note"><div class="t">The theorem, restated for use</div>Let $S$ be convex and $f$ concave and differentiable on $S$. Then for an interior $\mathbf x^*$: $$\nabla f(\mathbf x^*)=\mathbf 0\iff \mathbf x^*\text{ is a global maximum on }S.$$ If $f$ is <b>strictly</b> concave, $\mathbf x^*$ is the <b>unique</b> global maximum.</div>
+  <p>The <b>$\Leftarrow$</b> direction is the ordinary FOC. The <b>$\Rightarrow$</b> direction is what concavity buys, and it converts a necessary condition into a complete solution: solve the FOC, and you are done. No Hessian at the candidate, no comparison of candidates, no boundary check.</p>
+  <p>Note carefully what is being assumed. Concavity is needed <b>on the whole domain</b>, not merely at the candidate point. A function can have a negative definite Hessian at one point and still be non-concave elsewhere — and then the global conclusion fails. This is exactly the difference between:</p>
+  <table class="formula-table">
+    <tr><td>$H(\mathbf x^*)$ negative definite</td><td>a <b>local</b> statement ⇒ local maximum</td></tr>
+    <tr><td>$H(\mathbf x)$ negative semidefinite <b>for all</b> $\mathbf x\in S$</td><td>a <b>global</b> statement ⇒ $f$ concave ⇒ global maximum</td></tr>
+  </table>
+  <div class="note tip"><div class="t">The free case: quadratic objectives</div>If $f(\mathbf x)=\tfrac12\mathbf x^{\mathsf T}A\mathbf x+\mathbf b^{\mathsf T}\mathbf x+c$, then $H=A$ <b>everywhere</b>. Checking definiteness once settles both the local classification and the global structure at the same time. Every mean–variance problem in module 11 is of this type, which is why portfolio optimisation has clean closed-form answers.</div>
+  <div class="ex"><div class="bar">A complete concave-programming solution</div><div class="body">
+  <p>Maximise $f(x,y)=-2x^2-3y^2+2xy+8x+4y$ on $\mathbb{R}^2$.</p>
+  <ol class="steps">
+    <li><b>Structure first.</b> $H=\begin{pmatrix}-4&amp;2\\2&amp;-6\end{pmatrix}$, constant. $D_1=-4&lt;0$, $D_2=24-4=20&gt;0$ — alternating ⇒ negative definite ⇒ $f$ is <b>strictly concave on all of $\mathbb{R}^2$</b>.</li>
+    <li><b>FOC.</b> $-4x+2y+8=0$, $2x-6y+4=0$ ⇒ $x^*=2.8$, $y^*=1.6$.</li>
+    <li><b>Conclude.</b> By concave programming, $(2.8,1.6)$ is the unique global maximum, with $f=14.4$.</li>
+  </ol>
+  <p class="muted">Notice the order: establishing concavity <b>first</b> means step 3 is a citation rather than an argument, and the whole solution is three lines. This is the write-up examiners want.</p>
+  </div></div>
+  <p class="muted"><b>Check yourself:</b> $f(x,y)=-e^{x}-e^{y}+x+y$. Global maximum? (Answer: $H=\begin{pmatrix}-e^x&amp;0\\0&amp;-e^y\end{pmatrix}$ is negative definite everywhere ⇒ strictly concave. FOC: $-e^x+1=0$ and $-e^y+1=0$ ⇒ $(0,0)$, the unique global maximum, value $-2$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Coercivity, and existence on unbounded sets<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Weierstrass needs a compact feasible set, but economic problems are usually posed on $\mathbb{R}^n$ or $\mathbb{R}^n_+$. Coercivity repairs this without assuming concavity.</p>
+  <div class="note"><div class="t">Coercivity</div>$f$ is <b>coercive for maximisation</b> if $f(\mathbf x)\to-\infty$ whenever $\|\mathbf x\|\to\infty$. A continuous coercive $f$ on a closed unbounded set <b>attains</b> a global maximum, and it must be at a stationary point.</div>
+  <p><b>Why.</b> Pick any feasible $\mathbf x_0$ and let $M=f(\mathbf x_0)$. Coercivity means that far enough out, $f&lt;M$. So the maximum, if any, lies in the bounded region where $f\ge M$ — that region is closed and bounded, Weierstrass applies there, and the maximum it produces beats everything outside. The unbounded domain has been quietly replaced by a compact one.</p>
+  <div class="ex"><div class="bar">Coercive but not concave</div><div class="body">
+  <p>$f(x,y)=-x^4-y^4+4xy$ on $\mathbb{R}^2$.</p>
+  <p>Not concave: $f_{xx}=-12x^2$ vanishes at the origin, where $H=\begin{pmatrix}0&amp;4\\4&amp;0\end{pmatrix}$ is <b>indefinite</b>. So the origin is a saddle and concave programming is unavailable.</p>
+  <p>But the quartic terms dominate the $4xy$ term far from the origin, so $f\to-\infty$ in every direction: coercive. Hence a global maximum exists and sits among the stationary points.</p>
+  <p>FOC: $-4x^3+4y=0$ and $-4y^3+4x=0$ ⇒ $y=x^3$ and $x=y^3$, so $x=x^9$, giving $x=0,\pm1$. Candidates $(0,0)$, $(1,1)$, $(-1,-1)$.</p>
+  <p>Values: $f(0,0)=0$; $f(1,1)=-1-1+4=2$; $f(-1,-1)=-1-1+4=2$.</p>
+  <p><b>Two</b> global maximisers, both with value 2. Uniqueness fails precisely because $f$ is not strictly concave — and the symmetry $f(x,y)=f(-x,-y)$ makes that visible.</p>
+  </div></div>
+  <div class="note warn"><div class="t">Trap</div>"$f\to-\infty$ along the axes" is <b>not</b> coercivity. It must hold along <b>every</b> path to infinity. For $f(x,y)=-x^2y^2$ the value tends to $-\infty$ along most directions but stays at 0 along either axis, so the argument fails — and indeed the maximum is attained on a whole unbounded set.</div>
+  <p class="muted"><b>Check yourself:</b> is $f(x,y)=-x^2-y^2+3x$ coercive for maximisation? (Answer: yes — the quadratic terms dominate, so $f\to-\infty$ in all directions. It is also strictly concave, so either argument works.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Why concavity matters: hill-climbing, with and without it<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Gradient ascent is the simplest optimisation algorithm: from a starting point, repeatedly step in the uphill direction, $x_{k+1}=x_k+\alpha f'(x_k)$. It only ever uses <b>local</b> information — exactly like the FOC. Change the starting point and watch what that costs you on a non-concave objective.</p>
+  <div class="ctrl">
+    <span class="btns"><button onclick="gaPick('conc')">concave</button><button onclick="gaPick('two')">two humps</button><button onclick="gaPick('wave')">many local maxima</button></span>
+    <label>start x₀ <input type="range" id="ga_x" min="-3.6" max="3.6" step="0.05" value="-2.8"><span class="val" id="ga_x_v">-2.80</span></label>
+    <label>step α <input type="range" id="ga_s" min="0.02" max="0.6" step="0.01" value="0.18"><span class="val" id="ga_s_v">0.18</span></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="gasvg" viewBox="0 0 460 260"></svg>
+    <figcaption>Blue: the objective. Amber dots joined by arrows: the gradient-ascent iterates from $x_0$. Green ring: the true global maximum. Red ring: where the algorithm actually converged.</figcaption></figure>
+    <div>
+      <div class="readout" id="garead"></div>
+      <p style="margin-top:10px">Drag the starting point across the whole range for each objective:</p>
+      <ul>
+        <li><b>concave</b> — every starting point converges to the same peak. The rings coincide, always. This is Theorem 1 of module 03 made operational: with one hill, local information is enough.</li>
+        <li><b>two humps</b> — the answer now depends on where you started. Begin on the wrong side and the algorithm climbs the lower hill, stops with a zero derivative, and reports a perfectly valid <b>local</b> maximum that is not the global one. Nothing computed at that point reveals the error.</li>
+        <li><b>many local maxima</b> — the outcome becomes essentially arbitrary. There is no local test that distinguishes the peaks.</li>
+      </ul>
+      <p class="muted">Push $\alpha$ up and the iterates overshoot and can diverge; push it down and convergence crawls. Real solvers spend most of their effort on that trade-off — but no choice of step size fixes the non-concave case, because the problem is structural, not numerical.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> The procedure, and how to write it up<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For an unconstrained problem $\max_{\mathbf x\in S}f(\mathbf x)$, work through this in order. Each step is a line of the answer.</p>
+  <ol class="steps">
+    <li><b>State the problem.</b> Choice variables, objective, feasible set.</li>
+    <li><b>Check for structure first.</b> Compute $H(\mathbf x)$ symbolically. If it is negative semidefinite everywhere, say "$f$ is concave" and you are on the express route — jump to step 4 and stop after it.</li>
+    <li><b>Check existence.</b> Compact set ⇒ Weierstrass. Unbounded ⇒ argue coercivity, or expect no solution.</li>
+    <li><b>FOC.</b> Solve $\nabla f=\mathbf 0$ for <b>all</b> stationary points.</li>
+    <li><b>SOC.</b> Classify each with the Hessian at that point.</li>
+    <li><b>Boundary.</b> If $S$ has one, optimise over it separately (module 07).</li>
+    <li><b>Compare and conclude.</b> Evaluate $f$ at every surviving candidate; state the maximiser and the maximum, and say which of the three global arguments you are using.</li>
+  </ol>
+  <div class="note warn"><div class="t">The three sentences that lose marks</div><b>"$\nabla f=\mathbf 0$ at $\mathbf x^*$, so $\mathbf x^*$ is the maximum."</b> — no classification, no global argument.<br><b>"$H(\mathbf x^*)$ is negative definite, so $\mathbf x^*$ is the global maximum."</b> — that is a <i>local</i> conclusion; you need concavity on the whole domain, or a candidate comparison.<br><b>"The maximum is at $\mathbf x^*$."</b> — when the question asked for the maximum <i>value</i>, or vice versa (module 01).</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Life without concavity<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>When the objective is not concave, no local method can certify a global optimum, and that is a genuine mathematical fact rather than a gap in technique. What is actually done in practice:</p>
+  <table class="formula-table">
+    <tr><td><b>Multi-start</b></td><td>run a local method from many starting points and keep the best. No guarantee, but cheap and standard.</td></tr>
+    <tr><td><b>Enumerate</b></td><td>if the stationary points can be found exactly (as in the examples above), compare them all. This <i>is</i> a proof, provided existence is established.</td></tr>
+    <tr><td><b>Reformulate</b></td><td>find a transformation that makes the problem concave. Taking logs of a Cobb–Douglas objective is the classic case.</td></tr>
+    <tr><td><b>Relax</b></td><td>solve a concave problem that bounds the true one, giving a certificate of how far off you might be.</td></tr>
+  </table>
+  <div class="note fin"><div class="t">Where this bites in finance</div>Mean–variance optimisation is convex, so it is solved exactly and instantly. Add realistic constraints — a cap on the number of holdings, minimum trade sizes, transaction costs with fixed components — and the feasible set stops being convex. The problem becomes genuinely hard, and practitioners resort to heuristics. The mathematical boundary between "easy" and "hard" is convexity, not problem size.</div>
+  <h3>The reformulation trick, worked</h3>
+  <div class="ex"><div class="bar">Maximise $f(x,y)=x^{1/2}y^{1/2}$ subject to nothing — but on $x,y&gt;0$</div><div class="body">
+  <p>Direct attack is awkward, and $x^{\alpha}y^{\beta}$ with $\alpha+\beta&gt;1$ would not even be concave. Take logs — a strictly increasing transformation, so by module 01 the maximiser is unchanged:</p>
+  $$\ln f=\tfrac12\ln x+\tfrac12\ln y$$
+  <p>which is a <b>sum of concave functions</b>, hence concave, with a diagonal Hessian $\operatorname{diag}(-\tfrac{1}{2x^2},-\tfrac{1}{2y^2})$ that is negative definite throughout. The transformed problem is concave programming even when the original is not.</p>
+  <p class="muted">(Here $\ln f$ has no interior maximum — it increases forever — which correctly signals that this objective needs a constraint. That is module 07.)</p>
+  </div></div>
+  <p class="muted"><b>Check yourself:</b> you find a stationary point with a negative definite Hessian, on $\mathbb{R}^2$, and $f$ is <b>not</b> concave. What can you claim? (Answer: a strict <b>local</b> maximum — nothing more. To go global you would need coercivity plus a comparison of all stationary points.)</p>
+  </div>
+</div>
+</div>
+</section>

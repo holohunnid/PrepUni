@@ -1,0 +1,90 @@
+<!-- ============ 08 CONSTRAINED SECOND-ORDER CONDITIONS ============ -->
+<section id="s8">
+<div class="sec-head"><span class="num">08</span><h2>Second-order conditions with constraints</h2><span class="sub">the bordered Hessian — and the three ways to avoid it</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The ordinary Hessian gives the wrong answer<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The Lagrange conditions of module 07 are necessary, so they produce candidates. Classifying them needs a second-order test — but <b>not</b> the one from module 05, and it is worth seeing exactly why before learning the replacement.</p>
+  <p>Take $\max xy$ subject to $x+y=4$, whose solution is $(2,2)$. The unconstrained Hessian of $f=xy$ is</p>
+  $$H=\begin{pmatrix}0&amp;1\\1&amp;0\end{pmatrix}$$
+  <p>with $\det H=-1&lt;0$: <b>indefinite</b>. The module 05 test would call $(2,2)$ a saddle point. And it is right — as an <i>unconstrained</i> statement. The function $xy$ genuinely has no maximum at $(2,2)$; move to $(3,3)$ and it rises to 9.</p>
+  <p>But $(3,3)$ is <b>not feasible</b>. The constrained problem only ever compares points on the line $x+y=4$, and along that line $(2,2)$ is a clear maximum. So the right question is not "is $f$ curving down in every direction?" but</p>
+  <div class="note"><div class="t">The right question</div>Is $f$ curving down in every <b>feasible</b> direction — that is, in the directions that stay (to first order) on the constraint?</div>
+  <p>The <b>bordered Hessian</b> is the device that answers exactly that question. It takes the Hessian of the Lagrangian and borders it with the constraint gradient, and its determinants encode the curvature of $f$ restricted to the constraint surface. In two variables there is only one feasible direction (the tangent to the constraint), so only one number needs checking.</p>
+  <div class="note tip"><div class="t">Chapter map</div>Why feasible directions are what matter → the bordered Hessian and its determinant rule → the general pattern for $n$ variables and $m$ constraints → three ways to avoid the whole apparatus, which you should usually prefer.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> A constrained maximum that is not an unconstrained one<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The objective is $f(x,y)=xy$ with constraint $x+y=4$. Slide the point along the constraint. The two profiles on the right show $f$ along the <b>feasible</b> direction (green, tangent to the constraint) and along the <b>infeasible</b> perpendicular direction (red).</p>
+  <div class="ctrl">
+    <label>position along the constraint <input type="range" id="bh_t" min="0.35" max="3.65" step="0.02" value="0.9"><span class="val" id="bh_t_v">0.90</span></label>
+    <span class="btns"><button onclick="bhSolve()">jump to the optimum</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="bhsvg" viewBox="0 0 460 300"></svg>
+    <figcaption>Left: contours of $xy$ with the constraint (amber), the feasible direction (green) and the perpendicular (red). Right: $f$ along each of those two lines, centred on the current point.</figcaption></figure>
+    <div>
+      <div class="readout" id="bhread"></div>
+      <p style="margin-top:10px">At the optimum $(2,2)$:</p>
+      <ul>
+        <li>The <b>green</b> profile is flat and curving <b>down</b> — a genuine maximum along the constraint. This is what the constrained SOC must detect.</li>
+        <li>The <b>red</b> profile is <b>not even flat</b>: it slopes upward, because $\nabla f=(2,2)\ne\mathbf 0$. Leaving the constraint improves $f$ — which is the whole reason the unconstrained FOC fails here.</li>
+        <li>The unconstrained Hessian is indefinite everywhere, so module 05's test says "saddle". Restricted to the feasible direction, the curvature is $-1$: negative, hence a maximum. Only the restriction matters.</li>
+      </ul>
+      <p class="muted">Away from the optimum, the green profile has non-zero slope — that slope is the along-constraint component of $\nabla f$ from module 07, and it is what the Lagrange condition sets to zero.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The bordered Hessian<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For one constraint $g(x,y)=c$ and two variables, form the $3\times3$ matrix</p>
+  $$\bar H=\begin{pmatrix} 0 &amp; g_x &amp; g_y\\ g_x &amp; \mathcal L_{xx} &amp; \mathcal L_{xy}\\ g_y &amp; \mathcal L_{yx} &amp; \mathcal L_{yy} \end{pmatrix}$$
+  <p>where all entries are evaluated at the candidate $(x^*,y^*,\lambda^*)$, and $\mathcal L_{xx}$ etc. are second derivatives of the <b>Lagrangian</b>, not of $f$:</p>
+  $$\mathcal L_{xx}=f_{xx}-\lambda g_{xx},\qquad \mathcal L_{xy}=f_{xy}-\lambda g_{xy},\qquad \mathcal L_{yy}=f_{yy}-\lambda g_{yy}$$
+  <div class="note warn"><div class="t">Trap</div>Use $\mathcal L$, not $f$. The two coincide only when the constraint is <b>linear</b> (then $g_{xx}=g_{xy}=g_{yy}=0$), which is the common exam case — but the moment the constraint is nonlinear, forgetting the $-\lambda g_{ij}$ terms gives a wrong classification. Also: $\lambda$ must be the value found from the FOC, not left symbolic.</div>
+  <div class="note"><div class="t">The rule for $n=2$, $m=1$</div>$$\det\bar H&gt;0\;\Rightarrow\;\text{local constrained }\textbf{maximum}$$ $$\det\bar H&lt;0\;\Rightarrow\;\text{local constrained }\textbf{minimum}$$ $$\det\bar H=0\;\Rightarrow\;\text{inconclusive}$$</div>
+  <p class="muted">The signs look inverted relative to the unconstrained case, where a positive determinant meant a minimum. That is an artefact of the bordering row and column, not something to reason about — memorise the rule in this form: <b>positive means maximum</b>.</p>
+  <div class="ex"><div class="bar">$\max xy$ subject to $x+y=4$</div><div class="body">
+  <p>From module 07: $(x^*,y^*,\lambda^*)=(2,2,2)$. Here $g_x=g_y=1$ and all second derivatives of $g$ vanish, so $\mathcal L_{ij}=f_{ij}$: $\mathcal L_{xx}=0$, $\mathcal L_{xy}=1$, $\mathcal L_{yy}=0$.</p>
+  $$\bar H=\begin{pmatrix}0&amp;1&amp;1\\1&amp;0&amp;1\\1&amp;1&amp;0\end{pmatrix}$$
+  <p>Expanding along the first row: $\det\bar H=0(0-1)-1(0-1)+1(1-0)=0+1+1=2&gt;0$.</p>
+  <p>So $(2,2)$ is a local constrained <b>maximum</b> ✓ — the opposite of what the unconstrained test claimed.</p>
+  </div></div>
+  <div class="ex"><div class="bar">A nonlinear constraint: $\max x+y$ subject to $x^2+y^2=4$</div><div class="body">
+  <p>From module 07: $(\sqrt2,\sqrt2)$ with $\lambda=\tfrac{1}{2\sqrt2}$. Now $g_{xx}=g_{yy}=2$, $g_{xy}=0$, and $f_{ij}=0$, so</p>
+  <p>$\mathcal L_{xx}=0-\lambda(2)=-\tfrac{1}{\sqrt2}$, $\mathcal L_{yy}=-\tfrac{1}{\sqrt2}$, $\mathcal L_{xy}=0$. Also $g_x=g_y=2\sqrt2$.</p>
+  $$\bar H=\begin{pmatrix}0&amp;2\sqrt2&amp;2\sqrt2\\ 2\sqrt2&amp;-\tfrac{1}{\sqrt2}&amp;0\\ 2\sqrt2&amp;0&amp;-\tfrac{1}{\sqrt2}\end{pmatrix}$$
+  <p>$\det\bar H=0\left(\tfrac12\right)-2\sqrt2\left(2\sqrt2\cdot(-\tfrac{1}{\sqrt2})-0\right)+2\sqrt2\left(0+2\sqrt2\cdot\tfrac{1}{\sqrt2}\right)=-2\sqrt2(-2)+2\sqrt2(2)=8\sqrt2&gt;0$</p>
+  <p>Maximum ✓, agreeing with the direct comparison of the two candidates. Note the $-\lambda g_{ij}$ terms were the <b>only</b> non-zero second derivatives here — omitting them would have left a singular matrix and no answer at all.</p>
+  </div></div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> The general pattern, and how to avoid needing it<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For $n$ variables and $m$ constraints the bordered Hessian is $(n+m)\times(n+m)$:</p>
+  $$\bar H=\begin{pmatrix} \mathbf 0_{m\times m} &amp; G\\ G^{\mathsf T} &amp; \mathcal L_{\mathbf{xx}} \end{pmatrix},\qquad G=\begin{pmatrix}\nabla g_1^{\mathsf T}\\ \vdots\\ \nabla g_m^{\mathsf T}\end{pmatrix}$$
+  <div class="note"><div class="t">The rule</div>Examine the last $n-m$ leading principal minors, of orders $2m+1,\;2m+2,\;\dots,\;n+m$.<br><br><b>Local maximum:</b> the signs <b>alternate</b>, the first (order $2m+1$) having the sign of $(-1)^{m+1}$.<br><b>Local minimum:</b> all have the same sign, namely that of $(-1)^{m}$.</div>
+  <p>Two sanity checks on that rule. With $m=1,n=2$ there is one minor, of order 3, and the max condition asks for sign $(-1)^2=+$ — matching the boxed rule above ✓. With $m=1,n=3$ there are two minors, of orders 3 and 4; a maximum needs $+,-$ and a minimum needs $-,-$.</p>
+  <div class="note warn"><div class="t">Trap</div>The number of minors is $n-m$, the number of genuinely free directions. If $n=m$ there are none — the constraints determine the point completely and there is nothing to classify.</div>
+  <h3>Three ways to avoid the bordered Hessian</h3>
+  <p>In practice you rarely need it, and examiners generally accept any correct argument. Prefer these, in this order:</p>
+  <ol class="steps">
+    <li><b>Compare the candidates.</b> If the constraint set is <b>compact</b> (a circle, an ellipse, a budget simplex) and $f$ is continuous, Weierstrass guarantees both a maximum and a minimum exist. The Lagrange system produces finitely many candidates; evaluate $f$ at each and the largest is the maximum. <b>No second-order work at all.</b> This is what module 07's second example did.</li>
+    <li><b>Substitute and use one-variable calculus.</b> If the constraint can be solved for one variable, do it and apply the ordinary second-derivative test to the resulting one-variable function. For $\max xy$ s.t. $x+y=4$: $h(x)=x(4-x)$ has $h''=-2&lt;0$ — a maximum, in one line.</li>
+    <li><b>Use concavity.</b> If $f$ is concave and the constraint is <b>linear</b>, the feasible set is convex, so module 03's theorem applies directly: any Lagrange stationary point is a <b>global</b> constrained maximum. This is the strongest conclusion of the three, and it is why the portfolio problems in module 11 need no second-order check.</li>
+  </ol>
+  <div class="note fin"><div class="t">The case that matters most</div>Minimising a convex quadratic $\mathbf w^{\mathsf T}\Sigma\mathbf w$ subject to linear constraints: convex objective, convex (affine) feasible set. The Lagrange FOC is then <b>necessary and sufficient</b> for a global minimum. Every mean–variance problem in finance is of this form, which is exactly why it is solvable in closed form.</div>
+  <p class="muted"><b>Check yourself:</b> you maximise a concave $f$ subject to $\mathbf a^{\mathsf T}\mathbf x=b$ and find one Lagrange candidate. What can you conclude, and what work is left? (Answer: it is the global constrained maximum — the feasible set is affine hence convex, and $f$ is concave. No second-order test is needed.)</p>
+  </div>
+</div>
+</div>
+</section>

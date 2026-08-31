@@ -1,0 +1,136 @@
+<!-- ============ 10 INEQUALITY CONSTRAINTS ============ -->
+<section id="s10">
+<div class="sec-head"><span class="num">10</span><h2>Inequality constraints</h2><span class="sub">Kuhn–Tucker: when the constraint may or may not bite</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Scope note, and the one new idea<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note tip"><div class="t">Beyond the strict syllabus</div>The USI syllabus lists <b>equality</b> constraints and the Lagrange method (modules 07–09). This module covers <b>inequality</b> constraints, which the listed reference Osborne ch. 5 treats and which every subsequent economics and finance course assumes. It is one honest step past the required material, and it is short — read it after you are comfortable with module 07, not instead of it.</div>
+  <p>Real constraints are usually inequalities. A budget says spend <b>at most</b> $m$; a capacity says produce <b>at most</b> $\bar q$; a short-sale ban says $w_i\ge0$. Writing these as equalities would be wrong: it would force you to spend the entire budget even when you would rather not, and it would forbid an interior solution that is genuinely optimal.</p>
+  <p>Inequalities introduce exactly one new idea, and it is a case distinction:</p>
+  <table class="formula-table">
+    <tr><td><b>Binding</b> (active)</td><td>$g(\mathbf x^*)=c$ — the constraint is holding you back. It behaves like an equality, and its multiplier is positive.</td></tr>
+    <tr><td><b>Slack</b> (inactive)</td><td>$g(\mathbf x^*)&lt;c$ — the constraint is irrelevant at the optimum. You may as well delete it, and its multiplier is <b>zero</b>.</td></tr>
+  </table>
+  <p>The difficulty is that <b>you do not know in advance which case you are in</b> — that is part of the answer. The Kuhn–Tucker conditions handle it by writing down a system that is satisfied in either case, and the standard solution method is to try each case and discard the ones that contradict themselves.</p>
+  <div class="note tip"><div class="t">Chapter map</div>The conditions and what each one says → complementary slackness → the sign of $\lambda$, and why it is a sign now → the case-checking method → non-negativity constraints → when the conditions are sufficient.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The Kuhn–Tucker conditions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For the problem</p>
+  $$\max_{\mathbf x} f(\mathbf x)\quad\text{subject to}\quad g(\mathbf x)\le c$$
+  <p>form the same Lagrangian as before, $\mathcal L=f(\mathbf x)-\lambda\big(g(\mathbf x)-c\big)$.</p>
+  <div class="note"><div class="t">KKT conditions (necessary, under a constraint qualification)</div>
+  <b>Stationarity:</b> $\;\nabla f(\mathbf x^*)=\lambda\nabla g(\mathbf x^*)$<br>
+  <b>Primal feasibility:</b> $\;g(\mathbf x^*)\le c$<br>
+  <b>Dual feasibility:</b> $\;\lambda\ge0$<br>
+  <b>Complementary slackness:</b> $\;\lambda\big(g(\mathbf x^*)-c\big)=0$
+  </div>
+  <p>The first two are familiar. The last two are new and deserve separate reading.</p>
+  <h3>Complementary slackness</h3>
+  <p>The product $\lambda\,(g-c)$ is zero, so <b>at least one factor must vanish</b>:</p>
+  <ul>
+    <li>either $g(\mathbf x^*)=c$ — the constraint binds, and $\lambda$ may be positive;</li>
+    <li>or $\lambda=0$ — the constraint is slack, and it contributes nothing to the FOC.</li>
+  </ul>
+  <p>This is the shadow-price interpretation of module 09 doing real work. If a constraint is not binding, relaxing it changes nothing, so its marginal value is zero: $\lambda=V'(c)=0$. If it binds, relaxing it helps, so $\lambda&gt;0$. The condition is economics, written as algebra.</p>
+  <h3>Why $\lambda\ge0$ now matters</h3>
+  <p>With an equality constraint the multiplier could have either sign — you are pinned to the surface and may want to move either way off it. With $g\le c$ you are only ever held back from <b>above</b>. The gradient $\nabla f$ must point <i>out</i> of the feasible region (otherwise you would move inward and improve), and since $\nabla g$ also points outward, the two must agree in direction — giving $\lambda\ge0$.</p>
+  <div class="note warn"><div class="t">Trap</div>The sign depends on the problem's orientation and your Lagrangian convention. For $\max f$ s.t. $g\le c$ with $\mathcal L=f-\lambda(g-c)$, you get $\lambda\ge0$. For a <b>minimisation</b>, or a $\ge$ constraint, the sign flips. Rather than memorising four cases, convert every problem to the standard form <b>max, with $\le$</b> — using $\min f=-\max(-f)$ and $g\ge c\iff -g\le-c$ — and then $\lambda\ge0$ always.</div>
+  <p class="muted"><b>Check yourself:</b> a consumer's budget constraint has $\lambda^*=0$. What does that say? (Answer: the budget does not bind — they are not spending all their income. With strictly monotone preferences this cannot happen, which is why "more is better" is exactly the assumption that lets economists write the budget as an equality.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> The case-checking method<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>With $k$ inequality constraints there are $2^k$ patterns of binding/slack. For small $k$, enumerate them.</p>
+  <div class="note"><div class="t">Procedure for one constraint</div><b>Case A — assume slack.</b> Set $\lambda=0$ and solve the <b>unconstrained</b> problem $\nabla f=\mathbf 0$. Then <b>check feasibility</b>: is $g(\mathbf x^*)\le c$? If yes, this is a valid KKT point. If no, discard.<br><br><b>Case B — assume binding.</b> Set $g(\mathbf x)=c$ and solve the <b>equality-constrained</b> Lagrange problem of module 07. Then <b>check the sign</b>: is $\lambda\ge0$? If yes, valid. If no, discard.<br><br>Compare the values of any surviving candidates.</div>
+  <p>The two checks are mirror images and that symmetry is worth noticing: in the slack case you verify <b>feasibility</b> ($g\le c$) and get $\lambda=0$ for free; in the binding case you verify the <b>sign</b> ($\lambda\ge0$) and get $g=c$ for free. Each case checks the condition the other one assumed.</p>
+  <div class="ex"><div class="bar">$\max\;-(x-3)^2-(y-1)^2$ subject to $x+y\le2$</div><div class="body">
+  <p><b>Case A (slack, $\lambda=0$).</b> $\nabla f=\mathbf 0$ gives $x=3$, $y=1$. Check feasibility: $3+1=4&gt;2$ ✗ — infeasible, so discard.</p>
+  <p><b>Case B (binding, $x+y=2$).</b> $\mathcal L=-(x-3)^2-(y-1)^2-\lambda(x+y-2)$.</p>
+  <p>$-2(x-3)-\lambda=0$ and $-2(y-1)-\lambda=0$ ⇒ $x-3=y-1$ ⇒ $x=y+2$.</p>
+  <p>Constraint: $(y+2)+y=2\Rightarrow y=0$, $x=2$. Then $\lambda=-2(2-3)=2\ge0$ ✓ valid.</p>
+  <p><b>Answer:</b> $(2,0)$ with $f^*=-1-1=-2$ and $\lambda=2$.</p>
+  <p class="muted">Geometrically this is the projection of the target $(3,1)$ onto the line $x+y=2$ — the closest feasible point to where you would go if unconstrained.</p>
+  </div></div>
+  <div class="ex"><div class="bar">The same problem with the target inside</div><div class="body">
+  <p>$\max\;-(x-0.5)^2-(y-0.5)^2$ subject to $x+y\le2$.</p>
+  <p><b>Case A.</b> $\nabla f=\mathbf 0$ gives $(0.5,0.5)$. Feasibility: $1\le2$ ✓. Valid, with $\lambda=0$.</p>
+  <p><b>Case B.</b> Forcing $x+y=2$ gives $(1,1)$ and $\lambda=-2(1-0.5)=-1&lt;0$ ✗ — discard.</p>
+  <p><b>Answer:</b> $(0.5,0.5)$, constraint slack, $\lambda=0$. Exactly one case survives, as it must.</p>
+  </div></div>
+  <p class="muted"><b>Check yourself:</b> in Case B of the first example, what would a negative $\lambda$ have meant? (Answer: that forcing the constraint to hold with equality was actively hurting you — so the true optimum lies strictly inside, and Case A is the right one.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Binding or slack — move the target and watch<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The problem is $\max\;-\big[(x-a)^2+(y-b)^2\big]$ subject to $x\ge0$, $y\ge0$, $x+y\le2$ — i.e. find the feasible point closest to the target $(a,b)$. Drag the target around and watch which constraints become binding, and what happens to the multipliers.</p>
+  <div class="ctrl">
+    <label>target a <input type="range" id="kk_a" min="-0.8" max="3.4" step="0.05" value="2.6"><span class="val" id="kk_a_v">2.60</span></label>
+    <label>target b <input type="range" id="kk_b" min="-0.8" max="3.4" step="0.05" value="1.1"><span class="val" id="kk_b_v">1.10</span></label>
+    <span class="btns"><button onclick="kkSet(0.7,0.6)">all slack</button><button onclick="kkSet(2.6,1.1)">budget binds</button><button onclick="kkSet(2.4,-0.6)">two bind (corner)</button><button onclick="kkSet(-0.5,1.2)">x ≥ 0 binds</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="kksvg" viewBox="0 0 460 290"></svg>
+    <figcaption>Green region: the feasible triangle. Red dot: the target (the unconstrained optimum). Amber dot: the constrained optimum. Thick edges: binding constraints. The dashed circle is the level curve of $f$ through the solution.</figcaption></figure>
+    <div>
+      <div class="readout" id="kkread"></div>
+      <div id="kktable" style="margin-top:10px"></div>
+      <p style="margin-top:10px">The four regimes, all reachable with the sliders:</p>
+      <ul>
+        <li><b>Target inside</b> — no constraint binds, every $\lambda=0$, and the answer is the unconstrained optimum.</li>
+        <li><b>Target beyond one edge</b> — that constraint binds with $\lambda&gt;0$; the solution is the perpendicular projection onto the edge.</li>
+        <li><b>Target beyond a corner</b> — <b>two</b> constraints bind simultaneously. This is the case that makes enumeration necessary: guessing one binding constraint would give the wrong answer.</li>
+        <li><b>Target just outside an edge but past its end</b> — the naive projection lands outside the segment, so a different constraint takes over. Watch the solution jump between edges as you drag.</li>
+      </ul>
+      <p class="muted">Note that the amber dot is always where the level curve of $f$ is <b>tangent</b> to the feasible boundary, or at a corner where tangency is impossible — the module 07 picture, now with the constraint set having edges and vertices.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Non-negativity constraints<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Constraints like $x\ge0$ are so common that they get their own compact form. For</p>
+  $$\max f(\mathbf x)\quad\text{s.t.}\quad g(\mathbf x)\le c,\;\;\mathbf x\ge\mathbf 0$$
+  <p>the conditions on each variable become a three-part statement:</p>
+  <div class="note"><div class="t">For each $i$</div>$$\frac{\partial\mathcal L}{\partial x_i}\le0,\qquad x_i\ge0,\qquad x_i\cdot\frac{\partial\mathcal L}{\partial x_i}=0$$</div>
+  <p>Read as another complementary-slackness pair, and it says something economically sharp:</p>
+  <table class="formula-table">
+    <tr><td>$x_i^*&gt;0$</td><td>then $\partial\mathcal L/\partial x_i=0$ — the ordinary FOC holds for that variable</td></tr>
+    <tr><td>$x_i^*=0$</td><td>then $\partial\mathcal L/\partial x_i\le0$ — you would <i>like</i> to reduce $x_i$ further, but cannot</td></tr>
+  </table>
+  <p>In other words: <b>a good is consumed only if its marginal benefit exactly equals its marginal cost; if the marginal benefit is strictly below the marginal cost even at zero, you consume none of it.</b> That is the corner-solution condition of module 02, now in $n$ dimensions — and it is why "MRS = price ratio" holds only for goods actually purchased.</p>
+  <div class="note fin"><div class="t">Short-sale constraints</div>A portfolio problem with $\mathbf w\ge\mathbf 0$ has exactly this structure. Assets with $w_i^*&gt;0$ satisfy the usual marginal condition; assets the optimiser would have shorted sit at $w_i^*=0$ with a strictly negative derivative. This is why constrained portfolios are typically far more concentrated than unconstrained ones, and it is a genuine KKT phenomenon rather than a numerical artefact.</div>
+  <p class="muted"><b>Check yourself:</b> at the optimum, $x_3^*=0$ and $\partial\mathcal L/\partial x_3=-4$. Consistent? (Answer: yes — this is exactly the corner case. If instead $\partial\mathcal L/\partial x_3=+4$ with $x_3^*=0$, the conditions would be violated: increasing $x_3$ would improve things and is allowed.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> When are the KKT conditions sufficient?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Like every first-order condition in this course, KKT is <b>necessary</b>, not sufficient — a KKT point can be a minimum or a saddle. The upgrade comes, as always, from convexity.</p>
+  <div class="note"><div class="t">Sufficiency theorem</div>If $f$ is <b>concave</b>, each $g_j$ is <b>convex</b>, and the feasible set is non-empty, then any point satisfying the KKT conditions is a <b>global</b> maximum.</div>
+  <p>Why those hypotheses: a convex $g_j$ makes the set $\{g_j\le c_j\}$ convex, so the feasible set — an intersection of convex sets — is convex (module 03). With a concave objective on a convex set, the first-order conditions certify a global optimum. This is <b>convex programming</b>, and it is the class of problems that modern solvers handle reliably at enormous scale.</p>
+  <table class="formula-table">
+    <tr><td>Linear $f$, linear $g$</td><td><b>linear programming</b> — the simplex method; solutions always at vertices</td></tr>
+    <tr><td>Convex quadratic $f$, linear $g$</td><td><b>quadratic programming</b> — mean–variance optimisation lives here</td></tr>
+    <tr><td>Concave $f$, convex $g$</td><td><b>convex programming</b> — KKT is necessary and sufficient</td></tr>
+    <tr><td>Anything else</td><td>generally hard; no local certificate of global optimality</td></tr>
+  </table>
+  <div class="note tip"><div class="t">Constraint qualification, again</div>KKT needs a regularity condition, exactly as Lagrange did. The most usable version for convex problems is <b>Slater's condition</b>: there exists a strictly feasible point, i.e. some $\mathbf x$ with $g_j(\mathbf x)&lt;c_j$ for every inequality constraint. In exam problems it holds; if a question asks you to justify KKT, this is the sentence to write.</div>
+  <div class="note fin"><div class="t">Where this leads</div>Everything past this point in a finance degree is an application: portfolio optimisation with realistic constraints is quadratic programming; risk-parity and robust-optimisation problems are convex programmes; the dual variables produced alongside the solution are the shadow prices of module 09, and traders read them as marginal risk contributions. The mathematics does not get harder — it gets larger, and it stays exactly this shape.</div>
+  <p class="muted"><b>Check yourself:</b> you minimise a convex quadratic subject to linear equalities and $\mathbf w\ge\mathbf 0$, and find a KKT point. Is it the global minimum? (Answer: yes. Convex objective, convex feasible set — the sufficiency theorem applies, in its minimisation mirror image.)</p>
+  </div>
+</div>
+</div>
+</section>

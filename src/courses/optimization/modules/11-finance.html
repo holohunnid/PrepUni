@@ -1,0 +1,140 @@
+<!-- ============ 11 FINANCE APPLICATIONS ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>Finance applications</h2><span class="sub">portfolio choice is a constrained optimisation problem, and nothing else</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The same problem, over and over<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Modern portfolio theory is a Lagrange problem. So is least squares, so is maximum likelihood, so is the consumer problem. This module works through them, and the point is not the individual results but the recognition that they are all one template:</p>
+  <table class="formula-table">
+    <tr><td>Minimum-variance portfolio</td><td>minimise a convex quadratic subject to one linear constraint</td></tr>
+    <tr><td>Efficient frontier</td><td>the same, with <b>two</b> linear constraints</td></tr>
+    <tr><td>Mean–variance utility</td><td>maximise a concave quadratic subject to one linear constraint</td></tr>
+    <tr><td>Ordinary least squares</td><td>minimise a convex quadratic, unconstrained</td></tr>
+    <tr><td>Maximum likelihood</td><td>maximise a log-likelihood, usually unconstrained</td></tr>
+    <tr><td>Consumer choice</td><td>maximise a concave (or quasi-concave) utility subject to a budget</td></tr>
+  </table>
+  <p>Every row is <b>convex programming</b>: convex or concave objective, convex feasible set. By module 08's third avoidance route and module 10's sufficiency theorem, the first-order conditions are <b>necessary and sufficient</b> in every case — which is precisely why all of these have clean closed-form answers, and why finance can be taught with calculus rather than with numerical search.</p>
+  <p>One structural fact recurs and is worth stating early: a covariance matrix $\Sigma$ is always <b>positive semidefinite</b>, because $\mathbf w^{\mathsf T}\Sigma\mathbf w=\operatorname{Var}(\mathbf w^{\mathsf T}\mathbf R)\ge0$ — a variance cannot be negative. So $\mathbf w^{\mathsf T}\Sigma\mathbf w$ is a convex function, always. Minimising risk is therefore always the easy direction.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> The minimum-variance portfolio<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>With $n$ assets, weights $\mathbf w$, and covariance matrix $\Sigma$, the portfolio variance is $\sigma_p^2=\mathbf w^{\mathsf T}\Sigma\mathbf w$. Requiring full investment gives</p>
+  $$\min_{\mathbf w}\ \mathbf w^{\mathsf T}\Sigma\mathbf w\quad\text{subject to}\quad\mathbf w^{\mathsf T}\mathbf 1=1$$
+  <div class="ex"><div class="bar">Solving it in matrix form</div><div class="body">
+  <ol class="steps">
+    <li>$\mathcal L=\mathbf w^{\mathsf T}\Sigma\mathbf w-\lambda(\mathbf w^{\mathsf T}\mathbf 1-1)$.</li>
+    <li>FOC (using $\nabla(\mathbf w^{\mathsf T}\Sigma\mathbf w)=2\Sigma\mathbf w$ from module 04): $\;2\Sigma\mathbf w-\lambda\mathbf 1=\mathbf 0$.</li>
+    <li>So $\mathbf w=\tfrac{\lambda}{2}\Sigma^{-1}\mathbf 1$ — the weights are proportional to $\Sigma^{-1}\mathbf 1$, whatever $\lambda$ is.</li>
+    <li>Impose the constraint to pin down the scale: $\tfrac{\lambda}{2}\mathbf 1^{\mathsf T}\Sigma^{-1}\mathbf 1=1$.</li>
+    <li>$$\boxed{\ \mathbf w^*=\frac{\Sigma^{-1}\mathbf 1}{\mathbf 1^{\mathsf T}\Sigma^{-1}\mathbf 1}\ }$$</li>
+  </ol>
+  <p><b>Why no second-order check is needed:</b> $\Sigma$ is positive semidefinite, so the objective is convex; the constraint is linear, so the feasible set is affine hence convex. By module 08, the FOC is sufficient for a <b>global</b> minimum. If $\Sigma$ is positive definite (no redundant assets) the solution is unique.</p>
+  <p class="muted">Notice the two-step structure — <b>direction first, scale second</b>. It recurs in every portfolio formula below: the FOC gives $\mathbf w$ up to a constant, and the constraint fixes the constant. Recognising it saves a great deal of algebra.</p>
+  </div></div>
+  <h3>Two assets, explicitly</h3>
+  <p>With $\mathbf w=(w,1-w)$ and $\sigma_{AB}=\rho\sigma_A\sigma_B$:</p>
+  $$\sigma_p^2(w)=w^2\sigma_A^2+(1-w)^2\sigma_B^2+2w(1-w)\sigma_{AB}$$
+  <p>a one-variable unconstrained problem, because substituting the constraint eliminated a variable (module 01). Setting $\dfrac{d\sigma_p^2}{dw}=0$:</p>
+  $$\boxed{\ w^*=\frac{\sigma_B^2-\sigma_{AB}}{\sigma_A^2+\sigma_B^2-2\sigma_{AB}}\ }$$
+  <p>and the second derivative is $2(\sigma_A^2+\sigma_B^2-2\sigma_{AB})=2\operatorname{Var}(R_A-R_B)\ge0$, confirming a minimum and showing the denominator can only vanish when the two assets are perfectly correlated with equal volatility.</p>
+  <div class="note fin"><div class="t">Reading the formula</div>At $\rho=1$ the expression reduces to $w^*=\dfrac{\sigma_B}{\sigma_B-\sigma_A}$ and the minimum variance is <b>zero</b> — with perfectly correlated assets you can hedge one exactly with the other (using a short position). At $\rho=-1$ you also get zero variance, this time with both weights positive. Between those extremes, diversification reduces risk without eliminating it, and the lower $\rho$, the greater the benefit.</div>
+  <p class="muted"><b>Check yourself:</b> $\sigma_A=15\%$, $\sigma_B=25\%$, $\rho=0$. Find $w^*$. (Answer: $\sigma_{AB}=0$, so $w^*=\frac{0.0625}{0.0225+0.0625}=0.735$ — 73.5% in the lower-volatility asset. With zero correlation the weights are inversely proportional to the variances.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> The efficient frontier: two constraints<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Minimum variance ignores return. Adding a target gives the problem Markowitz actually posed:</p>
+  $$\min_{\mathbf w}\ \tfrac12\mathbf w^{\mathsf T}\Sigma\mathbf w\quad\text{s.t.}\quad \mathbf w^{\mathsf T}\boldsymbol\mu=\mu_0,\;\;\mathbf w^{\mathsf T}\mathbf 1=1$$
+  <p>Two equality constraints, so two multipliers (module 07):</p>
+  $$\mathcal L=\tfrac12\mathbf w^{\mathsf T}\Sigma\mathbf w-\gamma(\mathbf w^{\mathsf T}\boldsymbol\mu-\mu_0)-\lambda(\mathbf w^{\mathsf T}\mathbf 1-1)$$
+  <p>FOC: $\;\Sigma\mathbf w=\gamma\boldsymbol\mu+\lambda\mathbf 1$, hence</p>
+  $$\mathbf w^*=\Sigma^{-1}\big(\gamma\boldsymbol\mu+\lambda\mathbf 1\big)$$
+  <p>with $\gamma,\lambda$ determined by substituting back into the two constraints — a $2\times2$ linear system. The structure is again <b>direction then scale</b>, now with two basis directions $\Sigma^{-1}\boldsymbol\mu$ and $\Sigma^{-1}\mathbf 1$.</p>
+  <div class="note"><div class="t">Two-fund separation</div>Because $\mathbf w^*$ is a linear combination of the two fixed vectors $\Sigma^{-1}\boldsymbol\mu$ and $\Sigma^{-1}\mathbf 1$, <b>every</b> efficient portfolio is a mix of just two of them. Solve the problem for two target returns and you can generate the whole frontier by combining those two solutions. This is a direct consequence of the FOC being <b>linear</b> in $\mathbf w$.</div>
+  <p>Tracing $\mu_0$ over its range gives $\sigma_p(\mu_0)$, a <b>hyperbola</b> in $(\sigma,\mu)$ space. Its leftmost point is the minimum-variance portfolio of Idea 1 (the case where the return constraint is dropped, i.e. $\gamma=0$); the upper branch is the <b>efficient frontier</b>, and the lower branch is dominated — same risk, less return.</p>
+  <div class="note fin"><div class="t">$\gamma$ is a shadow price</div>By module 09, $\gamma=\dfrac{\partial(\tfrac12\sigma_p^2)}{\partial\mu_0}$ — the extra variance you must accept per unit of extra required return. It is the <b>marginal price of return in units of risk</b>, and its reciprocal is the slope of the frontier. A multiplier that a portfolio manager would actually quote.</div>
+  <h3>Adding a risk-free asset</h3>
+  <p>Maximising the Sharpe ratio $\dfrac{\mathbf w^{\mathsf T}\boldsymbol\mu-r_f}{\sqrt{\mathbf w^{\mathsf T}\Sigma\mathbf w}}$ subject to $\mathbf w^{\mathsf T}\mathbf 1=1$ gives the <b>tangency portfolio</b></p>
+  $$\mathbf w_{\text{tan}}\;\propto\;\Sigma^{-1}\big(\boldsymbol\mu-r_f\mathbf 1\big)$$
+  <p>normalised to sum to one. Same shape once more: $\Sigma^{-1}$ times a vector of excess returns, scaled to satisfy the constraint. Geometrically it is where a line from $(0,r_f)$ is <b>tangent</b> to the frontier — a tangency condition, exactly as in module 07, because maximising a ratio is maximising the slope of that line.</p>
+  <p class="muted"><b>Check yourself:</b> why does $\Sigma^{-1}$ appear in every formula? (Answer: the FOC is $\Sigma\mathbf w=(\text{something})$, a linear system; solving it inverts $\Sigma$. Portfolio optimisation is a quadratic objective, so its FOC is linear — which is why the whole subject reduces to linear algebra.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> The frontier, and what correlation does to it<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Two assets: A with $\mu_A=6\%$, $\sigma_A=15\%$; B with $\mu_B=10\%$, $\sigma_B=25\%$. Sweeping the weight $w$ in A traces a curve in risk–return space. Change the correlation and watch the curve bend.</p>
+  <div class="ctrl">
+    <label>correlation ρ <input type="range" id="pf_r" min="-1" max="1" step="0.02" value="0.3"><span class="val" id="pf_r_v">0.30</span></label>
+    <label>weight in A <input type="range" id="pf_w" min="-0.4" max="1.4" step="0.01" value="0.6"><span class="val" id="pf_w_v">0.60</span></label>
+    <span class="btns"><button onclick="pfSet(1)">ρ = 1</button><button onclick="pfSet(0)">ρ = 0</button><button onclick="pfSet(-1)">ρ = −1</button><button onclick="pfMin()">jump to min-variance</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="pfsvg" viewBox="0 0 460 290"></svg>
+    <figcaption>Risk–return space. Green: the efficient (upper) branch; grey: the dominated lower branch. Green ring: the minimum-variance portfolio. Amber dot: the current weight. Dashed: the $\rho=1$ straight line, for comparison.</figcaption></figure>
+    <div>
+      <div class="readout" id="pfread"></div>
+      <p style="margin-top:10px">What the correlation slider demonstrates:</p>
+      <ul>
+        <li><b>ρ = 1</b> — the curve collapses to a <b>straight line</b> between the two assets. No diversification benefit at all: risk is just a weighted average. (Extending beyond the segment, with a short position, still reaches zero variance.)</li>
+        <li><b>ρ &lt; 1</b> — the curve <b>bows left</b> of that line. The horizontal gap is the diversification benefit, and it grows as $\rho$ falls.</li>
+        <li><b>ρ = −1</b> — the curve becomes two straight segments meeting the vertical axis: a combination with <b>exactly zero risk</b> exists. Perfect hedging.</li>
+        <li>The <b>min-variance portfolio</b> (green ring) moves as $\rho$ changes, and for low $\rho$ it can sit well inside the two assets — holding some of the riskier asset genuinely reduces total risk.</li>
+      </ul>
+      <p class="muted">Everything below the green ring is dominated: for the same risk you could have had more return. That is what "efficient" means, and it is why only the upper branch is drawn in colour.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Utility maximisation and risk aversion<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Rather than fixing a target return, let the investor trade risk against return directly. The standard mean–variance objective is</p>
+  $$\max_{\mathbf w}\ \mathbf w^{\mathsf T}\boldsymbol\mu-\frac{\gamma}{2}\,\mathbf w^{\mathsf T}\Sigma\mathbf w\quad\text{s.t.}\quad\mathbf w^{\mathsf T}\mathbf 1=1$$
+  <p>with $\gamma&gt;0$ the coefficient of risk aversion. Module 03 already established this objective is <b>concave</b>: linear minus a positive multiple of a convex quadratic. So the FOC is sufficient.</p>
+  <p>FOC: $\;\boldsymbol\mu-\gamma\Sigma\mathbf w=\lambda\mathbf 1$, giving</p>
+  $$\mathbf w^*=\frac{1}{\gamma}\Sigma^{-1}\big(\boldsymbol\mu-\lambda\mathbf 1\big)$$
+  <p>with $\lambda$ fixed by the constraint. As $\gamma\to\infty$ the investor becomes infinitely risk averse and $\mathbf w^*$ converges to the minimum-variance portfolio of Idea 1 — the return term is drowned out. As $\gamma$ falls, the investor slides up the efficient frontier. <b>Risk aversion selects a point on the frontier</b>; it does not change the frontier itself.</p>
+  <div class="note fin"><div class="t">Where concavity is doing the economics</div>Module 03 showed that concave utility <i>is</i> risk aversion, via Jensen's inequality. Here that same concavity is what makes the optimisation well posed: a risk-<b>loving</b> investor would have a convex objective, the FOC would locate a <b>minimum</b>, and the optimum would sit at a corner of the feasible set (module 03's last table). Convex problems and sensible economics coincide, and that is not a coincidence.</div>
+  <h3>The general consumer problem</h3>
+  <p>$\max u(\mathbf x)$ subject to $\mathbf p^{\mathsf T}\mathbf x=m$ gives, for each pair of goods,</p>
+  $$\frac{\partial u/\partial x_i}{\partial u/\partial x_j}=\frac{p_i}{p_j}$$
+  <p>after dividing one FOC by another to eliminate $\lambda$ (module 07). Equivalently $\dfrac{\partial u/\partial x_i}{p_i}=\lambda$ for every good: <b>the last euro spent on each good must deliver the same marginal utility</b>. If it did not, shifting a euro would improve things — which is exactly the improvement argument that motivated the FOC in module 04.</p>
+  <p class="muted"><b>Check yourself:</b> $u=x^{1/2}y^{1/2}$, prices $p_x,p_y$, income $m$. Find the demands. (Answer: MRS $=y/x=p_x/p_y$ gives $p_yy=p_xx$; with the budget $p_xx+p_yy=m$ this yields $x^*=\frac{m}{2p_x}$, $y^*=\frac{m}{2p_y}$ — spend half the income on each, the Cobb–Douglas rule.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 4</span> Estimation is optimisation too<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Ordinary least squares</h3>
+  <p>From module 04: minimising $\|\mathbf y-X\boldsymbol\beta\|^2$ gives the normal equations $X^{\mathsf T}X\boldsymbol\beta=X^{\mathsf T}\mathbf y$, with Hessian $2X^{\mathsf T}X\succeq0$. Convex, so the FOC is sufficient for a global minimum — and unique when $X$ has full column rank.</p>
+  <p><b>Constrained regression</b> is then a Lagrange problem. Imposing $R\boldsymbol\beta=\mathbf r$ (say, "the coefficients sum to one"):</p>
+  $$\mathcal L=\|\mathbf y-X\boldsymbol\beta\|^2-\boldsymbol\lambda^{\mathsf T}(R\boldsymbol\beta-\mathbf r)$$
+  <p>and the multiplier $\boldsymbol\lambda$ measures how much fit is sacrificed to satisfy the restriction — a shadow price in units of squared error. That quantity is the basis of the classical $F$-test for linear restrictions: a restriction that costs little fit is one the data do not reject.</p>
+  <h3>Maximum likelihood</h3>
+  <p>Choose parameters $\boldsymbol\theta$ to maximise the probability of the data:</p>
+  $$\hat{\boldsymbol\theta}=\arg\max_{\boldsymbol\theta}\ \ell(\boldsymbol\theta)=\arg\max_{\boldsymbol\theta}\ \sum_{i=1}^{n}\ln f(x_i\mid\boldsymbol\theta)$$
+  <p>Two module-01 ideas are visible here. Working with the <b>log</b>-likelihood is legitimate because $\ln$ is strictly increasing, so it does not move the maximiser — and it converts a product into a sum, which is what makes the FOC tractable. The FOC $\nabla\ell=\mathbf 0$ is called the <b>score equation</b>.</p>
+  <div class="ex"><div class="bar">MLE for the normal mean</div><div class="body">
+  <p>With $x_i\sim N(\mu,\sigma^2)$ and $\sigma$ known,</p>
+  $$\ell(\mu)=-\frac{n}{2}\ln(2\pi\sigma^2)-\frac{1}{2\sigma^2}\sum(x_i-\mu)^2$$
+  <p>FOC: $\dfrac{1}{\sigma^2}\sum(x_i-\mu)=0\Rightarrow\hat\mu=\bar x$.</p>
+  <p>SOC: $\ell''=-n/\sigma^2&lt;0$ everywhere ⇒ $\ell$ is strictly concave ⇒ $\bar x$ is the unique <b>global</b> maximum.</p>
+  <p class="muted">The sample mean is not merely a natural estimator; it is the solution of an optimisation problem. And note that the same FOC minimises $\sum(x_i-\mu)^2$ — least squares and normal-error maximum likelihood are the <b>same problem</b>, which is why they agree.</p>
+  </div></div>
+  <div class="note fin"><div class="t">The Hessian returns as information</div>The negative of the log-likelihood Hessian, $-\ell''(\hat{\boldsymbol\theta})$, is the <b>observed Fisher information</b>, and its inverse is the estimator's asymptotic variance. A sharply peaked (strongly concave) likelihood means a precisely estimated parameter; a flat one means a poorly identified parameter. Curvature at the optimum is not just a classification device — it is the standard error.</div>
+  <p class="muted"><b>Check yourself:</b> why is it legitimate to maximise $\ell=\ln L$ rather than $L$? (Answer: $\ln$ is strictly increasing, so it preserves the ordering of values and hence the argmax — module 01. Only the optimal <i>value</i> changes.)</p>
+  </div>
+</div>
+</div>
+</section>

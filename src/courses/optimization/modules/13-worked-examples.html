@@ -1,0 +1,535 @@
+<!-- ============ 13 WORKED EXAMPLES ============ -->
+<section id="s13">
+<div class="sec-head"><span class="num">13</span><h2>Worked examples</h2><span class="sub">30 exam-style problems, full solutions, one insight each</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">HOW TO USE</span> Attempt first, then open the solution<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
+  <div class="body">
+  <p>Each problem is written the way assessment questions are. Cover the solution, write your own on paper, then compare. The <b>Insight</b> box at the end is the transferable idea; if you only reread one thing per example, reread that. Difficulty: <span class="pill g">●</span> routine · <span class="pill a">●●</span> standard · <span class="pill r">●●●</span> needs two ideas combined. Ordered to follow modules 01–11.</p>
+  <p class="muted">A recurring instruction: every solution must say <b>why the answer is global</b> — by concavity, by a compact candidate list, or by coercivity. A local classification alone is an incomplete answer.</p>
+  </div>
+</div>
+
+<!-- 1 -->
+<div class="wx">
+<div class="bar"><span class="n">W01</span><span class="pill g">●</span><span class="tag">setup</span>Maximum, maximiser, supremum</div>
+<div class="prob">For $f(x)=4-(x-2)^2$, find the maximum and the maximiser on (a) $\mathbb{R}$, (b) $[0,1]$, (c) $(0,1)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a)</b> $f'(x)=-2(x-2)=0$ at $x=2$; $f''=-2&lt;0$ everywhere, so $f$ is strictly concave and $x^*=2$ is the global maximiser. <b>Maximum $=4$, maximiser $=2$.</b></li>
+<li><b>(b)</b> On $[0,1]$ the critical point $x=2$ is <b>outside</b> the interval. Since $f'(x)=-2(x-2)&gt;0$ for $x&lt;2$, $f$ is increasing throughout $[0,1]$.<br>Compare endpoints: $f(0)=0$, $f(1)=3$. <b>Maximum $=3$ at $x=1$</b> (a corner solution); minimum $=0$ at $x=0$.</li>
+<li><b>(c)</b> On the <b>open</b> interval the same values are approached but never attained. $\sup f=3$ and $\inf f=0$, but <b>neither a maximum nor a minimum exists</b>.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Three answers from one function, decided entirely by the feasible set. Part (b) is a corner solution the FOC cannot find; part (c) fails Weierstrass because the interval is not closed. Writing "$\max=3$" in (c) asserts an $x^*$ that does not exist — use $\sup$.</div>
+</div></details>
+</div>
+
+<!-- 2 -->
+<div class="wx">
+<div class="bar"><span class="n">W02</span><span class="pill g">●</span><span class="tag">setup</span>Monotone transformation</div>
+<div class="prob">Maximise $f(x,y)=x^{1/2}y^{1/2}$ subject to $x+y=10$, $x,y&gt;0$, by transforming the objective.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\ln$ is strictly increasing, so $\arg\max f=\arg\max\ln f$. Maximise instead $$\ln f=\tfrac12\ln x+\tfrac12\ln y$$ which is a sum of concave functions, hence concave.</li>
+<li>$\mathcal L=\tfrac12\ln x+\tfrac12\ln y-\lambda(x+y-10)$.</li>
+<li>$\dfrac{1}{2x}=\lambda$ and $\dfrac{1}{2y}=\lambda$ ⇒ $x=y$.</li>
+<li>Constraint: $x=y=5$, and $\lambda=\tfrac{1}{10}$.</li>
+<li><b>Global:</b> concave objective, linear (hence convex) constraint set ⇒ the FOC is sufficient.</li>
+<li>Report the value of the <b>original</b> objective: $f^*=\sqrt{5}\sqrt{5}=5$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The transformation turned a product into a sum and a non-obvious problem into a concave one — the same trick that makes maximum likelihood tractable. Two things not to forget: the maximiser is unchanged but the <b>value</b> is not, so exponentiate before reporting; and $\lambda$ is the multiplier for the <i>transformed</i> objective, so it is not the shadow price of the original.</div>
+</div></details>
+</div>
+
+<!-- 3 -->
+<div class="wx">
+<div class="bar"><span class="n">W03</span><span class="pill g">●</span><span class="tag">one variable</span>FOC, SOC, and a global claim</div>
+<div class="prob">Maximise $f(x)=8\ln x-2x$ over $x&gt;0$. Justify that your answer is global.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>FOC:</b> $f'(x)=\dfrac8x-2=0\Rightarrow x^*=4$.</li>
+<li><b>SOC:</b> $f''(x)=-\dfrac{8}{x^2}&lt;0$ for all $x&gt;0$.</li>
+<li><b>Global argument:</b> $f''&lt;0$ on the <b>entire domain</b>, so $f$ is strictly concave there. By module 03's Theorem 2 the stationary point is the unique global maximum — no comparison of candidates needed.</li>
+<li><b>Value:</b> $f(4)=8\ln4-8\approx11.09-8=3.09$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Note the wording of step 3. "$f''(4)&lt;0$" would only give a <i>local</i> maximum; "$f''&lt;0$ everywhere" gives concavity and hence a global one. On an unbounded domain like $(0,\infty)$ that distinction is essential, because there are no endpoints to fall back on.</div>
+</div></details>
+</div>
+
+<!-- 4 -->
+<div class="wx">
+<div class="bar"><span class="n">W04</span><span class="pill a">●●</span><span class="tag">one variable</span>Closed-interval method</div>
+<div class="prob">Find the absolute maximum and minimum of $f(x)=x^3-3x^2-9x+5$ on $[-2,4]$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Existence:</b> $f$ is continuous and $[-2,4]$ is compact, so by Weierstrass both exist.</li>
+<li><b>Critical points:</b> $f'(x)=3x^2-6x-9=3(x-3)(x+1)=0$ at $x=-1$ and $x=3$. Both lie in $(-2,4)$ ✓.</li>
+<li><b>Evaluate at critical points and both endpoints:</b><br>$f(-2)=-8-12+18+5=3$<br>$f(-1)=-1-3+9+5=10$<br>$f(3)=27-27-27+5=-22$<br>$f(4)=64-48-36+5=-15$</li>
+<li><b>Compare:</b> absolute <b>maximum</b> $=10$ at $x=-1$; absolute <b>minimum</b> $=-22$ at $x=3$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>No classification was needed — only comparison, licensed by Weierstrass. Note that the endpoint $x=4$ beat the critical point $x=3$ for the minimum-adjacent ranking but did not win anything: had the interval been $[-2,5]$, $f(5)=50-75-45+5=-65$ would have made the endpoint the minimum instead. Endpoints always earn their place on the list.</div>
+</div></details>
+</div>
+
+<!-- 5 -->
+<div class="wx">
+<div class="bar"><span class="n">W05</span><span class="pill a">●●</span><span class="tag">one variable</span>A corner solution</div>
+<div class="prob">Maximise $f(x)=x^2-2x$ on $[0,\tfrac12]$. Verify the appropriate boundary condition.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>FOC:</b> $f'(x)=2x-2=0$ at $x=1$ — <b>outside</b> the interval, so there is no interior candidate.</li>
+<li>On $[0,\tfrac12]$, $f'(x)=2x-2\le-1&lt;0$, so $f$ is strictly decreasing.</li>
+<li>Compare endpoints: $f(0)=0$ and $f(\tfrac12)=\tfrac14-1=-\tfrac34$.</li>
+<li><b>Maximum $=0$ at the corner $x=0$</b>; minimum $=-\tfrac34$ at $x=\tfrac12$.</li>
+<li><b>Boundary condition check:</b> a maximum at the left endpoint requires $f'(0)\le0$. Here $f'(0)=-2\le0$ ✓ — moving right does not help.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>At a corner the FOC is replaced by an <b>inequality</b>. Reporting "no maximum, since $f'\ne0$ anywhere in the interval" is the error this problem is built to catch. This inequality is the one-dimensional shadow of the KKT conditions in module 10.</div>
+</div></details>
+</div>
+
+<!-- 6 -->
+<div class="wx">
+<div class="bar"><span class="n">W06</span><span class="pill a">●●</span><span class="tag">one variable</span>An optimisation word problem</div>
+<div class="prob">An open-top box is made from a $12\times12$ sheet by cutting equal squares of side $x$ from the corners and folding up the sides. Find the $x$ that maximises the volume.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Objective:</b> base $(12-2x)\times(12-2x)$, height $x$, so $V(x)=x(12-2x)^2$.</li>
+<li><b>Domain:</b> $0\le x\le6$ (beyond 6 the base has negative side). Compact ⇒ Weierstrass applies ✓.</li>
+<li><b>FOC:</b> $V'(x)=(12-2x)^2+x\cdot2(12-2x)(-2)=(12-2x)\big[(12-2x)-4x\big]=(12-2x)(12-6x)$.</li>
+<li>Zero at $x=6$ and $x=2$.</li>
+<li><b>Compare candidates and endpoints:</b> $V(0)=0$, $V(2)=2(8)^2=128$, $V(6)=0$.</li>
+<li><b>Answer:</b> cut squares of side $x=2$; maximum volume $128$ cubic units.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Factoring $V'$ rather than expanding to a quadratic saved all the work and exposed both roots at once. The two zero-volume endpoints are a useful sanity check: a volume problem whose interior candidate did <i>not</i> beat them would signal an algebra error.</div>
+</div></details>
+</div>
+
+<!-- 7 -->
+<div class="wx">
+<div class="bar"><span class="n">W07</span><span class="pill a">●●</span><span class="tag">one variable</span>Unbounded domain, coercivity</div>
+<div class="prob">Maximise $f(x)=-x^4+4x^2$ over $\mathbb{R}$. Does a maximum exist, and is it unique?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Existence:</b> the domain is unbounded, so Weierstrass does not apply directly. But $f(x)\to-\infty$ as $|x|\to\infty$ (the $-x^4$ term dominates), so $f$ is <b>coercive</b> and a global maximum exists among the critical points.</li>
+<li><b>FOC:</b> $f'(x)=-4x^3+8x=-4x(x^2-2)=0$ at $x=0$ and $x=\pm\sqrt2$.</li>
+<li><b>SOC:</b> $f''(x)=-12x^2+8$. At $x=0$: $f''=8&gt;0$ ⇒ local <b>minimum</b>. At $x=\pm\sqrt2$: $f''=-24+8=-16&lt;0$ ⇒ local <b>maxima</b>.</li>
+<li><b>Compare:</b> $f(0)=0$; $f(\pm\sqrt2)=-4+8=4$.</li>
+<li><b>Answer:</b> global maximum $=4$, attained at <b>both</b> $x=\sqrt2$ and $x=-\sqrt2$. Not unique.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Coercivity supplied existence without concavity — and it had to, because $f$ is <b>not</b> concave ($f''(0)&gt;0$). Non-uniqueness follows: strict concavity is what forces a single maximiser, and here the symmetry $f(-x)=f(x)$ makes two.</div>
+</div></details>
+</div>
+
+<!-- 8 -->
+<div class="wx">
+<div class="bar"><span class="n">W08</span><span class="pill a">●●</span><span class="tag">convexity</span>Concave, convex, or neither?</div>
+<div class="prob">Classify on $\mathbb{R}^2$: (a) $f(x,y)=-x^2-4y^2+2xy$, (b) $g(x,y)=x^2+y^2-3xy$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a)</b> $f_{xx}=-2$, $f_{yy}=-8$, $f_{xy}=2$, so $H=\begin{pmatrix}-2&amp;2\\2&amp;-8\end{pmatrix}$ — <b>constant</b>, since $f$ is quadratic.</li>
+<li>Leading minors: $D_1=-2&lt;0$, $D_2=16-4=12&gt;0$. Alternating starting negative ⇒ <b>negative definite</b> ⇒ $f$ is <b>strictly concave</b> on all of $\mathbb{R}^2$.</li>
+<li><b>(b)</b> $H=\begin{pmatrix}2&amp;-3\\-3&amp;2\end{pmatrix}$, $D_1=2&gt;0$ but $D_2=4-9=-5&lt;0$.</li>
+<li>Neither all-positive nor alternating ⇒ <b>indefinite</b> ⇒ $g$ is <b>neither convex nor concave</b>.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>In (b) both diagonal entries are positive, so each axis-slice is convex — yet the function is not. The cross term $-3xy$ is large enough to create a downward direction. This is the trap of module 05: never classify from $f_{xx}$ and $f_{yy}$ alone. Because both objectives are quadratic, one Hessian computation settles the structure <b>everywhere</b>.</div>
+</div></details>
+</div>
+
+<!-- 9 -->
+<div class="wx">
+<div class="bar"><span class="n">W09</span><span class="pill a">●●</span><span class="tag">convexity</span>Which sets are convex?</div>
+<div class="prob">Determine whether each is convex: (a) $\{(x,y):x+2y\le4,\;x\ge0\}$, (b) $\{(x,y):x^2+y^2\ge1\}$, (c) $\{(x,y):xy\ge1,\;x&gt;0\}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a) Convex.</b> Each inequality defines a half-space, which is convex, and an <b>intersection</b> of convex sets is convex.</li>
+<li><b>(b) Not convex.</b> Counterexample: $(1,0)$ and $(-1,0)$ are both in the set, but their midpoint $(0,0)$ has $0^2+0^2=0&lt;1$ — outside. One failing pair is enough.</li>
+<li><b>(c) Convex.</b> On $x&gt;0$ the condition $xy\ge1$ is $y\ge1/x$, and $1/x$ is a <b>convex</b> function there. The region lying above the graph of a convex function (its epigraph) is convex.</li>
+<li>Check with a chord: $(1,1)$ and $(4,0.25)$ both satisfy $xy=1$; their midpoint $(2.5,0.625)$ has $xy=1.5625\ge1$ ✓ — the curve bulges away from the chord, as an epigraph must.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>To <b>disprove</b> convexity, produce one explicit pair — as in (b). To <b>prove</b> it, do not hunt for pairs: recognise the set as an intersection of half-spaces, a ball, or the region above a convex function. The reversed inequality in (b) is exactly what breaks it: $\{x^2+y^2\le1\}$ is convex.</div>
+</div></details>
+</div>
+
+<!-- 10 -->
+<div class="wx">
+<div class="bar"><span class="n">W10</span><span class="pill r">●●●</span><span class="tag">convexity</span>Cobb–Douglas concavity and returns to scale</div>
+<div class="prob">For $f(x,y)=x^{a}y^{b}$ on $x,y&gt;0$ with $a,b&gt;0$, show that $f$ is concave if and only if $a+b\le1$. Apply it to $a=b=0.3$ and $a=b=0.8$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$f_x=ax^{a-1}y^{b}$, $f_y=bx^{a}y^{b-1}$.</li>
+<li>$f_{xx}=a(a-1)x^{a-2}y^{b}$, &nbsp;$f_{yy}=b(b-1)x^{a}y^{b-2}$, &nbsp;$f_{xy}=ab\,x^{a-1}y^{b-1}$.</li>
+<li>$\det H=ab(a-1)(b-1)x^{2a-2}y^{2b-2}-a^2b^2x^{2a-2}y^{2b-2}=ab\,x^{2a-2}y^{2b-2}\big[(a-1)(b-1)-ab\big]$.</li>
+<li>Expand the bracket: $(a-1)(b-1)-ab=ab-a-b+1-ab=1-a-b$. So $$\det H=ab\,x^{2a-2}y^{2b-2}\,(1-a-b)$$</li>
+<li>Since $a,b&gt;0$ and $x,y&gt;0$, the prefactor is positive, so $\det H&gt;0\iff a+b&lt;1$.</li>
+<li>And for $0&lt;a&lt;1$, $f_{xx}=a(a-1)x^{a-2}y^b&lt;0$. So $\det H&gt;0$ with $f_{xx}&lt;0$ ⇒ negative definite ⇒ <b>strictly concave</b> exactly when $a+b&lt;1$ (with $a+b=1$ giving the semidefinite, still-concave, boundary case).</li>
+<li><b>$a=b=0.3$:</b> $a+b=0.6&lt;1$ ⇒ concave. Decreasing returns to scale, and the profit-maximisation problem is well behaved.</li>
+<li><b>$a=b=0.8$:</b> $a+b=1.6&gt;1$ ⇒ $\det H&lt;0$ ⇒ indefinite ⇒ <b>not concave</b>. It remains quasi-concave (its upper contour sets are still convex), so it can represent preferences, but the FOC no longer certifies a maximum.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The exponent sum controls everything: $a+b$ is the degree of homogeneity, so concavity and decreasing returns to scale are the <b>same condition</b>. With increasing returns the firm's problem has no interior solution — it wants unbounded scale — and the mathematics fails at exactly the point where the economics does.</div>
+</div></details>
+</div>
+
+<!-- 11 -->
+<div class="wx">
+<div class="bar"><span class="n">W11</span><span class="pill g">●</span><span class="tag">FOC</span>A quadratic in two variables</div>
+<div class="prob">Find and classify the stationary point of $f(x,y)=3x^2+2y^2-2xy-8x-4y$, and say whether it is global.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>FOC:</b> $f_x=6x-2y-8=0$ and $f_y=4y-2x-4=0$.</li>
+<li>From the second, $x=2y-2$. Substituting: $6(2y-2)-2y-8=0\Rightarrow10y=20\Rightarrow y=2$, then $x=2$.</li>
+<li><b>Hessian:</b> $H=\begin{pmatrix}6&amp;-2\\-2&amp;4\end{pmatrix}$, constant.</li>
+<li>$D_1=6&gt;0$ and $D_2=24-4=20&gt;0$ ⇒ positive definite ⇒ strict local <b>minimum</b>.</li>
+<li><b>Global:</b> $H$ is the same at every point, so $f$ is strictly <b>convex on $\mathbb{R}^2$</b> and $(2,2)$ is the unique global minimum.</li>
+<li>$f(2,2)=12+8-8-16-8=-12$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>For a quadratic objective the Hessian is constant, so a single definiteness check does double duty: it classifies the point <b>and</b> establishes global convexity. That is why quadratic problems — every mean–variance problem in finance — are so much easier than general ones.</div>
+</div></details>
+</div>
+
+<!-- 12 -->
+<div class="wx">
+<div class="bar"><span class="n">W12</span><span class="pill a">●●</span><span class="tag">FOC</span>A nonlinear FOC system</div>
+<div class="prob">Find <b>all</b> stationary points of $f(x,y)=2x^3+xy^2+5x^2+y^2$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$f_x=6x^2+y^2+10x$ and $f_y=2xy+2y=2y(x+1)$.</li>
+<li><b>Start with the factorable equation.</b> $f_y=0$ requires $y=0$ <b>or</b> $x=-1$ — two branches, and both must be explored.</li>
+<li><b>Branch 1 ($y=0$):</b> $f_x=6x^2+10x=2x(3x+5)=0$ ⇒ $x=0$ or $x=-\tfrac53$.<br>Points: $(0,0)$ and $\left(-\tfrac53,0\right)$.</li>
+<li><b>Branch 2 ($x=-1$):</b> $f_x=6+y^2-10=0\Rightarrow y^2=4\Rightarrow y=\pm2$.<br>Points: $(-1,2)$ and $(-1,-2)$.</li>
+<li><b>Four stationary points:</b> $(0,0)$, $\left(-\tfrac53,0\right)$, $(-1,2)$, $(-1,-2)$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Always attack the equation that <b>factors</b> first: it splits the problem into cases instead of forcing a substitution. Dropping a branch — here, forgetting $x=-1$ — silently loses half the candidates, and W15 will show that those are the interesting ones.</div>
+</div></details>
+</div>
+
+<!-- 13 -->
+<div class="wx">
+<div class="bar"><span class="n">W13</span><span class="pill a">●●</span><span class="tag">FOC</span>Profit maximisation with two inputs</div>
+<div class="prob">A firm has $F(L,K)=L^{1/4}K^{1/4}$, output price $p=8$, and input prices $w=r=1$. Choose $L,K&gt;0$ to maximise profit, and justify globality.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Objective:</b> $\pi(L,K)=8L^{1/4}K^{1/4}-L-K$.</li>
+<li><b>FOC:</b> $\pi_L=2L^{-3/4}K^{1/4}-1=0$ and $\pi_K=2L^{1/4}K^{-3/4}-1=0$.</li>
+<li><b>Divide one by the other</b> to eliminate the common factor: $$\frac{L^{-3/4}K^{1/4}}{L^{1/4}K^{-3/4}}=\frac{K}{L}=1\ \Rightarrow\ K=L$$</li>
+<li>Substitute back: $2L^{-3/4}L^{1/4}=2L^{-1/2}=1\Rightarrow L^{1/2}=2\Rightarrow L=K=4$.</li>
+<li><b>Global:</b> $F$ has exponents summing to $\tfrac12\le1$, so by W10 it is concave; $\pi=8F-L-K$ is concave plus linear, hence <b>concave</b>. The FOC is therefore sufficient for a global maximum.</li>
+<li>$\pi^*=8\cdot4^{1/4}4^{1/4}-8=8\cdot 4^{1/2}-8=16-8=8$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Each FOC says <b>value of the marginal product = input price</b>, $p\,\partial F/\partial L=w$. Dividing the two FOCs cancels the messy common term and leaves the cost-minimising input ratio — the standard first move with Cobb–Douglas, and far quicker than substitution.</div>
+</div></details>
+</div>
+
+<!-- 14 -->
+<div class="wx">
+<div class="bar"><span class="n">W14</span><span class="pill a">●●</span><span class="tag">SOC</span>Detecting a saddle</div>
+<div class="prob">Classify the stationary point of $f(x,y)=x^2+4xy+y^2$ at the origin, and find a direction in which $f$ decreases.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>FOC:</b> $f_x=2x+4y=0$ and $f_y=4x+2y=0$. The only solution is $(0,0)$.</li>
+<li><b>Hessian:</b> $H=\begin{pmatrix}2&amp;4\\4&amp;2\end{pmatrix}$, with $D=f_{xx}f_{yy}-f_{xy}^2=4-16=-12&lt;0$.</li>
+<li>$D&lt;0$ ⇒ <b>indefinite</b> ⇒ the origin is a <b>saddle point</b>.</li>
+<li><b>A decreasing direction:</b> try $y=-x$. Then $f(x,-x)=x^2-4x^2+x^2=-2x^2&lt;0$ for $x\ne0$ — strictly below $f(0,0)=0$.</li>
+<li>Along $y=x$, by contrast, $f(x,x)=6x^2&gt;0$ — increasing. Up one way, down the other: the definition of a saddle.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Both $f_{xx}=2$ and $f_{yy}=2$ are positive, so the two <b>axis</b> slices are convex and suggest a minimum. The cross term is what creates the downhill direction, and only $D$ detects it. Finding an explicit decreasing direction — here the eigenvector $(1,-1)$, with eigenvalue $2-4=-2$ — turns the classification into a proof.</div>
+</div></details>
+</div>
+
+<!-- 15 -->
+<div class="wx">
+<div class="bar"><span class="n">W15</span><span class="pill r">●●●</span><span class="tag">SOC</span>Classify all four (continues W12)</div>
+<div class="prob">Classify each stationary point of $f(x,y)=2x^3+xy^2+5x^2+y^2$ found in W12, and state whether $f$ has a global maximum on $\mathbb{R}^2$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Second partials:</b> $f_{xx}=12x+10$, &nbsp;$f_{yy}=2x+2$, &nbsp;$f_{xy}=2y$. So $D=(12x+10)(2x+2)-4y^2$.</li>
+<li><b>$(0,0)$:</b> $f_{xx}=10$, $f_{yy}=2$, $f_{xy}=0$. $D=20&gt;0$ and $f_{xx}&gt;0$ ⇒ strict local <b>minimum</b>, $f=0$.</li>
+<li><b>$\left(-\tfrac53,0\right)$:</b> $f_{xx}=-20+10=-10$, $f_{yy}=-\tfrac{10}{3}+2=-\tfrac43$, $f_{xy}=0$. $D=(-10)(-\tfrac43)=\tfrac{40}{3}&gt;0$ and $f_{xx}&lt;0$ ⇒ strict local <b>maximum</b>.</li>
+<li><b>$(-1,2)$:</b> $f_{xx}=-2$, $f_{yy}=0$, $f_{xy}=4$. $D=0-16=-16&lt;0$ ⇒ <b>saddle</b>.</li>
+<li><b>$(-1,-2)$:</b> $f_{xx}=-2$, $f_{yy}=0$, $f_{xy}=-4$. $D=-16&lt;0$ ⇒ <b>saddle</b>.</li>
+<li><b>Global maximum?</b> No. Along the $x$-axis, $f(x,0)=2x^3+5x^2\to+\infty$ as $x\to+\infty$, so $f$ is unbounded above. The local maximum at $\left(-\tfrac53,0\right)$ is emphatically not global.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>All three types in one function, and the final step is the one that matters: a local classification says nothing about global behaviour. The one-line check "what does $f$ do along a ray to infinity?" settles it and costs nothing — do it whenever the domain is unbounded and the objective is not concave.</div>
+</div></details>
+</div>
+
+<!-- 16 -->
+<div class="wx">
+<div class="bar"><span class="n">W16</span><span class="pill a">●●</span><span class="tag">SOC</span>A $3\times3$ Hessian</div>
+<div class="prob">Maximise $f(x,y,z)=-x^2-2y^2-3z^2+2xy+2yz$ on $\mathbb{R}^3$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Hessian</b> (constant, since $f$ is quadratic): $$H=\begin{pmatrix}-2&amp;2&amp;0\\2&amp;-4&amp;2\\0&amp;2&amp;-6\end{pmatrix}$$</li>
+<li><b>Leading principal minors:</b><br>$D_1=-2&lt;0$<br>$D_2=(-2)(-4)-2^2=8-4=4&gt;0$<br>$D_3=-2\big[(-4)(-6)-4\big]-2\big[2(-6)-0\big]+0=-2(20)+24=-16&lt;0$</li>
+<li>Signs $-,+,-$: alternating and starting negative ⇒ <b>negative definite</b> ⇒ $f$ is strictly concave on $\mathbb{R}^3$.</li>
+<li><b>FOC:</b> $f_x=-2x+2y=0\Rightarrow x=y$; &nbsp;$f_z=-6z+2y=0\Rightarrow z=\tfrac y3$; &nbsp;$f_y=-4y+2x+2z=0$.</li>
+<li>Substituting: $-4y+2y+\tfrac{2y}{3}=0\Rightarrow-\tfrac{4y}{3}=0\Rightarrow y=0$, hence $x=y=z=0$.</li>
+<li><b>Answer:</b> unique global maximum at the origin, $f^*=0$, by concave programming.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Establishing concavity <b>before</b> solving the FOC turns the last step into a citation rather than an argument. Remember the negative-definite pattern is <b>alternating from negative</b>, not "all negative" — $D_2$ must be positive.</div>
+</div></details>
+</div>
+
+<!-- 17 -->
+<div class="wx">
+<div class="bar"><span class="n">W17</span><span class="pill r">●●●</span><span class="tag">global</span>Full concave-programming write-up</div>
+<div class="prob">Maximise $f(x,y)=-x^2-2y^2+2xy+4x+4y$ on $\mathbb{R}^2$. Give a complete argument.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Structure first.</b> $H=\begin{pmatrix}-2&amp;2\\2&amp;-4\end{pmatrix}$, constant. $D_1=-2&lt;0$, $D_2=8-4=4&gt;0$ ⇒ negative definite ⇒ $f$ is <b>strictly concave on all of $\mathbb{R}^2$</b>.</li>
+<li><b>Existence and sufficiency.</b> By module 03 Theorem 2, any stationary point is the unique global maximum; by strict concavity it is unique. No further checks are required.</li>
+<li><b>FOC.</b> $f_x=-2x+2y+4=0\Rightarrow y=x-2$. &nbsp;$f_y=-4y+2x+4=0\Rightarrow x=2y-2$.</li>
+<li>Substituting: $x=2(x-2)-2=2x-6\Rightarrow x=6$, hence $y=4$.</li>
+<li><b>Value.</b> $f(6,4)=-36-32+48+24+16=20$.</li>
+<li><b>Conclusion.</b> Unique global maximum $20$ at $(6,4)$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>This is the model answer format: <b>structure, then sufficiency, then computation</b>. It is shorter than the usual FOC-then-SOC-then-hand-waving order and it is airtight, because the global claim is made before any candidate is even found.</div>
+</div></details>
+</div>
+
+<!-- 18 -->
+<div class="wx">
+<div class="bar"><span class="n">W18</span><span class="pill r">●●●</span><span class="tag">global</span>Coercive but not concave</div>
+<div class="prob">Find the global maximum of $f(x,y)=-x^4+2x^2-y^2$ on $\mathbb{R}^2$, and explain why concave programming cannot be used.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>FOC:</b> $f_x=-4x^3+4x=-4x(x^2-1)=0$ ⇒ $x=0,\pm1$; &nbsp;$f_y=-2y=0$ ⇒ $y=0$.<br>Stationary points: $(0,0)$, $(1,0)$, $(-1,0)$.</li>
+<li><b>Hessian:</b> $f_{xx}=-12x^2+4$, $f_{yy}=-2$, $f_{xy}=0$.</li>
+<li><b>$(0,0)$:</b> $H=\begin{pmatrix}4&amp;0\\0&amp;-2\end{pmatrix}$ — <b>indefinite</b> ⇒ saddle. (This is why $f$ is not concave: a concave function cannot have a positive curvature direction anywhere.)</li>
+<li><b>$(\pm1,0)$:</b> $f_{xx}=-8$, so $D=(-8)(-2)-0=16&gt;0$ with $f_{xx}&lt;0$ ⇒ strict local <b>maxima</b>.</li>
+<li><b>Existence:</b> as $\|(x,y)\|\to\infty$, the $-x^4$ and $-y^2$ terms dominate and $f\to-\infty$ in every direction ⇒ <b>coercive</b> ⇒ a global maximum exists and is among the stationary points.</li>
+<li><b>Compare:</b> $f(0,0)=0$; $f(\pm1,0)=-1+2-0=1$.</li>
+<li><b>Answer:</b> global maximum $=1$, attained at <b>both</b> $(1,0)$ and $(-1,0)$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Concavity was unavailable, so coercivity supplied existence and an exhaustive comparison supplied the answer — argument 3 followed by argument 2 from module 06. Non-uniqueness is the expected price: without strict concavity there is nothing forcing a single maximiser.</div>
+</div></details>
+</div>
+
+<!-- 19 -->
+<div class="wx">
+<div class="bar"><span class="n">W19</span><span class="pill g">●</span><span class="tag">Lagrange</span>A first Lagrange problem</div>
+<div class="prob">Maximise $f(x,y)=x^2y$ subject to $x+y=3$, with $x,y&gt;0$. Report $x^*$, $y^*$, $f^*$ and $\lambda^*$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathcal L=x^2y-\lambda(x+y-3)$.</li>
+<li>$\mathcal L_x=2xy-\lambda=0$; &nbsp;$\mathcal L_y=x^2-\lambda=0$; &nbsp;$\mathcal L_\lambda=-(x+y-3)=0$.</li>
+<li>Equating the first two: $2xy=x^2$. Since $x&gt;0$ we may divide: $x=2y$.</li>
+<li>Constraint: $2y+y=3\Rightarrow y^*=1$, $x^*=2$.</li>
+<li>$\lambda^*=x^2=4$, and $f^*=4\cdot1=4$.</li>
+<li><b>Check by substitution:</b> $h(y)=(3-y)^2y$, $h'(y)=-2(3-y)y+(3-y)^2=(3-y)(3-3y)=0$ at $y=1$ ✓, and $h''(1)=-4&lt;0$ ⇒ a maximum ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Dividing by $x$ was legitimate only because the problem states $x&gt;0$; without that, $x=0$ is a separate branch to check. The substitution cross-check is cheap here and confirms both the point and its type — do it whenever the constraint is easy to solve.</div>
+</div></details>
+</div>
+
+<!-- 20 -->
+<div class="wx">
+<div class="bar"><span class="n">W20</span><span class="pill a">●●</span><span class="tag">Lagrange</span>Both extremes on a circle</div>
+<div class="prob">Find the maximum and minimum of $f(x,y)=x+2y$ subject to $x^2+y^2=5$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Existence:</b> the circle is compact and $f$ continuous ⇒ both a maximum and a minimum exist (Weierstrass). Comparing candidates will therefore settle everything — no second-order test needed.</li>
+<li>$\mathcal L=x+2y-\lambda(x^2+y^2-5)$.</li>
+<li>$1-2\lambda x=0$ and $2-2\lambda y=0$. Neither allows $\lambda=0$, so $x=\dfrac{1}{2\lambda}$ and $y=\dfrac{1}{\lambda}$, hence $y=2x$.</li>
+<li>Constraint: $x^2+4x^2=5\Rightarrow x^2=1\Rightarrow x=\pm1$.<br>Candidates: $(1,2)$ and $(-1,-2)$.</li>
+<li>Values: $f(1,2)=1+4=5$; &nbsp;$f(-1,-2)=-5$.</li>
+<li><b>Maximum $=5$ at $(1,2)$</b> with $\lambda=\tfrac12$; <b>minimum $=-5$ at $(-1,-2)$</b> with $\lambda=-\tfrac12$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The Lagrange system finds <b>every</b> constrained extremum at once, so reporting only one is a half-answer. Note the sanity check: $\max=\|\nabla f\|\cdot r=\sqrt5\cdot\sqrt5=5$ ✓ — maximising a linear function on a circle is Cauchy–Schwarz, attained where the point aligns with the gradient $(1,2)$.</div>
+</div></details>
+</div>
+
+<!-- 21 -->
+<div class="wx">
+<div class="bar"><span class="n">W21</span><span class="pill a">●●</span><span class="tag">Lagrange</span>Consumer choice, and $\lambda$ verified</div>
+<div class="prob">Maximise $u(x,y)=x^{1/3}y^{2/3}$ subject to $2x+4y=24$. Find $x^*,y^*,\lambda^*$ and verify that $\lambda^*=\partial V/\partial m$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$u_x=\tfrac13x^{-2/3}y^{2/3}$, &nbsp;$u_y=\tfrac23x^{1/3}y^{-1/3}$.</li>
+<li><b>Eliminate $\lambda$</b> by dividing the two FOCs: $$\frac{u_x}{u_y}=\frac{1}{2}\cdot\frac{y}{x}=\frac{p_x}{p_y}=\frac{2}{4}=\frac12\ \Rightarrow\ y=x$$</li>
+<li>Budget: $2x+4x=24\Rightarrow x^*=4$, $y^*=4$.</li>
+<li>$u^*=4^{1/3}4^{2/3}=4$. &nbsp;$\lambda^*=\dfrac{u_x}{p_x}=\dfrac{\tfrac13\cdot4^{-2/3}4^{2/3}}{2}=\dfrac{1/3}{2}=\dfrac16$.</li>
+<li><b>Verification.</b> For general income $m$, the Cobb–Douglas rule gives $p_xx=\tfrac13m$ and $p_yy=\tfrac23m$, so $x=\tfrac{m}{6}$, $y=\tfrac{m}{6}$ and $$V(m)=\left(\tfrac m6\right)^{1/3}\left(\tfrac m6\right)^{2/3}=\frac m6$$</li>
+<li>Hence $V'(m)=\tfrac16=\lambda^*$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Dividing the FOCs produces "MRS = price ratio" and removes $\lambda$ from the hard part of the calculation — recover it at the end only if asked. The verification shows $\lambda$ is the <b>marginal utility of income</b>: one extra euro buys $\tfrac16$ of a utility unit, at every income level, because this utility has constant returns to scale.</div>
+</div></details>
+</div>
+
+<!-- 22 -->
+<div class="wx">
+<div class="bar"><span class="n">W22</span><span class="pill r">●●●</span><span class="tag">Lagrange</span>Two constraints</div>
+<div class="prob">Minimise $f(x,y,z)=x^2+y^2+z^2$ subject to $x+y+z=6$ and $x-y=2$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Two constraints ⇒ two multipliers: $$\mathcal L=x^2+y^2+z^2-\lambda(x+y+z-6)-\gamma(x-y-2)$$</li>
+<li><b>FOC:</b> $2x=\lambda+\gamma$, &nbsp;$2y=\lambda-\gamma$, &nbsp;$2z=\lambda$.</li>
+<li><b>Add all three:</b> $2(x+y+z)=3\lambda$. Using the first constraint, $12=3\lambda\Rightarrow\lambda=4$, hence $z=2$.</li>
+<li><b>Subtract the second FOC from the first:</b> $2(x-y)=2\gamma\Rightarrow\gamma=x-y=2$ by the second constraint.</li>
+<li>Then $x=\dfrac{4+2}{2}=3$ and $y=\dfrac{4-2}{2}=1$.</li>
+<li><b>Check:</b> $3+1+2=6$ ✓ and $3-1=2$ ✓. &nbsp;$f^*=9+1+4=14$.</li>
+<li><b>Global:</b> $f$ is strictly convex ($H=2I$, positive definite) and the feasible set is the intersection of two hyperplanes, hence affine and convex. So this is the unique global minimum.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Rather than solving five equations blindly, <b>combine them</b>: summing the FOCs produced $\lambda$ immediately from the first constraint, and differencing produced $\gamma$ from the second. Each multiplier is recovered from the constraint it belongs to. Geometrically the answer is the point of the intersection line closest to the origin — a projection, exactly as in W20's cousin from module 07.</div>
+</div></details>
+</div>
+
+<!-- 23 -->
+<div class="wx">
+<div class="bar"><span class="n">W23</span><span class="pill a">●●</span><span class="tag">constrained SOC</span>The bordered Hessian</div>
+<div class="prob">For $\max\;x^{1/2}y^{1/2}$ subject to $x+y=10$, find the candidate and confirm it is a maximum using the bordered Hessian.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathcal L=x^{1/2}y^{1/2}-\lambda(x+y-10)$.</li>
+<li>$\tfrac12x^{-1/2}y^{1/2}=\lambda$ and $\tfrac12x^{1/2}y^{-1/2}=\lambda$. Dividing: $\dfrac yx=1\Rightarrow x=y=5$, and $\lambda=\tfrac12$.</li>
+<li><b>Second derivatives</b> at $(5,5)$. Since the constraint is linear, all $g_{ij}=0$ and $\mathcal L_{ij}=f_{ij}$:<br>$f_{xx}=-\tfrac14x^{-3/2}y^{1/2}=-\tfrac14\cdot\tfrac{1}{5}=-\tfrac1{20}$<br>$f_{yy}=-\tfrac1{20}$ &nbsp;(by symmetry)<br>$f_{xy}=\tfrac14x^{-1/2}y^{-1/2}=\tfrac14\cdot\tfrac15=\tfrac1{20}$</li>
+<li>With $g_x=g_y=1$: $$\bar H=\begin{pmatrix}0&amp;1&amp;1\\ 1&amp;-\tfrac1{20}&amp;\tfrac1{20}\\ 1&amp;\tfrac1{20}&amp;-\tfrac1{20}\end{pmatrix}$$</li>
+<li>Expanding along the first row: $$\det\bar H=-1\left(1\cdot\left(-\tfrac1{20}\right)-\tfrac1{20}\cdot1\right)+1\left(\tfrac1{20}-\left(-\tfrac1{20}\right)\right)=-1\left(-\tfrac2{20}\right)+\tfrac2{20}=\tfrac15&gt;0$$</li>
+<li>$\det\bar H&gt;0$ ⇒ local constrained <b>maximum</b> ✓, with $f^*=5$.</li>
+<li><b>Faster route:</b> $\sqrt{xy}$ is concave on the positive quadrant (W10 with $a=b=\tfrac12$, $a+b=1$) and the constraint is linear ⇒ this is the <b>global</b> maximum, with no determinant needed.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Both routes are correct, and the second is stronger — it gives a global rather than local conclusion, in one line. Learn the bordered Hessian because it can be examined, but reach for concavity first. Note also that all $g_{ij}=0$ only because the constraint is <b>linear</b>; a nonlinear constraint would require the $-\lambda g_{ij}$ terms.</div>
+</div></details>
+</div>
+
+<!-- 24 -->
+<div class="wx">
+<div class="bar"><span class="n">W24</span><span class="pill a">●●</span><span class="tag">shadow price</span>Interpreting and checking $\lambda$</div>
+<div class="prob">Maximise $xy$ subject to $2x+3y=12$. Find $\lambda^*$, use it to predict the effect of raising the right-hand side to 13, and compare with the exact answer.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mathcal L=xy-\lambda(2x+3y-12)$ gives $y=2\lambda$ and $x=3\lambda$.</li>
+<li>Constraint: $2(3\lambda)+3(2\lambda)=12\Rightarrow12\lambda=12\Rightarrow\lambda^*=1$, so $x^*=3$, $y^*=2$, $f^*=6$.</li>
+<li><b>Prediction:</b> $\Delta V\approx\lambda\,\Delta c=1\times1=1$, so $V(13)\approx7$.</li>
+<li><b>Exact value function.</b> Repeating with a general $c$: $x=3\lambda$, $y=2\lambda$, $12\lambda=c$ so $\lambda=\tfrac{c}{12}$, giving $x=\tfrac c4$, $y=\tfrac c6$ and $$V(c)=\frac{c}{4}\cdot\frac{c}{6}=\frac{c^2}{24}$$</li>
+<li>Check: $V'(c)=\dfrac{c}{12}=\lambda$ ✓, and $V(12)=6$ ✓.</li>
+<li>Exact: $V(13)=\dfrac{169}{24}\approx7.042$, so the true increase is $0.042$ more than predicted.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$\lambda$ is a <b>derivative</b>, so $\Delta V\approx\lambda\Delta c$ is a first-order approximation — accurate for small changes, and here erring low because $V$ is convex ($V''=\tfrac1{12}&gt;0$). The convexity of $V$ is itself economic information: each extra unit of the resource is worth more than the last.</div>
+</div></details>
+</div>
+
+<!-- 25 -->
+<div class="wx">
+<div class="bar"><span class="n">W25</span><span class="pill r">●●●</span><span class="tag">envelope</span>Hotelling, and a tax</div>
+<div class="prob">A firm solves $\pi(p)=\max_{q\ge0}\left(pq-\tfrac12q^2-10\right)$. (a) Find $\pi(p)$ and verify $\pi'(p)=q^*(p)$. (b) With a per-unit tax $t$, so profit is $(p-t)q-\tfrac12q^2-10$, find $d\pi/dt$ without recomputing $q^*$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a)</b> FOC: $p-q=0\Rightarrow q^*(p)=p$. SOC: $\pi_{qq}=-1&lt;0$ ⇒ concave in $q$ ⇒ global maximum.</li>
+<li>$\pi(p)=p\cdot p-\tfrac12p^2-10=\tfrac12p^2-10$.</li>
+<li>Directly: $\pi'(p)=p=q^*(p)$ ✓ — <b>Hotelling's lemma</b>.</li>
+<li><b>Via the envelope theorem</b>, without ever computing $q^*(p)$ as a function: $$\frac{d\pi}{dp}=\frac{\partial}{\partial p}\left(pq-\tfrac12q^2-10\right)\bigg|_{q=q^*}=q^*$$</li>
+<li><b>(b)</b> Same move with the parameter $t$: $$\frac{d\pi}{dt}=\frac{\partial}{\partial t}\left((p-t)q-\tfrac12q^2-10\right)\bigg|_{q=q^*}=-q^*=-(p-t)$$</li>
+<li>So a small tax rise costs the firm approximately its current output in profit, per unit of tax.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The envelope theorem says the <b>indirect</b> effect — the profit change caused by the firm adjusting $q$ — is zero to first order, because the firm was already at a point where $\partial\pi/\partial q=0$. Only the <b>direct</b> effect of the parameter survives. That is why $d\pi/dt=-q^*$ needs no $dq^*/dt$ at all.</div>
+</div></details>
+</div>
+
+<!-- 26 -->
+<div class="wx">
+<div class="bar"><span class="n">W26</span><span class="pill a">●●</span><span class="tag">KKT</span>Case checking with one inequality</div>
+<div class="prob">Maximise $f(x,y)=-(x-4)^2-(y-2)^2$ subject to $x+y\le3$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Case A — assume the constraint is slack ($\lambda=0$).</b> Then solve $\nabla f=\mathbf 0$: $x=4$, $y=2$.<br>Feasibility check: $4+2=6&gt;3$ ✗ — infeasible. Discard.</li>
+<li><b>Case B — assume it binds ($x+y=3$).</b> $\mathcal L=-(x-4)^2-(y-2)^2-\lambda(x+y-3)$.</li>
+<li>$-2(x-4)-\lambda=0$ and $-2(y-2)-\lambda=0$ ⇒ $x-4=y-2$ ⇒ $x=y+2$.</li>
+<li>Constraint: $(y+2)+y=3\Rightarrow y^*=\tfrac12$, $x^*=\tfrac52$.</li>
+<li>Sign check: $\lambda=-2\left(\tfrac52-4\right)=3\ge0$ ✓ — valid.</li>
+<li>$f^*=-\left(-\tfrac32\right)^2-\left(-\tfrac32\right)^2=-\tfrac94-\tfrac94=-\tfrac92$.</li>
+<li><b>Global:</b> $f$ is concave (Hessian $-2I$) and the constraint function is linear (hence convex), so KKT is <b>sufficient</b> — this is the global maximum.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The two cases check complementary things: Case A assumes $\lambda=0$ and verifies <b>feasibility</b>; Case B assumes $g=c$ and verifies the <b>sign</b> of $\lambda$. Exactly one survived, as it must for a strictly concave objective. Geometrically the answer is the projection of the unconstrained optimum $(4,2)$ onto the line $x+y=3$.</div>
+</div></details>
+</div>
+
+<!-- 27 -->
+<div class="wx">
+<div class="bar"><span class="n">W27</span><span class="pill r">●●●</span><span class="tag">KKT</span>With non-negativity constraints</div>
+<div class="prob">Maximise $f(x,y)=4x+3y-x^2-y^2$ subject to $x+y\le2$, $x\ge0$, $y\ge0$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Structure.</b> $H=\begin{pmatrix}-2&amp;0\\0&amp;-2\end{pmatrix}$ is negative definite ⇒ $f$ concave; all constraints linear ⇒ feasible set convex. KKT will be <b>necessary and sufficient</b>.</li>
+<li><b>Case A — all constraints slack.</b> $\nabla f=\mathbf 0$: $4-2x=0\Rightarrow x=2$; $3-2y=0\Rightarrow y=1.5$.<br>Check $x+y=3.5&gt;2$ ✗ — infeasible. So the budget constraint binds.</li>
+<li><b>Case B — budget binds, both variables interior.</b> $\mathcal L=4x+3y-x^2-y^2-\lambda(x+y-2)$.</li>
+<li>$\mathcal L_x=4-2x-\lambda=0$ and $\mathcal L_y=3-2y-\lambda=0$.</li>
+<li>Subtracting: $4-2x=3-2y\Rightarrow y=x-\tfrac12$.</li>
+<li>Constraint: $x+x-\tfrac12=2\Rightarrow x^*=1.25$, $y^*=0.75$.</li>
+<li><b>Checks:</b> $x^*&gt;0$ ✓ and $y^*&gt;0$ ✓ (so the non-negativity constraints are slack and their multipliers are zero); $\lambda=4-2(1.25)=1.5\ge0$ ✓.</li>
+<li>$f^*=5+2.25-1.5625-0.5625=5.125$.</li>
+<li>By step 1 this is the <b>global</b> maximum.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Three constraints mean $2^3$ possible patterns, but the work collapses because the concave objective's unconstrained optimum lies in the positive quadrant — only the budget could bind. Always locate the unconstrained optimum first: its position tells you which constraints could possibly be active, and usually eliminates most cases before you write anything down.</div>
+</div></details>
+</div>
+
+<!-- 28 -->
+<div class="wx">
+<div class="bar"><span class="n">W28</span><span class="pill a">●●</span><span class="tag">portfolio</span>Two-asset minimum variance</div>
+<div class="prob">Assets A and B have $\sigma_A=20\%$, $\sigma_B=30\%$, $\rho=0.2$. Find the minimum-variance weights and the resulting portfolio volatility. Compare with holding A alone.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\sigma_A^2=0.04$, $\sigma_B^2=0.09$, $\sigma_{AB}=\rho\sigma_A\sigma_B=0.2(0.2)(0.3)=0.012$.</li>
+<li>$$w^*=\frac{\sigma_B^2-\sigma_{AB}}{\sigma_A^2+\sigma_B^2-2\sigma_{AB}}=\frac{0.09-0.012}{0.04+0.09-0.024}=\frac{0.078}{0.106}=0.736$$</li>
+<li>So $73.6\%$ in A and $26.4\%$ in B.</li>
+<li>$\sigma_p^2=(0.736)^2(0.04)+(0.264)^2(0.09)+2(0.736)(0.264)(0.012)$<br>$=0.021656+0.006272+0.004664=0.032592$</li>
+<li>$\sigma_p=\sqrt{0.032592}=0.1805$, i.e. <b>18.05%</b>.</li>
+<li><b>Comparison:</b> A alone gives $20\%$, B alone $30\%$. The mix beats <b>both</b> — including the safer asset on its own.</li>
+<li><b>Second-order:</b> $\dfrac{d^2\sigma_p^2}{dw^2}=2(\sigma_A^2+\sigma_B^2-2\sigma_{AB})=0.212&gt;0$ ⇒ convex ⇒ this is the global minimum.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Adding a <i>riskier</i> asset reduced total risk — the central result of diversification, and it is pure convex optimisation. It works because $\rho&lt;1$: the second derivative $2\operatorname{Var}(R_A-R_B)$ is strictly positive whenever the assets are not perfectly correlated, guaranteeing an interior minimum.</div>
+</div></details>
+</div>
+
+<!-- 29 -->
+<div class="wx">
+<div class="bar"><span class="n">W29</span><span class="pill r">●●●</span><span class="tag">portfolio</span>Three assets in matrix form</div>
+<div class="prob">Three uncorrelated assets have volatilities $20\%$, $30\%$, $40\%$. Using $\mathbf w^*=\Sigma^{-1}\mathbf 1/(\mathbf 1^{\mathsf T}\Sigma^{-1}\mathbf 1)$, find the minimum-variance portfolio and its volatility.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Uncorrelated ⇒ $\Sigma=\operatorname{diag}(0.04,\;0.09,\;0.16)$, so $\Sigma^{-1}=\operatorname{diag}(25,\;11.111,\;6.25)$.</li>
+<li>$\Sigma^{-1}\mathbf 1=(25,\;11.111,\;6.25)^{\mathsf T}$.</li>
+<li>$\mathbf 1^{\mathsf T}\Sigma^{-1}\mathbf 1=25+11.111+6.25=42.361$.</li>
+<li>$$\mathbf w^*=\frac{1}{42.361}(25,\;11.111,\;6.25)^{\mathsf T}=(0.590,\;0.262,\;0.148)^{\mathsf T}$$</li>
+<li><b>Variance.</b> For this portfolio the formula collapses neatly: $$\sigma_p^2=\mathbf w^{*\mathsf T}\Sigma\mathbf w^*=\frac{1}{\mathbf 1^{\mathsf T}\Sigma^{-1}\mathbf 1}=\frac{1}{42.361}=0.02361$$</li>
+<li>$\sigma_p=\sqrt{0.02361}=0.1536$, i.e. <b>15.4%</b> — below even the safest single asset at $20\%$.</li>
+<li><b>Global:</b> $\Sigma$ is positive definite ⇒ the objective is strictly convex; the constraint is linear ⇒ the feasible set is affine. The FOC is therefore sufficient and the solution is unique.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>With uncorrelated assets the weights come out <b>inversely proportional to variance</b>, $w_i\propto1/\sigma_i^2$ — the riskiest asset gets the smallest allocation, but not zero. The clean identity $\sigma_p^2=1/(\mathbf 1^{\mathsf T}\Sigma^{-1}\mathbf 1)$ follows by substituting $\mathbf w^*$ into $\mathbf w^{\mathsf T}\Sigma\mathbf w$ and is worth remembering as a check.</div>
+</div></details>
+</div>
+
+<!-- 30 -->
+<div class="wx">
+<div class="bar"><span class="n">W30</span><span class="pill r">●●●</span><span class="tag">estimation</span>Least squares and maximum likelihood agree</div>
+<div class="prob">For regression through the origin, $y_i=\beta x_i+\varepsilon_i$ with data $x=(1,2,3)$, $y=(2,5,7)$: (a) find the least-squares $\hat\beta$ and prove it is a global minimum; (b) show that assuming $\varepsilon_i\sim N(0,\sigma^2)$ i.i.d. and maximising the likelihood gives the same estimate.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a) Objective:</b> $S(\beta)=\sum_{i=1}^{3}(y_i-\beta x_i)^2$.</li>
+<li><b>FOC:</b> $S'(\beta)=-2\sum x_i(y_i-\beta x_i)=0\Rightarrow\sum x_iy_i=\beta\sum x_i^2$, so $$\hat\beta=\frac{\sum x_iy_i}{\sum x_i^2}$$</li>
+<li>$\sum x_iy_i=2+10+21=33$ and $\sum x_i^2=1+4+9=14$, so $\hat\beta=\dfrac{33}{14}\approx2.357$.</li>
+<li><b>Global:</b> $S''(\beta)=2\sum x_i^2=28&gt;0$ for all $\beta$ ⇒ $S$ is strictly convex ⇒ the FOC gives the unique global minimum.</li>
+<li><b>(b) Log-likelihood.</b> With normal errors, $$\ell(\beta)=-\frac{n}{2}\ln(2\pi\sigma^2)-\frac{1}{2\sigma^2}\sum(y_i-\beta x_i)^2$$</li>
+<li>The first term does not involve $\beta$, and the second is $-\dfrac{1}{2\sigma^2}S(\beta)$ with $\sigma^2&gt;0$. So maximising $\ell$ is <b>minimising $S$</b> — a positive rescaling plus a constant, which by module 01 leaves the argmax unchanged.</li>
+<li>Hence $\hat\beta_{\text{MLE}}=\hat\beta_{\text{OLS}}=\dfrac{33}{14}$.</li>
+<li>$\ell''(\beta)=-\dfrac{\sum x_i^2}{\sigma^2}=-\dfrac{14}{\sigma^2}&lt;0$ ⇒ strictly concave ⇒ global maximum, and $-\ell''$ is the Fisher information: the estimator's variance is $\sigma^2/14$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Two apparently different principles — minimise squared error, maximise probability — give the same answer <b>because the normal density is $e^{-(\text{squared error})}$</b>. The equivalence is not a coincidence and it fails for other error distributions. Note also the last line: the curvature at the optimum is not just a classification device, it <i>is</i> the precision of the estimate.</div>
+</div></details>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">AFTER THE SET</span> What to do next<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>If you got a problem wrong, classify the error before moving on — the fix is different in each case:</p>
+  <table class="formula-table">
+    <tr><td><b>Setup</b></td><td>wrong objective, missing constraint, unstated domain. The most expensive category, because the mathematics that follows is irrelevant. Rewrite the three ingredients of module 01 before every problem.</td></tr>
+    <tr><td><b>Incomplete</b></td><td>you found candidates but did not classify them, or classified them but made no global argument. Reread module 06's write-up checklist — this is the most commonly-lost mark in the whole course.</td></tr>
+    <tr><td><b>Missed branches</b></td><td>you solved a factored equation and kept only one root, or reported one Lagrange candidate out of two. Nonlinear systems usually have several solutions.</td></tr>
+    <tr><td><b>Wrong tool</b></td><td>unconstrained Hessian on a constrained problem, leading minors used for semidefiniteness, $f$ instead of $\mathcal L$ in the bordered Hessian, $\lambda&lt;0$ accepted in a KKT max.</td></tr>
+    <tr><td><b>Algebra</b></td><td>the cheapest to fix and the most annoying to lose. Verify every candidate satisfies its constraints before moving on.</td></tr>
+  </table>
+  <p class="muted">Then rewrite module 12 from memory. If you can reproduce the FOC/SOC tables, the Lagrange recipe, the KKT conditions and the three global arguments on a blank sheet, you are ready.</p>
+  </div>
+</div>
+</section>
