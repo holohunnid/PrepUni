@@ -1,0 +1,168 @@
+<!-- ============ 03 CONTINUITY ============ -->
+<section id="s3">
+<div class="sec-head"><span class="num">03</span><h2>Continuity</h2><span class="sub">functions you can draw without lifting the pen — and the theorems that buys you</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why continuity is worth naming<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 2 built a tool for asking "where is $f$ heading near $a$?", carefully ignoring $f(a)$. Continuity is the name for the pleasant situation where <b>the answer is the obvious one</b>: $f$ heads exactly to where it actually is.</p>
+  <p>Informally: a function is continuous if you can draw its graph without lifting your pen. No holes, no jumps, no vertical explosions. That informal picture is reliable — but the formal definition is what you use in proofs and in exam questions of the form "find $k$ such that $f$ is continuous".</p>
+  <p>Two reasons this matters beyond the definition itself:</p>
+  <ul>
+    <li><b>Continuity licenses substitution.</b> Every time you compute a limit by plugging in, you are silently using continuity. Naming the property tells you exactly when that shortcut is legal.</li>
+    <li><b>Continuity unlocks two big theorems.</b> The Intermediate Value Theorem (a continuous function hits every value in between) and the Extreme Value Theorem (a continuous function on a closed bounded interval attains a maximum and a minimum). The second is the foundation of every optimisation problem you will ever solve — it is what guarantees the maximum you're hunting for actually exists.</li>
+  </ul>
+  <div class="note tip"><div class="t">Chapter map</div>The three-part definition → the catalogue of discontinuities → which functions are continuous (almost all of them) → the two theorems and what they are used for.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The three-part definition<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$f$ is <b>continuous at $a$</b> if</p>
+  $$\lim_{x\to a}f(x)=f(a)$$
+  <p>Compact, but it quietly asserts three separate things, and an exam question can break any one of them. Check them in order:</p>
+  <ol class="steps">
+    <li><b>$f(a)$ exists</b> — $a$ is in the domain. (Fails for $1/x$ at $0$.)</li>
+    <li><b>$\lim_{x\to a}f(x)$ exists</b> — both one-sided limits exist and agree. (Fails at a jump.)</li>
+    <li><b>They are equal</b> — the destination matches the arrival. (Fails when a point has been redefined out of place.)</li>
+  </ol>
+  <p>Equivalently, in one line: $\displaystyle\lim_{x\to a^-}f(x)=\lim_{x\to a^+}f(x)=f(a)$. That three-way equation is the form to write down when solving for an unknown constant.</p>
+  <h3>On an interval</h3>
+  <p>$f$ is continuous on an open interval if it is continuous at every point of it. On a <b>closed</b> interval $[a,b]$, the endpoints only get a one-sided requirement — at $a$ we ask $\lim_{x\to a^+}f=f(a)$, since there is no left side to approach from.</p>
+  <div class="note fin"><div class="t">Where discontinuity is real</div>Not every quantity in finance is continuous, and that is economically meaningful. A bond's price jumps on the coupon date; a stock's price gaps at an earnings announcement. Modelling those with continuous functions is exactly the wrong choice — the discontinuity <i>is</i> the event.</div>
+  <p class="muted"><b>Check yourself:</b> $f(x)=\frac{x^2-1}{x-1}$ with $f(1)=5$. Continuous at 1? (Answer: no. The limit is 2, but $f(1)=5$ — part 3 fails. Redefining $f(1)=2$ would fix it.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> The three kinds of discontinuity<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Classifying a break tells you whether it can be repaired, which is exactly what "removable" means.</p>
+  <table>
+    <tr><th>Type</th><th>What happens</th><th>Example</th></tr>
+    <tr><td class="g">Removable</td><td>the limit exists, but $f(a)$ is missing or wrong</td><td>$\frac{x^2-4}{x-2}$ at $2$</td></tr>
+    <tr><td class="a">Jump</td><td>both one-sided limits exist but differ</td><td>$\frac{|x|}{x}$ at $0$</td></tr>
+    <tr><td class="r">Infinite</td><td>at least one side runs to $\pm\infty$</td><td>$\frac1x$ at $0$</td></tr>
+  </table>
+  <p><b>Removable</b> earns its name honestly: define (or redefine) $f(a)$ to equal the limit and the function becomes continuous. Nothing is really broken — a single point was mislabelled. This is why $\frac{x^2-4}{x-2}$ and $x+2$ behave identically in every limit computation.</p>
+  <p><b>Jump</b> and <b>infinite</b> discontinuities cannot be repaired by changing one value. No choice of $f(0)$ makes $|x|/x$ continuous: whatever you pick, one side disagrees.</p>
+  <figure>
+  <svg viewBox="0 0 460 130">
+    <g transform="translate(10,0)">
+      <text x="0" y="14" class="svgtxt w">removable</text>
+      <line x1="0" y1="110" x2="130" y2="110" stroke="var(--border2)"/>
+      <path d="M 8 96 L 60 58 M 76 46 L 126 10" fill="none" stroke="var(--blue)" stroke-width="2"/>
+      <circle cx="68" cy="52" r="4" fill="none" stroke="var(--blue)" stroke-width="1.5"/>
+      <text x="52" y="126" class="svgtxt">a</text>
+    </g>
+    <g transform="translate(165,0)">
+      <text x="0" y="14" class="svgtxt w">jump</text>
+      <line x1="0" y1="110" x2="130" y2="110" stroke="var(--border2)"/>
+      <path d="M 8 90 L 66 66" fill="none" stroke="var(--blue)" stroke-width="2"/>
+      <path d="M 66 30 L 126 14" fill="none" stroke="var(--blue)" stroke-width="2"/>
+      <circle cx="66" cy="66" r="4" fill="var(--blue)"/>
+      <circle cx="66" cy="30" r="4" fill="none" stroke="var(--blue)" stroke-width="1.5"/>
+      <text x="60" y="126" class="svgtxt">a</text>
+    </g>
+    <g transform="translate(320,0)">
+      <text x="0" y="14" class="svgtxt w">infinite</text>
+      <line x1="0" y1="110" x2="130" y2="110" stroke="var(--border2)"/>
+      <line x1="65" y1="8" x2="65" y2="110" stroke="var(--red)" stroke-dasharray="3 3"/>
+      <path d="M 8 104 Q 50 100 58 12" fill="none" stroke="var(--blue)" stroke-width="2"/>
+      <path d="M 72 108 Q 80 30 126 22" fill="none" stroke="var(--blue)" stroke-width="2"/>
+      <text x="59" y="126" class="svgtxt">a</text>
+    </g>
+  </svg>
+  <figcaption>A hollow circle marks a value the function does not take. Only the left case can be repaired by redefining one point.</figcaption>
+  </figure>
+  <p class="muted"><b>Check yourself:</b> classify $f(x)=\frac{\sin x}{x}$ at $x=0$. (Answer: removable — the limit is 1, the function is undefined there. Setting $f(0)=1$ makes it continuous everywhere.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Solve for the constant that makes a piecewise function continuous<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>This is the most common exam form of the definition. Given</p>
+  $$f(x)=\begin{cases} x^2+1, &amp; x\le 1\\[2pt] kx+3, &amp; x&gt;1\end{cases}$$
+  <p>find $k$ so that $f$ is continuous at $x=1$. Slide $k$ until the gap closes, then read off the algebra that predicts it.</p>
+  <div class="ctrl">
+    <label>k <input type="range" id="ct_k" min="-3" max="3" step="0.05" value="-1.4"><span class="val" id="ct_k_v">-1.40</span></label>
+    <span class="btns"><button onclick="ctSet(-1)">snap to k = −1</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="ctsvg" viewBox="0 0 440 250"></svg>
+    <figcaption>Blue: the left piece $x^2+1$. Amber: the right piece $kx+3$. The vertical red bar is the gap between the two one-sided limits; it vanishes exactly when $k=-1$.</figcaption></figure>
+    <div>
+      <div class="readout" id="ctread"></div>
+      <p style="margin-top:10px">The method, which never changes:</p>
+      <ol class="steps">
+        <li><b>Left limit.</b> $\lim_{x\to1^-}(x^2+1)=2$.</li>
+        <li><b>Value at the point.</b> $f(1)=1^2+1=2$ (the $\le$ puts $x=1$ in the first piece).</li>
+        <li><b>Right limit.</b> $\lim_{x\to1^+}(kx+3)=k+3$.</li>
+        <li><b>Set them equal.</b> $k+3=2\Rightarrow \boxed{k=-1}$.</li>
+      </ol>
+      <div class="note warn"><div class="t">Trap</div>Check which piece owns the boundary point. Here $x\le1$ means $f(1)$ comes from $x^2+1$. If the definition had said $x&lt;1$ and $x\ge1$, then $f(1)=k+3$ instead — the equation is the same, but sloppy reading loses the mark on a different part.</div>
+      <p class="muted">Away from $x=1$ there is nothing to check: both pieces are polynomials, continuous everywhere. Only the seam can break.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Which functions are continuous? (almost all of them)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Rather than checking the definition each time, learn the catalogue. The following are continuous <b>everywhere on their natural domains</b>:</p>
+  <table class="formula-table">
+    <tr><td>Polynomials</td><td>continuous on all of $\mathbb{R}$</td></tr>
+    <tr><td>Rational $p/q$</td><td>continuous wherever $q(x)\ne0$</td></tr>
+    <tr><td>$e^x$, $\sin x$, $\cos x$</td><td>continuous on all of $\mathbb{R}$</td></tr>
+    <tr><td>$\ln x$</td><td>continuous on $(0,\infty)$</td></tr>
+    <tr><td>$\sqrt[n]{x}$</td><td>continuous on its domain</td></tr>
+    <tr><td>$|x|$</td><td>continuous everywhere (though not differentiable at 0 — see module 4)</td></tr>
+  </table>
+  <h3>Continuity survives combination</h3>
+  <p>If $f$ and $g$ are continuous at $a$, then so are</p>
+  $$f\pm g,\qquad fg,\qquad \frac fg\ (\text{if }g(a)\ne0),\qquad f\circ g\ (\text{composite})$$
+  <p>The composite rule is the useful one: $e^{\sin(x^2)}$ is continuous everywhere <i>because</i> it is built by composing continuous pieces. You never need to touch $\varepsilon$–$\delta$.</p>
+  <div class="note"><div class="t">Practical consequence</div>Anything written with one formula out of the standard library is continuous on its domain. In practice, only <b>two</b> things create discontinuities in exam problems: a <b>denominator hitting zero</b>, and a <b>piecewise seam</b>. Check those two, and you are done.</div>
+  <p class="muted"><b>Check yourself:</b> where is $f(x)=\frac{e^x}{x^2-9}$ discontinuous? (Answer: at $x=\pm3$ only — infinite discontinuities where the denominator vanishes.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> The two theorems continuity buys you<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Intermediate Value Theorem (IVT)</h3>
+  <div class="note"><div class="t">IVT</div>If $f$ is continuous on $[a,b]$ and $N$ is any value strictly between $f(a)$ and $f(b)$, then there exists at least one $c\in(a,b)$ with $f(c)=N$.</div>
+  <p>In words: an unbroken curve that starts below a level and ends above it must cross that level. Obvious from the picture — and false without continuity, since a jump can leap right over $N$.</p>
+  <p><b>What it is used for:</b> proving a root exists without finding it. To show $x^3+x-1=0$ has a solution in $[0,1]$: $f$ is a polynomial (continuous), $f(0)=-1&lt;0$ and $f(1)=1&gt;0$, so by IVT some $c\in(0,1)$ has $f(c)=0$. Note the theorem says a root <i>exists</i>; it does not tell you where. Repeatedly halving the interval (bisection) turns this into an actual numerical method.</p>
+  <figure>
+  <svg viewBox="0 0 400 150">
+    <line x1="30" y1="130" x2="380" y2="130" stroke="var(--border2)"/>
+    <line x1="30" y1="10" x2="30" y2="130" stroke="var(--border2)"/>
+    <path d="M 55 118 C 130 108 150 30 230 52 S 320 28 360 20" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <line x1="30" y1="70" x2="380" y2="70" stroke="var(--green)" stroke-dasharray="4 3"/>
+    <text x="384" y="74" class="svgtxt g">N</text>
+    <circle cx="55" cy="118" r="3.5" fill="var(--blue)"/><text x="46" y="145" class="svgtxt">a</text>
+    <circle cx="360" cy="20" r="3.5" fill="var(--blue)"/><text x="356" y="145" class="svgtxt">b</text>
+    <circle cx="176" cy="70" r="4" fill="var(--amber)"/><text x="170" y="145" class="svgtxt a">c</text>
+    <line x1="176" y1="70" x2="176" y2="130" stroke="var(--amber)" stroke-dasharray="3 3"/>
+  </svg>
+  <figcaption>Starting below N and ending above it, a continuous curve must meet the level N somewhere in between.</figcaption>
+  </figure>
+  <h3>Extreme Value Theorem (EVT)</h3>
+  <div class="note"><div class="t">EVT</div>If $f$ is continuous on a <b>closed, bounded</b> interval $[a,b]$, then $f$ attains an absolute maximum and an absolute minimum on $[a,b]$.</div>
+  <p>Both hypotheses are essential, and each fails instructively:</p>
+  <ul>
+    <li><b>Drop closed:</b> $f(x)=x$ on $(0,1)$ has no maximum — values approach 1 but never reach it.</li>
+    <li><b>Drop bounded:</b> $f(x)=x$ on $[0,\infty)$ has no maximum.</li>
+    <li><b>Drop continuity:</b> $f(x)=1/x$ on $(0,1]$ is unbounded above.</li>
+  </ul>
+  <div class="note fin"><div class="t">Why you should care</div>EVT is the licence for the whole of optimisation. When you solve $f'(x)=0$ and compare candidate values, you are assuming a maximum exists to be found. On a closed bounded interval with a continuous $f$, EVT guarantees it. Module 6 turns this into the closed-interval method; the Optimization course extends it to several variables.</div>
+  <p class="muted"><b>Check yourself:</b> does $f(x)=\tan x$ attain a maximum on $[0,\pi]$? (Answer: no — it is not continuous there; it blows up at $\pi/2$, so EVT does not apply.)</p>
+  </div>
+</div>
+</div>
+</section>

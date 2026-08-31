@@ -1,0 +1,195 @@
+<!-- ============ 01 FUNCTIONS & FOUNDATIONS ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>Functions &amp; foundations</h2><span class="sub">the algebra you must not fumble, and the objects calculus acts on</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why this module exists<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Calculus is not really about limits, derivatives and integrals. It is about <b>functions</b> — and those three tools are just three questions you can ask about a function: <i>where is it heading?</i> (limit), <i>how fast is it changing?</i> (derivative), <i>how much has accumulated?</i> (integral). If the function itself is hazy, all three answers will be hazy.</p>
+  <p>Almost every mark lost in a calculus exam is lost twice: once on the calculus and once on the algebra underneath it. A sign slipped while expanding a bracket, a log rule misremembered, a domain forgotten — the derivative was right, the answer was wrong. So this module does two jobs:</p>
+  <ul>
+    <li><b>Refresh the algebra</b> that every later manipulation silently assumes — powers, logs, exponentials, factoring.</li>
+    <li><b>Pin down what a function is</b>, its domain, how functions combine and invert, and what the standard library of functions looks like — because from module 4 onward you will be differentiating these by reflex.</li>
+  </ul>
+  <div class="note tip"><div class="t">Chapter map</div>Sets and intervals (the language for "where the function lives") → what a function actually is → the standard function library and their graphs → combining functions: composition and inverses → the algebra toolkit you should be able to use without thinking.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Sets and intervals — the language of "where"<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>set</b> is a collection of objects, with no order and no repetition. We write $x\in A$ for "$x$ is in $A$" and $x\notin A$ for "is not". Two ways to specify a set:</p>
+  <ul>
+    <li><b>Listing:</b> $A=\{1,2,3\}$.</li>
+    <li><b>Rule (set-builder):</b> $A=\{x\in\mathbb{R}: x^2&lt;9\}$, read "all real $x$ such that $x^2&lt;9$". This is the form you meet constantly, because domains are described this way.</li>
+  </ul>
+  <p>The three operations, and the one relation:</p>
+  <table class="formula-table">
+    <tr><td>Union</td><td>$A\cup B=\{x: x\in A \text{ or } x\in B\}$</td></tr>
+    <tr><td>Intersection</td><td>$A\cap B=\{x: x\in A \text{ and } x\in B\}$</td></tr>
+    <tr><td>Complement</td><td>$A^c=\{x: x\notin A\}$</td></tr>
+    <tr><td>Difference</td><td>$A\setminus B=A\cap B^c$</td></tr>
+    <tr><td>Subset</td><td>$A\subseteq B$: every element of $A$ is in $B$</td></tr>
+    <tr><td>De Morgan</td><td>$(A\cup B)^c=A^c\cap B^c$, $(A\cap B)^c=A^c\cup B^c$</td></tr>
+  </table>
+  <h3>Intervals — the only sets you will actually use</h3>
+  <p>Calculus lives on the real line $\mathbb{R}$, and almost every set you meet is an <b>interval</b>. Square bracket = endpoint included, round bracket = excluded. Infinity always gets a round bracket, because $\infty$ is not a number you can include.</p>
+  <table class="formula-table">
+    <tr><td>$[a,b]$</td><td>$a\le x\le b$ — <b>closed</b> (contains its endpoints)</td></tr>
+    <tr><td>$(a,b)$</td><td>$a&lt;x&lt;b$ — <b>open</b></td></tr>
+    <tr><td>$[a,b)$</td><td>$a\le x&lt;b$ — half-open</td></tr>
+    <tr><td>$(a,\infty)$</td><td>$x&gt;a$ — unbounded</td></tr>
+  </table>
+  <p>This open/closed distinction looks like pedantry and is not: in module 3 the Extreme Value Theorem guarantees a maximum on $[a,b]$ and guarantees nothing on $(a,b)$. The function $f(x)=x$ on $(0,1)$ has no largest value — every candidate is beaten by something closer to 1.</p>
+  <h3>Absolute value</h3>
+  <p>$|x|$ is the distance from $x$ to 0, so $|x-a|$ is the distance from $x$ to $a$. That reading turns inequalities into intervals instantly:</p>
+  $$|x-a|&lt;\delta \iff a-\delta &lt; x &lt; a+\delta \iff x\in(a-\delta,\,a+\delta)$$
+  <p>Memorise that equivalence now — it <i>is</i> the definition of a limit in module 2, where $\delta$ is a small distance and the statement reads "$x$ is within $\delta$ of $a$".</p>
+  <p class="muted"><b>Check yourself:</b> write $\{x:|x-3|\le 2\}$ as an interval. (Answer: $[1,5]$ — everything within distance 2 of 3.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> What a function is (and what a domain is for)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>function</b> $f:D\to\mathbb{R}$ is a rule that assigns to <b>each</b> input $x$ in the set $D$ <b>exactly one</b> output $f(x)$. Three words carry all the weight:</p>
+  <ul>
+    <li><b>each</b> — no input in $D$ may be left without an output. That is what forces us to state the domain honestly.</li>
+    <li><b>exactly one</b> — no input may produce two outputs. This is the graphical <b>vertical line test</b>: a vertical line may cross the graph at most once. A circle is not a function.</li>
+    <li><b>rule</b> — it needn't be a formula. A table, a graph, or "the closing price on day $t$" are all functions.</li>
+  </ul>
+  <p>Vocabulary you must be able to use precisely:</p>
+  <table class="formula-table">
+    <tr><td>Domain $D$</td><td>the set of legal inputs</td></tr>
+    <tr><td>Codomain</td><td>the set the outputs are drawn from (usually $\mathbb{R}$)</td></tr>
+    <tr><td>Range / image</td><td>the outputs that are <i>actually</i> achieved: $\{f(x):x\in D\}$</td></tr>
+    <tr><td>Graph</td><td>the set of points $\{(x,f(x)):x\in D\}$ in the plane</td></tr>
+  </table>
+  <h3>Finding the natural domain</h3>
+  <p>When a function is given by a formula with no domain stated, the <b>natural domain</b> is every $x$ for which the formula makes sense. In practice there are exactly three things that can go wrong, and you should scan for all three every time:</p>
+  <ol class="steps">
+    <li><b>Division by zero.</b> Denominator $\ne 0$.</li>
+    <li><b>Even root of a negative.</b> Inside of $\sqrt{\ }$ must be $\ge 0$.</li>
+    <li><b>Log of a non-positive number.</b> Inside of $\ln$ must be $&gt;0$ (strictly).</li>
+  </ol>
+  <div class="ex"><div class="bar">Domain of $f(x)=\dfrac{\ln(x-1)}{\sqrt{4-x}}$</div><div class="body">
+  <p>Three conditions at once, then intersect:</p>
+  <ul>
+    <li>$\ln(x-1)$ needs $x-1&gt;0$, so $x&gt;1$.</li>
+    <li>$\sqrt{4-x}$ needs $4-x\ge0$, so $x\le4$.</li>
+    <li>The square root sits in a <i>denominator</i>, so it must also be non-zero: $4-x\ne0$, i.e. $x\ne4$. This tightens the previous line to $x&lt;4$.</li>
+  </ul>
+  <p>Intersecting: $\;D=(1,4)$.</p>
+  </div></div>
+  <div class="note warn"><div class="t">Trap</div>A root in the denominator has to satisfy <b>both</b> conditions — non-negative to be defined, and non-zero to be divided by. Stopping at $x\le4$ is the single most common domain error.</div>
+  <h3>Even, odd, increasing, bounded</h3>
+  <p>Four descriptive words that come up in questions and save work when they apply:</p>
+  <table class="formula-table">
+    <tr><td>Even</td><td>$f(-x)=f(x)$ — mirror-symmetric about the $y$-axis ($x^2$, $\cos x$)</td></tr>
+    <tr><td>Odd</td><td>$f(-x)=-f(x)$ — rotationally symmetric about the origin ($x^3$, $\sin x$)</td></tr>
+    <tr><td>Increasing</td><td>$x_1&lt;x_2\Rightarrow f(x_1)&lt;f(x_2)$ (strictly)</td></tr>
+    <tr><td>Bounded</td><td>$|f(x)|\le M$ for some fixed $M$ and all $x\in D$</td></tr>
+  </table>
+  <p class="muted"><b>Check yourself:</b> is $f(x)=x^3-x$ even, odd, or neither? (Answer: odd — $f(-x)=-x^3+x=-(x^3-x)$.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> The standard library, and what the four transformations do<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Every function you meet in this course is one of a handful of basic shapes, possibly stretched and shifted. Learn the shapes once and you can sketch anything. The general transformed form is</p>
+  $$g(x)=a\,f\big(b(x-c)\big)+d$$
+  <p>and each of the four parameters does exactly one thing. Move the sliders and watch which one moves:</p>
+  <div class="ctrl">
+    <span class="btns">
+      <button onclick="fnBase('quad')">x²</button><button onclick="fnBase('cube')">x³</button><button onclick="fnBase('sqrt')">√x</button><button onclick="fnBase('recip')">1/x</button><button onclick="fnBase('exp')">eˣ</button><button onclick="fnBase('ln')">ln x</button><button onclick="fnBase('sin')">sin x</button><button onclick="fnBase('abs')">|x|</button>
+    </span>
+  </div>
+  <div class="ctrl">
+    <label>a · vertical stretch <input type="range" id="fn_a" min="-3" max="3" step="0.1" value="1"><span class="val" id="fn_a_v">1.0</span></label>
+    <label>b · horizontal squeeze <input type="range" id="fn_b" min="-3" max="3" step="0.1" value="1"><span class="val" id="fn_b_v">1.0</span></label>
+    <label>c · shift right <input type="range" id="fn_c" min="-4" max="4" step="0.1" value="0"><span class="val" id="fn_c_v">0.0</span></label>
+    <label>d · shift up <input type="range" id="fn_d" min="-4" max="4" step="0.1" value="0"><span class="val" id="fn_d_v">0.0</span></label>
+    <span class="btns"><button onclick="fnReset()">reset</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="fnsvg" viewBox="0 0 460 300"></svg>
+    <figcaption>Dashed grey: the base function $f$. Green: the transformed $a\,f(b(x-c))+d$.</figcaption></figure>
+    <div>
+      <div class="readout" id="fnread"></div>
+      <table class="formula-table" style="margin-top:10px">
+        <tr><td>$a&gt;1$</td><td>stretch vertically; $0&lt;a&lt;1$ squash; $a&lt;0$ flip upside down</td></tr>
+        <tr><td>$b&gt;1$</td><td>squeeze horizontally (faster); $b&lt;0$ mirror left–right</td></tr>
+        <tr><td>$c$</td><td>shift <b>right</b> by $c$ — note the minus sign inside</td></tr>
+        <tr><td>$d$</td><td>shift <b>up</b> by $d$</td></tr>
+      </table>
+      <div class="note warn"><div class="t">Trap</div>Inside the bracket, everything is <b>backwards</b>: $f(x-3)$ moves the graph 3 to the <i>right</i>, and $f(2x)$ makes it <i>narrower</i>, not wider. The reason: to get the old output you now need a bigger $x$ to feed the bracket the old input.</div>
+      <p class="muted">Notice $\sqrt{x}$, $\ln x$ and $1/x$ have restricted domains — the curve simply stops. That is the domain of Idea 2 made visible.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Composition and inverses<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Composition: functions in series</h3>
+  <p>Feeding the output of one function into another gives the <b>composite</b>, written $(f\circ g)(x)=f(g(x))$ and read "f after g". Order matters enormously:</p>
+  <p>With $f(x)=x^2$ and $g(x)=x+1$: $\;f(g(x))=(x+1)^2$ but $g(f(x))=x^2+1$. Different functions.</p>
+  <p>The habit to build now, because the chain rule in module 5 depends entirely on it: given a messy function, <b>identify the outer and inner parts</b>.</p>
+  <table class="formula-table">
+    <tr><td>$\sqrt{3x+1}$</td><td>outer $\sqrt{\;}$, inner $3x+1$</td></tr>
+    <tr><td>$e^{-x^2}$</td><td>outer $e^{\square}$, inner $-x^2$</td></tr>
+    <tr><td>$\ln(\cos x)$</td><td>outer $\ln$, inner $\cos x$</td></tr>
+    <tr><td>$(\ln x)^3$</td><td>outer $\square^3$, inner $\ln x$ — <i>not</i> the same as the line above</td></tr>
+  </table>
+  <p>The domain of $f\circ g$ is the $x$ in the domain of $g$ whose output $g(x)$ is legal for $f$. Example: $\ln(\cos x)$ needs $\cos x&gt;0$, not all of $\mathbb{R}$.</p>
+  <h3>Inverse: running the machine backwards</h3>
+  <p>The <b>inverse</b> $f^{-1}$ undoes $f$: $f^{-1}(f(x))=x$ and $f(f^{-1}(y))=y$. It exists only if $f$ never sends two different inputs to the same output — such an $f$ is called <b>one-to-one</b>, and graphically it passes the <b>horizontal line test</b>. Any strictly increasing (or strictly decreasing) function qualifies.</p>
+  <p>To find it: write $y=f(x)$, solve for $x$, then rename. For $f(x)=2x+3$: $y=2x+3\Rightarrow x=\tfrac{y-3}{2}$, so $f^{-1}(x)=\tfrac{x-3}{2}$.</p>
+  <p>Two facts worth carrying: the graph of $f^{-1}$ is the graph of $f$ <b>reflected in the line $y=x$</b>, and the domain and range swap roles.</p>
+  <div class="note warn"><div class="t">Trap</div>$f^{-1}(x)$ means the inverse function; $f(x)^{-1}$ means $1/f(x)$. They are unrelated. Only $\sin^{-1}$, $\cos^{-1}$ etc. break this convention — and even there $\sin^2x$ means $(\sin x)^2$. Read carefully.</div>
+  <p><b>The pair you will use most:</b> $e^x$ and $\ln x$ are inverses of each other. That single fact is why $e^{\ln u}=u$ and $\ln(e^u)=u$, which is how you will unpick almost every exponential equation.</p>
+  <p class="muted"><b>Check yourself:</b> decompose $h(x)=e^{\sqrt{x+1}}$ into three nested functions. (Answer: outer $e^{\square}$, then $\sqrt{\square}$, then $x+1$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> The algebra toolkit — know these cold<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Every rule below will be used without comment from module 4 onward. If any of them makes you hesitate, that hesitation will cost you marks under time pressure.</p>
+  <h3>Powers</h3>
+  <table class="formula-table">
+    <tr><td>Product</td><td>$x^a x^b=x^{a+b}$</td></tr>
+    <tr><td>Quotient</td><td>$x^a/x^b=x^{a-b}$</td></tr>
+    <tr><td>Power of a power</td><td>$(x^a)^b=x^{ab}$</td></tr>
+    <tr><td>Negative</td><td>$x^{-a}=1/x^a$</td></tr>
+    <tr><td>Fractional</td><td>$x^{1/n}=\sqrt[n]{x}$, so $x^{m/n}=\sqrt[n]{x^m}$</td></tr>
+    <tr><td>Zero</td><td>$x^0=1$ (for $x\ne0$)</td></tr>
+  </table>
+  <p class="muted">Rewriting roots and reciprocals as powers is the single most useful preparatory move before differentiating: $\dfrac{1}{\sqrt{x}}=x^{-1/2}$ is now a one-line power-rule job.</p>
+  <h3>Exponentials and logarithms</h3>
+  <table class="formula-table">
+    <tr><td>Definition</td><td>$y=\ln x \iff e^y=x$ (so $\ln$ is only defined for $x&gt;0$)</td></tr>
+    <tr><td>Product</td><td>$\ln(ab)=\ln a+\ln b$</td></tr>
+    <tr><td>Quotient</td><td>$\ln(a/b)=\ln a-\ln b$</td></tr>
+    <tr><td>Power</td><td>$\ln(a^b)=b\ln a$ — the rule that makes logs useful</td></tr>
+    <tr><td>Values</td><td>$\ln 1=0$, $\ln e=1$, $e^0=1$</td></tr>
+    <tr><td>Base change</td><td>$a^x=e^{x\ln a}$ — turns <i>any</i> exponential into base $e$</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>$\ln(a+b)\ne\ln a+\ln b$. There is <b>no</b> rule for the log of a sum. Likewise $e^{a+b}=e^ae^b$ (true) but $e^{ab}\ne e^ae^b$ (false). Sums inside logs and products inside exponents are where marks vanish.</div>
+  <h3>Factoring patterns worth recognising instantly</h3>
+  <table class="formula-table">
+    <tr><td>Difference of squares</td><td>$a^2-b^2=(a-b)(a+b)$</td></tr>
+    <tr><td>Perfect squares</td><td>$a^2\pm2ab+b^2=(a\pm b)^2$</td></tr>
+    <tr><td>Difference of cubes</td><td>$a^3-b^3=(a-b)(a^2+ab+b^2)$</td></tr>
+    <tr><td>Quadratic formula</td><td>$x=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}$</td></tr>
+  </table>
+  <p>Difference of squares is the workhorse of module 2: it is how you kill the $\tfrac00$ in limits like $\lim_{x\to2}\frac{x^2-4}{x-2}$ — factor to $(x-2)(x+2)$, cancel, done.</p>
+  <div class="note fin"><div class="t">Finance link</div>$a^x=e^{x\ln a}$ is why continuously-compounded returns are natural: a growth factor of $(1+r)$ per year over $t$ years is $(1+r)^t=e^{t\ln(1+r)}$, and $\ln(1+r)$ is exactly the continuously-compounded ("log") return. Module 11 builds on this.</div>
+  <p class="muted"><b>Check yourself:</b> simplify $\ln(x^2)-2\ln x$ for $x&gt;0$. (Answer: $2\ln x-2\ln x=0$.)</p>
+  </div>
+</div>
+</div>
+</section>

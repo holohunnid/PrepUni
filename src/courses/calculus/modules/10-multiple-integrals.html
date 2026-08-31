@@ -1,0 +1,164 @@
+<!-- ============ 10 MULTIPLE INTEGRALS ============ -->
+<section id="s10">
+<div class="sec-head"><span class="num">10</span><h2>Multiple integrals</h2><span class="sub">accumulating over a region instead of an interval</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The same idea, one dimension up<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 7 built the integral by chopping an interval into strips, multiplying width by height, and adding. The <b>double integral</b> does exactly the same thing over a two-dimensional region: chop it into small rectangles of area $\Delta A=\Delta x\,\Delta y$, multiply each by the value of $f$ there, and add.</p>
+  $$\iint_R f(x,y)\,dA=\lim_{\text{mesh}\to0}\sum_i f(x_i^*,y_i^*)\,\Delta A_i$$
+  <p>If $f\ge0$ this is the <b>volume</b> under the surface $z=f(x,y)$ over the region $R$ — the natural next step after "area under a curve". If $f=1$ it is simply the <b>area</b> of $R$.</p>
+  <p>And as before, the definition is not how you compute. The computational fact is <b>Fubini's theorem</b>: a double integral equals an <b>iterated</b> integral — do one variable at a time, holding the other fixed, exactly as with partial derivatives. So a double integral is two ordinary integrations in sequence, and everything from modules 7 and 8 applies unchanged.</p>
+  <p>The genuinely new skill is not integration at all. It is <b>setting up the limits</b>: describing a two-dimensional region correctly so that the inner and outer integrals cover it exactly once. That is where the marks are, and it is what this module drills.</p>
+  <div class="note tip"><div class="t">Chapter map</div>Over a rectangle: Fubini and iterated integrals → over a general region: Type I and Type II descriptions → reversing the order of integration → area and average value → polar coordinates → a note on triple integrals and joint densities.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Over a rectangle: Fubini's theorem<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The easiest case is a rectangle $R=[a,b]\times[c,d]$, meaning $a\le x\le b$ and $c\le y\le d$ independently.</p>
+  <div class="note"><div class="t">Fubini's theorem (rectangles)</div>If $f$ is continuous on $R$, $$\iint_R f\,dA=\int_a^b\!\!\int_c^d f(x,y)\,dy\,dx=\int_c^d\!\!\int_a^b f(x,y)\,dx\,dy$$ — both orders give the same number.</div>
+  <p><b>How to read an iterated integral.</b> Work from the inside out, and match each $d$ with its own limits: in $\int_a^b\int_c^d f\,dy\,dx$ the inner $dy$ belongs to $c,d$ and the outer $dx$ to $a,b$. When integrating the inner one, <b>treat $x$ as a constant</b> — the exact mirror of a partial derivative.</p>
+  <div class="ex"><div class="bar">$\displaystyle\int_0^2\!\!\int_1^3 xy^2\,dy\,dx$</div><div class="body">
+  <ol class="steps">
+    <li><b>Inner</b> ($y$ from 1 to 3, $x$ frozen): $\displaystyle\int_1^3 xy^2dy=x\left[\frac{y^3}{3}\right]_1^3=x\left(9-\tfrac13\right)=\tfrac{26}{3}x$.</li>
+    <li><b>Outer</b> ($x$ from 0 to 2): $\displaystyle\int_0^2\tfrac{26}{3}x\,dx=\tfrac{26}{3}\left[\frac{x^2}{2}\right]_0^2=\tfrac{26}{3}\cdot2=\tfrac{52}{3}$.</li>
+  </ol>
+  <p class="muted">Check the other order: $\int_1^3\int_0^2 xy^2dxdy=\int_1^3 2y^2dy=\tfrac{2}{3}(27-1)=\tfrac{52}{3}$ ✓.</p>
+  </div></div>
+  <div class="note tip"><div class="t">The separable shortcut</div>If the integrand <b>factors</b> as $f(x,y)=g(x)h(y)$ <i>and</i> the region is a rectangle with constant limits, the double integral splits into a product: $$\iint_R g(x)h(y)\,dA=\left(\int_a^b g\,dx\right)\left(\int_c^d h\,dy\right)$$ The example above is $\left(\int_0^2x\,dx\right)\left(\int_1^3y^2dy\right)=2\cdot\tfrac{26}{3}$ — one line. Both conditions are needed; the shortcut fails the moment a limit involves the other variable.</div>
+  <p class="muted"><b>Check yourself:</b> $\int_0^1\int_0^1 e^{x+y}dydx$. (Answer: separable as $e^xe^y$, giving $(e-1)^2$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> General regions: Type I and Type II<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Most regions are not rectangles, and then the <b>inner</b> limits become functions of the outer variable. There are two ways to describe a region, and choosing well can be the difference between a two-line integral and an impossible one.</p>
+  <h3>Type I — vertical slabs</h3>
+  <p>Describe the region as: $x$ runs between constants, and for each $x$, $y$ runs between two curves.</p>
+  $$R=\{(x,y): a\le x\le b,\;g_1(x)\le y\le g_2(x)\}\;\Longrightarrow\;\iint_R f\,dA=\int_a^b\!\!\int_{g_1(x)}^{g_2(x)}f\,dy\,dx$$
+  <h3>Type II — horizontal slabs</h3>
+  <p>Or: $y$ runs between constants, and for each $y$, $x$ runs between two curves.</p>
+  $$R=\{(x,y): c\le y\le d,\;h_1(y)\le x\le h_2(y)\}\;\Longrightarrow\;\iint_R f\,dA=\int_c^d\!\!\int_{h_1(y)}^{h_2(y)}f\,dx\,dy$$
+  <div class="note"><div class="t">The rule that prevents nonsense</div>The <b>outer</b> limits are always <b>constants</b>. The <b>inner</b> limits may involve the outer variable, never the other way round. If your inner limits are constants and your outer ones are not, you have written the integral upside down.</div>
+  <h3>The setup procedure</h3>
+  <ol class="steps">
+    <li><b>Sketch the region.</b> Non-negotiable — the limits are read off the picture, and nobody gets them right from the algebra alone.</li>
+    <li><b>Find the intersection points</b> of the bounding curves; these give the constant limits.</li>
+    <li><b>Choose a direction.</b> Draw an arrow through the region: vertical for Type I, horizontal for Type II.</li>
+    <li><b>Read off where the arrow enters and leaves</b> — those are the inner limits, as functions of the other variable.</li>
+    <li>If the arrow enters or leaves through <b>different curves</b> in different parts of the region, split the integral, or use the other type.</li>
+  </ol>
+  <p class="muted"><b>Check yourself:</b> for the triangle with vertices $(0,0),(1,0),(1,1)$, give the Type I description. (Answer: $0\le x\le1$, $0\le y\le x$.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> One region, two descriptions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The region is bounded by $y=x^2$ and $y=2x$, meeting at $(0,0)$ and $(2,4)$. Toggle the slab direction and read the limits the picture dictates. The area is the same either way — but for a given integrand, one order can be easy and the other impossible.</p>
+  <div class="ctrl">
+    <span class="btns"><button onclick="dbMode('I')">Type I · vertical slabs</button><button onclick="dbMode('II')">Type II · horizontal slabs</button></span>
+    <label>slabs <input type="range" id="db_n" min="3" max="40" step="1" value="12"><span class="val" id="db_n_v">12</span></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="dbsvg" viewBox="0 0 440 290"></svg>
+    <figcaption>Blue: $y=x^2$. Amber: $y=2x$. Green: the slabs whose direction determines the order of integration; the highlighted one shows where the inner variable enters and leaves.</figcaption></figure>
+    <div>
+      <div class="readout" id="dbread"></div>
+      <p style="margin-top:10px">Both give the area $\tfrac43$:</p>
+      <p><b>Type I</b> — a vertical arrow enters at $y=x^2$ and leaves at $y=2x$, for $x$ from 0 to 2:</p>
+      $$\int_0^2\!\!\int_{x^2}^{2x}dy\,dx=\int_0^2(2x-x^2)dx=\left[x^2-\tfrac{x^3}{3}\right]_0^2=\tfrac43$$
+      <p><b>Type II</b> — a horizontal arrow enters at $x=y/2$ and leaves at $x=\sqrt y$, for $y$ from 0 to 4:</p>
+      $$\int_0^4\!\!\int_{y/2}^{\sqrt y}dx\,dy=\int_0^4\left(\sqrt y-\tfrac y2\right)dy=\left[\tfrac23y^{3/2}-\tfrac{y^2}{4}\right]_0^4=\tfrac{16}{3}-4=\tfrac43$$
+      <p class="muted">Notice how the boundary curves had to be re-solved for the other variable: $y=x^2$ becomes $x=\sqrt y$, and $y=2x$ becomes $x=y/2$. That inversion is the mechanical part of switching type.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Reversing the order of integration<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Sometimes an integral in the given order is impossible, and in the other order it is easy. Since Fubini says both compute the same number, you are free to swap — but you must go through the region to do it. <b>You cannot simply exchange the limits.</b></p>
+  <div class="note"><div class="t">Procedure</div><b>1.</b> Read the given limits and <b>sketch the region</b> they describe. <b>2.</b> Re-describe that same region with the other slab direction. <b>3.</b> Write the new integral. <b>4.</b> Compute.</div>
+  <div class="ex"><div class="bar">$\displaystyle\int_0^1\!\!\int_x^1 e^{y^2}\,dy\,dx$</div><div class="body">
+  <p><b>The obstacle.</b> $\int e^{y^2}dy$ has no elementary antiderivative — the inner integral cannot be done as written. So reverse.</p>
+  <ol class="steps">
+    <li><b>Read the region:</b> $0\le x\le1$ and $x\le y\le1$. That is the triangle above the line $y=x$, inside the unit square — vertices $(0,0)$, $(0,1)$, $(1,1)$.</li>
+    <li><b>Re-describe with horizontal slabs:</b> $y$ runs 0 to 1, and for each $y$, $x$ runs from $0$ to $y$.</li>
+    <li><b>Rewrite:</b> $\displaystyle\int_0^1\!\!\int_0^y e^{y^2}dx\,dy$.</li>
+    <li><b>Inner integral is now trivial</b> ($e^{y^2}$ is constant in $x$): $\displaystyle\int_0^y e^{y^2}dx=y\,e^{y^2}$.</li>
+    <li><b>Outer:</b> substitute $u=y^2$, $du=2y\,dy$: $\displaystyle\int_0^1 ye^{y^2}dy=\tfrac12\big[e^{y^2}\big]_0^1=\tfrac{e-1}{2}$.</li>
+  </ol>
+  <p class="muted">The reversal converted an impossible integral into a one-line substitution. Whenever you meet $e^{y^2}$, $\sin(y^2)$, $\frac{\sin y}{y}$ or similar in an inner integral, reversing the order is almost certainly the intended move.</p>
+  </div></div>
+  <div class="note warn"><div class="t">Trap</div>Swapping to $\int_x^1\int_0^1 dx\,dy$ is meaningless: the outer limits now contain $x$, the very variable being integrated away. Outer limits must be constants. If yours are not, you skipped the sketch.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 4</span> Area, average value, and polar coordinates<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Area and average value</h3>
+  <table class="formula-table">
+    <tr><td>Area of $R$</td><td>$\displaystyle\iint_R 1\,dA$</td></tr>
+    <tr><td>Volume under $z=f$</td><td>$\displaystyle\iint_R f\,dA$ (for $f\ge0$)</td></tr>
+    <tr><td>Average value</td><td>$\displaystyle\bar f=\frac{1}{\text{area}(R)}\iint_R f\,dA$</td></tr>
+    <tr><td>Between two surfaces</td><td>$\displaystyle\iint_R (f_{\text{top}}-f_{\text{bot}})\,dA$</td></tr>
+  </table>
+  <h3>Polar coordinates</h3>
+  <p>When the region is a disc, an annulus or a sector — or when the integrand contains $x^2+y^2$ — Cartesian limits are horrible and polar ones are trivial. Substitute</p>
+  $$x=r\cos\theta,\qquad y=r\sin\theta,\qquad x^2+y^2=r^2$$
+  <div class="note"><div class="t">The area element</div>$$dA=r\,dr\,d\theta$$ — the factor $r$ is <b>not optional</b>. A polar "rectangle" of sides $dr$ and $d\theta$ has area $r\,dr\,d\theta$, because an angular step $d\theta$ sweeps a longer arc the further out you are.</div>
+  <p>Forgetting that $r$ is the single most common error in polar integration. If your answer has the wrong power of the radius, that is why.</p>
+  <div class="ex"><div class="bar">$\displaystyle\iint_{x^2+y^2\le4}(x^2+y^2)\,dA$</div><div class="body">
+  <p>The disc of radius 2 becomes $0\le r\le2$, $0\le\theta\le2\pi$ — constant limits.</p>
+  $$\int_0^{2\pi}\!\!\int_0^2 r^2\cdot r\,dr\,d\theta=\int_0^{2\pi}\!\left[\frac{r^4}{4}\right]_0^2 d\theta=\int_0^{2\pi}4\,d\theta=8\pi$$
+  <p class="muted">In Cartesian coordinates the same integral needs limits $\pm\sqrt{4-x^2}$ and a good deal of work.</p>
+  </div></div>
+  <div class="note fin"><div class="t">The famous one</div>Polar coordinates are how $\int_{-\infty}^{\infty}e^{-x^2}dx=\sqrt\pi$ is proved: square it to make a double integral over the whole plane, switch to polar, and the stubborn $r$ from $dA$ is exactly the factor that makes $\int re^{-r^2}dr$ a routine substitution. That result is what normalises the normal distribution — the trick that makes probability's most important density integrate to 1.</div>
+  <p class="muted"><b>Check yourself:</b> what is $\iint_R dA$ over the unit disc in polar form? (Answer: $\int_0^{2\pi}\int_0^1 r\,dr\,d\theta=2\pi\cdot\tfrac12=\pi$ ✓.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Triple integrals, and why any of this matters for probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>Triple integrals</h3>
+  <p>Nothing conceptually new: one more nesting level.</p>
+  $$\iiint_E f(x,y,z)\,dV=\int_a^b\!\!\int_{g_1(x)}^{g_2(x)}\!\!\int_{h_1(x,y)}^{h_2(x,y)}f\,dz\,dy\,dx$$
+  <p>The same rule governs the limits: <b>innermost may depend on everything outside it; outermost must be constants.</b> With $f=1$ you get the volume of $E$. There are six possible orders, and as in two dimensions, choosing the right one is the whole difficulty.</p>
+  <p>The syllabus asks for "multiple integrals" rather than a deep treatment of three dimensions, so the double-integral skills above are the priority. If a triple integral appears, set it up carefully and expect the integrand to be simple.</p>
+  <h3>Sanity checks worth doing</h3>
+  <ul>
+    <li><b>Sign.</b> If $f\ge0$ on $R$, the answer must be $\ge0$. A negative result means a limits error.</li>
+    <li><b>Magnitude.</b> The answer lies between $(\min f)\cdot\text{area}$ and $(\max f)\cdot\text{area}$.</li>
+    <li><b>Both orders.</b> On a rectangle, computing the other order is a complete check.</li>
+    <li><b>Units of the limits.</b> After the inner integration, the inner variable must be gone. If a $y$ survives into the outer $x$-integral, you have made a slip.</li>
+  </ul>
+  </div>
+  <div>
+  <h3>Where this lands in probability</h3>
+  <p>This module is the machinery behind the joint-distribution material of the probability course. Every formula there is a double integral, and now you can actually compute them:</p>
+  <table class="formula-table">
+    <tr><td>Normalisation</td><td>$\displaystyle\iint_{\mathbb{R}^2} f(x,y)\,dA=1$</td></tr>
+    <tr><td>Probability of a region</td><td>$\displaystyle P\big((X,Y)\in R\big)=\iint_R f\,dA$</td></tr>
+    <tr><td>Marginal density</td><td>$\displaystyle f_X(x)=\int_{-\infty}^{\infty}f(x,y)\,dy$</td></tr>
+    <tr><td>Expectation</td><td>$\displaystyle E[g(X,Y)]=\iint g(x,y)f(x,y)\,dA$</td></tr>
+    <tr><td>Independence</td><td>$f(x,y)=f_X(x)f_Y(y)$ — the separable case of Idea 1</td></tr>
+  </table>
+  <p>Two things transfer directly. A <b>marginal density</b> is "integrate out the other variable", which is exactly an inner integral. And <b>independence</b> is exactly the separability condition that let a double integral split into a product — which is why independent random variables are so much easier to work with, and why the shortcut fails the moment the region of support couples $x$ and $y$.</p>
+  <div class="note warn"><div class="t">The classic joint-density trap</div>If the support is a region like $0&lt;x&lt;y&lt;1$, then $X$ and $Y$ are <b>not</b> independent even if the formula for $f(x,y)$ looks separable — because the <i>limits</i> couple them. Knowing $Y=0.3$ restricts $X$ to $(0,0.3)$. In the language of this module: it is not a rectangle, so the separable shortcut does not apply. Sketch the support region before doing anything.</div>
+  <div class="note fin"><div class="t">Finance link</div>The probability that two correlated assets both fall below their thresholds is a double integral of the bivariate normal density over a quadrant. It has no closed form, which is why such joint tail probabilities are computed numerically — but the setup is precisely the Type I / Type II reasoning of this module.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

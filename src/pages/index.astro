@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import linalg from '../courses/linear-algebra/meta.json';
 import prob from '../courses/probability/meta.json';
+import calc from '../courses/calculus/meta.json';
 ---
 <Base title="PrepUSI · Study Hub">
 
@@ -44,10 +45,20 @@ import prob from '../courses/probability/meta.json';
     </div>
   </a>
 
+  <a class="course-card" href="/calculus">
+    <div class="panel" style="margin-bottom:0">
+      <div class="bar"><span class="pill g">LIVE</span> Calculus<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body">
+        <p>{calc.stats}</p>
+        <p class="muted">Functions → limits → continuity → derivatives → curve study → integrals → techniques → partial derivatives → multiple integrals → finance applications.</p>
+      </div>
+    </div>
+  </a>
+
   <div class="course-card dim">
     <div class="panel" style="margin-bottom:0">
-      <div class="bar"><span class="pill a">PLANNED</span> Statistics<span class="ctl">— ⊡ ✕</span></div>
-      <div class="body"><p class="muted">Descriptive statistics, estimation, hypothesis testing, regression.</p></div>
+      <div class="bar"><span class="pill a">PLANNED</span> Optimization<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body"><p class="muted">Unconstrained optimisation in one and several dimensions, first- and second-order conditions, concave and convex problems, Lagrange multipliers. (Syllabus block 4.)</p></div>
     </div>
   </div>
 </main>

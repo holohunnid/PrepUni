@@ -1,0 +1,206 @@
+<!-- ============ 08 INTEGRATION TECHNIQUES ============ -->
+<section id="s8">
+<div class="sec-head"><span class="num">08</span><h2>Integration techniques</h2><span class="sub">substitution, by parts, partial fractions, and improper integrals</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why integration is harder than differentiation<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Differentiation is an algorithm. Any function built from the standard library can be differentiated by mechanically applying the rules of module 5; there is no cleverness involved, only care.</p>
+  <p>Integration is not like that. There is no procedure that always works, and worse, <b>most functions have no elementary antiderivative at all</b>. $\int e^{-x^2}dx$ cannot be written in terms of the functions you know — and it is not that nobody has found it, it is that no such expression exists. (That particular integral is the normal distribution's, which is exactly why probability tables exist.)</p>
+  <p>So integration is a craft: you learn a small set of techniques and how to recognise which one a problem wants. Each technique is a differentiation rule run backwards:</p>
+  <table class="formula-table">
+    <tr><td>Chain rule</td><td>reversed gives <b>substitution</b></td></tr>
+    <tr><td>Product rule</td><td>reversed gives <b>integration by parts</b></td></tr>
+    <tr><td>Adding fractions</td><td>reversed gives <b>partial fractions</b></td></tr>
+  </table>
+  <p>Then a fourth topic, <b>improper integrals</b>, which is not a technique but an extension: what to do when the interval is infinite or the integrand blows up. It matters far beyond the exam — every probability density integrates over an infinite range.</p>
+  <div class="note tip"><div class="t">Chapter map</div>Substitution (the one you use most) → definite integrals with substitution → by parts, and how to choose $u$ → partial fractions → improper integrals and the $p$-test.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Substitution — the chain rule backwards<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The chain rule says $\frac{d}{dx}F(g(x))=F'(g(x))g'(x)$. Read backwards:</p>
+  $$\int f\big(g(x)\big)\,g'(x)\,dx=\int f(u)\,du\quad\text{with }u=g(x),\;du=g'(x)\,dx$$
+  <p>In words: <b>if the integrand contains an inner function together with (a multiple of) its derivative, substitute the inner function.</b> The whole skill is spotting that pattern.</p>
+  <h3>The procedure</h3>
+  <ol class="steps">
+    <li>Choose $u=$ the inner function — typically what is inside a bracket, root, exponent, or denominator.</li>
+    <li>Compute $du=g'(x)\,dx$.</li>
+    <li>Rewrite the <b>entire</b> integral in terms of $u$. If any $x$ survives, the choice was wrong — back up.</li>
+    <li>Integrate in $u$.</li>
+    <li>Substitute back to $x$ (indefinite integrals only).</li>
+  </ol>
+  <div class="ex"><div class="bar">Three substitutions</div><div class="body">
+  <ol class="steps">
+    <li>$\displaystyle\int 2x\,e^{x^2}dx$. Let $u=x^2$, $du=2x\,dx$ — the $2x$ is already present. Integral becomes $\int e^u du=e^u+C=e^{x^2}+C$.</li>
+    <li>$\displaystyle\int \frac{x}{x^2+1}dx$. Let $u=x^2+1$, $du=2x\,dx$, so $x\,dx=\tfrac12du$. Integral $=\tfrac12\int\frac{du}{u}=\tfrac12\ln|u|+C=\tfrac12\ln(x^2+1)+C$.</li>
+    <li>$\displaystyle\int (3x+1)^{7}dx$. Let $u=3x+1$, $du=3dx$, so $dx=\tfrac13du$. Integral $=\tfrac13\cdot\frac{u^8}{8}+C=\frac{(3x+1)^8}{24}+C$.</li>
+  </ol>
+  </div></div>
+  <div class="note tip"><div class="t">Constants are adjustable, variables are not</div>If $du$ is off by a <b>constant</b> factor, fix it by multiplying inside and dividing outside — as in examples 2 and 3. If it is off by a factor involving $x$, substitution has failed and you need another method. You may never move a variable across the integral sign.</div>
+  <h3>The pattern worth memorising</h3>
+  $$\int\frac{g'(x)}{g(x)}\,dx=\ln|g(x)|+C$$
+  <p>"Derivative over the function gives log of the function." It is just $u=g(x)$, but recognising it directly saves time constantly: $\int\tan x\,dx=\int\frac{\sin x}{\cos x}dx=-\ln|\cos x|+C$ (the minus because $\frac{d}{dx}\cos=-\sin$).</p>
+  <h3>Definite integrals: change the limits</h3>
+  <p>With a definite integral you have a choice, and one option is clearly better:</p>
+  <div class="note"><div class="t">Change the limits, don't substitute back</div>$$\int_a^b f(g(x))g'(x)\,dx=\int_{g(a)}^{g(b)}f(u)\,du$$</div>
+  <div class="ex"><div class="bar">$\displaystyle\int_0^2 x\,e^{x^2}dx$</div><div class="body">
+  <p>$u=x^2$, $du=2x\,dx$. New limits: $x=0\Rightarrow u=0$; $x=2\Rightarrow u=4$.</p>
+  $$\tfrac12\int_0^4 e^u du=\tfrac12\big[e^u\big]_0^4=\tfrac12(e^4-1)$$
+  </div></div>
+  <div class="note warn"><div class="t">Trap</div>If you switch to $u$ you <b>must</b> switch the limits too. Writing $\int_0^2 e^u du$ is wrong — those limits are $x$-values being applied to a $u$-integral. Either convert both, or convert back to $x$ before evaluating. Mixing the two is the classic lost mark.</div>
+  <p class="muted"><b>Check yourself:</b> $\int\frac{\ln x}{x}dx$. (Answer: $u=\ln x$, $du=dx/x$, giving $\frac{u^2}{2}+C=\frac{(\ln x)^2}{2}+C$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Integration by parts — the product rule backwards<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Start from the product rule $(uv)'=u'v+uv'$, integrate both sides, and rearrange:</p>
+  $$\boxed{\int u\,dv=uv-\int v\,du}$$
+  <p>It does not evaluate the integral — it <b>trades</b> it for a different one. The technique works when the new integral $\int v\,du$ is easier than the one you started with. Choosing $u$ badly makes it harder, so the choice is the whole game.</p>
+  <h3>Choosing $u$: LIATE</h3>
+  <p>Pick $u$ as the first type that appears in this list; the rest becomes $dv$:</p>
+  <table class="formula-table">
+    <tr><td><b>L</b></td><td>Logarithmic — $\ln x$</td></tr>
+    <tr><td><b>I</b></td><td>Inverse trig — $\arctan x$</td></tr>
+    <tr><td><b>A</b></td><td>Algebraic — $x$, $x^2$</td></tr>
+    <tr><td><b>T</b></td><td>Trigonometric — $\sin x$, $\cos x$</td></tr>
+    <tr><td><b>E</b></td><td>Exponential — $e^x$</td></tr>
+  </table>
+  <p>The logic: things early in the list <b>simplify when differentiated</b> ($\ln x\to 1/x$, $x^2\to2x$), while things late in the list <b>stay manageable when integrated</b> ($e^x\to e^x$). So put the first kind in $u$ and the second in $dv$.</p>
+  <div class="ex"><div class="bar">1 · $\displaystyle\int x e^x dx$ — algebraic before exponential</div><div class="body">
+  <p>$u=x\Rightarrow du=dx$; $\;dv=e^xdx\Rightarrow v=e^x$.</p>
+  $$\int xe^xdx=xe^x-\int e^xdx=xe^x-e^x+C=e^x(x-1)+C$$
+  <p class="muted">The trade worked: $\int e^xdx$ is trivial where $\int xe^xdx$ was not. Had you chosen $u=e^x$ you would have got $\int \frac{x^2}{2}e^xdx$ — worse.</p>
+  </div></div>
+  <div class="ex"><div class="bar">2 · $\displaystyle\int \ln x\,dx$ — the trick case</div><div class="body">
+  <p>There is only one factor, so take $dv=dx$:</p>
+  <p>$u=\ln x\Rightarrow du=\frac{dx}{x}$; $\;dv=dx\Rightarrow v=x$.</p>
+  $$\int\ln x\,dx=x\ln x-\int x\cdot\frac1x dx=x\ln x-x+C$$
+  <p class="muted">Worth memorising outright — $\int\ln x\,dx=x(\ln x-1)+C$ appears constantly.</p>
+  </div></div>
+  <div class="ex"><div class="bar">3 · $\displaystyle\int x^2 e^x dx$ — apply it twice</div><div class="body">
+  <p>First pass: $u=x^2$, $dv=e^xdx$ gives $x^2e^x-2\int xe^xdx$.</p>
+  <p>The remaining integral is example 1: $\int xe^xdx=e^x(x-1)$.</p>
+  $$\int x^2e^xdx=x^2e^x-2e^x(x-1)+C=e^x(x^2-2x+2)+C$$
+  <p class="muted">Each pass drops the power of $x$ by one. A power $x^n$ against $e^x$ needs $n$ passes.</p>
+  </div></div>
+  <div class="note tip"><div class="t">Definite integrals by parts</div>$$\int_a^b u\,dv=\Big[uv\Big]_a^b-\int_a^b v\,du$$ Evaluate the bracket at both limits — a very common slip is to apply the limits only to the surviving integral.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Partial fractions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For a rational function $\frac{P(x)}{Q(x)}$, split it into a sum of simpler fractions that you already know how to integrate. It is the reverse of putting fractions over a common denominator.</p>
+  <h3>The procedure</h3>
+  <ol class="steps">
+    <li><b>Check degrees.</b> If $\deg P\ge\deg Q$, do polynomial long division first. Partial fractions only apply to a <i>proper</i> fraction.</li>
+    <li><b>Factor $Q$</b> completely.</li>
+    <li><b>Write the template</b>, one term per factor (see the table).</li>
+    <li><b>Solve for the constants</b> — multiply through by $Q$ and either substitute convenient roots or compare coefficients.</li>
+    <li><b>Integrate</b> each simple piece.</li>
+  </ol>
+  <table>
+    <tr><th>Factor in $Q$</th><th>Contributes</th></tr>
+    <tr><td>distinct linear $(x-a)$</td><td>$\dfrac{A}{x-a}$</td></tr>
+    <tr><td>repeated $(x-a)^2$</td><td>$\dfrac{A}{x-a}+\dfrac{B}{(x-a)^2}$</td></tr>
+    <tr><td>irreducible quadratic</td><td>$\dfrac{Ax+B}{x^2+px+q}$</td></tr>
+  </table>
+  <div class="ex"><div class="bar">$\displaystyle\int\frac{5x-4}{x^2-x-2}\,dx$</div><div class="body">
+  <ol class="steps">
+    <li>Proper fraction ✓. Factor: $x^2-x-2=(x-2)(x+1)$.</li>
+    <li>Template: $\dfrac{5x-4}{(x-2)(x+1)}=\dfrac{A}{x-2}+\dfrac{B}{x+1}$.</li>
+    <li>Multiply through: $5x-4=A(x+1)+B(x-2)$.</li>
+    <li>Set $x=2$: $6=3A\Rightarrow A=2$. Set $x=-1$: $-9=-3B\Rightarrow B=3$. (Choosing the roots makes one term vanish each time — much faster than comparing coefficients.)</li>
+    <li>$\displaystyle\int\left(\frac{2}{x-2}+\frac{3}{x+1}\right)dx=2\ln|x-2|+3\ln|x+1|+C$.</li>
+  </ol>
+  </div></div>
+  <p class="muted">Every distinct linear factor produces a logarithm — that is the shape of the answer you should expect before starting.</p>
+  <div class="note fin"><div class="t">Where it shows up</div>Partial fractions are how you invert Laplace transforms and how you decompose the pricing of a stream of cash flows into components with different decay rates. In this course, the immediate use is any integral with a factorable quadratic downstairs.</div>
+  <p class="muted"><b>Check yourself:</b> decompose $\frac{1}{x(x+1)}$. (Answer: $\frac1x-\frac{1}{x+1}$ — so the integral is $\ln\left|\frac{x}{x+1}\right|+C$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 4</span> Improper integrals<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The definition of $\int_a^b f$ assumed a finite interval and a bounded $f$. Two situations break that, and both are handled the same way: <b>replace the offending endpoint with a variable, integrate normally, then take a limit.</b></p>
+  <h3>Type 1 — infinite interval</h3>
+  $$\int_a^{\infty}f(x)\,dx=\lim_{b\to\infty}\int_a^{b}f(x)\,dx$$
+  <p>If the limit is a finite number the integral <b>converges</b>; otherwise it <b>diverges</b>. For $\int_{-\infty}^{\infty}$, split at any convenient point and require <b>both</b> halves to converge separately.</p>
+  <h3>Type 2 — unbounded integrand</h3>
+  <p>If $f$ blows up at an endpoint $c$, approach it: $\int_a^c f=\lim_{t\to c^-}\int_a^t f$. If the blow-up is <i>inside</i> the interval, split there first — this is what makes the $\int_{-1}^1 dx/x^2$ trap of module 7 come out correctly (as divergent).</p>
+  <div class="ex"><div class="bar">Two integrals, one convergent, one not</div><div class="body">
+  <p>$\displaystyle\int_1^{\infty}\frac{dx}{x^2}=\lim_{b\to\infty}\left[-\frac1x\right]_1^{b}=\lim_{b\to\infty}\left(1-\frac1b\right)=1$ — <span class="g">converges</span>.</p>
+  <p>$\displaystyle\int_1^{\infty}\frac{dx}{x}=\lim_{b\to\infty}\big[\ln x\big]_1^{b}=\lim_{b\to\infty}\ln b=\infty$ — <span class="r">diverges</span>.</p>
+  <p class="muted">Both integrands shrink to zero, yet only one encloses finite area. "The function tends to 0" is <b>not</b> enough; it must tend to zero fast enough.</p>
+  </div></div>
+  <div class="note"><div class="t">The $p$-test — memorise both halves</div>$$\int_1^{\infty}\frac{dx}{x^p}\ \text{converges}\iff p&gt;1\qquad\qquad \int_0^{1}\frac{dx}{x^p}\ \text{converges}\iff p&lt;1$$</div>
+  <p>The two halves are mirror images: far out, you need a <b>fast</b> decay ($p&gt;1$); near zero, you need a <b>mild</b> singularity ($p&lt;1$). The borderline case $p=1$ diverges at both ends — $1/x$ is the exact dividing line in both directions.</p>
+  <div class="note fin"><div class="t">Finance link</div>The present value of a perpetuity paying continuously is $\int_0^{\infty}Ce^{-rt}dt=\frac{C}{r}$ — an infinite stream of payments with a finite value, because the discount factor decays exponentially (far faster than any $1/x^p$). If $r\le0$ the integral diverges and the perpetuity has no finite price. Module 11 develops this.</div>
+  <p class="muted"><b>Check yourself:</b> does $\int_1^\infty x^{-3/2}dx$ converge? (Answer: yes, $p=1.5&gt;1$; the value is 2.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Convergence, watched<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The integrand is $x^{-p}$ on $[1,b]$. Push $b$ out and watch the running total: for $p&gt;1$ it flattens towards a finite ceiling; for $p\le1$ it keeps climbing.</p>
+  <div class="ctrl">
+    <label>p <input type="range" id="im_p" min="0.3" max="2.6" step="0.05" value="2"><span class="val" id="im_p_v">2.00</span></label>
+    <label>b · upper limit <input type="range" id="im_b" min="1.2" max="40" step="0.2" value="6"><span class="val" id="im_b_v">6.0</span></label>
+    <span class="btns"><button onclick="imSet(2)">p = 2</button><button onclick="imSet(1)">p = 1</button><button onclick="imSet(0.5)">p = 0.5</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="imsvg" viewBox="0 0 460 250"></svg>
+    <figcaption>Left: $x^{-p}$ with the area up to $b$ shaded. Right: the running total $\int_1^b$ as a function of $b$, with the limiting value (if any) as a dashed line.</figcaption></figure>
+    <div>
+      <div class="readout" id="imread"></div>
+      <p style="margin-top:10px">Set $p=1$ and push $b$ to 40: the total is only about 3.7 and still creeping upward. It reaches infinity, but logarithmically slowly — which is why divergence here is impossible to detect by eye and must be settled algebraically.</p>
+      <p>Compare $p=2$, where the total is visibly pinned below 1, and $p=0.5$, where it climbs like $2\sqrt b$ without hesitation.</p>
+      <div class="note tip"><div class="t">Exam routine</div>Spot that the integral is improper (infinite limit, or integrand undefined somewhere in range) — <b>say so explicitly</b> and write the limit. Compute the antiderivative as usual, evaluate at the variable endpoint, then take the limit. Marks are given for the setup, not just the number.</div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Which technique? A decision procedure<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <ol class="steps">
+    <li><b>Simplify first.</b> Expand brackets, split fractions term by term, use log and trig identities. A surprising number of "hard" integrals are easy after two lines of algebra.</li>
+    <li><b>Is it in the table?</b> Check module 7's list, including the near-misses like $\frac{1}{1+x^2}$.</li>
+    <li><b>Do you see an inner function and its derivative?</b> → substitution. Look especially for $\frac{g'}{g}$, and for anything inside a bracket, root, or exponent.</li>
+    <li><b>Is it a product of two unlike types</b> (polynomial × exponential, polynomial × log, polynomial × trig)? → by parts, choosing $u$ by LIATE.</li>
+    <li><b>Is it a rational function?</b> → divide if improper, then partial fractions.</li>
+    <li><b>Any infinite limit or blow-up?</b> → set it up as a limit, then use one of the above.</li>
+  </ol>
+  <div class="note warn"><div class="t">Three false rules</div>There is <b>no product rule</b> for integrals: $\int fg\ne\int f\int g$. There is <b>no quotient rule</b>. And $\int\frac{1}{f(x)}dx\ne\ln|f(x)|$ unless the numerator happens to be exactly $f'$ — $\int\frac{dx}{x^2+1}$ is $\arctan x$, not a log.</div>
+  </div>
+  <div>
+  <h3>Integrals worth knowing on sight</h3>
+  <table class="formula-table">
+    <tr><td>$\displaystyle\int\frac{g'}{g}dx$</td><td>$\ln|g|+C$</td></tr>
+    <tr><td>$\displaystyle\int e^{ax}dx$</td><td>$\dfrac{e^{ax}}{a}+C$</td></tr>
+    <tr><td>$\displaystyle\int (ax+b)^n dx$</td><td>$\dfrac{(ax+b)^{n+1}}{a(n+1)}+C$</td></tr>
+    <tr><td>$\displaystyle\int \ln x\,dx$</td><td>$x\ln x-x+C$</td></tr>
+    <tr><td>$\displaystyle\int xe^{x}dx$</td><td>$e^x(x-1)+C$</td></tr>
+    <tr><td>$\displaystyle\int_0^\infty e^{-\lambda x}dx$</td><td>$\dfrac1\lambda$ (for $\lambda&gt;0$)</td></tr>
+    <tr><td>$\displaystyle\int_0^\infty xe^{-\lambda x}dx$</td><td>$\dfrac{1}{\lambda^2}$</td></tr>
+    <tr><td>$\displaystyle\int_{-\infty}^{\infty}e^{-x^2}dx$</td><td>$\sqrt{\pi}$ — no elementary antiderivative, yet a clean value</td></tr>
+  </table>
+  <p class="muted">The last three are the ones the probability course leans on: the exponential distribution's normalisation and mean, and the Gaussian integral behind the normal density's $\frac{1}{\sqrt{2\pi}}$.</p>
+  <div class="note tip"><div class="t">And always</div>Differentiate your answer. Integration is the one topic where checking is as fast as the original computation and catches nearly everything.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

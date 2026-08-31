@@ -1,0 +1,175 @@
+<!-- ============ 02 LIMITS ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Limits</h2><span class="sub">where a function is heading, regardless of where it actually lands</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The one idea, in plain words<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Here is the whole subject in one sentence: <b>the limit of $f$ at $a$ is the value $f$ is heading towards as $x$ gets close to $a$ — and it deliberately ignores what happens <i>at</i> $a$ itself.</b></p>
+  <p>That last clause is the strange part, and it is the point. Why would we build a tool that refuses to look at the value we care about? Because the two most important objects in calculus are <b>fractions that are illegal at the point of interest</b>:</p>
+  <ul>
+    <li>The derivative is $\dfrac{f(x+h)-f(x)}{h}$ as $h\to0$. At $h=0$ exactly, this is $\tfrac00$ — meaningless. But <i>near</i> $h=0$ it is perfectly well-behaved, and it heads somewhere specific. That somewhere is the derivative.</li>
+    <li>The integral is a sum of rectangles whose widths shrink to zero. At width exactly zero there is nothing to add. Near zero, the total heads somewhere. That somewhere is the integral.</li>
+  </ul>
+  <p>So limits are not a preliminary hurdle before the real material — they are the machine that makes the real material possible. Both of calculus's big ideas are "the value this expression approaches but never reaches".</p>
+  <div class="note tip"><div class="t">Chapter map</div>The informal idea and notation → one-sided limits and why a limit can fail → the algebra of limits (how to actually compute them) → the $\tfrac00$ problem and the three techniques that solve it → limits at infinity and asymptotes → the squeeze theorem.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Four functions, four fates at $x=a$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The slider controls $\delta$: how close we let $x$ get to $a=2$ on each side. Watch the two output values in the readout. A limit exists precisely when both sides converge on the <b>same</b> number as $\delta$ shrinks — whether or not the function is even defined at $a$.</p>
+  <div class="ctrl">
+    <span class="btns">
+      <button onclick="lmPick('hole')">hole</button><button onclick="lmPick('jump')">jump</button><button onclick="lmPick('inf')">blow-up</button><button onclick="lmPick('ok')">continuous</button>
+    </span>
+    <label>δ · distance from a <input type="range" id="lm_d" min="0.02" max="1.2" step="0.02" value="0.8"><span class="val" id="lm_d_v">0.80</span></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="lmsvg" viewBox="0 0 460 260"></svg>
+    <figcaption>Blue: the function. Amber verticals: $a-\delta$ and $a+\delta$. Green dashed: the limit, if it exists. Hollow dot: a point where the function is undefined.</figcaption></figure>
+    <div>
+      <div class="readout" id="lmread"></div>
+      <p style="margin-top:10px">The four cases, and what each teaches:</p>
+      <ul>
+        <li><b>hole</b> — $f$ is undefined at $a$, yet the limit exists. Proof that the limit ignores the point. This is the case that matters for derivatives.</li>
+        <li><b>jump</b> — the two sides head to <i>different</i> numbers, so the limit does not exist, even though $f(a)$ is perfectly well defined.</li>
+        <li><b>blow-up</b> — the values grow without bound. We write $\lim=+\infty$ as a description of the behaviour, but strictly the limit does not exist (no real number is approached).</li>
+        <li><b>continuous</b> — the boring, best case: both sides head to $f(a)$ itself. That is exactly the definition of continuity in module 3.</li>
+      </ul>
+      <p class="muted">Shrink δ towards 0 and read the two values. This is what "approaches" means operationally — and it is how you should think whenever a formal definition feels abstract.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Notation, one-sided limits, and when a limit fails<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>We write</p>
+  $$\lim_{x\to a}f(x)=L$$
+  <p>to mean: $f(x)$ can be made as close to $L$ as we like, by taking $x$ close enough to $a$ (but not equal to $a$).</p>
+  <p>The formal version, for completeness — it says the same thing with the vagueness removed. "As close as we like" becomes "for every $\varepsilon&gt;0$", and "close enough" becomes "there is a $\delta&gt;0$":</p>
+  $$\forall\varepsilon&gt;0\;\exists\delta&gt;0:\;0&lt;|x-a|&lt;\delta\;\Longrightarrow\;|f(x)-L|&lt;\varepsilon$$
+  <p>Read it as a challenge–response game. Someone challenges you with a tolerance $\varepsilon$ ("get within 0.001 of $L$"); you must respond with a distance $\delta$ that guarantees it. If you can always answer, the limit is $L$. Note $0&lt;|x-a|$ — that strict inequality is precisely the clause excluding $x=a$.</p>
+  <h3>One-sided limits</h3>
+  <p>Approaching from the left only ($x&lt;a$) or the right only ($x&gt;a$):</p>
+  $$\lim_{x\to a^-}f(x)=L^-\qquad\text{and}\qquad\lim_{x\to a^+}f(x)=L^+$$
+  <p>and the fundamental link between them:</p>
+  <div class="note"><div class="t">The existence test</div>$\displaystyle\lim_{x\to a}f(x)=L$ exists $\iff$ both one-sided limits exist <b>and are equal</b> to $L$.</div>
+  <p>This is the tool for every piecewise function: compute both sides separately, then compare.</p>
+  <h3>Three ways a limit can fail</h3>
+  <ol class="steps">
+    <li><b>The sides disagree</b> (a jump). Classic: $f(x)=|x|/x$ at $0$ gives $-1$ from the left, $+1$ from the right.</li>
+    <li><b>Unbounded growth.</b> $1/x^2$ at $0$ heads to $+\infty$; no real number is approached.</li>
+    <li><b>Wild oscillation.</b> $\sin(1/x)$ at $0$ swings between $-1$ and $1$ infinitely often, never settling.</li>
+  </ol>
+  <p class="muted"><b>Check yourself:</b> for $f(x)=\begin{cases}x+1&amp;x&lt;0\\ x^2&amp;x\ge0\end{cases}$, does $\lim_{x\to0}f(x)$ exist? (Answer: no — left gives 1, right gives 0.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> The algebra of limits — how you actually compute<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Nobody uses $\varepsilon$–$\delta$ to compute limits. You use these rules, which say that limits pass through arithmetic. Assume $\lim_{x\to a}f=L$ and $\lim_{x\to a}g=M$, both finite:</p>
+  <table class="formula-table">
+    <tr><td>Sum</td><td>$\lim(f\pm g)=L\pm M$</td></tr>
+    <tr><td>Scalar</td><td>$\lim(cf)=cL$</td></tr>
+    <tr><td>Product</td><td>$\lim(fg)=LM$</td></tr>
+    <tr><td>Quotient</td><td>$\lim(f/g)=L/M$, <b>provided $M\ne0$</b></td></tr>
+    <tr><td>Power</td><td>$\lim f^n=L^n$; $\lim\sqrt[n]{f}=\sqrt[n]{L}$ (root legal)</td></tr>
+    <tr><td>Composite</td><td>$\lim g(f(x))=g(L)$ if $g$ is continuous at $L$</td></tr>
+  </table>
+  <h3>The consequence that does 80% of the work</h3>
+  <p>Apply those rules repeatedly to a polynomial and you get: <b>for polynomials and rational functions, just substitute</b> — provided the denominator does not vanish.</p>
+  $$\lim_{x\to3}\frac{x^2+1}{x-1}=\frac{9+1}{3-1}=5$$
+  <p>Substitution also works for $e^x$, $\ln x$, $\sin x$, $\cos x$, $\sqrt{x}$ anywhere they are defined. So the honest description of limit-taking is: <b>try substitution first</b>; only when it produces something illegal do you need a technique.</p>
+  <h3>What substitution can produce</h3>
+  <table class="formula-table">
+    <tr><td>A number</td><td>Done. That is the limit.</td></tr>
+    <tr><td>$\dfrac{\text{nonzero}}{0}$</td><td>Blow-up. Limit is $\pm\infty$ — check signs on each side.</td></tr>
+    <tr><td>$\dfrac{0}{0}$</td><td><b>Indeterminate.</b> No information yet — go to the next panel.</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>$\tfrac00$ does not mean "the limit is 1", or 0, or undefined. It means <b>the test was inconclusive</b>. Compare $\lim_{x\to0}\frac{x}{x}=1$, $\lim_{x\to0}\frac{x^2}{x}=0$, $\lim_{x\to0}\frac{x}{x^2}=\infty$ — all three are $\tfrac00$ on substitution, all three have different answers.</div>
+  <p class="muted"><b>Check yourself:</b> $\lim_{x\to1}\frac{x^2-1}{x+1}$. (Answer: substitute — $\frac{0}{2}=0$. Denominator is fine, so no work needed. Don't reflexively factor.)</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Killing the $\tfrac00$: three techniques<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>When substitution gives $\tfrac00$, the numerator and denominator share a common factor that vanishes at $a$. Your job is to expose and cancel it. There are three standard moves.</p>
+  <h3>1 · Factor and cancel</h3>
+  <p>The default for polynomials. If substituting $x=a$ gives zero on top, then $(x-a)$ is a factor — that is the factor theorem, and it guarantees the technique will work.</p>
+  $$\lim_{x\to2}\frac{x^2-4}{x-2}=\lim_{x\to2}\frac{(x-2)(x+2)}{x-2}=\lim_{x\to2}(x+2)=4$$
+  <p>The cancellation is legal precisely because $x\ne2$ throughout the limit process — we never divide by zero, we only ignore the single point where we would have.</p>
+  <h3>2 · Multiply by the conjugate</h3>
+  <p>The move whenever a square root causes the trouble. Multiply top and bottom by the same expression with the sign flipped, so that $(\sqrt{A}-B)(\sqrt{A}+B)=A-B^2$ clears the root.</p>
+  $$\lim_{x\to0}\frac{\sqrt{x+4}-2}{x}=\lim_{x\to0}\frac{(\sqrt{x+4}-2)(\sqrt{x+4}+2)}{x(\sqrt{x+4}+2)}=\lim_{x\to0}\frac{x}{x(\sqrt{x+4}+2)}=\frac{1}{4}$$
+  <h3>3 · Simplify a compound fraction</h3>
+  <p>Fractions stacked inside fractions: combine the inner ones over a common denominator first, then cancel.</p>
+  $$\lim_{h\to0}\frac{\frac{1}{2+h}-\frac{1}{2}}{h}=\lim_{h\to0}\frac{\frac{2-(2+h)}{2(2+h)}}{h}=\lim_{h\to0}\frac{-h}{2h(2+h)}=-\frac14$$
+  <p class="muted">That last one is not a random exercise: it is exactly the derivative of $1/x$ at $x=2$, computed from the definition. You will meet it again in module 4.</p>
+  <div class="note tip"><div class="t">Later shortcut</div>Module 6 introduces <b>L'Hôpital's rule</b>, which differentiates top and bottom separately and resolves most $\tfrac00$ forms in one line. It is faster — but you must be able to do it by hand too, because exams sometimes ask for the definition-based route, and because L'Hôpital requires the derivatives you haven't met yet.</div>
+  <p class="muted"><b>Check yourself:</b> $\lim_{x\to3}\frac{x^2-9}{x^2-x-6}$. (Answer: $\frac{(x-3)(x+3)}{(x-3)(x+2)}\to\frac{6}{5}$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Limits at infinity and asymptotes<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A different question: not "where does $f$ head as $x$ approaches a point", but "where does $f$ head as $x$ runs off forever". Written $\lim_{x\to\infty}f(x)$.</p>
+  <h3>The one technique: divide by the dominant power</h3>
+  <p>For a rational function, divide every term top and bottom by the highest power of $x$ in the <b>denominator</b>, then use $\lim_{x\to\infty}\frac{1}{x^k}=0$.</p>
+  $$\lim_{x\to\infty}\frac{3x^2+5x}{2x^2-1}=\lim_{x\to\infty}\frac{3+\frac5x}{2-\frac1{x^2}}=\frac{3+0}{2-0}=\frac32$$
+  <p>Doing this in general gives a rule you can quote instantly. For $\frac{\text{degree }n}{\text{degree }m}$:</p>
+  <table class="formula-table">
+    <tr><td>$n&lt;m$</td><td>limit is $0$ (bottom wins)</td></tr>
+    <tr><td>$n=m$</td><td>limit is the ratio of leading coefficients</td></tr>
+    <tr><td>$n&gt;m$</td><td>limit is $\pm\infty$ (top wins)</td></tr>
+  </table>
+  <h3>The growth hierarchy</h3>
+  <p>Beyond polynomials, some functions simply outrun others. As $x\to\infty$, each of these beats everything to its left, eventually and decisively:</p>
+  $$\ln x\;\ll\;x^{p}\;(p&gt;0)\;\ll\;e^{x}\;\ll\;x!$$
+  <p>Consequences worth memorising: $\lim_{x\to\infty}\frac{\ln x}{x}=0$ and $\lim_{x\to\infty}\frac{x^{100}}{e^x}=0$. Exponential growth always wins against any power, however large the power.</p>
+  <h3>Asymptotes — limits made visual</h3>
+  <table class="formula-table">
+    <tr><td>Vertical at $x=a$</td><td>$\lim_{x\to a^\pm}f=\pm\infty$ — look where the denominator vanishes but the numerator doesn't</td></tr>
+    <tr><td>Horizontal at $y=L$</td><td>$\lim_{x\to\pm\infty}f=L$</td></tr>
+    <tr><td>Oblique $y=mx+b$</td><td>when the numerator's degree is exactly one more than the denominator's; found by polynomial division</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>A hole is <b>not</b> a vertical asymptote. In $\frac{x^2-4}{x-2}$ the denominator vanishes at $x=2$, but so does the numerator — they cancel, leaving a removable hole. Always factor before declaring an asymptote.</div>
+  <div class="note fin"><div class="t">Finance link</div>$\lim_{n\to\infty}\left(1+\frac{r}{n}\right)^{n}=e^{r}$ — compounding more and more often converges to continuous compounding rather than exploding. A limit at infinity, and the reason $e$ appears throughout finance.</div>
+  <p class="muted"><b>Check yourself:</b> $\lim_{x\to\infty}\frac{2x^3-x}{5x^3+7}$. (Answer: equal degrees, so $2/5$.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> The squeeze theorem, and two limits to memorise<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Some functions are too erratic to attack directly. The <b>squeeze (sandwich) theorem</b> handles them by trapping the function between two others that you <i>can</i> evaluate:</p>
+  <div class="note"><div class="t">Squeeze theorem</div>If $g(x)\le f(x)\le h(x)$ near $a$, and $\displaystyle\lim_{x\to a}g=\lim_{x\to a}h=L$, then $\displaystyle\lim_{x\to a}f=L$ too.</div>
+  <p>The intuition is exactly the name: if the bread closes in on a point, the filling has nowhere else to go.</p>
+  <p><b>The standard application.</b> $\lim_{x\to0}x^2\sin(1/x)$. The factor $\sin(1/x)$ oscillates forever and has no limit — so the product rule is unusable. But $\sin$ is always between $-1$ and $1$, so</p>
+  $$-x^2\;\le\;x^2\sin(1/x)\;\le\;x^2$$
+  <p>Both outer functions tend to 0 as $x\to0$, hence the middle does too. The wild oscillation is irrelevant because its amplitude is being crushed.</p>
+  </div>
+  <div>
+  <h3>Two limits you should simply know</h3>
+  <p>These are used constantly and are the basis of the trigonometric derivatives in module 5:</p>
+  $$\lim_{x\to0}\frac{\sin x}{x}=1\qquad\qquad \lim_{x\to0}\frac{1-\cos x}{x}=0$$
+  <p>The first says that for small angles $\sin x\approx x$ (in radians — the identity is false in degrees). The second follows from it.</p>
+  <p>And the two definitions of $e$, both of which you will meet again:</p>
+  $$\lim_{n\to\infty}\Big(1+\frac1n\Big)^{n}=e\qquad\qquad \lim_{x\to0}\frac{e^{x}-1}{x}=1$$
+  <p>The second is the statement that $e^x$ has slope exactly 1 at the origin — which is <i>why</i> $e$ is the natural base and why $\frac{d}{dx}e^x=e^x$.</p>
+  <div class="note tip"><div class="t">Exam routine for any limit</div><b>1.</b> Substitute. <b>2.</b> If you get a number, stop. <b>3.</b> If $\tfrac{c}{0}$ with $c\ne0$, it's $\pm\infty$ — check each side's sign. <b>4.</b> If $\tfrac00$: factor, conjugate, or simplify the compound fraction (later: L'Hôpital). <b>5.</b> If $x\to\infty$: divide by the dominant power, or quote the growth hierarchy. <b>6.</b> If it oscillates: squeeze.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

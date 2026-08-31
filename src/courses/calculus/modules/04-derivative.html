@@ -1,0 +1,205 @@
+<!-- ============ 04 THE DERIVATIVE ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>The derivative</h2><span class="sub">instantaneous rate of change, built from a limit you cannot avoid</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The problem the derivative solves<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Average speed is easy: distance divided by time. But what does a speedometer reading of 80 km/h at <i>this instant</i> mean? Over an instant, no distance is covered and no time passes — the ratio is $\tfrac00$. The concept seems incoherent, and yet it is obviously meaningful.</p>
+  <p>The resolution is the entire content of this module. Compute the average rate of change over a <b>small</b> interval of length $h$ — that is legal, it is an ordinary fraction — and then ask where those averages are <b>heading</b> as $h$ shrinks to zero. That destination is the instantaneous rate. The $\tfrac00$ is never evaluated; it is approached. This is precisely why module 2 had to come first.</p>
+  <p>The same construction answers a geometric question that looks unrelated: <b>what is the slope of a curve at a point?</b> Slope needs two points, and a point is one point. Take a second point nearby, compute the slope of the line through both (a <b>secant</b>), and slide it in. The limiting line is the <b>tangent</b>, and its slope is the derivative.</p>
+  <p>Rate of change and slope of the tangent are not two applications of the derivative. They are one idea seen from two sides, and being fluent in switching between them is most of what "understanding calculus" means.</p>
+  <div class="note tip"><div class="t">Chapter map</div>The difference quotient and the formal definition → computing derivatives from first principles → the geometric reading and the tangent line → what "differentiable" rules out, and why differentiable ⇒ continuous but not conversely → notation and higher derivatives.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Watch the secant become the tangent<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The curve is $f(x)=0.2x^3-0.6x+1.5$. Pick a point $a$, then shrink $h$ towards zero and watch the secant slope converge on the true derivative $f'(a)=0.6a^2-0.6$.</p>
+  <div class="ctrl">
+    <label>a · the point <input type="range" id="sc_x" min="-2.6" max="2.6" step="0.05" value="1.2"><span class="val" id="sc_x_v">1.20</span></label>
+    <label>h · the step <input type="range" id="sc_h" min="-2" max="2" step="0.02" value="1.4"><span class="val" id="sc_h_v">1.40</span></label>
+    <span class="btns"><button onclick="scH(1.4)">h = 1.4</button><button onclick="scH(0.6)">0.6</button><button onclick="scH(0.2)">0.2</button><button onclick="scH(0.04)">0.04</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="scsvg" viewBox="0 0 460 280"></svg>
+    <figcaption>Blue: $f$. Amber: the secant through $(a,f(a))$ and $(a+h,f(a+h))$. Green dashed: the true tangent. The grey triangle is the rise $f(a+h)-f(a)$ over the run $h$.</figcaption></figure>
+    <div>
+      <div class="readout" id="scread"></div>
+      <p style="margin-top:10px">Three things to notice as you shrink $h$:</p>
+      <ul>
+        <li>The amber secant rotates towards the green tangent, and the error in the readout collapses.</li>
+        <li>It works from <b>either side</b> — drag $h$ negative and the secant comes in from the left to the same limit. That two-sided agreement is exactly what differentiability requires.</li>
+        <li>At $h=0$ the construction is undefined (there is no second point). The tangent is a limit, never a computation at $h=0$.</li>
+      </ul>
+      <p class="muted">Move $a$ instead: where the curve is steep the tangent is steep, at the two turning points the tangent is flat ($f'=0$), and where the curve is falling the slope is negative. That correspondence is the whole of module 6.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The difference quotient and the derivative<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>average rate of change</b> of $f$ between $a$ and $a+h$ is the <b>difference quotient</b>:</p>
+  $$\frac{\Delta y}{\Delta x}=\frac{f(a+h)-f(a)}{h}$$
+  <p>Geometrically it is rise over run: the slope of the secant line through the two points. It is an entirely ordinary fraction, defined for every $h\ne0$.</p>
+  <p>The <b>derivative of $f$ at $a$</b> is what those quotients approach:</p>
+  <div class="note"><div class="t">Definition</div>$$f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}{h}$$ provided the limit exists. If it does, $f$ is <b>differentiable at $a$</b>.</div>
+  <p>An equivalent form, sometimes more convenient, sets $x=a+h$ so that $h\to0$ becomes $x\to a$:</p>
+  $$f'(a)=\lim_{x\to a}\frac{f(x)-f(a)}{x-a}$$
+  <p>Both say the same thing. The first is better for computation, the second for theory.</p>
+  <h3>Two readings of the same number</h3>
+  <table class="formula-table">
+    <tr><td>Geometric</td><td>$f'(a)$ is the <b>slope of the tangent</b> to $y=f(x)$ at $x=a$</td></tr>
+    <tr><td>Physical</td><td>$f'(a)$ is the <b>instantaneous rate of change</b> of $f$ per unit change in $x$</td></tr>
+  </table>
+  <p>The units follow the second reading and are worth stating: if $f$ is in euros and $x$ in years, $f'$ is in euros per year. A derivative is always "output units per input unit".</p>
+  <h3>Sign and size</h3>
+  <table class="formula-table">
+    <tr><td>$f'(a)&gt;0$</td><td>$f$ is increasing at $a$</td></tr>
+    <tr><td>$f'(a)&lt;0$</td><td>$f$ is decreasing at $a$</td></tr>
+    <tr><td>$f'(a)=0$</td><td>flat — a <b>critical point</b> (peak, trough, or a saddle-like flattening)</td></tr>
+    <tr><td>$|f'(a)|$ large</td><td>steep; small means nearly flat</td></tr>
+  </table>
+  <p class="muted"><b>Check yourself:</b> a cost function $C(q)$ has $C'(100)=42$. What does that mean in words? (Answer: at an output of 100 units, cost is rising at about 42 per extra unit — the marginal cost.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> From first principles — three complete computations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>"From first principles" (or "from the definition") means: use the limit, not the rules of module 5. Exams ask for it precisely to check you know where the rules come from. The routine is always the same — expand, cancel the $h$, then let $h\to0$.</p>
+  <div class="ex"><div class="bar">1 · $f(x)=x^2$</div><div class="body">
+  <ol class="steps">
+    <li>Write the quotient: $\dfrac{(x+h)^2-x^2}{h}$.</li>
+    <li>Expand the top: $(x^2+2xh+h^2)-x^2=2xh+h^2$.</li>
+    <li>Factor and cancel: $\dfrac{h(2x+h)}{h}=2x+h$ — legal since $h\ne0$.</li>
+    <li>Let $h\to0$: $\;f'(x)=2x$.</li>
+  </ol>
+  </div></div>
+  <div class="ex"><div class="bar">2 · $f(x)=\dfrac1x$</div><div class="body">
+  <ol class="steps">
+    <li>$\dfrac{\frac{1}{x+h}-\frac1x}{h}$ — a compound fraction, so combine the top first.</li>
+    <li>Top: $\dfrac{x-(x+h)}{x(x+h)}=\dfrac{-h}{x(x+h)}$.</li>
+    <li>Divide by $h$: $\dfrac{-1}{x(x+h)}$.</li>
+    <li>Let $h\to0$: $\;f'(x)=-\dfrac{1}{x^2}$. Always negative — $1/x$ is decreasing wherever it is defined.</li>
+  </ol>
+  </div></div>
+  <div class="ex"><div class="bar">3 · $f(x)=\sqrt{x}$</div><div class="body">
+  <ol class="steps">
+    <li>$\dfrac{\sqrt{x+h}-\sqrt x}{h}$ — a root, so multiply by the conjugate.</li>
+    <li>$\dfrac{(\sqrt{x+h}-\sqrt x)(\sqrt{x+h}+\sqrt x)}{h(\sqrt{x+h}+\sqrt x)}=\dfrac{h}{h(\sqrt{x+h}+\sqrt x)}$.</li>
+    <li>Cancel $h$: $\dfrac{1}{\sqrt{x+h}+\sqrt x}$.</li>
+    <li>Let $h\to0$: $\;f'(x)=\dfrac{1}{2\sqrt x}$. Note it blows up as $x\to0^+$ — the curve is vertical at the origin.</li>
+  </ol>
+  </div></div>
+  <div class="note tip"><div class="t">The pattern</div>Every first-principles computation follows the same three beats: <b>expand</b> the numerator so the leading terms cancel, <b>divide out</b> the $h$ that must be there, then <b>substitute</b> $h=0$ into what survives. If no $h$ cancels, you have made an algebra error — go back.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> The tangent line, and linear approximation<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Once you have $f'(a)$ you have a line: it passes through $(a,f(a))$ with slope $f'(a)$. Point-slope form gives the <b>tangent line</b>:</p>
+  $$y=f(a)+f'(a)(x-a)$$
+  <p>Read the formula as instructions: start at the height $f(a)$, then move away from $a$ at rate $f'(a)$. Every tangent-line question is this one formula plus two evaluations.</p>
+  <div class="ex"><div class="bar">Tangent to $f(x)=x^2$ at $x=3$</div><div class="body">
+  <p>$f(3)=9$ and $f'(3)=2\cdot3=6$, so $y=9+6(x-3)=6x-9$.</p>
+  <p>Sanity check at $x=3$: $6(3)-9=9$ ✓ — the line meets the curve there, as it must.</p>
+  </div></div>
+  <h3>The tangent as an approximation</h3>
+  <p>Near $a$, the curve and its tangent are nearly indistinguishable. Turning that observation into a tool gives the <b>linear (first-order) approximation</b>:</p>
+  $$f(x)\approx f(a)+f'(a)(x-a)\qquad\text{for }x\text{ near }a$$
+  <p>often written with $\Delta x=x-a$ as $\;\Delta f\approx f'(a)\,\Delta x$. In words: <b>a small change in input produces roughly $f'$ times that change in output.</b> That sentence is how derivatives are used in practice — a derivative is a conversion rate between small changes.</p>
+  <div class="ex"><div class="bar">Estimate $\sqrt{16.2}$ without a calculator</div><div class="body">
+  <p>Take $f(x)=\sqrt x$, $a=16$ (a nearby point where you know the answer), $\Delta x=0.2$.</p>
+  <p>$f(16)=4$, $f'(x)=\frac{1}{2\sqrt x}$ so $f'(16)=\frac18=0.125$.</p>
+  <p>$\sqrt{16.2}\approx 4+0.125(0.2)=4.025$. True value $4.02492\ldots$ — accurate to four decimals.</p>
+  </div></div>
+  <p>Module 6 extends this to <b>Taylor polynomials</b>, which add curvature terms and do much better; module 9 extends it to several variables. But this one-line version already covers most exam uses and all of the "approximate the effect of a small change" questions.</p>
+  <p class="muted"><b>Check yourself:</b> with $f(2)=5$ and $f'(2)=-3$, estimate $f(2.1)$. (Answer: $5+(-3)(0.1)=4.7$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Differentiable ⇒ continuous, but not the reverse<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Differentiability is <b>strictly stronger</b> than continuity, and knowing which implication holds is a standard exam question.</p>
+  <div class="note"><div class="t">Theorem</div>If $f$ is differentiable at $a$, then $f$ is continuous at $a$.</div>
+  <p><b>Why.</b> Write $f(x)-f(a)=\dfrac{f(x)-f(a)}{x-a}\cdot(x-a)$ for $x\ne a$. As $x\to a$ the first factor tends to $f'(a)$ (a finite number, by assumption) and the second tends to 0. Their product tends to $f'(a)\cdot 0=0$, so $f(x)\to f(a)$ — which is continuity. Notice the proof <i>needs</i> $f'(a)$ to be finite; that is the whole content.</p>
+  <p>The contrapositive is the useful form for spotting non-differentiability: <b>if $f$ is not continuous at $a$, it cannot be differentiable there.</b> A jump kills differentiability instantly, no computation required.</p>
+  <h3>The converse fails — three ways</h3>
+  <p>Continuous functions can still fail to have a tangent. Each failure has a distinctive look:</p>
+  <table>
+    <tr><th>Failure</th><th>Example</th><th>What goes wrong</th></tr>
+    <tr><td class="a">Corner</td><td>$|x|$ at $0$</td><td>one-sided slopes are $-1$ and $+1$ — they disagree</td></tr>
+    <tr><td class="a">Vertical tangent</td><td>$x^{1/3}$ at $0$</td><td>the limit is $+\infty$ — a slope exists but is not a number</td></tr>
+    <tr><td class="a">Wild oscillation</td><td>$x\sin(1/x)$ at $0$</td><td>the difference quotient never settles</td></tr>
+  </table>
+  <p><b>The corner in detail.</b> For $f(x)=|x|$ at $a=0$ the quotient is $\frac{|h|}{h}$, which equals $+1$ for $h&gt;0$ and $-1$ for $h&lt;0$. The two one-sided limits differ, so the limit does not exist and $f'(0)$ is undefined — even though $|x|$ is perfectly continuous. You cannot draw a single tangent at a sharp point; there are infinitely many candidate lines.</p>
+  <figure>
+  <svg viewBox="0 0 420 130">
+    <g transform="translate(20,0)">
+      <text x="0" y="14" class="svgtxt w">|x| — corner at 0</text>
+      <line x1="0" y1="110" x2="150" y2="110" stroke="var(--border2)"/>
+      <path d="M 10 30 L 75 105 L 140 30" fill="none" stroke="var(--blue)" stroke-width="2"/>
+      <circle cx="75" cy="105" r="3.5" fill="var(--red)"/>
+      <line x1="30" y1="118" x2="120" y2="92" stroke="var(--dim)" stroke-dasharray="3 2"/>
+      <line x1="30" y1="92" x2="120" y2="118" stroke="var(--dim)" stroke-dasharray="3 2"/>
+      <text x="86" y="126" class="svgtxt r">no single tangent</text>
+    </g>
+    <g transform="translate(230,0)">
+      <text x="0" y="14" class="svgtxt w">x¹ᐟ³ — vertical tangent</text>
+      <line x1="0" y1="70" x2="160" y2="70" stroke="var(--border2)"/>
+      <line x1="80" y1="14" x2="80" y2="122" stroke="var(--border2)"/>
+      <path d="M 12 118 C 60 112 74 96 80 70 C 86 44 100 28 148 22" fill="none" stroke="var(--blue)" stroke-width="2"/>
+      <line x1="80" y1="18" x2="80" y2="120" stroke="var(--red)" stroke-dasharray="3 3"/>
+      <text x="86" y="118" class="svgtxt r">slope → ∞</text>
+    </g>
+  </svg>
+  <figcaption>Continuous everywhere, differentiable everywhere except the marked point. Continuity is about no gaps; differentiability is about no kinks.</figcaption>
+  </figure>
+  <p class="muted"><b>Check yourself:</b> is $f(x)=|x-2|$ differentiable at $x=2$? (Answer: no — a corner. It is continuous there, which is not enough.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Notation, and derivatives of derivatives<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Four notations for one object, all standard, all appearing in exam papers. Get comfortable with each — different questions phrase things differently, and the notation is not a hint about the method.</p>
+  <table>
+    <tr><th>Notation</th><th>Name</th><th>Best for</th></tr>
+    <tr><td>$f'(x)$</td><td>Lagrange</td><td>compact; evaluating at a point: $f'(2)$</td></tr>
+    <tr><td>$\dfrac{dy}{dx}$</td><td>Leibniz</td><td>showing which variable; chain rule; separating variables</td></tr>
+    <tr><td>$\dfrac{d}{dx}\big[\,\cdot\,\big]$</td><td>operator</td><td>"differentiate this expression"</td></tr>
+    <tr><td>$\dot y$</td><td>Newton</td><td>derivatives with respect to time</td></tr>
+  </table>
+  <p>Leibniz notation is worth a comment. $\frac{dy}{dx}$ is <i>not</i> a fraction — it is the limit of the fraction $\frac{\Delta y}{\Delta x}$. But it is designed to behave like one, which is why the chain rule looks like cancellation and why substitution in module 8 lets you write $du = g'(x)\,dx$. Use the resemblance; just know it is a notation, not an identity.</p>
+  <p>To evaluate at a point in Leibniz notation: $\displaystyle\left.\frac{dy}{dx}\right|_{x=2}$.</p>
+  </div>
+  <div>
+  <h3>Higher derivatives</h3>
+  <p>$f'$ is itself a function, so it can be differentiated again. The result is the <b>second derivative</b>:</p>
+  $$f''(x)=\frac{d^2y}{dx^2}=\frac{d}{dx}\left[\frac{dy}{dx}\right]$$
+  <p>and so on, with $f^{(n)}$ for the $n$-th (the bracket distinguishes it from a power).</p>
+  <table class="formula-table">
+    <tr><td>$f$</td><td>position — the value</td></tr>
+    <tr><td>$f'$</td><td>velocity — the rate of change</td></tr>
+    <tr><td>$f''$</td><td>acceleration — the rate of change <i>of the rate</i>; measures <b>curvature</b></td></tr>
+  </table>
+  <p>The second derivative is the one that tells you about shape: $f''&gt;0$ means the slope is increasing, so the curve bends upwards (convex); $f''&lt;0$ means it bends downwards (concave). That is the classification tool of module 6, and the reason the Hessian matters in module 9.</p>
+  <div class="ex"><div class="bar">$f(x)=x^4$</div><div class="body">
+  <p>$f'=4x^3$, $f''=12x^2$, $f'''=24x$, $f^{(4)}=24$, $f^{(5)}=0$. Every polynomial is eventually annihilated by enough differentiation — degree $n$ dies at the $(n{+}1)$-th.</p>
+  </div></div>
+  <div class="note fin"><div class="t">Finance link</div>For a bond, the first derivative of price with respect to yield gives <b>duration</b> (sensitivity), and the second gives <b>convexity</b> (how that sensitivity itself changes). Traders quote both because a first-order approximation alone misprices large yield moves — the same reason a tangent line is only locally good. Module 11 works this out.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

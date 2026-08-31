@@ -1,0 +1,179 @@
+<!-- ============ 09 PARTIAL DERIVATIVES ============ -->
+<section id="s9">
+<div class="sec-head"><span class="num">09</span><h2>Partial derivatives &amp; the gradient</h2><span class="sub">calculus when there is more than one input</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> One input was never realistic<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Nothing interesting depends on one variable. Output depends on labour <i>and</i> capital; utility on several goods; a portfolio's risk on every weight at once; an option's price on the spot, the strike, the volatility, the rate and the time. So we need calculus for functions $f(x,y)$, or more generally $f(x_1,\dots,x_n)$.</p>
+  <p>The good news is that there is essentially <b>one new idea</b>, and it is a simplification rather than a complication: <b>vary one variable at a time and hold the others fixed.</b> Do that and every derivative you take is an ordinary one-variable derivative, using exactly the rules of module 5. Nothing you have learned is replaced.</p>
+  <p>What <i>is</i> new is that the derivative is no longer a single number. At a point there are now many directions you could move, so the local behaviour is described by a <b>vector</b> of partial derivatives — the <b>gradient</b> — which packages "how fast, and which way is steepest" into one object. That vector is where this module is heading, and it is the object the Optimization course sets to zero.</p>
+  <div class="note tip"><div class="t">Chapter map</div>Functions of two variables and level curves → the partial derivative, defined and computed → second-order partials and Young's theorem → the gradient and what it points at → directional derivatives → the chain rule and the total differential → the tangent plane, the Hessian, and where optimisation begins.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Functions of two variables, and level curves<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A function $f:D\subseteq\mathbb{R}^2\to\mathbb{R}$ takes a <b>pair</b> $(x,y)$ and returns one number. Its graph $z=f(x,y)$ is a <b>surface</b> sitting over the plane — a landscape, with $f$ as the altitude.</p>
+  <p>Surfaces are hard to draw and harder to read. The standard fix is the one cartographers use: draw the <b>level curves</b> (contours), the sets where $f$ is constant,</p>
+  $$\{(x,y): f(x,y)=k\}$$
+  <p>one curve for each of several values of $k$. A contour map carries all the information of the surface in two dimensions, and it is how you should picture every function in this module.</p>
+  <p>Reading a contour map:</p>
+  <ul>
+    <li><b>Closely spaced</b> contours mean a steep region; <b>widely spaced</b> means nearly flat.</li>
+    <li>Contours <b>never cross</b> — a point cannot have two altitudes.</li>
+    <li>Nested closed loops shrinking to a point indicate a <b>peak or a pit</b>.</li>
+  </ul>
+  <div class="note fin"><div class="t">You have met these already</div>In economics a level curve of a utility function is an <b>indifference curve</b> (all bundles you like equally); of a production function, an <b>isoquant</b> (all input mixes giving the same output); of a portfolio's variance, an iso-risk locus. The slope of a level curve is the <b>marginal rate of substitution</b> — the exchange rate between the two inputs that keeps you exactly as well off. We compute that slope at the end of this module.</div>
+  <p class="muted"><b>Check yourself:</b> what are the level curves of $f(x,y)=x^2+y^2$? (Answer: circles centred at the origin, radius $\sqrt k$ — the surface is a bowl.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> The partial derivative<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>partial derivative</b> of $f$ with respect to $x$ measures how $f$ changes as $x$ moves and <b>$y$ is held fixed</b>:</p>
+  $$f_x(x,y)=\frac{\partial f}{\partial x}=\lim_{h\to0}\frac{f(x+h,y)-f(x,y)}{h}$$
+  <p>Compare it with module 4's definition: it is identical, except that $y$ sits there as a spectator. Similarly $f_y$ holds $x$ fixed.</p>
+  <div class="note"><div class="t">How to compute one</div>To find $f_x$: <b>treat $y$ as a constant number</b> and differentiate normally. To find $f_y$: treat $x$ as a constant.</div>
+  <p>The curly $\partial$ instead of $d$ is the only notational difference, and it exists to remind you that other variables are present but frozen. Both $f_x$ and $\partial f/\partial x$ are standard; use whichever is shorter.</p>
+  <div class="ex"><div class="bar">$f(x,y)=x^3y^2+4x-7y+5$</div><div class="body">
+  <p><b>$f_x$:</b> treat $y^2$ as a constant multiplier. $\;f_x=3x^2y^2+4-0+0=3x^2y^2+4$.</p>
+  <p><b>$f_y$:</b> treat $x^3$ as a constant multiplier. $\;f_y=2x^3y-7$.</p>
+  <p class="muted">Note $-7y$ contributes $-7$ to $f_y$ but $0$ to $f_x$, and the constant $5$ dies in both.</p>
+  </div></div>
+  <div class="ex"><div class="bar">$f(x,y)=e^{xy}+\ln(x^2+y)$</div><div class="body">
+  <p>Chain rule throughout, with the other variable frozen:</p>
+  <p>$f_x=y\,e^{xy}+\dfrac{2x}{x^2+y}$ &nbsp;— in $e^{xy}$ the inner derivative w.r.t. $x$ is $y$.</p>
+  <p>$f_y=x\,e^{xy}+\dfrac{1}{x^2+y}$.</p>
+  </div></div>
+  <h3>What it means geometrically</h3>
+  <p>Slice the surface with the vertical plane $y=y_0$. The cut is an ordinary curve, and $f_x(x_0,y_0)$ is its slope. So a partial derivative is <b>the slope of the surface in one axis direction</b> — walking due east, how steep is the ground?</p>
+  <div class="note warn"><div class="t">Trap</div>Everything held fixed <b>stays</b> fixed. When differentiating $f(x,y)=x^2y$ with respect to $x$, the answer is $2xy$ — you do <b>not</b> also differentiate $y$ and add a term. That would be the total derivative along a path, which is a different question (see the chain rule below).</div>
+  <p class="muted"><b>Check yourself:</b> $f(x,y)=x/y$. Find both partials. (Answer: $f_x=1/y$; $f_y=-x/y^2$.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Contours, partials, and the gradient arrow<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Drag the point around the contour map. The green arrow is the gradient $\nabla f=(f_x,f_y)$ — note that it always points <b>perpendicular to the contour through the point</b>, in the uphill direction, and that it is longest where the contours bunch together.</p>
+  <div class="ctrl">
+    <span class="btns">
+      <button onclick="grPick('bowl')">x²+y²</button><button onclick="grPick('saddle')">x²−y²</button><button onclick="grPick('cobb')">x^0.5·y^0.5</button><button onclick="grPick('plane')">2x+y</button><button onclick="grPick('ridge')">sin x + y²/4</button>
+    </span>
+  </div>
+  <div class="ctrl">
+    <label>x <input type="range" id="gr_x" min="-2.8" max="2.8" step="0.05" value="1.4"><span class="val" id="gr_x_v">1.40</span></label>
+    <label>y <input type="range" id="gr_y" min="-2.8" max="2.8" step="0.05" value="0.9"><span class="val" id="gr_y_v">0.90</span></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="grsvg" viewBox="0 0 460 300"></svg>
+    <figcaption>Contours of $f$ (blue = low, amber = high). Green: the gradient at the marked point. Grey dashed: the tangent to the contour, always at right angles to the gradient.</figcaption></figure>
+    <div>
+      <div class="readout" id="grread"></div>
+      <p style="margin-top:10px">Worth producing deliberately:</p>
+      <ul>
+        <li><b>x²+y²</b> — a bowl. Every gradient points outward, away from the minimum at the origin; at the origin itself the gradient is the zero vector. That is the first-order condition.</li>
+        <li><b>x²−y²</b> — a saddle. The gradient also vanishes at the origin, yet it is neither a max nor a min: uphill along one axis, downhill along the other. The multivariable version of module 6's $x^3$ warning.</li>
+        <li><b>2x+y</b> — a plane. Straight parallel contours, and a constant gradient $(2,1)$ everywhere: a linear function has the same slope at every point.</li>
+        <li><b>x^0.5·y^0.5</b> — a Cobb–Douglas production function, with the convex-to-origin isoquants that shape appears in every economics course.</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> The gradient and directional derivatives<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Collect the partials into a vector — the <b>gradient</b>:</p>
+  $$\nabla f(x,y)=\begin{pmatrix}f_x\\ f_y\end{pmatrix}\qquad\text{or in }n\text{ variables}\quad \nabla f=\big(f_{x_1},\dots,f_{x_n}\big)^{\mathsf T}$$
+  <p>The gradient is a <b>vector</b>, and it is a function of position: at each point it points somewhere different.</p>
+  <h3>Directional derivative</h3>
+  <p>Partials tell you the slope due east and due north. What about northeast? For a <b>unit</b> vector $\mathbf{u}$, the rate of change of $f$ in the direction $\mathbf{u}$ is</p>
+  $$D_{\mathbf u}f=\nabla f\cdot\mathbf{u}=\|\nabla f\|\cos\theta$$
+  <p>where $\theta$ is the angle between $\nabla f$ and $\mathbf u$. That dot product — straight from the linear algebra course — is the whole content of this section, because reading off its three extreme cases gives every property of the gradient:</p>
+  <div class="note"><div class="t">The three facts about the gradient</div><b>1.</b> $\nabla f$ points in the direction of <b>steepest ascent</b> ($\theta=0$ maximises the dot product). <b>2.</b> $\|\nabla f\|$ <i>is</i> that maximum rate of increase. <b>3.</b> $\nabla f$ is <b>perpendicular to the level curve</b> ($\theta=90°$ gives zero change, which is exactly what moving along a contour does).</div>
+  <p>Fact 3 is the one to picture: on a hillside, walking along a contour keeps you at the same altitude, and the steepest way up is at right angles to it. Fact 1 is why gradient ascent/descent is the basic algorithm of numerical optimisation and machine learning.</p>
+  <div class="ex"><div class="bar">$f(x,y)=x^2y$ at $(2,3)$</div><div class="body">
+  <p>$f_x=2xy=12$, $f_y=x^2=4$, so $\nabla f=(12,4)$.</p>
+  <p><b>Steepest ascent:</b> the direction $(12,4)$, normalised to $\tfrac{1}{\sqrt{160}}(12,4)$.</p>
+  <p><b>Maximum rate:</b> $\|\nabla f\|=\sqrt{144+16}=\sqrt{160}\approx12.65$ per unit distance.</p>
+  <p><b>In the direction $\mathbf u=\tfrac{1}{\sqrt2}(1,1)$:</b> $D_{\mathbf u}f=\tfrac{1}{\sqrt2}(12+4)=\tfrac{16}{\sqrt2}\approx11.31$ — less than the maximum, as it must be.</p>
+  </div></div>
+  <div class="note warn"><div class="t">Trap</div>$\mathbf u$ must be a <b>unit</b> vector. Using $(1,1)$ instead of $\tfrac{1}{\sqrt2}(1,1)$ inflates the answer by $\sqrt2$. Normalise first, every time.</div>
+  <p class="muted"><b>Check yourself:</b> at a point where $\nabla f=(0,0)$, what is $D_{\mathbf u}f$? (Answer: zero in every direction — a critical point. Which is why the Optimization course starts by solving $\nabla f=\mathbf 0$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Second-order partials and the Hessian<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Each partial is itself a function of $x$ and $y$, so it can be differentiated again — in either variable. That gives four second-order partials:</p>
+  <table class="formula-table">
+    <tr><td>$f_{xx}=\dfrac{\partial^2f}{\partial x^2}$</td><td>differentiate twice in $x$</td></tr>
+    <tr><td>$f_{yy}=\dfrac{\partial^2f}{\partial y^2}$</td><td>twice in $y$</td></tr>
+    <tr><td>$f_{xy}=\dfrac{\partial^2f}{\partial y\,\partial x}$</td><td>first $x$, then $y$ — a <b>cross</b> partial</td></tr>
+    <tr><td>$f_{yx}$</td><td>first $y$, then $x$</td></tr>
+  </table>
+  <div class="note"><div class="t">Young's (Schwarz's) theorem</div>If the second partials are continuous near a point, then $$f_{xy}=f_{yx}$$ — the order of differentiation does not matter.</div>
+  <p>This holds for every function in this course, which is why it is usually invoked silently. Its practical use is as a <b>free check</b>: compute both cross partials by different routes and see that they agree.</p>
+  <div class="ex"><div class="bar">$f(x,y)=x^3y^2$</div><div class="body">
+  <p>$f_x=3x^2y^2$, $f_y=2x^3y$.</p>
+  <p>$f_{xx}=6xy^2$, $f_{yy}=2x^3$.</p>
+  <p>$f_{xy}=\partial_y(3x^2y^2)=6x^2y$ and $f_{yx}=\partial_x(2x^3y)=6x^2y$ ✓ — equal, as Young promises.</p>
+  </div></div>
+  <h3>The Hessian</h3>
+  <p>Arrange the second partials into a matrix:</p>
+  $$H=\begin{pmatrix}f_{xx}&amp;f_{xy}\\ f_{yx}&amp;f_{yy}\end{pmatrix}$$
+  <p>By Young's theorem $H$ is <b>symmetric</b>. It is the multivariable analogue of $f''$: it describes curvature in every direction at once, and its <b>definiteness</b> — positive definite, negative definite, indefinite — plays exactly the role that the sign of $f''$ played in module 6.</p>
+  <div class="note fin"><div class="t">This is where the courses meet</div>Classifying a critical point of $f(x,y)$ means classifying its Hessian, which is the quadratic-forms material of the <b>linear algebra course, module 08</b>: positive definite ⇒ local minimum, negative definite ⇒ local maximum, indefinite ⇒ saddle point. Test it with leading principal minors, or with the signs of the eigenvalues. The Optimization course puts the two together properly; for now, notice that "second derivative test" and "definiteness" are the same idea in different dimensions.</div>
+  <p class="muted"><b>Check yourself:</b> the Hessian of $f=x^2+y^2$ is $\begin{pmatrix}2&amp;0\\0&amp;2\end{pmatrix}$. Definite which way, and what does that say about the origin? (Answer: positive definite — the origin is a minimum, as the bowl picture shows.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 4</span> The total differential, the chain rule, and the tangent plane<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>Total differential — small changes add up</h3>
+  <p>Module 4 said $\Delta f\approx f'(x)\Delta x$. With two inputs, the effects of the two changes simply add, to first order:</p>
+  $$df=f_x\,dx+f_y\,dy\qquad\text{i.e.}\qquad \Delta f\approx f_x\,\Delta x+f_y\,\Delta y$$
+  <p>Each partial converts a change in its own variable into a change in output; sum the contributions. This is the most useful formula in the module for applied work — it is how you answer "if input A rises 2% and input B falls 1%, what happens to output?"</p>
+  <div class="ex"><div class="bar">Error propagation</div><div class="body">
+  <p>A rectangle measured as $x=10\pm0.1$, $y=5\pm0.2$. Area $A=xy$, so $A_x=y=5$, $A_y=x=10$.</p>
+  <p>$\Delta A\approx 5(0.1)+10(0.2)=2.5$, i.e. an area of $50\pm2.5$ — a 5% uncertainty. The <i>larger</i> side's uncertainty matters more, because it is multiplied by the other side.</p>
+  </div></div>
+  <h3>The tangent plane</h3>
+  <p>The same expression, written as an equation, is the surface's tangent plane at $(a,b)$ — the two-variable version of the tangent line:</p>
+  $$z=f(a,b)+f_x(a,b)(x-a)+f_y(a,b)(y-b)$$
+  <p>and the linear approximation is "the surface is nearly its tangent plane near the point". A function whose tangent plane is a genuinely good local approximation is called <b>differentiable</b>; in several variables, unlike one, the mere existence of the partials is not quite enough to guarantee this. Continuous partials do guarantee it, which covers everything you will meet.</p>
+  </div>
+  <div>
+  <h3>Chain rules</h3>
+  <p><b>One parameter.</b> If $x=x(t)$ and $y=y(t)$, then $f$ varies along the path and</p>
+  $$\frac{df}{dt}=f_x\frac{dx}{dt}+f_y\frac{dy}{dt}$$
+  <p>Read it as the total differential divided by $dt$: each variable contributes its own rate, weighted by how much $f$ cares about it.</p>
+  <p><b>Several parameters.</b> If $x=x(s,t)$ and $y=y(s,t)$:</p>
+  $$\frac{\partial f}{\partial t}=f_x\frac{\partial x}{\partial t}+f_y\frac{\partial y}{\partial t}$$
+  <p>with the same pattern for $s$. The rule is always: <b>sum over every path from the input to the output</b>, multiplying the derivatives along each path.</p>
+  <h3>Implicit differentiation, done properly</h3>
+  <p>Set $df=0$ in the total differential — that is, move so that $f$ does not change, i.e. <b>along a level curve</b>:</p>
+  $$f_x\,dx+f_y\,dy=0\;\Longrightarrow\;\boxed{\frac{dy}{dx}=-\frac{f_x}{f_y}}$$
+  <p>This is module 5's implicit differentiation, now with a reason attached. It is also the <b>marginal rate of substitution</b>: the slope of an indifference curve is minus the ratio of marginal utilities.</p>
+  <div class="ex"><div class="bar">MRS for $U(x,y)=x^{1/2}y^{1/2}$</div><div class="body">
+  <p>$U_x=\tfrac12x^{-1/2}y^{1/2}$, $U_y=\tfrac12x^{1/2}y^{-1/2}$.</p>
+  $$\frac{dy}{dx}=-\frac{U_x}{U_y}=-\frac{y}{x}$$
+  <p>At $(4,4)$ the slope is $-1$: give up one unit of $x$, need one more of $y$. At $(1,9)$ it is $-9$: when $x$ is scarce, each unit of it is worth nine of $y$. Diminishing marginal rate of substitution, derived in three lines.</p>
+  </div></div>
+  <div class="note warn"><div class="t">Trap</div>The minus sign is part of the formula. $\frac{dy}{dx}=-f_x/f_y$, not $+$. Sanity-check it against a case you know: for $x^2+y^2=r^2$ this gives $-x/y$, matching module 5 ✓.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

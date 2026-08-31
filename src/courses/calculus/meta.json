@@ -1,0 +1,23 @@
+{
+  "id": "calculus",
+  "brand": "CALC · COURSE",
+  "title": "Calculus · Full Course · MSc Finance Assessment",
+  "tag": "MSc Finance · Assessment",
+  "stats": "13 modules · full explanations · 32 worked examples · interactive figures",
+  "footer": "Calculus course · built for the USI refresher syllabus blocks 1 & 3 (fundamentals, differentiation, integration, several variables) · modules 01–13 · interactive figures need JavaScript; the print button produces a light-theme PDF.",
+  "modules": [
+    { "anchor": "s1",  "num": "01", "title": "Functions & foundations" },
+    { "anchor": "s2",  "num": "02", "title": "Limits" },
+    { "anchor": "s3",  "num": "03", "title": "Continuity" },
+    { "anchor": "s4",  "num": "04", "title": "The derivative" },
+    { "anchor": "s5",  "num": "05", "title": "Differentiation rules" },
+    { "anchor": "s6",  "num": "06", "title": "Using the derivative" },
+    { "anchor": "s7",  "num": "07", "title": "The integral & FTC" },
+    { "anchor": "s8",  "num": "08", "title": "Integration techniques" },
+    { "anchor": "s9",  "num": "09", "title": "Partial derivatives" },
+    { "anchor": "s10", "num": "10", "title": "Multiple integrals" },
+    { "anchor": "s11", "num": "11", "title": "Finance applications" },
+    { "anchor": "s12", "num": "12", "title": "Quick reference" },
+    { "anchor": "s13", "num": "13", "title": "Worked examples" }
+  ]
+}

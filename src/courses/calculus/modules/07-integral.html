@@ -1,0 +1,196 @@
+<!-- ============ 07 THE INTEGRAL & FTC ============ -->
+<section id="s7">
+<div class="sec-head"><span class="num">07</span><h2>The integral &amp; the Fundamental Theorem</h2><span class="sub">accumulation, area, and why it is the reverse of differentiation</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Two problems that turn out to be one<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Integration is introduced in two completely different ways, and the relationship between them is the single deepest fact in elementary calculus. Keep them separate in your head at first:</p>
+  <ul>
+    <li><b>The area problem (definite integral).</b> Given a curve, what is the area under it between $a$ and $b$? Defined as a limit of sums of thin rectangles. Answer: a <b>number</b>.</li>
+    <li><b>The anti-derivative problem (indefinite integral).</b> Given $f$, which function has $f$ as its derivative? Answer: a <b>family of functions</b>, differing by a constant.</li>
+  </ul>
+  <p>These have nothing obviously to do with each other. One is about geometry and limits of sums; the other is about undoing differentiation. Yet the <b>Fundamental Theorem of Calculus</b> says they are two faces of the same thing: to compute an area, find an antiderivative and subtract its values at the endpoints. No limits of sums required.</p>
+  <p>That theorem is why integration is practical at all. Computing $\int_0^1 x^2dx$ from the definition means summing $n$ rectangles and taking $n\to\infty$ — painful. Via the FTC it is $\left[\tfrac{x^3}{3}\right]_0^1=\tfrac13$, a five-second computation.</p>
+  <p>The broader reading, worth carrying into probability and finance: <b>the derivative takes a total and gives you a rate; the integral takes a rate and gives you a total.</b> Speed integrates to distance; a marginal cost integrates to total cost; a probability density integrates to a probability.</p>
+  <div class="note tip"><div class="t">Chapter map</div>Antiderivatives and the constant $C$ → the table of basic integrals → the definite integral as a limit of Riemann sums → its properties → the FTC in both parts → the accumulation function → net vs total area.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Antiderivatives and the indefinite integral<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$F$ is an <b>antiderivative</b> (or <b>primitive</b>) of $f$ if $F'(x)=f(x)$.</p>
+  <p>Antiderivatives are never unique. If $F$ works, so does $F+7$, since the derivative of a constant is zero. And that is the <i>only</i> freedom there is: if $F'=G'$ on an interval, then $(F-G)'=0$, and a function with zero derivative on an interval is constant (a consequence of the Mean Value Theorem). So the complete family is $F+C$.</p>
+  <p>We write the whole family as the <b>indefinite integral</b>:</p>
+  $$\int f(x)\,dx=F(x)+C\qquad\text{where }F'=f$$
+  <p>The $dx$ says which variable you are integrating with respect to; $C$ is the <b>constant of integration</b>.</p>
+  <div class="note warn"><div class="t">Trap</div>Omitting $+C$ is the most-penalised routine error in integration. It is not decoration: without it you have named one antiderivative instead of the family, and in differential-equation questions the constant is what carries the initial condition.</div>
+  <h3>The basic table — read the derivative table backwards</h3>
+  <table>
+    <tr><th>$\int f\,dx$</th><th>result</th><th>note</th></tr>
+    <tr><td class="g">$\int x^n dx$</td><td class="g">$\dfrac{x^{n+1}}{n+1}+C$</td><td><b>$n\ne-1$</b></td></tr>
+    <tr><td class="g">$\int \dfrac1x dx$</td><td class="g">$\ln|x|+C$</td><td>the missing case $n=-1$</td></tr>
+    <tr><td>$\int e^x dx$</td><td>$e^x+C$</td><td></td></tr>
+    <tr><td>$\int a^x dx$</td><td>$\dfrac{a^x}{\ln a}+C$</td><td></td></tr>
+    <tr><td>$\int \cos x\,dx$</td><td>$\sin x+C$</td><td></td></tr>
+    <tr><td>$\int \sin x\,dx$</td><td>$-\cos x+C$</td><td>sign flips this way</td></tr>
+    <tr><td>$\int \dfrac{dx}{1+x^2}$</td><td>$\arctan x+C$</td><td></td></tr>
+  </table>
+  <p>Two remarks on the first two rows. The power rule fails at $n=-1$ because it would divide by zero — and the gap is filled by the logarithm, which is the one genuinely new fact in the table. The <b>absolute value</b> in $\ln|x|$ matters: it makes the formula valid on $x&lt;0$ as well, where $\frac{d}{dx}\ln(-x)=\frac{-1}{-x}=\frac1x$ ✓.</p>
+  <p>Linearity holds, exactly as for derivatives:</p>
+  $$\int\big(af+bg\big)dx=a\int f\,dx+b\int g\,dx$$
+  <div class="note tip"><div class="t">Always check by differentiating</div>Integration has a free verification step that differentiation does not: differentiate your answer and see whether you get the integrand back. It costs ten seconds and catches nearly every error. Use it on every integral you compute.</div>
+  <p class="muted"><b>Check yourself:</b> $\int\left(3x^2-\frac{2}{x}\right)dx$. (Answer: $x^3-2\ln|x|+C$. Differentiate to confirm.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> The definite integral as a limit of sums<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Now the other problem. To find the area under $f$ from $a$ to $b$, approximate it with rectangles:</p>
+  <ol class="steps">
+    <li>Cut $[a,b]$ into $n$ strips, each of width $\Delta x=\dfrac{b-a}{n}$.</li>
+    <li>On each strip pick a sample point $x_i^*$ and build a rectangle of height $f(x_i^*)$.</li>
+    <li>Add the areas: this is a <b>Riemann sum</b> $\displaystyle\sum_{i=1}^n f(x_i^*)\Delta x$.</li>
+    <li>Let $n\to\infty$, so the strips become infinitely thin.</li>
+  </ol>
+  <div class="note"><div class="t">Definition</div>$$\int_a^b f(x)\,dx=\lim_{n\to\infty}\sum_{i=1}^{n}f(x_i^*)\,\Delta x$$ If this limit exists (and is independent of how the sample points were chosen), $f$ is <b>integrable</b> on $[a,b]$.</div>
+  <p>The notation is a picture of the definition: $\int$ is an elongated S for "sum", $f(x)$ is the height, and $dx$ is the infinitesimal width. You are adding up infinitely many infinitely thin rectangles.</p>
+  <p><b>Which functions are integrable?</b> In practice all the ones you meet: every function continuous on $[a,b]$ is integrable, and so is every bounded function with only finitely many discontinuities. A jump does not prevent integration — you can still measure the area under a function that steps.</p>
+  <p class="muted">Note the contrast with differentiability, which is fragile (a single corner destroys it). Integration is <b>smoothing</b>: it tolerates kinks and jumps. That asymmetry is worth remembering.</p>
+  <h3>The definite integral is a number</h3>
+  <p>$\int_a^b f(x)dx$ is a <b>number</b>; $\int f(x)dx$ is a <b>family of functions</b>. Different objects despite the shared symbol. And the variable inside is a dummy: $\int_a^b f(x)dx=\int_a^b f(t)dt$ — the name has no effect on the value.</p>
+  <div class="note fin"><div class="t">Why this construction matters later</div>The probability course defines $P(a\le X\le b)=\int_a^b f(x)dx$ for a density $f$. That definition <i>is</i> this limit of rectangles: chop the range into tiny intervals, multiply each width by the density there, add up. The integral is the only way to give "probability of a range" a meaning when individual points have probability zero.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Riemann sums converging<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The curve is $f(x)=0.35x^2+0.4$ on $[0,3]$, whose exact integral is $\left[\tfrac{0.35x^3}{3}+0.4x\right]_0^3=3.15+1.2=4.35$. Increase $n$ and watch the sum close in on it from whichever side the sampling rule dictates.</p>
+  <div class="ctrl">
+    <label>n · rectangles <input type="range" id="ri_n" min="1" max="60" step="1" value="6"><span class="val" id="ri_n_v">6</span></label>
+    <span class="btns"><button onclick="riMode('left')">left</button><button onclick="riMode('right')">right</button><button onclick="riMode('mid')">midpoint</button><button onclick="riMode('trap')">trapezoid</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="risvg" viewBox="0 0 460 250"></svg>
+    <figcaption>Blue: $f$. Green rectangles: the Riemann sum. The exact area is 4.35; the readout shows the sum and its error.</figcaption></figure>
+    <div>
+      <div class="readout" id="riread"></div>
+      <p style="margin-top:10px">What the four sampling rules show:</p>
+      <ul>
+        <li><b>Left</b> and <b>right</b> endpoints bracket the answer for a monotone function — left under-estimates and right over-estimates an increasing $f$. Their errors shrink like $1/n$.</li>
+        <li><b>Midpoint</b> is dramatically better: the parts of each rectangle that stick out above the curve roughly cancel the parts that fall short. Error shrinks like $1/n^2$.</li>
+        <li><b>Trapezoid</b> joins the sample heights with straight lines instead of flat tops — also $1/n^2$, and the standard basis for numerical integration.</li>
+      </ul>
+      <p class="muted">Push $n$ to 60 and every rule agrees to two decimals. That convergence — independent of the sampling rule — is exactly what "integrable" means.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Properties of the definite integral<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>All of these follow from the rectangle definition, and all are used to simplify before computing.</p>
+  <table class="formula-table">
+    <tr><td>Linearity</td><td>$\displaystyle\int_a^b(cf+dg)=c\!\int_a^b\! f+d\!\int_a^b\! g$</td></tr>
+    <tr><td>Zero width</td><td>$\displaystyle\int_a^a f=0$</td></tr>
+    <tr><td>Reversal</td><td>$\displaystyle\int_b^a f=-\int_a^b f$</td></tr>
+    <tr><td>Additivity</td><td>$\displaystyle\int_a^c f=\int_a^b f+\int_b^c f$</td></tr>
+    <tr><td>Constant</td><td>$\displaystyle\int_a^b c\,dx=c(b-a)$</td></tr>
+    <tr><td>Comparison</td><td>if $f\le g$ then $\displaystyle\int_a^b f\le\int_a^b g$</td></tr>
+    <tr><td>Bounds</td><td>if $m\le f\le M$ then $m(b-a)\le\displaystyle\int_a^b f\le M(b-a)$</td></tr>
+  </table>
+  <p>Additivity holds even when $b$ lies <i>outside</i> $[a,c]$, thanks to the reversal convention — a small piece of bookkeeping that makes the algebra uniform.</p>
+  <h3>Symmetry — free marks when it applies</h3>
+  <p>On an interval symmetric about the origin:</p>
+  <table class="formula-table">
+    <tr><td>$f$ even</td><td>$\displaystyle\int_{-a}^{a}f=2\int_0^a f$</td></tr>
+    <tr><td>$f$ odd</td><td>$\displaystyle\int_{-a}^{a}f=0$</td></tr>
+  </table>
+  <p>So $\int_{-2}^{2}x^3dx=0$ with no computation at all: the area below the axis on the left exactly cancels the area above it on the right. Always check symmetry before starting work.</p>
+  <h3>Mean value of a function</h3>
+  <p>The <b>average value</b> of $f$ over $[a,b]$ is</p>
+  $$\bar f=\frac{1}{b-a}\int_a^b f(x)\,dx$$
+  <p>i.e. the height of the rectangle with the same area. The <b>Mean Value Theorem for integrals</b> says a continuous $f$ actually attains this average somewhere: $f(c)=\bar f$ for some $c\in(a,b)$.</p>
+  <p class="muted">This is the definition behind $E[X]=\int xf(x)dx$ in the probability course — an average weighted by density.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Net area vs total area<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The definite integral counts area <b>below</b> the $x$-axis as <b>negative</b>. That is a feature, not a bug — for a velocity function it gives displacement rather than distance travelled — but it means "the integral" and "the area" are different questions.</p>
+  <table class="formula-table">
+    <tr><td>Net (signed) area</td><td>$\displaystyle\int_a^b f(x)\,dx$</td></tr>
+    <tr><td>Total (geometric) area</td><td>$\displaystyle\int_a^b |f(x)|\,dx$</td></tr>
+  </table>
+  <p>To compute a total area: find where $f$ crosses zero, split the integral at those points, and take absolute values of the pieces before adding.</p>
+  <div class="ex"><div class="bar">$f(x)=x$ on $[-2,3]$ — both questions</div><div class="body">
+  <p><b>Net:</b> $\displaystyle\int_{-2}^{3}x\,dx=\left[\frac{x^2}{2}\right]_{-2}^{3}=\frac92-2=\frac52$.</p>
+  <p><b>Total:</b> split at the crossing $x=0$. On $[-2,0]$ the integral is $-2$, so the area is $2$; on $[0,3]$ the integral is $\tfrac92$. Total $=2+\tfrac92=\tfrac{13}{2}$.</p>
+  <p class="muted">Very different answers. Read the question: "evaluate the integral" wants the first, "find the area enclosed" wants the second.</p>
+  </div></div>
+  <figure>
+  <svg viewBox="0 0 380 150">
+    <line x1="20" y1="80" x2="360" y2="80" stroke="var(--border2)"/>
+    <path d="M 40 130 L 340 20" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <path d="M 40 130 L 160 80 L 40 80 Z" fill="var(--redbg)" stroke="var(--red)"/>
+    <path d="M 160 80 L 340 20 L 340 80 Z" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="70" y="100" class="svgtxt r">counts as −</text>
+    <text x="250" y="66" class="svgtxt g">counts as +</text>
+    <text x="150" y="96" class="svgtxt">0</text>
+  </svg>
+  <figcaption>The definite integral adds the green area and subtracts the red one. Only $\int|f|$ measures the physical area of both.</figcaption>
+  </figure>
+  <div class="note warn"><div class="t">A second trap</div>Never integrate blindly across a vertical asymptote. $\int_{-1}^{1}\frac{dx}{x^2}$ looks like $\left[-\frac1x\right]_{-1}^{1}=-2$ — a negative answer for a strictly positive integrand, which is impossible. The FTC does not apply because the integrand is unbounded at $0$. That is an <b>improper integral</b>, handled properly in module 8, and it diverges.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> The Fundamental Theorem of Calculus<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>The theorem comes in two parts. Part 2 is the computational one you will use hundreds of times; Part 1 is the conceptual one that explains <i>why</i> Part 2 is true.</p>
+  <div class="note"><div class="t">FTC Part 1 — differentiation undoes integration</div>If $f$ is continuous on $[a,b]$, define the <b>accumulation function</b> $$A(x)=\int_a^x f(t)\,dt.$$ Then $A$ is differentiable and $$A'(x)=f(x).$$</div>
+  <p><b>Why.</b> Increase $x$ by a tiny $h$. The extra area is a sliver of width $h$ and height about $f(x)$, so $A(x+h)-A(x)\approx f(x)h$. Divide by $h$ and let $h\to0$: the rate at which accumulated area grows is exactly the current height. Continuity is what makes "height about $f(x)$" legitimate across the sliver.</p>
+  <p>This is the sentence to remember: <b>every continuous function has an antiderivative, namely its own accumulation function.</b> That is what links the two problems.</p>
+  <div class="note"><div class="t">FTC Part 2 — the evaluation theorem</div>If $F$ is <b>any</b> antiderivative of a continuous $f$, then $$\int_a^b f(x)\,dx=F(b)-F(a)\;\equiv\;\Big[F(x)\Big]_a^b$$</div>
+  <p><b>Why it follows.</b> $A$ from Part 1 is an antiderivative, and any other $F$ differs from it by a constant. So $F(b)-F(a)=A(b)-A(a)=A(b)-0=\int_a^b f$ — the constant cancels in the subtraction. That cancellation is also why you can safely ignore $+C$ in definite integrals.</p>
+  <div class="ex"><div class="bar">Three evaluations</div><div class="body">
+  <ol class="steps">
+    <li>$\displaystyle\int_0^2 x^2dx=\left[\frac{x^3}{3}\right]_0^2=\frac83-0=\frac83$.</li>
+    <li>$\displaystyle\int_1^e\frac{dx}{x}=\big[\ln|x|\big]_1^e=1-0=1$.</li>
+    <li>$\displaystyle\int_0^{\pi}\sin x\,dx=\big[-\cos x\big]_0^{\pi}=1-(-1)=2$.</li>
+  </ol>
+  </div></div>
+  <div class="note warn"><div class="t">Trap</div>Watch signs when substituting a negative lower limit. $\int_{-1}^{2}x^2dx=\frac83-\frac{(-1)^3}{3}=\frac83+\frac13=3$ — the minus of the FTC times the minus of $(-1)^3$ gives a plus. Write the subtraction out in full rather than doing it in your head.</div>
+  </div>
+  <div>
+  <h3>Part 1 with a chain rule</h3>
+  <p>When the upper limit is a function of $x$, differentiate the accumulation and multiply by the derivative of the limit:</p>
+  $$\frac{d}{dx}\int_a^{g(x)}f(t)\,dt=f\big(g(x)\big)\cdot g'(x)$$
+  <p>Example: $\dfrac{d}{dx}\displaystyle\int_0^{x^2}e^{-t^2}dt=e^{-x^4}\cdot 2x$. Note you never had to integrate $e^{-t^2}$ — which is just as well, since it has no elementary antiderivative.</p>
+  <p>If the <b>lower</b> limit is the variable one, flip the integral first and pick up a minus sign.</p>
+  <h3>See it: the accumulation function</h3>
+  <p>Drag $x$ and watch the shaded area on the left become the height on the right. Where $f$ is above the axis $A$ climbs; where $f$ dips below, $A$ falls; where $f$ crosses zero, $A$ has a turning point — because $A'=f$.</p>
+  <div class="ctrl">
+    <label>x <input type="range" id="ac_x" min="0.05" max="6.2" step="0.05" value="3"><span class="val" id="ac_x_v">3.00</span></label>
+    <span class="btns"><button onclick="acPick('sin')">f = sin</button><button onclick="acPick('lin')">f = x−2</button><button onclick="acPick('pos')">f &gt; 0</button></span>
+  </div>
+  <figure style="margin:8px 0 0">
+    <svg id="acsvg" viewBox="0 0 460 250"></svg>
+    <figcaption>Left: $f$ with the accumulated area shaded (green positive, red negative). Right: $A(x)=\int_0^x f$. The dot heights match the shaded totals.</figcaption>
+  </figure>
+  <div class="readout" id="acread" style="margin-top:8px"></div>
+  <p class="muted" style="margin-top:8px">With $f=\sin$: $A$ peaks exactly where $\sin$ crosses down through zero at $\pi$. With $f=x-2$: $A$ falls until $x=2$ then rises — the minimum of the accumulation is where the integrand changes sign.</p>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

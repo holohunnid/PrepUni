@@ -1,0 +1,168 @@
+<!-- ============ 11 FINANCE APPLICATIONS ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>Finance applications</h2><span class="sub">where every tool in this course is actually used</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The four calculus ideas finance runs on<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>This module is not new mathematics. It is the previous ten modules pointed at the problems you will meet in the MSc, so that the abstract machinery has somewhere to land:</p>
+  <table class="formula-table">
+    <tr><td><b>The number $e$</b></td><td>a limit (module 2) — continuous compounding, and why log returns are the natural units</td></tr>
+    <tr><td><b>The derivative</b></td><td>module 4 — sensitivity: duration, delta, marginal cost, elasticity</td></tr>
+    <tr><td><b>Taylor expansion</b></td><td>module 6 — first-order plus a curvature correction: duration <i>and</i> convexity</td></tr>
+    <tr><td><b>The integral</b></td><td>modules 7–8, 10 — accumulating a continuous stream: present values, expectations, probabilities</td></tr>
+  </table>
+  <p>One habit is worth adopting before the details. In finance, a derivative is almost never asked for as "the derivative": it is asked for as <b>"how much does this move if that moves a little?"</b> Every risk measure in the industry — duration, delta, gamma, vega, beta — is a partial derivative wearing a different name. Once you see that, the vocabulary stops being a list to memorise.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 1</span> Compounding, $e$, and log returns<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Invest $P$ at annual rate $r$, compounded $n$ times a year, for $t$ years:</p>
+  $$A=P\left(1+\frac rn\right)^{nt}$$
+  <p>Let $n\to\infty$ — compound continuously — and the limit from module 2 gives</p>
+  $$\boxed{A=Pe^{rt}}$$
+  <p>The derivation is worth following once, because it is a clean use of the tools. Take logs: $\ln A=\ln P+nt\ln(1+\tfrac rn)$. As $n\to\infty$ this is $\infty\cdot0$; rewrite it as a fraction and apply L'Hôpital (module 6) to get $rt$. Exponentiate. Done.</p>
+  <p>The intuition matters as much as the formula: more frequent compounding does <b>not</b> grow without bound. It converges. Daily compounding at 10% gives a factor of 1.10516; continuous gives $e^{0.1}=1.10517$. The difference between "daily" and "instantaneous" is a rounding error, which is why continuous compounding is the standard modelling convention — it is both the limit and the simplest algebra.</p>
+  <h3>Why continuous rates are the convenient ones</h3>
+  <p>Continuous compounding satisfies $\frac{dA}{dt}=rA$: <b>growth proportional to size</b>. That differential equation is the definition of exponential growth, and $r$ is recoverable as</p>
+  $$r=\frac{A'(t)}{A(t)}=\frac{d}{dt}\ln A(t)$$
+  <p>i.e. <b>the derivative of the log is the growth rate</b>. This is why finance works in logs: a log difference <i>is</i> a return, and log returns simply <b>add</b> across periods where simple returns must be multiplied.</p>
+  <table class="formula-table">
+    <tr><td>Simple return</td><td>$R=\dfrac{P_1-P_0}{P_0}$</td></tr>
+    <tr><td>Log return</td><td>$r=\ln\dfrac{P_1}{P_0}=\ln(1+R)$</td></tr>
+    <tr><td>Over $T$ periods</td><td>$r_{\text{total}}=r_1+r_2+\dots+r_T$ — additive</td></tr>
+  </table>
+  <p>And from module 6's Taylor series, $\ln(1+R)\approx R-\frac{R^2}{2}$: for small returns the two measures nearly coincide (a 2% return is a 1.980% log return), while for large ones they diverge — a $+50\%$ return is only a $+40.5\%$ log return.</p>
+  <div class="note warn"><div class="t">Trap</div>Log returns are additive over <b>time</b> but <b>not</b> across assets in a portfolio. A portfolio's simple return is the weighted average of the assets' simple returns; that is false for log returns, by Jensen's inequality (module 6's concavity). Mixing the two is a classic error.</div>
+  <p class="muted"><b>Check yourself:</b> what continuously-compounded rate matches 6% compounded annually? (Answer: $r=\ln 1.06=5.83\%$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 2</span> Present value, annuities and perpetuities<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A payment $C$ at time $t$ is worth $Ce^{-rt}$ today. Discounting is the inverse of compounding, and $e^{-rt}$ is the <b>discount factor</b>.</p>
+  <p>For discrete cash flows, present value is a sum:</p>
+  $$PV=\sum_{t=1}^{T}\frac{C_t}{(1+r)^t}\qquad\text{or}\qquad PV=\sum_t C_te^{-rt}$$
+  <p>For a <b>continuous stream</b> paying at rate $C(t)$ per unit time, the sum becomes an integral — exactly the module 7 construction, with $C(t)e^{-rt}dt$ as the contribution of the sliver $[t,t+dt]$:</p>
+  $$PV=\int_0^T C(t)\,e^{-rt}\,dt$$
+  <div class="ex"><div class="bar">Constant stream over $T$ years</div><div class="body">
+  $$PV=\int_0^T Ce^{-rt}dt=C\left[\frac{e^{-rt}}{-r}\right]_0^T=\frac{C}{r}\left(1-e^{-rT}\right)$$
+  <p>The continuous-time annuity formula, in two lines of module 7.</p>
+  </div></div>
+  <div class="ex"><div class="bar">Perpetuity — an improper integral</div><div class="body">
+  <p>Let $T\to\infty$ (module 8's Type 1 improper integral):</p>
+  $$PV=\int_0^{\infty}Ce^{-rt}dt=\lim_{T\to\infty}\frac Cr\left(1-e^{-rT}\right)=\frac Cr$$
+  <p>An infinite stream of payments with a <b>finite</b> value — because $e^{-rt}$ decays fast enough for the integral to converge. If $r\le0$ the integral diverges and the perpetuity has no finite price, which is the mathematical statement of "you cannot discount at a non-positive rate forever".</p>
+  </div></div>
+  <div class="ex"><div class="bar">Growing perpetuity (Gordon growth)</div><div class="body">
+  <p>Payments growing at rate $g$: $C(t)=Ce^{gt}$.</p>
+  $$PV=\int_0^{\infty}Ce^{gt}e^{-rt}dt=C\int_0^{\infty}e^{-(r-g)t}dt=\frac{C}{r-g}\quad\text{for }r&gt;g$$
+  <p>The famous dividend-discount formula, and the convergence condition $r&gt;g$ is now visible as <i>exactly</i> the condition for the improper integral to converge — not an arbitrary assumption but a mathematical necessity.</p>
+  </div></div>
+  <h3>NPV and the IRR</h3>
+  <p>$NPV(r)=-C_0+\sum_t C_te^{-rt}$. The <b>internal rate of return</b> is the $r$ solving $NPV(r)=0$. Since $NPV$ is continuous and (for a conventional project) strictly decreasing in $r$, the <b>Intermediate Value Theorem</b> of module 3 guarantees a unique root once you find one rate giving a positive NPV and another giving a negative one — and bisection then finds it numerically.</p>
+  <p class="muted"><b>Check yourself:</b> a perpetuity pays €50k/year continuously, $r=4\%$. Value? (Answer: $50{,}000/0.04=$ €1.25m.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> Duration and convexity: a Taylor expansion you can trade on<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A bond's price is a decreasing, convex function of its yield. Traders do not re-price the bond for every yield move — they use the Taylor expansion of module 6, truncated after one or two terms. Move the yield shock and watch how far each approximation can be trusted.</p>
+  <div class="ctrl">
+    <label>yield y₀ <input type="range" id="bd_y" min="0.01" max="0.12" step="0.002" value="0.05"><span class="val" id="bd_y_v">0.050</span></label>
+    <label>maturity T <input type="range" id="bd_T" min="2" max="30" step="1" value="10"><span class="val" id="bd_T_v">10</span></label>
+    <label>shock Δy <input type="range" id="bd_d" min="-0.04" max="0.04" step="0.001" value="0.02"><span class="val" id="bd_d_v">0.020</span></label>
+    <span class="btns"><button onclick="bdSet(0.05,10,0.002)">small shock</button><button onclick="bdSet(0.05,10,0.03)">big shock</button><button onclick="bdSet(0.05,30,0.02)">long bond</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="bdsvg" viewBox="0 0 460 280"></svg>
+    <figcaption>Blue: the true price curve $P(y)$ for a 5% annual-coupon bond, face 100. Red: the duration-only (tangent line) estimate. Green: duration + convexity (the quadratic). Amber dot: the actual price after the shock.</figcaption></figure>
+    <div>
+      <div class="readout" id="bdread"></div>
+      <p style="margin-top:10px">The mathematics is one Taylor expansion:</p>
+      $$\Delta P\approx \underbrace{P'(y)\Delta y}_{\text{duration}}+\underbrace{\tfrac12P''(y)(\Delta y)^2}_{\text{convexity}}$$
+      <p>Divide by $P$ and give the two coefficients their industry names:</p>
+      <table class="formula-table">
+        <tr><td>Modified duration</td><td>$D=-\dfrac{P'(y)}{P(y)}$ — % price fall per 1 unit rise in yield</td></tr>
+        <tr><td>Convexity</td><td>$C=\dfrac{P''(y)}{P(y)}$</td></tr>
+        <tr><td>Combined</td><td>$\dfrac{\Delta P}{P}\approx-D\,\Delta y+\tfrac12C(\Delta y)^2$</td></tr>
+      </table>
+      <ul>
+        <li><b>Small shock:</b> the tangent line is excellent — the red and blue curves are indistinguishable.</li>
+        <li><b>Big shock:</b> the tangent <b>under</b>-estimates the price (it lies below the convex curve), so duration alone overstates losses and understates gains. Adding the convexity term nearly closes the gap.</li>
+        <li><b>Long bond:</b> both duration and convexity grow with maturity — long bonds are far more rate-sensitive, and the linear approximation degrades sooner.</li>
+      </ul>
+      <div class="note fin"><div class="t">Why convexity is desirable</div>Because $P$ is convex ($P''&gt;0$, module 6), a bond gains more from a yield fall than it loses from an equal-sized rise. That asymmetry is a genuine benefit, and it is priced. It is also the second-order term of a Taylor series — nothing more.</div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 3</span> Marginal analysis and elasticity<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Marginal quantities are derivatives</h3>
+  <p>In economics, "marginal X" means "the derivative of total X". The definition of the derivative is precisely "the effect of one more unit, in the limit".</p>
+  <table class="formula-table">
+    <tr><td>Marginal cost</td><td>$MC=C'(q)$</td></tr>
+    <tr><td>Marginal revenue</td><td>$MR=R'(q)$</td></tr>
+    <tr><td>Marginal utility</td><td>$MU_x=\partial U/\partial x$</td></tr>
+    <tr><td>Marginal product of labour</td><td>$MP_L=\partial F/\partial L$</td></tr>
+  </table>
+  <div class="ex"><div class="bar">Profit maximisation</div><div class="body">
+  <p>$\pi(q)=R(q)-C(q)$. The first-order condition $\pi'=0$ gives</p>
+  $$R'(q)=C'(q)\qquad\text{— marginal revenue equals marginal cost}$$
+  <p>and the second-order condition $\pi''&lt;0$, i.e. $R''&lt;C''$, confirms a maximum rather than a minimum. The central result of microeconomics is module 6's second derivative test.</p>
+  <p><b>Concretely:</b> $R(q)=100q-q^2$, $C(q)=20q+100$. Then $\pi'=100-2q-20=0\Rightarrow q^*=40$, and $\pi''=-2&lt;0$ ✓ a maximum. Profit $=\pi(40)=2400-900-100$… evaluate: $R(40)=4000-1600=2400$, $C(40)=800+100=900$, so $\pi=1500$.</p>
+  </div></div>
+  <h3>Elasticity: the unit-free derivative</h3>
+  <p>A derivative has units, which makes cross-country or cross-product comparison meaningless. <b>Elasticity</b> fixes that by measuring percentage against percentage:</p>
+  $$\varepsilon=\frac{\%\Delta f}{\%\Delta x}=\frac{df/f}{dx/x}=f'(x)\cdot\frac{x}{f(x)}=\frac{d\ln f}{d\ln x}$$
+  <p>The last form is the most useful: <b>elasticity is the derivative of log with respect to log</b>. It also explains why economists run regressions on logged variables — the coefficients are read directly as elasticities.</p>
+  <div class="ex"><div class="bar">Constant-elasticity demand</div><div class="body">
+  <p>$Q=Ap^{-2}$. Then $\ln Q=\ln A-2\ln p$, so $\varepsilon=\frac{d\ln Q}{d\ln p}=-2$ at every price.</p>
+  <p>Any power function has constant elasticity equal to its exponent — which is why Cobb–Douglas functions $F=AK^\alpha L^\beta$ are ubiquitous: $\alpha$ and $\beta$ <i>are</i> the elasticities of output with respect to capital and labour.</p>
+  </div></div>
+  <p class="muted"><b>Check yourself:</b> demand $Q=100-2p$ at $p=10$. Elasticity? (Answer: $Q=80$, $Q'=-2$, $\varepsilon=-2\cdot\frac{10}{80}=-0.25$ — inelastic.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA 4</span> Multivariable sensitivities, and integrals in probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>The Greeks are partial derivatives</h3>
+  <p>An option price $V(S,\sigma,r,t)$ depends on several inputs, so its sensitivities are the partials of module 9:</p>
+  <table class="formula-table">
+    <tr><td>Delta</td><td>$\Delta=\dfrac{\partial V}{\partial S}$ — sensitivity to the underlying</td></tr>
+    <tr><td>Gamma</td><td>$\Gamma=\dfrac{\partial^2V}{\partial S^2}$ — how delta itself moves</td></tr>
+    <tr><td>Vega</td><td>$\dfrac{\partial V}{\partial\sigma}$ — sensitivity to volatility</td></tr>
+    <tr><td>Theta</td><td>$\dfrac{\partial V}{\partial t}$ — time decay</td></tr>
+  </table>
+  <p>And the total differential of module 9 is exactly how a desk decomposes a day's P&amp;L:</p>
+  $$dV\approx \Delta\,dS+\tfrac12\Gamma\,(dS)^2+\text{vega}\,d\sigma+\Theta\,dt$$
+  <p>Delta–gamma is the same duration–convexity idea in a different market: a first-order term plus a curvature correction. Note that the $(dS)^2$ term is retained even though it is second-order — for a volatile underlying it is not negligible, and taking it seriously is the step that leads to Itô calculus.</p>
+  <h3>Integrals as expectations</h3>
+  <p>Every expectation in the probability course is an integral from modules 7–8:</p>
+  <table class="formula-table">
+    <tr><td>Total probability</td><td>$\displaystyle\int_{-\infty}^{\infty}f(x)dx=1$</td></tr>
+    <tr><td>Mean</td><td>$\displaystyle\mu=\int_{-\infty}^{\infty}xf(x)dx$</td></tr>
+    <tr><td>Variance</td><td>$\displaystyle\sigma^2=\int (x-\mu)^2f(x)dx$</td></tr>
+    <tr><td>Tail / VaR</td><td>$\displaystyle P(X\le q)=\int_{-\infty}^{q}f(x)dx=\alpha$</td></tr>
+    <tr><td>Expected shortfall</td><td>$\displaystyle\frac{1}{\alpha}\int_{-\infty}^{q}xf(x)dx$</td></tr>
+  </table>
+  <p>All are improper integrals, and all converge because densities decay fast enough — the $p$-test intuition of module 8. And the FTC (module 7) supplies the link every probability course uses without comment: $F'(x)=f(x)$, the density is the derivative of the CDF, because $F$ is precisely an accumulation function.</p>
+  <div class="ex"><div class="bar">Exponential lifetime</div><div class="body">
+  <p>$f(t)=\lambda e^{-\lambda t}$ on $[0,\infty)$. Check it integrates to 1: $\int_0^\infty\lambda e^{-\lambda t}dt=\big[-e^{-\lambda t}\big]_0^\infty=1$ ✓.</p>
+  <p>Mean: $\int_0^\infty t\lambda e^{-\lambda t}dt=\frac1\lambda$ — by parts (module 8), with $u=t$, $dv=\lambda e^{-\lambda t}dt$.</p>
+  <p class="muted">Exactly the "integrals worth knowing on sight" from module 8, now with an interpretation: the mean waiting time is the reciprocal of the arrival rate.</p>
+  </div></div>
+  <div class="note fin"><div class="t">One picture to carry away</div>Discounting and probability densities are the same integral with different weights. A present value is $\int C(t)e^{-rt}dt$ — cash flows weighted by a discount factor. An expectation is $\int x f(x)dx$ — outcomes weighted by a density. Pricing under a risk-neutral measure combines both: $\int$ payoff $\times$ density $\times$ discount factor. All the calculus you need for it is in modules 7, 8 and 10.</div>
+  </div>
+</div>
+</div>
+</section>

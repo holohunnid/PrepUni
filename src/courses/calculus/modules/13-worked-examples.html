@@ -1,0 +1,540 @@
+<!-- ============ 13 WORKED EXAMPLES ============ -->
+<section id="s13">
+<div class="sec-head"><span class="num">13</span><h2>Worked examples</h2><span class="sub">32 exam-style problems, full solutions, one insight each</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">HOW TO USE</span> Attempt first, then open the solution<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
+  <div class="body">
+  <p>Each problem is written the way assessment questions are. Cover the solution, write your own on paper, then compare. The <b>Insight</b> box at the end is the transferable idea; if you only reread one thing per example, reread that. Difficulty: <span class="pill g">●</span> routine · <span class="pill a">●●</span> standard · <span class="pill r">●●●</span> needs two ideas combined. Ordered to follow modules 01–11.</p>
+  </div>
+</div>
+
+<!-- 1 -->
+<div class="wx">
+<div class="bar"><span class="n">W01</span><span class="pill g">●</span><span class="tag">functions</span>Natural domain with three obstacles</div>
+<div class="prob">Find the natural domain of $\displaystyle f(x)=\frac{\sqrt{x+2}}{\ln(5-x)}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Square root:</b> $x+2\ge0\Rightarrow x\ge-2$.</li>
+<li><b>Logarithm:</b> $5-x&gt;0\Rightarrow x&lt;5$.</li>
+<li><b>Denominator non-zero:</b> $\ln(5-x)\ne0\Rightarrow 5-x\ne1\Rightarrow x\ne4$.</li>
+<li>Intersect: $\;D=[-2,4)\cup(4,5)$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Three separate checks, and the third is the one people miss: a logarithm in a denominator must be non-zero as well as defined, and $\ln u=0$ at $u=1$, not at $u=0$. Scan every formula for all three obstacles — division, even roots, logs — before writing an answer.</div>
+</div></details>
+</div>
+
+<!-- 2 -->
+<div class="wx">
+<div class="bar"><span class="n">W02</span><span class="pill g">●</span><span class="tag">functions</span>Composition and inverse</div>
+<div class="prob">Let $f(x)=2x-1$ and $g(x)=x^2+3$. Find (a) $f(g(x))$, (b) $g(f(x))$, (c) $f^{-1}(x)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>(a) Substitute $g$ into $f$: $f(g(x))=2(x^2+3)-1=2x^2+5$.</li>
+<li>(b) Substitute $f$ into $g$: $g(f(x))=(2x-1)^2+3=4x^2-4x+4$.</li>
+<li>(c) Set $y=2x-1$, solve for $x$: $x=\dfrac{y+1}{2}$. Rename: $f^{-1}(x)=\dfrac{x+1}{2}$.</li>
+<li>Check: $f(f^{-1}(x))=2\cdot\frac{x+1}{2}-1=x$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>(a) and (b) are different functions — composition does not commute. The habit of verifying an inverse by composing it back costs five seconds and catches every algebra slip.</div>
+</div></details>
+</div>
+
+<!-- 3 -->
+<div class="wx">
+<div class="bar"><span class="n">W03</span><span class="pill a">●●</span><span class="tag">functions</span>A log equation with a rejected root</div>
+<div class="prob">Solve $\ln x+\ln(x-3)=\ln 4$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Combine the left side with the product rule: $\ln\big(x(x-3)\big)=\ln4$.</li>
+<li>$\ln$ is one-to-one, so $x(x-3)=4$.</li>
+<li>$x^2-3x-4=0\Rightarrow(x-4)(x+1)=0\Rightarrow x=4$ or $x=-1$.</li>
+<li><b>Check the domain.</b> The original equation needs $x&gt;0$ <i>and</i> $x-3&gt;0$, i.e. $x&gt;3$. So $x=-1$ is rejected.</li>
+<li>$x=4$. Verify: $\ln4+\ln1=\ln4$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Combining logs <b>enlarges</b> the domain — $\ln(x(x-3))$ is defined for $x&lt;0$ too, where the original was not. Any manipulation that widens a domain can manufacture false roots, so always substitute back into the <i>original</i> equation.</div>
+</div></details>
+</div>
+
+<!-- 4 -->
+<div class="wx">
+<div class="bar"><span class="n">W04</span><span class="pill g">●</span><span class="tag">limits</span>Factor and cancel</div>
+<div class="prob">Evaluate $\displaystyle\lim_{x\to3}\frac{x^2-5x+6}{x^2-9}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Substitute: $\frac{9-15+6}{9-9}=\frac00$ — indeterminate, so work is needed.</li>
+<li>Factor both: numerator $(x-2)(x-3)$, denominator $(x-3)(x+3)$.</li>
+<li>Cancel the common $(x-3)$ — legal because $x\ne3$ throughout the limit process.</li>
+<li>$\displaystyle\lim_{x\to3}\frac{x-2}{x+3}=\frac{1}{6}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$\tfrac00$ guarantees a shared factor of $(x-a)$ in both, by the factor theorem — so factoring is certain to work on polynomials. The result also tells you the curve has a <b>removable hole</b> at $x=3$, not an asymptote; the genuine vertical asymptote is at $x=-3$, where only the denominator vanishes.</div>
+</div></details>
+</div>
+
+<!-- 5 -->
+<div class="wx">
+<div class="bar"><span class="n">W05</span><span class="pill a">●●</span><span class="tag">limits</span>Conjugate</div>
+<div class="prob">Evaluate $\displaystyle\lim_{x\to0}\frac{\sqrt{1+x}-1}{x}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Substitution gives $\tfrac00$. A root is causing it, so multiply by the conjugate.</li>
+<li>$\dfrac{(\sqrt{1+x}-1)(\sqrt{1+x}+1)}{x(\sqrt{1+x}+1)}=\dfrac{(1+x)-1}{x(\sqrt{1+x}+1)}=\dfrac{x}{x(\sqrt{1+x}+1)}$.</li>
+<li>Cancel $x$: $\dfrac{1}{\sqrt{1+x}+1}$.</li>
+<li>Now substitute: $\dfrac{1}{1+1}=\dfrac12$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>This is the derivative of $\sqrt{1+x}$ at $x=0$ computed from the definition — and indeed $\frac{d}{dx}\sqrt{1+x}=\frac{1}{2\sqrt{1+x}}$ equals $\tfrac12$ there. It also justifies the everyday approximation $\sqrt{1+x}\approx1+\tfrac x2$ for small $x$.</div>
+</div></details>
+</div>
+
+<!-- 6 -->
+<div class="wx">
+<div class="bar"><span class="n">W06</span><span class="pill a">●●</span><span class="tag">limits</span>Conjugate at infinity</div>
+<div class="prob">Evaluate $\displaystyle\lim_{x\to\infty}\left(\sqrt{x^2+3x}-x\right)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Form is $\infty-\infty$ — indeterminate, and "the $x^2$ dominates so it's $\infty$" is wrong reasoning.</li>
+<li>Multiply and divide by the conjugate: $\dfrac{(x^2+3x)-x^2}{\sqrt{x^2+3x}+x}=\dfrac{3x}{\sqrt{x^2+3x}+x}$.</li>
+<li>Divide top and bottom by $x$ (positive, since $x\to+\infty$, so $\sqrt{x^2+3x}=x\sqrt{1+3/x}$):</li>
+<li>$\dfrac{3}{\sqrt{1+3/x}+1}\longrightarrow\dfrac{3}{1+1}=\dfrac32$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The conjugate trick is not only for $\tfrac00$ — it converts $\infty-\infty$ into a quotient you can handle. Geometrically the answer says $\sqrt{x^2+3x}\approx x+\tfrac32$ far out: the curve approaches the <b>oblique asymptote</b> $y=x+\tfrac32$.</div>
+</div></details>
+</div>
+
+<!-- 7 -->
+<div class="wx">
+<div class="bar"><span class="n">W07</span><span class="pill a">●●</span><span class="tag">limits</span>One-sided limits decide existence</div>
+<div class="prob">For $f(x)=\dfrac{|x-2|}{x-2}$, find $\lim_{x\to2^-}f$, $\lim_{x\to2^+}f$, and state whether $\lim_{x\to2}f$ exists.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>For $x&gt;2$: $|x-2|=x-2$, so $f(x)=1$. Hence $\lim_{x\to2^+}f=1$.</li>
+<li>For $x&lt;2$: $|x-2|=-(x-2)$, so $f(x)=-1$. Hence $\lim_{x\to2^-}f=-1$.</li>
+<li>The one-sided limits differ, so $\lim_{x\to2}f(x)$ <b>does not exist</b>.</li>
+<li>$f$ has a jump discontinuity at $x=2$ (and is undefined there).</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Whenever an absolute value, a piecewise definition, or a sign change appears, split into cases before taking limits. Note the function is perfectly well-behaved on each side — the failure is entirely about the two sides disagreeing.</div>
+</div></details>
+</div>
+
+<!-- 8 -->
+<div class="wx">
+<div class="bar"><span class="n">W08</span><span class="pill a">●●</span><span class="tag">continuity</span>Find the constant</div>
+<div class="prob">Find $a$ and $b$ so that $f$ is continuous everywhere: $f(x)=\begin{cases}x^2 &amp; x\le1\\ ax+b &amp; 1&lt;x&lt;3\\ 2x &amp; x\ge3\end{cases}$</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Each piece is a polynomial, so only the seams $x=1$ and $x=3$ can break.</li>
+<li><b>At $x=1$:</b> left limit and value $=1^2=1$; right limit $=a+b$. So $a+b=1$.</li>
+<li><b>At $x=3$:</b> left limit $=3a+b$; right limit and value $=2(3)=6$. So $3a+b=6$.</li>
+<li>Subtract: $2a=5\Rightarrow a=\tfrac52$, then $b=1-\tfrac52=-\tfrac32$.</li>
+<li>Check: at $x=1$, $\tfrac52-\tfrac32=1$ ✓; at $x=3$, $\tfrac{15}{2}-\tfrac32=6$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Two seams give two equations, so two unknowns are exactly determined. The method never changes: at each seam set left limit = right limit = value. Watch which piece owns the boundary point ($\le$ vs $&lt;$) — here $x=1$ belongs to $x^2$ and $x=3$ to $2x$.</div>
+</div></details>
+</div>
+
+<!-- 9 -->
+<div class="wx">
+<div class="bar"><span class="n">W09</span><span class="pill a">●●</span><span class="tag">continuity</span>IVT: prove a root exists</div>
+<div class="prob">Show that $x^3-4x+1=0$ has a solution in the interval $(0,1)$, and narrow it to an interval of width $0.25$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$f(x)=x^3-4x+1$ is a polynomial, hence continuous on $[0,1]$ — the IVT hypothesis is satisfied.</li>
+<li>$f(0)=1&gt;0$ and $f(1)=1-4+1=-2&lt;0$. The values straddle zero.</li>
+<li>By the IVT there is $c\in(0,1)$ with $f(c)=0$.</li>
+<li><b>Bisection.</b> $f(0.5)=0.125-2+1=-0.875&lt;0$, so the root lies in $(0,0.5)$.</li>
+<li>$f(0.25)=0.0156-1+1=0.0156&gt;0$, so the root lies in $(0.25,0.5)$ — width $0.25$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The IVT is an <b>existence</b> theorem: it proves a root is there without finding it. Bisection converts that proof into an algorithm — each step halves the interval. Note you must state continuity explicitly; that is where the marks are.</div>
+</div></details>
+</div>
+
+<!-- 10 -->
+<div class="wx">
+<div class="bar"><span class="n">W10</span><span class="pill a">●●</span><span class="tag">derivative</span>From first principles</div>
+<div class="prob">Use the definition of the derivative to find $f'(x)$ for $f(x)=\sqrt{2x+1}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$f'(x)=\displaystyle\lim_{h\to0}\frac{\sqrt{2(x+h)+1}-\sqrt{2x+1}}{h}$.</li>
+<li>Multiply by the conjugate $\sqrt{2x+2h+1}+\sqrt{2x+1}$ over itself:</li>
+<li>Numerator becomes $(2x+2h+1)-(2x+1)=2h$.</li>
+<li>$\displaystyle\lim_{h\to0}\frac{2h}{h\left(\sqrt{2x+2h+1}+\sqrt{2x+1}\right)}=\lim_{h\to0}\frac{2}{\sqrt{2x+2h+1}+\sqrt{2x+1}}$.</li>
+<li>Let $h\to0$: $\;f'(x)=\dfrac{2}{2\sqrt{2x+1}}=\dfrac{1}{\sqrt{2x+1}}$.</li>
+<li>Confirm with the chain rule: $\tfrac12(2x+1)^{-1/2}\cdot2=(2x+1)^{-1/2}$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Every first-principles computation is: expand so the leading terms cancel, divide out the $h$ that must appear, then substitute $h=0$. If nothing cancels, there is an algebra error. Always sanity-check the answer against the rules afterwards.</div>
+</div></details>
+</div>
+
+<!-- 11 -->
+<div class="wx">
+<div class="bar"><span class="n">W11</span><span class="pill g">●</span><span class="tag">derivative</span>Tangent line and linear approximation</div>
+<div class="prob">For $f(x)=\ln x$: (a) find the tangent line at $x=1$; (b) use it to estimate $\ln(1.05)$; (c) is the estimate too high or too low, and why?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>(a) $f(1)=0$ and $f'(x)=1/x$ so $f'(1)=1$. Tangent: $y=0+1(x-1)=x-1$.</li>
+<li>(b) $\ln(1.05)\approx1.05-1=0.05$. (True value $0.048790$.)</li>
+<li>(c) $f''(x)=-1/x^2&lt;0$, so $\ln$ is <b>concave</b> and lies <b>below</b> its tangents. The estimate is therefore an <b>over</b>-estimate ✓ ($0.05&gt;0.0488$).</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The sign of $f''$ tells you the <i>direction</i> of the approximation error for free: concave ⇒ tangent above ⇒ over-estimate; convex ⇒ under-estimate. This is also the source of $\ln(1+x)\approx x$, which finance uses constantly for small returns.</div>
+</div></details>
+</div>
+
+<!-- 12 -->
+<div class="wx">
+<div class="bar"><span class="n">W12</span><span class="pill a">●●</span><span class="tag">rules</span>Three derivatives, three decisions</div>
+<div class="prob">Differentiate: (a) $\displaystyle y=\frac{x^3+2x}{\sqrt x}$, (b) $y=x^2\sin x$, (c) $\displaystyle y=\frac{2x+1}{x^2+3}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a) Simplify first — no quotient rule needed.</b> $y=\dfrac{x^3}{x^{1/2}}+\dfrac{2x}{x^{1/2}}=x^{5/2}+2x^{1/2}$.<br>$y'=\tfrac52x^{3/2}+x^{-1/2}=\tfrac52x^{3/2}+\dfrac{1}{\sqrt x}$.</li>
+<li><b>(b) Product rule.</b> $f=x^2$, $g=\sin x$: $\;y'=2x\sin x+x^2\cos x$.</li>
+<li><b>(c) Quotient rule.</b> $f=2x+1$, $g=x^2+3$:<br>$y'=\dfrac{2(x^2+3)-(2x+1)(2x)}{(x^2+3)^2}=\dfrac{2x^2+6-4x^2-2x}{(x^2+3)^2}=\dfrac{-2x^2-2x+6}{(x^2+3)^2}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Part (a) is the lesson: a quotient is not automatically a quotient-rule problem. Splitting the fraction and rewriting roots as powers turned a messy derivative into two power-rule terms. Always ask "can I simplify first?" before choosing a rule.</div>
+</div></details>
+</div>
+
+<!-- 13 -->
+<div class="wx">
+<div class="bar"><span class="n">W13</span><span class="pill a">●●</span><span class="tag">rules</span>Chain rule, nested twice</div>
+<div class="prob">Differentiate: (a) $y=e^{\sin(3x)}$, (b) $y=\ln\sqrt{x^2+1}$, (c) $y=(1+\sqrt x)^4$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a)</b> Three layers: $e^\square$, $\sin\square$, $3x$.<br>$y'=e^{\sin(3x)}\cdot\cos(3x)\cdot3=3\cos(3x)\,e^{\sin(3x)}$.</li>
+<li><b>(b) Simplify first:</b> $\ln\sqrt{x^2+1}=\tfrac12\ln(x^2+1)$.<br>$y'=\tfrac12\cdot\dfrac{2x}{x^2+1}=\dfrac{x}{x^2+1}$.</li>
+<li><b>(c)</b> Outer $\square^4$, inner $1+x^{1/2}$.<br>$y'=4(1+\sqrt x)^3\cdot\tfrac12x^{-1/2}=\dfrac{2(1+\sqrt x)^3}{\sqrt x}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Peel layers from the outside in, multiplying as you go, and never differentiate the inside <i>inside</i> the outer derivative. Part (b) again shows a log identity beating brute force: two seconds of algebra removed an entire chain-rule layer.</div>
+</div></details>
+</div>
+
+<!-- 14 -->
+<div class="wx">
+<div class="bar"><span class="n">W14</span><span class="pill a">●●</span><span class="tag">rules</span>Implicit differentiation</div>
+<div class="prob">The curve $x^2+xy+y^2=7$ passes through $(1,2)$. Find $\dfrac{dy}{dx}$ there and the tangent line.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Check the point: $1+2+4=7$ ✓.</li>
+<li>Differentiate both sides w.r.t. $x$, remembering $y=y(x)$ and using the product rule on $xy$:<br>$2x+\big(y+xy'\big)+2yy'=0$.</li>
+<li>Collect the $y'$ terms: $y'(x+2y)=-(2x+y)$.</li>
+<li>$y'=-\dfrac{2x+y}{x+2y}$.</li>
+<li>At $(1,2)$: $y'=-\dfrac{2+2}{1+4}=-\dfrac45$.</li>
+<li>Tangent: $y-2=-\tfrac45(x-1)$, i.e. $y=-\tfrac45x+\tfrac{14}{5}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The term $xy$ needs the product rule <b>and</b> the chain rule at once — that is the step people drop. The answer depending on both $x$ and $y$ is normal for an implicit derivative; you evaluate it at a point, not simplify it away.</div>
+</div></details>
+</div>
+
+<!-- 15 -->
+<div class="wx">
+<div class="bar"><span class="n">W15</span><span class="pill r">●●●</span><span class="tag">rules</span>Logarithmic differentiation</div>
+<div class="prob">Differentiate $y=x^{\ln x}$ for $x&gt;0$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>The variable is in <b>both</b> the base and the exponent, so neither the power rule nor the exponential rule applies. Take logs.</li>
+<li>$\ln y=\ln x\cdot\ln x=(\ln x)^2$.</li>
+<li>Differentiate both sides. Left: $\dfrac{y'}{y}$. Right (chain rule): $2\ln x\cdot\dfrac1x$.</li>
+<li>$y'=y\cdot\dfrac{2\ln x}{x}=\dfrac{2\ln x}{x}\,x^{\ln x}$.</li>
+<li><b>Check by the other route:</b> $x^{\ln x}=e^{(\ln x)^2}$, so $y'=e^{(\ln x)^2}\cdot\frac{2\ln x}{x}$ — the same ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Two reliable signals for logarithmic differentiation: the variable appears in base <i>and</i> exponent, or the expression is a long product/quotient. The alternative — rewrite as $e^{(\text{something})}$ — always works too, and doing both is a free check.</div>
+</div></details>
+</div>
+
+<!-- 16 -->
+<div class="wx">
+<div class="bar"><span class="n">W16</span><span class="pill r">●●●</span><span class="tag">using f'</span>Full study of a cubic</div>
+<div class="prob">Study $f(x)=x^3-6x^2+9x$: intervals of increase and decrease, local extrema, concavity, inflection point. Then sketch.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Domain</b> $\mathbb{R}$. <b>Intercepts:</b> $f(x)=x(x^2-6x+9)=x(x-3)^2$, so roots at $x=0$ and a double root at $x=3$.</li>
+<li><b>First derivative:</b> $f'=3x^2-12x+9=3(x-1)(x-3)$. Critical points $x=1,3$.</li>
+<li><b>Sign table for $f'$:</b> on $(-\infty,1)$ both factors negative ⇒ $+$; on $(1,3)$ ⇒ $-$; on $(3,\infty)$ ⇒ $+$.<br>So $f$ increases on $(-\infty,1)$, decreases on $(1,3)$, increases on $(3,\infty)$.</li>
+<li><b>Classify:</b> $+\to-$ at $x=1$ ⇒ local <b>max</b>, $f(1)=1-6+9=4$. $-\to+$ at $x=3$ ⇒ local <b>min</b>, $f(3)=27-54+27=0$.</li>
+<li><b>Second derivative:</b> $f''=6x-12=6(x-2)$. Negative for $x&lt;2$ (concave), positive for $x&gt;2$ (convex).</li>
+<li><b>Inflection</b> at $x=2$, where the sign changes; $f(2)=8-24+18=2$. Point $(2,2)$.</li>
+<li><b>Ends:</b> $f\to-\infty$ as $x\to-\infty$, $f\to+\infty$ as $x\to+\infty$. Sketch: up to $(1,4)$, down to $(3,0)$, up again, bending changes at $(2,2)$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The double root at $x=3$ is visible in the answer: a repeated root means the curve <i>touches</i> the axis without crossing, which is exactly why $x=3$ is also the local minimum. Reading structure out of the factored form before differentiating tells you what to expect.</div>
+</div></details>
+</div>
+
+<!-- 17 -->
+<div class="wx">
+<div class="bar"><span class="n">W17</span><span class="pill a">●●</span><span class="tag">using f'</span>Global extrema on a closed interval</div>
+<div class="prob">Find the absolute maximum and minimum of $f(x)=x^4-8x^2+3$ on $[-1,3]$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$f'=4x^3-16x=4x(x-2)(x+2)$. Critical points $x=0,\,2,\,-2$.</li>
+<li><b>Keep only those inside $[-1,3]$:</b> $x=0$ and $x=2$. ($x=-2$ is outside — discard.)</li>
+<li>Evaluate at critical points <b>and both endpoints</b>:<br>$f(-1)=1-8+3=-4$<br>$f(0)=3$<br>$f(2)=16-32+3=-13$<br>$f(3)=81-72+3=12$</li>
+<li>Compare: absolute <b>max</b> $=12$ at $x=3$; absolute <b>min</b> $=-13$ at $x=2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>No classification is needed — you simply compare numbers. Two standard errors are avoided here: discarding the out-of-range critical point, and remembering the endpoints (the maximum <i>is</i> an endpoint, and solving $f'=0$ would never have found it).</div>
+</div></details>
+</div>
+
+<!-- 18 -->
+<div class="wx">
+<div class="bar"><span class="n">W18</span><span class="pill a">●●</span><span class="tag">using f'</span>Optimisation word problem</div>
+<div class="prob">A rectangular plot is fenced on three sides, the fourth being a straight river. With 400 m of fencing, what dimensions maximise the enclosed area?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Variables.</b> Let $x$ = each of the two sides perpendicular to the river, $y$ = the side parallel to it.</li>
+<li><b>Constraint.</b> Only three sides are fenced: $2x+y=400$, so $y=400-2x$.</li>
+<li><b>Objective in one variable.</b> $A=xy=x(400-2x)=400x-2x^2$, on the physical domain $0\le x\le200$.</li>
+<li><b>Optimise.</b> $A'=400-4x=0\Rightarrow x=100$. Then $y=400-200=200$.</li>
+<li><b>Confirm a maximum.</b> $A''=-4&lt;0$ ✓. (Or check endpoints: $A(0)=A(200)=0$.)</li>
+<li><b>Answer:</b> $100\times200$ m, area $20{,}000$ m².</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Every optimisation word problem has the same four steps: name the variables, write the constraint, express the objective in <b>one</b> variable, then differentiate. Note the optimum splits the fence half into the river-parallel side and half into the two perpendicular ones — a pattern that recurs in constrained problems.</div>
+</div></details>
+</div>
+
+<!-- 19 -->
+<div class="wx">
+<div class="bar"><span class="n">W19</span><span class="pill a">●●</span><span class="tag">using f'</span>L'Hôpital, twice</div>
+<div class="prob">Evaluate (a) $\displaystyle\lim_{x\to0}\frac{e^{2x}-1-2x}{x^2}$ and (b) $\displaystyle\lim_{x\to0^+}x\ln x$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a)</b> Substituting gives $\tfrac00$ ✓ so L'Hôpital applies:<br>$\displaystyle\lim\frac{2e^{2x}-2}{2x}$ — still $\tfrac00$, so apply again:<br>$\displaystyle\lim\frac{4e^{2x}}{2}=\frac42=2$.</li>
+<li><b>(b)</b> The form is $0\cdot(-\infty)$, which L'Hôpital does not accept. Rewrite as a quotient:<br>$\displaystyle\lim_{x\to0^+}\frac{\ln x}{1/x}$ — now $\tfrac{-\infty}{\infty}$ ✓.</li>
+<li>Differentiate top and bottom: $\displaystyle\lim\frac{1/x}{-1/x^2}=\lim(-x)=0$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Re-check the form before each application — (a) needed two passes, and stopping after one would give $\tfrac00$, not an answer. In (b), the choice of which factor to invert matters: putting $x$ downstairs works, putting $\ln x$ downstairs leads nowhere. Cross-check (a) with the Maclaurin series: $e^{2x}=1+2x+2x^2+\dots$, so the numerator is $2x^2+\dots$ and the ratio tends to 2 ✓.</div>
+</div></details>
+</div>
+
+<!-- 20 -->
+<div class="wx">
+<div class="bar"><span class="n">W20</span><span class="pill a">●●</span><span class="tag">using f'</span>Taylor approximation</div>
+<div class="prob">Use a second-order Taylor polynomial about $a=0$ to estimate $\ln(1.1)$, and comment on the error.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$f(x)=\ln(1+x)$, so $x=0.1$. Derivatives at 0: $f(0)=0$, $f'(x)=\frac{1}{1+x}\Rightarrow f'(0)=1$, $f''(x)=-\frac{1}{(1+x)^2}\Rightarrow f''(0)=-1$.</li>
+<li>$P_2(x)=0+1\cdot x+\dfrac{-1}{2!}x^2=x-\dfrac{x^2}{2}$.</li>
+<li>$\ln(1.1)\approx0.1-\dfrac{0.01}{2}=0.1-0.005=\mathbf{0.095}$.</li>
+<li>True value $0.0953102$; error $\approx0.0003$. The first-order estimate ($0.1$) had error $0.005$ — <b>17 times worse</b>.</li>
+<li>The next term is $+\frac{x^3}{3}=+0.000333$, which accounts for almost all the remaining error ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Each extra Taylor term multiplies the accuracy by roughly $x$ — which is why these approximations are excellent for small $x$ and useless for large. The alternating signs also tell you the direction: $P_2$ under-estimates here, $P_1$ over-estimates.</div>
+</div></details>
+</div>
+
+<!-- 21 -->
+<div class="wx">
+<div class="bar"><span class="n">W21</span><span class="pill a">●●</span><span class="tag">economics</span>Profit maximisation and elasticity</div>
+<div class="prob">Demand is $p=100-2q$ and total cost is $C(q)=20q+200$. Find the profit-maximising quantity, the price, the profit, and the price elasticity of demand at the optimum.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Revenue:</b> $R=pq=(100-2q)q=100q-2q^2$.</li>
+<li><b>Profit:</b> $\pi=R-C=100q-2q^2-20q-200=80q-2q^2-200$.</li>
+<li><b>FOC:</b> $\pi'=80-4q=0\Rightarrow q^*=20$. <b>SOC:</b> $\pi''=-4&lt;0$ ✓ a maximum.</li>
+<li><b>Price:</b> $p=100-40=60$. <b>Profit:</b> $\pi=1600-800-200=600$.</li>
+<li><b>Check MR = MC:</b> $R'=100-4q=20$ at $q=20$, and $C'=20$ ✓.</li>
+<li><b>Elasticity.</b> From $p=100-2q$ we get $q=\frac{100-p}{2}$, so $\frac{dq}{dp}=-\tfrac12$.<br>$\varepsilon=\dfrac{dq}{dp}\cdot\dfrac pq=-\tfrac12\cdot\dfrac{60}{20}=-1.5$ — elastic.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>"Marginal revenue equals marginal cost" is just $\pi'=0$ rewritten, and the SOC is module 6's second derivative test. The elasticity being below $-1$ is not a coincidence: a profit-maximising firm always operates on the elastic part of its demand curve, because in the inelastic region raising the price would raise revenue and cut costs simultaneously.</div>
+</div></details>
+</div>
+
+<!-- 22 -->
+<div class="wx">
+<div class="bar"><span class="n">W22</span><span class="pill g">●</span><span class="tag">integrals</span>Rewrite, then integrate</div>
+<div class="prob">Evaluate $\displaystyle\int\left(2x^3-\sqrt x+\frac3x-e^{2x}\right)dx$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Rewrite the root as a power: $\sqrt x=x^{1/2}$. Then integrate term by term (linearity).</li>
+<li>$\displaystyle\int2x^3dx=\frac{x^4}{2}$.</li>
+<li>$\displaystyle\int x^{1/2}dx=\frac{x^{3/2}}{3/2}=\frac23x^{3/2}$ — so this term contributes $-\tfrac23x^{3/2}$.</li>
+<li>$\displaystyle\int\frac3xdx=3\ln|x|$ — the $n=-1$ exception.</li>
+<li>$\displaystyle\int e^{2x}dx=\frac{e^{2x}}{2}$.</li>
+<li>Total: $\;\dfrac{x^4}{2}-\dfrac23x^{3/2}+3\ln|x|-\dfrac{e^{2x}}{2}+C$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Three separate traps in one problem: the power rule fails at $n=-1$ (log instead), the absolute value in $\ln|x|$, and the $\tfrac12$ from the chain rule in $e^{2x}$. Differentiate the answer to confirm all three.</div>
+</div></details>
+</div>
+
+<!-- 23 -->
+<div class="wx">
+<div class="bar"><span class="n">W23</span><span class="pill a">●●</span><span class="tag">integrals</span>Net area vs total area</div>
+<div class="prob">For $f(x)=x^2-4$ on $[0,3]$: (a) evaluate $\int_0^3f(x)dx$; (b) find the total area between the curve and the $x$-axis.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a)</b> $\displaystyle\int_0^3(x^2-4)dx=\left[\frac{x^3}{3}-4x\right]_0^3=(9-12)-0=-3$.</li>
+<li><b>(b)</b> Find the crossing: $x^2-4=0\Rightarrow x=2$ (inside the interval). Split there.</li>
+<li>On $[0,2]$: $\displaystyle\int_0^2(x^2-4)dx=\frac83-8=-\frac{16}{3}$, so the <b>area</b> is $\frac{16}{3}$.</li>
+<li>On $[2,3]$: $\displaystyle\int_2^3(x^2-4)dx=(9-12)-\left(\frac83-8\right)=-3+\frac{16}{3}=\frac73$.</li>
+<li>Total area $=\dfrac{16}{3}+\dfrac73=\dfrac{23}{3}$.</li>
+<li>Consistency check: $-\frac{16}{3}+\frac73=-\frac93=-3$ ✓ matches (a).</li>
+</ol>
+<div class="note"><div class="t">Insight</div>"Evaluate the integral" and "find the area" are different questions with different answers ($-3$ vs $\tfrac{23}{3}$). Whenever the integrand changes sign inside the interval, find the roots and split. The net-vs-total check at the end is free and catches arithmetic slips.</div>
+</div></details>
+</div>
+
+<!-- 24 -->
+<div class="wx">
+<div class="bar"><span class="n">W24</span><span class="pill a">●●</span><span class="tag">integrals</span>FTC Part 1 with a chain rule</div>
+<div class="prob">Find $\displaystyle\frac{d}{dx}\int_1^{x^2}\ln t\,dt$ for $x&gt;1$, and $\displaystyle\frac{d}{dx}\int_x^{3}e^{-t^2}dt$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>First.</b> FTC 1 with a variable upper limit $g(x)=x^2$: the answer is $f(g(x))\cdot g'(x)$.</li>
+<li>$=\ln(x^2)\cdot2x=2\ln x\cdot2x=4x\ln x$.</li>
+<li><b>Second.</b> The variable is the <b>lower</b> limit, so flip the integral first: $\displaystyle\int_x^3e^{-t^2}dt=-\int_3^xe^{-t^2}dt$.</li>
+<li>Differentiating: $-e^{-x^2}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Neither integrand needed to be integrated — and $e^{-t^2}$ has no elementary antiderivative, so it could not have been. FTC Part 1 differentiates an accumulation directly. The minus sign for a variable lower limit is the standard lost mark.</div>
+</div></details>
+</div>
+
+<!-- 25 -->
+<div class="wx">
+<div class="bar"><span class="n">W25</span><span class="pill a">●●</span><span class="tag">techniques</span>Substitution with changed limits</div>
+<div class="prob">Evaluate $\displaystyle\int_1^{e}\frac{(\ln x)^2}{x}\,dx$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>The inner function $\ln x$ appears together with its derivative $1/x$ — substitution.</li>
+<li>Let $u=\ln x$, so $du=\dfrac{dx}{x}$.</li>
+<li><b>Change the limits:</b> $x=1\Rightarrow u=\ln1=0$; $x=e\Rightarrow u=\ln e=1$.</li>
+<li>$\displaystyle\int_0^1u^2\,du=\left[\frac{u^3}{3}\right]_0^1=\frac13$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Converting the limits avoids substituting back entirely — fewer steps and fewer errors. The tell-tale pattern here is $\frac{g'}{1}\cdot(\text{function of }g)$: whenever you see $\ln x$ next to $\frac1x$, or $x$ next to $x^2$, substitution is the move.</div>
+</div></details>
+</div>
+
+<!-- 26 -->
+<div class="wx">
+<div class="bar"><span class="n">W26</span><span class="pill r">●●●</span><span class="tag">techniques</span>By parts: LIATE, and a circular case</div>
+<div class="prob">Evaluate (a) $\displaystyle\int x^2\ln x\,dx$ and (b) $\displaystyle\int e^x\sin x\,dx$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a)</b> LIATE puts <b>L</b> before <b>A</b>, so $u=\ln x$ (not $x^2$), $dv=x^2dx$.</li>
+<li>$du=\dfrac{dx}{x}$, $v=\dfrac{x^3}{3}$. Then<br>$\displaystyle\int x^2\ln x\,dx=\frac{x^3}{3}\ln x-\int\frac{x^3}{3}\cdot\frac1x dx=\frac{x^3}{3}\ln x-\frac13\int x^2dx$</li>
+<li>$=\dfrac{x^3}{3}\ln x-\dfrac{x^3}{9}+C=\dfrac{x^3}{9}\big(3\ln x-1\big)+C$.</li>
+<li><b>(b) The circular trick.</b> Call the answer $I$. Take $u=\sin x$, $dv=e^xdx$:<br>$I=e^x\sin x-\displaystyle\int e^x\cos x\,dx$.</li>
+<li>Apply by parts again to the new integral, <b>keeping the same choice pattern</b> ($u$ trigonometric):<br>$\displaystyle\int e^x\cos x\,dx=e^x\cos x+\int e^x\sin x\,dx=e^x\cos x+I$.</li>
+<li>Substitute back: $I=e^x\sin x-e^x\cos x-I$, so $2I=e^x(\sin x-\cos x)$.</li>
+<li>$I=\dfrac{e^x(\sin x-\cos x)}{2}+C$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>In (a), choosing $u=x^2$ would have produced $\int\frac{x^3}{3}\cdot\frac{1}{x}$… no — it would have required $v=$ an antiderivative of $\ln x$, which is harder than the original. LIATE encodes that reasoning. In (b) the original integral <b>reappears</b>, so you solve for it algebraically instead of integrating further — but you must keep the same type in $u$ both times, or everything cancels to $0=0$.</div>
+</div></details>
+</div>
+
+<!-- 27 -->
+<div class="wx">
+<div class="bar"><span class="n">W27</span><span class="pill a">●●</span><span class="tag">techniques</span>Partial fractions</div>
+<div class="prob">Evaluate $\displaystyle\int\frac{3x+11}{x^2-x-6}\,dx$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Degree of numerator (1) &lt; degree of denominator (2) ⇒ proper, no division needed.</li>
+<li>Factor: $x^2-x-6=(x-3)(x+2)$.</li>
+<li>Template: $\dfrac{3x+11}{(x-3)(x+2)}=\dfrac{A}{x-3}+\dfrac{B}{x+2}$.</li>
+<li>Multiply through: $3x+11=A(x+2)+B(x-3)$.</li>
+<li>Set $x=3$: $20=5A\Rightarrow A=4$. &nbsp; Set $x=-2$: $5=-5B\Rightarrow B=-1$.</li>
+<li>$\displaystyle\int\left(\frac{4}{x-3}-\frac{1}{x+2}\right)dx=4\ln|x-3|-\ln|x+2|+C$.</li>
+<li>Optionally combine: $\ln\left|\dfrac{(x-3)^4}{x+2}\right|+C$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Substituting the roots kills one unknown at a time and is far faster than expanding and comparing coefficients. Distinct linear factors always give a sum of logs — if your answer has no logs, check the factorisation.</div>
+</div></details>
+</div>
+
+<!-- 28 -->
+<div class="wx">
+<div class="bar"><span class="n">W28</span><span class="pill a">●●</span><span class="tag">techniques</span>Two improper integrals</div>
+<div class="prob">Determine whether each converges, and evaluate if it does: (a) $\displaystyle\int_0^1\frac{dx}{\sqrt x}$, (b) $\displaystyle\int_1^{\infty}\frac{dx}{\sqrt x}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Both are improper with $p=\tfrac12$ — but at <b>opposite ends</b>, so the tests point opposite ways.</li>
+<li><b>(a)</b> The integrand blows up at $x=0$. Write the limit:<br>$\displaystyle\lim_{t\to0^+}\int_t^1x^{-1/2}dx=\lim_{t\to0^+}\big[2\sqrt x\big]_t^1=\lim_{t\to0^+}(2-2\sqrt t)=2$.<br><span class="g">Converges</span> to 2 — consistent with the $p$-test ($p=\tfrac12&lt;1$ ✓).</li>
+<li><b>(b)</b> Infinite interval:<br>$\displaystyle\lim_{b\to\infty}\big[2\sqrt x\big]_1^{b}=\lim_{b\to\infty}(2\sqrt b-2)=\infty$.<br><span class="r">Diverges</span> — consistent with the $p$-test ($p=\tfrac12\not&gt;1$ ✓).</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The same integrand, convergent at one end and divergent at the other. Near zero you need a <b>mild</b> singularity ($p&lt;1$); far out you need <b>fast</b> decay ($p&gt;1$). Always write the limit explicitly — marks are awarded for the setup, and it is the only way to handle the blow-up honestly.</div>
+</div></details>
+</div>
+
+<!-- 29 -->
+<div class="wx">
+<div class="bar"><span class="n">W29</span><span class="pill a">●●</span><span class="tag">partials</span>Gradient and directional derivative</div>
+<div class="prob">For $f(x,y)=x^2y^3-3xy$ at the point $(1,2)$: find $\nabla f$, the maximum rate of increase, and the directional derivative in the direction of $\mathbf{v}=(3,4)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Partials.</b> $f_x=2xy^3-3y$ and $f_y=3x^2y^2-3x$.</li>
+<li>At $(1,2)$: $f_x=2(1)(8)-3(2)=16-6=10$; $f_y=3(1)(4)-3(1)=12-3=9$.</li>
+<li>$\nabla f(1,2)=(10,\,9)$.</li>
+<li><b>Maximum rate of increase</b> $=\|\nabla f\|=\sqrt{100+81}=\sqrt{181}\approx13.45$, in the direction of $(10,9)$.</li>
+<li><b>Normalise $\mathbf v$:</b> $\|\mathbf v\|=\sqrt{9+16}=5$, so $\mathbf u=\left(\tfrac35,\tfrac45\right)$.</li>
+<li>$D_{\mathbf u}f=\nabla f\cdot\mathbf u=10\cdot\tfrac35+9\cdot\tfrac45=6+7.2=13.2$.</li>
+<li>Sanity check: $13.2&lt;13.45$ ✓ — no direction can beat the gradient's own.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Normalising $\mathbf v$ is not optional: using $(3,4)$ directly would give $66$, five times too large. The final comparison against $\|\nabla f\|$ is a free check that catches exactly that error.</div>
+</div></details>
+</div>
+
+<!-- 30 -->
+<div class="wx">
+<div class="bar"><span class="n">W30</span><span class="pill r">●●●</span><span class="tag">partials</span>Critical point, Hessian, and MRS</div>
+<div class="prob">For $f(x,y)=x^2+xy+y^2-3x$: (a) find the critical point and classify it using the Hessian; (b) find the slope $dy/dx$ along a level curve of $f$ at the point $(1,1)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a) First-order conditions.</b> $f_x=2x+y-3=0$ and $f_y=x+2y=0$.</li>
+<li>From the second, $x=-2y$. Substitute: $2(-2y)+y=3\Rightarrow-3y=3\Rightarrow y=-1$, so $x=2$.</li>
+<li>Critical point $(2,-1)$. Check: $f_y=2+2(-1)=0$ ✓.</li>
+<li><b>Hessian.</b> $f_{xx}=2$, $f_{yy}=2$, $f_{xy}=f_{yx}=1$, so $H=\begin{pmatrix}2&amp;1\\1&amp;2\end{pmatrix}$.</li>
+<li><b>Definiteness</b> (leading principal minors): $|H_1|=2&gt;0$ and $\det H=4-1=3&gt;0$ ⇒ <b>positive definite</b> ⇒ local (here global) <b>minimum</b>.</li>
+<li><b>(b) Level-curve slope.</b> $\dfrac{dy}{dx}=-\dfrac{f_x}{f_y}$. At $(1,1)$: $f_x=2+1-3=0$ and $f_y=1+2=3$.</li>
+<li>$\dfrac{dy}{dx}=-\dfrac03=0$ — the level curve through $(1,1)$ is horizontal there.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Part (a) is where calculus hands the problem to linear algebra: classifying a critical point <i>is</i> testing a quadratic form for definiteness, using the leading-principal-minor test from the linear algebra course. Part (b) shows the formula behaving sensibly — $f_x=0$ means moving in $x$ does not change $f$ to first order, so the contour runs flat.</div>
+</div></details>
+</div>
+
+<!-- 31 -->
+<div class="wx">
+<div class="bar"><span class="n">W31</span><span class="pill r">●●●</span><span class="tag">double integrals</span>Reverse the order of integration</div>
+<div class="prob">Evaluate $\displaystyle\int_0^1\!\!\int_x^1\sin(y^2)\,dy\,dx$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>The obstacle.</b> $\int\sin(y^2)dy$ has no elementary antiderivative — the inner integral is impossible as written. So reverse the order.</li>
+<li><b>Read the region.</b> $0\le x\le1$ and $x\le y\le1$: the triangle with vertices $(0,0)$, $(0,1)$, $(1,1)$ — everything in the unit square above the line $y=x$.</li>
+<li><b>Re-describe with horizontal slabs (Type II).</b> $y$ runs from 0 to 1; for each $y$, $x$ runs from $0$ to $y$.</li>
+<li>$\displaystyle\int_0^1\!\!\int_0^{y}\sin(y^2)\,dx\,dy$.</li>
+<li><b>Inner integral is now trivial</b> — $\sin(y^2)$ is constant in $x$: $\displaystyle\int_0^y\sin(y^2)dx=y\sin(y^2)$.</li>
+<li><b>Outer.</b> Substitute $u=y^2$, $du=2y\,dy$, limits $0\to1$:<br>$\displaystyle\int_0^1y\sin(y^2)dy=\tfrac12\int_0^1\sin u\,du=\tfrac12\big[-\cos u\big]_0^1=\dfrac{1-\cos1}{2}$.</li>
+<li>Numerically $\approx0.2298$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Reversing the order turned an impossible integral into a one-line substitution, and the extra factor $y$ produced by the inner integration is precisely what substitution needed. Whenever you see $\sin(y^2)$, $e^{y^2}$ or $\frac{\sin y}{y}$ in an inner integral, reversal is the intended move — and you must <b>sketch the region</b> to do it, never just swap the limits.</div>
+</div></details>
+</div>
+
+<!-- 32 -->
+<div class="wx">
+<div class="bar"><span class="n">W32</span><span class="pill r">●●●</span><span class="tag">finance</span>Perpetuity, duration and convexity</div>
+<div class="prob">(a) A project pays continuously at $\text{€}20{,}000$ per year, growing at 2%, discounted at 6%. Find its present value. (b) A zero-coupon bond pays 100 in $T=10$ years, priced $P(y)=100e^{-yT}$ with $y=5\%$. Find its duration and convexity, then estimate the price change for $\Delta y=+1\%$ using (i) duration only, (ii) duration and convexity, and compare with the exact change.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(a)</b> $\displaystyle PV=\int_0^{\infty}20000\,e^{0.02t}e^{-0.06t}dt=20000\int_0^{\infty}e^{-0.04t}dt=\frac{20000}{0.04}=\text{€}500{,}000$.</li>
+<li>The improper integral converges only because $r&gt;g$; that condition is not an assumption but the requirement for convergence.</li>
+<li><b>(b) Derivatives.</b> $P=100e^{-yT}$, so $P'=-T\cdot100e^{-yT}=-TP$ and $P''=T^2P$.</li>
+<li><b>Duration</b> $D=-P'/P=T=10$. <b>Convexity</b> $C=P''/P=T^2=100$.</li>
+<li><b>Base price:</b> $P(0.05)=100e^{-0.5}=60.653$.</li>
+<li><b>(i) Duration only:</b> $\Delta P\approx-D\,P\,\Delta y=-10(60.653)(0.01)=-6.065$.</li>
+<li><b>(ii) With convexity:</b> add $\tfrac12CP(\Delta y)^2=\tfrac12(100)(60.653)(0.0001)=+0.303$, giving $-5.762$.</li>
+<li><b>Exact:</b> $P(0.06)=100e^{-0.6}=54.881$, so $\Delta P=-5.772$.</li>
+<li><b>Errors:</b> duration alone is off by $0.293$; adding convexity cuts it to $0.010$ — about 30 times better.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Part (b) is a second-order Taylor expansion with finance vocabulary: duration is the first derivative, convexity the second. Because $P$ is convex, the tangent line lies below the curve, so duration alone always <b>overstates</b> the loss from a yield rise — a systematic bias, not random error. Part (a) shows an improper integral whose convergence condition <i>is</i> the economic condition $r&gt;g$.</div>
+</div></details>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">AFTER THE SET</span> What to do next<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>If you got a problem wrong, classify the error before moving on — the fix is different in each case:</p>
+  <table class="formula-table">
+    <tr><td><b>Algebra</b></td><td>a sign, a bracket, a log rule. Reread module 01 and slow down; these are the cheapest marks to recover.</td></tr>
+    <tr><td><b>Wrong rule</b></td><td>you chose the quotient rule where simplification was faster, or missed a chain-rule layer. Redo the decision procedures in modules 05 and 08.</td></tr>
+    <tr><td><b>Setup</b></td><td>you differentiated correctly but answered a different question — forgot endpoints, ignored the domain, swapped limits without sketching. This is the most expensive category; the mathematics was fine.</td></tr>
+    <tr><td><b>Concept</b></td><td>you treated $\tfrac00$ as a number, or assumed $f'=0$ meant a maximum. Reread the READ FIRST panel of the relevant module, not the formulas.</td></tr>
+  </table>
+  <p class="muted">Then rewrite module 12 from memory. If you can reproduce the tables and the exam routines on a blank sheet, you are ready.</p>
+  </div>
+</div>
+</section>

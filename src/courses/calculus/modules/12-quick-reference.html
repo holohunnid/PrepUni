@@ -1,0 +1,179 @@
+<!-- ============ 12 QUICK REFERENCE ============ -->
+<section id="s12">
+<div class="sec-head"><span class="num">12</span><h2>Quick reference</h2><span class="sub">the one-page memory dump — rewrite this from memory the night before</span></div>
+
+<div class="grid3">
+<div class="panel">
+  <div class="bar"><span class="pill g">01</span> Algebra &amp; functions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Powers</td><td>$x^ax^b=x^{a+b}$, $(x^a)^b=x^{ab}$</td></tr>
+    <tr><td>Roots</td><td>$x^{m/n}=\sqrt[n]{x^m}$, $x^{-a}=1/x^a$</td></tr>
+    <tr><td>Logs</td><td>$\ln(ab)=\ln a+\ln b$; $\ln(a^b)=b\ln a$</td></tr>
+    <tr><td>Base change</td><td>$a^x=e^{x\ln a}$</td></tr>
+    <tr><td>Inverses</td><td>$e^{\ln u}=u$, $\ln(e^u)=u$</td></tr>
+    <tr><td>Diff. of squares</td><td>$a^2-b^2=(a-b)(a+b)$</td></tr>
+    <tr><td>Quadratic</td><td>$x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$</td></tr>
+    <tr><td>Abs. value</td><td>$|x-a|&lt;\delta\iff x\in(a-\delta,a+\delta)$</td></tr>
+    <tr><td>Domain checks</td><td>denominator $\ne0$; $\sqrt{\ }\ge0$; $\ln&gt;0$</td></tr>
+    <tr><td>Transform</td><td>$af(b(x-c))+d$: $c$ right, $d$ up</td></tr>
+  </table>
+  <p class="muted"><b>Never true:</b> $\ln(a+b)\ne\ln a+\ln b$; $\sqrt{a+b}\ne\sqrt a+\sqrt b$; $(a+b)^2\ne a^2+b^2$.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">02–03</span> Limits &amp; continuity<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Exists iff</td><td>$\lim_{x\to a^-}=\lim_{x\to a^+}$</td></tr>
+    <tr><td>Continuous at $a$</td><td>$\lim_{x\to a}f=f(a)$ (3 conditions)</td></tr>
+    <tr><td>$\tfrac00$</td><td>factor / conjugate / L'Hôpital</td></tr>
+    <tr><td>$x\to\infty$, rational</td><td>compare degrees: $&lt;\Rightarrow0$, $=\Rightarrow$ ratio, $&gt;\Rightarrow\infty$</td></tr>
+    <tr><td>Growth order</td><td>$\ln x\ll x^p\ll e^x\ll x!$</td></tr>
+    <tr><td>Must know</td><td>$\lim_{x\to0}\frac{\sin x}{x}=1$</td></tr>
+    <tr><td></td><td>$\lim_{x\to0}\frac{1-\cos x}{x^2}=\frac12$</td></tr>
+    <tr><td></td><td>$\lim_{x\to0}\frac{e^x-1}{x}=1$</td></tr>
+    <tr><td></td><td>$\lim_{n\to\infty}(1+\frac rn)^n=e^r$</td></tr>
+    <tr><td>Squeeze</td><td>$g\le f\le h$, same limit ⇒ $f$ too</td></tr>
+    <tr><td>IVT</td><td>continuous on $[a,b]$ ⇒ hits every $N$ between</td></tr>
+    <tr><td>EVT</td><td>continuous on <b>closed bounded</b> ⇒ max &amp; min exist</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">04–05</span> Derivatives<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Definition</td><td>$f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}{h}$</td></tr>
+    <tr><td>$x^n$</td><td>$nx^{n-1}$</td></tr>
+    <tr><td>$e^x$ / $a^x$</td><td>$e^x$ / $a^x\ln a$</td></tr>
+    <tr><td>$\ln x$</td><td>$1/x$</td></tr>
+    <tr><td>$\sin$ / $\cos$</td><td>$\cos$ / $-\sin$</td></tr>
+    <tr><td>$\tan x$</td><td>$1/\cos^2x$</td></tr>
+    <tr><td>Product</td><td>$(fg)'=f'g+fg'$</td></tr>
+    <tr><td>Quotient</td><td>$\left(\frac fg\right)'=\frac{f'g-fg'}{g^2}$</td></tr>
+    <tr><td>Chain</td><td>$[f(g)]'=f'(g)\cdot g'$</td></tr>
+    <tr><td>$e^{g}$ / $\ln g$</td><td>$e^gg'$ / $\frac{g'}{g}$</td></tr>
+    <tr><td>$\sqrt g$</td><td>$\frac{g'}{2\sqrt g}$</td></tr>
+    <tr><td>Implicit</td><td>$\frac{d}{dx}y^2=2yy'$; collect $y'$, factor, divide</td></tr>
+    <tr><td>Log diff.</td><td>$\ln$ both sides ⇒ $\frac{y'}{y}=\dots$</td></tr>
+    <tr><td>Tangent</td><td>$y=f(a)+f'(a)(x-a)$</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+<div class="grid3">
+<div class="panel">
+  <div class="bar"><span class="pill g">06</span> Using the derivative<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>$f'&gt;0$ / $f'&lt;0$</td><td>increasing / decreasing</td></tr>
+    <tr><td>Critical point</td><td>$f'(c)=0$ <b>or</b> $f'(c)$ undefined</td></tr>
+    <tr><td>1st deriv. test</td><td>$+\to-$ max; $-\to+$ min</td></tr>
+    <tr><td>2nd deriv. test</td><td>$f''&gt;0$ min; $f''&lt;0$ max; $=0$ inconclusive</td></tr>
+    <tr><td>$f''&gt;0$</td><td>convex ∪; $f''&lt;0$ concave ∩</td></tr>
+    <tr><td>Inflection</td><td>$f''$ <b>changes sign</b></td></tr>
+    <tr><td>Global on $[a,b]$</td><td>compare $f$ at critical pts <b>and endpoints</b></td></tr>
+    <tr><td>MVT</td><td>$f'(c)=\frac{f(b)-f(a)}{b-a}$</td></tr>
+    <tr><td>L'Hôpital</td><td>$\tfrac00$ or $\tfrac\infty\infty$ only ⇒ $\lim\frac{f'}{g'}$</td></tr>
+    <tr><td>Other forms</td><td>$0\cdot\infty$→fraction; $1^\infty$→take logs</td></tr>
+    <tr><td>Taylor at $a$</td><td>$\sum\frac{f^{(n)}(a)}{n!}(x-a)^n$</td></tr>
+    <tr><td>$e^x$</td><td>$1+x+\frac{x^2}2+\dots$</td></tr>
+    <tr><td>$\ln(1+x)$</td><td>$x-\frac{x^2}2+\frac{x^3}3-\dots$</td></tr>
+    <tr><td>$\sin x$</td><td>$x-\frac{x^3}6+\dots$</td></tr>
+    <tr><td>Elasticity</td><td>$\varepsilon=f'\frac xf=\frac{d\ln f}{d\ln x}$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">07–08</span> Integrals<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>$\int x^ndx$</td><td>$\frac{x^{n+1}}{n+1}+C$, $n\ne-1$</td></tr>
+    <tr><td>$\int\frac{dx}x$</td><td>$\ln|x|+C$</td></tr>
+    <tr><td>$\int e^{ax}dx$</td><td>$\frac{e^{ax}}a+C$</td></tr>
+    <tr><td>$\int\sin$ / $\int\cos$</td><td>$-\cos$ / $\sin$</td></tr>
+    <tr><td>$\int\frac{dx}{1+x^2}$</td><td>$\arctan x+C$</td></tr>
+    <tr><td>$\int\frac{g'}{g}dx$</td><td>$\ln|g|+C$</td></tr>
+    <tr><td>$\int\ln x\,dx$</td><td>$x\ln x-x+C$</td></tr>
+    <tr><td>$\int xe^xdx$</td><td>$e^x(x-1)+C$</td></tr>
+    <tr><td>FTC 1</td><td>$\frac{d}{dx}\int_a^xf(t)dt=f(x)$</td></tr>
+    <tr><td>FTC 1 + chain</td><td>$\frac{d}{dx}\int_a^{g(x)}f=f(g)g'$</td></tr>
+    <tr><td>FTC 2</td><td>$\int_a^bf=F(b)-F(a)$</td></tr>
+    <tr><td>Substitution</td><td>$u=$ inner; <b>change the limits</b></td></tr>
+    <tr><td>By parts</td><td>$\int u\,dv=uv-\int v\,du$ (LIATE)</td></tr>
+    <tr><td>Even / odd</td><td>$\int_{-a}^a$: $2\int_0^a$ / $0$</td></tr>
+    <tr><td>Average</td><td>$\bar f=\frac1{b-a}\int_a^bf$</td></tr>
+    <tr><td>$p$-test $\int_1^\infty$</td><td>converges $\iff p&gt;1$</td></tr>
+    <tr><td>$p$-test $\int_0^1$</td><td>converges $\iff p&lt;1$</td></tr>
+    <tr><td>$\int_0^\infty e^{-\lambda x}dx$</td><td>$\frac1\lambda$; $\int_0^\infty xe^{-\lambda x}dx=\frac1{\lambda^2}$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">09–11</span> Several variables &amp; finance<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Partial</td><td>hold the others <b>constant</b></td></tr>
+    <tr><td>Gradient</td><td>$\nabla f=(f_x,f_y)$</td></tr>
+    <tr><td>Points</td><td>steepest ascent; $\perp$ level curve</td></tr>
+    <tr><td>Max rate</td><td>$\|\nabla f\|$</td></tr>
+    <tr><td>Directional</td><td>$D_{\mathbf u}f=\nabla f\cdot\mathbf u$, $\|\mathbf u\|=1$</td></tr>
+    <tr><td>Young</td><td>$f_{xy}=f_{yx}$</td></tr>
+    <tr><td>Hessian</td><td>$H=\begin{pmatrix}f_{xx}&amp;f_{xy}\\f_{yx}&amp;f_{yy}\end{pmatrix}$, symmetric</td></tr>
+    <tr><td>Total diff.</td><td>$df=f_xdx+f_ydy$</td></tr>
+    <tr><td>Chain</td><td>$\frac{df}{dt}=f_x\dot x+f_y\dot y$</td></tr>
+    <tr><td>Implicit / MRS</td><td>$\frac{dy}{dx}=-\frac{f_x}{f_y}$</td></tr>
+    <tr><td>Tangent plane</td><td>$z=f(a,b)+f_x\Delta x+f_y\Delta y$</td></tr>
+    <tr><td>Fubini</td><td>outer limits <b>constant</b>, inner may depend</td></tr>
+    <tr><td>Polar</td><td>$dA=r\,dr\,d\theta$ — never drop the $r$</td></tr>
+    <tr><td>Compounding</td><td>$A=Pe^{rt}$; log return $=\ln(1+R)$</td></tr>
+    <tr><td>Perpetuity</td><td>$\int_0^\infty Ce^{-rt}dt=\frac Cr$; growing $\frac C{r-g}$</td></tr>
+    <tr><td>Duration</td><td>$D=-P'/P$; convexity $C=P''/P$</td></tr>
+    <tr><td>Bond move</td><td>$\frac{\Delta P}P\approx-D\Delta y+\frac12C(\Delta y)^2$</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Things that are NOT true<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td class="r">$(fg)'\ne f'g'$</td><td>use the product rule</td></tr>
+    <tr><td class="r">$\int fg\ne\int f\int g$</td><td>there is no product rule for integrals</td></tr>
+    <tr><td class="r">$\frac{d}{dx}e^x\ne xe^{x-1}$</td><td>variable in the exponent ⇒ exponential rule</td></tr>
+    <tr><td class="r">$\ln(a+b)\ne\ln a+\ln b$</td><td>no rule for the log of a sum</td></tr>
+    <tr><td class="r">$f'(c)=0\;\not\Rightarrow$ extremum</td><td>$x^3$ at 0 — always classify</td></tr>
+    <tr><td class="r">$f''(c)=0\;\not\Rightarrow$ inflection</td><td>$x^4$ at 0 — the sign must change</td></tr>
+    <tr><td class="r">continuous $\not\Rightarrow$ differentiable</td><td>$|x|$ at 0 (the converse <i>is</i> true)</td></tr>
+    <tr><td class="r">L'Hôpital on a determinate form</td><td>gives a wrong answer — check first</td></tr>
+    <tr><td class="r">$\int_a^b f\ne$ area, in general</td><td>that is <i>net</i> area; use $\int|f|$</td></tr>
+    <tr><td class="r">$\tfrac00\ne$ 1 or 0</td><td>it means "no information yet"</td></tr>
+    <tr><td class="r">$\iint\ne$ swap the limits</td><td>re-describe the region first</td></tr>
+    <tr><td class="r">$dA\ne dr\,d\theta$</td><td>the Jacobian factor $r$ is required</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Exam routines<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Any limit</h3>
+  <p class="muted">Substitute → number? done. $\frac c0$? $\pm\infty$, check sides. $\frac00$? factor / conjugate / L'Hôpital. $x\to\infty$? dominant power or growth hierarchy.</p>
+  <h3>Any derivative</h3>
+  <p class="muted">Simplify first (logs, roots as powers). Identify the <b>outermost</b> structure: sum → term by term; product → product rule; quotient → quotient rule; composition → chain rule <b>and don't forget $\times g'$</b>. Factor the answer.</p>
+  <h3>Study a function / sketch a curve</h3>
+  <p class="muted">Domain → intercepts → symmetry → asymptotes → $f'$ sign table → classify → $f''$ sign table → inflections → draw.</p>
+  <h3>Max / min on $[a,b]$</h3>
+  <p class="muted">Solve $f'=0$, add points where $f'$ is undefined, <b>add both endpoints</b>, evaluate $f$ at all of them, compare. No classification needed.</p>
+  <h3>Any integral</h3>
+  <p class="muted">Simplify → in the table? → inner function with its derivative present? substitution → product of unlike types? by parts (LIATE) → rational? divide then partial fractions → improper? write the limit explicitly. <b>Differentiate your answer to check.</b></p>
+  <h3>Any double integral</h3>
+  <p class="muted"><b>Sketch the region first.</b> Find the intersection points. Choose vertical (Type I) or horizontal (Type II) slabs. Outer limits constant, inner may depend on the outer variable. If the inner integral is impossible, reverse the order.</p>
+  <div class="note tip"><div class="t">Ten-second self-checks</div>Does the derivative of my antiderivative return the integrand? Is a positive integrand giving a positive answer? Did every $+C$ get written? Did the inner variable disappear after the inner integration? Is my "unit vector" actually a unit vector? Did I use radians?</div>
+  </div>
+</div>
+</div>
+</section>
