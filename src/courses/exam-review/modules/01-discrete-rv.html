@@ -1,0 +1,36 @@
+<!-- ============ 01 DISCRETE RANDOM VARIABLES ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>Discrete random variables</h2><span class="sub">reading a pmf before you compute anything</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Random variable and probability mass function<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>A <b>random variable</b> $X$ is a rule that assigns a number to the outcome of an experiment. <b>Discrete</b> means it takes its values from a finite (or countable) list.</p>
+  <p>Its <b>probability mass function</b> (pmf) is that list of value/probability pairs. The exam writes it with a brace — this is the distribution questions 1 and 2 are built on:</p>
+  $$X=\begin{cases}10 & \text{with } P(X=10)=\tfrac{1}{4}\\ 20 & \text{with } P(X=20)=\tfrac{2}{4}\\ 30 & \text{with } P(X=30)=\tfrac{1}{4}\end{cases}$$
+  <h3>Two axioms you never violate</h3>
+  <ul class="chk">
+    <li>$P(X=x)\ge 0$ for every value $x$</li>
+    <li>$\sum_x P(X=x)=1$, summed over all possible values</li>
+  </ul>
+  <div class="note tip"><div class="t">Tip — always do this first</div>Check that the probabilities sum to 1. It costs three seconds and catches a mis-copied distribution before it poisons every later part. If the probabilities contain an unknown constant, that check <i>is</i> the question: solve $\sum_x P(X=x)=1$ for the constant.</div>
+  </div>
+  <div>
+  <h3>Reading the notation</h3>
+  <table>
+    <tr><th>Symbol</th><th>Read as</th><th>What it is</th></tr>
+    <tr><td class="g">$X$</td><td>capital letter</td><td>the random variable — the whole rule, not yet observed</td></tr>
+    <tr><td class="g">$x$</td><td>lower case</td><td>one particular value it can take</td></tr>
+    <tr><td class="g">$P(X=x)$</td><td>"probability $X$ equals $x$"</td><td>a number in $[0,1]$</td></tr>
+    <tr><td class="g">$\sum$</td><td>"sum over"</td><td>add one term per possible value</td></tr>
+    <tr><td class="g">$E[\cdot],\ V[\cdot]$</td><td>operators</td><td>feed in a variable, get out a number</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>$X$ and $x$ are not interchangeable. $E[X]$ is a number; $E[x]$ is meaningless. Marking schemes do notice.</div>
+  <p class="muted">Notation note: this paper writes the variance operator as $V[X]$. Other sources write $\operatorname{Var}(X)$ or $\sigma^2$ — same object throughout.</p>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

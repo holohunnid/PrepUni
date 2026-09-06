@@ -1,0 +1,35 @@
+<!-- ============ 04 LINEAR TRANSFORMATIONS ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>Linear transformations</h2><span class="sub">what survives $g(X)=a+bX$, and what does not</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> The two rules<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>$g(X)$ applies a function to the variable, producing a <b>new random variable</b>. When $g$ is linear, $g(x)=a+bx$, both moments transform by simple rules:</p>
+  $$E[a+bX]=a+b\,E[X]$$
+  $$V[a+bX]=b^2\,V[X]\qquad \textit{(the constant }a\textit{ disappears)}$$
+  <h3>Why the constant behaves differently</h3>
+  <p>Shifting every value by $a$ moves the centre but changes no <i>distance</i> between points, so the spread is untouched. Scaling by $b$ stretches all distances by $|b|$, and variance is measured in squared units — hence $b^2$, and hence the sign of $b$ vanishing.</p>
+  <table>
+    <tr><th>Transformation</th><th>Mean</th><th>Variance</th></tr>
+    <tr><td>$X+5$</td><td>$E[X]+5$</td><td>$V[X]$</td></tr>
+    <tr><td>$3X$</td><td>$3E[X]$</td><td>$9V[X]$</td></tr>
+    <tr><td>$1+2X$</td><td>$1+2E[X]$</td><td>$4V[X]$</td></tr>
+    <tr><td>$-X$</td><td>$-E[X]$</td><td>$V[X]$</td></tr>
+  </table>
+  </div>
+  <div>
+  <div class="note warn"><div class="t">Trap — linearity fails for nonlinear $g$</div>In general $E[g(X)]\ne g(E[X])$. The cleanest proof is variance itself: $E[X^2]\ne(E[X])^2$ unless $V[X]=0$. So knowing $E[X]$ alone is enough for $E[1+2X]$ and useless for $E[X^2]$ or $E[1/X]$.</div>
+  <h3>Standardisation — the payoff</h3>
+  <p>Combining both rules gives the $z$-score behind every normal-distribution question:</p>
+  $$Z=\frac{X-\mu}{\sigma}\ \Longrightarrow\ E[Z]=0,\quad V[Z]=1$$
+  <p>Read it as $a+bX$ with $a=-\mu/\sigma$ and $b=1/\sigma$. Mean: $(\mu-\mu)/\sigma=0$. Variance: $(1/\sigma)^2\sigma^2=1$.</p>
+  <div class="note tip"><div class="t">Tip — read what you were given</div>If a question hands you $E[X]$ and nothing else, the function must be linear — otherwise the question would be unanswerable. "What am I given?" is often faster than "what am I asked?".</div>
+  <div class="note fin"><div class="t">Finance</div>$b^2$ is the reason leverage is quadratic in risk. Doubling a position ($b=2$) doubles expected return but quadruples variance — so volatility doubles too. Return scales linearly, risk scales by $|b|$ in $\sigma$ terms.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

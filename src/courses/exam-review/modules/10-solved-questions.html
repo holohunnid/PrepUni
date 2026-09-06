@@ -1,0 +1,103 @@
+<!-- ============ 10 SOLVED QUESTIONS ============ -->
+<section id="s10">
+<div class="sec-head"><span class="num">10</span><h2>Solved questions</h2><span class="sub">Q1–Q6 of the self-assessment, full solutions</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">HOW TO USE</span> Attempt first, then open the solution<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
+  <div class="body">
+  <p>These are the six questions as they were set, in order. Cover the solution, write yours on paper, then compare — the <b>Insight</b> box at the end of each is the transferable idea. Difficulty: <span class="pill g">●</span> routine · <span class="pill a">●●</span> standard · <span class="pill r">●●●</span> needs two ideas combined. Questions marked <span class="pill r">TRAP</span> were answered incorrectly on the original attempt.</p>
+  </div>
+</div>
+
+<!-- Q1 -->
+<div class="wx">
+<div class="bar"><span class="n">Q1</span><span class="pill g">●</span><span class="tag">module 02</span>Expected value of the three-point distribution</div>
+<div class="prob">$X$ takes the value 10 with probability $1/4$, 20 with probability $2/4$, and 30 with probability $1/4$. Compute $E[X]$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Axiom check first: $\tfrac14+\tfrac24+\tfrac14=1$ ✓</li>
+<li>Weight each value by its probability and add:
+$$E[X]=10(0.25)+20(0.50)+30(0.25)=2.5+10+7.5=\mathbf{20}$$</li>
+<li>Read the symmetry as a check: the weights on 10 and 30 are equal, so the distribution balances at the midpoint 20 — the arithmetic was never strictly necessary.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Two routes to the same number, one arithmetic and one structural. Getting into the habit of looking for the structural route is what makes the later questions fast, and it doubles as a free check on the arithmetic one.</div>
+</div></details>
+</div>
+
+<!-- Q2 -->
+<div class="wx">
+<div class="bar"><span class="n">Q2</span><span class="pill g">●</span><span class="tag">module 03</span>Variance of the same distribution</div>
+<div class="prob">For the same $X$, compute $V[X]$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$\mu=20$ is a round number, so use the deviation form:
+$$V[X]=100(0.25)+0(0.50)+100(0.25)=\mathbf{50}$$</li>
+<li>Check with the computational form: $E[X^2]=100(0.25)+400(0.50)+900(0.25)=450$, so $V[X]=450-20^2=50$ ✓</li>
+<li>If a standard deviation is wanted: $\sigma=\sqrt{50}\approx 7.07$, in the same units as $X$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Whichever form you compute with, the other one is a free cross-check that costs one line. On a paper where $V[X]$ feeds into three later questions, that line is worth writing.</div>
+</div></details>
+</div>
+
+<!-- Q3 -->
+<div class="wx">
+<div class="bar"><span class="n">Q3</span><span class="pill g">●</span><span class="tag">module 04</span>$E[g(X)]$ for a linear $g$</div>
+<div class="prob">$g(X)=1+2X$ and $E[X]=10$. Compute $E[g(X)]$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$g$ is linear, so linearity of expectation applies and the distribution of $X$ is not needed:
+$$E[1+2X]=1+2E[X]=1+2(10)=\mathbf{21}$$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The fact that <i>only</i> $E[X]$ is given is itself the signal that $g$ must be linear — with a nonlinear $g$ the question would be unanswerable, since $E[X^2]$ cannot be recovered from $E[X]$. Reading what you were given tells you which tool is intended.</div>
+</div></details>
+</div>
+
+<!-- Q4 -->
+<div class="wx">
+<div class="bar"><span class="n">Q4</span><span class="pill a">●●</span><span class="pill r">TRAP</span><span class="tag">module 06</span>Variance of a difference</div>
+<div class="prob">$V[X]=V[Y]=5$ and $\operatorname{Cov}[X,Y]=5$. Compute $V[X-Y]$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Variances add; only the covariance term takes the minus sign:
+$$V[X-Y]=V[X]+V[Y]-2\operatorname{Cov}[X,Y]=5+5-2(5)=\mathbf{0}$$</li>
+<li>Zero variance means $X-Y$ is a <b>constant</b>. Confirm with the correlation:
+$$\rho=\frac{5}{\sqrt5\cdot\sqrt5}=1$$</li>
+<li>$\rho=1$ means $Y=X+c$ exactly, so the difference never moves — consistent. ✓</li>
+</ol>
+<div class="note warn"><div class="t">Trap — answered 1 on the attempt</div>The two ways to land on a wrong answer here are subtracting the variances ($5-5=0$, right answer for the wrong reason) or mis-signing the covariance term. Do it in two visible steps: variances first, $5+5=10$, then subtract $2(5)=10$.</div>
+<div class="note"><div class="t">Insight</div>A variance of exactly 0 is never a coincidence on an exam — it is a signal that the combination is degenerate. Computing $\rho$ takes one line and confirms it must be $\pm1$. If it is not, the arithmetic is wrong.</div>
+</div></details>
+</div>
+
+<!-- Q5 -->
+<div class="wx">
+<div class="bar"><span class="n">Q5</span><span class="pill a">●●</span><span class="tag">module 08</span>$E[XY]$ for dependent but uncorrelated variables</div>
+<div class="prob">$X$ and $Y$ are dependent but uncorrelated. Which is $E[XY]$? (a) 0 · (b) $E[X]E[Y]$ · (c) not computable</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Rearrange the definition of covariance and set $\operatorname{Cov}=0$:
+$$E[XY]=E[X]E[Y]+\operatorname{Cov}[X,Y]=E[X]E[Y]+0$$</li>
+<li>Answer <b>(b)</b>.</li>
+<li>Why not (a): that would require one of the means to be zero, and nothing in the question says so.</li>
+<li>Why not (c): the word "dependent" feels blocking, but the factorisation needs only zero covariance — which is given outright.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>"Dependent but uncorrelated" is written to make you reach for independence and find it missing. Check what the formula actually requires before deciding a question is unanswerable: this one requires exactly the hypothesis you were handed.</div>
+</div></details>
+</div>
+
+<!-- Q6 -->
+<div class="wx">
+<div class="bar"><span class="n">Q6</span><span class="pill r">●●●</span><span class="tag">module 08</span>$V[XY]$ under the same assumptions</div>
+<div class="prob">Same $X$ and $Y$ — dependent but uncorrelated. Which is $V[XY]$? (a) 0 · (b) $V[X]V[Y]$ · (c) not computable</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Write the variance out:
+$$V[XY]=E[X^2Y^2]-\big(E[X]E[Y]\big)^2$$</li>
+<li>The second term is fine — Q5 already gave it. The first requires $\operatorname{Cov}[X^2,Y^2]$, about which nothing is known: zero covariance between $X$ and $Y$ does not propagate to their squares.</li>
+<li>Answer <b>(c)</b>, not computable.</li>
+<li>Why not (b): $V[XY]=V[X]V[Y]$ is not a valid identity even under full independence. Why not (a): that would require $XY$ to be constant.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Q5 and Q6 are deliberately paired: identical hypotheses, opposite answers. The hypothesis is a statement about $X$ and $Y$ to the first power, so it settles the first-power question and says nothing about the squares. "Not computable" is a legitimate answer, and recognising when it applies is the skill being tested.</div>
+</div></details>
+</div>
+</section>

@@ -1,0 +1,38 @@
+<!-- ============ 11 TRAPS ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>Traps that cost marks</h2><span class="sub">the false statements, and the checks that catch them</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> False — do not write these<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Claim</th><th>Why it is false</th></tr>
+    <tr><td class="r">$V[X-Y]=V[X]-V[Y]$</td><td>Variances add in both cases; only the covariance term flips sign. This is Q4.</td></tr>
+    <tr><td class="r">$E[g(X)]=g(E[X])$ for any $g$</td><td>True for linear $g$ only. $E[X^2]\ne(E[X])^2$ whenever $V[X]&gt;0$ — the gap is exactly $V[X]$.</td></tr>
+    <tr><td class="r">uncorrelated ⇒ independent</td><td>False in general; true only for jointly normal variables.</td></tr>
+    <tr><td class="r">dependent ⇒ $\rho\ne0$</td><td>False. $Y=X^2$ with $X$ symmetric is the standard counterexample. This is Q5.</td></tr>
+    <tr><td class="r">$V[XY]=V[X]V[Y]$</td><td>Not a formula in any setting except zero means <i>plus</i> independence. This is Q6.</td></tr>
+    <tr><td class="r">$\sigma_{X+Y}=\sigma_X+\sigma_Y$</td><td>Standard deviations never add. Add variances, then take the square root.</td></tr>
+    <tr><td class="r">quoting $V[R]$ as "the risk"</td><td>Variance is in squared units. Volatility $\sigma$ is the comparable figure — 0.04 vs 20% is not a rounding difference.</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">CHECK</span> Do these every time<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>Check</th><th>When</th></tr>
+    <tr><td class="g">$\sum_x P(X=x)=1$</td><td>before computing anything at all</td></tr>
+    <tr><td class="g">$V\ge 0$</td><td>after computing any variance</td></tr>
+    <tr><td class="g">a variance of 0 ⇒ $\rho=\pm1$</td><td>whenever a variance comes out exactly zero — cheap consistency test</td></tr>
+    <tr><td class="g">recompute $V[X]$ the other way</td><td>deviation form vs $E[X^2]-\mu^2$: one extra line, catches sign and squaring slips</td></tr>
+    <tr><td class="g">ask what you were given</td><td>"only $E[X]$ is provided" ⇒ $g$ must be linear. "Cov is given but not independence" ⇒ only first-power factorisations are legal.</td></tr>
+    <tr><td class="g">check the units</td><td>squared units means variance, original units means $\sigma$ — decide which the question wants</td></tr>
+  </table>
+  <div class="note tip"><div class="t">Tip — the 30-second sweep</div>Before handing in: every variance non-negative, every probability summing to 1, every $\rho$ inside $[-1,1]$, and every answer in the units the question asked for. Four passes over the page, four different classes of error caught.</div>
+  </div>
+</div>
+</div>
+</section>

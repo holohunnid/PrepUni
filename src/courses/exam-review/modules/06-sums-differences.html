@@ -1,0 +1,63 @@
+<!-- ============ 06 VARIANCE OF SUMS & DIFFERENCES ============ -->
+<section id="s6">
+<div class="sec-head"><span class="num">06</span><h2>Variance of sums and differences</h2><span class="sub">variances always add — only the cross term carries the sign</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> The three formulas, and the one idea behind them<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  $$V[X+Y]=V[X]+V[Y]+2\operatorname{Cov}[X,Y]$$
+  $$V[X-Y]=V[X]+V[Y]-2\operatorname{Cov}[X,Y]$$
+  $$V[aX+bY]=a^2V[X]+b^2V[Y]+2ab\operatorname{Cov}[X,Y]$$
+  <h3>The one rule</h3>
+  <p><b>Variances always add. Only the covariance term carries the sign of the operation.</b> The reason is algebraic: variance is built from squares, and $(-y)^2=+y^2$. Only the cross term $2ab$ keeps the minus.</p>
+  <p>Write the deviations as $x=X-E[X]$ and $y=Y-E[Y]$. Then</p>
+  $$(x-y)^2=x^2-2xy+y^2\ \longrightarrow\ V[X]+V[Y]-2\operatorname{Cov}[X,Y]$$
+  <p class="muted">It is literally $(a-b)^2=a^2-2ab+b^2$ with expectations taken of both sides.</p>
+  <div class="note warn"><div class="t">Trap</div>$V[X-Y]=V[X]-V[Y]$ is the most expensive error in this block, and Q4 is built to catch it. Subtracting random variables does not subtract their variances — uncertainty accumulates whichever way you combine them.</div>
+  </div>
+  <div>
+  <h3>Intuition — the long-short trade</h3>
+  <p>Let $X$ and $Y$ be two stock returns. $X-Y$ is a long-short position, and its variance is the volatility of the <b>gap</b> between them.</p>
+  <ul>
+    <li>They move together ($\operatorname{Cov}&gt;0$) → the gap barely changes → the difference is <b>calm</b></li>
+    <li>They move oppositely ($\operatorname{Cov}&lt;0$) → the gap swings twice as hard → the difference is <b>wild</b></li>
+    <li>The sum behaves as the mirror image of this</li>
+  </ul>
+  <div class="note fin"><div class="t">Finance</div>This is diversification in one line. Adding assets with low or negative covariance pushes portfolio variance <i>below</i> the weighted average of the individual variances — and that effect lives entirely in the $2ab\operatorname{Cov}$ term.</div>
+  <h3>Numerical drill</h3>
+  <table>
+    <tr><th>$V[X]$</th><th>$V[Y]$</th><th>Cov</th><th>$V[X{+}Y]$</th><th>$V[X{-}Y]$</th><th>$\rho$</th></tr>
+    <tr><td>5</td><td>5</td><td>5</td><td>20</td><td class="g">0</td><td>+1</td></tr>
+    <tr><td>5</td><td>5</td><td>0</td><td>10</td><td>10</td><td>0</td></tr>
+    <tr><td>5</td><td>5</td><td>−5</td><td class="g">0</td><td>20</td><td>−1</td></tr>
+    <tr><td>4</td><td>9</td><td>−3</td><td>7</td><td>19</td><td>−0.5</td></tr>
+  </table>
+  <div class="note tip"><div class="t">Tip — self-check</div>Whenever a variance comes out as exactly 0, compute $\rho$. It must be $\pm1$, meaning one variable is an exact linear function of the other and the combination is a constant. If $\rho$ is not $\pm1$, you made an error.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> The $\rho$ dial — where sum risk and difference risk go<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>V[X] <input type="range" id="vs_vx" min="1" max="10" step="0.5" value="5"><span class="val" id="vs_vx_v">5.0</span></label>
+    <label>V[Y] <input type="range" id="vs_vy" min="1" max="10" step="0.5" value="5"><span class="val" id="vs_vy_v">5.0</span></label>
+    <label>ρ <input type="range" id="vs_r" min="-1" max="1" step="0.05" value="1"><span class="val" id="vs_r_v">1.00</span></label>
+    <span class="btns"><button onclick="vsSet(5,5,1)">Q4</button><button onclick="vsSet(5,5,0)">uncorrelated</button><button onclick="vsSet(5,5,-1)">ρ = −1</button><button onclick="vsSet(4,9,-0.5)">last drill row</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="vssvg" viewBox="0 0 320 210"></svg>
+    <figcaption>The two grey bars are the individual variances and never move with ρ. The green and red bars are $V[X{+}Y]$ and $V[X{-}Y]$; the dashed line marks $V[X]+V[Y]$, the level both would sit at if the covariance term vanished.</figcaption></figure>
+    <div>
+      <div class="readout" id="vsread"></div>
+      <p style="margin-top:10px">Sweep ρ from −1 to +1 and the two coloured bars trade places around the dashed line, always symmetrically: whatever the sum gains, the difference loses. Their total $V[X{+}Y]+V[X{-}Y]=2V[X]+2V[Y]$ is fixed — covariance <b>moves</b> risk between the sum and the difference, it does not create or destroy it.</p>
+      <p class="muted">Press "Q4": with $V[X]=V[Y]=5$ and ρ = 1 the covariance is 5, the red bar collapses to zero, and $X-Y$ is a constant. Note the green bar reaches 20 at the same moment — not 10. The four presets walk the numerical drill table above, row by row.</p>
+    </div>
+  </div>
+  </div>
+</div>
+</section>

@@ -1,0 +1,21 @@
+{
+  "id": "exam-review",
+  "brand": "EXAM · REVIEW",
+  "title": "Prep Exam Review · Summer Self-Assessment · MSc Finance",
+  "tag": "MSc Finance · Self-Assessment",
+  "stats": "part 1 of 4 · Q1–Q6 solved · 11 modules · 2 interactive figures",
+  "footer": "Prep exam review · part 1 covers questions 1 to 6 of the summer self-assessment · modules 05, 06 and 07 are the direct prerequisites for the joint-distribution block (Q14–Q20), added in a later part · interactive figures need JavaScript; the print button produces a light-theme PDF.",
+  "modules": [
+    { "anchor": "s1", "num": "01", "title": "Discrete random variables" },
+    { "anchor": "s2", "num": "02", "title": "Expected value" },
+    { "anchor": "s3", "num": "03", "title": "Variance & SD" },
+    { "anchor": "s4", "num": "04", "title": "Linear transformations" },
+    { "anchor": "s5", "num": "05", "title": "Covariance & correlation" },
+    { "anchor": "s6", "num": "06", "title": "Sums & differences" },
+    { "anchor": "s7", "num": "07", "title": "Independent vs uncorrelated" },
+    { "anchor": "s8", "num": "08", "title": "Products E[XY], V[XY]" },
+    { "anchor": "s9", "num": "09", "title": "Fast reference" },
+    { "anchor": "s10", "num": "10", "title": "Solved questions Q1–Q6" },
+    { "anchor": "s11", "num": "11", "title": "Traps that cost marks" }
+  ]
+}

@@ -1,0 +1,37 @@
+<!-- ============ 08 PRODUCTS ============ -->
+<section id="s8">
+<div class="sec-head"><span class="num">08</span><h2>Products: $E[XY]$ and $V[XY]$</h2><span class="sub">two questions that look symmetric and have opposite answers</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THM</span> One is a rearrangement, the other is a dead end<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>$XY$ is the random variable whose value is the product of the two values on each outcome. Q5 and Q6 ask for its mean and its variance under identical assumptions, and only one of them is answerable.</p>
+  <h3>$E[XY]$ — computable</h3>
+  $$E[XY]=E[X]\,E[Y]+\operatorname{Cov}[X,Y]$$
+  <p>If $\operatorname{Cov}[X,Y]=0$ then $E[XY]=E[X]E[Y]$. This needs <b>only zero covariance</b>, not independence, because it is a direct rearrangement of the definition of covariance from module 05.</p>
+  <h3>$V[XY]$ — not computable</h3>
+  $$V[XY]=E[X^2Y^2]-\big(E[X]E[Y]\big)^2$$
+  <p>The first term is a cross moment of the <b>squares</b>. To evaluate it you would need</p>
+  $$E[X^2Y^2]=E[X^2]E[Y^2]+\operatorname{Cov}[X^2,\,Y^2]$$
+  <p class="muted">and $\operatorname{Cov}[X,Y]=0$ tells you nothing about $\operatorname{Cov}[X^2,Y^2]$ — different variables, different covariance. In the module 07 counterexample $X$ and $Y=X^2$ are uncorrelated, yet $X^2$ and $Y^2=X^4$ are perfectly correlated.</p>
+  </div>
+  <div>
+  <div class="note warn"><div class="t">Trap</div>$V[XY]=V[X]\,V[Y]$ is not a formula. Even under <b>full independence</b> the correct expression is
+  $$V[XY]=V[X]V[Y]+V[X]E[Y]^2+V[Y]E[X]^2$$
+  which reduces to $V[X]V[Y]$ only when both means are zero. Independence buys you a formula; it does not buy you that one.</div>
+  <h3>Which factorisations are legal</h3>
+  <table>
+    <tr><th>Factorisation</th><th>Requires</th></tr>
+    <tr><td>$E[XY]=E[X]E[Y]$</td><td class="g">zero covariance ✓</td></tr>
+    <tr><td>$V[X+Y]=V[X]+V[Y]$</td><td class="g">zero covariance ✓</td></tr>
+    <tr><td>$E[X^2Y^2]=E[X^2]E[Y^2]$</td><td class="r">independence ✕</td></tr>
+    <tr><td>$V[XY]=$ anything clean</td><td class="r">never ✕</td></tr>
+  </table>
+  <div class="note tip"><div class="t">Tip — the reading rule</div>Every factorisation in the top half of that table involves the variables to the <b>first power</b>. That is the whole boundary: zero covariance is a statement about $X$ and $Y$ themselves, so it licenses claims about $X$ and $Y$ themselves and nothing about their squares. Independence is a statement about the joint distribution, so it licenses claims about <i>any</i> functions of them.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

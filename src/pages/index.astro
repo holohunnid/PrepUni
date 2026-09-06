@@ -4,6 +4,7 @@ import linalg from '../courses/linear-algebra/meta.json';
 import prob from '../courses/probability/meta.json';
 import calc from '../courses/calculus/meta.json';
 import opt from '../courses/optimization/meta.json';
+import exam from '../courses/exam-review/meta.json';
 ---
 <Base title="PrepUSI · Study Hub">
 
@@ -21,10 +22,20 @@ import opt from '../courses/optimization/meta.json';
     <div class="body" style="grid-template-columns:1fr">
       <div>
         <h1>Study Hub</h1>
-        <p>Cheat sheets for the MSc Finance assessment. Each course: definitions, key theorems, worked examples at exam level, and the traps examiners like.</p>
+        <p>Cheat sheets for the MSc Finance assessment. Each course: definitions, key theorems, worked examples at exam level, and the traps examiners like. The exam review works back through the actual self-assessment paper.</p>
       </div>
     </div>
   </div>
+
+  <a class="course-card" href="/exam-review">
+    <div class="panel" style="margin-bottom:0">
+      <div class="bar"><span class="pill a">EXAM</span> Prep Exam Review<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body">
+        <p>{exam.stats}</p>
+        <p class="muted">The summer self-assessment, question by question. Part 1: moments and co-movement — pmf → expected value → variance → linear transformations → covariance → sums and differences → independence → products, then the six questions solved in full.</p>
+      </div>
+    </div>
+  </a>
 
   <a class="course-card" href="/linear-algebra">
     <div class="panel" style="margin-bottom:0">

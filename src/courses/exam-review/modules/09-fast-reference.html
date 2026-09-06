@@ -1,0 +1,38 @@
+<!-- ============ 09 FAST REFERENCE ============ -->
+<section id="s9">
+<div class="sec-head"><span class="num">09</span><h2>Fast reference</h2><span class="sub">the whole block on one screen</span></div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill a">REF</span> One variable<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><th>Quantity</th><th>Formula</th><th>Note</th></tr>
+    <tr><td>$E[X]$</td><td>$\sum_x x\,P(X=x)$</td><td>centre of mass</td></tr>
+    <tr><td>$V[X]$</td><td>$E[X^2]-(E[X])^2$</td><td>always $\ge 0$</td></tr>
+    <tr><td>$E[X^2]$</td><td>$V[X]+(E[X])^2$</td><td>same identity, rearranged</td></tr>
+    <tr><td>$\sigma$</td><td>$\sqrt{V[X]}$</td><td>same units as $X$</td></tr>
+    <tr><td>$E[a+bX]$</td><td>$a+b\,E[X]$</td><td>linear $g$ only</td></tr>
+    <tr><td>$V[a+bX]$</td><td>$b^2V[X]$</td><td>$a$ vanishes</td></tr>
+    <tr><td>$Z$</td><td>$(X-\mu)/\sigma$</td><td>$E[Z]=0$, $V[Z]=1$</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">REF</span> Two variables<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><th>Quantity</th><th>Formula</th><th>Note</th></tr>
+    <tr><td>$\operatorname{Cov}[X,Y]$</td><td>$E[XY]-E[X]E[Y]$</td><td>$\operatorname{Cov}[X,X]=V[X]$</td></tr>
+    <tr><td>$E[XY]$</td><td>$E[X]E[Y]+\operatorname{Cov}[X,Y]$</td><td>needs Cov only</td></tr>
+    <tr><td>$\rho$</td><td>$\operatorname{Cov}[X,Y]/(\sigma_X\sigma_Y)$</td><td>lies in $[-1,1]$</td></tr>
+    <tr><td>$V[X\pm Y]$</td><td>$V[X]+V[Y]\pm 2\operatorname{Cov}[X,Y]$</td><td>variances always add</td></tr>
+    <tr><td>$V[aX+bY]$</td><td>$a^2V[X]+b^2V[Y]+2ab\operatorname{Cov}[X,Y]$</td><td>general form</td></tr>
+    <tr><td>$\operatorname{Cov}[a{+}bX,\,c{+}dY]$</td><td>$bd\,\operatorname{Cov}[X,Y]$</td><td>constants drop out</td></tr>
+    <tr><td>$V[XY]$</td><td class="r">— no clean formula —</td><td>needs $\operatorname{Cov}[X^2,Y^2]$</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+</section>

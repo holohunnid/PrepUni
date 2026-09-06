@@ -1,0 +1,61 @@
+<!-- ============ 03 VARIANCE & STANDARD DEVIATION ============ -->
+<section id="s3">
+<div class="sec-head"><span class="num">03</span><h2>Variance and standard deviation</h2><span class="sub">dispersion, in squared units and back again</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Two forms of the same identity<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>$V[X]$ measures <b>dispersion</b>: the average squared distance from the mean. Zero variance means $X$ is a constant.</p>
+  $$V[X]=E\big[(X-E[X])^2\big]=\sum_x (x-\mu)^2\,P(X=x)$$
+  $$V[X]=E[X^2]-\big(E[X]\big)^2 \qquad \textit{(computational form)}$$
+  <p>The two are the same statement. Expand $(X-\mu)^2=X^2-2\mu X+\mu^2$, take expectations term by term, and the cross term collapses to $-2\mu^2$, leaving $E[X^2]-\mu^2$.</p>
+  <h3>Which form to use</h3>
+  <table>
+    <tr><th>Situation</th><th>Form</th></tr>
+    <tr><td>$\mu$ is a round number</td><td>deviation form — fewer large numbers to square</td></tr>
+    <tr><td>$\mu$ is ugly, or you are handed $E[X]$ and $E[X^2]$</td><td>computational form</td></tr>
+  </table>
+  <div class="note warn"><div class="t">Trap</div>Variance is never negative. If the computational form returns a negative number you have either slipped in the arithmetic or computed $(E[X])^2$ where $E[X^2]$ was needed. Those two differ by exactly $V[X]$ — that is the whole content of the identity.</div>
+  </div>
+  <div>
+  <h3>Worked, $\mu=20$</h3>
+  <table>
+    <tr><th>$x$</th><th>$x-\mu$</th><th>$(x-\mu)^2$</th><th>$P$</th><th>product</th></tr>
+    <tr><td>10</td><td class="r">−10</td><td>100</td><td>0.25</td><td>25</td></tr>
+    <tr><td>20</td><td>0</td><td>0</td><td>0.50</td><td>0</td></tr>
+    <tr><td>30</td><td class="g">+10</td><td>100</td><td>0.25</td><td>25</td></tr>
+    <tr><td colspan="4"><b>$V[X]$</b></td><td class="g"><b>50</b></td></tr>
+  </table>
+  <p>Cross-check with the computational form: $E[X^2]=25+200+225=450$, so $V[X]=450-20^2=50$. ✓</p>
+  <h3>Standard deviation</h3>
+  $$\sigma=\sqrt{V[X]}=\sqrt{50}\approx 7.07$$
+  <p>Variance lives in <b>squared</b> units, so it is not comparable to $X$ itself. $\sigma$ is.</p>
+  <div class="note fin"><div class="t">Finance</div>$\sigma$ is <b>volatility</b>. A stock with $E[R]=0.10$ and $\sigma=0.20$ has $V[R]=0.04$ — quoting 0.04 as "the risk" is a unit error, not a small one: it is the difference between 4% and 20%.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INTERACTIVE</span> Move the mass — watch $E[X]$ and $V[X]$ respond<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$P(X{=}10)$ <input type="range" id="pm_p1" min="0" max="0.9" step="0.05" value="0.25"><span class="val" id="pm_p1_v">0.25</span></label>
+    <label>$P(X{=}x_3)$ <input type="range" id="pm_p3" min="0" max="0.9" step="0.05" value="0.25"><span class="val" id="pm_p3_v">0.25</span></label>
+    <label>$x_3$ <input type="range" id="pm_x3" min="25" max="65" step="1" value="30"><span class="val" id="pm_x3_v">30</span></label>
+    <span class="btns"><button onclick="pmSet(0.25,0.25,30)">exam pmf</button><button onclick="pmSet(0.05,0.05,30)">tight</button><button onclick="pmSet(0.45,0.45,60)">barbell</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="pmsvg" viewBox="0 0 320 210"></svg>
+    <figcaption>Bars are the pmf; the middle weight $P(X{=}20)$ is whatever is left over. The green triangle marks $E[X]$ — the balance point. The amber bar spans $\mu\pm\sigma$.</figcaption></figure>
+    <div>
+      <div class="readout" id="pmread"></div>
+      <p style="margin-top:10px">Two things to notice. Drag the two outer probabilities <b>symmetrically</b> and the triangle does not move: symmetry pins the mean regardless of how much mass sits in the tails. But the amber $\sigma$ span keeps widening — the mean is blind to dispersion, which is exactly why the exam asks for both.</p>
+      <p class="muted">Push $x_3$ out to 65 and watch $V[X]$ grow far faster than the distance does. Variance is quadratic in the deviations: doubling how far a value sits from the mean quadruples its contribution.</p>
+    </div>
+  </div>
+  </div>
+</div>
+</section>

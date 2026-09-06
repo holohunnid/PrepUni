@@ -1,0 +1,30 @@
+<!-- ============ 02 EXPECTED VALUE ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Expected value</h2><span class="sub">the probability-weighted average — and what it is not</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> $E[X]$ — the balance point of the distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>$E[X]$ is the <b>probability-weighted average</b> of the values. Physically it is the centre of mass: the point where a beam carrying the probabilities as weights would balance.</p>
+  $$E[X]=\sum_x x\,P(X=x)$$
+  <p>It is <b>not</b> the value you expect to observe. With the distribution from module 01, $E[X]=20$ and $X$ equals 20 only half the time; in general $E[X]$ can be a value $X$ can never take at all (a fair die has $E[X]=3.5$).</p>
+  <div class="note tip"><div class="t">Tip — symmetry shortcut</div>If the distribution is symmetric about a point, that point <i>is</i> the mean. Here the weights on 10 and 30 are equal, so $E[X]=20$ with no arithmetic. Spotting this saves a minute and removes a chance to slip.</div>
+  </div>
+  <div>
+  <h3>Worked — the exam distribution</h3>
+  <table>
+    <tr><th>$x$</th><th>$P(X=x)$</th><th>$x\cdot P(X=x)$</th></tr>
+    <tr><td>10</td><td>0.25</td><td>2.5</td></tr>
+    <tr><td>20</td><td>0.50</td><td>10.0</td></tr>
+    <tr><td>30</td><td>0.25</td><td>7.5</td></tr>
+    <tr><td><b>$\sum$</b></td><td><b>1.00</b></td><td class="g"><b>20.0</b></td></tr>
+  </table>
+  <p>Three columns, one running total. The middle column summing to 1.00 is the axiom check from module 01 done for free.</p>
+  <div class="note"><div class="t">Definition — second moment</div>The same table with $x^2$ in place of $x$ gives $E[X^2]=\sum_x x^2P(X=x)$. You will need it in the next module, so it is worth adding as a fourth column while the table is already open.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</section>

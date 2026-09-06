@@ -1,0 +1,48 @@
+<!-- ============ 05 COVARIANCE & CORRELATION ============ -->
+<section id="s5">
+<div class="sec-head"><span class="num">05</span><h2>Covariance and correlation</h2><span class="sub">two variables, one number for how they move together</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Covariance — the average product of deviations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>With two variables the new question is whether they move <b>together</b>. Covariance is the average product of the two deviations:</p>
+  $$\operatorname{Cov}[X,Y]=E\big[(X-E[X])(Y-E[Y])\big]$$
+  $$\operatorname{Cov}[X,Y]=E[XY]-E[X]\,E[Y] \qquad \textit{(the one you compute with)}$$
+  <h3>Reading the sign</h3>
+  <table>
+    <tr><th>Outcome</th><th>$X$ vs its mean</th><th>$Y$ vs its mean</th><th>Product</th></tr>
+    <tr><td>both high</td><td class="g">above (+)</td><td class="g">above (+)</td><td class="g">positive</td></tr>
+    <tr><td>both low</td><td class="r">below (−)</td><td class="r">below (−)</td><td class="g">positive</td></tr>
+    <tr><td>opposite</td><td class="g">above (+)</td><td class="r">below (−)</td><td class="r">negative</td></tr>
+  </table>
+  <p>Average those products. Positive covariance means they tend to deviate in the <b>same</b> direction; negative, in opposite directions; zero means no <i>linear</i> pattern — a much weaker statement than "no pattern", as module 07 shows.</p>
+  </div>
+  <div>
+  <h3>Derivation of the computational form</h3>
+  <p>Write $\mu=E[X]$ and $\nu=E[Y]$ — both ordinary constants. Expand the bracket:</p>
+  $$(X-\mu)(Y-\nu)=XY-\nu X-\mu Y+\mu\nu$$
+  <p>Take expectations term by term, using linearity:</p>
+  $$E[XY]-\nu\mu-\mu\nu+\mu\nu=E[XY]-\mu\nu$$
+  <div class="note tip"><div class="t">Tip — this one line answers Q5</div>Covariance <i>is defined as</i> the amount by which $E[XY]$ deviates from $E[X]E[Y]$. So "$\operatorname{Cov}=0$" and "$E[XY]=E[X]E[Y]$" are the same sentence written twice. No independence appears anywhere in the derivation.</div>
+  <h3>Correlation — covariance made unit-free</h3>
+  $$\rho=\frac{\operatorname{Cov}[X,Y]}{\sigma_X\,\sigma_Y},\qquad -1\le\rho\le 1$$
+  <p>Covariance depends on the units of <b>both</b> variables, so its magnitude means nothing on its own — rescale $X$ from euros to cents and the covariance multiplies by 100. Dividing by the two standard deviations puts it on a fixed $[-1,1]$ scale. $\rho=\pm1$ means the two variables lie exactly on a straight line.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Special cases worth memorising<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>$\operatorname{Cov}[X,X]=V[X]$</td><td>a variable covaries with itself by exactly its own variance — variance is the diagonal of the covariance matrix</td></tr>
+    <tr><td>$\operatorname{Cov}[X,Y]=\operatorname{Cov}[Y,X]$</td><td>symmetric — the definition is a product, and products commute</td></tr>
+    <tr><td>$\operatorname{Cov}[a+bX,\ c+dY]=bd\,\operatorname{Cov}[X,Y]$</td><td>constants drop out (they have no deviations), slopes multiply — the two-variable version of $V[a+bX]=b^2V[X]$</td></tr>
+    <tr><td>$\operatorname{Cov}[X,c]=0$</td><td>a constant never deviates, so there is nothing to co-move with</td></tr>
+  </table>
+  </div>
+</div>
+</section>
