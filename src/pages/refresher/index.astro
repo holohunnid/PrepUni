@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import linalg from '../../courses/refresher-linear-algebra/meta.json';
+import prob from '../../courses/refresher-probability/meta.json';
 ---
 <Base title="Refresher Course · Mathematics and Probability · USI">
 
@@ -42,12 +43,15 @@ import linalg from '../../courses/refresher-linear-algebra/meta.json';
     </div>
   </a>
 
-  <div class="panel">
-    <div class="bar"><span class="pill r">SOON</span> Part 3 · Probability<span class="ctl">— ⊡ ✕</span></div>
-    <div class="body">
-      <p class="muted">Not built yet — waiting on the lecture PDFs. In the meantime the standalone <a href="/probability">Probability course</a> and the <a href="/exam-review">Prep Exam Review</a> cover much of the same ground.</p>
+  <a class="course-card" href="/refresher/probability">
+    <div class="panel" style="margin-bottom:0">
+      <div class="bar"><span class="pill g">LIVE</span> Part 3 · Probability<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body">
+        <p>{prob.stats}</p>
+        <p class="muted">Sets and events → partitions and De Morgan → Kolmogorov's axioms → the probability rules → conditional probability → independence → discrete random variables → Bernoulli and binomial → Poisson → expected value → variance → continuous random variables → uniform, exponential, normal → joint distributions → covariance and correlation → conditioning → Value at Risk and expected shortfall. Built from the six lectures on probability, including the exercises whose solution slide was left blank.</p>
+      </div>
     </div>
-  </div>
+  </a>
 </main>
 
 <script>

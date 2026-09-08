@@ -1,0 +1,117 @@
+<!-- ============ 09 POISSON ============ -->
+<section id="s9">
+<div class="sec-head"><span class="num">09</span><h2>The Poisson distribution</h2><span class="sub">lecture 4, slides 37–42 · counting events with no upper limit</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> When the binomial cannot be used<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The binomial needs a <b>fixed number of trials $n$</b>. Many counting problems have no such number:</p>
+  <ul>
+    <li>the number of calls to a call centre per minute;</li>
+    <li>the number of customers at a supermarket checkout in one hour;</li>
+    <li>the number of passengers arriving at the airport each day;</li>
+    <li>the number of cars through the San Gottardo tunnel every weekend.</li>
+  </ul>
+  <p>In each case the count can be $0,1,2,3,\dots$ with <b>no pre-set upper limit</b>. There is no natural $n$ to plug into a binomial — you cannot say "there were exactly 4000 trials, each a potential phone call".</p>
+  <p>The Poisson distribution, introduced by Siméon-Denis Poisson in 1838, is built for exactly this: it models the <b>number of events per unit of time</b> (or per unit of space, or per page, or per lot) with unbounded support.</p>
+  <div class="note tip"><div class="t">One parameter, two jobs</div>The Poisson has a single parameter $\lambda&gt;0$, and it turns out to be <i>both</i> the mean and the variance of the distribution (modules 10 and 11). That is unusually rigid, and it is the main thing to check before using a Poisson on real data.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The Poisson distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $\lambda$ be a strictly positive constant, $\lambda&gt;0$. A discrete random variable $X$ has a <b>Poisson distribution</b>, written $X\sim Po(\lambda)$, when its probability distribution is</p>
+  $$\boxed{\;P(x)=\frac{e^{-\lambda}\lambda^x}{x!},\qquad x=0,1,2,\dots\;}\tag{4}$$
+  <p>$P(x)$ gives the probability that a number $x$ of events occurs in a given time interval.</p>
+  <p>The absence of an upper limit on $x$ is a feature, not a bug: <i>a priori it is difficult to determine the maximum number of events</i>, so a model that does not force you to name one is exactly what is wanted.</p>
+  <h3>The limit on slide 38</h3>
+  $$\lim_{x\to\infty}P(x)=0$$
+  <p><b>What does this mean?</b> Although arbitrarily large counts are <i>possible</i>, they become vanishingly improbable: the factorial $x!$ in the denominator eventually overwhelms $\lambda^x$ in the numerator, whatever $\lambda$ is. Two consequences worth stating:</p>
+  <ul>
+    <li>The model is <b>well defined</b> despite infinite support — the probabilities do sum to 1, since $\sum_{x\ge0}\lambda^x/x!=e^{\lambda}$ cancels the $e^{-\lambda}$ exactly:
+    $$\sum_{x=0}^{\infty}\frac{e^{-\lambda}\lambda^x}{x!}=e^{-\lambda}\sum_{x=0}^{\infty}\frac{\lambda^x}{x!}=e^{-\lambda}e^{\lambda}=1\ \checkmark$$</li>
+    <li>Unbounded support is not the same as "anything can plausibly happen". A call centre averaging 3 calls a minute could receive 50, but with probability around $10^{-30}$.</li>
+  </ul>
+  <div class="note"><div class="t">A useful special value</div>Setting $x=0$ in (4) gives $P(X=0)=e^{-\lambda}$, since $\lambda^0=1$ and $0!=1$. This one identity solves the call-centre exercise below by running it backwards to recover $\lambda$.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">LINK</span> Poisson as an approximation to the binomial<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The two distributions are closely related. If $n$ is large and $p$ is small, so that the product $np$ stays moderate, then</p>
+  $$Bin(n,p)\;\approx\;Po(\lambda)\qquad\text{with}\qquad\lambda=np$$
+  <p>The intuition: a binomial with many trials and a tiny success probability is "many chances, each nearly hopeless", which is exactly the situation the Poisson describes — rare events accumulating over a long exposure. Matching $\lambda=np$ matches the two means (module 10: $E[X]=np$ for the binomial, $E[X]=\lambda$ for the Poisson).</p>
+  <p>This is why the vaccine exercise below can be solved either way, and why the two answers agree to three decimals.</p>
+
+  <div class="ctrl">
+    <label>$\lambda$ <input type="range" id="po_l" min="0.2" max="12" step="0.01" value="3"><span class="val" id="po_l_v">3.0</span></label>
+    <label>$k$ <input type="range" id="po_k" min="0" max="20" step="1" value="6"><span class="val" id="po_k_v">6</span></label>
+    <span class="btns"><button onclick="poSet(3,6)">call centre</button><button onclick="poSet(5,6)">the vaccine</button><button onclick="poSet(0.93,3)">earthquakes</button></span>
+  </div>
+  <figure style="margin:8px 0 0"><svg id="posvg" viewBox="0 0 360 220"></svg>
+  <figcaption>Poisson bars from formula (4). Shaded bars are $x\le k$, so the shaded total is $F(k)=P(X\le k)$ — R's <code>ppois(k, lambda)</code>. The green triangle marks $E[X]=\lambda$, which for the Poisson is also its variance.</figcaption></figure>
+  <div class="readout" id="poread" style="margin-top:8px"></div>
+  <p class="muted" style="margin-top:8px">Push $\lambda$ up and watch the shape drift right and turn symmetric — for large $\lambda$ the Poisson starts to look like a normal distribution (module 13). Push it below 1 and almost all the mass piles onto $x=0$, which is the earthquakes preset.</p>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slides 39–40) · number of calls per minute at a call centre</div>
+  <div class="body">
+  <p>At a call centre, the probability of receiving zero calls per minute is $0.0497871$. What is the probability of receiving six calls in one minute?</p>
+  <p>The parameter $\lambda$ is not given — it has to be recovered from the one probability we do know.</p>
+  <ol class="steps">
+    <li><b>Set up.</b> Let $X$ be the number of calls per minute, $X\sim Po(\lambda)$.</li>
+    <li><b>Use the special value at $x=0$.</b> From formula (4),
+    $$P(X=0)=\frac{e^{-\lambda}\lambda^0}{0!}=e^{-\lambda}=0.0497871$$</li>
+    <li><b>Solve for $\lambda$</b> by taking logarithms:
+    $$-\lambda=\log(0.0497871)\;\Longrightarrow\;\lambda=-\log(0.0497871)\approx3$$
+    (Indeed $e^{-3}=0.0497871$ to seven decimals — the number was chosen to come out exactly.)</li>
+    <li><b>Now answer the question.</b> Apply (4) with $\lambda=3$ and $x=6$:
+    $$P(X=6)=\frac{e^{-3}\,3^6}{6!}=\frac{0.0497871\times729}{720}=\frac{36.295}{720}\approx\mathbf{0.0504}$$
+    In R: <code>dpois(6, lambda = 3)</code> returns $\approx0.05$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The structure here is worth noticing: <b>one observed probability determines the whole distribution</b>, because the Poisson has only one parameter. Give me any single Poisson probability and I can recover $\lambda$ and then compute every other one. That is the flip side of the rigidity noted at the top of the module.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXERCISE (slides 41–42) · fever from a vaccine</div>
+  <div class="body">
+  <p>The probability that a person develops a fever from a flu vaccine is 0.005. A total of 1000 people receive the vaccine. Using the Poisson <b>as an approximation</b> with $\lambda=1000\times0.005=5$, calculate: (a) that one person develops a fever; (b) that more than six do. And: which <b>exact</b> distribution should have been used?</p>
+  <ol class="steps">
+    <li><b>Set-up.</b> $X$ counts the vaccinated people who develop a fever, approximated by $X\sim Po(\lambda)$ with $\lambda=5$, so $P(X=x)=e^{-5}5^x/x!$.</li>
+    <li><b>(a) One person.</b>
+    $$P(X=1)=\frac{e^{-5}5^1}{1!}=5e^{-5}=5(0.0067379)\approx\mathbf{0.034}$$
+    In R: <code>dpois(1, lambda=5)</code> $\approx0.034$.</li>
+    <li><b>(b) More than six.</b> Use the complement to convert into a CDF:
+    $$P(X&gt;6)=1-P(X\le6)$$
+    In R: <code>1 - ppois(6, lambda=5)</code> returns $\approx\mathbf{0.238}$.
+    <br>Equivalently, by hand, $P(X&gt;6)=1-\sum_{x=0}^{6}e^{-5}5^x/x!$.</li>
+    <li><b>Which exact distribution?</b> The <b>binomial</b>: there are exactly $n=1000$ independent trials (the vaccinated people), each with the same success probability $p=0.005$. So the exact model is $X\sim Bin(1000,\,0.005)$.</li>
+    <li><b>Compare.</b> <code>dbinom(1, 1000, 0.005)</code> $\approx0.034$ and <code>1 - pbinom(6, 1000, 0.005)</code> $\approx0.238$ — the Poisson approximation agrees to three decimal places, exactly as the large-$n$/small-$p$ argument promises.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Here the exact model <i>does</i> exist, so the Poisson is a convenience rather than a necessity. Historically that convenience was decisive — one exponential and a factorial beat computing $\binom{1000}{x}$ by hand. Today it matters more as a modelling insight: <b>rare events over many independent opportunities are Poisson-shaped</b>, whether or not you can identify the trials.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE (slides 67–68) · earthquakes</div>
+  <div class="body">
+  <p>In the past 100 years there have been 93 earthquakes of magnitude 6 on the Richter scale. What is the probability that 3 earthquakes, all of magnitude 6, occur in a single year?</p>
+  <ol class="steps">
+    <li><b>Choose the model.</b> Let $X$ be the number of magnitude-6 earthquakes per year. This is a count of events per unit of time with no upper limit, so model it as $X\sim Po(\lambda)$.</li>
+    <li><b>Estimate $\lambda$ from the data.</b> Since $E[X]=\lambda$ is the expected number of events per unit of time (module 10), and the data give 93 events over 100 years,
+    $$\lambda=\frac{93}{100}=0.93\ \text{earthquakes per year}$$</li>
+    <li><b>Apply formula (4)</b> with $x=3$:
+    $$P(X=3)=\frac{e^{-0.93}(0.93)^3}{3!}=\frac{0.39455\times0.804357}{6}=\frac{0.31736}{6}\approx\mathbf{0.053}$$
+    In R: <code>dpois(3, lambda = 0.93)</code> returns $\approx0.053$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Note the modelling step hidden in step 2: <b>the sample average is used as the parameter</b>, which is legitimate precisely because $E[X]=\lambda$ for a Poisson. The same move appears in the frogs exercise of module 08 ("1 out of 8 frogs on average" gives $p=1/8$) — in both cases the theoretical mean is set equal to the observed average. That is the method of moments, in its simplest form.</div>
+  </div>
+</div>
+</div>
+</section>

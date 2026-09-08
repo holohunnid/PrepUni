@@ -1,0 +1,185 @@
+<!-- ============ 13 UNIFORM, EXPONENTIAL, NORMAL ============ -->
+<section id="s13">
+<div class="sec-head"><span class="num">13</span><h2>Uniform, exponential, normal</h2><span class="sub">lecture 5, slides 19–53 · the three named continuous distributions, and their moments</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Three shapes, three jobs<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td><b>Uniform</b> $U(a,b)$</td><td>every value in $[a,b]$ equally plausible, nothing outside</td><td>"I know the range and nothing more"</td></tr>
+    <tr><td><b>Exponential</b> $Exp(\lambda)$</td><td>positive values only, decaying; models <b>waiting times</b></td><td>"how long until the next event?"</td></tr>
+    <tr><td><b>Normal</b> $\mathcal{N}(\mu,\sigma^2)$</td><td>symmetric bell on all of $\mathbb{R}$, two parameters</td><td>the default for returns, measurements, errors</td></tr>
+  </table>
+  <p>Also in this module: the definitions of expected value and variance for continuous variables (sums become integrals, nothing else changes), and <b>quantiles</b> — the inverse question "which value has probability $\alpha$ below it?", which module 17 needs for Value at Risk.</p>
+  <div class="note tip"><div class="t">Every question reduces to one of three moves</div><b>(i)</b> A probability: convert to $F(b)-F(a)$. <b>(ii)</b> A parameter: you are given one probability and must invert to find $\lambda$, $\mu$ or $\sigma$. <b>(iii)</b> A quantile: you are given a probability and must find the value $q_\alpha$ with $F(q_\alpha)=\alpha$. Identify which of the three you face before computing anything.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Expected value and variance of a continuous RV<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The expected value and variance of continuous random variables have <b>exactly the same meaning</b> as in the discrete case. Only the machinery changes: the sum over values becomes an integral over the density.</p>
+  <table class="formula-table">
+    <tr><td></td><td><b>continuous</b></td><td><b>discrete (module 10–11)</b></td></tr>
+    <tr><td>Expected value</td><td>$\displaystyle E(X)=\int_{-\infty}^{\infty}x\,f(x)\,dx$</td><td>$\displaystyle E(X)=\sum_x x\,P(x)$</td></tr>
+    <tr><td>Variance</td><td>$\displaystyle V(X)=\int_{-\infty}^{\infty}(x-E(X))^2f(x)\,dx$</td><td>$\displaystyle V(X)=\sum_x(x-E(X))^2P(x)$</td></tr>
+  </table>
+  <p>Everything proved in modules 10–11 carries over verbatim, because the proofs used only linearity and the fact that the weights sum (integrate) to 1:</p>
+  <ul>
+    <li>$E(a+bX)=a+b\,E(X)$ and $E(X+Y)=E(X)+E(Y)$;</li>
+    <li>the shortcut $V(X)=E(X^2)-\mu^2$, with $E(X^2)=\int x^2f(x)\,dx$;</li>
+    <li>$V(X)\ge0$, and $\sigma=\sqrt{V(X)}$ in the units of $X$.</li>
+  </ul>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Uniform distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A continuous RV has a <b>uniform distribution on the interval $[a,b]$</b>, written $X\sim U(a,b)$, if</p>
+  $$f(x)=\begin{cases}\dfrac{1}{b-a}&a\le x\le b\\[6pt]0&\text{otherwise}\end{cases}
+  \qquad
+  F(x)=\begin{cases}0&x&lt;a\\[4pt]\dfrac{x-a}{b-a}&a\le x\le b\\[6pt]1&x&gt;b\end{cases}$$
+  <p>The density is a flat rectangle of height $1/(b-a)$ and width $b-a$ — area exactly 1, as property 2 demands. The CDF rises linearly from 0 to 1 across the interval.</p>
+  <p><i>Quick question (slide 43): can $b&lt;a$?</i> <b>No.</b> The interval $[a,b]$ would be empty and the height $1/(b-a)$ would be negative, violating $f\ge0$. The definition requires $a&lt;b$.</p>
+  <h3>Moments (slides 43–44)</h3>
+  $$E(X)=\int_a^b x\,\frac{1}{b-a}\,dx=\frac{1}{b-a}\left[\frac{x^2}{2}\right]_a^b=\frac{1}{b-a}\cdot\frac{b^2-a^2}{2}=\boxed{\frac{a+b}{2}}$$
+  <p>using $b^2-a^2=(b-a)(b+a)$. The mean is the <b>midpoint</b> — obvious from symmetry, and a good check that the integral was done right.</p>
+  $$V(X)=\int_a^b\left(x-\frac{a+b}{2}\right)^2\frac{1}{b-a}\,dx=\boxed{\frac{(b-a)^2}{12}}$$
+  <p>The variance depends only on the <b>width</b> of the interval, not on where it sits — shifting a uniform variable changes its mean but not its spread, as it must.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Exponential distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A random variable with an exponential distribution takes <b>only positive values</b> and is often used to model a <b>waiting time</b>. $T$ follows an exponential distribution with parameter $\lambda&gt;0$, written $T\sim Exp(\lambda)$, if</p>
+  $$f(t)=\begin{cases}\lambda e^{-\lambda t}&t&gt;0\\0&t&lt;0\end{cases}$$
+  <p>A <b>single parameter</b> $\lambda&gt;0$ characterises it. Larger $\lambda$ means faster decay, i.e. shorter typical waits.</p>
+  <h3>The CDF (Exercise, slides 25–26)</h3>
+  <p>Show that for $t&gt;0$,</p>
+  $$F(t)=P(T&lt;t)=\int_0^t\lambda e^{-\lambda u}\,du=1-e^{-\lambda t}$$
+  <p><b>Solution.</b> An antiderivative of $e^{-\lambda u}$ is $e^{-\lambda u}/(-\lambda)$, so</p>
+  $$\int_0^t\lambda e^{-\lambda u}du=\lambda\left[\frac{e^{-\lambda u}}{-\lambda}\right]_0^t=\lambda\left(\frac{e^{-\lambda t}}{-\lambda}-\frac{1}{-\lambda}\right)=1-e^{-\lambda t}\qquad\square$$
+  <p>Sanity checks: $F(0)=1-e^0=0$ ✓ and $F(t)\to1$ as $t\to\infty$ ✓. In Wolfram Alpha: <code>Integrate lambda e^(-lambda u) for u from 0 to t</code>.</p>
+  <h3>Moments (slide 45)</h3>
+  $$E(T)=\int_0^{\infty}t\,\lambda e^{-\lambda t}\,dt=\boxed{\frac{1}{\lambda}},\qquad
+  V(T)=\int_0^{\infty}\left(t-\frac1\lambda\right)^2\lambda e^{-\lambda t}\,dt=\boxed{\frac{1}{\lambda^2}}$$
+  <p>So $\sigma_T=1/\lambda=E(T)$: for an exponential the standard deviation <b>equals</b> the mean. And the interpretation of $\lambda$ falls out — if events arrive at a Poisson rate of $\lambda$ per unit time (module 09), the average wait between them is $1/\lambda$ units of time. The two distributions are two views of the same process.</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXERCISE (slides 27–28, 31) · median and quantiles of the exponential</div>
+  <div class="body">
+  <p>The <b>median</b> $m$ is the value such that $P(T&lt;m)=0.5$. Compute it for $T\sim Exp(\lambda)$.</p>
+  <ol class="steps">
+    <li>By definition $F(m)=0.5$, so using the CDF just derived:
+    $$1-e^{-\lambda m}=0.5\;\Longrightarrow\;e^{-\lambda m}=0.5$$</li>
+    <li>Take logarithms of both sides:
+    $$-\lambda m=\log\!\left(\tfrac12\right)\;\Longrightarrow\;m=-\frac{\log(1/2)}{\lambda}$$</li>
+    <li>Since $-\log(1/2)=\log 2$:
+    $$\boxed{\;m=\frac{\log 2}{\lambda}\;}$$</li>
+    <li>Example with $\lambda=1.5$: $m=\log(2)/1.5=0.693/1.5\approx0.46$.</li>
+  </ol>
+  <p><b>The general quantile (slide 31).</b> The <b>quantile at level $\alpha\in(0,1)$</b>, written $q_\alpha$, is the value with $P(T\le q_\alpha)=\alpha$, i.e. $F(q_\alpha)=\alpha$. Same algebra:</p>
+  $$1-e^{-\lambda q_\alpha}=\alpha\;\Longrightarrow\;e^{-\lambda q_\alpha}=1-\alpha\;\Longrightarrow\;\boxed{q_\alpha=-\frac{\ln(1-\alpha)}{\lambda}}$$
+  <p>Setting $\alpha=0.5$ recovers $q_{0.5}=-\ln(1/2)/\lambda=\ln(2)/\lambda=m$ ✓</p>
+  <div class="note"><div class="t">Insight</div>Note $m=0.693/\lambda$ is <b>below</b> the mean $1/\lambda$ — the exponential is right-skewed, with a long tail of rare very long waits pulling the average above the typical value. Median $&lt;$ mean is the signature of positive skew, and it is exactly what the wind-speed exercise in module 18 detects in real data.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE (slides 20–21) · market order execution delay</div>
+  <div class="body">
+  <p>A market order suffers a random processing delay $X$ (in seconds) uniformly distributed between 0 and 60: $X\sim U[0,60]$.</p>
+  <ol class="steps">
+    <li><b>The density.</b> With $a=0$, $b=60$:
+    $$f(x)=\begin{cases}\frac{1}{60}&0\le x\le60\\0&\text{elsewhere}\end{cases}$$</li>
+    <li><b>Executed within the first 15 seconds.</b> Integrate the density, i.e. take the area of a rectangle:
+    $$P(X\le15)=\int_0^{15}\frac{1}{60}dx=\left[\frac{x}{60}\right]_0^{15}=\frac{15}{60}=\mathbf{0.25}$$
+    In R: <code>punif(15, 0, 60)</code>.</li>
+    <li><b>Takes more than 45 seconds.</b>
+    $$P(X&gt;45)=\int_{45}^{60}\frac{1}{60}dx=\frac{60-45}{60}=\frac{15}{60}=\mathbf{0.25}$$
+    In R: <code>1 - punif(45, 0, 60)</code>. Equal to the previous answer by symmetry — both are 15-second windows out of 60.</li>
+    <li><b>Average waiting time.</b> The mean of a uniform is the midpoint:
+    $$E[X]=\frac{a+b}{2}=\frac{0+60}{2}=\mathbf{30}\text{ seconds}$$</li>
+  </ol>
+  <div class="note fin"><div class="t">The modelling assumption</div>This model is used in market microstructure for latency delays (network or processing), where <b>uniformity is assumed for simplicity when the exact behaviour of the system between the minimum and maximum waiting times is unknown</b>. It is a statement of ignorance, not of knowledge — which is exactly when a uniform is the right default.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The normal (Gaussian) distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The probability density function of a normal random variable is</p>
+  $$\boxed{\;f(x)=\frac{1}{\sqrt{2\pi\sigma^2}}\;e^{-\frac12\left(\frac{x-\mu}{\sigma}\right)^2}\;}\tag{5}$$
+  <p>where $-\infty&lt;x&lt;\infty$ are the possible values $X$ can take. The distribution is characterised by <b>two parameters</b>, $\mu=E[X]$ and $\sigma^2=V(X)&gt;0$, and we write $X\sim\mathcal{N}(\mu,\sigma^2)$.</p>
+  <p>Being a density, $f$ satisfies both properties: $f(x)\ge0$ everywhere ✓ (an exponential is never negative) and $\int_{-\infty}^{\infty}f(x)dx=1$ ✓ (the constant $1/\sqrt{2\pi\sigma^2}$ is precisely what makes the area 1).</p>
+  <p>Its moments are $E(X)=\mu$ and $V(X)=\sigma^2$ — the parameters <i>are</i> the mean and variance, which is what makes the notation so convenient.</p>
+  <p>Reading the two parameters off the picture (slide 34): changing $\mu$ <b>slides</b> the bell left or right without changing its shape; changing $\sigma$ <b>widens or narrows</b> it around a fixed centre, flattening as it widens so the area stays 1.</p>
+
+  <div class="ctrl">
+    <label>family
+      <select id="cn_kind" style="background:var(--panel2);color:var(--text);border:1px solid var(--border);font-family:var(--mono);font-size:11.5px;padding:2px 4px">
+        <option value="norm">normal</option>
+        <option value="exp">exponential</option>
+        <option value="unif">uniform</option>
+      </select>
+    </label>
+    <label>$\mu$ / $\lambda$ / $a$ <input type="range" id="cn_p1" min="-3" max="6" step="any" value="0"><span class="val" id="cn_p1_v">0.0</span></label>
+    <label>$\sigma$ / — / $b$ <input type="range" id="cn_p2" min="0.3" max="4" step="any" value="1"><span class="val" id="cn_p2_v">1.0</span></label>
+    <label>$b$ (cut) <input type="range" id="cn_b" min="-4" max="10" step="any" value="1"><span class="val" id="cn_b_v">1.0</span></label>
+    <span class="btns"><button onclick="cnSet('norm',0,1,1)">standard normal</button><button onclick="cnSet('norm',176,6.5,180)">heights</button><button onclick="cnSet('exp',0.154,1,1)">post office</button><button onclick="cnSet('unif',0,60,15)">order delay</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="cnsvg" viewBox="0 0 360 220"></svg>
+    <figcaption>The density $f$, with the area up to the cut $b$ shaded — that area <b>is</b> $F(b)=P(X\le b)$, by formula (4) of module 12. The green marker is $E(X)$.</figcaption></figure>
+    <div>
+      <div class="readout" id="cnread"></div>
+      <p style="margin-top:10px">Switch families and watch what stays the same: in every case the total area is 1, the shaded part is $F(b)$, and the unshaded part is $P(X&gt;b)=1-F(b)$. Only the shape changes — symmetric bell, one-sided decay, flat rectangle.</p>
+      <p class="muted">The presets load the exercises worked below and in module 18. "Heights" puts $\mu=176$, $\sigma=6.5$, cut at 180, and the readout shows $F(180)\approx0.731$, so $P(X&gt;180)\approx0.269$. "Post office" uses $\lambda=0.154$ with the cut at 1 minute, giving $\approx0.143$.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXERCISE (slides 35–36) · heights of young people</div>
+  <div class="body">
+  <p>Heights are normally distributed with mean 176 cm and standard deviation 6.5 cm: $X\sim\mathcal{N}(\mu=176,\ \sigma^2=6.5^2)$.</p>
+  <ol class="steps">
+    <li><b>a) Taller than 180 cm.</b> Convert to a CDF question using the complement:
+    $$P(X&gt;180)=1-P(X\le180)=1-F(180)$$
+    In R: <code>pnorm(180, mean=176, sd=6.5)</code> returns $\approx0.731$, so
+    $$P(X&gt;180)=1-0.731\approx\mathbf{0.269}$$</li>
+    <li><b>b) Between 160 cm and 190 cm.</b> A difference of CDF values (formula 1, module 12):
+    $$P(160&lt;X&lt;190)=F(190)-F(160)$$
+    In R: <code>pnorm(190, 176, 6.5) - pnorm(160, 176, 6.5)</code> $\approx\mathbf{0.9773}$.</li>
+  </ol>
+  <p><b>By hand, via standardisation.</b> Any normal can be reduced to the standard normal $Z\sim\mathcal{N}(0,1)$ through $Z=(X-\mu)/\sigma$:</p>
+  $$P(X&gt;180)=P\!\left(Z&gt;\frac{180-176}{6.5}\right)=P(Z&gt;0.615)\approx0.269\ \checkmark$$
+  $$P(160&lt;X&lt;190)=P\!\left(\frac{-16}{6.5}&lt;Z&lt;\frac{14}{6.5}\right)=P(-2.46&lt;Z&lt;2.15)\approx0.9773\ \checkmark$$
+  <div class="note"><div class="t">Insight</div>Standardisation is why a single table of $\mathcal{N}(0,1)$ values sufficed for a century: every normal question becomes a standard-normal question after subtracting the mean and dividing by the standard deviation. The quantity $z=(x-\mu)/\sigma$ says <b>how many standard deviations from the mean</b> the value $x$ lies — the only thing a normal distribution cares about.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE (slides 37–38) · the FBI interrogating a suspect</div>
+  <div class="body">
+  <p>The FBI checks a suspect's heart rate, on the theory that people who lie under stress have an accelerated rate. Adult men average 70 bpm with standard deviation 10 bpm. The FBI records more than 80 bpm. Assuming heart rates are normal, what should they conclude?</p>
+  <ol class="steps">
+    <li><b>Restate the question properly.</b> It is not "is he lying?" but: <i>how unusual is it for an adult man to have 80 bpm?</i></li>
+    <li>Let $X$ be beats per minute, $X\sim\mathcal{N}(70,10^2)$. Note $P(X=80)=0$, since $X$ is continuous — so asking for the probability of exactly 80 is useless. The meaningful quantity is the tail:
+    $$P(X&gt;80)=1-F(80)$$</li>
+    <li>Standardising: $z=(80-70)/10=1$, so $P(X&gt;80)=P(Z&gt;1)\approx0.159$.
+    <br>In R: <code>1 - pnorm(80, mean=70, sd=10)</code> returns $\approx\mathbf{0.159}$.</li>
+    <li><b>Conclusion.</b> About <b>16% of adult men</b> can have more than 80 bpm — roughly one in six. Based on this information, 80 bpm does not appear to be so unusual: <b>there is not enough evidence to conclude that the suspect is lying.</b></li>
+  </ol>
+  <div class="note warn"><div class="t">The reasoning to copy</div>Same logic as the frogs in module 08, opposite verdict. Compute how likely the observation would be if nothing unusual were happening; reject that assumption only if the answer is small. Here 16% is not small, so the evidence is weak. Note also what the calculation does <b>not</b> establish — a high heart rate would not prove lying either, only that the reading is unusual. Statistical evidence bounds plausibility; it does not identify causes.</div>
+  </div>
+</div>
+</div>
+</section>

@@ -1,0 +1,167 @@
+<!-- ============ 01 SETS AND EVENTS ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>Sets and events</h2><span class="sub">lecture 1, slides 2–13 · the language probability is written in</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why a probability course starts with set theory<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Probability is not defined for numbers or for sentences. It is defined for <b>sets</b>. Before you can write $P(\text{something})$, that something has to be expressed as a subset of a list of possible outcomes — and the vocabulary for doing that is set theory.</p>
+  <p>The chain of translation runs like this, and it is worth memorising because every exercise in lectures 1–3 is an instance of it:</p>
+  <table class="formula-table">
+    <tr><td>a <b>random experiment</b></td><td>rolling a die, tossing a coin, next quarter's return</td></tr>
+    <tr><td>its <b>elementary outcomes</b> $\omega_i$</td><td>$1,2,3,4,5,6$ — exactly one of them happens</td></tr>
+    <tr><td>the <b>sample space</b> $S$</td><td>the set of all of them, $\{1,2,3,4,5,6\}$</td></tr>
+    <tr><td>an <b>event</b> $E$</td><td>any <i>subset</i>, e.g. "even" $=\{2,4,6\}$</td></tr>
+    <tr><td>"$A$ <b>or</b> $B$", "$A$ <b>and</b> $B$", "<b>not</b> $A$"</td><td>$A\cup B$, $A\cap B$, $A^c$</td></tr>
+  </table>
+  <p>Once the words on the right-hand side are set operations, the probability calculus of lecture 2 applies mechanically. The lecture says this directly: <i>set operations are intuitive thanks to Venn diagrams, and they form the basis for probability calculus</i>.</p>
+  <div class="note tip"><div class="t">The one habit to build</div>When a problem says "will the launch succeed in Switzerland <b>or</b> Italy <b>or both</b>?", write $A\cup B$. When it says "the stock market rises <b>and</b> the bond market falls", write $A\cap B$. Translating the English into sets <i>first</i>, before reaching for any formula, is most of the work in lectures 1–3.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Sets, subsets, the basic vocabulary<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>set</b> is a collection of elements — in this course, the elements are numbers. <b>Ordering does not matter</b>: the sets $\{2,3\}$ and $\{3,2\}$ are equal. Nor does repetition: $\{a,a,b\}=\{a,b\}$.</p>
+  <h3>Sets you will meet constantly</h3>
+  <table class="formula-table">
+    <tr><td>Natural numbers</td><td>$\mathbb{N}=\{0,1,2,3,\dots\}$</td></tr>
+    <tr><td>Integers</td><td>$\mathbb{Z}=\{\dots,-3,-2,-1,0,1,2,3,\dots\}$</td></tr>
+    <tr><td>Real numbers</td><td>$\mathbb{R}$</td></tr>
+    <tr><td>Closed interval</td><td>$[2,3]=\{x\in\mathbb{R}:2\le x\le3\}$ — endpoints <i>included</i></td></tr>
+    <tr><td>Open interval</td><td>$(-20,2)=\{x\in\mathbb{R}:-20&lt;x&lt;2\}$ — endpoints <i>excluded</i></td></tr>
+    <tr><td>Half-open</td><td>$[4,6)=\{x\in\mathbb{R}:4\le x&lt;6\}$</td></tr>
+  </table>
+  <p>A set can also be defined by <b>stating a property</b> its elements satisfy rather than listing them. Note how the same property gives different sets depending on where the elements are drawn from:</p>
+  $$B=\{x\in\mathbb{R}\mid x\ge5\}=[5,\infty),\qquad D=\{x\in\mathbb{N}\mid x\ge5\}=\{5,6,7,\dots\}$$
+  <h3>Three relations</h3>
+  <ul>
+    <li><b>Subset.</b> $A\subset B$ if <i>every</i> element of $A$ is also an element of $B$. Examples: $\mathbb{N}\subset\mathbb{Z}\subset\mathbb{R}$, and $\{2,6\}\subset\{2,4,5,6\}$.</li>
+    <li><b>Equality.</b> Two sets are equal if they have exactly the same elements. So $\{1,2,3\}=\{3,2,1\}$.</li>
+    <li><b>Empty set.</b> The set with no elements, written $\emptyset$, is the <b>null set</b> or <b>empty set</b>. It will turn out to be the "impossible event".</li>
+  </ul>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Experiment, outcome, sample space, event<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>random experiment</b> is a process leading to two or more possible results, where you cannot predict with certainty which will occur: tossing a coin, rolling a die, counting the customers arriving at a service desk in a fixed period. The requirement that makes it workable is that <b>you must be able to list all possible outcomes</b>.</p>
+  <p>An <b>elementary outcome</b> $\omega_i$ is one possible result. The defining property, and it is doing real work:</p>
+  <div class="note"><div class="t">Exactly one, always</div><b>One</b> elementary outcome, <b>and only one</b>, occurs once the experiment is performed. Elementary outcomes are therefore mutually exclusive by construction — you can never get both a 3 and a 5 on one roll. This is what will let us <i>add</i> their probabilities in lecture 2.</div>
+  <p>The <b>sample space</b> $S$ is the set of all elementary outcomes:</p>
+  <table class="formula-table">
+    <tr><td>Tossing a coin</td><td>$S=\{\text{head},\text{tail}\}$</td></tr>
+    <tr><td>Rolling a die</td><td>$S=\{1,2,3,4,5,6\}$</td></tr>
+    <tr><td>Customers at a desk</td><td>$S=\mathbb{N}=\{0,1,2,3,\dots\}$ — infinite, but still listable</td></tr>
+  </table>
+  <p>An <b>event</b> $E$ is a <i>subset</i> of elementary outcomes in the sample space. Getting an even number when rolling a die is the event $E=\{2,4,6\}$.</p>
+  <p>An event <b>occurs</b> when one of the elementary outcomes contained in it takes place. So if the die shows 4, the event "even" occurred, the event $\{1,2,3\}$ also occurred, and the event "odd" did not.</p>
+  <div class="note tip"><div class="t">Two special events</div>$S$ itself is an event — the <b>certain</b> event, since some outcome must occur. $\emptyset$ is an event — the <b>impossible</b> event, since it contains no outcome that could occur. Lecture 2 assigns them probability 1 and 0 respectively.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The four set operations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Throughout, the running example of the lecture: rolling a die, $S=\{1,2,3,4,5,6\}$, with $A=\{2,4,6\}$, $B=\{1,3,5\}$, $C=\{6\}$.</p>
+  <table class="formula-table">
+    <tr><td><b>Union</b> $A\cup B$</td><td>"$A$ <b>or</b> $B$ <b>or both</b>" occur. $\;A\cup B=S$, $\;B\cup C=\{1,3,5,6\}$, $\;A\cup C=A$</td></tr>
+    <tr><td><b>Intersection</b> $A\cap B$</td><td>"$A$ <b>and</b> $B$" occur together. $\;A\cap C=\{6\}$, $\;A\cap B=\emptyset$</td></tr>
+    <tr><td><b>Complement</b> $A^c$ (also $\overline{A}$)</td><td>$A^c=S\setminus A$ — everything in $S$ <b>not</b> in $A$. $\;A^c=B$, $\;C^c=\{1,2,3,4,5\}$</td></tr>
+    <tr><td><b>Difference</b> $A\setminus B$</td><td>elements in $A$ but <b>not</b> in $B$. Note $A\setminus B=A\cap B^c$. $\;\{2,3,4\}\setminus\{4,5\}=\{2,3\}$</td></tr>
+  </table>
+  <p>The identity $A\setminus B=A\cap B^c$ in the last row is worth noticing now: it means <b>difference is not a new operation</b>, just intersection with a complement. Every set expression in this course can be written with union, intersection and complement alone — which is exactly why the three axioms of lecture 2 suffice.</p>
+  <figure>
+  <svg viewBox="0 0 620 300">
+    <g transform="translate(10,10)">
+      <text x="140" y="12" class="svgtxt w" text-anchor="middle">A ∪ B</text>
+      <rect x="0" y="20" width="280" height="100" fill="none" stroke="var(--border2)"/>
+      <circle cx="110" cy="70" r="46" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <circle cx="170" cy="70" r="46" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <text x="92" y="74" class="svgtxt w">A</text><text x="182" y="74" class="svgtxt w">B</text>
+    </g>
+    <g transform="translate(330,10)">
+      <text x="140" y="12" class="svgtxt w" text-anchor="middle">A ∩ B</text>
+      <rect x="0" y="20" width="280" height="100" fill="none" stroke="var(--border2)"/>
+      <circle cx="110" cy="70" r="46" fill="none" stroke="var(--blue)"/>
+      <circle cx="170" cy="70" r="46" fill="none" stroke="var(--blue)"/>
+      <path d="M 140 27 A 46 46 0 0 1 140 113 A 46 46 0 0 1 140 27 Z" fill="var(--greenbg)" stroke="var(--green)"/>
+      <text x="92" y="74" class="svgtxt w">A</text><text x="182" y="74" class="svgtxt w">B</text>
+    </g>
+    <g transform="translate(10,160)">
+      <text x="140" y="12" class="svgtxt w" text-anchor="middle">Aᶜ  (everything outside A)</text>
+      <rect x="0" y="20" width="280" height="100" fill="var(--amberbg)" stroke="var(--border2)"/>
+      <circle cx="140" cy="70" r="46" fill="var(--panel)" stroke="var(--amber)"/>
+      <text x="134" y="74" class="svgtxt w">A</text><text x="230" y="74" class="svgtxt a">Aᶜ</text>
+    </g>
+    <g transform="translate(330,160)">
+      <text x="140" y="12" class="svgtxt w" text-anchor="middle">A and B mutually exclusive</text>
+      <rect x="0" y="20" width="280" height="100" fill="none" stroke="var(--border2)"/>
+      <circle cx="90" cy="70" r="42" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <circle cx="195" cy="70" r="42" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <text x="84" y="74" class="svgtxt w">A</text><text x="189" y="74" class="svgtxt w">B</text>
+      <text x="140" y="136" class="svgtxt r" text-anchor="middle">A ∩ B = ∅ — no shared outcome</text>
+    </g>
+  </svg>
+  <figcaption>The four pictures of slide 8. Venn diagrams are not decoration here — in lecture 2 the meteoSvizzera exercise is solved almost entirely by reading regions off one of these.</figcaption>
+  </figure>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXERCISE (slides 9–10) · events in the rolling of a die</div>
+  <div class="body">
+  <p>$S=\{1,2,3,4,5,6\}$, $A=\{1,2\}$, $B=\{2,4,5\}$. Find:</p>
+  <ol class="steps">
+    <li><b>$A\cup B$.</b> Everything in either set, listed once: $\{1,2\}\cup\{2,4,5\}=\{1,2,4,5\}$. (The shared element 2 is not written twice — sets do not count repetitions.)</li>
+    <li><b>$A\cap B$.</b> Only what is in both: $\{2\}$.</li>
+    <li><b>$A^c$ and $B^c$.</b> $A^c=S\setminus\{1,2\}=\{3,4,5,6\}$ and $B^c=S\setminus\{2,4,5\}=\{1,3,6\}$.</li>
+    <li><b>Verify $(A\cup B)^c=A^c\cap B^c$.</b> Left side: $(A\cup B)^c=\{1,2,4,5\}^c=\{3,6\}$. Right side:
+    $$A^c\cap B^c=\{3,4,5,6\}\cap\{1,3,6\}=\{3,6\}$$
+    Equal ✓. This is De Morgan's second law, proved in general in module 02.</li>
+    <li><b>$B\setminus A$.</b> In $B$ but not in $A$: $\{4,5\}$. Check against the identity $B\setminus A=B\cap A^c=\{2,4,5\}\cap\{3,4,5,6\}=\{4,5\}$ ✓.</li>
+  </ol>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE (slides 11–12) · which events occurred?</div>
+  <div class="body">
+  <p>The realised roll is <b>2</b>. With $A=\{\text{odd}\}=\{1,3,5\}$ and $B=\{1,2,3\}$, decide for each of $A$, $B$, $A\cap B$, $A\cup B$, $A\setminus B$, $B\setminus A$, $A^c$ whether it occurred.</p>
+  <p>The rule is mechanical: <b>an event occurred if and only if the realised outcome belongs to it.</b> So compute each set and check whether $2$ is inside.</p>
+  <table class="formula-table">
+    <tr><td>$A=\{1,3,5\}$</td><td>$2\notin A$</td><td><b style="color:var(--red)">did not occur</b></td></tr>
+    <tr><td>$B=\{1,2,3\}$</td><td>$2\in B$</td><td><b style="color:var(--green)">occurred</b></td></tr>
+    <tr><td>$A\cap B=\{1,3\}$</td><td>$2\notin$</td><td><b style="color:var(--red)">did not occur</b></td></tr>
+    <tr><td>$A\cup B=\{1,2,3,5\}$</td><td>$2\in$</td><td><b style="color:var(--green)">occurred</b></td></tr>
+    <tr><td>$A\setminus B=\{5\}$</td><td>$2\notin$</td><td><b style="color:var(--red)">did not occur</b></td></tr>
+    <tr><td>$B\setminus A=\{2\}$</td><td>$2\in$</td><td><b style="color:var(--green)">occurred</b></td></tr>
+    <tr><td>$A^c=\{2,4,6\}$</td><td>$2\in$</td><td><b style="color:var(--green)">occurred</b></td></tr>
+  </table>
+  <p>So $B$, $A\cup B$, $B\setminus A$ and $A^c$ occurred; $A$, $A\cap B$ and $A\setminus B$ did not — matching the lecture's answer on slide 12.</p>
+  <div class="note"><div class="t">Insight</div>Four events occurred at once on a single roll, and that is not a contradiction: only the <i>elementary</i> outcomes are mutually exclusive, never the compound events built from them. Note also the pattern — exactly one of $A$ and $A^c$ occurs, always.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Mutually exclusive and collectively exhaustive<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Two properties of a <i>collection</i> of events, and the two that matter most for the rest of the course. Running example again: $S=\{1,2,3,4,5,6\}$ with $A=\{2,4,6\}$, $B=\{1,3,5\}$, $C=\{6\}$.</p>
+  <ul>
+    <li><b>Mutually exclusive</b> (also <i>disjoint</i>, <i>incompatible</i>): events that share no elementary outcome, i.e. whose intersection is empty. Example: $B$ and $C$ are mutually exclusive because $B\cap C=\emptyset$. In words, either $B$ or $C$ occurs, or neither — but never both.</li>
+    <li><b>Collectively exhaustive</b>: events whose <i>union</i> is the entire sample space $S$. Example: $A$ and $B$ are collectively exhaustive, since $A\cup B=S$; so are $A$, $B$ and $C$ together, since $A\cup B\cup C=S$.</li>
+  </ul>
+  <p>Read them as two separate guarantees, and keep them apart in your head:</p>
+  <table class="formula-table">
+    <tr><td><b>mutually exclusive</b></td><td>"at most one of them can happen" — no overlap</td></tr>
+    <tr><td><b>collectively exhaustive</b></td><td>"at least one of them must happen" — no gaps</td></tr>
+  </table>
+  <p>Notice that $A,B,C$ are collectively exhaustive but <b>not</b> mutually exclusive: $A\cap C=\{6\}\neq\emptyset$. The two properties are independent of each other, and module 02 studies the case where <i>both</i> hold at once — a <b>partition</b>, the single most useful structure in the whole course.</p>
+  <div class="note fin"><div class="t">Why lecture 2 needs this</div>Kolmogorov's second axiom only lets you add probabilities for <b>mutually exclusive</b> events: $P(A\cup B)=P(A)+P(B)$ requires $A\cap B=\emptyset$. Adding probabilities of overlapping events double-counts the overlap, which is why module 04 needs the correction term $-P(A\cap B)$. Almost every mistake in elementary probability is a missing disjointness check.</div>
+  <p class="muted"><b>Check yourself:</b> with a die, are $\{1,2\}$ and $\{2,3\}$ mutually exclusive? Are they collectively exhaustive? (Neither: they share the outcome 2, and their union $\{1,2,3\}$ misses 4, 5, 6.)</p>
+  </div>
+</div>
+</section>

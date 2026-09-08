@@ -1,0 +1,198 @@
+<!-- ============ 02 PARTITIONS AND DE MORGAN ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Partitions and De Morgan's laws</h2><span class="sub">lecture 1, slides 14–25 · how to break any event into disjoint pieces</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The engine room of the whole course<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>This module looks like bookkeeping and is not. It contains the two tools that make probability <i>computable</i>:</p>
+  <ol class="steps">
+    <li>A <b>partition</b> lets you cut any event into non-overlapping pieces. Since Kolmogorov's second axiom only permits adding probabilities of <i>disjoint</i> events, the ability to manufacture disjointness on demand is what turns the axioms into a calculus. Every "law of total probability" argument you will ever meet is this idea.</li>
+    <li><b>De Morgan's laws</b> convert between "not (this and that)" and "(not this) or (not that)". They are the reason the complement rule is so powerful: a question about a hard union can be flipped into a question about an easy intersection, and vice versa. The meteoSvizzera exercise in module 04 is solved almost entirely by one application of De Morgan.</li>
+  </ol>
+  <div class="note tip"><div class="t">The lecture's own metaphor</div>"A partition is like a <b>pizza slicing rule</b>." The slices must cover the whole pizza and must not overlap. Any topping you care about is then divided cleanly among the slices — which is exactly the fundamental property below.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">RULES</span> Distributive property and $n$ sets<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For any sets $A$, $B$, $C$:</p>
+  $$A\cup(B\cap C)=(A\cup B)\cap(A\cup C)$$
+  $$A\cap(B\cup C)=(A\cap B)\cup(A\cap C)$$
+  <p>These are the set analogues of the distributive law $a(b+c)=ab+ac$ for numbers — except that here it works <i>both ways round</i>, with $\cup$ distributing over $\cap$ as well as $\cap$ over $\cup$. Arithmetic has no counterpart to the first line.</p>
+  <h3>Verifying the second one with Venn diagrams (Exercise, slides 14–15)</h3>
+  <p>Draw three overlapping circles and shade in stages.</p>
+  <ol class="steps">
+    <li><b>Left side.</b> First shade $B\cup C$: everything inside either circle $B$ or circle $C$. Then intersect with $A$: keep only the part of that shading that also lies inside $A$. What survives is the sliver of $A$ overlapping $B$, plus the sliver of $A$ overlapping $C$ (with the triple overlap counted once).</li>
+    <li><b>Right side.</b> Shade $A\cap B$ — the lens where $A$ and $B$ meet. Separately shade $A\cap C$. Their union is: the $A$–$B$ lens plus the $A$–$C$ lens.</li>
+    <li>The two shaded regions are the same region, so the identity holds. The first identity is verified the same way, swapping the roles of $\cup$ and $\cap$.</li>
+  </ol>
+  <h3>Operations on $n$ sets</h3>
+  <p>Everything generalises from two or three sets to $n$ with no change of meaning:</p>
+  $$A_1\cup A_2\cup\dots\cup A_n=\bigcup_{i=1}^{n}A_i,\qquad A_1\cap A_2\cap\dots\cap A_n=\bigcap_{i=1}^{n}A_i$$
+  <p>The union is "at least one of the $A_i$ occurs"; the intersection is "all of them occur". This notation is what will let us compute probabilities of non-trivial events later, such as "at least one of 800 inspected chips is defective" in module 08.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Partition<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>partition</b> of the sample space $S$ is a set of nonempty events that are <b>mutually exclusive</b> and <b>collectively exhaustive</b>. Precisely, $\{A_i\}_{i=1}^{n}$ is a partition of $S$ if:</p>
+  <ol class="steps">
+    <li>each $A_i$ is a nonempty subset of $S$, for $i=1,\dots,n$;</li>
+    <li>$A_i\cap A_j=\emptyset$ for every $i\neq j$ &nbsp;(mutually exclusive — no overlaps);</li>
+    <li>$A_1\cup A_2\cup\dots\cup A_n=S$ &nbsp;(collectively exhaustive — no gaps).</li>
+  </ol>
+  <p>Conditions 2 and 3 are exactly the two properties introduced at the end of module 01, now demanded <i>together</i>. That combination is what makes a partition useful: whatever happens, <b>exactly one</b> $A_i$ occurs — never zero (by 3), never two (by 2).</p>
+  <h3>Example (slide 17)</h3>
+  <p>Rolling a die, $S=\{1,2,3,4,5,6\}$, with $A=\{2,4,6\}$, $B=\{1,3,5\}$, $C=\{6\}$.</p>
+  <table class="formula-table">
+    <tr><td>$\{A,B\}$</td><td><b style="color:var(--green)">is</b> a partition: $A\cap B=\emptyset$ ✓ and $A\cup B=S$ ✓</td></tr>
+    <tr><td>$\{B,C\}$</td><td><b style="color:var(--red)">not</b> a partition: disjoint ✓, but $B\cup C=\{1,3,5,6\}\neq S$ — gaps at 2 and 4</td></tr>
+    <tr><td>$\{A,B,C\}$</td><td><b style="color:var(--red)">not</b> a partition: exhaustive ✓, but $A\cap C=\{6\}\neq\emptyset$ — an overlap</td></tr>
+  </table>
+  <p>Both failure modes are represented, which is why the lecture chose these three sets.</p>
+  <div class="note warn"><div class="t">Check both conditions, every time</div>A collection can pass one and fail the other, as $\{B,C\}$ and $\{A,B,C\}$ show. "Disjoint" alone is not a partition; "covers everything" alone is not either.</div>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slides 18–19) · all partitions of $S=\{3,4,5\}$</div>
+  <div class="body">
+  <p>Write all possible partitions of the set $S=\{3,4,5\}$.</p>
+  <p><b>Solution.</b> Work by the number of blocks, and remember that blocks must be nonempty, disjoint, and cover everything.</p>
+  <ol class="steps">
+    <li><b>Three blocks</b> — every element alone: $\;\{3\},\{4\},\{5\}$. Only one way to do it.</li>
+    <li><b>Two blocks</b> — one pair together, the remaining element alone. There are three ways to choose which pair:
+    $$\{3,4\},\{5\}\qquad \{3\},\{4,5\}\qquad \{3,5\},\{4\}$$</li>
+    <li><b>One block</b> — everything together: $\;\{3,4,5\}=S$. Trivially a partition (disjointness is vacuous with a single block, and it covers $S$).</li>
+  </ol>
+  <p>So there are <b>five</b> partitions in total. Each of them slices $S$ so that exactly one block contains any given outcome — verify this on, say, the outcome 4 in each of the five.</p>
+  <div class="note"><div class="t">Insight</div>The count of partitions of an $n$-element set is the Bell number $B_n$: $B_1=1$, $B_2=2$, $B_3=5$, $B_4=15$. You are not asked to know that, but noticing that the answer is "five, not six" is a good check that you have not double-counted $\{3,4\},\{5\}$ and $\{5\},\{3,4\}$ — a partition is a <i>set</i> of blocks, so their order does not matter.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> The fundamental property of a partition<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Given <b>any</b> partition $\{A_1,\dots,A_n\}$ of $S$ and <b>any</b> event $D$, the following holds:</p>
+  $$D=(D\cap A_1)\cup(D\cap A_2)\cup\dots\cup(D\cap A_n)=\bigcup_{i=1}^{n}(D\cap A_i)\tag{1}$$
+  <p>In words: <b>any event can be written as a union of disjoint events, using the blocks of a partition.</b></p>
+  <h3>Why it is true</h3>
+  <ul>
+    <li><b>Every point of $D$ appears on the right.</b> Take $\omega\in D$. Since the partition is collectively exhaustive, $\omega$ lies in some block $A_k$; hence $\omega\in D\cap A_k$, which is one of the terms.</li>
+    <li><b>Nothing extra appears.</b> Each term $D\cap A_i$ is a subset of $D$, so the union cannot escape $D$.</li>
+    <li><b>The pieces do not overlap.</b> For $i\neq j$, $(D\cap A_i)\cap(D\cap A_j)=D\cap(A_i\cap A_j)=D\cap\emptyset=\emptyset$, using mutual exclusivity. This is the part that matters.</li>
+  </ul>
+  <p>The picture on slide 20: the blue rectangle is $S$, carved by blue lines into five blocks $A_1,\dots,A_5$; the red blob is $D$. Formula (1) says the red blob is exactly the collection of its own pieces, one per block, and those pieces never overlap.</p>
+  <figure>
+  <svg viewBox="0 0 460 220">
+    <rect x="10" y="20" width="440" height="170" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <path d="M 150 20 L 120 190" fill="none" stroke="var(--blue)" stroke-width="1.5"/>
+    <path d="M 300 20 L 330 105 L 450 120" fill="none" stroke="var(--blue)" stroke-width="1.5"/>
+    <path d="M 10 120 L 330 105" fill="none" stroke="var(--blue)" stroke-width="1.5"/>
+    <ellipse cx="235" cy="105" rx="105" ry="52" fill="var(--redbg)" stroke="var(--red)" stroke-width="1.6"/>
+    <text x="60" y="50" class="svgtxt b">A₁</text>
+    <text x="345" y="50" class="svgtxt b">A₂</text>
+    <text x="235" y="110" class="svgtxt r" text-anchor="middle">D  (splits into D∩Aᵢ)</text>
+    <text x="60" y="175" class="svgtxt b">A₄</text>
+    <text x="395" y="160" class="svgtxt b">A₅</text>
+    <text x="215" y="60" class="svgtxt b">A₃</text>
+    <text x="10" y="204" class="svgtxt">every point of D lies in exactly one block,</text>
+    <text x="10" y="217" class="svgtxt">so the pieces are disjoint and add up to D</text>
+  </svg>
+  <figcaption>Slide 20's figure. The value of (1) is that the right-hand side is a union of <b>mutually exclusive</b> events, so its probability is a plain sum — no correction terms.</figcaption>
+  </figure>
+  <div class="note fin"><div class="t">Where you will use it</div>Immediately in module 04 (the complement rule and the union formula both come from the two-block partition $\{A,A^c\}$), and again in module 16, where conditioning on the blocks of a partition turns (1) into $P(D)=\sum_i P(D\mid A_i)P(A_i)$ — the law of total probability.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE 1 (slides 22–23) · other useful set relations — the lecture leaves this blank</div>
+  <div class="body">
+  <p>Verify with Venn diagrams that $\{A,A^c\}$ is a partition of $S$, and then verify (a), (b), (c) below.</p>
+
+  <p><b>First: $\{A,A^c\}$ is a partition.</b> Check the three conditions of the definition.</p>
+  <ol class="steps">
+    <li>Both are subsets of $S$ ✓ (and both nonempty, provided $A$ is neither $\emptyset$ nor all of $S$).</li>
+    <li><b>Mutually exclusive:</b> $A\cap A^c=\emptyset$. By definition $A^c$ contains exactly the outcomes <i>not</i> in $A$, so no outcome can be in both.</li>
+    <li><b>Collectively exhaustive:</b> $A\cup A^c=S$. Every outcome of $S$ is either in $A$ or not in $A$; there is no third option.</li>
+  </ol>
+  <p>On the Venn diagram: the white circle is $A$, the shaded rest of the rectangle is $A^c$; together they tile the rectangle with no overlap. This is the <b>smallest useful partition</b>, and it is the one that does the most work in this course.</p>
+
+  <p><b>(a) For every event $D$: $\;D=(D\cap A)\cup(D\cap A^c)$.</b> &nbsp;<span class="muted">(equation 2)</span></p>
+  <ol class="steps">
+    <li>This is the fundamental property (1) applied to the two-block partition $\{A,A^c\}$ — nothing new to prove.</li>
+    <li>Directly: take $\omega\in D$. Either $\omega\in A$, in which case $\omega\in D\cap A$; or $\omega\notin A$, i.e. $\omega\in A^c$, in which case $\omega\in D\cap A^c$. Either way $\omega$ is on the right. Conversely both terms are subsets of $D$, so the right side sits inside $D$.</li>
+    <li>The two pieces are disjoint: $(D\cap A)\cap(D\cap A^c)=D\cap(A\cap A^c)=D\cap\emptyset=\emptyset$.</li>
+    <li><b>Picture:</b> draw $D$ as a blob straddling the boundary of circle $A$. The part inside the circle is $D\cap A$; the part outside is $D\cap A^c$. Cutting along the circle's edge splits $D$ into two non-overlapping halves.</li>
+  </ol>
+
+  <p><b>(b) $\;A\cup B=A\cup(A^c\cap B)$.</b> &nbsp;<span class="muted">(equation 3)</span></p>
+  <ol class="steps">
+    <li>Apply (a) to the event $B$: $\;B=(B\cap A)\cup(B\cap A^c)$. Substituting into the left side,
+    $$A\cup B=A\cup\big[(B\cap A)\cup(B\cap A^c)\big]$$</li>
+    <li>But $B\cap A\subset A$, so absorbing it into $A$ changes nothing: $A\cup(B\cap A)=A$. What remains is
+    $$A\cup B=A\cup(A^c\cap B)$$</li>
+    <li><b>Picture:</b> shade the two overlapping circles. The left side shades both circles entirely. The right side shades all of $A$, then adds only the crescent of $B$ lying <i>outside</i> $A$. Same region — but now written as a union of two <b>disjoint</b> pieces, since $A\cap(A^c\cap B)=\emptyset$.</li>
+    <li><b>Why anyone cares:</b> this is precisely the trick used in module 04 to prove $P(A\cup B)=P(A)+P(B)-P(A\cap B)$. The axioms only add disjoint events, and (b) is how you rewrite a non-disjoint union as a disjoint one.</li>
+  </ol>
+
+  <p><b>(c) If $A\cap B=\emptyset$ (mutually exclusive), then $A^c\cap B=B$.</b> &nbsp;<span class="muted">(equation 4)</span></p>
+  <ol class="steps">
+    <li>Apply (a) to $B$ once more: $\;B=(B\cap A)\cup(B\cap A^c)$.</li>
+    <li>By hypothesis $B\cap A=A\cap B=\emptyset$, so the first term vanishes and $B=B\cap A^c=A^c\cap B$ ✓</li>
+    <li><b>Picture:</b> with $A$ and $B$ drawn as two separate, non-touching circles, all of $B$ already lies outside $A$ — so intersecting $B$ with "everything outside $A$" removes nothing.</li>
+    <li><b>In words:</b> if $A$ and $B$ cannot happen together, then "$B$ and not $A$" is just "$B$" — the extra clause is redundant.</li>
+  </ol>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE 2 (slide 24) · De Morgan's laws — the lecture leaves this blank too</div>
+  <div class="body">
+  <p><b>1. Verify with a Venn diagram that $(A^c)^c=A$.</b></p>
+  <ol class="steps">
+    <li>$A^c$ is everything in $S$ outside $A$. Taking the complement again means "everything outside <i>that</i>" — which is everything back inside $A$.</li>
+    <li>Formally: $\omega\in(A^c)^c\iff\omega\notin A^c\iff\omega\in A$.</li>
+    <li><b>Picture:</b> shade the rectangle minus the circle, then shade the complement of that shading. You are back to the circle.</li>
+    <li>This is the set analogue of "two negatives make a positive", and it is used in step 2 below.</li>
+  </ol>
+
+  <p><b>2. Verify that $(A\cap B)$ and $(A^c\cup B^c)$ form a partition of $S$</b>, i.e. that <b>2.1</b> $(A\cap B)\cap(A^c\cup B^c)=\emptyset$ and <b>2.2</b> $(A\cap B)\cup(A^c\cup B^c)=S$.</p>
+  <ol class="steps">
+    <li><b>2.1 — no overlap.</b> Distribute the intersection over the union:
+    $$(A\cap B)\cap(A^c\cup B^c)=\big[(A\cap B)\cap A^c\big]\cup\big[(A\cap B)\cap B^c\big]$$
+    The first bracket contains $A\cap A^c=\emptyset$, so it is empty; the second contains $B\cap B^c=\emptyset$, so it is empty too. The union of two empty sets is empty ✓
+    <br><i>In words:</i> a point in $A\cap B$ is in both $A$ and $B$, so it is outside neither — it cannot be in $A^c$ nor in $B^c$.</li>
+    <li><b>2.2 — no gaps.</b> Take any $\omega\in S$ and ask whether it lies in $A\cap B$.
+    <br>· If yes, it is in the first set ✓
+    <br>· If no, then $\omega$ fails to be in at least one of $A$, $B$. If $\omega\notin A$ then $\omega\in A^c$; if $\omega\notin B$ then $\omega\in B^c$. Either way $\omega\in A^c\cup B^c$ ✓
+    <br>So every point of $S$ is in one of the two sets.</li>
+    <li><b>Picture:</b> shade the central lens $A\cap B$ in one colour, and everything else in the rectangle in another. The two colours tile the rectangle exactly — and "everything else" is precisely $A^c\cup B^c$.</li>
+  </ol>
+
+  <p><b>3. Deduce De Morgan's laws.</b></p>
+  <ol class="steps">
+    <li>Two sets that form a partition of $S$ are each other's complement — that is what "disjoint and together everything" means. So step 2 immediately gives the <b>first law</b>:
+    $$(A\cap B)^c=A^c\cup B^c\tag{5}$$</li>
+    <li>For the <b>second law</b>, take complements of both sides of (5) applied to the sets $\tilde A=A^c$ and $\tilde B=B^c$. Write (5) with those: $(\tilde A\cap\tilde B)^c=\tilde A^c\cup\tilde B^c$, i.e.
+    $$(A^c\cap B^c)^c=(A^c)^c\cup(B^c)^c=A\cup B$$
+    using part 1. Now complement both sides:
+    $$A^c\cap B^c=(A\cup B)^c\tag{6}$$</li>
+  </ol>
+  <p>So the two laws are:</p>
+  $$\boxed{(A\cap B)^c=A^c\cup B^c}\qquad\qquad\boxed{(A\cup B)^c=A^c\cap B^c}$$
+  <p><b>In words, and this is how to remember them:</b> "not (both $A$ and $B$)" is the same as "not $A$, or not $B$"; and "not ($A$ or $B$)" is the same as "not $A$ <i>and</i> not $B$". <b>Push the complement inside and the operation flips</b>: $\cap$ becomes $\cup$, $\cup$ becomes $\cap$.</p>
+
+  <h3>De Morgan for $n$ sets (slide 25)</h3>
+  <p>The same statement, with the same proof, for any number of events:</p>
+  $$(A_1\cap A_2\cap\dots\cap A_n)^c=A_1^c\cup A_2^c\cup\dots\cup A_n^c\tag{7}$$
+  $$(A_1\cup A_2\cup\dots\cup A_n)^c=A_1^c\cap A_2^c\cap\dots\cap A_n^c\tag{8}$$
+  <p>Law (8) is the one you will use most: "<b>none</b> of the $A_i$ occurs" $=$ "not (at least one occurs)". Combined with the complement rule of module 04, it turns the awkward event "at least one" into the easy event "none" — which for independent events is just a product. That single move solves the two-students exercise in module 06 and the "more than four frogs" exercise in module 08.</p>
+  <div class="note tip"><div class="t">The pattern to internalise</div>Whenever a problem says <b>"at least one"</b>, immediately write $P(\text{at least one})=1-P(\text{none})$. The justification is the complement rule plus De Morgan (8), and it is almost always faster than the direct route.</div>
+  </div>
+</div>
+</section>

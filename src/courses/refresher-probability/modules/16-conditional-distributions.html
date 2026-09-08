@@ -1,0 +1,134 @@
+<!-- ============ 16 CONDITIONAL DISTRIBUTIONS ============ -->
+<section id="s16">
+<div class="sec-head"><span class="num">16</span><h2>Conditional distributions</h2><span class="sub">lecture 6, slides 49–63 · the bivariate case of conditioning</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Module 05, one level up<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 05 conditioned one <b>event</b> on another. Now, given the bivariate (joint) distribution of $(X,Y)$, we condition one <b>random variable</b> on the other: the distribution of $Y$ given $X=x$, for each possible given value $x$ of $X$, and vice versa.</p>
+  <p>Everything is derived from the single formula of module 05 — the lecture says so in a footnote, and it is worth taking literally:</p>
+  $$P(A\mid B)=\frac{P(A\cap B)}{P(B)}$$
+  <p>Put $A=\{Y=y\}$ and $B=\{X=x\}$ and you have the whole module. What is new is only that we now let $y$ <b>vary</b> and ask whether the resulting object is itself a distribution — it is — and then compute its mean and variance.</p>
+  <div class="note tip"><div class="t">Three objects, one per level</div><b>Conditional distribution</b> $P(Y=y\mid X=x)$: a whole distribution, for each fixed $x$. <b>Conditional expectation</b> $E[Y\mid X=x]$: its mean, one number per $x$. <b>Conditional variance</b> $V[Y\mid X=x]$: its spread, one number per $x$. Each is computed from the one above it, exactly as in the unconditional case.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Conditional distribution — discrete<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $x$ be a given/fixed value among the possible values of the discrete RV $X$. The <b>conditional distribution of $Y$ given $X=x$</b> is obtained from the conditional probabilities</p>
+  $$\boxed{\;P(Y=y\mid X=x)=\frac{P(Y=y,\,X=x)}{P(X=x)}\;}\tag{13}$$
+  <p>as $y$ varies among the possible values of $Y$. In words: <b>take the row (or column) of the joint table and divide it by its own total.</b> The joint probabilities are the numerators; the marginal is the normalising denominator.</p>
+  <p>Symmetrically, the conditional distribution of $X$ given $Y=y$ is</p>
+  $$P(X=x\mid Y=y)=\frac{P(X=x,\,Y=y)}{\underbrace{P(Y=y)}_{=P_Y(y)=\sum_{x}P(X=x,Y=y)}}\tag{14}$$
+  <p>where the denominator is the marginal of $Y$ from module 14.</p>
+  <h3>It really is a probability distribution</h3>
+  <p>The map $y\mapsto P(Y=y\mid X=x)$ satisfies both characterising properties of module 07:</p>
+  <ol class="steps">
+    <li>$0\le P(Y=y\mid X=x)\le1$ for each $y$ — it is a ratio of a joint probability to a larger marginal one.</li>
+    <li>$\sum_y P(Y=y\mid X=x)=1$ — because summing the numerators over $y$ gives exactly the marginal $P(X=x)$ in the denominator, by formula (2) of module 14.</li>
+  </ol>
+  <p>So a conditional distribution can be treated like any other distribution: it has a mean, a variance, quantiles, everything.</p>
+  <div class="note warn"><div class="t">Divide by the right margin</div>Conditioning on $X=x$ divides by $P(X=x)$ — the <b>column</b> total in the real estate layout. Conditioning on $Y=y$ divides by $P(Y=y)$, the <b>row</b> total. Using the wrong margin is the standard slip, and the giveaway is that your numbers will not sum to 1.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Conditional density — continuous<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For continuous variables, $P(X=x)=0$ (module 12), so formula (13) would be $0/0$. The definition is rebuilt with densities, and the shape is identical:</p>
+  $$\boxed{\;f(y\mid x)=\frac{f(x,y)}{\underbrace{f_X(x)}_{=\int_yf(x,y)dy}}\;}\tag{15}$$
+  <p>the conditional pdf of $Y$ given $X=x$, for $y\in\text{Range}(Y)$. Symmetrically,</p>
+  $$f(x\mid y)=\frac{f(x,y)}{\underbrace{f_Y(y)}_{=\int_xf(x,y)dx}}\tag{16}$$
+  <p>Divide the joint density by the marginal density of the variable being conditioned on — a slice through the joint surface, rescaled so its area is 1.</p>
+  <h3>Conditioning on an event (slide 60)</h3>
+  <p>The same idea handles conditioning a single continuous variable on an event $A$ such as $\{X&gt;1\}$:</p>
+  $$f(x\mid A)=\begin{cases}\dfrac{f(x)}{P(A)}&x\in A\\[6pt]0&x\notin A\end{cases}$$
+  <p>Cut the density down to the region $A$ and rescale by $P(A)$ so the area is 1 again — the exact continuous analogue of "shrink the world and renormalise" from module 05. This formula solves the exponential exercise in module 18.</p>
+  <div class="note fin"><div class="t">Conditioning and independence (slide 61)</div>From the factorisation (7) of module 15 it follows that if $X$ and $Y$ are independent,
+  $$P(Y=y\mid X=x)=P(Y=y)\qquad\text{and}\qquad f(y\mid x)=f_Y(y)$$
+  and likewise with the roles swapped. <b>Interpretation:</b> if the variables are independent, the probabilities of events relating to one are unrelated to the other — conditioning changes nothing, which is precisely the definition of independence from module 06, now stated for whole distributions rather than single events.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Conditional distribution — real estate example (slide 52)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>$Y\backslash X$</td><td><b>1</b></td><td><b>2</b></td><td><b>3</b></td><td>$P(Y=y)$</td></tr>
+    <tr><td><b>1</b></td><td>0.10</td><td>0.20</td><td>0.10</td><td>0.40</td></tr>
+    <tr><td><b>2</b></td><td>0.25</td><td>0.25</td><td>0.10</td><td>0.60</td></tr>
+    <tr><td>$P(X=x)$</td><td>0.35</td><td><b>0.45</b></td><td>0.20</td><td>1</td></tr>
+  </table>
+  <p><b>The conditional distribution of $Y$ given $X=2$</b> divides the $X=2$ column by its total, $P(X=2)=0.45$:</p>
+  $$P(Y=1\mid X=2)=\frac{P(X=2,Y=1)}{P(X=2)}=\frac{0.20}{0.45}=0.44$$
+  $$P(Y=2\mid X=2)=\frac{P(X=2,Y=2)}{P(X=2)}=\frac{0.25}{0.45}=0.56$$
+  <p>and it satisfies the fundamental property:</p>
+  $$\sum_yP(Y=y\mid X=2)=\frac{0.20+0.25}{0.45}=\frac{0.45}{0.45}=1\ \checkmark$$
+  <p>Compare with the unconditional marginal $P(Y=1)=0.40$, $P(Y=2)=0.60$: learning $X=2$ has shifted probability from $Y=2$ towards $Y=1$. That shift <i>is</i> the dependence measured by the covariance in module 15.</p>
+  <p><b>Exercise (slide 52): calculate the conditional distribution of $X$ given $Y=2$.</b> Now divide the $Y=2$ <b>row</b> by its total $P(Y=2)=0.60$:</p>
+  $$P(X=1\mid Y=2)=\frac{0.25}{0.60}=\frac{5}{12}\approx0.4167$$
+  $$P(X=2\mid Y=2)=\frac{0.25}{0.60}=\frac{5}{12}\approx0.4167$$
+  $$P(X=3\mid Y=2)=\frac{0.10}{0.60}=\frac{1}{6}\approx0.1667$$
+  <p>Check: $0.4167+0.4167+0.1667=1$ ✓ &nbsp;(Exactly: $\tfrac{5}{12}+\tfrac{5}{12}+\tfrac{2}{12}=\tfrac{12}{12}=1$.)</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Conditional expected value<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>conditional expected value</b> is the expected value of the conditional distribution — computed with the conditional probabilities in place of the ordinary ones:</p>
+  $$E[Y\mid X=x]=\begin{cases}\displaystyle\sum_y y\,P(Y=y\mid X=x)&Y\text{ discrete}\\[10pt]\displaystyle\int y\,f(y\mid x)\,dy&Y\text{ continuous}\end{cases}\tag{17}$$
+  <p>and symmetrically $E[X\mid Y=y]=\sum_x x\,P(X=x\mid Y=y)$. &nbsp;(18)</p>
+  <div class="note warn"><div class="t">Use the conditional weights</div>The <b>conditional</b> expected value of $Y$ given $X=x$ must be computed using the <b>conditional</b> distribution of $Y$ given $X=x$ — never the marginal, never the joint. This is the same warning as in module 14, one level down.</div>
+  <h3>Real estate example (slide 56)</h3>
+  <p>Using the conditional distribution of $Y$ given $X=2$ found above:</p>
+  $$E(Y\mid X=2)=1\cdot P(Y=1\mid X=2)+2\cdot P(Y=2\mid X=2)=1\cdot\frac{0.20}{0.45}+2\cdot\frac{0.25}{0.45}=\frac{0.20+0.50}{0.45}=\mathbf{1.56}$$
+  <p>Compare with the unconditional $E(Y)=1.60$ from module 14: knowing that Swiss sales came in at 2 lowers the expectation for Italy slightly, consistent with the negative covariance.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Conditional variance<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>conditional variance</b> is the variance of the conditional distribution:</p>
+  $$V[Y\mid X=x]=E\big[(Y-E[Y\mid X=x])^2\;\big|\;X=x\big]=\sum_y\big(y-E[Y\mid X=x]\big)^2P(Y=y\mid X=x)\tag{23}$$
+  <p>(with an integral against $f(y\mid x)$ in the continuous case). As in module 11, the computation is simplified by the shortcut formula:</p>
+  $$\boxed{\;V[Y\mid X=x]=E[Y^2\mid X=x]-\big(E[Y\mid X=x]\big)^2\;}$$
+  <h3>Exercise (slide 59): compute $V(Y\mid X=2)$</h3>
+  <ol class="steps">
+    <li>The conditional distribution, as exact fractions:
+    $$P(Y=1\mid X=2)=\frac{0.20}{0.45}=\frac49,\qquad P(Y=2\mid X=2)=\frac{0.25}{0.45}=\frac59$$</li>
+    <li>Conditional mean:
+    $$E[Y\mid X=2]=1\cdot\tfrac49+2\cdot\tfrac59=\tfrac{4}{9}+\tfrac{10}{9}=\tfrac{14}{9}\approx1.5556$$</li>
+    <li>Conditional second moment:
+    $$E[Y^2\mid X=2]=1^2\cdot\tfrac49+2^2\cdot\tfrac59=\tfrac49+\tfrac{20}{9}=\tfrac{24}{9}=\tfrac83$$</li>
+    <li>Shortcut formula:
+    $$V[Y\mid X=2]=\tfrac83-\left(\tfrac{14}{9}\right)^2=\tfrac{216}{81}-\tfrac{196}{81}=\frac{20}{81}\approx\mathbf{0.247}$$</li>
+    <li>Check against the unconditional $V(Y)=0.24$ (module 14): conditioning barely changed the spread here, though it did move the mean.</li>
+  </ol>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> Marginal moments from conditional ones — the law of total expectation<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Slide 57 derives a formula worth isolating, because it is the engine behind a great deal of applied probability. To compute $E(X)$ you may go through the conditional expectations instead of the marginal distribution:</p>
+  $$\begin{aligned}
+  E(X)&=\sum_x x\,P(X=x)=\sum_x x\sum_y P(X=x,Y=y)&&\text{(marginal from joint, module 14)}\\
+  &=\sum_x\sum_y x\,P(X=x,Y=y)&&\\
+  &=\sum_x\sum_y x\,P(X=x\mid Y=y)\,P(Y=y)&&\text{(multiplicative rule, module 05)}\\
+  &=\sum_y\left(\sum_x x\,P(X=x\mid Y=y)\right)P(Y=y)&&\text{(swap the order of summation)}\\
+  &=\sum_y E(X\mid Y=y)\,P(Y=y)&&\text{(definition 18)}
+  \end{aligned}$$
+  <p>So:</p>
+  $$\boxed{\;E(X)=\sum_y E(X\mid Y=y)\,P(Y=y)\;}$$
+  <p>The <b>unconditional mean is the probability-weighted average of the conditional means</b>. In compact notation this is $E(X)=E\big[E(X\mid Y)\big]$, the <b>law of iterated expectations</b>. The same applies to $Y$, and the same argument works for any moment.</p>
+  <p>Structurally this is the fundamental property of a partition from module 02 — the events $\{Y=y\}$ partition the sample space, and the calculation splits $E(X)$ across the blocks and reassembles it.</p>
+  <div class="note fin"><div class="t">Why it is useful</div>Often the conditional problem is easy and the unconditional one is not. "What is the expected loss on a loan?" is hard; "what is the expected loss <i>given</i> default?" times "the probability of default", summed over the two cases, is routine. Splitting into cases, solving each, and reassembling with the weights is exactly this formula.</div>
+  <p class="muted"><b>Check yourself:</b> in the real estate example, $E(Y\mid X=1)=\frac{0.10+2(0.25)}{0.35}=\frac{0.60}{0.35}=1.714$, $E(Y\mid X=2)=1.556$, $E(Y\mid X=3)=\frac{0.10+2(0.10)}{0.20}=1.5$. Weighting: $1.714(0.35)+1.556(0.45)+1.5(0.20)=0.600+0.700+0.300=1.60=E(Y)$ ✓</p>
+  </div>
+</div>
+</section>

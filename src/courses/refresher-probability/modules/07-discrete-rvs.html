@@ -1,0 +1,163 @@
+<!-- ============ 07 DISCRETE RANDOM VARIABLES ============ -->
+<section id="s7">
+<div class="sec-head"><span class="num">07</span><h2>Discrete random variables</h2><span class="sub">lecture 4, slides 3–15 · attaching numbers to outcomes, and the two functions that describe them</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> From events to numbers<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Lectures 1–3 dealt with <b>events</b> — subsets of a sample space — and their probabilities. That is enough to answer yes/no questions, but not to compute an average, a variance, or a portfolio return. For those you need <b>numbers</b> attached to the outcomes, and that is what a random variable is.</p>
+  <p>A <b>Random Variable (RV)</b> $X$ is a variable whose possible values $x$ are numerical outcomes associated with a random experiment. Which value $X$ takes depends on the realised outcome of the experiment.</p>
+  <table class="formula-table">
+    <tr><td>Rolling a die, $X=$ the face value doubled</td><td>possible values $2,4,6,8,10,12$; if the die shows 3, the realisation is $x=6$</td></tr>
+    <tr><td>$X=$ the return of a risky asset</td><td>the "experiment" is the state of the economy; possible values range from $-100\%$ upward, e.g. $x=-20\%$ or $x=1.5\%$</td></tr>
+  </table>
+  <div class="note tip"><div class="t">Capital versus lower case — keep this straight</div>$X$ (capital) is the random variable: the whole mechanism, before you look. $x$ (lower case) is a <b>realisation</b>: one particular number it might take. $P(X=x)$ therefore reads "the probability that the mechanism produces the specific value $x$" — and it is a legitimate probability because $\{X=x\}$ is an <i>event</i>, i.e. the set of outcomes that make $X$ equal $x$. Nothing from lectures 1–3 is being abandoned; it is being relabelled.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Discrete random variable and its probability distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>There are two kinds of random variable, discrete and continuous. This lecture handles the discrete case; module 12 does the continuous one.</p>
+  <p>A <b>discrete random variable</b> $X$ is one which may take only a <b>finite number</b> or a <b>countable number</b> of distinct values.</p>
+  <ul>
+    <li><i>Finite:</i> tossing a coin, $X=1$ if head and $X=0$ if tail. Two values.</li>
+    <li><i>Countable:</i> the number of customers arriving at a service desk, $X\in\{0,1,2,3,4,\dots\}$. Infinitely many values, but you can list them one after another.</li>
+  </ul>
+  <h3>The probability distribution</h3>
+  <p>The <b>probability distribution</b> of a discrete RV lists all possible values $x$ together with their probabilities:</p>
+  $$\boxed{\;P(x):=P(X=x)\quad\text{for each value }x\;}$$
+  <div class="note warn"><div class="t">A subtle but useful point</div>$P(x)$ exists for <b>every</b> numeric value $x$, not only for the values $X$ can actually take. The probability of a value $X$ <i>does not</i> take is simply 0. So $P(X=1.5)=0$ for a die — that is a genuine, well-defined answer, not an error.</div>
+  <h3>Two characterising properties</h3>
+  <p>A function $P$ is a probability distribution if and only if:</p>
+  $$\text{1)}\quad 0\le P(X=x)\le1\ \text{ for every }x,\qquad\qquad \text{2)}\quad \sum_{x}P(X=x)=1$$
+  <p>where $\sum_x$ runs over all possible realisations of $X$. Property 1 is Axiom 1; property 2 is Axiom 3 combined with the fact that the events $\{X=x\}$ are mutually exclusive and collectively exhaustive — they form a <b>partition</b> of the sample space (module 02).</p>
+  <p><b>If a proposed function fails even one of these two properties, it is not a probability distribution.</b> Checking them is the first thing to do with any table you are handed.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> The special (loaded) die<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The running example of lecture 4. A loaded die has the distribution</p>
+  <table class="formula-table">
+    <tr><td>$x$</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+    <tr><td>$P(x)$</td><td>0.168</td><td>0.360</td><td>0.309</td><td>0.132</td><td>0.028</td><td>0.002</td></tr>
+  </table>
+  <p>Before rolling — <i>ex ante</i> — the probability of getting a 6 is $P(X=6)=0.002$. A fair die would give $P(X=6)=1/6\approx0.167$, and $P(x)=1/6$ for every face; this die is heavily biased towards low numbers.</p>
+  <p><b>The two questions on slide 7:</b></p>
+  <ol class="steps">
+    <li>$P(X=1.5)=?$ &nbsp;→ &nbsp;<b>0</b>. The value 1.5 is not among the faces, so the event $\{X=1.5\}$ is impossible. The distribution is still defined there; it is simply zero.</li>
+    <li>$P(1)+P(2)+P(3)+P(4)+P(5)+P(6)=?$ &nbsp;→ &nbsp;<b>1</b>, by characterising property 2. Check: $0.168+0.360+0.309+0.132+0.028+0.002=0.999+0.001=1.000$ ✓</li>
+  </ol>
+  <p>And the question on slide 8 — <i>how would the distribution look if the die were fair?</i> — has the answer: six bars of exactly equal height $1/6\approx0.167$, a flat profile, instead of the strongly right-skewed one above.</p>
+  <figure>
+  <svg viewBox="0 0 420 170">
+    <line x1="34" y1="130" x2="400" y2="130" stroke="var(--border2)"/>
+    <line x1="34" y1="18" x2="34" y2="130" stroke="var(--border2)"/>
+    <text x="20" y="24" class="svgtxt" text-anchor="end">0.4</text>
+    <text x="20" y="134" class="svgtxt" text-anchor="end">0</text>
+    <line x1="34" y1="75" x2="400" y2="75" stroke="var(--border)" opacity="0.5"/>
+    <text x="20" y="79" class="svgtxt" text-anchor="end">0.2</text>
+    <g>
+      <rect x="66" y="83.8" width="14" height="46.2" fill="var(--bluebg)" stroke="var(--blue)"/><text x="73" y="143" class="svgtxt" text-anchor="middle">1</text>
+      <rect x="118" y="31" width="14" height="99" fill="var(--bluebg)" stroke="var(--blue)"/><text x="125" y="143" class="svgtxt" text-anchor="middle">2</text>
+      <rect x="170" y="45" width="14" height="85" fill="var(--bluebg)" stroke="var(--blue)"/><text x="177" y="143" class="svgtxt" text-anchor="middle">3</text>
+      <rect x="222" y="93.7" width="14" height="36.3" fill="var(--bluebg)" stroke="var(--blue)"/><text x="229" y="143" class="svgtxt" text-anchor="middle">4</text>
+      <rect x="274" y="122.3" width="14" height="7.7" fill="var(--bluebg)" stroke="var(--blue)"/><text x="281" y="143" class="svgtxt" text-anchor="middle">5</text>
+      <rect x="326" y="129.4" width="14" height="0.6" fill="var(--bluebg)" stroke="var(--blue)"/><text x="333" y="143" class="svgtxt" text-anchor="middle">6</text>
+    </g>
+    <line x1="34" y1="84" x2="400" y2="84" stroke="var(--amber)" stroke-dasharray="4 4"/>
+    <text x="396" y="78" class="svgtxt a" text-anchor="end">a fair die would sit here, at 1/6, for every face</text>
+    <text x="210" y="163" class="svgtxt" text-anchor="middle">x</text>
+  </svg>
+  <figcaption>The loaded die's distribution: probability "mass" concentrated at the points $x=1,\dots,6$. The amber line marks the flat profile of a fair die.</figcaption>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slides 11–12) · rolling two fair dice</div>
+  <div class="body">
+  <p>Let $T$ be the sum of the roll of two dice, and define the random variable</p>
+  $$X=\begin{cases}1,&\text{if }T\le5\\ 4,&\text{if }6\le T\le10\\ 10,&\text{if }T&gt;10\end{cases}$$
+  <p>Calculate the probability of each possible realisation of $X$, i.e. for $x=1,4,10$.</p>
+  <ol class="steps">
+    <li><b>The sample space.</b> Two dice, each with 6 faces, and the pair is ordered:
+    $$S=\{(1,1),(1,2),(1,3),\dots,(6,6)\},\qquad 6\times6=36\text{ equally likely elementary events}$$</li>
+    <li><b>$X=1$ means $T\le5$.</b> Count the ordered pairs summing to 2, 3, 4 or 5:
+    $$(1,1);\;(1,2),(2,1);\;(1,3),(2,2),(3,1);\;(1,4),(2,3),(3,2),(4,1)$$
+    that is $1+2+3+4=10$ pairs, so
+    $$P(X=1)=\frac{10}{36}$$</li>
+    <li><b>$X=10$ means $T&gt;10$</b>, i.e. $T=11$ or $T=12$:
+    $$(5,6),(6,5);\;(6,6)\qquad\Rightarrow\qquad 3\text{ pairs},\qquad P(X=10)=\frac{3}{36}$$</li>
+    <li><b>$X=4$ is everything left over.</b> Either count the 23 pairs with $6\le T\le10$ directly, or use the fact that the three events partition $S$:
+    $$P(X=4)=1-\frac{10}{36}-\frac{3}{36}=\frac{23}{36}$$</li>
+    <li><b>Check property 2:</b> $\frac{10}{36}+\frac{23}{36}+\frac{3}{36}=\frac{36}{36}=1$ ✓</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Two things worth extracting. First, a random variable can be built <i>on top of</i> another one ($X$ is a function of $T$, which is itself a function of the dice) — perfectly legitimate, and how most quantities in finance are defined. Second, the values $1,4,10$ are arbitrary labels chosen by whoever defined $X$; the probabilities come from counting outcomes, not from the labels. Using the complement to get the middle case, as in step 4, is nearly always faster than counting 23 pairs by hand.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The cumulative distribution function<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>cumulative distribution function (CDF)</b> $F(x_0)$ of a random variable $X$ expresses the probability that the realisation of $X$ is smaller than or equal to $x_0$:</p>
+  $$\boxed{\;F(x_0)=P(X\le x_0)\;}\tag{1}$$
+  <p>Since the event $\{X\le x_0\}$ is the union of all the mutually exclusive elementary events $\{X=x\}$ with $x\le x_0$, Axiom 2 gives</p>
+  $$F(x_0)=P(X\le x_0)=\sum_{x\le x_0}P(X=x)$$
+  <p>You accumulate the probability mass from the left. As with $P(x)$, the function $F(x_0)$ <b>exists for every value $x_0$</b>, not just for the values $X$ can take.</p>
+  <h3>The loaded die again</h3>
+  <table class="formula-table">
+    <tr><td>$x$</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+    <tr><td>$P(x)$</td><td>0</td><td>0.168</td><td>0.360</td><td>0.309</td><td>0.132</td><td>0.028</td><td>0.002</td></tr>
+    <tr><td>$F(x)$</td><td>0</td><td>0.168</td><td>0.528</td><td>0.837</td><td>0.969</td><td>0.998</td><td>1.000</td></tr>
+  </table>
+  <p>Each $F$ entry is the running total of the $P$ entries to its left: $0.168+0.360=0.528$, then $+0.309=0.837$, and so on up to 1.</p>
+  <p><b>The three questions on slide 14:</b></p>
+  <ol class="steps">
+    <li>$F(2.3)=P(X\le2.3)$. The values of $X$ that are $\le2.3$ are 1 and 2, so $F(2.3)=0.168+0.360=\mathbf{0.528}$ — the same as $F(2)$. Between two possible values the CDF is <b>flat</b>.</li>
+    <li>$F(3)=P(X\le3)=\mathbf{0.837}$. Note the $\le$: the value 3 itself is <b>included</b>, which is why the CDF of a discrete RV jumps <i>at</i> 3 and is drawn with a filled dot there.</li>
+    <li>$F(-1)=P(X\le-1)=\mathbf{0}$. No possible value is below $-1$, so nothing has accumulated yet.</li>
+  </ol>
+  <h3>Two characterising properties</h3>
+  <p>The two properties of $P$ induce two properties of $F$:</p>
+  $$\text{1)}\quad 0\le F(x)\le1\ \text{ for every }x,\qquad\qquad \text{2)}\quad F\text{ is nondecreasing: } x_1&lt;x_2\Rightarrow F(x_1)\le F(x_2)$$
+  <p>Property 2 holds because moving right can only add more (non-negative) probability mass. The lecture's advice is good: <b>remember the shape</b> — a staircase starting at 0 on the far left and rising to 1 on the far right — and the two properties follow from the picture.</p>
+  <figure>
+  <svg viewBox="0 0 420 190">
+    <line x1="34" y1="150" x2="400" y2="150" stroke="var(--border2)"/>
+    <line x1="34" y1="18" x2="34" y2="150" stroke="var(--border2)"/>
+    <text x="20" y="24" class="svgtxt" text-anchor="end">1</text>
+    <text x="20" y="154" class="svgtxt" text-anchor="end">0</text>
+    <line x1="34" y1="20" x2="400" y2="20" stroke="var(--border)" opacity="0.6" stroke-dasharray="3 3"/>
+    <g stroke="var(--blue)" stroke-width="2.2" fill="none">
+      <line x1="34" y1="150" x2="73" y2="150"/>
+      <line x1="73" y1="128.2" x2="125" y2="128.2"/>
+      <line x1="125" y1="81.4" x2="177" y2="81.4"/>
+      <line x1="177" y1="41.2" x2="229" y2="41.2"/>
+      <line x1="229" y1="24" x2="281" y2="24"/>
+      <line x1="281" y1="20.3" x2="333" y2="20.3"/>
+      <line x1="333" y1="20" x2="398" y2="20"/>
+    </g>
+    <g fill="var(--blue)">
+      <circle cx="73" cy="128.2" r="3.4"/><circle cx="125" cy="81.4" r="3.4"/><circle cx="177" cy="41.2" r="3.4"/>
+      <circle cx="229" cy="24" r="3.4"/><circle cx="281" cy="20.3" r="3.4"/><circle cx="333" cy="20" r="3.4"/>
+    </g>
+    <g fill="var(--panel)" stroke="var(--blue)" stroke-width="1.4">
+      <circle cx="73" cy="150" r="3.4"/><circle cx="125" cy="128.2" r="3.4"/><circle cx="177" cy="81.4" r="3.4"/>
+      <circle cx="229" cy="41.2" r="3.4"/><circle cx="281" cy="24" r="3.4"/><circle cx="333" cy="20.3" r="3.4"/>
+    </g>
+    <g class="svgtxt" text-anchor="middle">
+      <text x="73" y="167">1</text><text x="125" y="167">2</text><text x="177" y="167">3</text>
+      <text x="229" y="167">4</text><text x="281" y="167">5</text><text x="333" y="167">6</text>
+    </g>
+    <text x="210" y="184" class="svgtxt" text-anchor="middle">x</text>
+  </svg>
+  <figcaption>The CDF of the loaded die. Filled dots are included ($\le$), open dots excluded. The jump height at each $x$ is exactly $P(X=x)$ — read the pmf straight off the staircase.</figcaption>
+  </figure>
+  <div class="note fin"><div class="t">Why the CDF earns its keep</div>Three reasons, all used later. It answers range questions in one subtraction, $P(a&lt;X\le b)=F(b)-F(a)$ (module 12). It is the <i>only</i> description that works identically for discrete and continuous variables — $P(x)$ is meaningless in the continuous case, but $F(x)=P(X\le x)$ always makes sense. And it is what statistical software actually computes: R's <code>pbinom</code>, <code>ppois</code>, <code>pnorm</code> are all CDFs, which is why the exercises in modules 08–13 keep reaching for them.</div>
+  </div>
+</div>
+</section>

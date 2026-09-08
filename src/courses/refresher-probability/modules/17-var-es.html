@@ -1,0 +1,144 @@
+<!-- ============ 17 VALUE AT RISK AND EXPECTED SHORTFALL ============ -->
+<section id="s17">
+<div class="sec-head"><span class="num">17</span><h2>Value at Risk and Expected Shortfall</h2><span class="sub">lecture 6, slides 46–47 and 64–69 · the whole course applied to tail risk</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Where everything comes together<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>This module is the payoff of the previous sixteen. To measure <b>downside risk / tail risk</b> — exposure to large but unlikely losses, i.e. to negative returns in the left tail of a return distribution — various risk measures have been proposed. The two most widely used are <b>Value at Risk (VaR)</b> and <b>Expected Shortfall (ES)</b>.</p>
+  <p>They are calculated, for example, by trading desks to measure portfolio risk, and by regulators to control the exposure of banks and insurance companies and to set the amount of capital needed to cover possible losses.</p>
+  <p>Every ingredient has already been built:</p>
+  <table class="formula-table">
+    <tr><td>the portfolio return $Y=w_1X_1+w_2X_2$</td><td>module 15 — its mean by linearity, its variance by $V(aX+bY)$</td></tr>
+    <tr><td>the <b>quantile</b> $q_\alpha$ with $P(Y&lt;q_\alpha)=\alpha$</td><td>module 13 — inverting a CDF</td></tr>
+    <tr><td>the <b>conditional</b> expectation given a tail event</td><td>module 16 — $E[Y\mid Y&lt;\text{threshold}]$</td></tr>
+  </table>
+  <div class="note tip"><div class="t">Recall the definition of a quantile</div>The quantile $q_\alpha$ of the distribution of a continuous RV $X$ is the smallest value taken by $X$ such that the probability of observing a realisation less than $q_\alpha$ is equal to $\alpha$: $\;\mathbb{P}(X&lt;q_\alpha)=\alpha$. The <b>percentile</b> is the quantile expressed as a percentage.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Value at Risk<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Value at Risk at the probability level $\alpha$</b> (e.g. $\alpha=1\%$), written $VaR_\alpha$, of a return distribution $Y$ is the <b>minimum loss</b> that the portfolio return will suffer with probability $\alpha$ — where a loss is a negative realisation of $Y$. Formally:</p>
+  $$\boxed{\;-VaR_\alpha:=q_\alpha\quad\text{where }q_\alpha\text{ satisfies }P(Y&lt;q_\alpha)=\alpha\;}$$
+  <p>so $VaR_\alpha=-q_\alpha$. <b>VaR represents a loss and is expressed as a positive number</b> — hence the minus sign, which converts the (negative) quantile into a (positive) loss figure.</p>
+  <h3>How to read it</h3>
+  <p>By definition of percentile, $VaR_{0.01}$ is the minimum loss with probability 1%: <b>1% of the returns will be smaller than $-VaR_{0.01}$, and 99% will be larger</b>. More generally, given the VaR at $\alpha\%$, we know that $(1-\alpha)\%$ of the returns will be better than $-VaR$, while $\alpha\%$ will be worse.</p>
+  <p>In the level version, for a position with return $S_{t+1}-S_t$ (in CHF) over $[t,t+1]$:</p>
+  $$VaR_\alpha:=-q_\alpha\ \text{ such that }\ \mathbb{P}_t\big(S_{t+1}-S_t&lt;q_\alpha\big)=\mathbb{P}_t\big((S_{t+1}-S_t)+VaR_\alpha&lt;0\big)=\alpha$$
+  <p><b>Interpretation:</b> the VaR is the amount in CHF that would have to be added to the position at time $t$ so that the return between $t$ and $t+1$ is negative only with probability $\alpha$, where $\alpha$ is small — usually 1% or 5%. That is exactly the regulatory reading: <i>the capital buffer</i>.</p>
+  <h3>Computing it for a normal return</h3>
+  <p>If $Y\sim\mathcal{N}(\mu,\sigma^2)$, standardise as in module 13: $q_\alpha=\mu+\sigma z_\alpha$, where $z_\alpha$ is the standard normal quantile. Hence</p>
+  $$\boxed{\;VaR_\alpha=-\big(\mu+\sigma z_\alpha\big)=-\mu-\sigma z_\alpha\;}$$
+  <p>with the two values you will need:</p>
+  <table class="formula-table">
+    <tr><td>$z_{0.01}=-2.3263$</td><td>1% level</td><td>R: <code>qnorm(0.01)</code></td></tr>
+    <tr><td>$z_{0.05}=-1.6449$</td><td>5% level</td><td>R: <code>qnorm(0.05)</code></td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Expected Shortfall<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>VaR is the loss at the $\alpha$ percentile of the distribution of returns, but it <b>ignores any losses to the left of VaR</b> — i.e. losses <i>worse</i> than VaR. Expected Shortfall addresses this problem.</p>
+  <p>The <b>Expected Shortfall at level $\alpha$</b>, $ES_\alpha$, is the expected value of the returns $Y$, <b>conditional</b> on $Y$ being less than $-VaR_\alpha$:</p>
+  $$\boxed{\;ES_\alpha:=-\,\mathbb{E}_t\big[\,Y\;\big|\;Y&lt;-VaR_\alpha\,\big]\;}$$
+  <p>Again the minus makes it a positive loss figure. In the level version, for a position with return $S_{t+1}-S_t$:</p>
+  $$ES_\alpha:=-\,\mathbb{E}_t\big[S_{t+1}-S_t\;\big|\;S_{t+1}-S_t&lt;-VaR_\alpha\big]$$
+  <p>This is a <b>conditional expectation</b> in the sense of module 16 — conditioning a continuous variable on the event "$Y$ lies in the left tail", then averaging over that shrunken, renormalised world.</p>
+  <div class="note fin"><div class="t">Why regulators moved from VaR to ES</div>Two distributions can share the same VaR while one has a catastrophic tail beyond it and the other does not: VaR asks only <i>where</i> the 1% cut-off sits, never <i>how bad</i> things get past it. ES averages over the whole tail and therefore sees the difference. Always $ES_\alpha&gt;VaR_\alpha$, since it averages outcomes all of which are worse than the cut-off.</div>
+  <h3>Computing it for a normal return</h3>
+  <p>For $Y\sim\mathcal{N}(\mu,\sigma^2)$ there is a closed form:</p>
+  $$\boxed{\;ES_\alpha=-\mu+\sigma\,\frac{\varphi(z_\alpha)}{\alpha}\;}$$
+  <p>where $\varphi(z)=\frac{1}{\sqrt{2\pi}}e^{-z^2/2}$ is the standard normal <b>density</b> (not the CDF) evaluated at the quantile $z_\alpha$. The ratio $\varphi(z_\alpha)/\alpha$ is the average depth of the tail, in standard deviations.</p>
+  <table class="formula-table">
+    <tr><td>$\alpha=0.01$</td><td>$\varphi(-2.3263)=0.026652$</td><td>$\varphi/\alpha=2.6652$</td></tr>
+    <tr><td>$\alpha=0.05$</td><td>$\varphi(-1.6449)=0.103136$</td><td>$\varphi/\alpha=2.0627$</td></tr>
+  </table>
+  <p>Compare with $-z_{0.01}=2.3263$: the ES multiplier is larger, which is the closed-form statement that $ES&gt;VaR$.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PICTURE</span> The two measures on one density<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 620 250">
+    <line x1="30" y1="190" x2="600" y2="190" stroke="var(--border2)"/>
+    <path d="M 40 189 C 110 188 150 184 190 170 C 235 154 260 60 315 40 C 370 60 395 154 440 170 C 480 184 520 188 590 189"
+          fill="none" stroke="var(--blue)" stroke-width="2.2"/>
+    <path d="M 40 189 C 110 188 150 184 190 170 L 190 190 L 40 190 Z" fill="var(--red)" opacity="0.35" stroke="none"/>
+    <line x1="190" y1="190" x2="190" y2="150" stroke="var(--red)" stroke-width="2"/>
+    <text x="190" y="142" class="svgtxt r" text-anchor="middle">q(α) = −VaR(α)</text>
+    <line x1="315" y1="190" x2="315" y2="46" stroke="var(--green)" stroke-dasharray="4 3"/>
+    <text x="315" y="38" class="svgtxt g" text-anchor="middle">mean return</text>
+    <line x1="120" y1="190" x2="120" y2="168" stroke="var(--amber)" stroke-width="2"/>
+    <text x="120" y="162" class="svgtxt a" text-anchor="middle">−ES(α)</text>
+    <text x="110" y="212" class="svgtxt r" text-anchor="middle">this shaded area = α</text>
+    <text x="450" y="110" class="svgtxt" text-anchor="start">distribution of returns</text>
+    <text x="450" y="126" class="svgtxt" text-anchor="start">expected over the period</text>
+    <text x="30" y="228" class="svgtxt">VaR is where the tail starts; ES is the average of everything</text>
+    <text x="30" y="242" class="svgtxt">inside it — so ES always lies further left.</text>
+  </svg>
+  <figcaption>Slides 68–69 redrawn. The shaded left tail has area $\alpha$; its right edge is the quantile $q_\alpha=-VaR_\alpha$; the amber mark is the tail's own mean, $-ES_\alpha$.</figcaption>
+  </figure>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slides 44–47) · VaR of a portfolio's annual return</div>
+  <div class="body">
+  <p>Let $X_1\sim\mathcal{N}(0.01,\,0.10^2)$ and $X_2\sim\mathcal{N}(0.04,\,0.40^2)$ be the annual returns of two risky securities, with correlation $\rho=0.3$. Consider the portfolio investing 0.6 in $X_1$ and 0.4 in $X_2$:</p>
+  $$Y=0.6\,X_1+0.4\,X_2$$
+  <p>Compute the expected value and standard deviation of $Y$, find its distribution, and then calculate $VaR_\alpha$ at level $\alpha=0.01$.</p>
+
+  <p><b>Step 1 — expected value, by linearity (module 10).</b> No independence needed:</p>
+  $$E[Y]=0.6\,E[X_1]+0.4\,E[X_2]=0.6(0.01)+0.4(0.04)=0.006+0.016=\mathbf{0.022}$$
+
+  <p><b>Step 2 — covariance from the correlation (module 15).</b> Invert formula (12), $\rho=\text{Cov}/(\sigma_1\sigma_2)$:</p>
+  $$\text{Cov}(X_1,X_2)=\rho\,\sigma_1\sigma_2=0.3\times0.10\times0.40=0.012$$
+
+  <p><b>Step 3 — variance, by the $V(aX+bY)$ rule (module 15).</b></p>
+  $$V[Y]=(0.6)^2V(X_1)+(0.4)^2V(X_2)+2(0.6)(0.4)\,\text{Cov}(X_1,X_2)$$
+  $$=0.36(0.01)+0.16(0.16)+0.48(0.012)=0.0036+0.0256+0.00576=0.03496$$
+  $$\sigma_Y=\sqrt{0.03496}\approx\mathbf{0.1870}$$
+  <p>Note the diversification: the weighted average of the two volatilities would be $0.6(0.10)+0.4(0.40)=0.22$, so the portfolio's $0.187$ is genuinely lower — the gain comes from $\rho=0.3&lt;1$.</p>
+
+  <p><b>Step 4 — the distribution of $Y$.</b> A linear combination of jointly normal variables is itself normal, so</p>
+  $$Y\sim\mathcal{N}\big(0.022,\;0.1869^2\big)$$
+  <p>matching the red density on slide 45, which sits between the two assets': narrower than $X_2$, wider than $X_1$.</p>
+
+  <p><b>Step 5 — the 1% quantile.</b> Standardise, using $z_{0.01}=-2.3263$:</p>
+  $$q_{0.01}=\mu+\sigma z_{0.01}=0.022+0.1870\times(-2.3263)=0.022-0.4350=-0.4130$$
+  <p>In R: <code>qnorm(0.01, mean = 0.022, sd = 0.1870)</code>.</p>
+
+  <p><b>Step 6 — the VaR.</b> Flip the sign to express it as a positive loss:</p>
+  $$VaR_{0.01}=-q_{0.01}=\mathbf{0.413}\quad\text{i.e. about }41.3\%$$
+  <p><b>Reading:</b> with probability 1%, the portfolio will lose at least 41.3% of its value over the year. Equivalently, 99% of the time the annual return will be better than $-41.3\%$.</p>
+  <div class="note warn"><div class="t">"At least", not "at most"</div>VaR is a <b>minimum</b> loss over the bad 1% of scenarios, not a worst case. The losses in that 1% could be far larger — VaR says nothing about how much larger. That silence is exactly what the next exercise repairs.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slide 64) · Expected Shortfall of the same portfolio</div>
+  <div class="body">
+  <p>With $Y\sim\mathcal{N}(0.02,\,0.1869^2)$ from the previous exercise, calculate $ES_\alpha$ at level $\alpha=0.01$.</p>
+  <ol class="steps">
+    <li><b>Recall the definition.</b> $ES_\alpha=-E[Y\mid Y&lt;-VaR_\alpha]=-E[Y\mid Y&lt;q_{0.01}]$ — the average return over the worst 1% of outcomes, sign-flipped.</li>
+    <li><b>Evaluate the standard normal density at the quantile.</b> With $z_{0.01}=-2.3263$:
+    $$\varphi(z_{0.01})=\frac{1}{\sqrt{2\pi}}e^{-z^2/2}=0.398942\times e^{-2.70578}=0.398942\times0.066807=0.026652$$</li>
+    <li><b>Compute the tail-depth multiplier:</b>
+    $$\frac{\varphi(z_\alpha)}{\alpha}=\frac{0.026652}{0.01}=2.6652$$
+    In words: conditional on landing in the worst 1%, the return averages 2.6652 standard deviations below the mean — deeper than the 2.3263 at which the tail begins, as it must be.</li>
+    <li><b>Apply the closed form:</b>
+    $$ES_{0.01}=-\mu+\sigma\frac{\varphi(z_\alpha)}{\alpha}=-0.022+0.1870\times2.6652=-0.022+0.4984=\mathbf{0.476}$$
+    i.e. about <b>47.6%</b>.</li>
+    <li><b>Compare with VaR:</b> $ES_{0.01}=47.6\%$ against $VaR_{0.01}=41.3\%$. The expected shortfall is 6.3 percentage points worse — that gap is the average severity of the losses that VaR refuses to look at.</li>
+  </ol>
+  <div class="note fin"><div class="t">The chain of dependencies, worth tracing once</div>The final 47.6% rests on: <b>linearity of expectation</b> (module 10) for $\mu_Y$; the <b>variance of a linear combination</b> and the definition of <b>correlation</b> (module 15) for $\sigma_Y$; <b>standardisation and quantiles of the normal</b> (module 13) for $z_\alpha$; and <b>conditional expectation</b> (module 16) for the tail average. Six modules feeding one number — which is why this exercise closes the course.</div>
+  </div>
+</div>
+</section>

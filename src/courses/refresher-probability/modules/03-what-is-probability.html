@@ -1,0 +1,113 @@
+<!-- ============ 03 WHAT IS A PROBABILITY ============ -->
+<section id="s3">
+<div class="sec-head"><span class="num">03</span><h2>What is a probability</h2><span class="sub">lecture 2, slides 2–12 · the classical definition, its limits, and Kolmogorov's axioms</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Two questions that look like one<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>"What is a probability?" hides two separate questions, and the lecture separates them carefully:</p>
+  <ol class="steps">
+    <li><b>What rules must probabilities obey?</b> — answered once and for all by Kolmogorov's three axioms. This is the mathematics, and it is what the rest of the course is built on.</li>
+    <li><b>How do you actually put a number on a particular event?</b> — answered differently by the classical, frequentist and subjective approaches. This is the modelling, and it happens before the mathematics starts.</li>
+  </ol>
+  <p>Keeping them apart matters. The axiomatic definition <i>does not say how</i> to compute $P(\omega_i)$; it says what any assignment of numbers must satisfy in order to be called a probability. You supply the numbers from the problem — by counting equally likely cases, by observing frequencies, or by expert judgement — and the axioms then tell you what follows.</p>
+  <div class="note tip"><div class="t">Fix the interpretation first</div>A probability is a number between 0 and 1 saying how likely or plausible it is that a given event will occur. Probability 0 = impossible; probability 1 = certain. In real problems we rarely know an event is impossible or certain, so the probability usually lies strictly between 0 and 1. And crucially: <b>probability is defined for events, that is, for subsets of the sample space</b> — which is why module 01 came first.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The classical definition<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Assuming all elementary outcomes in the sample space are <b>equally likely</b>, the probability of an event $A$ is</p>
+  $$P(A)=\frac{\#\text{ favorable outcomes}}{\#\text{ possible outcomes}}$$
+  <p>where "favorable" means the number of elementary outcomes in $A$, and "possible" the total number in $\Omega$.</p>
+  <p>Stated precisely: let $\Omega=\{\omega_1,\omega_2,\dots,\omega_N\}$ have a <b>finite</b> number $N$ of elementary outcomes, all <b>equiprobable</b>. Then for the event $A=\{\omega_1,\dots,\omega_{N_A}\}$,</p>
+  $$\boxed{\;P(A)=\frac{N_A}{N}\;}$$
+  <h3>Example</h3>
+  <p>Rolling a fair die, $\Omega=\{1,2,3,4,5,6\}$, so $N=6$. For $A=\{1,3,6\}$ we have $N_A=3$ and</p>
+  $$P(A)=\frac36=\frac12,\qquad P(\{2\})=\frac16$$
+  <div class="note"><div class="t">Notation</div>We often write $P(2)$ instead of $P(\{2\})$ to keep formulas readable. Remember what it really means: <b>probability is defined for events, i.e. for sets</b>. The shorthand drops the braces, not the concept.</div>
+  <h3>Where it works, and where it breaks</h3>
+  <p><b>In its favour:</b> when it applies, it is simple and gives a direct calculation — you count, you divide, you are done.</p>
+  <p><b>Its three limitations</b>, exactly as the lecture lists them:</p>
+  <ul>
+    <li>it requires the elementary outcomes to be <b>all equally likely</b> — useless for a loaded die, or for tomorrow's stock return;</li>
+    <li>it requires the sample space to have a <b>finite number</b> of elementary outcomes — useless for "number of customers", where $\Omega=\mathbb{N}$;</li>
+    <li>most awkwardly, it is <b>circular</b>: "equally likely" already presupposes the notion of probability that we are trying to define.</li>
+  </ul>
+  <p>These problems are what gave rise to the frequentist approach (probability as a long-run relative frequency) and the subjective approach (probability as a coherent degree of belief) — and, for the mathematics, to the axiomatic approach below.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The axiomatic definition — Kolmogorov, 1930<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A logical–mathematical structure for calculating probabilities, consistent with the classical, frequentist and subjective approaches alike.</p>
+  <p>Let $\Omega$ be a sample space and $A$ an event, i.e. a subset of $\Omega$. A <b>probability measure</b> $P$ is a function assigning to each event $A$ a number $P(A)$, satisfying three <b>axioms</b> (statements taken to be true without proof):</p>
+  <table class="formula-table">
+    <tr><td><b>Axiom 1</b></td><td>$0\le P(A)\le1$ — a probability is a number between 0 and 1</td></tr>
+    <tr><td><b>Axiom 2</b></td><td>if $A\cap B=\emptyset$, then $P(A\cup B)=P(A)+P(B)$</td></tr>
+    <tr><td><b>Axiom 3</b></td><td>$P(\Omega)=1$ — one of the elementary outcomes must occur</td></tr>
+  </table>
+  <p>Axiom 2 is the only one with a hypothesis attached, and that hypothesis — <b>mutual exclusivity</b> — is the single most-violated condition in elementary probability. Probabilities of disjoint events add. Probabilities of overlapping events do not (module 04 supplies the correction).</p>
+  <div class="note warn"><div class="t">Two remarks the lecture makes explicitly</div><b>(i)</b> The axioms do <b>not</b> require the elementary outcomes $\omega_i$ to be equally likely — this is exactly the restriction that crippled the classical definition, and it is gone. A loaded die is no problem. <b>(ii)</b> The axioms do <b>not say how</b> to compute $P(\omega_i)$ or $P(A)$ concretely; those numbers come from the classical, frequentist or subjective approach. The axioms tell you what to do with them once you have them.</div>
+  <h3>What the axioms already give you</h3>
+  <p>Let $\Omega=\{\omega_1,\dots,\omega_N\}$ and $A=\{\omega_1,\dots,\omega_{N_A}\}$ with $N_A&lt;N$. Then</p>
+  $$P(A)=\sum_{i=1}^{N_A}P(\omega_i)\tag{1}$$
+  <p><b>Proof.</b> The elementary outcomes making up $A$ are mutually exclusive — only one outcome occurs (module 01) — so Axiom 2, applied repeatedly, lets their probabilities be added. $\;\square$</p>
+  <p>And if the elementary outcomes happen to be equally likely, Axiom 3 forces $N$ equal numbers to sum to 1, so each is $1/N$ and (1) gives</p>
+  $$P(\omega_i)=\frac1N,\qquad P(A)=\frac{N_A}{N}$$
+  <p>which is the classical formula, now <b>derived</b> rather than assumed. The axiomatic approach contains the classical one as a special case — that is what "consistent with" means.</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXERCISE (slides 7–8) · rolling a die</div>
+  <div class="body">
+  <p>Calculate the probability of the following events when rolling a fair die.</p>
+  <p>All six faces are equally likely, so use $P(A)=N_A/N$ with $N=6$ throughout. The work is in translating each phrase into a set.</p>
+  <ol class="steps">
+    <li><b>$A=$ "the result is an even number".</b> As a set, $A=\{2,4,6\}$, so $N_A=3$ and
+    $$P(A)=\frac36=\frac12$$</li>
+    <li><b>$B=$ "the result is a number less than or equal to 4".</b> $B=\{1,2,3,4\}$, so $N_B=4$ and
+    $$P(B)=\frac46=\frac23$$</li>
+    <li><b>$C=$ "the result is a number divisible by 2".</b> $C=\{2,4,6\}$, so $N_C=3$ and
+    $$P(C)=\frac36=\frac12$$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>$A$ and $C$ are described by different English phrases but are the <b>same set</b>, so they are the same event and necessarily have the same probability. This is why the first step is always to write the set down — it exposes when two descriptions are secretly identical, and when they are not.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE (slides 13–14) · presidential election</div>
+  <div class="body">
+  <p>Four candidates A, B, C, D. Polling gives A a 20% chance of winning and B a 40% chance. What is the probability that A or B wins?</p>
+  <ol class="steps">
+    <li>Translate: the event of interest is the <b>union</b> $\{A\text{ wins}\}\cup\{B\text{ wins}\}$.</li>
+    <li>Check disjointness — this is the step that licenses everything else. Only one candidate wins the election, so the two events cannot both occur:
+    $$\{A\text{ wins}\}\cap\{B\text{ wins}\}=\emptyset$$</li>
+    <li>Apply Axiom 2:
+    $$P(A\text{ or }B\text{ win})=P(\{A\text{ wins}\})+P(\{B\text{ wins}\})=0.2+0.4=\mathbf{0.6}$$</li>
+  </ol>
+  <div class="note tip"><div class="t">Note what was not needed</div>The classical definition is useless here — the four candidates are certainly not equally likely, and the 20% and 40% come from polling (a frequentist/subjective input). But Axiom 2 applies regardless of <i>where</i> the numbers came from. That is the whole point of axiomatising.</div>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slides 15–16) · urn</div>
+  <div class="body">
+  <p>An urn contains 10 red balls, 6 black balls and 8 green balls. Calculate the probability of drawing a red <b>or</b> black ball.</p>
+  <ol class="steps">
+    <li>Total number of balls: $10+6+8=24$. Assuming each ball is equally likely to be drawn, the classical definition applies with $N=24$.</li>
+    <li>Name the events: $A=$ "a red ball is drawn", $B=$ "a black ball is drawn", $C=$ "a red or black ball is drawn", so $C=A\cup B$.</li>
+    <li>Individual probabilities by counting:
+    $$P(A)=\frac{10}{24},\qquad P(B)=\frac{6}{24}$$</li>
+    <li>Disjointness check: a single drawn ball cannot be both red and black, so $A\cap B=\emptyset$ ✓ and Axiom 2 applies.</li>
+    <li>$$P(C)=P(A\cup B)=P(A)+P(B)=\frac{10}{24}+\frac{6}{24}=\frac{16}{24}=\frac{2}{3}$$</li>
+  </ol>
+  <div class="note"><div class="t">Sanity check</div>The green balls give $P(\text{green})=8/24=1/3$, and "red or black" is exactly the complement of "green". Indeed $2/3=1-1/3$ ✓ — the complement rule of module 04, arriving one module early.</div>
+  </div>
+</div>
+</section>

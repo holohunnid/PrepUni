@@ -1,0 +1,126 @@
+<!-- ============ 11 VARIANCE AND STANDARD DEVIATION ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>Variance and standard deviation</h2><span class="sub">lecture 4, slides 59–66 · measuring how spread out a distribution is</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What the expected value cannot tell you<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The expected value is a measure of central tendency: it says <i>where</i> the distribution sits. It provides <b>no information</b> about the dispersion of the possible realisations of $X$ around $E(X)$.</p>
+  <p>Slide 61 makes the point with two distributions having the <b>same</b> expected value and visibly different spread: one wide and flat, one narrow and peaked. Any summary that reports only $E(X)$ would call them identical. In finance the difference is the whole subject: two assets with the same expected return are not the same investment.</p>
+  <p>So we need a second number, measuring <b>variability or dispersion</b>. Module 10 ended with the reason the obvious candidate fails — raw deviations $X-\mu$ always average to exactly zero — and with the fix: square them first.</p>
+  <div class="note tip"><div class="t">The plan</div>Define variance as the expected squared deviation. Derive a shortcut formula that is easier to compute. Apply both to the Bernoulli and the Poisson. Then take a square root to get back to the original units.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Variance<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>variance</b> $V(X)$ of a random variable $X$ is the expected value of the <b>squared deviations</b> of $X$ from its expected value:</p>
+  $$\boxed{\;V(X)=E\big[(X-E(X))^2\big]=E\big[(X-\mu)^2\big]=\sum_x(x-\mu)^2P(x)\;}\tag{6}$$
+  <p>where $\mu=E(X)$ and the summation extends over all values $X$ can assume.</p>
+  <ul>
+    <li><b>The deviations are squared so that they do not cancel each other out</b> — the defect of the raw deviations established at the end of module 10.</li>
+    <li>$V(X)$ is a <b>number</b>, not a random quantity, exactly like $E(X)$.</li>
+    <li>Being an average of squares, variance is <b>always non-negative</b>: $V(X)\ge0$.</li>
+  </ul>
+  <div class="note"><div class="t">When is $V(X)=0$?</div>Slide 59 asks this. A sum of non-negative terms $(x-\mu)^2P(x)$ vanishes only if every term vanishes — so for every $x$ with $P(x)&gt;0$ we need $x=\mu$. That is: <b>$V(X)=0$ exactly when $X$ is a constant</b>, taking the single value $\mu$ with probability 1. Zero variance means no randomness at all. A risk-free asset has zero variance; anything else has positive variance.</div>
+  <p>Squaring also means that <b>large deviations dominate</b>: a value twice as far from the mean contributes four times as much. Variance is therefore sensitive to tails, which is both its strength (it notices extremes) and its weakness (a single outlier moves it a lot).</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> The alternative formula (slides 62–63)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Prove that an equivalent expression for the variance is</p>
+  $$\boxed{\;V(X)=E(X^2)-\mu^2\;}\tag{7}$$
+  <p><b>Solution.</b> Start from definition (6), expand the square, and apply linearity of the expected value (module 10).</p>
+  <ol class="steps">
+    <li>Expand the squared bracket:
+    $$V(X)=E\big[(X-\mu)^2\big]=E\big[X^2-2\mu X+\mu^2\big]$$</li>
+    <li>Apply linearity, remembering $\mu$ is a <b>constant</b> so it factors out and $E[\mu^2]=\mu^2$:
+    $$=E(X^2)-2\mu\,E(X)+\mu^2$$</li>
+    <li>But $E(X)=\mu$, so the middle term is $-2\mu^2$:
+    $$=E(X^2)-2\mu^2+\mu^2=E(X^2)-\mu^2\qquad\square$$</li>
+  </ol>
+  <p>Read (7) as <b>"the mean of the squares minus the square of the mean"</b>. Both quantities are computed from the same table, so in practice it is one pass instead of two: you never need to subtract $\mu$ from every value.</p>
+  <div class="note warn"><div class="t">Order matters in the subtraction</div>$E(X^2)$ and $[E(X)]^2$ are different numbers, and $E(X^2)\ge[E(X)]^2$ always — which is just the statement $V(X)\ge0$ rearranged. If your arithmetic ever produces a negative variance, you have swapped these two terms.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Standard deviation<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The unit of measure of the variance is the <b>square</b> of that of $X$, which makes it hard to interpret: if $X$ is a return in percent, $V(X)$ is in "percent squared", a quantity with no natural meaning. Denoting</p>
+  $$\sigma^2:=V(X)$$
+  <p>the <b>standard deviation</b> is its square root:</p>
+  $$\boxed{\;\sigma=\sqrt{\sigma^2}=\sqrt{V(X)}\;}$$
+  <p>and it has the <b>same unit of measure as $X$</b>. Like the variance it is a number, and $\sigma\ge0$.</p>
+  <p>This is why financial risk is quoted as a standard deviation ("volatility of 20%") rather than a variance ("0.04"): the former is directly comparable to the expected return, the latter is not. The two carry identical information — one is the square of the other — but only one is readable.</p>
+  <table class="formula-table">
+    <tr><td>$X$ measured in</td><td>$V(X)$ in</td><td>$\sigma$ in</td></tr>
+    <tr><td>CHF</td><td>CHF²</td><td>CHF</td></tr>
+    <tr><td>% return</td><td>%²</td><td>% return</td></tr>
+    <tr><td>errors per page</td><td>errors² per page²</td><td>errors per page</td></tr>
+  </table>
+  <p class="muted"><b>Check yourself:</b> a distribution with $V(X)=0.09$ has $\sigma=0.3$. If those are annual returns, the asset has 30% volatility.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXERCISE (slides 64–65) · variance of a Bernoulli</div>
+  <div class="body">
+  <p>Calculate $V(X)$ for a Bernoulli variable taking the value 1 with probability $p$ and 0 with probability $1-p$, where $\mu=E(X)=p$ (module 10).</p>
+  <p><b>Route 1 — the alternative formula (7).</b></p>
+  <ol class="steps">
+    <li>Compute $E(X^2)$ using definition (5) applied to the values $x^2$:
+    $$E(X^2)=\sum_x x^2P(x)=1^2\cdot p+0^2\cdot(1-p)=p$$
+    (For a Bernoulli, $X^2=X$ since $1^2=1$ and $0^2=0$ — the variable is unchanged by squaring.)</li>
+    <li>Apply (7):
+    $$V(X)=E(X^2)-\mu^2=p-p^2=\boxed{p(1-p)}$$</li>
+  </ol>
+  <p><b>Route 2 — straight from definition (6)</b>, as a check:</p>
+  $$V(X)=\sum_x(x-\mu)^2P(x)=(1-p)^2p+(0-p)^2(1-p)$$
+  $$=p(1-p)\big[(1-p)+p\big]=p(1-p)\cdot1=p(1-p)\ \checkmark$$
+  <div class="note"><div class="t">Insight</div>$V(X)=p(1-p)$ is a downward parabola in $p$: it vanishes at $p=0$ and $p=1$ — where the outcome is certain, hence not random — and is <b>largest at $p=1/2$</b>, where $V=0.25$. Maximum uncertainty sits at a fair coin, which matches intuition exactly. It also follows that a binomial has $V(X)=np(1-p)$, by adding the variances of $n$ independent Bernoullis (module 15 justifies that addition).</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE (slide 66) · variance of a Poisson</div>
+  <div class="body">
+  <p>Recall $E(X)=\lambda$ for $X\sim Po(\lambda)$. By the definition of variance,</p>
+  $$V(X)=\sum_x(x-E(X))^2P(x)=\sum_{x=0}^{\infty}(x-\lambda)^2\frac{e^{-\lambda}\lambda^x}{x!}=\boxed{\lambda}$$
+  <p><i>Sketch of why.</i> Use (7): $V(X)=E(X^2)-\lambda^2$. Write $E(X^2)=E[X(X-1)]+E[X]$, and the first term telescopes as in module 10:</p>
+  $$E[X(X-1)]=\sum_{x\ge2}x(x-1)\frac{e^{-\lambda}\lambda^x}{x!}=\lambda^2\sum_{j\ge0}\frac{e^{-\lambda}\lambda^{j}}{j!}=\lambda^2$$
+  <p>so $E(X^2)=\lambda^2+\lambda$ and $V(X)=\lambda^2+\lambda-\lambda^2=\lambda$ ✓</p>
+  <p><b>Slide 66 asks: what are the implications of $\lambda=E(X)=V(X)$?</b></p>
+  <ol class="steps">
+    <li><b>One parameter controls everything.</b> Mean and variance cannot be chosen separately — fixing the average event rate fixes the dispersion too. That is a strong modelling restriction.</li>
+    <li><b>Busier means more variable, in absolute terms.</b> A process averaging 100 calls per minute has $\sigma=10$; one averaging 4 has $\sigma=2$.</li>
+    <li><b>But relatively more stable.</b> The coefficient of variation is $\sigma/\mu=\sqrt\lambda/\lambda=1/\sqrt\lambda$, which shrinks as $\lambda$ grows — high-volume processes are proportionally more predictable.</li>
+    <li><b>It gives a testable check.</b> Compute the sample mean and sample variance of your data. If the variance is much larger than the mean (<i>overdispersion</i>), the Poisson model is wrong and something else — clustering, a varying rate — is going on.</li>
+  </ol>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">SUMMARY</span> The four numbers, side by side<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Everything from modules 08–11 in one table. These are worth knowing by heart.</p>
+  <table class="formula-table">
+    <tr><td><b>Distribution</b></td><td><b>$P(X=x)$</b></td><td><b>$E(X)$</b></td><td><b>$V(X)$</b></td></tr>
+    <tr><td>Bernoulli$(p)$</td><td>$p$ if $x=1$; $1-p$ if $x=0$</td><td>$p$</td><td>$p(1-p)$</td></tr>
+    <tr><td>Binomial$(n,p)$</td><td>$\binom{n}{x}p^x(1-p)^{n-x}$, $\;x=0,\dots,n$</td><td>$np$</td><td>$np(1-p)$</td></tr>
+    <tr><td>Poisson$(\lambda)$</td><td>$e^{-\lambda}\lambda^x/x!$, $\;x=0,1,2,\dots$</td><td>$\lambda$</td><td>$\lambda$</td></tr>
+  </table>
+  <p>Two structural remarks to carry into the next modules:</p>
+  <ul>
+    <li>The binomial results are the Bernoulli results multiplied by $n$ — because a binomial is a sum of $n$ independent Bernoullis, and both expectation and (for independent variables) variance add.</li>
+    <li>Consistency of the Poisson approximation: if $Bin(n,p)\approx Po(np)$ for small $p$, then the variances should agree too. Indeed $np(1-p)\approx np=\lambda$ when $p$ is small ✓ — the approximation is coherent in both moments, not just the mean.</li>
+  </ul>
+  <div class="note fin"><div class="t">Where this goes</div>Module 15 generalises variance to two variables: $V(X+Y)=V(X)+V(Y)+2\,\text{Cov}(X,Y)$, where the extra term measures co-movement. The "add the variances" step used above for the binomial is the special case where that covariance is zero — which is what independence guarantees.</div>
+  </div>
+</div>
+</section>

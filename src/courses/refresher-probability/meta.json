@@ -1,0 +1,30 @@
+{
+  "id": "refresher-probability",
+  "brand": "REFRESHER · PART 3",
+  "title": "Refresher Course · Probability · USI",
+  "tag": "Refresher Course · USI",
+  "stats": "18 modules · all six lectures explained · 76 exercises solved",
+  "home": "/refresher",
+  "homeLabel": "refresher",
+  "footer": "Refresher Course in Mathematics and Probability, USI · Probability part · built from the six lectures by Claudia Ravanelli (set theory, probability theory, conditional probability and independence, discrete random variables, continuous random variables, joint distributions and conditioning) · interactive figures need JavaScript; the print button produces a light-theme PDF.",
+  "modules": [
+    { "anchor": "s1",  "num": "01", "title": "Sets and events" },
+    { "anchor": "s2",  "num": "02", "title": "Partitions & De Morgan" },
+    { "anchor": "s3",  "num": "03", "title": "What is a probability" },
+    { "anchor": "s4",  "num": "04", "title": "The probability rules" },
+    { "anchor": "s5",  "num": "05", "title": "Conditional probability" },
+    { "anchor": "s6",  "num": "06", "title": "Independence" },
+    { "anchor": "s7",  "num": "07", "title": "Discrete random variables" },
+    { "anchor": "s8",  "num": "08", "title": "Bernoulli & binomial" },
+    { "anchor": "s9",  "num": "09", "title": "Poisson" },
+    { "anchor": "s10", "num": "10", "title": "Expected value" },
+    { "anchor": "s11", "num": "11", "title": "Variance & SD" },
+    { "anchor": "s12", "num": "12", "title": "Continuous RVs" },
+    { "anchor": "s13", "num": "13", "title": "Uniform, exponential, normal" },
+    { "anchor": "s14", "num": "14", "title": "Joint distributions" },
+    { "anchor": "s15", "num": "15", "title": "Covariance & correlation" },
+    { "anchor": "s16", "num": "16", "title": "Conditional distributions" },
+    { "anchor": "s17", "num": "17", "title": "VaR & expected shortfall" },
+    { "anchor": "s18", "num": "18", "title": "All exercises solved" }
+  ]
+}

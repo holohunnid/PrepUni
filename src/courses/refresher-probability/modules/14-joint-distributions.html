@@ -1,0 +1,140 @@
+<!-- ============ 14 JOINT DISTRIBUTIONS ============ -->
+<section id="s14">
+<div class="sec-head"><span class="num">14</span><h2>Joint distributions and marginals</h2><span class="sub">lecture 6, slides 5–25 · two random variables at once</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why one variable is not enough<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Countless applications concern relationships among <b>multiple variables</b>: sales of various products of a company across markets, co-movements of stocks within the tech sector or across sectors, the relationship between the minimum wage and consumption. Modelling each variable separately throws away exactly the thing you care about — how they move <i>together</i>.</p>
+  <p>The tool is the <b>joint probability distribution</b>. Everything here is stated for two variables for simplicity, and generalises directly to $N&gt;2$.</p>
+  <p>The module has three moving parts, and keeping them straight is most of the battle:</p>
+  <table class="formula-table">
+    <tr><td><b>joint</b> $P(x,y)$ or $f(x,y)$</td><td>the probability (density) that $X=x$ <b>and</b> $Y=y$ together</td><td>describes the relationship</td></tr>
+    <tr><td><b>marginal</b> $P_X(x)$ or $f_X(x)$</td><td>the distribution of $X$ <b>on its own</b>, ignoring $Y$</td><td>obtained by summing/integrating $Y$ out</td></tr>
+    <tr><td><b>conditional</b> $P(y\mid x)$</td><td>the distribution of $Y$ once $X=x$ is <b>known</b></td><td>module 16</td></tr>
+  </table>
+  <div class="note warn"><div class="t">The warning on slide 20</div>Given the joint distribution of $(X,Y)$, <b>expected values, variances and higher moments of the individual variables must be defined with respect to the corresponding marginal distributions</b> — not the joint one. Get this wrong and every subsequent number is wrong. The panel below makes the correct computation explicit.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Joint distribution — discrete case<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ and $Y$ be discrete random variables. We are interested in the <b>joint event</b> in which $\{X=x\}$ and $\{Y=y\}$ both occur simultaneously — that is, their intersection:</p>
+  $$(X=x,\,Y=y):=\{X=x\}\cap\{Y=y\}$$
+  <p>Its probability, as $x$ and $y$ vary, is the <b>joint probability distribution</b>:</p>
+  $$P(x,y):=P(X=x,Y=y):=P\big(\{X=x\}\cap\{Y=y\}\big)$$
+  <p>It describes the relationship between the two random variables.</p>
+  <h3>Properties</h3>
+  <table class="formula-table">
+    <tr><td>1.</td><td>$\displaystyle P(a&lt;X\le b,\ c&lt;Y\le d)=\sum_{a\le x\le b}\ \sum_{c\le y\le d}P(X=x,Y=y)$</td></tr>
+    <tr><td>2.</td><td>$P(X=x,Y=y)\ge0$</td></tr>
+    <tr><td>3.</td><td>$\displaystyle\sum_x\sum_y P(X=x,Y=y)=1$</td></tr>
+  </table>
+  <p>These are the two-variable versions of the properties in module 07: non-negativity, and total mass 1 — now summed over a grid rather than a line.</p>
+  <h3>The running example: real estate sales (slide 7)</h3>
+  <p>$X$ = annual sales in Switzerland (1, 2 or 3 million CHF), $Y$ = annual sales in Italy (1 or 2 million EUR). The joint distribution is displayed as a table, with the marginals along the edges:</p>
+  <table class="formula-table">
+    <tr><td>$Y\backslash X$</td><td><b>1</b></td><td><b>2</b></td><td><b>3</b></td><td>$P(Y=y)$</td></tr>
+    <tr><td><b>1</b></td><td>0.10</td><td>0.20</td><td>0.10</td><td><b>0.40</b></td></tr>
+    <tr><td><b>2</b></td><td>0.25</td><td>0.25</td><td>0.10</td><td><b>0.60</b></td></tr>
+    <tr><td>$P(X=x)$</td><td><b>0.35</b></td><td><b>0.45</b></td><td><b>0.20</b></td><td>1</td></tr>
+  </table>
+  <p>Read a cell directly: $P(X=3,Y=2)=0.10$. The six cells sum to 1 ✓</p>
+  <p><b>Exercise on slide 7: find $P(X\le1,Y\le2)$.</b> Sum the cells with $x\le1$ and $y\le2$, i.e. the column $X=1$:</p>
+  $$P(X\le1,Y\le2)=P(1,1)+P(1,2)=0.10+0.25=\mathbf{0.35}$$
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Joint density and joint CDF<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Continuous case.</b> The <b>joint probability density function</b> of two continuous RVs $X$ and $Y$ is a function $f(x,y)$ satisfying:</p>
+  <table class="formula-table">
+    <tr><td>1.</td><td>$\displaystyle P(a&lt;X\le b,\ c&lt;Y\le d)=\int_a^b\!\!\int_c^d f(x,y)\,dy\,dx$</td></tr>
+    <tr><td>2.</td><td>$f(x,y)\ge0$</td></tr>
+    <tr><td>3.</td><td>$\displaystyle\iint f(x,y)\,dy\,dx=1$</td></tr>
+  </table>
+  <p>Same three properties, with a double integral replacing the double sum. Geometrically $f(x,y)$ is a <b>surface</b> over the plane, and probability is the <b>volume</b> underneath it over a rectangle — the two-dimensional version of "area under the curve". The bivariate normal surface on slide 9 is the standard picture: a bell-shaped hill centred at $(\mu_x,\mu_y)$.</p>
+  <h3>Joint cumulative distribution function</h3>
+  <p>The <b>joint CDF</b> of a pair $(X,Y)$ is</p>
+  $$F(x,y):=P(X\le x,\ Y\le y)=
+  \begin{cases}
+  \displaystyle\sum_{X\le x}\sum_{Y\le y}P(X=x,Y=y)&\text{discrete}\\[10pt]
+  \displaystyle\int_{-\infty}^{x}\!\!\int_{-\infty}^{y}f(u,v)\,dv\,du&\text{continuous}
+  \end{cases}\tag{1}$$
+  <p>Being a cumulative distribution function, it satisfies the two fundamental properties: $0\le F(x,y)\le1$, and $F$ is non-decreasing in $x$ and in $y$ separately.</p>
+  <h3>Real estate example (slide 12)</h3>
+  <p>$F(2,1)=P(X\le2,Y\le1)=0.10+0.20=0.30$ — accumulate the cells up and to the left. Doing this for every cell gives the joint CDF table, which the lecture asks you to verify:</p>
+  <table class="formula-table">
+    <tr><td>$Y\backslash X$</td><td><b>1</b></td><td><b>2</b></td><td><b>3</b></td></tr>
+    <tr><td><b>1</b></td><td>0.10</td><td>0.30</td><td>0.40</td></tr>
+    <tr><td><b>2</b></td><td>0.35</td><td>0.80</td><td>1.00</td></tr>
+  </table>
+  <p>Check a few: $F(1,2)=0.10+0.25=0.35$ ✓; $F(2,2)=0.10+0.20+0.25+0.25=0.80$ ✓; $F(3,2)=1$ ✓ — the whole table has accumulated. Note the values increase left-to-right and top-to-bottom, as required.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Marginal distributions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>It is fundamental to distinguish the <b>joint</b> distribution of $X$ and $Y$ from the distribution of <b>each random variable individually</b>. How do you recover the latter from the former? <b>Sum out</b> the other variable in the discrete case, <b>integrate out</b> in the continuous case.</p>
+  <h3>The idea, with the example (slide 14)</h3>
+  <p>Consider the event $\{Y=2\}$. It is the union of the joint events $\{(X=x,Y=2)\}$ as $x$ ranges over <b>all possible values of $X$</b>:</p>
+  $$\{Y=2\}=\{(X=1,Y=2)\}\cup\{(X=2,Y=2)\}\cup\{(X=3,Y=2)\}$$
+  <p>These are mutually exclusive (different $x$ values cannot both occur), so Axiom 2 lets us add:</p>
+  $$P(Y=2)=P(1,2)+P(2,2)+P(3,2)=0.25+0.25+0.10=0.60$$
+  <p><b>Exercise on slide 14: calculate $P(X=1)$.</b> Same argument, summing over $y$ this time:</p>
+  $$P(X=1)=P(1,1)+P(1,2)=0.10+0.25=\mathbf{0.35}$$
+
+  <h3>Definition</h3>
+  <table class="formula-table">
+    <tr><td><b>Marginal of $X$</b>, discrete</td><td>$\displaystyle P_X(x):=P(X=x)=\sum_{y\in\text{Range}(Y)}P(X=x,Y=y)$</td><td>(2)</td></tr>
+    <tr><td><b>Marginal of $X$</b>, continuous</td><td>$\displaystyle f_X(x)=\int_y f(x,y)\,dy$</td><td>(3)</td></tr>
+    <tr><td><b>Marginal of $Y$</b>, discrete</td><td>$\displaystyle P_Y(y):=P(Y=y)=\sum_x P(X=x,Y=y)$</td><td>(4)</td></tr>
+    <tr><td><b>Marginal of $Y$</b>, continuous</td><td>$\displaystyle f_Y(y)=\int_x f(x,y)\,dx$</td><td>(5)</td></tr>
+  </table>
+  <p><b>Why the name "marginal"?</b> Because in a table like the one above, these distributions appear literally <b>at the margins</b>: $P(X=x)$ along the last row, $P(Y=y)$ down the last column. The name is a description of where they are printed.</p>
+  <h3>Marginals are probability distributions in their own right</h3>
+  <p>The map $y\mapsto P(Y=y)$ is itself a legitimate probability distribution of $Y$, since it satisfies both characterising properties of module 07:</p>
+  <ol class="steps">
+    <li>$0\le P(Y=y)\le1$ for every possible $y$ — true in the example, where $y=1$ gives 0.40 and $y=2$ gives 0.60.</li>
+    <li>$\sum_y P(Y=y)=1$ — in the example, $0.40+0.60=1$ ✓</li>
+  </ol>
+  <p>The same applies to $X$ (<i>exercise, slide 18</i>): $0.35+0.45+0.20=1.00$ ✓, and each entry lies in $[0,1]$ ✓. So the marginal of $X$ is a valid distribution, and every tool from modules 07–11 applies to it directly.</p>
+  <div class="note warn"><div class="t">Marginals do not determine the joint</div>Going from joint to marginal <b>loses information</b> and cannot be reversed. Many different joint tables share the same margins $(0.35,0.45,0.20)$ and $(0.40,0.60)$ — one of them is the independent case where every cell is the product of its margins, but others encode strong dependence. This is the whole reason the joint distribution is needed: the margins alone cannot tell you how the variables co-move.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RULE</span> Moments from a joint distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>To compute $E[X]$ and $V[X]$ from a joint distribution, use the <b>marginal</b> of $X$ — that is the warning of slide 20. Substituting the marginal formula (2) shows how it looks in terms of the joint:</p>
+  <h3>Discrete (slide 21)</h3>
+  $$E[X]=\sum_x x\,P_X(x)=\sum_x x\left(\sum_y P(X=x,Y=y)\right)=\sum_x\sum_y x\,P(X=x,Y=y)$$
+  $$V[X]=\sum_x(x-E[X])^2P_X(x)=\sum_x\sum_y(x-E[X])^2P(X=x,Y=y)\tag{6}$$
+  <h3>Continuous (slide 22)</h3>
+  $$E[X]=\int_x x\,f_X(x)\,dx=\int_x x\left(\int_y f(x,y)\,dy\right)dx=\int_x\!\int_y x\,f(x,y)\,dy\,dx$$
+  $$V[X]=\int_x(x-E[X])^2f_X(x)\,dx=\int_x\!\int_y(x-E[X])^2f(x,y)\,dy\,dx$$
+  <p>Both readings are correct and give the same number. Use whichever is convenient: if you already have the marginal, use it; if you only have the joint table, sum over both indices.</p>
+
+  <h3>Expectation of a function of $(X,Y)$ — slide 23</h3>
+  <p>To compute $E[g(X,Y)]$ for a real function $g$, you <b>must use the joint distribution, not the marginals</b>:</p>
+  $$\boxed{\;E[g(X,Y)]=\begin{cases}\displaystyle\sum_x\sum_y g(x,y)\,P(X=x,Y=y)&\text{discrete}\\[10pt]\displaystyle\int_x\!\int_y g(x,y)\,f(x,y)\,dx\,dy&\text{continuous}\end{cases}\;}$$
+  <p>This is unavoidable: a function like $g(x,y)=xy$ mixes the two variables, so knowing each margin separately is not enough. Module 15 uses exactly this with $g(x,y)=xy$ to compute covariance.</p>
+
+  <div class="ex" style="margin-top:12px">
+    <div class="bar">EXERCISE (slide 24) · verify $E(X)=1.85$ and $E(Y)=1.6$</div>
+    <div class="body">
+    <p>Using the marginals read off the real estate table:</p>
+    $$E(X)=\sum_x x\,P_X(x)=1(0.35)+2(0.45)+3(0.20)=0.35+0.90+0.60=\mathbf{1.85}\ \checkmark$$
+    $$E(Y)=\sum_y y\,P_Y(y)=1(0.40)+2(0.60)=0.40+1.20=\mathbf{1.60}\ \checkmark$$
+    <p>Both lie inside the range of their variable ($1\le1.85\le3$ and $1\le1.6\le2$), as the barycentre property of module 10 requires. While we are here, the variances — needed in module 15:</p>
+    $$E(X^2)=1(0.35)+4(0.45)+9(0.20)=3.95\;\Rightarrow\;V(X)=3.95-1.85^2=3.95-3.4225=0.5275$$
+    $$E(Y^2)=1(0.40)+4(0.60)=2.80\;\Rightarrow\;V(Y)=2.80-1.60^2=2.80-2.56=0.24$$
+    </div>
+  </div>
+  </div>
+</div>
+</section>

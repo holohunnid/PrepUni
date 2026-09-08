@@ -1,0 +1,386 @@
+<!-- ============ 18 ALL EXERCISES ============ -->
+<section id="s18">
+<div class="sec-head"><span class="num">18</span><h2>Every exercise, solved</h2><span class="sub">the ten problems not worked inline, in full — plus an index of all 76</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">HOW TO USE</span> Attempt first, then open the solution<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
+  <div class="body">
+  <p>The six lecture decks contain <b>76 exercises</b>. Most are solved in full where the theory is introduced, so that the working sits next to the definition it uses; the <b>index at the bottom of this module lists every one of them</b> with its final answer and a pointer to the module that works it out.</p>
+  <p>This module carries the ten that had nowhere natural to live — mostly the longer continuous-variable and joint-distribution problems from lectures 5 and 6, several of which the slides leave with a blank solution page.</p>
+  <p>Difficulty: <span class="pill g">●</span> routine · <span class="pill a">●●</span> standard · <span class="pill r">●●●</span> needs two ideas combined.</p>
+  </div>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X01</span><span class="pill a">●●</span><span class="tag">L5 · slides 47–49</span>Graph of a polynomial density</div>
+<div class="prob">Given the continuous random variable $X$ whose density function is
+$$f(x)=\begin{cases}\tfrac34(-x^2+2x)&\text{for }x\in[0,2]\\0&\text{otherwise}\end{cases}$$
+draw a graph of the density function $f(x)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>First check it really is a density.</b> On $[0,2]$ we have $-x^2+2x=x(2-x)\ge0$ ✓, so $f\ge0$. And the area:
+$$\int_0^2\tfrac34(2x-x^2)dx=\tfrac34\left[x^2-\tfrac{x^3}{3}\right]_0^2=\tfrac34\left(4-\tfrac83\right)=\tfrac34\cdot\tfrac43=1\ \checkmark$$</li>
+<li><b>Shape.</b> $f$ is a downward parabola through the roots $x=0$ and $x=2$, symmetric about their midpoint $x=1$.</li>
+<li><b>Peak.</b> At $x=1$: $f(1)=\tfrac34(-1+2)=\tfrac34=0.75$. So the curve rises from $(0,0)$ to $(1,0.75)$ and falls back to $(2,0)$, and is identically zero outside $[0,2]$.</li>
+<li><b>In R</b>, as the lecture suggests: <code>f &lt;- function(x){3/4 * (-x^2 + 2*x)}</code> then <code>curve(f, from = 0, to = 2)</code>. Or with points: <code>x &lt;- seq(0, 2, by = 0.01); y &lt;- 3/4 * (-x^2 + 2*x); plot(x, y)</code>.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 380 200">
+  <line x1="40" y1="160" x2="350" y2="160" stroke="var(--border2)"/>
+  <line x1="40" y1="20" x2="40" y2="160" stroke="var(--border2)"/>
+  <text x="34" y="26" class="svgtxt" text-anchor="end">0.8</text>
+  <text x="34" y="164" class="svgtxt" text-anchor="end">0</text>
+  <line x1="40" y1="38" x2="350" y2="38" stroke="var(--border)" opacity="0.5" stroke-dasharray="3 3"/>
+  <text x="34" y="42" class="svgtxt" text-anchor="end">0.75</text>
+  <path d="M 60 160 Q 165 -3 270 160" fill="var(--greenbg)" opacity="0.4" stroke="none"/>
+  <path d="M 60 160 Q 165 -3 270 160" fill="none" stroke="var(--blue)" stroke-width="2.2"/>
+  <line x1="270" y1="160" x2="348" y2="160" stroke="var(--blue)" stroke-width="2.2"/>
+  <line x1="40" y1="160" x2="60" y2="160" stroke="var(--blue)" stroke-width="2.2"/>
+  <line x1="165" y1="160" x2="165" y2="41" stroke="var(--green)" stroke-dasharray="4 3"/>
+  <circle cx="165" cy="41" r="3.4" fill="var(--green)"/>
+  <text x="60" y="176" class="svgtxt" text-anchor="middle">0</text>
+  <text x="165" y="176" class="svgtxt g" text-anchor="middle">1</text>
+  <text x="270" y="176" class="svgtxt" text-anchor="middle">2</text>
+  <text x="200" y="120" class="svgtxt g">area = 1</text>
+</svg>
+<figcaption>$f(x)=\tfrac34(2x-x^2)$ on $[0,2]$: a downward parabola peaking at $0.75$, zero elsewhere. Note the peak exceeds… nothing — a density may take any non-negative height, only the area is capped at 1.</figcaption>
+</figure>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X02</span><span class="pill a">●●</span><span class="tag">L5 · slides 50–51</span>Expected value and variance of that density</div>
+<div class="prob">For the same $f(x)=\tfrac34(-x^2+2x)$ on $[0,2]$, compute $E(X)$ and $V(X)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Expected value.</b> Apply $E(X)=\int x\,f(x)dx$ over the support:
+$$E(X)=\int_0^2 x\cdot\tfrac34(-x^2+2x)\,dx=\tfrac34\int_0^2(2x^2-x^3)\,dx$$</li>
+<li>Integrate term by term:
+$$=\tfrac34\left[\frac{2x^3}{3}-\frac{x^4}{4}\right]_0^2=\tfrac34\left(\frac{16}{3}-4\right)=\tfrac34\cdot\frac{4}{3}=\mathbf{1}$$
+As expected from the symmetry of the parabola about $x=1$ — a good check.</li>
+<li><b>Variance</b>, from the definition with $E(X)=1$:
+$$V(X)=\int_0^2(x-1)^2\cdot\tfrac34(-x^2+2x)\,dx$$</li>
+<li>Expand the integrand. With $(x-1)^2=x^2-2x+1$ and $(-x^2+2x)$:
+$$(x^2-2x+1)(-x^2+2x)=-x^4+2x^3+2x^3-4x^2-x^2+2x=-x^4+4x^3-5x^2+2x$$
+so
+$$V(X)=\tfrac34\int_0^2\left(-x^4+4x^3-5x^2+2x\right)dx$$</li>
+<li>Integrate:
+$$=\tfrac34\left[-\frac{x^5}{5}+x^4-\frac{5x^3}{3}+x^2\right]_0^2=\tfrac34\left(-\frac{32}{5}+16-\frac{40}{3}+4\right)$$</li>
+<li>Common denominator 15: $-\frac{96}{15}+\frac{240}{15}-\frac{200}{15}+\frac{60}{15}=\frac{4}{15}$. Hence
+$$V(X)=\tfrac34\cdot\frac{4}{15}=\frac{1}{5}=\mathbf{0.2}$$</li>
+<li><b>Cross-check with the shortcut $V=E(X^2)-\mu^2$:</b>
+$$E(X^2)=\tfrac34\int_0^2(2x^3-x^4)dx=\tfrac34\left[\frac{x^4}{2}-\frac{x^5}{5}\right]_0^2=\tfrac34\left(8-\frac{32}{5}\right)=\tfrac34\cdot\frac{8}{5}=\frac{6}{5}$$
+$$V(X)=\frac65-1^2=\frac15\ \checkmark$$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>$\sigma=\sqrt{0.2}\approx0.447$ on a support of width 2 — the distribution is fairly concentrated, as the peaked parabola suggests. Compare with a uniform on $[0,2]$, which has $V=(b-a)^2/12=4/12=0.333$: putting more mass near the centre reduces the variance, exactly as it should.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X03</span><span class="pill g">●</span><span class="tag">L5 · slides 39–40</span>Wind speed — are these data normal?</div>
+<div class="prob">The data below are measurements of wind speed (km/h). Can they be generated by a normal distribution?
+<br><span class="muted">9.10, 1.15, 5.84, 3.19, 8.99, 2.54, 6.68, 2.12, 1.86, 1.45, 3.99, 12.40, 7.37, 0.45, 9.41, 0.96, 3.10, 0.02, 12.74, 4.07, 11.19, 0.19, 26.87, 1.28, 1.01, 0.70, 12.36, 4.58, 6.74, 1.12, 4.20, 0.47, 8.52, 6.66, 9.64, 9.97, 0.70, 2.73, 2.99, 9.66, 0.79, 2.37, 5.24, 3.33, 4.56, 12.89, 7.14, 10.46, 8.47, 7.14</span></div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Load the data and plot a histogram.</b> In R:
+<br><code>x &lt;- c(9.10, 1.15, 5.84, ... , 8.47, 7.14)</code>
+<br><code>hist(x, main = "Histogram of wind speed frequencies")</code>
+<br>or for relative frequencies, which is the right comparison against a density:
+<br><code>hist(x, freq = FALSE, main = "Histogram of wind speed relative frequencies")</code></li>
+<li><b>Read the shape.</b> Both commands produce an <b>asymmetric, positively skewed</b> histogram: a tall block of observations near zero, thinning steadily to the right, with a lone extreme value at 26.87.</li>
+<li><b>Conclusion: no.</b> The data <b>cannot be approximated by a normal distribution</b>. A normal density is symmetric about its mean, so a visibly skewed histogram rules it out.</li>
+<li><b>Two further tells, without any software.</b>
+<br>· A normal variable takes negative values with positive probability. Wind speed cannot be negative, and the data crowd against that floor — sample mean $\approx5.6$ with several observations below 0.5, so $\mu-2\sigma$ would be comfortably negative.
+<br>· For a symmetric distribution the mean and median coincide. Here the median is about 4.4 while the mean is about 5.6: <b>mean $&gt;$ median</b>, the signature of positive skew (module 13).</li>
+<li><b>What would fit better?</b> A distribution on $[0,\infty)$ with a right tail — an exponential, a gamma, or a Weibull, the last being the standard choice for wind speed in the energy literature.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The lesson is that "assume normality" is an assumption to be <b>checked</b>, not a default. A histogram takes one line of code and rules the normal in or out immediately. Contrast with X04 below, where the data <i>are</i> plausibly symmetric and the normal assumption is stated explicitly in the question.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X04</span><span class="pill a">●●</span><span class="tag">L5 · slides 52–53</span>Mr Velovelo attempting the world record</div>
+<div class="prob">The data are the lap times (in seconds) of Mr Velovelo. Assuming his lap time follows a normal distribution, how likely is it that he beats the world record of 210 seconds?
+<br><span class="muted">228.861, 244.317, 248.266, 220.612, 253.844, 233.554, 248.115, 256.724, 231.907, 244.235, 257.001, 213.283, 270.720, 298.489, 269.188, 243.685, 258.572, 229.280, 287.557, 268.814, 265.747, 232.483, 256.399, 238.834, 243.771, 238.600, 229.485, 231.825, 245.802, 216.023, 262.152, 247.644, 263.983, 255.393, 259.886, 220.338, 229.595, 241.060, 252.193, 272.575, 244.201, 275.231, 259.508, 273.482, 252.539, 236.864, 220.372, 253.110</span></div>
+<details><summary>Solution</summary><div class="sol">
+<p>The parameters are not given — they must be <b>estimated from the data</b>, and only then used in the normal model.</p>
+<ol class="steps">
+<li><b>Import the data.</b>
+<br><code>time &lt;- c(228.861, 244.317, 248.266, ... , 220.372, 253.110)</code></li>
+<li><b>Estimate the mean and the standard deviation.</b>
+<br><code>meantime &lt;- mean(time)</code> &nbsp;→ about 249 seconds
+<br><code>stdtime &lt;- sd(time)</code> &nbsp;→ about 19 seconds</li>
+<li><b>Translate the question.</b> "Beating the record" means a lap time <b>below</b> 210 seconds, so the quantity wanted is a CDF value:
+$$P(T&lt;210)=F(210)\qquad\text{with }T\sim\mathcal{N}(\text{meantime},\ \text{stdtime}^2)$$</li>
+<li><b>Compute it.</b>
+<br><code>pnorm(210, meantime, stdtime)</code> returns $\approx\mathbf{0.0196}$, i.e. a probability of about <b>2%</b>.</li>
+<li><b>By hand, via standardisation</b> (module 13), to see where the 2% comes from:
+$$z=\frac{210-249}{19}\approx-2.05\quad\Longrightarrow\quad P(Z&lt;-2.05)\approx0.02$$
+The record sits about two standard deviations below his average lap — rare, but not unreachable.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Three steps, and step 1 is the one students skip: <b>estimate the parameters, then apply the model</b>. Note also the direction of the inequality — a <i>faster</i> time is a <i>smaller</i> number, so beating a record is a left-tail event, not a right-tail one. Reading the question in the wrong direction here would give $1-0.0196=98\%$, an answer that fails the plausibility check instantly.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X05</span><span class="pill a">●●</span><span class="tag">L6 · slide 10</span>A joint density: finding the constant, and a probability</div>
+<div class="prob">The joint pdf of two continuous RVs $X$ and $Y$ is
+$$f(x,y)=\begin{cases}x+cy^2&0\le x\le1\text{ and }0\le y\le1\\0&\text{otherwise}\end{cases}$$
+1. Find the constant $c$. &nbsp; 2. Find $P(0\le X\le\tfrac12,\ 0\le Y\le\tfrac12)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>1. The constant is fixed by property 3</b> of a joint density (module 14): the total volume must be 1.
+$$\int_0^1\!\!\int_0^1(x+cy^2)\,dy\,dx=1$$</li>
+<li>Inner integral over $y$, treating $x$ as constant:
+$$\int_0^1(x+cy^2)dy=\left[xy+\frac{cy^3}{3}\right]_0^1=x+\frac{c}{3}$$</li>
+<li>Outer integral over $x$:
+$$\int_0^1\left(x+\frac c3\right)dx=\left[\frac{x^2}{2}+\frac{cx}{3}\right]_0^1=\frac12+\frac c3$$</li>
+<li>Set equal to 1 and solve:
+$$\frac12+\frac c3=1\;\Longrightarrow\;\frac c3=\frac12\;\Longrightarrow\;\boxed{c=\frac32}$$
+So $f(x,y)=x+\tfrac32y^2$ on the unit square — which is exactly the density used in the follow-up exercise on slide 19 (see X06).</li>
+<li><b>Check property 2:</b> $x+\tfrac32y^2\ge0$ on the unit square ✓</li>
+<li><b>2. The probability</b> is the volume over the smaller square $[0,\tfrac12]^2$, by property 1:
+$$P\!\left(0\le X\le\tfrac12,\,0\le Y\le\tfrac12\right)=\int_0^{1/2}\!\!\int_0^{1/2}\left(x+\tfrac32y^2\right)dy\,dx$$</li>
+<li>Inner integral over $y$ from 0 to $\tfrac12$:
+$$\int_0^{1/2}\left(x+\tfrac32y^2\right)dy=\left[xy+\frac{y^3}{2}\right]_0^{1/2}=\frac{x}{2}+\frac{1}{16}$$</li>
+<li>Outer integral over $x$ from 0 to $\tfrac12$:
+$$\int_0^{1/2}\left(\frac x2+\frac1{16}\right)dx=\left[\frac{x^2}{4}+\frac{x}{16}\right]_0^{1/2}=\frac{1}{16}+\frac{1}{32}=\frac{3}{32}$$</li>
+<li>$$P=\frac{3}{32}=\mathbf{0.09375}$$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>A quarter of the square holds only 9.4% of the probability, not 25% — because this density is smallest near the origin ($f(0,0)=0$) and largest at the far corner ($f(1,1)=2.5$). Uniformity is an assumption, and here it fails. The same "integrate to 1 to pin down the constant" move appears whenever a density is given up to a constant.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X06</span><span class="pill a">●●</span><span class="tag">L6 · slide 19</span>Marginal densities of that joint pdf</div>
+<div class="prob">With $f(x,y)=x+\tfrac32y^2$ on $0\le x\le1$, $0\le y\le1$ (and 0 otherwise), find the marginal pdfs $f_X(x)$ and $f_Y(y)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Marginal of $X$:</b> integrate the <b>other</b> variable out, using formula (3) of module 14:
+$$f_X(x)=\int_y f(x,y)\,dy=\int_0^1\left(x+\tfrac32y^2\right)dy=\left[xy+\frac{y^3}{2}\right]_0^1=x+\frac12$$
+so
+$$\boxed{\;f_X(x)=x+\tfrac12,\qquad 0\le x\le1\;}$$
+and 0 elsewhere.</li>
+<li><b>Check it is a density:</b> $f_X\ge0$ on $[0,1]$ ✓, and
+$$\int_0^1\left(x+\tfrac12\right)dx=\left[\frac{x^2}{2}+\frac x2\right]_0^1=\frac12+\frac12=1\ \checkmark$$</li>
+<li><b>Marginal of $Y$:</b> integrate $x$ out, using formula (5):
+$$f_Y(y)=\int_x f(x,y)\,dx=\int_0^1\left(x+\tfrac32y^2\right)dx=\left[\frac{x^2}{2}+\tfrac32y^2x\right]_0^1=\frac12+\frac32y^2$$
+so
+$$\boxed{\;f_Y(y)=\tfrac12+\tfrac32y^2,\qquad 0\le y\le1\;}$$
+and 0 elsewhere.</li>
+<li><b>Check:</b> $\int_0^1\left(\tfrac12+\tfrac32y^2\right)dy=\left[\frac y2+\frac{y^3}{2}\right]_0^1=\frac12+\frac12=1$ ✓</li>
+<li><b>Are $X$ and $Y$ independent?</b> Test the factorisation of module 15:
+$$f_X(x)f_Y(y)=\left(x+\tfrac12\right)\left(\tfrac12+\tfrac32y^2\right)=\frac x2+\frac32xy^2+\frac14+\frac34y^2$$
+which is <b>not</b> equal to $x+\tfrac32y^2$ — for instance at $(0,0)$ the product gives $\tfrac14$ while $f(0,0)=0$. So <b>$X$ and $Y$ are dependent</b>.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The mechanical rule: <b>to get the marginal of $X$, integrate out $y$</b> (and vice versa) — "sum out the other one", exactly as in the discrete table where you sum along a row. Always verify the result integrates to 1; it catches a mis-set limit immediately.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X07</span><span class="pill a">●●</span><span class="tag">L6 · slide 25</span>Expectation of a function of two variables</div>
+<div class="prob">The joint pdf of $X$ and $Y$ is $f(x,y)=x+y$ for $0\le x\le1$ and $0\le y\le1$, and 0 otherwise. Find $E(XY^2)$ and $E(X^2)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<p>Use the rule from module 14: $E[g(X,Y)]=\iint g(x,y)f(x,y)\,dx\,dy$ — with the <b>joint</b> density, not the marginals.</p>
+<ol class="steps">
+<li><b>Sanity check on the density first.</b> $\int_0^1\!\int_0^1(x+y)dx\,dy=\int_0^1\left(\tfrac12+y\right)dy=\tfrac12+\tfrac12=1$ ✓</li>
+<li><b>$E(XY^2)$</b> with $g(x,y)=xy^2$:
+$$E(XY^2)=\int_0^1\!\!\int_0^1 xy^2(x+y)\,dx\,dy=\int_0^1\!\!\int_0^1\left(x^2y^2+xy^3\right)dx\,dy$$</li>
+<li>The integrand splits into two products of a function of $x$ and a function of $y$, so each double integral factorises:
+$$\int_0^1\!\!\int_0^1x^2y^2\,dx\,dy=\left(\int_0^1x^2dx\right)\left(\int_0^1y^2dy\right)=\frac13\cdot\frac13=\frac19$$
+$$\int_0^1\!\!\int_0^1xy^3\,dx\,dy=\left(\int_0^1x\,dx\right)\left(\int_0^1y^3dy\right)=\frac12\cdot\frac14=\frac18$$</li>
+<li>Add:
+$$E(XY^2)=\frac19+\frac18=\frac{8}{72}+\frac{9}{72}=\boxed{\frac{17}{72}\approx0.2361}$$</li>
+<li><b>$E(X^2)$</b> with $g(x,y)=x^2$. Here the function involves only $x$, so you may equally use the marginal — but the joint works directly:
+$$E(X^2)=\int_0^1\!\!\int_0^1x^2(x+y)\,dy\,dx=\int_0^1\left[x^2y+\frac{x^2y^2}{2}\right]_0^1dx=\int_0^1\left(x^3+\frac{x^2}{2}\right)dx$$</li>
+<li>$$=\left[\frac{x^4}{4}+\frac{x^3}{6}\right]_0^1=\frac14+\frac16=\frac{3}{12}+\frac{2}{12}=\boxed{\frac{5}{12}\approx0.4167}$$</li>
+<li><b>Cross-check via the marginal.</b> $f_X(x)=\int_0^1(x+y)dy=x+\tfrac12$, so
+$$E(X^2)=\int_0^1x^2\left(x+\tfrac12\right)dx=\frac14+\frac16=\frac5{12}\ \checkmark$$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Note when the marginal is enough and when it is not. $E(X^2)$ depends on $X$ alone, so either route works. $E(XY^2)$ mixes the variables, and <b>no combination of the two marginals can produce it</b> — the joint is genuinely needed. That is precisely why covariance, which is built on $E[XY]$, requires the joint distribution.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X08</span><span class="pill r">●●●</span><span class="tag">L6 · slide 60</span>Conditional expectation and variance of an exponential, given $X&gt;1$</div>
+<div class="prob">Let $X$ be a continuous random variable with exponential distribution and expected value equal to one. Compute: 1. the pdf of $X$ given the event $X&gt;1$; 2. $E[X\mid X&gt;1]$; 3. $V[X\mid X&gt;1]$. Use
+$$f(x\mid A)=\begin{cases}\dfrac{f(x)}{P(A)}&x\in A\\0&x\notin A\end{cases}$$</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Identify the parameter.</b> For $X\sim Exp(\lambda)$, $E[X]=1/\lambda$ (module 13). Given $E[X]=1$ we get $\lambda=1$, so
+$$f(x)=e^{-x},\quad x&gt;0,\qquad F(x)=1-e^{-x}$$</li>
+<li><b>Probability of the conditioning event.</b>
+$$P(A)=P(X&gt;1)=1-F(1)=1-(1-e^{-1})=e^{-1}\approx0.368$$</li>
+<li><b>1. The conditional density.</b> Apply the given formula on $A=\{x&gt;1\}$:
+$$f(x\mid X&gt;1)=\frac{e^{-x}}{e^{-1}}=e^{-(x-1)}\quad\text{for }x&gt;1,\qquad 0\text{ otherwise}$$</li>
+<li><b>Check it is a density:</b> $\int_1^{\infty}e^{-(x-1)}dx=\left[-e^{-(x-1)}\right]_1^{\infty}=0-(-1)=1$ ✓</li>
+<li><b>Recognise the shape.</b> Substituting $u=x-1$ turns $f(x\mid X&gt;1)$ into $e^{-u}$ for $u&gt;0$ — the <b>original</b> $Exp(1)$ density, shifted right by 1. In other words,
+$$X\mid X&gt;1\;\sim\;1+Exp(1)$$
+This is the celebrated <b>memorylessness</b> of the exponential: given that you have already waited one unit, the <i>remaining</i> wait has exactly the original distribution.</li>
+<li><b>2. Conditional expectation.</b> Either read it off the shift, $E=1+E[Exp(1)]=1+1=\mathbf{2}$, or integrate directly with $u=x-1$:
+$$E[X\mid X&gt;1]=\int_1^{\infty}x\,e^{-(x-1)}dx=\int_0^{\infty}(u+1)e^{-u}du=\underbrace{\int_0^\infty ue^{-u}du}_{=1}+\underbrace{\int_0^\infty e^{-u}du}_{=1}=2$$</li>
+<li><b>3. Conditional variance.</b> A shift by a constant does not change a variance, so
+$$V[X\mid X&gt;1]=V[Exp(1)]=\frac{1}{\lambda^2}=\mathbf{1}$$
+Directly, with $u=x-1$ and the conditional mean 2:
+$$V=\int_1^{\infty}(x-2)^2e^{-(x-1)}dx=\int_0^{\infty}(u-1)^2e^{-u}du=E[(U-1)^2]=V[U]=1\ \checkmark$$
+since $U\sim Exp(1)$ has mean 1.</li>
+</ol>
+<div class="note fin"><div class="t">Insight — why memorylessness matters</div>For most distributions, having waited a long time changes your outlook. For the exponential it does not: $P(X&gt;s+t\mid X&gt;s)=P(X&gt;t)$ for all $s,t&gt;0$. A machine whose lifetime is exponential does not age. That is a strong — and often unrealistic — assumption, and it is the exponential's defining property: it is the <b>only</b> continuous distribution with it.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X09</span><span class="pill a">●●</span><span class="tag">L6 · slide 62</span>Marginals and conditionals from a $4\times4$ table</div>
+<div class="prob">The joint distribution of $X$ and $Y$ is
+<table class="formula-table" style="margin-top:6px">
+<tr><td></td><td><b>X=1</b></td><td><b>X=2</b></td><td><b>X=3</b></td><td><b>X=4</b></td></tr>
+<tr><td><b>Y=1</b></td><td>0.10</td><td>0.08</td><td>0.10</td><td>0.07</td></tr>
+<tr><td><b>Y=2</b></td><td>0.02</td><td>0.20</td><td>0.04</td><td>0.07</td></tr>
+<tr><td><b>Y=3</b></td><td>0.00</td><td>0.04</td><td>0.05</td><td>0.05</td></tr>
+<tr><td><b>Y=4</b></td><td>0.05</td><td>0.03</td><td>0.05</td><td>0.05</td></tr>
+</table>
+1. Find the marginal distributions of $X$ and $Y$. &nbsp; 2. Find the conditional distributions of $X$ given $Y=1$, and of $Y$ given $X=1$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>1. Marginal of $Y$</b> — sum each <b>row</b> (formula 4, module 14):
+$$P(Y=1)=0.10+0.08+0.10+0.07=0.35$$
+$$P(Y=2)=0.02+0.20+0.04+0.07=0.33$$
+$$P(Y=3)=0.00+0.04+0.05+0.05=0.14$$
+$$P(Y=4)=0.05+0.03+0.05+0.05=0.18$$
+Check: $0.35+0.33+0.14+0.18=1.00$ ✓</li>
+<li><b>Marginal of $X$</b> — sum each <b>column</b> (formula 2):
+$$P(X=1)=0.10+0.02+0.00+0.05=0.17$$
+$$P(X=2)=0.08+0.20+0.04+0.03=0.35$$
+$$P(X=3)=0.10+0.04+0.05+0.05=0.24$$
+$$P(X=4)=0.07+0.07+0.05+0.05=0.24$$
+Check: $0.17+0.35+0.24+0.24=1.00$ ✓</li>
+<li><b>2. Conditional of $X$ given $Y=1$</b> — divide the $Y=1$ <b>row</b> by its total 0.35:
+$$P(X=1\mid Y=1)=\frac{0.10}{0.35}=\frac27\approx0.2857,\qquad P(X=2\mid Y=1)=\frac{0.08}{0.35}=\frac{8}{35}\approx0.2286$$
+$$P(X=3\mid Y=1)=\frac{0.10}{0.35}=\frac27\approx0.2857,\qquad P(X=4\mid Y=1)=\frac{0.07}{0.35}=\frac15=0.20$$
+Check: $0.2857+0.2286+0.2857+0.2000=1.0000$ ✓</li>
+<li><b>Conditional of $Y$ given $X=1$</b> — divide the $X=1$ <b>column</b> by its total 0.17:
+$$P(Y=1\mid X=1)=\frac{0.10}{0.17}\approx0.5882,\qquad P(Y=2\mid X=1)=\frac{0.02}{0.17}\approx0.1176$$
+$$P(Y=3\mid X=1)=\frac{0.00}{0.17}=0,\qquad P(Y=4\mid X=1)=\frac{0.05}{0.17}\approx0.2941$$
+Check: $0.5882+0.1176+0+0.2941=0.9999\approx1$ ✓</li>
+<li><b>Are they independent?</b> No. For instance $P(X=1,Y=3)=0$ while $P(X=1)P(Y=3)=0.17\times0.14=0.0238\neq0$. A single zero cell whose margins are both positive is enough to rule out independence.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The whole exercise is <b>divide the row (or column) by its own total</b>. The direction of the division is the only thing to get right: conditioning on $Y=1$ fixes the row and lets $X$ vary, so the row is what gets normalised. If your numbers do not sum to 1, you divided by the wrong margin.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">X10</span><span class="pill r">●●●</span><span class="tag">L6 · slide 63</span>A separable joint density: marginals, independence, conditional</div>
+<div class="prob">Consider the joint pdf
+$$f(x,y)=\alpha\beta e^{-\alpha x-\beta y},\qquad x\ge0,\ y\ge0,\ \alpha&gt;0,\ \beta&gt;0$$
+1. Find the marginal densities of $X$ and $Y$. &nbsp; 2. Are $X$ and $Y$ independent? Why? &nbsp; 3. Compute the conditional density $f(x\mid y)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>First, note the factorisation.</b> Using $e^{-\alpha x-\beta y}=e^{-\alpha x}e^{-\beta y}$,
+$$f(x,y)=\underbrace{\alpha e^{-\alpha x}}_{\text{depends on }x}\cdot\underbrace{\beta e^{-\beta y}}_{\text{depends on }y}$$
+This observation will answer all three parts.</li>
+<li><b>1. Marginal of $X$</b> — integrate $y$ out over $[0,\infty)$:
+$$f_X(x)=\int_0^{\infty}\alpha\beta e^{-\alpha x}e^{-\beta y}dy=\alpha e^{-\alpha x}\underbrace{\int_0^{\infty}\beta e^{-\beta y}dy}_{=1}=\alpha e^{-\alpha x}$$
+so $\boxed{X\sim Exp(\alpha)}$, with $f_X(x)=\alpha e^{-\alpha x}$ for $x\ge0$.
+<br><i>The inner integral is 1 because $\beta e^{-\beta y}$ is itself an exponential density (module 13).</i></li>
+<li><b>Marginal of $Y$</b>, symmetrically:
+$$f_Y(y)=\int_0^{\infty}\alpha\beta e^{-\alpha x}e^{-\beta y}dx=\beta e^{-\beta y}\underbrace{\int_0^{\infty}\alpha e^{-\alpha x}dx}_{=1}=\beta e^{-\beta y}$$
+so $\boxed{Y\sim Exp(\beta)}$.</li>
+<li><b>2. Independence.</b> Apply the test (7) of module 15:
+$$f_X(x)\,f_Y(y)=\alpha e^{-\alpha x}\cdot\beta e^{-\beta y}=\alpha\beta e^{-\alpha x-\beta y}=f(x,y)\ \checkmark$$
+The joint density equals the product of the marginals <b>for every</b> $(x,y)$, so <b>$X$ and $Y$ are independent</b>.
+<br><i>Why:</i> because the density <b>separates</b> into a function of $x$ times a function of $y$, over a rectangular region. That is exactly what independence means.</li>
+<li><b>3. Conditional density.</b> By formula (16) of module 16:
+$$f(x\mid y)=\frac{f(x,y)}{f_Y(y)}=\frac{\alpha\beta e^{-\alpha x-\beta y}}{\beta e^{-\beta y}}=\alpha e^{-\alpha x}=f_X(x)$$
+The conditioning variable cancels completely: $\boxed{f(x\mid y)=\alpha e^{-\alpha x}}$, independent of $y$.</li>
+<li>This is the general fact from module 16 in action: <b>for independent variables, conditioning changes nothing</b>. Learning $Y=y$ — for any $y$ — leaves the distribution of $X$ exactly as it was.</li>
+</ol>
+<div class="note fin"><div class="t">Insight — the separability test</div>A shortcut worth carrying: <b>if a joint density factors as $g(x)h(y)$ over a rectangular region, the variables are independent</b>, and the marginals are $g$ and $h$ up to normalising constants. Both conditions are needed. Contrast with X05–X06, where $f(x,y)=x+\tfrac32y^2$ is a <i>sum</i>, not a product, and the variables turned out to be dependent. And the region matters too: a density that is constant on the triangle $\{0\le y\le x\le1\}$ is <i>not</i> separable, because the limits of one variable depend on the other.</div>
+</div></details>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">INDEX</span> All 76 exercises, with answers and where the working is<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Every exercise from the six decks. "Module" is where the full solution is worked out.</p>
+  <table class="formula-table">
+    <tr><td><b>Lecture · slide</b></td><td><b>Exercise</b></td><td><b>Answer</b></td><td><b>Module</b></td></tr>
+    <tr><td>L1 · 9</td><td>Sets from a die roll</td><td>$A\cup B=\{1,2,4,5\}$; $A\cap B=\{2\}$; $A^c=\{3,4,5,6\}$; $B^c=\{1,3,6\}$; both sides $=\{3,6\}$; $B\setminus A=\{4,5\}$</td><td>01</td></tr>
+    <tr><td>L1 · 11</td><td>Which events occurred (roll = 2)</td><td>occurred: $B$, $A\cup B$, $B\setminus A$, $A^c$</td><td>01</td></tr>
+    <tr><td>L1 · 14</td><td>Distributive property by Venn</td><td>both shadings coincide</td><td>02</td></tr>
+    <tr><td>L1 · 18</td><td>All partitions of $\{3,4,5\}$</td><td>five of them</td><td>02</td></tr>
+    <tr><td>L1 · 22</td><td>Ex. 1: $\{A,A^c\}$ partition; (a) (b) (c)</td><td>all three verified</td><td>02</td></tr>
+    <tr><td>L1 · 24</td><td>Ex. 2: De Morgan's laws</td><td>$(A\cap B)^c=A^c\cup B^c$; $(A\cup B)^c=A^c\cap B^c$</td><td>02</td></tr>
+    <tr><td>L2 · 7</td><td>Rolling a die: $P(A),P(B),P(C)$</td><td>$1/2$, $2/3$, $1/2$</td><td>03</td></tr>
+    <tr><td>L2 · 13</td><td>Presidential election</td><td>$0.6$</td><td>03</td></tr>
+    <tr><td>L2 · 15</td><td>Urn: red or black</td><td>$2/3$</td><td>03</td></tr>
+    <tr><td>L2 · 18</td><td>$P(\emptyset)=0$; $P(A)\le1$; monotonicity</td><td>all three proved</td><td>04</td></tr>
+    <tr><td>L2 · 21</td><td>meteoSvizzera (a)–(d)</td><td>$0.7$; $0.4$; $0.2$; $0.3$</td><td>04</td></tr>
+    <tr><td>L3 · 6</td><td>$P(3\mid\text{odd})$</td><td>$1/3$</td><td>05</td></tr>
+    <tr><td>L3 · 11</td><td>Independence is symmetric</td><td>$P(B\mid A)=P(B)$</td><td>06</td></tr>
+    <tr><td>L3 · 13</td><td>Two students, at least one present</td><td>$0.92$</td><td>06</td></tr>
+    <tr><td>L3 · 15</td><td>Families with two children</td><td>$1/2$ and $1/3$</td><td>06</td></tr>
+    <tr><td>L4 · 7</td><td>Special die: $P(X=1.5)$; the sum</td><td>$0$; $1$</td><td>07</td></tr>
+    <tr><td>L4 · 8</td><td>Shape if the die were fair</td><td>six equal bars at $1/6$</td><td>07</td></tr>
+    <tr><td>L4 · 11</td><td>Two dice, $X\in\{1,4,10\}$</td><td>$10/36$, $23/36$, $3/36$</td><td>07</td></tr>
+    <tr><td>L4 · 14</td><td>$F(2.3)$, $F(3)$, $F(-1)$</td><td>$0.528$, $0.837$, $0$</td><td>07</td></tr>
+    <tr><td>L4 · 18</td><td>Two independent Bernoullis</td><td>$p^2$</td><td>08</td></tr>
+    <tr><td>L4 · 20</td><td>$n$ independent Bernoullis</td><td>$p^n$</td><td>08</td></tr>
+    <tr><td>L4 · 24</td><td>Two successes in a given order</td><td>$p^2(1-p)$</td><td>08</td></tr>
+    <tr><td>L4 · 26</td><td>Two successes, any order</td><td>$3p^2(1-p)$</td><td>08</td></tr>
+    <tr><td>L4 · 34</td><td>Computer chips accepted</td><td>$\approx0.9909$</td><td>08</td></tr>
+    <tr><td>L4 · 38</td><td>Meaning of $\lim_{x\to\infty}P(x)=0$</td><td>large counts vanishingly improbable; total mass still 1</td><td>09</td></tr>
+    <tr><td>L4 · 39</td><td>Call centre, six calls</td><td>$\lambda=3$; $\approx0.050$</td><td>09</td></tr>
+    <tr><td>L4 · 41</td><td>Vaccine fever (a), (b); exact law</td><td>$0.034$; $0.238$; $Bin(1000,0.005)$</td><td>09</td></tr>
+    <tr><td>L4 · 46</td><td>$E(X)$ of a Bernoulli</td><td>$p$</td><td>10</td></tr>
+    <tr><td>L4 · 50</td><td>$E[X]$ and $E[e^X]$</td><td>$13/6$; discrete; $\approx12.18$</td><td>10</td></tr>
+    <tr><td>L4 · 53</td><td>$E(a+bX)=a+bE(X)$</td><td>proved</td><td>10</td></tr>
+    <tr><td>L4 · 55</td><td>$E(X)$ of a binomial</td><td>$np$</td><td>10</td></tr>
+    <tr><td>L4 · 56</td><td>$E(X)$ of a Poisson</td><td>$\lambda$</td><td>10</td></tr>
+    <tr><td>L4 · 59</td><td>When is $V(X)=0$?</td><td>when $X$ is constant</td><td>11</td></tr>
+    <tr><td>L4 · 62</td><td>$V(X)=E(X^2)-\mu^2$</td><td>proved</td><td>11</td></tr>
+    <tr><td>L4 · 64</td><td>$V(X)$ of a Bernoulli</td><td>$p(1-p)$</td><td>11</td></tr>
+    <tr><td>L4 · 66</td><td>$V(X)$ of a Poisson; implications of $\lambda=E=V$</td><td>$\lambda$; one parameter, overdispersion test</td><td>11</td></tr>
+    <tr><td>L4 · 67</td><td>Earthquakes, 3 in one year</td><td>$\lambda=0.93$; $\approx0.053$</td><td>09</td></tr>
+    <tr><td>L4 · 69</td><td>Frogs, more than 4 mutated</td><td>$\approx0.011$; conclude frequency rose</td><td>08</td></tr>
+    <tr><td>L4 · 72</td><td>Colorblind men (1), (2)</td><td>$\approx0.03$; $n=65$</td><td>08</td></tr>
+    <tr><td>L5 · 6</td><td>$F(0)$, $F(-6)$, $F(7)$ from the graph</td><td>$0.5$, $\approx0$, $\approx1$</td><td>12</td></tr>
+    <tr><td>L5 · 9</td><td>Prove $P(a&lt;X\le b)=F(b)-F(a)$</td><td>proved</td><td>12</td></tr>
+    <tr><td>L5 · 20</td><td>Market order execution delay</td><td>$f=1/60$; $0.25$; $0.25$; $30$ s</td><td>13</td></tr>
+    <tr><td>L5 · 25</td><td>Exponential CDF</td><td>$F(t)=1-e^{-\lambda t}$</td><td>13</td></tr>
+    <tr><td>L5 · 27</td><td>Median of an exponential</td><td>$m=\log2/\lambda$</td><td>13</td></tr>
+    <tr><td>L5 · 29</td><td>Post office, wait under 1 minute</td><td>$\lambda\approx0.154$; $\approx0.143$</td><td>13</td></tr>
+    <tr><td>L5 · 31</td><td>Exponential quantiles</td><td>$q_\alpha=-\ln(1-\alpha)/\lambda$</td><td>13</td></tr>
+    <tr><td>L5 · 33</td><td>Verify $\int f=1$ for the normal</td><td>$=1$ by construction</td><td>13</td></tr>
+    <tr><td>L5 · 35</td><td>Heights (a), (b)</td><td>$\approx0.269$; $\approx0.9773$</td><td>13</td></tr>
+    <tr><td>L5 · 37</td><td>FBI and the suspect</td><td>$\approx0.159$; not enough evidence</td><td>13</td></tr>
+    <tr><td>L5 · 39</td><td>Wind speed — normal?</td><td>no, positively skewed</td><td><b>18 · X03</b></td></tr>
+    <tr><td>L5 · 43</td><td>Uniform $E$ and $V$; can $b&lt;a$?</td><td>$\frac{a+b}2$; $\frac{(b-a)^2}{12}$; no</td><td>13</td></tr>
+    <tr><td>L5 · 45</td><td>Exponential $E$ and $V$</td><td>$1/\lambda$; $1/\lambda^2$</td><td>13</td></tr>
+    <tr><td>L5 · 47</td><td>Graph of $\tfrac34(-x^2+2x)$</td><td>parabola, peak $0.75$ at $x=1$</td><td><b>18 · X01</b></td></tr>
+    <tr><td>L5 · 50</td><td>$E$ and $V$ of that density</td><td>$1$; $1/5$</td><td><b>18 · X02</b></td></tr>
+    <tr><td>L5 · 52</td><td>Mr Velovelo and the world record</td><td>$\approx0.0196$, about 2%</td><td><b>18 · X04</b></td></tr>
+    <tr><td>L6 · 7</td><td>$P(X\le1,Y\le2)$</td><td>$0.35$</td><td>14</td></tr>
+    <tr><td>L6 · 10</td><td>Joint pdf $x+cy^2$: find $c$; a probability</td><td>$c=3/2$; $3/32$</td><td><b>18 · X05</b></td></tr>
+    <tr><td>L6 · 12</td><td>Verify the joint CDF table</td><td>verified</td><td>14</td></tr>
+    <tr><td>L6 · 14</td><td>Calculate $P(X=1)$</td><td>$0.35$</td><td>14</td></tr>
+    <tr><td>L6 · 18</td><td>Marginal of $X$ is a distribution</td><td>$0.35+0.45+0.20=1$ ✓</td><td>14</td></tr>
+    <tr><td>L6 · 19</td><td>Marginals of $x+\tfrac32y^2$</td><td>$x+\tfrac12$; $\tfrac12+\tfrac32y^2$</td><td><b>18 · X06</b></td></tr>
+    <tr><td>L6 · 24</td><td>Verify $E(X)=1.85$, $E(Y)=1.6$</td><td>verified</td><td>14</td></tr>
+    <tr><td>L6 · 25</td><td>$E(XY^2)$ and $E(X^2)$ for $x+y$</td><td>$17/72$; $5/12$</td><td><b>18 · X07</b></td></tr>
+    <tr><td>L6 · 34</td><td>Derive $\text{Cov}=E[XY]-\mu_X\mu_Y$; $\text{Cov}(X,X)$</td><td>derived; $=V(X)$</td><td>15</td></tr>
+    <tr><td>L6 · 35</td><td>Independent $\Rightarrow$ uncorrelated</td><td>proved</td><td>15</td></tr>
+    <tr><td>L6 · 36</td><td>Covariance of the real estate example; units</td><td>$-0.06$; CHF × EUR</td><td>15</td></tr>
+    <tr><td>L6 · 41</td><td>Ex. 16: $\rho=0$ but dependent</td><td>$\rho=0$; $Y=X^2$</td><td>15</td></tr>
+    <tr><td>L6 · 43</td><td>$V(X-Y)$; $V(aX+bY)$</td><td>$V(X)+V(Y)\mp2\text{Cov}$; $a^2V+b^2V+2ab\,\text{Cov}$</td><td>15</td></tr>
+    <tr><td>L6 · 44</td><td>Portfolio $E$ and $\sigma$; distribution</td><td>$0.022$; $0.1870$; $\mathcal{N}(0.02,0.1869^2)$</td><td>17</td></tr>
+    <tr><td>L6 · 47</td><td>$VaR_{0.01}$ of the portfolio</td><td>$\approx0.413$ (41.3%)</td><td>17</td></tr>
+    <tr><td>L6 · 52</td><td>Conditional distribution of $X$ given $Y=2$</td><td>$\tfrac5{12},\tfrac5{12},\tfrac16$</td><td>16</td></tr>
+    <tr><td>L6 · 59</td><td>$V(Y\mid X=2)$</td><td>$20/81\approx0.247$</td><td>16</td></tr>
+    <tr><td>L6 · 60</td><td>Exponential conditioned on $X&gt;1$</td><td>$e^{-(x-1)}$; $E=2$; $V=1$</td><td><b>18 · X08</b></td></tr>
+    <tr><td>L6 · 62</td><td>Marginals and conditionals, $4\times4$ table</td><td>see X09</td><td><b>18 · X09</b></td></tr>
+    <tr><td>L6 · 63</td><td>$\alpha\beta e^{-\alpha x-\beta y}$: marginals, independence, $f(x\mid y)$</td><td>$Exp(\alpha)$, $Exp(\beta)$; independent; $f(x\mid y)=f_X(x)$</td><td><b>18 · X10</b></td></tr>
+    <tr><td>L6 · 64</td><td>Expected Shortfall at $\alpha=0.01$</td><td>$\approx0.476$ (47.6%)</td><td>17</td></tr>
+  </table>
+  </div>
+</div>
+</section>

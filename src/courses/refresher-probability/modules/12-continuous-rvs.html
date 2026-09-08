@@ -1,0 +1,111 @@
+<!-- ============ 12 CONTINUOUS RANDOM VARIABLES ============ -->
+<section id="s12">
+<div class="sec-head"><span class="num">12</span><h2>Continuous random variables</h2><span class="sub">lecture 5, slides 4–17 · when every single value has probability zero</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What changes, and what does not<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The good news first: <b>many features of discrete random variables — the CDF, expected value, variance, quantiles — also exist for continuous random variables and have exactly the same meaning.</b> You are not starting over.</p>
+  <p>What changes is one thing, and everything in this module follows from it:</p>
+  <ul>
+    <li><b>Unlike discrete RVs</b>, a continuous random variable can take <b>any value in an interval</b> of real numbers, say $(a,b)$, so its possible realisations are infinitely many — <i>uncountably</i> so.</li>
+    <li><b>Unlike discrete RVs</b>, for every continuous random variable $X$:
+    $$\boxed{\;P(X=x)=0\quad\text{for any possible realisation }x\text{ of }X\;}$$</li>
+  </ul>
+  <p>That second bullet demolishes the tool of module 07: the probability distribution $P(x)=P(X=x)$ is identically zero and tells you nothing. Two replacements are needed, and the lecture supplies both:</p>
+  <ol class="steps">
+    <li>the <b>cumulative distribution function</b> $F(x)=P(X\le x)$, which carries over unchanged and is now the primary object;</li>
+    <li>the <b>probability density function</b> $f(x)$, a new object which is <i>not</i> a probability but whose <b>area</b> is.</li>
+  </ol>
+  <div class="note tip"><div class="t">Why $P(X=x)=0$ is not absurd</div>Ask for the probability that a delay is <i>exactly</i> 15.000000… seconds, to infinite precision. There are uncountably many candidate values and their probabilities must sum to 1, so each individual one must be zero. What is meaningful is a <b>range</b>: $P(14.5&lt;X&lt;15.5)$. Probability for continuous variables lives on intervals, never on points.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The cumulative distribution function<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Exactly the same concept as in module 07. The <b>CDF</b> of a continuous random variable $X$ is</p>
+  $$F(x)=P(X\le x)$$
+  <p>and it satisfies the same two characterising properties, plus two limits worth memorising:</p>
+  <table class="formula-table">
+    <tr><td>1)</td><td>$0\le F(x)\le1$ for every value $x$</td></tr>
+    <tr><td>2)</td><td>$F$ is increasing: $x_1&lt;x_2\Rightarrow F(x_1)\le F(x_2)$</td></tr>
+    <tr><td></td><td>$\displaystyle\lim_{x\to-\infty}F(x)=0,\qquad\lim_{x\to+\infty}F(x)=1$</td></tr>
+  </table>
+  <p>The one visible difference from the discrete case: the staircase of module 07 becomes a <b>smooth S-shaped curve</b>, with no jumps. Jumps are precisely where a discrete variable puts positive probability on a single point, and a continuous variable never does.</p>
+  <h3>Probabilities of intervals</h3>
+  <p>For a discrete <b>or</b> continuous RV, the probability that $X$ falls in $(a,b]$ is a difference of CDF values:</p>
+  $$\boxed{\;P(a&lt;X\le b)=F(b)-F(a),\qquad\text{for any }a&lt;b\;}\tag{1}$$
+  <p><b>Proof (slide 9).</b> Split the event $\{X\le b\}$ into two disjoint pieces using the value $a$:</p>
+  $$\{X\le b\}=\{X\le a\}\cup\{a&lt;X\le b\}$$
+  <p>These are mutually exclusive, so by Axiom 2,</p>
+  $$F(b)=P(X\le b)=P(X\le a)+P(a&lt;X\le b)=F(a)+P(a&lt;X\le b)$$
+  <p>and rearranging gives (1). $\;\square$ Taking $a=-\infty$ recovers the trivial case</p>
+  $$P(-\infty&lt;X\le b)=F(b)-F(-\infty)=F(b)-0=F(b)\tag{2}$$
+  <div class="note warn"><div class="t">Strict versus weak inequalities</div>For a <b>continuous</b> RV the two are interchangeable, because the single point contributes nothing:
+  $$F(x)=P(X\le x)=P(X&lt;x),\qquad P(a&lt;X&lt;b)=P(a\le X\le b)=F(b)-F(a)$$
+  For a <b>discrete</b> RV this is false. Take the distribution with $P(-2,-1,0,1,2)=(0.2,0.3,0.2,0.2,0.1)$ and $F(1)=0.9$: here $P(X\le1)=0.9$ but $P(X&lt;1)=P(X\le0)=F(0)=0.7$. The mass sitting exactly at 1 is the difference. <b>Getting sloppy with $&lt;$ versus $\le$ costs marks only in the discrete case — but it costs them reliably.</b></div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The probability density function<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>probability density function (pdf)</b> is defined <b>only for continuous</b> random variables. It plays a role similar to the probability distribution $P(x)$ of a discrete RV, although <b>it is not a probability</b> — it is a probability <i>density</i>.</p>
+  <p>Let $X$ be a continuous RV with CDF $F$, assumed differentiable. The pdf $f(x)$ is the <b>derivative of the CDF</b>:</p>
+  $$\boxed{\;f(x)=F'(x)\;}$$
+  <p>So $f(x)$ is the <b>slope of the tangent line to the cumulative distribution function at the point $x$</b>: it measures how fast probability is accumulating there. Where $F$ rises steeply, $f$ is large; where $F$ is flat, $f$ is near zero.</p>
+  <div class="note warn"><div class="t">A density is a probability <i>per unit length</i></div>This is why $f(x)$ may exceed 1 without contradiction. A uniform variable on $[0,0.5]$ has $f(x)=2$ everywhere on that interval — perfectly legitimate, because what must not exceed 1 is the <b>area</b>, not the height. Only areas are probabilities.</div>
+  <h3>Probability as area under the density</h3>
+  <p>Combine (1) with the fundamental theorem of calculus, $F'=f$:</p>
+  $$\boxed{\;P(a&lt;X&lt;b)=F(b)-F(a)=\int_a^b F'(x)\,dx=\int_a^b f(x)\,dx\;}\tag{4}$$
+  <p><b>The probability that $X$ takes a value in the interval $(a,b)$ equals the area under the probability density function between $a$ and $b$.</b> With $a=-\infty$:</p>
+  $$P(X&lt;b)=F(b)=\int_{-\infty}^{b}f(x)\,dx$$
+  <p>so <b>the CDF at $b$ is the area under the pdf up to $b$</b> — the two functions are two views of the same information, related by differentiation one way and integration the other.</p>
+  <p>This also explains $P(X=x)=0$ from the top of the module: a single point is an interval of zero width, and $\int_a^a f=0$.</p>
+  <h3>Two characterising properties</h3>
+  <p>Exactly parallel to the discrete case, with an integral replacing the sum:</p>
+  $$\text{1)}\quad f(x)\ge0\ \text{ for every }x,\qquad\qquad\text{2)}\quad\int_{-\infty}^{\infty}f(x)\,dx=1$$
+  <p>Property 1 says $F$ is non-decreasing (its slope is never negative); property 2 says the total area is 1, the continuous version of "the probabilities sum to 1". <b>Any candidate density must be checked against both</b> — that check is what determines the constant $c$ in several exercises later.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PICTURE</span> CDF and pdf side by side<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The two figures on slides 13–16, redrawn. Left: the CDF $F$, an S-curve from 0 to 1. Right: the pdf $f=F'$, the bell whose area up to a point equals the CDF's height there.</p>
+  <figure>
+  <svg viewBox="0 0 640 230">
+    <g transform="translate(0,0)">
+      <text x="150" y="14" class="svgtxt w" text-anchor="middle">CDF  F(x) = P(X ≤ x)</text>
+      <line x1="30" y1="180" x2="290" y2="180" stroke="var(--border2)"/>
+      <line x1="30" y1="24" x2="30" y2="180" stroke="var(--border2)"/>
+      <text x="24" y="30" class="svgtxt" text-anchor="end">1</text>
+      <text x="24" y="184" class="svgtxt" text-anchor="end">0</text>
+      <path d="M 34 179 C 90 178 110 168 130 140 C 150 112 160 60 180 42 C 200 30 240 26 286 25" fill="none" stroke="var(--blue)" stroke-width="2.2"/>
+      <line x1="30" y1="45" x2="180" y2="45" stroke="var(--green)" stroke-dasharray="4 3"/>
+      <line x1="180" y1="45" x2="180" y2="180" stroke="var(--green)" stroke-dasharray="4 3"/>
+      <circle cx="180" cy="45" r="3.4" fill="var(--green)"/>
+      <text x="34" y="41" class="svgtxt g">0.84</text>
+      <text x="180" y="196" class="svgtxt g" text-anchor="middle">x = 1</text>
+      <text x="150" y="218" class="svgtxt" text-anchor="middle">read the height</text>
+    </g>
+    <g transform="translate(340,0)">
+      <text x="150" y="14" class="svgtxt w" text-anchor="middle">pdf  f(x) = F′(x)</text>
+      <line x1="30" y1="180" x2="290" y2="180" stroke="var(--border2)"/>
+      <line x1="30" y1="24" x2="30" y2="180" stroke="var(--border2)"/>
+      <path d="M 34 179 C 80 178 105 172 125 140 C 145 105 155 44 180 44 C 205 44 215 105 235 140 C 255 172 275 178 286 179 L 286 180 L 34 180 Z" fill="var(--greenbg)" stroke="none" opacity="0.35"/>
+      <path d="M 34 179 C 80 178 105 172 125 140 C 145 105 155 44 180 44 C 205 44 215 105 235 140 C 255 172 275 178 286 179" fill="none" stroke="var(--blue)" stroke-width="2.2"/>
+      <line x1="180" y1="44" x2="180" y2="180" stroke="var(--green)" stroke-dasharray="4 3"/>
+      <text x="180" y="196" class="svgtxt g" text-anchor="middle">x = 1</text>
+      <text x="110" y="130" class="svgtxt g" text-anchor="middle">area = 0.84</text>
+      <text x="150" y="218" class="svgtxt" text-anchor="middle">measure the area</text>
+    </g>
+  </svg>
+  <figcaption>$F(1)=P(X\le1)=P(X&lt;1)=0.84$ read two ways: as a height on the CDF, or as the shaded area under the pdf up to 1. For $P(0&lt;X&lt;1)$ you would take $F(1)-F(0)=0.84-0.50=0.34$ on the left, or shade only from 0 to 1 on the right — the same 0.34.</figcaption>
+  </figure>
+  <div class="note fin"><div class="t">The working rule</div>Whenever a continuous problem asks for a probability, <b>convert it into a difference of CDF values</b> — $P(a&lt;X&lt;b)=F(b)-F(a)$, $P(X&gt;a)=1-F(a)$ — and then evaluate $F$ from a formula or from software (<code>punif</code>, <code>pexp</code>, <code>pnorm</code>). Every exercise in module 13 is that single move plus arithmetic.</div>
+  </div>
+</div>
+</section>

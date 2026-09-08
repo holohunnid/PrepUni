@@ -1,0 +1,152 @@
+<!-- ============ 04 THE PROBABILITY RULES ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>The probability rules</h2><span class="sub">lecture 2, slides 17–23 · everything else follows from the three axioms</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Three axioms, and the rules they generate<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 03 gave three axioms and one derived formula. This module derives everything else you will use, and there is nothing more to add afterwards — the whole calculus of probability for events is in these few lines:</p>
+  <table class="formula-table">
+    <tr><td><b>Complement rule</b></td><td>$P(A)=1-P(A^c)$</td></tr>
+    <tr><td><b>Impossible event</b></td><td>$P(\emptyset)=0$</td></tr>
+    <tr><td><b>Upper bound</b></td><td>$P(A)\le1$ for every event $A$</td></tr>
+    <tr><td><b>Monotonicity</b></td><td>if $A\subseteq B$ then $P(A)\le P(B)$</td></tr>
+    <tr><td><b>Union (general)</b></td><td>$P(A\cup B)=P(A)+P(B)-P(A\cap B)$</td></tr>
+  </table>
+  <p>Every one of them is proved by the same manoeuvre: <b>rewrite the event as a union of disjoint pieces, then use Axiom 2.</b> The pieces always come from the partition $\{A,A^c\}$ of module 02. If you follow that one thread you never have to memorise these — you can rederive any of them in two lines.</p>
+  <div class="note tip"><div class="t">The move worth stealing</div>Whenever a probability looks hard, ask whether the <b>complement</b> is easy. "At least one" is nearly always easier as $1-P(\text{none})$; "more than four" as $1-P(\text{at most four})$. Half the exercises in lectures 2–5 are solved by that single reflex.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">RULE</span> The complement rule<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{\;P(A)=1-P(A^c)\;}\tag{2}$$
+  <p><b>Proof.</b> By definition, $A$ and $A^c$ are mutually exclusive ($A\cap A^c=\emptyset$) and collectively exhaustive ($A\cup A^c=\Omega$) — they form a <b>partition</b> of $\Omega$, exactly as verified in module 02. Therefore</p>
+  $$1\overset{\text{Ax.3}}{=}P(\Omega)=P(A\cup A^c)\overset{\text{Ax.2}}{=}P(A)+P(A^c)\;\Longrightarrow\;P(A)=1-P(A^c)$$
+  <p>Both axioms are used, and the disjointness needed by Axiom 2 comes for free from the definition of complement. $\;\square$</p>
+  <div class="note fin"><div class="t">Why it is the workhorse</div>Combined with De Morgan (module 02), it converts unions into intersections. "At least one of $A_1,\dots,A_n$" becomes
+  $$P\!\left(\bigcup_i A_i\right)=1-P\!\left(\bigcap_i A_i^c\right)$$
+  and if the events are independent (module 06) the right-hand side is a plain product. That is the entire solution to several later exercises.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Three implications (slides 18–19)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>1. Show $P(\emptyset)=0$.</b></p>
+  <ol class="steps">
+    <li>The empty set is the complement of the sample space: $\emptyset=\Omega^c$.</li>
+    <li>Apply the complement rule and Axiom 3:
+    $$P(\emptyset)=P(\Omega^c)=1-P(\Omega)=1-1=0$$</li>
+  </ol>
+  <p>The impossible event has probability zero, as it must.</p>
+
+  <p><b>2. Show $P(A)\le1$ for any event $A$.</b></p>
+  <ol class="steps">
+    <li>By the complement rule, $P(A)=1-P(A^c)$.</li>
+    <li>By Axiom 1 applied to the event $A^c$, we have $P(A^c)\ge0$.</li>
+    <li>Subtracting something non-negative from 1 cannot exceed 1, so $P(A)\le1$ ✓</li>
+  </ol>
+
+  <p><b>3. Show that if $A\subseteq B$ then $P(A)\le P(B)$</b> &nbsp;(monotonicity).</p>
+  <ol class="steps">
+    <li>Since $A\subseteq B$, we can split $B$ using the partition $\{A,A^c\}$ — this is equation (2) of module 02 applied to $B$:
+    $$B=(B\cap A)\cup(B\cap A^c)=A\cup(B\cap A^c)$$
+    where $B\cap A=A$ precisely because $A$ sits inside $B$.</li>
+    <li>The two pieces are disjoint, since $A\cap(B\cap A^c)\subseteq A\cap A^c=\emptyset$. So Axiom 2 applies:
+    $$P(B)=P(A)+P(B\cap A^c)$$</li>
+    <li>By Axiom 1, $P(B\cap A^c)\ge0$, hence $P(B)\ge P(A)$ ✓ $\;\square$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>All three proofs are the same manoeuvre: cut the event along $\{A,A^c\}$, then add. Monotonicity is the formal version of something obvious — a bigger event cannot be less likely — but notice that "obvious" is not a proof, and that the argument also tells you <i>by how much</i>: exactly $P(B\cap A^c)$, the probability of the extra part.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RULE</span> Probability of the union of non-disjoint sets<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{\;P(A\cup B)=P(A)+P(B)-P(A\cap B)\;}\tag{3}$$
+  <p>If $A\cap B\neq\emptyset$ — the two events overlap — then adding $P(A)$ and $P(B)$ counts the overlap <b>twice</b>. Subtracting $P(A\cap B)$ once repairs the double-counting. And if $A\cap B=\emptyset$, then $P(A\cap B)=P(\emptyset)=0$ and (3) collapses back to Axiom 2, as it must.</p>
+  <h3>Proof</h3>
+  <ol class="steps">
+    <li>Rewrite $A\cup B$ as a union of two <b>mutually exclusive</b> events, using relation (3) of module 02:
+    $$A\cup B=A\cup(A^c\cap B)$$</li>
+    <li>These are disjoint, since $A\cap(A^c\cap B)=\emptyset$. By Axiom 2,
+    $$P(A\cup B)=P(A)+P(A^c\cap B)\tag{$\star$}$$</li>
+    <li>Now handle the second term. The sets $A\cap B$ and $A^c\cap B$ form a partition of $B$ — this is equation (2) of module 02 applied to $B$ — so Axiom 2 gives
+    $$P(B)=P(A\cap B)+P(A^c\cap B)\;\Longrightarrow\;P(A^c\cap B)=P(B)-P(A\cap B)$$</li>
+    <li>Substituting into $(\star)$ proves (3). $\;\square$</li>
+  </ol>
+  <p>Notice that step 3 is itself a useful formula in its own right, and one you will reach for constantly:</p>
+  $$P(A\cap B^c)=P(A)-P(A\cap B)\qquad\text{"}A\text{ but not }B\text{"}$$
+  <p>Read it as: take everything in $A$, remove the part that is also in $B$.</p>
+
+  <div class="ctrl">
+    <label>$P(A)$ <input type="range" id="vn_a" min="0.05" max="0.95" step="0.01" value="0.6"><span class="val" id="vn_a_v">0.60</span></label>
+    <label>$P(B)$ <input type="range" id="vn_b" min="0.05" max="0.95" step="0.01" value="0.5"><span class="val" id="vn_b_v">0.50</span></label>
+    <label>$P(A\cap B)$ <input type="range" id="vn_i" min="0" max="0.95" step="0.01" value="0.4"><span class="val" id="vn_i_v">0.40</span></label>
+    <span class="btns"><button onclick="vnSet(0.6,0.5,0.4)">meteoSvizzera</button><button onclick="vnSet(0.6,0.5,0)">disjoint</button><button onclick="vnSet(0.6,0.5,0.3)">independent</button><button onclick="vnSet(0.5,0.9,0.5)">A ⊂ B</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="vnsvg" viewBox="0 0 360 250"></svg>
+    <figcaption>Areas are drawn in proportion to probability: the rectangle is $\Omega$ with total area 1, and the two discs overlap by exactly $P(A\cap B)$. The slider for the intersection is capped at $\min(P(A),P(B))$ and at whatever keeps $P(A\cup B)\le1$.</figcaption></figure>
+    <div>
+      <div class="readout" id="vnread"></div>
+      <p style="margin-top:10px">Push $P(A\cap B)$ to zero and the discs separate: the union becomes the plain sum $P(A)+P(B)$, which is Axiom 2. Push it to its maximum and one disc swallows the other: $A\subseteq B$, and $P(A\cup B)=P(B)$, which is monotonicity.</p>
+      <p class="muted">The four regions in the readout — $A$ only, both, $B$ only, neither — are the four blocks of the finest partition you can build from two events. They always sum to 1, and every probability you can ask about $A$ and $B$ is some sum of them. The "independent" preset sets $P(A\cap B)=P(A)P(B)=0.30$; module 06 explains why that particular number is special.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slides 21–23) · meteoSvizzera</div>
+  <div class="body">
+  <p>MeteoSvizzera reports: a 60% chance of rain today; a 50% chance of rain tomorrow; a 30% chance that it does <b>not</b> rain on either day. Compute the probability that it will rain (a) today or tomorrow, (b) today and tomorrow, (c) today but not tomorrow, (d) on exactly one of the two days.</p>
+  <p><b>Set-up.</b> Let $A=\{\text{rain today}\}$ and $B=\{\text{rain tomorrow}\}$, so $P(A)=0.6$ and $P(B)=0.5$. The third piece of information is about $C=\{\text{no rain either day}\}$, which as a set is</p>
+  $$C=A^c\cap B^c,\qquad P(A^c\cap B^c)=0.3$$
+  <p>Draw the Venn diagram before computing anything: two overlapping discs inside a rectangle, with the region outside both discs carrying 0.3.</p>
+
+  <p><b>a) Rain today <i>or</i> tomorrow: $P(A\cup B)$.</b></p>
+  <ol class="steps">
+    <li>The datum we were given is about the region <i>outside</i> both discs, so use the complement rule — and to identify that region, use De Morgan (module 02, equation 6):
+    $$(A\cup B)^c=A^c\cap B^c$$</li>
+    <li>Therefore
+    $$P(A\cup B)=1-P\big((A\cup B)^c\big)=1-P(A^c\cap B^c)=1-0.3=\mathbf{0.7}$$</li>
+  </ol>
+  <p>Note that neither $P(A)$ nor $P(B)$ was needed for this part — the "30% neither" already contains the answer, once De Morgan tells you what it is the complement of.</p>
+
+  <p><b>b) Rain today <i>and</i> tomorrow: $P(A\cap B)$.</b></p>
+  <ol class="steps">
+    <li>Rearrange the union rule (3) to solve for the intersection:
+    $$P(A\cap B)=P(A)+P(B)-P(A\cup B)$$</li>
+    <li>$$P(A\cap B)=0.6+0.5-0.7=\mathbf{0.4}$$</li>
+  </ol>
+  <p>A useful check: $0.6+0.5=1.1&gt;1$, so the two events <i>must</i> overlap, and by at least $0.1$. They overlap by 0.4.</p>
+
+  <p><b>c) Rain today but <i>not</i> tomorrow: $P(A\cap B^c)$.</b></p>
+  <ol class="steps">
+    <li>Split $A$ along the partition $\{B,B^c\}$: $\;A=(A\cap B)\cup(A\cap B^c)$, a union of disjoint pieces.</li>
+    <li>By Axiom 2, $P(A)=P(A\cap B)+P(A\cap B^c)$, hence
+    $$P(A\cap B^c)=P(A)-P(A\cap B)=0.6-0.4=\mathbf{0.2}$$</li>
+  </ol>
+
+  <p><b>d) Rain on exactly one of the two days.</b></p>
+  <p>"Today or tomorrow, but not both" is the union of two disjoint events: rain today only, or rain tomorrow only.</p>
+  $$(A\cap B^c)\cup(B\cap A^c)$$
+  <ol class="steps">
+    <li>By the same argument as (c) applied to $B$:
+    $$P(B\cap A^c)=P(B)-P(B\cap A)=0.5-0.4=0.1$$</li>
+    <li>The two events are disjoint — you cannot have "rain today only" and "rain tomorrow only" simultaneously — so Axiom 2 applies:
+    $$P\big((A\cap B^c)\cup(B\cap A^c)\big)=0.2+0.1=\mathbf{0.3}$$</li>
+    <li><b>Alternative route.</b> "Exactly one" is "at least one, minus both":
+    $$P\big((A\cup B)\setminus(A\cap B)\big)=P(A\cup B)-P(A\cap B)=0.7-0.4=0.3\ \checkmark$$
+    This works because $A\cap B\subseteq A\cup B$, so the subtraction is the monotonicity argument of the previous panel.</li>
+  </ol>
+  <div class="note"><div class="t">Final check — the four regions must sum to 1</div>
+  $$\underbrace{0.2}_{A\text{ only}}+\underbrace{0.4}_{\text{both}}+\underbrace{0.1}_{B\text{ only}}+\underbrace{0.3}_{\text{neither}}=1.0\ \checkmark$$
+  Always run this check on a two-event problem: the four blocks of the partition are the complete picture, and if they do not sum to 1 you have made an arithmetic error. Try these numbers in the interactive figure above — the "meteoSvizzera" preset loads them.</div>
+  </div>
+</div>
+</section>

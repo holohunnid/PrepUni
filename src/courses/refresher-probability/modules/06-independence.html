@@ -1,0 +1,113 @@
+<!-- ============ 06 INDEPENDENCE ============ -->
+<section id="s6">
+<div class="sec-head"><span class="num">06</span><h2>Independence</h2><span class="sub">lecture 3, slides 9–17 · when conditioning changes nothing</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The definition, and why it is stated as a ratio<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 05 showed that conditioning on $B$ generally changes the probability of $A$. Independence is the name for the case where it <b>does not</b>:</p>
+  $$\text{$A$ is independent of $B$}\quad\Longleftrightarrow\quad P(A\mid B)=P(A)$$
+  <p>That is, <b>the occurrence of event $B$ does not affect the probability of event $A$</b>. The lecture's example: $P(\text{I change my haircut}\mid\text{influencer changes haircut})=P(\text{I change my haircut})$ — knowing what the influencer did tells you nothing about me.</p>
+  <p>The definition is also a <i>test</i>: to decide whether $A$ is independent of $B$, compute $P(A\mid B)$ and check whether it equals $P(A)$. Two numbers, one comparison.</p>
+  <div class="note warn"><div class="t">Independent ≠ mutually exclusive</div>These get confused constantly and they are almost opposites. If $A$ and $B$ are <b>mutually exclusive</b> with $P(A)&gt;0$, then knowing $B$ occurred tells you $A$ definitely did <i>not</i>: $P(A\mid B)=0\neq P(A)$. So disjoint events with positive probability are <b>maximally dependent</b>, never independent. Disjointness is about the sets; independence is about the numbers.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">RULE</span> Independence and joint probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>If $A$ and $B$ are independent, their <b>joint probability</b> — the probability that <i>both</i> occur — is the product of their individual probabilities:</p>
+  $$\boxed{\;P(A\cap B)=P(A)\,P(B)\;}\tag{3}$$
+  <p><b>Proof.</b> Chain the multiplicative rule (2) of module 05 with the definition of independence:</p>
+  $$P(A\cap B)\;\overset{\text{def. cond. prob.}}{=}\;P(A\mid B)\,P(B)\;\overset{\text{independence}}{=}\;P(A)\,P(B)\qquad\square$$
+  <p>Formula (3) is usually taken as <i>the</i> working definition, because it is symmetric in $A$ and $B$ and because it needs no division — it survives even when $P(B)=0$.</p>
+  <h3>More than two events</h3>
+  <p>If $E_1,E_2,\dots,E_K$ are $K$ independent events, the probability that they <b>all</b> occur is the product of their probabilities:</p>
+  $$P(E_1\cap E_2\cap\dots\cap E_K)=P(E_1)\,P(E_2)\cdots P(E_K)$$
+  <p>This is why the lecture remarks that <i>it is easy to compute probabilities of independent events</i>: an intersection of $K$ events, which in general requires knowing the whole dependence structure, collapses to $K$ separate numbers multiplied together. Module 08 builds the entire binomial distribution out of exactly this move.</p>
+  <div class="note tip"><div class="t">Combine with De Morgan</div>Independence handles intersections; the complement rule handles "at least one". Together:
+  $$P(\text{at least one of }E_1,\dots,E_K)=1-P(E_1^c)\cdots P(E_K^c)$$
+  using De Morgan (module 02) to turn the union's complement into an intersection, then independence to factor it. This is the standard opening move for any "at least one" problem.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE (slides 11–12) · independence is symmetric</div>
+  <div class="body">
+  <p>Show that if $A$ is independent of $B$ — i.e. $P(A\mid B)=P(A)$ — then $B$ is independent of $A$, i.e. $P(B\mid A)=P(B)$.</p>
+  <p><b>Solution.</b> Start from the definition of conditional probability applied to $P(B\mid A)$, then substitute.</p>
+  <ol class="steps">
+    <li>By definition, $P(B\mid A)=\dfrac{P(A\cap B)}{P(A)}$ (requiring $P(A)&gt;0$).</li>
+    <li>By the multiplicative rule, $P(A\cap B)=P(A\mid B)\,P(B)$. Substitute this into the numerator:
+    $$P(B\mid A)=\frac{P(A\mid B)\,P(B)}{P(A)}$$</li>
+    <li>Independence of $A$ from $B$ means $P(A\mid B)=P(A)$. Substitute again:
+    $$P(B\mid A)=\frac{P(A)\,P(B)}{P(A)}=P(B)\qquad\square$$</li>
+  </ol>
+  <div class="note"><div class="t">Why this matters</div>Independence <i>looked</i> like a one-sided statement — "$A$ is independent <b>of</b> $B$" — but it turns out to be perfectly symmetric. That is why we are entitled to say "<b>$A$ and $B$ are two independent events</b>", with no direction, and why the symmetric formula (3) is the better definition. The asymmetry was an illusion of the notation.</div>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slides 13–14) · two students</div>
+  <div class="body">
+  <p>Two students register for the same course. The first attends 80% of the time, the second 60%. Their attendances are independent. Find the probability that, on a given day, <b>at least one</b> student will be present.</p>
+  <ol class="steps">
+    <li><b>Name the events.</b> $A=\{\text{first student is present}\}$ with $P(A)=0.8$; $B=\{\text{second student is present}\}$ with $P(B)=0.6$.</li>
+    <li><b>Translate "at least one".</b> At least one present means the first, or the second, or both — the <b>union</b>:
+    $$A\cup B=\{\text{at least one student is present}\}$$</li>
+    <li><b>Apply the union rule</b> (module 04), since the two events are certainly not disjoint — both students can show up:
+    $$P(A\cup B)=P(A)+P(B)-P(A\cap B)$$</li>
+    <li><b>Use independence</b> to evaluate the intersection: $P(A\cap B)=P(A)P(B)$. So
+    $$P(A\cup B)=P(A)+P(B)-P(A)P(B)$$</li>
+    <li><b>Numbers:</b>
+    $$P(A\cup B)=0.8+0.6-(0.8\times0.6)=1.4-0.48=\mathbf{0.92}$$</li>
+  </ol>
+  <p><b>The complement route</b>, which is faster and generalises to $n$ students:</p>
+  <ol class="steps">
+    <li>"At least one present" is the complement of "<b>neither</b> present" $=A^c\cap B^c$ (De Morgan).</li>
+    <li>Independence of $A$ and $B$ carries over to their complements, so
+    $$P(A^c\cap B^c)=P(A^c)P(B^c)=(1-0.8)(1-0.6)=0.2\times0.4=0.08$$</li>
+    <li>$$P(A\cup B)=1-0.08=\mathbf{0.92}\ \checkmark$$</li>
+  </ol>
+  <div class="note tip"><div class="t">Insight</div>Both routes give 0.92, but only the second scales. With ten students you would need every pairwise, triple, … intersection for the first method (inclusion–exclusion), whereas the complement route stays a single product $1-\prod_i(1-p_i)$. <b>Whenever you see "at least one", reach for the complement first.</b></div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slides 15–17) · families with two children — the classic counter-intuitive one</div>
+  <div class="body">
+  <p>Consider a large sample of families with two children, not twins (a first child, then a second). Assume a boy and a girl are equally likely.</p>
+  <ol class="steps">
+    <li>What is the probability that <b>both children are girls given that the first child is a girl</b>?</li>
+    <li>You ask the father: "Do you have at least one daughter?" He replies "Yes!". Given this, what is the probability that <b>both children are girls given that at least one child is a girl</b>?</li>
+  </ol>
+  <p>Most people guess <b>50% for both</b>. Take your own guess first — then do the mathematics.</p>
+
+  <p><b>Set-up.</b> Order matters (first child, then second), so the sample space has four equally likely outcomes, writing $G$ for girl and $B$ for boy:</p>
+  $$\Omega=\{GG,\;GB,\;BG,\;BB\},\qquad P(\text{each})=\tfrac14$$
+  <p>Define the three events:</p>
+  <table class="formula-table">
+    <tr><td>$A=\{\text{both children are girls}\}$</td><td>$A=\{GG\}$</td><td>$P(A)=1/4$</td></tr>
+    <tr><td>$B=\{\text{first child is a girl}\}$</td><td>$B=\{GG,GB\}$</td><td>$P(B)=2/4=1/2$</td></tr>
+    <tr><td>$C=\{\text{at least one child is a girl}\}$</td><td>$C=\{GG,GB,BG\}$</td><td>$P(C)=3/4$</td></tr>
+  </table>
+  <p>Note that $A\subseteq B$ and $A\subseteq C$, so $A\cap B=A$ and $A\cap C=A$, both equal to $\{GG\}$.</p>
+
+  <p><b>1. Both girls, given the first is a girl.</b></p>
+  $$P(A\mid B)=\frac{P(A\cap B)}{P(B)}=\frac{P(A)}{P(B)}=\frac{1/4}{1/2}=\frac{1}{2}$$
+
+  <p><b>2. Both girls, given at least one is a girl.</b></p>
+  $$P(A\mid C)=\frac{P(A\cap C)}{P(C)}=\frac{P(A)}{P(C)}=\frac{1/4}{3/4}=\frac{1}{3}$$
+
+  <p><b>Why the two answers differ — this is the whole point.</b></p>
+  <ol class="steps">
+    <li>The numerators are identical: both conditions are compatible only with the single outcome $GG$.</li>
+    <li>The denominators are not. <b>$B$ is a strict subset of $C$</b>: $B=\{GG,GB\}$ does not contain $BG$, while $C=\{GG,GB,BG\}$ does.</li>
+    <li>So $C$ leaves <b>more outcomes that are not in $A$</b> alive — two of them ($GB$ and $BG$) rather than one ($GB$). A larger surviving world with the same favourable part means a smaller ratio, hence $P(A\mid C)&lt;P(A\mid B)$.</li>
+    <li>Concretely: "the <i>first</i> is a girl" pins down a specific child and leaves only the second free — a genuine coin flip, hence $1/2$. "<i>At least one</i> is a girl" pins down nothing; it merely eliminates $BB$, leaving three equally likely families of which one is $GG$ — hence $1/3$.</li>
+  </ol>
+  <div class="note warn"><div class="t">The lesson</div>The intuition that fails is treating "at least one is a girl" as though it identified a particular child. It does not. <b>Always write the conditioning event out as an explicit set and count.</b> The moment you see $\{GG,GB,BG\}$ on paper, the answer $1/3$ is unavoidable — and the guess of 50% becomes visibly a guess about $B$, not about $C$.</div>
+  </div>
+</div>
+</section>
