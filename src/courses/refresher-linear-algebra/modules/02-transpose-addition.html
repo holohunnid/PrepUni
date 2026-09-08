@@ -1,0 +1,79 @@
+<!-- ============ 02 TRANSPOSE, ADDITION, SCALING ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Transpose, addition and scaling</h2><span class="sub">lecture 1, slides 17–22 · the three easy operations, and the one condition they all share</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The easy operations — and why they are still worth care<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Three operations in this module: <b>transpose</b> (flip a matrix on its diagonal), <b>addition/subtraction</b> (entry by entry), and <b>multiplication by a scalar</b> (every entry times the same number). They are easy in the sense that nothing surprising happens: matrices behave here exactly like ordinary numbers.</p>
+  <p>What is <i>not</i> automatic is the admissibility condition. Addition and subtraction require the two matrices to have <b>exactly the same dimensions</b> — same number of rows <i>and</i> same number of columns. There is no way to add a $(2\times3)$ to a $(3\times2)$, and no convention that quietly fixes it for you. Half of Exercise 1 at the end of lecture 1 consists of spotting which of a list of proposed operations are legal at all, and that is the actual skill being tested.</p>
+  <div class="note tip"><div class="t">Habit to build now</div>Before computing anything, write the dimensions under each symbol. $\underset{(2\times3)}{A}+\underset{(3\times2)}{B}$ — the mismatch is visible before you have done a single addition. This habit becomes essential in module 03, where the condition is subtler.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Equality and transposition<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Equality</h3>
+  <p>Two matrices $A=[a_{ij}]$ and $B=[b_{ij}]$ <b>with the same dimensions</b> are equal if and only if $a_{ij}=b_{ij}$ for every $i$ and every $j$. Matrices of different dimensions are simply not comparable — the question "are they equal?" does not arise.</p>
+  <h3>Transposition</h3>
+  <p>The <b>transpose</b> of $A=[a_{ij}]$, written $A'$ (the lectures' notation) or $A^{\mathsf T}$, is obtained by <b>interchanging rows and columns</b>: the $k$-th row of $A'$ is the $k$-th column of $A$. Formally:</p>
+  $$B=A'\iff b_{ij}=a_{ji}\quad\text{for all }i,j$$
+  <p>Note the index swap. If $A$ is $(n\times k)$ then $A'$ is $(k\times n)$ — the dimensions flip as well.</p>
+  $$\begin{bmatrix}1&2\\3&4\end{bmatrix}'=\begin{bmatrix}1&3\\2&4\end{bmatrix},\qquad
+  \begin{bmatrix}1&2&3\\4&5&6\end{bmatrix}'=\begin{bmatrix}1&4\\2&5\\3&6\end{bmatrix}$$
+  <p>The square example shows the diagonal entries never move; only the off-diagonal pairs swap. The rectangular example shows the shape change: $(2\times3)\to(3\times2)$.</p>
+  <h3>Three facts to keep</h3>
+  <table class="formula-table">
+    <tr><td>Transposing twice does nothing</td><td>$(A')'=A$</td></tr>
+    <tr><td>The transpose of a column vector is a row vector</td><td>$\mathbf{a}=\begin{bmatrix}a_1\\ \vdots\\ a_n\end{bmatrix}\Rightarrow \mathbf{a}'=\begin{bmatrix}a_1&\dots&a_n\end{bmatrix}$</td></tr>
+    <tr><td>Symmetry, restated</td><td>$B\text{ symmetric}\iff B=B'$</td></tr>
+  </table>
+  <p>That third line is the cleanest possible definition of symmetric, and it is how you will actually check symmetry from now on: transpose it and see whether you get the same matrix back. For</p>
+  $$B=\begin{bmatrix}2&3&6\\3&4&5\\6&5&9\end{bmatrix}\quad\text{we get}\quad B'=\begin{bmatrix}2&3&6\\3&4&5\\6&5&9\end{bmatrix}=B$$
+  <div class="note warn"><div class="t">Trap</div>$(A')'=A$ is <i>always</i> true. $A'=A$ is true only for symmetric matrices. Students conflate the two under exam pressure; they say very different things.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Addition, subtraction, scalar multiple<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>Addition and subtraction</h3>
+  <p>If $A$ and $B$ have the <u>same dimensions</u>, then</p>
+  $$C=A+B=[a_{ij}+b_{ij}],\qquad D=A-B=[a_{ij}-b_{ij}]$$
+  <p>and $C$, $D$ have those same dimensions. Nothing more happens: you add the numbers that sit in matching positions.</p>
+  <p><b>Properties</b> — all inherited directly from the arithmetic of real numbers:</p>
+  <table class="formula-table">
+    <tr><td>Zero is neutral</td><td>$A+\mathbf{0}=A$</td></tr>
+    <tr><td>Commutative</td><td>$A+B=B+A$</td></tr>
+    <tr><td>Associative</td><td>$(A+B)+C=A+(B+C)$</td></tr>
+    <tr><td>Transpose distributes</td><td>$(A+B)'=A'+B'$</td></tr>
+  </table>
+  <p>Remember the last one: in module 03 the corresponding rule for <i>products</i> is $(AB)'=B'A'$ — the order reverses. For sums it does not. That asymmetry is a favourite exam question.</p>
+  <h3>Scalar times matrix</h3>
+  <p>For a real number $c\in\mathbb{R}$ and a matrix $A=[a_{ij}]$, the product $cA$ multiplies <b>every</b> entry by $c$:</p>
+  $$cA:=[c\,a_{ij}]$$
+  <p>$cA$ has the same dimensions as $A$; no admissibility condition at all, since a scalar fits any shape. In the special case where the matrix is a vector,</p>
+  $$c\mathbf{a}=c\begin{bmatrix}a_1\\a_2\\ \vdots\\ a_n\end{bmatrix}=\begin{bmatrix}ca_1\\ca_2\\ \vdots\\ca_n\end{bmatrix}$$
+  <p>Geometrically (in $\mathbb{R}^2$ or $\mathbb{R}^3$) this stretches the arrow by a factor $|c|$, keeping its direction if $c&gt;0$ and reversing it if $c&lt;0$. Scaling never rotates a vector — a fact module 07 turns into the test for whether two vectors are dependent.</p>
+  <div class="note fin"><div class="t">Finance link</div>Rescaling a portfolio by $c$ is exactly $c\mathbf{w}$: same relative composition, $c$ times the money. Adding two matrices of returns adds them period by period. These operations are cheap precisely because they never mix different assets or different dates together — that mixing is what the <i>product</i> in module 03 does.</div>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">WORKED · which of these are even defined?</div>
+  <div class="body">
+  <p>Let $A=\begin{bmatrix}1&2&3\\0&4&5\end{bmatrix}$ (a $2\times3$) and $B=\begin{bmatrix}1&2\\0&4\\0&3\end{bmatrix}$ (a $3\times2$). Decide, then compute what you can.</p>
+  <ol class="steps">
+    <li>$A+B$: $(2\times3)+(3\times2)$ — dimensions differ, so <b>not defined</b>. No rescue available.</li>
+    <li>$A+B'$: $B'$ is $(2\times3)$, matching $A$. Defined:
+    $$A+B'=\begin{bmatrix}1&2&3\\0&4&5\end{bmatrix}+\begin{bmatrix}1&0&0\\2&4&3\end{bmatrix}=\begin{bmatrix}2&2&3\\2&8&8\end{bmatrix}$$</li>
+    <li>$A'-B$: $A'$ is $(3\times2)$, matching $B$. Defined:
+    $$A'-B=\begin{bmatrix}1&0\\2&4\\3&5\end{bmatrix}-\begin{bmatrix}1&2\\0&4\\0&3\end{bmatrix}=\begin{bmatrix}0&-2\\2&0\\3&2\end{bmatrix}$$</li>
+    <li>$3A'$: always defined. $3A'=\begin{bmatrix}3&0\\6&12\\9&15\end{bmatrix}$.</li>
+  </ol>
+  <p>The pattern: <i>transposing is the tool that makes a mismatched addition legal</i>. When an exercise says "if possible, compute…", it is asking you to notice both the impossible cases and the ones a transpose repairs. The full version of this is Exercise 1 in module 14.</p>
+  </div>
+</div>
+</section>

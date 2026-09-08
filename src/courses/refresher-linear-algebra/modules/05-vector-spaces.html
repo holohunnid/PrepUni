@@ -1,0 +1,87 @@
+<!-- ============ 05 VECTOR SPACES ============ -->
+<section id="s5">
+<div class="sec-head"><span class="num">05</span><h2>Vector spaces</h2><span class="sub">lecture 2, slides 5–11 · two closure conditions, and what fails them</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> A definition with only two lines, and why it is so useful<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Up to now "vector" has meant "column of numbers". This module makes the notion abstract, and the abstraction costs almost nothing: a vector space is any set in which you can <b>add</b> two elements and <b>scale</b> one, without ever leaving the set. That is the whole definition. Its elements are then <i>called</i> vectors, whatever they actually are — columns of numbers, matrices, functions.</p>
+  <p>The reason to bother is stated bluntly on slide 9: <b>not every economically meaningful set is a vector space</b>, and knowing which ones are tells you immediately whether "combining strategies" is a well-defined operation. If you can hold portfolio $\mathbf{u}$ and portfolio $\mathbf{v}$, can you hold $\mathbf{u}+\mathbf{v}$? Can you hold $2\mathbf{u}$, or $-\mathbf{u}$? For some sets yes, for others no — and the two closure conditions are exactly the test.</p>
+  <div class="note tip"><div class="t">How to use the definition</div>To <b>prove</b> a set is a vector space you must verify both conditions for <i>arbitrary</i> elements. To <b>disprove</b> it you need only one explicit counterexample. Most exam questions are the second kind, so always try first to break the set — it is much faster when it works.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Vector space<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>vector space</b> $V$ is a set of elements which is</p>
+  <ol class="steps">
+    <li><b>closed under addition</b>: if $v_1,v_2\in V$ then $v_1+v_2\in V$;</li>
+    <li><b>closed under scalar multiplication</b>: if $v\in V$ and $\lambda\in\mathbb{R}$ then $\lambda v\in V$.</li>
+  </ol>
+  <p>The elements of a vector space are called <b>vectors</b>. "Closed" means: performing the operation never produces something outside the set. There is no third condition to check in this course.</p>
+  <h3>Two consequences you get for free</h3>
+  <ul>
+    <li><b>$\mathbf{0}\in V$.</b> Take any $v\in V$ and $\lambda=0$: closure under scaling forces $0\cdot v=\mathbf{0}$ into $V$. So <i>a set that does not contain the zero vector cannot be a vector space</i> — the fastest disproof available, and worth trying first every time.</li>
+    <li><b>Closed under subtraction.</b> If $u,v\in V$ then $-v=(-1)v\in V$ by scaling, and then $u+(-v)=u-v\in V$ by addition. Subtraction needs no separate axiom.</li>
+  </ul>
+  <p>Combining the two conditions repeatedly gives the general statement (slide 14): a vector space is closed under <b>any linear combination</b> of its elements,</p>
+  $$\sum_{i=1}^{n}\alpha_i v_i\in V\qquad\text{for all }v_i\in V,\ \alpha_i\in\mathbb{R}$$
+  <p>which is really the form in which the definition gets used.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> The standard examples<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>$\mathbb{R}^n$ for any $n\ge1$</h3>
+  <p>Adding two lists of $n$ real numbers gives a list of $n$ real numbers; multiplying a list of $n$ real numbers by $\lambda$ gives a list of $n$ real numbers. Both closures hold trivially, so $\mathbb{R}^n$ is a vector space — the one we work in throughout.</p>
+  <p>In $\mathbb{R}^2$ you can see it: adding two arrows by the parallelogram rule keeps you in the plane; stretching, shrinking or reversing an arrow keeps you in the plane. There is nowhere else to go.</p>
+  <h3>All matrices of a fixed size</h3>
+  <p>The set of all $(n\times k)$-matrices is a vector space: the sum of two $(n\times k)$-matrices is an $(n\times k)$-matrix, and a scalar times an $(n\times k)$-matrix is an $(n\times k)$-matrix (module 02). Note the size must be <i>fixed</i> — the set of "all matrices" is not closed under addition, since most pairs cannot be added at all.</p>
+  <div class="note fin"><div class="t">Why this example matters</div>It shows "vector" is a role, not a shape. A $3\times3$ matrix is a perfectly good vector in the space of $3\times3$ matrices. So is a random variable, in the space of random variables with finite variance — which is why covariance behaves like a dot product and why "orthogonal" means "uncorrelated".</div>
+  <p class="muted"><b>Check yourself:</b> is the set of all $(2\times2)$ <i>symmetric</i> matrices a vector space? (Yes: $A'=A$ and $B'=B$ give $(A+B)'=A'+B'=A+B$, and $(\lambda A)'=\lambda A'=\lambda A$. Both closures survive.)</p>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slide 10) · is the budget set a vector space?</div>
+  <div class="body">
+  <p>Consider the investor budget set</p>
+  $$B=\{(x_1,x_2)\in\mathbb{R}^2_+\;:\;p_1x_1+p_2x_2\le m\},\qquad m&gt;0$$
+  <p>Check both closure conditions. Which fails, and why? (What happens if you double an affordable bundle?)</p>
+  <p><b>Solution.</b> Both conditions fail. It is enough to exhibit one counterexample for each.</p>
+  <ol class="steps">
+    <li><b>Scalar multiplication fails on two counts.</b> Take an affordable bundle that exhausts the budget, e.g. $\mathbf{x}=(m/p_1,\,0)$, so $p_1x_1+p_2x_2=m$ and $\mathbf{x}\in B$. Now scale by $\lambda=2$:
+    $$2\mathbf{x}=(2m/p_1,\,0),\qquad p_1(2m/p_1)=2m&gt;m$$
+    so $2\mathbf{x}\notin B$. This is the "double an affordable bundle" hint: doubling a bundle doubles its cost, and the budget does not double with it.</li>
+    <li>Scaling fails a second way, independently of the budget line. Take $\lambda=-1$ and any $\mathbf{x}\in B$ with $\mathbf{x}\neq\mathbf{0}$: then $-\mathbf{x}$ has a negative coordinate, so $-\mathbf{x}\notin\mathbb{R}^2_+$ and is not in $B$. Negative consumption is outside the set by construction.</li>
+    <li><b>Addition fails too.</b> With the same $\mathbf{x}$ as above, $\mathbf{x}+\mathbf{x}=2\mathbf{x}$ costs $2m&gt;m$. Two individually affordable bundles need not be jointly affordable — which is the entire economic content of a budget constraint.</li>
+  </ol>
+  <p>So $B$ is <b>not a vector space</b>. Note that the zero test does not settle it here: $\mathbf{0}=(0,0)$ <i>is</i> in $B$ (it costs nothing and is non-negative), so the quick check passes and you still have to do the work.</p>
+  <div class="note fin"><div class="t">The economics behind the failure</div>Two features break closure, and both are deliberate modelling choices: the <b>inequality with a positive bound</b> $m$ (scaling up eventually exceeds it) and the <b>non-negativity restriction</b> $\mathbb{R}^2_+$ (no short-selling of consumption). A budget set is a convex set, not a linear one — convexity is what economics needs here, and it is a genuinely weaker property.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slide 11) · fully-invested versus self-financing portfolios</div>
+  <div class="body">
+  <p>Three assets; $x_i$ is the fraction of wealth held in asset $i$. Define</p>
+  $$W=\{\mathbf{x}\in\mathbb{R}^3:x_1+x_2+x_3=1\}\ \text{(fully invested)},\qquad
+  W_0=\{\mathbf{w}\in\mathbb{R}^3:w_1+w_2+w_3=0\}\ \text{(self-financing, long–short)}$$
+  <p>Which of $W$, $W_0$ is a vector space?</p>
+  <p><b>Solution: $W_0$ is; $W$ is not.</b></p>
+  <ol class="steps">
+    <li><b>$W$ fails immediately at the zero test.</b> $\mathbf{0}=(0,0,0)$ has coordinate sum $0\neq1$, so $\mathbf{0}\notin W$ and $W$ cannot be a vector space. Done in one line.</li>
+    <li>If you prefer an explicit counterexample: $\mathbf{x}=(1,0,0)$ and $\mathbf{y}=(0,1,0)$ are both in $W$, but $\mathbf{x}+\mathbf{y}=(1,1,0)$ has sum $2\neq1$. Likewise $2\mathbf{x}=(2,0,0)$ has sum 2. Both closures fail.</li>
+    <li><b>$W_0$ passes both.</b> Let $\mathbf{u},\mathbf{v}\in W_0$, so $\sum_i u_i=0$ and $\sum_i v_i=0$. Then
+    $$\sum_i(u_i+v_i)=\sum_i u_i+\sum_i v_i=0+0=0\ \Rightarrow\ \mathbf{u}+\mathbf{v}\in W_0$$
+    $$\sum_i(\lambda u_i)=\lambda\sum_i u_i=\lambda\cdot0=0\ \Rightarrow\ \lambda\mathbf{u}\in W_0$$
+    Both closures hold for arbitrary elements, so $W_0$ is a vector space — in fact a <b>subspace</b> of $\mathbb{R}^3$ (module 06), of dimension 2 (module 08).</li>
+  </ol>
+  <div class="note fin"><div class="t">The economics</div>The difference is the right-hand side, $1$ versus $0$. A <b>fully-invested</b> portfolio must deploy exactly your wealth: the constraint is an <i>affine</i> one (a plane not through the origin), and combining two such portfolios naïvely spends your money twice. A <b>self-financing</b> position costs nothing to open — every long is funded by a short — so you can add two of them, scale one up, or reverse one, and it is still self-financing. Zero net cost is precisely what makes the set linear.</div>
+  <p>This is also why textbook portfolio theory writes an arbitrary portfolio as <i>one</i> fully-invested benchmark <b>plus</b> a self-financing overlay: $W=\mathbf{x}_0+W_0$, a fixed point plus a vector space. That decomposition is the finance version of the general solution structure in module 12 — one particular solution plus the space of homogeneous solutions.</p>
+  </div>
+</div>
+</section>

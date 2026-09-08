@@ -1,0 +1,119 @@
+<!-- ============ 11 INVERSE OF A SQUARE MATRIX ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>The inverse of a square matrix</h2><span class="sub">lecture 3, slides 20–25 and 32–33 · dividing by a matrix, when it is possible at all</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The motivating question<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The goal is to solve $A\mathbf{x}=\mathbf{b}$. For ordinary numbers the recipe is familiar: to solve $ax=b$ with $a\neq0$, multiply both sides by $a^{-1}$ and read off $x=a^{-1}b$.</p>
+  <p>Can we do the same with matrices? Note first what we <b>cannot</b> do: divide the vector $\mathbf{b}$ by the matrix $A$. That operation does not exist — there is no definition of division for matrices, and inventing one is not an option. What we can ask is whether there is a matrix that <i>plays the role</i> of $a^{-1}$, namely one that undoes what $A$ does. For square matrices the answer is: sometimes yes, and there is a clean test for when.</p>
+  <div class="note tip"><div class="t">The three questions of this module</div>(1) What exactly is an inverse? (2) When does one exist? — answer: exactly when $\det A\neq0$. (3) How do you compute one? — answer: an explicit formula, easy for $2\times2$, laborious beyond $3\times3$.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Inverse matrix<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Consider an $(n\times n)$-matrix $A$. If there exists an $(n\times n)$-matrix $C$ such that</p>
+  $$\boxed{\;CA=AC=I_n\;}$$
+  <p>where $I_n$ is the $(n\times n)$ identity, then $C$ is called <b>the inverse of $A$</b> and is denoted $A^{-1}$.</p>
+  <p>Note that the condition is required on <b>both sides</b>. Since matrix multiplication is not commutative (module 03), $CA=I$ and $AC=I$ are a priori different demands; for square matrices they turn out to be equivalent, but the definition states both.</p>
+  <h3>A matrix has at most one inverse</h3>
+  <p><b>Proposition 4.1.</b> A square matrix has at most one inverse matrix.</p>
+  <p><b>Proof (Exercise 17).</b> Suppose $A$ had two inverses, $A^{-1}$ and $\tilde A^{-1}$, so that</p>
+  $$AA^{-1}=A^{-1}A=I\qquad\text{and}\qquad A\tilde A^{-1}=\tilde A^{-1}A=I$$
+  <p>Then, using $I$ as neutral element and associativity of the product (module 03),</p>
+  $$A^{-1}=A^{-1}I=A^{-1}(A\tilde A^{-1})=(A^{-1}A)\tilde A^{-1}=I\,\tilde A^{-1}=\tilde A^{-1}$$
+  <p>so the two supposed inverses are the same matrix. $\;\square$</p>
+  <p>This is why we may say "<i>the</i> inverse" and write $A^{-1}$ without ambiguity. It is also what makes the solution $\mathbf{x}=A^{-1}\mathbf{b}$ unique in module 13.</p>
+  <p><b>Definition.</b> A matrix is <b>nonsingular</b> if its inverse $A^{-1}$ exists; otherwise it is <b>singular</b>.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">PROP 4.2</span> When does the inverse exist?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $A$ be a square matrix. Then</p>
+  $$\boxed{\;A^{-1}\text{ exists (i.e. }A\text{ is nonsingular)}\iff \det(A)\neq0\;}$$
+  <p>Combined with Proposition 3.1 from module 10, the chain of equivalences for a square $(n\times n)$-matrix is now complete:</p>
+  $$A^{-1}\text{ exists}\iff \det A\neq0\iff \text{rank}(A)=n\iff\text{columns of }A\text{ independent}\iff\text{columns form a basis of }\mathbb{R}^n$$
+  <p>All five say the same thing. The practical value is that the middle one is a computation of a single number.</p>
+  <h3>Why the equivalence is believable</h3>
+  <p>If the columns of $A$ are dependent, then by Theorem 4.1 (module 07) there is some $\mathbf{v}\neq\mathbf{0}$ with $A\mathbf{v}=\mathbf{0}$. If an inverse existed we could multiply on the left:</p>
+  $$\mathbf{v}=I\mathbf{v}=(A^{-1}A)\mathbf{v}=A^{-1}(A\mathbf{v})=A^{-1}\mathbf{0}=\mathbf{0}$$
+  <p>contradicting $\mathbf{v}\neq\mathbf{0}$. So dependence rules out an inverse: a matrix that squashes a non-zero vector to zero has destroyed information, and no matrix can restore it.</p>
+  <div class="note warn"><div class="t">Only for square matrices</div>Determinants and inverses in this sense exist only for square matrices. A $(3\times2)$ matrix has no determinant and no inverse, whatever its entries.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">FORMULA</span> The inverse of a $2\times2$ matrix<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $A=\begin{bmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{bmatrix}$. To find $A^{-1}=:B$ we impose the definition, $AB=I$:</p>
+  $$\begin{bmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{bmatrix}\begin{bmatrix}b_{11}&b_{12}\\b_{21}&b_{22}\end{bmatrix}=\begin{bmatrix}1&0\\0&1\end{bmatrix}$$
+  <p>which is four linear equations in the four unknowns $b_{ij}$. Solving them gives the formula every student should know by heart:</p>
+  $$A^{-1}=\frac{1}{a_{11}a_{22}-a_{12}a_{21}}\begin{bmatrix}a_{22}&-a_{12}\\-a_{21}&a_{11}\end{bmatrix}=\frac{1}{\det(A)}\begin{bmatrix}a_{22}&-a_{12}\\-a_{21}&a_{11}\end{bmatrix}\tag{4.1}$$
+  <p>In words: <b>swap the diagonal entries, flip the sign of the off-diagonal entries, divide everything by the determinant.</b></p>
+  <p>Formula (4.1) illustrates Proposition 4.2 perfectly: if $\det(A)=0$ the division is impossible and the inverse does not exist. The formula does not merely fail to apply — there is nothing to compute.</p>
+  <div class="note tip"><div class="t">Always verify</div>Sign errors here are common and cheap to catch: multiply your answer back by $A$ and confirm you get $I$. Two minutes of checking beats a wrong answer carried through the rest of a question.</div>
+
+  <div class="ex" style="margin-top:12px">
+    <div class="bar">WORKED (exercise sheet, items v–vi) · two $2\times2$ inverses</div>
+    <div class="body">
+    <p><b>(v) Is $B=\begin{bmatrix}2&-6\\-1&3\end{bmatrix}$ nonsingular? If yes, find $B^{-1}$.</b></p>
+    <ol class="steps">
+      <li>$\det(B)=2\cdot3-(-6)(-1)=6-6=0$.</li>
+      <li>By Proposition 4.2, $B$ is <b>singular</b>: no inverse exists. Stop here — there is nothing further to compute.</li>
+      <li>Why, structurally: the second column is $-3$ times the first, so the columns are dependent, $\text{rank}(B)=1&lt;2$. $B$ maps the whole plane onto a single line, and no matrix can undo that.</li>
+    </ol>
+    <p><b>(vi) Is $A=\begin{bmatrix}2&3\\-2&4\end{bmatrix}$ nonsingular? If yes, find $A^{-1}$.</b></p>
+    <ol class="steps">
+      <li>$\det(A)=2\cdot4-3\cdot(-2)=8+6=14\neq0$, so $A$ is <b>nonsingular</b>.</li>
+      <li>Apply (4.1) — swap the diagonal, negate the off-diagonal, divide by 14:
+      $$A^{-1}=\frac{1}{14}\begin{bmatrix}4&-3\\2&2\end{bmatrix}=\begin{bmatrix}2/7&-3/14\\1/7&1/7\end{bmatrix}$$</li>
+      <li>Check: $AA^{-1}=\dfrac{1}{14}\begin{bmatrix}2&3\\-2&4\end{bmatrix}\begin{bmatrix}4&-3\\2&2\end{bmatrix}=\dfrac{1}{14}\begin{bmatrix}8+6&-6+6\\-8+8&6+8\end{bmatrix}=\dfrac{1}{14}\begin{bmatrix}14&0\\0&14\end{bmatrix}=I$ ✓</li>
+    </ol>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">RULES</span> Useful results about inverses<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>All of these are on slide 25 and all get used later.</p>
+  <table class="formula-table">
+    <tr><td>Inverse of a diagonal matrix</td><td>$D=\text{diag}(d_1,\dots,d_n)\Rightarrow D^{-1}=\text{diag}(1/d_1,\dots,1/d_n)$, provided every $d_i\neq0$</td></tr>
+    <tr><td>Determinant of the inverse</td><td>$|A^{-1}|=\dfrac{1}{|A|}$</td></tr>
+    <tr><td>Inverse of the inverse</td><td>$(A^{-1})^{-1}=A$</td></tr>
+    <tr><td>Inverse and transpose commute</td><td>$(A^{-1})'=(A')^{-1}$</td></tr>
+    <tr><td>Symmetry is preserved</td><td>$A$ symmetric $\Rightarrow A^{-1}$ symmetric</td></tr>
+    <tr><td>Inverse of a product</td><td>$(AB)^{-1}=B^{-1}A^{-1}$ — <b>order reverses</b></td></tr>
+  </table>
+  <p>The diagonal rule is worth internalising: inverting a diagonal matrix is just reciprocating the entries, and if any diagonal entry is 0 there is no inverse — consistent with $|D|=\prod d_i=0$.</p>
+  <p>The last rule reverses the order, exactly like $(AB)'=B'A'$. The proof is a one-liner:</p>
+  $$(AB)(B^{-1}A^{-1})=A(BB^{-1})A^{-1}=AIA^{-1}=AA^{-1}=I$$
+  <div class="note fin"><div class="t">Everyday intuition</div>To undo "put on socks, then shoes", you take off the shoes first, then the socks. Undoing a sequence reverses its order — that is all $(AB)^{-1}=B^{-1}A^{-1}$ says.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">FORMULA</span> The general inverse, and the $3\times3$ case<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Proposition 6.1.</b> The inverse $A^{-1}=:B$ of a nonsingular $(n\times n)$-matrix $A$ is the $(n\times n)$-matrix whose $(i,j)$-th entry is</p>
+  $$b_{ij}=\frac{1}{|A|}(-1)^{i+j}|A_{ji}|$$
+  <p>where $A_{ji}$ is the matrix obtained from $A$ by <b>deleting row $j$ and column $i$</b>, and $|A_{ji}|$ is the corresponding minor (module 10).</p>
+  <div class="note warn"><div class="t">Read the indices twice</div>The $(i,j)$ entry of the inverse uses the minor $|A_{ji}|$ — <b>not</b> $|A_{ij}|$. The indices are swapped: you build the matrix of cofactors and then <b>transpose it</b>. Missing that transpose is the classic error, and for a non-symmetric matrix it silently produces a wrong answer.</div>
+  <p>For $n=3$ the formula written out is:</p>
+  $$A=\begin{bmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{bmatrix}
+  \Longrightarrow
+  A^{-1}=\frac{1}{|A|}\begin{bmatrix}|A_{11}|&-|A_{21}|&|A_{31}|\\-|A_{12}|&|A_{22}|&-|A_{32}|\\|A_{13}|&-|A_{23}|&|A_{33}|\end{bmatrix}$$
+  <p>where, for instance,</p>
+  $$|A_{11}|=a_{22}a_{33}-a_{23}a_{32},\qquad |A_{21}|=a_{12}a_{33}-a_{13}a_{32},\qquad |A_{31}|=a_{12}a_{23}-a_{13}a_{22}$$
+  <p>Note how the indices run <i>down</i> the first column of the answer using minors from the first <i>row</i> — that is the transposition at work.</p>
+  <div class="note tip"><div class="t">Practical advice</div>Compute $|A|$ first. If it is 0 you are finished. If not, and the matrix is $3\times3$ or larger, ask whether you actually need the whole inverse: to solve one system $A\mathbf{x}=\mathbf{b}$, substitution or elimination is usually faster than building all nine cofactors. The inverse earns its cost when you need to solve for <i>many</i> different $\mathbf{b}$ with the same $A$ — as in the input–output model of module 13, where $(I-A)^{-1}$ is reused for every demand vector.</div>
+  </div>
+</div>
+</div>
+</section>

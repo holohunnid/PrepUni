@@ -1,0 +1,146 @@
+<!-- ============ 03 MATRIX PRODUCT ============ -->
+<section id="s3">
+<div class="sec-head"><span class="num">03</span><h2>The product of two matrices</h2><span class="sub">lecture 1, slides 24–29 · the rule, the shape condition, and the one reading of $A\mathbf{x}$ that matters</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The operation the whole course is built on<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Matrix multiplication is not "multiply the matching entries". It is a rule that looks arbitrary the first time you see it and turns out to be the only definition that makes $A\mathbf{x}=\mathbf{b}$ mean "a system of linear equations". Everything in modules 09–13 is downstream of it.</p>
+  <p>There are two things to take from this module, and the second is more important than the first:</p>
+  <ol class="steps">
+    <li><b>The mechanical rule</b>: entry $(i,j)$ of $AB$ is the dot product of row $i$ of $A$ with column $j$ of $B$. Plus the shape condition that makes it possible at all.</li>
+    <li><b>The interpretation of $A\mathbf{x}$</b> (slide 28): $A\mathbf{x}$ is a <b>linear combination of the columns of $A$</b>, with the entries of $\mathbf{x}$ as the weights. This one sentence is the bridge from matrix algebra to vector spaces, and it is what turns "solve the system" into "is $\mathbf{b}$ reachable from the columns of $A$?".</li>
+  </ol>
+  <div class="note tip"><div class="t">If you remember one line from lecture 1</div>$A\mathbf{x}=x_1\mathbf{a}_{\cdot1}+x_2\mathbf{a}_{\cdot2}+\dots+x_k\mathbf{a}_{\cdot k}$. Modules 06, 09 and 12 are all consequences of it.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The general formula, and when the product exists<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $A$ be an $(n\times k)$-matrix and $B$ a $(k\times m)$-matrix. Their product is the $(n\times m)$-matrix</p>
+  $$C=AB=[c_{ij}],\qquad c_{ij}=\mathbf{a}_{i\cdot}\cdot\mathbf{b}_{\cdot j}=\sum_{\ell=1}^{k}a_{i\ell}\,b_{\ell j}$$
+  <p>In words: to get the entry in <b>row $i$, column $j$</b> of the answer, take <b>row $i$ of $A$</b> and <b>column $j$ of $B$</b>, multiply them term by term, and add up. Here $i$ runs from $1$ to $n$ and $j$ from $1$ to $m$.</p>
+  <div class="note warn"><div class="t">The condition — this is the whole game</div>$AB$ is defined <b>only if</b> the number of <u>columns of $A$</u> equals the number of <u>rows of $B$</u>. Otherwise row $i$ of $A$ and column $j$ of $B$ have different lengths and the sum above is meaningless.</div>
+  <p>The bookkeeping device everyone uses: write the two shapes next to each other and check that the inner pair matches. The outer pair is then the answer's shape.</p>
+  $$\underset{(n\times \color{green}{k})}{A}\ \underset{(\color{green}{k}\times m)}{B}\;=\;\underset{(n\times m)}{C}\qquad
+  \text{inner numbers must agree; outer numbers give the result}$$
+  <p>Example of the mechanics with $(2\times3)(3\times2)$:</p>
+  $$\begin{bmatrix}1&2&3\\0&4&5\end{bmatrix}\begin{bmatrix}1&2\\0&4\\0&3\end{bmatrix}
+  =\begin{bmatrix}1\cdot1+2\cdot0+3\cdot0 & 1\cdot2+2\cdot4+3\cdot3\\ 0\cdot1+4\cdot0+5\cdot0 & 0\cdot2+4\cdot4+5\cdot3\end{bmatrix}
+  =\begin{bmatrix}1&19\\0&31\end{bmatrix}$$
+  <p>Result is $(2\times2)$, exactly as the outer numbers promised.</p>
+  <figure>
+  <svg viewBox="0 0 560 210">
+    <text x="8" y="16" class="svgtxt w">row i of A  ×  column j of B  →  entry (i,j) of C</text>
+    <!-- A -->
+    <rect x="10" y="34" width="150" height="90" fill="none" stroke="var(--border2)"/>
+    <rect x="10" y="64" width="150" height="30" fill="var(--greenbg)" stroke="var(--green2)"/>
+    <text x="85" y="84" class="svgtxt g" text-anchor="middle">row i</text>
+    <text x="85" y="140" class="svgtxt" text-anchor="middle">A   (n × k)</text>
+    <!-- B -->
+    <rect x="190" y="14" width="110" height="130" fill="none" stroke="var(--border2)"/>
+    <rect x="226" y="14" width="36" height="130" fill="var(--bluebg)" stroke="#2a4a80"/>
+    <text x="244" y="84" class="svgtxt b" text-anchor="middle">col j</text>
+    <text x="245" y="162" class="svgtxt" text-anchor="middle">B   (k × m)</text>
+    <text x="325" y="88" class="svgtxt w" text-anchor="middle">=</text>
+    <!-- C -->
+    <rect x="360" y="34" width="140" height="90" fill="none" stroke="var(--border2)"/>
+    <rect x="404" y="64" width="34" height="30" fill="var(--amberbg)" stroke="#7a5a1a"/>
+    <text x="421" y="84" class="svgtxt a" text-anchor="middle">c</text>
+    <text x="430" y="140" class="svgtxt" text-anchor="middle">C   (n × m)</text>
+    <text x="8" y="186" class="svgtxt">the green row and the blue column must have</text>
+    <text x="8" y="202" class="svgtxt">the same length — that is the condition k = k</text>
+  </svg>
+  <figcaption>The shape rule made visual: the highlighted row and column must be the same length, and where they cross in the result is where the answer lands.</figcaption>
+  </figure>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> The product is not commutative<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For real numbers $ab=ba$ always. For matrices, <b>$AB\neq BA$</b> in general, and the failure comes in three increasingly subtle flavours:</p>
+  <ol class="steps">
+    <li><b>One product exists, the other does not.</b> This is the lecture's own example (slide 26): with
+    $$A=\begin{bmatrix}1&1&1\\1&1&1\end{bmatrix}\ (2\times3),\qquad B=\begin{bmatrix}1&1\\1&1\end{bmatrix}\ (2\times2)$$
+    $AB$ would be $(2\times3)(2\times2)$: inner numbers $3$ and $2$ disagree, so <b>$AB$ is not defined</b>. But $BA$ is $(2\times2)(2\times3)$: inner numbers agree, giving a $(2\times3)$ matrix
+    $$BA=\begin{bmatrix}2&2&2\\2&2&2\end{bmatrix}$$
+    So $AB=BA$ fails in the strongest possible way — one side does not exist.</li>
+    <li><b>Both exist but have different shapes.</b> If $A$ is $(2\times3)$ and $B$ is $(3\times2)$, then $AB$ is $(2\times2)$ and $BA$ is $(3\times3)$. They cannot be equal; they are not even comparable.</li>
+    <li><b>Both exist, same shape, still different.</b> For square $A,B$ of equal size both products are defined and the same size, and they are <i>still</i> usually different:
+    $$\begin{bmatrix}0&1\\0&0\end{bmatrix}\begin{bmatrix}0&0\\1&0\end{bmatrix}=\begin{bmatrix}1&0\\0&0\end{bmatrix},\qquad
+    \begin{bmatrix}0&0\\1&0\end{bmatrix}\begin{bmatrix}0&1\\0&0\end{bmatrix}=\begin{bmatrix}0&0\\0&1\end{bmatrix}$$</li>
+  </ol>
+  <div class="note warn"><div class="t">Consequence</div>You may never "cancel" or reorder matrices casually. $AB=AC$ does <b>not</b> give $B=C$ unless $A$ is invertible (module 11), and even then you must multiply on the <i>same side</i> of both: $A^{-1}AB=A^{-1}AC$.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">RULES</span> What the product <i>does</i> obey<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Commutativity is the only casualty. Everything else survives (slide 27):</p>
+  <table class="formula-table">
+    <tr><td>Identity is neutral</td><td>$AI_n=A$ and $I_nB=B$ (with $A$ being $n\times n$ or $k\times n$, $B$ being $n\times\ell$)</td></tr>
+    <tr><td>Associative</td><td>$(AB)C=A(BC)$ — so $ABC$ is unambiguous</td></tr>
+    <tr><td>Distributive</td><td>$A(B+C)=AB+AC$ and $(A+B)C=AC+BC$</td></tr>
+    <tr><td>Transpose of a product</td><td>$(AB)'=B'A'$ — <b>note the reversal</b></td></tr>
+  </table>
+  <p>The reversal in the last rule is forced by the shapes, which is a good way to remember it: if $A$ is $(n\times k)$ and $B$ is $(k\times m)$, then $(AB)'$ is $(m\times n)$. The only way to build an $(m\times n)$ product from $A'$ $(k\times n)$ and $B'$ $(m\times k)$ is $B'A'$. The order <i>has</i> to flip; there is no alternative that even type-checks.</p>
+  <div class="note tip"><div class="t">Used constantly in finance</div>Portfolio variance is $\mathbf{w}'\Sigma\mathbf{w}$. Check the shapes: $(1\times n)(n\times n)(n\times1)=(1\times1)$ — a single number, as a variance must be. Being able to run that check in your head catches most algebra slips before they happen.</div>
+  <p class="muted"><b>Check yourself:</b> $A$ is $(4\times2)$ and $B$ is $(2\times4)$. Which of $AB$, $BA$, $A'B'$, $B'A'$ are defined, and what are their shapes? (Answers: $AB$ is $4\times4$; $BA$ is $2\times2$; $A'B'$ is $(2\times4)(4\times2)=2\times2$; $B'A'$ is $(4\times2)(2\times4)=4\times4$. Consistent with $(AB)'=B'A'$.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA</span> $A\mathbf{x}$ is a linear combination of the columns of $A$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Take the general formula and specialise it: $A$ is $(n\times k)$, and $\mathbf{x}$ is a $(k\times1)$ column vector. The shapes check out ($k=k$), so the product is an $(n\times1)$ column:</p>
+  $$A\mathbf{x}=\begin{bmatrix}a_{11}&a_{12}&\dots&a_{1k}\\a_{21}&a_{22}&\dots&a_{2k}\\ &&\dots&\\ a_{n1}&a_{n2}&\dots&a_{nk}\end{bmatrix}\begin{bmatrix}x_1\\x_2\\ \vdots\\x_k\end{bmatrix}=\begin{bmatrix}b_1\\b_2\\ \vdots\\b_n\end{bmatrix}=\mathbf{b}$$
+  <p>Row by row, $b_i=a_{i1}x_1+a_{i2}x_2+\dots+a_{ik}x_k$. That is the <b>row reading</b>, and it is how you compute.</p>
+  <p>Now group the same numbers by <i>column</i> instead. Every entry of the first column of $A$ is multiplied by $x_1$, every entry of the second column by $x_2$, and so on:</p>
+  $$A\mathbf{x}=x_1\begin{bmatrix}a_{11}\\a_{21}\\ \vdots\\a_{n1}\end{bmatrix}+x_2\begin{bmatrix}a_{12}\\a_{22}\\ \vdots\\a_{n2}\end{bmatrix}+\dots+x_k\begin{bmatrix}a_{1k}\\a_{2k}\\ \vdots\\a_{nk}\end{bmatrix}
+  = x_1\mathbf{a}_{\cdot1}+x_2\mathbf{a}_{\cdot2}+\dots+x_k\mathbf{a}_{\cdot k}$$
+  <p>Same numbers, same answer, completely different reading. This is the <b>column reading</b>: $A\mathbf{x}$ is a recipe that takes $x_1$ parts of the first column, $x_2$ parts of the second, and adds them up. The entries of $\mathbf{x}$ are <i>weights</i>, and the columns of $A$ are the <i>ingredients</i>.</p>
+  <h3>Why this reframing is the point of the lecture</h3>
+  <p>Solving $A\mathbf{x}=\mathbf{b}$ now reads: <b>can $\mathbf{b}$ be built as a combination of the columns of $A$, and if so, with which weights?</b> Existence of a solution becomes a question about reachability, uniqueness becomes a question about redundancy among the columns. Modules 06–09 develop exactly this language (span, independence, rank), and module 12 uses it to classify every possible system.</p>
+  <h3>The lecture's example (slide 29)</h3>
+  <p>With $A=\begin{bmatrix}-2&-1&4\\2&1&-2\\-1&-1&3\end{bmatrix}$ and $\mathbf{x}=\begin{bmatrix}1\\2\\-1\end{bmatrix}$:</p>
+  $$A\mathbf{x}=1\begin{bmatrix}-2\\2\\-1\end{bmatrix}+2\begin{bmatrix}-1\\1\\-1\end{bmatrix}+(-1)\begin{bmatrix}4\\-2\\3\end{bmatrix}
+  =\begin{bmatrix}-2-2-4\\2+2+2\\-1-2-3\end{bmatrix}=\begin{bmatrix}-8\\6\\-6\end{bmatrix}\in\mathbb{R}^3$$
+  <p>Compute it the row way as a check: row 1 gives $(-2)(1)+(-1)(2)+(4)(-1)=-2-2-4=-8$ ✓. Same answer, and you should be fluent in both directions.</p>
+
+  <div class="ctrl">
+    <label>$x_1$ <input type="range" id="lc_x1" min="-2" max="2" step="0.1" value="1"><span class="val" id="lc_x1_v">1.0</span></label>
+    <label>$x_2$ <input type="range" id="lc_x2" min="-2" max="2" step="0.1" value="0.5"><span class="val" id="lc_x2_v">0.5</span></label>
+    <span class="btns"><button onclick="lcSet(1,0)">only column 1</button><button onclick="lcSet(0,1)">only column 2</button><button onclick="lcSet(1,1)">sum of both</button><button onclick="lcSet(1.6,-1.2)">a mixed recipe</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="lcsvg" viewBox="0 0 340 260"></svg>
+    <figcaption>$A=\begin{pmatrix}2&-1\\1&2\end{pmatrix}$. The two blue arrows are its columns $\mathbf{a}_{\cdot1},\mathbf{a}_{\cdot2}$; the dashed arrows are the scaled copies $x_1\mathbf{a}_{\cdot1}$ and $x_2\mathbf{a}_{\cdot2}$; the green arrow is their sum, $A\mathbf{x}$.</figcaption></figure>
+    <div>
+      <div class="readout" id="lcread"></div>
+      <p style="margin-top:10px">Move the two sliders and watch the green tip travel. The key observation: because these two columns point in genuinely different directions, the green tip can be made to land on <b>any</b> point of the plane. In the language of module 06, the columns <i>span</i> $\mathbb{R}^2$; in the language of module 12, $A\mathbf{x}=\mathbf{b}$ has a solution for every $\mathbf{b}$.</p>
+      <p class="muted">Keep this picture in mind for module 07. If the second column were a multiple of the first, both dashed arrows would lie on one line, the green tip could never leave that line, and most targets $\mathbf{b}$ would be unreachable. That single failure is what "linearly dependent columns" means, and it is the root cause of every system that has no solution or infinitely many.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">WORKED · reading dimensions before computing</div>
+  <div class="body">
+  <p>Three products from the exercise sheet, chosen because the shapes alone tell you most of the answer.</p>
+  <ol class="steps">
+    <li>$\begin{bmatrix}1&2\\3&1\end{bmatrix}\begin{bmatrix}1&1&1\\-2&-2&-2\end{bmatrix}$: shapes $(2\times2)(2\times3)$ → result is $(2\times3)$. Row 1 of the left is $(1,2)$; every column of the right is $(1,-2)'$, so every entry of row 1 is $1-4=-3$. Row 2 is $(3,1)$, giving $3-2=1$ each time:
+    $$=\begin{bmatrix}-3&-3&-3\\1&1&1\end{bmatrix}$$</li>
+    <li>$\begin{bmatrix}1\\2\\3\end{bmatrix}\begin{bmatrix}-1&-1&-1\end{bmatrix}$: shapes $(3\times1)(1\times3)$ → result is $(3\times3)$. A column times a row is a whole matrix (an <b>outer product</b>):
+    $$=\begin{bmatrix}-1&-1&-1\\-2&-2&-2\\-3&-3&-3\end{bmatrix}$$</li>
+    <li>$\begin{bmatrix}-1&-1&-1\end{bmatrix}\begin{bmatrix}1\\2\\3\end{bmatrix}$: shapes $(1\times3)(3\times1)$ → result is $(1\times1)$, i.e. a single number:
+    $$=-1-2-3=-6$$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Items 2 and 3 use the same two vectors in the opposite order and produce a $3\times3$ matrix versus a single number. That is non-commutativity in its most vivid form, and it is also the distinction between the <b>outer product</b> $\mathbf{a}\mathbf{b}'$ and the <b>dot product</b> $\mathbf{a}'\mathbf{b}$ — the subject of module 04.</div>
+  </div>
+</div>
+</section>

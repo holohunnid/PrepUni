@@ -1,0 +1,26 @@
+{
+  "id": "refresher-linear-algebra",
+  "brand": "REFRESHER · PART 2",
+  "title": "Refresher Course · Linear Algebra · USI",
+  "tag": "Refresher Course · USI",
+  "stats": "14 modules · every lecture slide explained · all 30 slide exercises solved",
+  "home": "/refresher",
+  "homeLabel": "refresher",
+  "footer": "Refresher Course in Mathematics and Probability, USI · Linear Algebra part · built from the five lectures by Claudia Ravanelli (matrix terminology and algebra, vector spaces, geometry of matrices, systems of linear equations) plus the exercise sheet · interactive figures need JavaScript; the print button produces a light-theme PDF.",
+  "modules": [
+    { "anchor": "s1",  "num": "01", "title": "Matrix terminology" },
+    { "anchor": "s2",  "num": "02", "title": "Transpose & addition" },
+    { "anchor": "s3",  "num": "03", "title": "Matrix product" },
+    { "anchor": "s4",  "num": "04", "title": "Dot product & angles" },
+    { "anchor": "s5",  "num": "05", "title": "Vector spaces" },
+    { "anchor": "s6",  "num": "06", "title": "Span & subspaces" },
+    { "anchor": "s7",  "num": "07", "title": "Dependence" },
+    { "anchor": "s8",  "num": "08", "title": "Bases & dimension" },
+    { "anchor": "s9",  "num": "09", "title": "Rank" },
+    { "anchor": "s10", "num": "10", "title": "Determinant" },
+    { "anchor": "s11", "num": "11", "title": "Inverse matrices" },
+    { "anchor": "s12", "num": "12", "title": "Linear systems" },
+    { "anchor": "s13", "num": "13", "title": "Square systems" },
+    { "anchor": "s14", "num": "14", "title": "All exercises solved" }
+  ]
+}

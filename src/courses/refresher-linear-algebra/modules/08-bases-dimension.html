@@ -1,0 +1,110 @@
+<!-- ============ 08 BASES AND DIMENSION ============ -->
+<section id="s8">
+<div class="sec-head"><span class="num">08</span><h2>Bases and dimension</h2><span class="sub">lecture 2, slides 42–47 · the smallest set that still builds everything</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Putting the two halves together<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 06 gave one requirement — <b>span everything</b> — and module 07 gave the other — <b>waste nothing</b>. A <b>basis</b> is a set of vectors that satisfies both at once: large enough to reach every point of the space, small enough that no member is redundant.</p>
+  <p>Bases are the reason coordinates exist. Once you fix a basis, every vector in the space has exactly one list of coefficients relative to it, and that list <i>is</i> the vector's coordinates. The number of vectors in a basis turns out not to depend on which basis you choose, and that invariant number is the <b>dimension</b> of the space — a single integer summarising how much room there is.</p>
+  <div class="note fin"><div class="t">The finance version</div>A basis of the payoff space is a set of securities that can replicate every conceivable payoff with no redundancy. Its size — the dimension — is the number of securities you need. Whether the traded securities form a basis of the whole payoff space is exactly the question of <b>market completeness</b>, and the exercise at the end of this module answers it in a three-state economy.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Basis<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>basis</b> for a vector space $V$ is a subset $\mathcal{B}$ of vectors of $V$ which is</p>
+  <ol class="steps">
+    <li><b>linearly independent</b>, and</li>
+    <li><b>generating</b>: every vector of $V$ can be expressed as a linear combination of vectors from $\mathcal{B}$, i.e.
+    $$[\mathcal{B}]=\text{span}(\mathcal{B})=V$$</li>
+  </ol>
+  <p>We say "$\mathcal{B}$ generates $V$". Drop condition 1 and you have a spanning set with fat in it; drop condition 2 and you have an independent set that misses part of the space. A basis is the exact balance point.</p>
+  <h3>A basis is not unique</h3>
+  <p>Slide 43 makes the point with two different bases of $\mathbb{R}^2$:</p>
+  $$\left\{\begin{bmatrix}1\\0\end{bmatrix},\begin{bmatrix}0\\1\end{bmatrix}\right\}\qquad\text{and}\qquad\left\{\begin{bmatrix}-2\\1\end{bmatrix},\begin{bmatrix}2\\4\end{bmatrix}\right\}$$
+  <p>Both are independent and both span $\mathbb{R}^2$. The first is the <b>standard (canonical) basis</b> $\{\mathbf{e}_1,\mathbf{e}_2\}$, convenient because the coefficients of a vector in that basis are just its usual coordinates. The second is equally valid and would give the same vectors different coordinate lists — like measuring the same city with axes rotated.</p>
+  <h3>Coordinates are unique once the basis is fixed</h3>
+  <p>Given a basis, each vector of $V$ has <b>exactly one</b> representation as a combination of the basis vectors. This is Corollary 4.2 from module 07: the basis vectors are independent, so two representations of the same vector must have identical coefficients. Existence comes from condition 2, uniqueness from condition 1 — one condition each, which is why a basis needs both.</p>
+  <div class="note tip"><div class="t">Why we insist on independence</div>Without it, coordinates would be ambiguous: the same vector would have many equally valid coordinate lists, and "the" representation would not exist. Redundancy is not just wasteful, it destroys well-definedness.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Dimension<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A vector space is <b>finite dimensional</b> if the number of vectors forming a basis is finite; otherwise it is <b>infinite dimensional</b> (the space of all polynomials, for instance, or of all continuous functions).</p>
+  <p><b>Theorem 5.1.</b> Any two bases of a finite-dimensional vector space contain the <b>same number of elements</b>.</p>
+  <p><i>Sketch of the proof.</i> Suppose $\mathcal{B}=\{\mathbf{b}_1,\dots,\mathbf{b}_m\}$ and $\mathcal{C}=\{\mathbf{c}_1,\dots,\mathbf{c}_p\}$ are both bases, with $p&gt;m$. Every $\mathbf{c}_j$ lies in $V=[\mathcal{B}]$, so each is a combination of the $m$ vectors of $\mathcal{B}$; collect those coefficients as the columns of an $(m\times p)$ matrix $M$, so that $\mathbf{c}_j$ corresponds to column $j$. A vanishing combination $\sum_j\alpha_j\mathbf{c}_j=\mathbf{0}$ then amounts to $M\boldsymbol\alpha=\mathbf{0}$ — a homogeneous system with more unknowns ($p$) than equations ($m$), which always has a non-zero solution (module 12, case $k&gt;n$). That would make $\mathcal{C}$ dependent, contradicting that it is a basis. So $p\le m$; swapping the roles gives $m\le p$, hence $m=p$. $\;\square$</p>
+  <p>Because the count is basis-independent, it deserves a name. A vector space is an <b>$n$-dimensional vector space</b> if it is finite dimensional with a basis of $n$ elements; we write $\dim V=n$.</p>
+  <h3>The reference cases (Exercise 11)</h3>
+  <table class="formula-table">
+    <tr><td>$\mathbb{R}$</td><td>basis $\{1\}$ &nbsp;(or $\{c\}$ for any $c\neq0$)</td><td>$\dim=1$</td></tr>
+    <tr><td>$\mathbb{R}^2$</td><td>basis $\left\{\begin{bmatrix}1\\0\end{bmatrix},\begin{bmatrix}0\\1\end{bmatrix}\right\}$</td><td>$\dim=2$</td></tr>
+    <tr><td>$\mathbb{R}^3$</td><td>basis $\left\{\begin{bmatrix}1\\0\\0\end{bmatrix},\begin{bmatrix}0\\1\\0\end{bmatrix},\begin{bmatrix}0\\0\\1\end{bmatrix}\right\}$</td><td>$\dim=3$</td></tr>
+  </table>
+  <p>In general $\dim\mathbb{R}^n=n$, using the standard basis $\{\mathbf{e}_1,\dots,\mathbf{e}_n\}$ where $\mathbf{e}_i$ has a 1 in position $i$ and zeros elsewhere. These vectors are visibly independent (a combination equals its own coefficient list) and visibly generating (any $\mathbf{x}$ equals $\sum_i x_i\mathbf{e}_i$).</p>
+  <div class="note tip"><div class="t">Two shortcuts worth memorising</div>In an $n$-dimensional space: (i) any set of more than $n$ vectors is dependent; (ii) any set of exactly $n$ <i>independent</i> vectors is automatically a basis — you get "spanning" for free and never have to check it. Shortcut (ii) saves real time in exams.</div>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE 12 (slide 47) · spans, bases and dimensions</div>
+  <div class="body">
+  <p>Let $S_1=\left\{\begin{bmatrix}1\\0\\0\end{bmatrix},\begin{bmatrix}0\\1\\1\end{bmatrix},\begin{bmatrix}2\\1\\0\end{bmatrix}\right\}$ and $S_2=\left\{\begin{bmatrix}1\\0\\0\end{bmatrix},\begin{bmatrix}0\\1\\0\end{bmatrix}\right\}$.</p>
+
+  <p><b>1. Do $[S_2]=\text{span}(S_2)$ and $[S_1]=\text{span}(S_1)$ coincide?</b></p>
+  <ol class="steps">
+    <li>$\text{span}(S_2)=\{(x,y,0):x,y\in\mathbb{R}\}$ — the $xy$-plane, a 2-dimensional subspace of $\mathbb{R}^3$.</li>
+    <li>For $\text{span}(S_1)$, test independence of the three vectors by putting them in a matrix and taking the determinant (module 10, expanding along the last row, which has two zeros):
+    $$\det\begin{pmatrix}1&0&2\\0&1&1\\0&1&0\end{pmatrix}=1\cdot\det\begin{pmatrix}1&1\\1&0\end{pmatrix}=1\cdot(0-1)=-1\neq0$$
+    so the three vectors are independent.</li>
+    <li>Three independent vectors in the 3-dimensional space $\mathbb{R}^3$ form a basis (shortcut (ii) above), so $\text{span}(S_1)=\mathbb{R}^3$.</li>
+    <li><b>No, they do not coincide:</b> $\text{span}(S_1)=\mathbb{R}^3$ while $\text{span}(S_2)$ is only a plane inside it. Concretely, $(0,1,1)\in\text{span}(S_1)$ but $(0,1,1)\notin\text{span}(S_2)$, since everything in $\text{span}(S_2)$ has third coordinate 0.</li>
+  </ol>
+
+  <p><b>2. Find a basis for $[S_1]$.</b></p>
+  <p>$S_1$ itself is a basis: we just checked it is independent, and it generates $[S_1]$ by definition of span. So $\left\{(1,0,0),(0,1,1),(2,1,0)\right\}$ works, and $\dim[S_1]=3$.</p>
+
+  <p><b>3. Is a basis for $[S_1]$ also a basis for $\mathbb{R}^3$?</b></p>
+  <p><b>Yes</b>, because $[S_1]=\mathbb{R}^3$ by part 1 — the two spaces are the same, so a basis of one is a basis of the other. (Had $S_1$ spanned only a proper subspace, the answer would have been no: a basis of a plane inside $\mathbb{R}^3$ has two elements and cannot generate $\mathbb{R}^3$.)</p>
+
+  <p><b>Find $\dim[S]=\dim\text{span}(S)$ for:</b></p>
+  <ol class="steps">
+    <li>$S=\left\{\begin{bmatrix}1\\2\end{bmatrix}\right\}$: one non-zero vector, so it is independent on its own and $\dim=\mathbf{1}$. The span is a line through the origin.</li>
+    <li>$S=\left\{\begin{bmatrix}1\\2\end{bmatrix},\begin{bmatrix}2\\1\end{bmatrix}\right\}$: neither is a multiple of the other ($\det\begin{pmatrix}1&2\\2&1\end{pmatrix}=1-4=-3\neq0$), so both are needed and $\dim=\mathbf{2}$. The span is all of $\mathbb{R}^2$.</li>
+    <li>$S=\left\{\begin{bmatrix}1\\2\end{bmatrix},\begin{bmatrix}2\\1\end{bmatrix},\begin{bmatrix}3\\3\end{bmatrix}\right\}$: three vectors in $\mathbb{R}^2$ must be dependent, and indeed $(3,3)=(1,2)+(2,1)$. The third adds nothing, so $\dim=\mathbf{2}$ again — the span is still $\mathbb{R}^2$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Part 3 is the crucial one: <b>the number of vectors in $S$ is not the dimension of its span.</b> Dimension counts only the independent ones — which is precisely the definition of <b>rank</b> in module 09. Note also that dimension can never exceed the ambient space: no set of vectors in $\mathbb{R}^2$ has a span of dimension 3.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slide 46) · how many securities to complete the market?</div>
+  <div class="body">
+  <p>Three states of the world and two securities, $\mathbf{a}=(1,1,1)$ and $\mathbf{b}=(2,1,0)$ (the same pair as module 06).</p>
+
+  <p><b>a) What is $\dim(\text{span}(\mathbf{a},\mathbf{b}))$?</b></p>
+  <p>The two vectors are independent — no scalar $\lambda$ satisfies $(2,1,0)=\lambda(1,1,1)$, since the first coordinate demands $\lambda=2$ and the third demands $\lambda=0$. Two independent vectors span a 2-dimensional subspace, so</p>
+  $$\dim(\text{span}(\mathbf{a},\mathbf{b}))=2$$
+  <p>which is the plane through the origin found in module 06.</p>
+
+  <p><b>b) Minimum number of additional securities needed to complete the market, and why?</b></p>
+  <ol class="steps">
+    <li>Payoffs live in $\mathbb{R}^3$, since there are three states, and $\dim\mathbb{R}^3=3$.</li>
+    <li>The market is <b>complete</b> when every conceivable payoff is replicable, i.e. when the traded securities span all of $\mathbb{R}^3$. That requires at least 3 independent securities.</li>
+    <li>We currently have 2 independent ones, so the minimum number of <b>additional</b> securities is $3-2=\mathbf{1}$.</li>
+    <li>But it must be the right one: any new security lying <i>inside</i> the existing plane — for example $\mathbf{a}+\mathbf{b}=(3,2,1)$ — is redundant and raises the dimension by nothing. The new security must be linearly independent of $\mathbf{a}$ and $\mathbf{b}$, i.e. off the plane.</li>
+  </ol>
+
+  <p><b>c) Propose an extra security $\mathbf{d}$ so that $\mathbf{a},\mathbf{b},\mathbf{d}$ form a basis of $\mathbb{R}^3$, and argue why it works.</b></p>
+  <p>Take $\mathbf{d}=(0,0,1)$ — an Arrow–Debreu security paying 1 unit in the third state and nothing otherwise. Stack the three as columns and take the determinant, expanding along the last column (two zeros):</p>
+  $$\det\begin{pmatrix}1&2&0\\1&1&0\\1&0&1\end{pmatrix}=1\cdot(-1)^{3+3}\det\begin{pmatrix}1&2\\1&1\end{pmatrix}=1\cdot(1-2)=-1\neq0$$
+  <p>so the three are independent (module 10). Three independent vectors in the 3-dimensional space $\mathbb{R}^3$ form a basis, hence they span $\mathbb{R}^3$ and every payoff is replicable — <b>the market is complete</b>, and by Corollary 4.2 the replicating portfolio of any payoff is <b>unique</b>.</p>
+  <p>Many other choices work; the only requirement is $\mathbf{d}\notin\text{span}(\mathbf{a},\mathbf{b})$. The payoff $(3,1,0)$ shown to be unreplicable in module 06 is, by that very fact, another valid choice.</p>
+  <div class="note fin"><div class="t">The dictionary</div><b>dimension of the payoff space</b> = number of states. <b>Rank of the payoff matrix</b> = number of independent securities. <b>Complete market</b> = those two numbers are equal. <b>Redundant security</b> = a linearly dependent column. <b>Unique replication (hence a unique price)</b> = independence, via Corollary 4.2. Every finance statement here is a linear algebra statement in disguise.</div>
+  </div>
+</div>
+</section>

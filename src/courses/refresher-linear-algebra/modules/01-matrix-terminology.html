@@ -1,0 +1,139 @@
+<!-- ============ 01 MATRIX TERMINOLOGY ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>Matrix terminology</h2><span class="sub">lecture 1, slides 6–14 · what a matrix is and what its shape already tells you</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why start with vocabulary?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The lecture opens with a list of motivations, and they are worth taking seriously because they explain the shape of everything that follows:</p>
+  <ul>
+    <li><b>Systems of linear equations.</b> A page of simultaneous equations becomes one short expression, $A\mathbf{x}=\mathbf{b}$, which you can then reason about as a single object.</li>
+    <li><b>Optimization.</b> Second-order conditions are statements about a <i>Hessian matrix</i> — whether it is positive or negative definite decides maximum versus minimum.</li>
+    <li><b>Finance.</b> Portfolio variance is $\mathbf{w}'\Sigma\mathbf{w}$, where $\Sigma$ is the covariance matrix of asset returns. One matrix carries every variance and every correlation.</li>
+    <li><b>Economics.</b> Input–output models of production are matrices of technical coefficients (module 13 solves one).</li>
+  </ul>
+  <p>This first module is only terminology, and it is genuinely short. But the lecture makes a point on slide 13 that is easy to read past and worth stating loudly:</p>
+  <div class="note tip"><div class="t">The point of this module</div>The <b>type</b> of a matrix — square, symmetric, diagonal, triangular — tells you something structural about the problem <i>before you compute anything</i>. "$\Sigma$ is symmetric" is not bookkeeping; it is the statement that $\text{Cov}(X,Y)=\text{Cov}(Y,X)$. "$\Sigma$ is diagonal" is the statement that the assets are uncorrelated. Learning to read shape as meaning is most of what this module is for.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Matrix, entries, rows, columns<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>matrix</b> is a rectangular array of numbers. We write it $A=[a_{ij}]$, where the entry $a_{ij}$ sits in <b>row $i$</b> and <b>column $j$</b> — row index always first:</p>
+  $$A=[a_{ij}]=\begin{bmatrix}a_{11}&a_{12}&\dots&a_{1k}\\a_{21}&a_{22}&\dots&a_{2k}\\ \vdots& & &\vdots\\ a_{n1}&a_{n2}&\dots&a_{nk}\end{bmatrix}$$
+  <p>Two pieces of notation from the lecture that get used constantly later:</p>
+  <ul>
+    <li>the <b>$i$-th row</b> of $A$ is written $\;\mathbf{a}_{i\cdot}:=\begin{bmatrix}a_{i1}&a_{i2}&\dots&a_{ik}\end{bmatrix}$ — a row of $k$ numbers;</li>
+    <li>the <b>$j$-th column</b> of $A$ is written $\;\mathbf{a}_{\cdot j}:=\begin{bmatrix}a_{1j}\\a_{2j}\\ \vdots\\ a_{nj}\end{bmatrix}$ — a column of $n$ numbers.</li>
+  </ul>
+  <p>The dot occupies the slot that runs free: $\mathbf{a}_{i\cdot}$ fixes the row and lets the column vary. This looks fussy now; from module 03 onward it is the only way to state the multiplication rule without drowning in indices.</p>
+  <h3>Dimensions</h3>
+  <p>The <b>dimensions</b> of a matrix are how many rows and how many columns it has. $A$ above is an $(n\times k)$-matrix — read "$n$ by $k$" — with $n$ rows and $k$ columns. <b>Rows first, always.</b> If $n=k$ the matrix is <b>square</b>.</p>
+  <div class="note warn"><div class="t">Trap</div>$(2\times3)$ and $(3\times2)$ are different objects and are almost never interchangeable. Getting the order backwards is the single most common source of "this product is not defined" errors later. Say it out loud: <i>rows by columns</i>.</div>
+  <p class="muted"><b>Check yourself:</b> in $\begin{bmatrix}1&2&3\\0&4&5\end{bmatrix}$, what are the dimensions, what is $a_{23}$, and what is $\mathbf{a}_{\cdot2}$? (Answers: $2\times3$; $a_{23}=5$; $\mathbf{a}_{\cdot2}=\begin{bmatrix}2\\4\end{bmatrix}$.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Vectors are matrices too<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>vector</b> is an ordered set of numbers arranged in a single row or a single column. The lecture's point is that this is not a separate kind of object — a vector is just a matrix with one of its two dimensions equal to 1:</p>
+  <ul>
+    <li>a <b>row vector</b> is a $(1\times k)$-matrix: $\;\mathbf{a}=\begin{bmatrix}a_1&a_2&\dots&a_k\end{bmatrix}$;</li>
+    <li>a <b>column vector</b> is an $(n\times1)$-matrix: $\;\mathbf{b}=\begin{bmatrix}b_1\\b_2\\ \vdots\\ b_n\end{bmatrix}$.</li>
+  </ul>
+  <p>Because of this, every rule you learn for matrices applies to vectors automatically. You never need a separate theory.</p>
+  <h3>Notation conventions used everywhere below</h3>
+  <table class="formula-table">
+    <tr><td>Capital letters</td><td>$A$, $B$, $\Sigma$ — matrices</td></tr>
+    <tr><td>Bold lower case</td><td>$\mathbf{a}$, $\mathbf{b}$, $\mathbf{x}$ — vectors</td></tr>
+    <tr><td>Italic lower case</td><td>$c$, $\lambda$ — scalars (plain real numbers)</td></tr>
+    <tr><td>Default shape</td><td>a vector is a <b>column</b> unless stated otherwise</td></tr>
+  </table>
+  <p>That last line matters. When the lectures write $\mathbf{x}\in\mathbb{R}^n$ they mean an $(n\times1)$ column. If a row is wanted it is written as a transpose, $\mathbf{x}'$ (module 02).</p>
+  <div class="note fin"><div class="t">Why the column default</div>Because the object we care most about is $A\mathbf{x}$: a matrix acting on a vector. For that product to be defined, $\mathbf{x}$ has to be a column. Every formula in modules 03 and 12–13 is built around it.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The named types of matrix<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>These six names appear on slides 9–12 and are used without further comment for the rest of the course. Each is a restriction on <i>where the zeros are</i> or on <i>how the entries mirror each other</i>.</p>
+  <table class="formula-table">
+    <tr><td><b>Zero (null) matrix</b>, written $\mathbf{0}$</td><td>every entry is 0. <i>Not</i> necessarily square — there is a $2\times5$ zero matrix.</td></tr>
+    <tr><td><b>Diagonal matrix</b></td><td>square, and $a_{ij}=0$ whenever $i\neq j$. Only the main diagonal may be non-zero (a diagonal entry is <i>allowed</i> to be zero too).</td></tr>
+    <tr><td><b>Scalar matrix</b></td><td>diagonal, with the <i>same</i> value in every diagonal position: $cI$.</td></tr>
+    <tr><td><b>Identity matrix</b> $I$ (or $I_n$)</td><td>the scalar matrix with 1s on the diagonal. It is to matrices what the number 1 is to numbers: $AI=A$, $IB=B$ (module 03).</td></tr>
+    <tr><td><b>Symmetric matrix</b></td><td>$a_{ij}=a_{ji}$ for all $i,j$ — the matrix is unchanged by reflecting across the main diagonal. Necessarily square.</td></tr>
+    <tr><td><b>Triangular matrix</b></td><td>zeros entirely above the diagonal (<b>lower</b> triangular) or entirely below it (<b>upper</b> triangular). Usually square.</td></tr>
+  </table>
+  <p>A concrete instance of each, matching slide 9:</p>
+  $$\underbrace{\begin{bmatrix}0&0\\0&0\\0&0\end{bmatrix}}_{\text{zero }(3\times2)}\quad
+  \underbrace{\begin{bmatrix}1&0&0\\0&8&0\\0&0&4\end{bmatrix}}_{\text{diagonal}}\quad
+  \underbrace{\begin{bmatrix}a&0&0\\0&a&0\\0&0&a\end{bmatrix}}_{\text{scalar}}\quad
+  \underbrace{\begin{bmatrix}1&0&0\\0&1&0\\0&0&1\end{bmatrix}}_{I_3}\quad
+  \underbrace{\begin{bmatrix}1&2&6\\2&8&4\\6&4&5\end{bmatrix}}_{\text{symmetric}}\quad
+  \underbrace{\begin{bmatrix}a&b&c\\0&d&e\\0&0&f\end{bmatrix}}_{\text{upper triangular}}$$
+  <p>Note how the names nest: every identity matrix is scalar, every scalar matrix is diagonal, every diagonal matrix is both symmetric <i>and</i> triangular (both ways at once). The list is a hierarchy, not six unrelated boxes.</p>
+  <figure>
+  <svg viewBox="0 0 560 150">
+    <g transform="translate(10,0)">
+      <text x="0" y="14" class="svgtxt w">diagonal: the only survivors are on the diagonal</text>
+      <g>
+        <rect x="0" y="26" width="34" height="30" fill="var(--greenbg)" stroke="var(--green2)"/><text x="17" y="46" class="svgtxt g" text-anchor="middle">1</text>
+        <rect x="34" y="26" width="34" height="30" fill="none" stroke="var(--border)"/><text x="51" y="46" class="svgtxt" text-anchor="middle">0</text>
+        <rect x="68" y="26" width="34" height="30" fill="none" stroke="var(--border)"/><text x="85" y="46" class="svgtxt" text-anchor="middle">0</text>
+        <rect x="0" y="56" width="34" height="30" fill="none" stroke="var(--border)"/><text x="17" y="76" class="svgtxt" text-anchor="middle">0</text>
+        <rect x="34" y="56" width="34" height="30" fill="var(--greenbg)" stroke="var(--green2)"/><text x="51" y="76" class="svgtxt g" text-anchor="middle">8</text>
+        <rect x="68" y="56" width="34" height="30" fill="none" stroke="var(--border)"/><text x="85" y="76" class="svgtxt" text-anchor="middle">0</text>
+        <rect x="0" y="86" width="34" height="30" fill="none" stroke="var(--border)"/><text x="17" y="106" class="svgtxt" text-anchor="middle">0</text>
+        <rect x="34" y="86" width="34" height="30" fill="none" stroke="var(--border)"/><text x="51" y="106" class="svgtxt" text-anchor="middle">0</text>
+        <rect x="68" y="86" width="34" height="30" fill="var(--greenbg)" stroke="var(--green2)"/><text x="85" y="106" class="svgtxt g" text-anchor="middle">4</text>
+      </g>
+      <text x="0" y="138" class="svgtxt">every off-diagonal entry is forced to 0</text>
+    </g>
+    <g transform="translate(280,0)">
+      <text x="0" y="14" class="svgtxt w">symmetric: mirrored across the diagonal</text>
+      <g>
+        <rect x="0" y="26" width="34" height="30" fill="var(--panel2)" stroke="var(--border)"/><text x="17" y="46" class="svgtxt w" text-anchor="middle">1</text>
+        <rect x="34" y="26" width="34" height="30" fill="var(--bluebg)" stroke="#2a4a80"/><text x="51" y="46" class="svgtxt b" text-anchor="middle">2</text>
+        <rect x="68" y="26" width="34" height="30" fill="var(--amberbg)" stroke="#7a5a1a"/><text x="85" y="46" class="svgtxt a" text-anchor="middle">6</text>
+        <rect x="0" y="56" width="34" height="30" fill="var(--bluebg)" stroke="#2a4a80"/><text x="17" y="76" class="svgtxt b" text-anchor="middle">2</text>
+        <rect x="34" y="56" width="34" height="30" fill="var(--panel2)" stroke="var(--border)"/><text x="51" y="76" class="svgtxt w" text-anchor="middle">8</text>
+        <rect x="68" y="56" width="34" height="30" fill="var(--greenbg)" stroke="var(--green2)"/><text x="85" y="76" class="svgtxt g" text-anchor="middle">4</text>
+        <rect x="0" y="86" width="34" height="30" fill="var(--amberbg)" stroke="#7a5a1a"/><text x="17" y="106" class="svgtxt a" text-anchor="middle">6</text>
+        <rect x="34" y="86" width="34" height="30" fill="var(--greenbg)" stroke="var(--green2)"/><text x="51" y="106" class="svgtxt g" text-anchor="middle">4</text>
+        <rect x="68" y="86" width="34" height="30" fill="var(--panel2)" stroke="var(--border)"/><text x="85" y="106" class="svgtxt w" text-anchor="middle">5</text>
+      </g>
+      <text x="0" y="138" class="svgtxt">equal colours = mirrored pairs</text>
+    </g>
+  </svg>
+  <figcaption>The two types you will meet most often. Diagonal is a statement about which entries are <i>allowed</i> to be non-zero; symmetric is a statement about which entries <i>must</i> be equal.</figcaption>
+  </figure>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slide 14) · covariance matrix — reading a matrix's type as an economic statement</div>
+  <div class="body">
+  <p>A portfolio manager gives you the covariance matrix of returns of three assets:</p>
+  $$\Sigma=\begin{pmatrix}0.04&0.01&0.00\\0.01&0.09&0.02\\0.00&0.02&0.16\end{pmatrix}$$
+  <p><b>a) What type of matrix is $\Sigma$?</b></p>
+  <ol class="steps">
+    <li>It has 3 rows and 3 columns, so it is <b>square</b>.</li>
+    <li>Check the mirror condition $a_{ij}=a_{ji}$: $\sigma_{12}=\sigma_{21}=0.01$ ✓, $\sigma_{13}=\sigma_{31}=0.00$ ✓, $\sigma_{23}=\sigma_{32}=0.02$ ✓. So $\Sigma$ is <b>symmetric</b>.</li>
+    <li>It is <i>not</i> diagonal (there are non-zero entries off the diagonal), not scalar, not triangular.</li>
+  </ol>
+  <p><b>b) Why must a covariance matrix always be symmetric?</b></p>
+  <p>Because the entry in position $(i,j)$ is by definition $\sigma_{ij}=\text{Cov}(R_i,R_j)=E[(R_i-\mu_i)(R_j-\mu_j)]$, and multiplication of numbers is commutative:</p>
+  $$\text{Cov}(R_i,R_j)=E[(R_i-\mu_i)(R_j-\mu_j)]=E[(R_j-\mu_j)(R_i-\mu_i)]=\text{Cov}(R_j,R_i)=\sigma_{ji}$$
+  <p>So symmetry is not a coincidence of this particular data set — it is forced by what covariance means. The diagonal entries are the special case $i=j$: $\sigma_{ii}=\text{Cov}(R_i,R_i)=V[R_i]$, the variances. Here $V[R_1]=0.04$ (so $\sigma_1=20\%$), $V[R_2]=0.09$ ($\sigma_2=30\%$), $V[R_3]=0.16$ ($\sigma_3=40\%$).</p>
+  <p><b>c) Is $\Sigma$ diagonal? What would that mean economically?</b></p>
+  <p>No: $\sigma_{12}=0.01$ and $\sigma_{23}=0.02$ are non-zero. If $\Sigma$ <i>were</i> diagonal, every off-diagonal covariance would be zero, i.e. <b>all three assets would be pairwise uncorrelated</b>. That is a very strong economic claim: no common factor, no sector effect, no market beta shared between them. Portfolio variance would then collapse to $\sum_i w_i^2\sigma_i^2$, with no cross terms at all.</p>
+  <p>What <i>is</i> true here is the single zero $\sigma_{13}=0$: assets 1 and 3 are uncorrelated with each other, although both are correlated with asset 2. Notice how much you have just read off the matrix without doing any arithmetic — that is the skill slide 13 is pointing at.</p>
+  <div class="note fin"><div class="t">Where this is going</div>Symmetry of $\Sigma$ is not decoration. It is exactly the property that makes portfolio variance $\mathbf{w}'\Sigma\mathbf{w}$ a well-behaved quadratic form, which is what makes mean–variance optimisation solvable.</div>
+  </div>
+</div>
+</section>

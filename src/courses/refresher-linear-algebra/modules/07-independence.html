@@ -1,0 +1,137 @@
+<!-- ============ 07 LINEAR DEPENDENCE AND INDEPENDENCE ============ -->
+<section id="s7">
+<div class="sec-head"><span class="num">07</span><h2>Linear dependence and independence</h2><span class="sub">lecture 2, slides 28–40 · which vectors are genuinely new, and which are redundant</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The single most useful concept in the course<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 06 asked what a set of vectors can build. This module asks the complementary question: <b>is any of them redundant?</b> A vector is redundant — <i>linearly dependent</i> on the others — if it is already reachable from them, so adding it enlarges nothing.</p>
+  <p>The reason this dominates everything that follows is that dependence is the hidden cause of nearly every difficulty you will meet:</p>
+  <ul>
+    <li>a system $A\mathbf{x}=\mathbf{b}$ has <b>no solution or infinitely many</b> exactly when the columns of $A$ are dependent (module 12);</li>
+    <li>a square matrix has <b>no inverse</b> exactly when its columns are dependent (module 11);</li>
+    <li>$\det A=0$ is exactly the arithmetic test for dependence (module 10);</li>
+    <li>in finance, a dependent security is <b>redundant</b> — either it adds nothing to the market, or it is mispriced and there is an <b>arbitrage</b>.</li>
+  </ul>
+  <div class="note tip"><div class="t">Two equivalent definitions — know both</div>The lecture gives the definition first in the "$\mathbf{v}\in[S]$" form (slide 28) and then in the far more usable Theorem 4.1 form (slide 33). The second is what you compute with; the first is what it means.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Dependence as reachability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $S$ be a set of vectors in a vector space.</p>
+  <ul>
+    <li>A vector $\mathbf{v}$ is <b>linearly dependent</b> on $S$ if it <b>can</b> be written as a linear combination of vectors of $S$, i.e. if
+    $$\mathbf{v}\in[S]=\Big\{\textstyle\sum_{s_i\in S}\alpha_i s_i,\ \alpha_i\in\mathbb{R}\Big\}$$</li>
+    <li>A vector $\mathbf{v}$ is <b>linearly independent</b> of $S$ if it <b>cannot</b>, i.e. $\mathbf{v}\notin[S]$.</li>
+  </ul>
+  <p>So "dependent" means "already inside the span" and "independent" means "outside the span" — genuinely new information, a direction the existing vectors cannot reach.</p>
+  <p>Example (Exercise 7, slide 29): with $[S_1]=\{\alpha(1,2):\alpha\in\mathbb{R}\}$, the line of slope 2 through the origin —</p>
+  <ul>
+    <li>$(2,4)$ is <b>dependent</b> on $[S_1]$: it equals $2\cdot(1,2)$, it lies on the line;</li>
+    <li>$(1,0)$ is <b>independent</b>: no multiple of $(1,2)$ has second coordinate 0 unless the first is 0 too, so $(1,0)$ is off the line.</li>
+  </ul>
+  <p>Any vector off that line works, e.g. $(0,1)$ or $(3,1)$. Any other point on it, e.g. $(-1,-2)$ or $(0,0)$, is dependent.</p>
+  <div class="note warn"><div class="t">Careful with the zero vector</div>$\mathbf{0}$ is dependent on <i>every</i> set (take all $\alpha_i=0$). So any set containing $\mathbf{0}$ is automatically a dependent set — a useful instant check.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">THM 4.1</span> The test you actually use<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $V$ be a vector space and $\mathbf{v}_1,\dots,\mathbf{v}_n\in V$. Then $\mathbf{v}_1,\dots,\mathbf{v}_n$ are <b>linearly independent</b> if and only if</p>
+  $$\sum_{i=1}^{n}\alpha_i\mathbf{v}_i=\mathbf{0}\quad\Longrightarrow\quad \alpha_i=0\ \text{ for all }i=1,\dots,n$$
+  <p>In words: <b>the only way to combine them into the zero vector is the trivial way</b> — with every coefficient zero. If some combination with at least one $\alpha_i\neq0$ produces $\mathbf{0}$, the set is dependent.</p>
+  <p>Why the two definitions agree: if some $\alpha_j\neq0$, you can divide by it and solve for $\mathbf{v}_j$,</p>
+  $$\mathbf{v}_j=-\frac{1}{\alpha_j}\sum_{i\neq j}\alpha_i\mathbf{v}_i$$
+  <p>exhibiting $\mathbf{v}_j$ as a combination of the others — dependence in the first sense. Conversely, if $\mathbf{v}_j$ is a combination of the others, moving it to the other side gives a non-trivial vanishing combination.</p>
+  <h3>The two lecture examples (slide 34)</h3>
+  <ol class="steps">
+    <li>$\begin{bmatrix}2\\0\end{bmatrix}$ and $\begin{bmatrix}0\\1\end{bmatrix}$: from $\alpha_1\begin{bmatrix}2\\0\end{bmatrix}+\alpha_2\begin{bmatrix}0\\1\end{bmatrix}=\begin{bmatrix}2\alpha_1\\ \alpha_2\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}$ we read off $\alpha_1=0$ and $\alpha_2=0$. Only the trivial combination works, so they are <b>independent</b>.</li>
+    <li>$\begin{bmatrix}2\\2\end{bmatrix}$ and $\begin{bmatrix}1\\1\end{bmatrix}$: take $\alpha_1=1,\alpha_2=-2$ — then $\begin{bmatrix}2\\2\end{bmatrix}-2\begin{bmatrix}1\\1\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}$ with non-zero coefficients. So they are <b>dependent</b>. (Or $\alpha_1=1/2,\alpha_2=-1$; once one non-trivial combination exists, infinitely many do.)</li>
+  </ol>
+  <div class="note tip"><div class="t">How this becomes a calculation</div>Stack the vectors as the columns of a matrix $A$. Then $\sum_i\alpha_i\mathbf{v}_i=A\boldsymbol\alpha$ (module 03), and Theorem 4.1 reads: <b>the columns are independent $\iff$ $A\boldsymbol\alpha=\mathbf{0}$ has only the solution $\boldsymbol\alpha=\mathbf{0}$.</b> Independence is a statement about a homogeneous system — which is why modules 09–12 can settle it with rank and determinant.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA</span> What dependence looks like<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Geometrically, dependence is <b>collapse</b>: the vectors fail to open up as many dimensions as there are vectors.</p>
+  <table class="formula-table">
+    <tr><td>2 vectors in $\mathbb{R}^2$ or $\mathbb{R}^3$</td><td>dependent $\iff$ they lie on one <b>line</b> through the origin (one is a multiple of the other)</td></tr>
+    <tr><td>3 vectors in $\mathbb{R}^3$</td><td>dependent $\iff$ they lie in one <b>plane</b> through the origin</td></tr>
+    <tr><td>$k$ vectors in $\mathbb{R}^n$ with $k&gt;n$</td><td><b>always</b> dependent — you cannot fit more independent directions than the space has</td></tr>
+  </table>
+  <p>Slide 31 makes the third-vector case concrete. Take $\mathbf{u}=(u_1,u_2,0)$ and $\mathbf{v}=(v_1,v_2,0)$, both lying in the horizontal plane. Then:</p>
+  <ul>
+    <li>$\mathbf{w}=(0,0,w_3)$ with $w_3\neq0$ <b>cannot</b> be written as $\alpha_1\mathbf{u}+\alpha_2\mathbf{v}$ — every such combination has third coordinate $0$, and $w_3\neq0$. Independent, and the picture is an arrow sticking out of the plane.</li>
+    <li>$\mathbf{w}=(w_1,w_2,0)$ <b>can</b>: solving the two equations $\alpha_1u_1+\alpha_2v_1=w_1$, $\alpha_1u_2+\alpha_2v_2=w_2$ gives
+    $$\alpha_1=\frac{w_1v_2-v_1w_2}{u_1v_2-v_1u_2},\qquad \alpha_2=\frac{u_1w_2-w_1u_2}{u_1v_2-v_1u_2}$$
+    provided the common denominator $u_1v_2-v_1u_2$ is non-zero. Dependent, and the picture is three arrows lying flat in one plane.</li>
+  </ul>
+  <p>That denominator is worth staring at: it is the determinant of $\begin{pmatrix}u_1&v_1\\u_2&v_2\end{pmatrix}$. When it vanishes, $\mathbf{u}$ and $\mathbf{v}$ are themselves dependent and the formulas break down — the first hint of the connection developed in module 10. (Check the sanity case: with $u=(1,0)$ and $v=(0,1)$ the denominator is 1 and the formulas give $\alpha_1=w_1$, $\alpha_2=w_2$, as they must.)</p>
+
+  <div class="ctrl">
+    <label>$v_1$ <input type="range" id="li_v1" min="-3" max="3" step="0.1" value="-1"><span class="val" id="li_v1_v">-1.0</span></label>
+    <label>$v_2$ <input type="range" id="li_v2" min="-3" max="3" step="0.1" value="2"><span class="val" id="li_v2_v">2.0</span></label>
+    <span class="btns"><button onclick="liSet(-1,2)">independent</button><button onclick="liSet(2,1)">independent</button><button onclick="liSet(3,1.5)">dependent (v = 1.5u)</button><button onclick="liSet(-2,-1)">dependent (v = −u)</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="lisvg" viewBox="0 0 340 260"></svg>
+    <figcaption>$\mathbf{u}=(2,1)$ fixed in blue; drag $\mathbf{v}$ in red. Shading marks the span: a filled plane when the two are independent, a single line when they are dependent.</figcaption></figure>
+    <div>
+      <div class="readout" id="liread"></div>
+      <p style="margin-top:10px">Drag $\mathbf{v}$ onto the blue line — at $(3,1.5)$, or $(-2,-1)$, or $(1,0.5)$ — and the shaded plane collapses to that line. The number $u_1v_2-u_2v_1$ shown in the readout hits exactly zero at that moment, and stays zero along the whole line.</p>
+      <p class="muted">That collapse is the entire phenomenon. When it happens: the span loses a dimension, the pair stops being a basis for $\mathbb{R}^2$, the matrix $[\mathbf{u}\ \mathbf{v}]$ loses rank and stops being invertible, and the system $[\mathbf{u}\ \mathbf{v}]\mathbf{x}=\mathbf{b}$ stops having a solution for most $\mathbf{b}$. Six statements, one event.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">COR 4.2</span> Independence gives uniqueness<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>If $\mathbf{v}_1,\dots,\mathbf{v}_n$ are linearly independent and</p>
+  $$\sum_{i=1}^{n}\alpha_i\mathbf{v}_i=\sum_{i=1}^{n}\beta_i\mathbf{v}_i$$
+  <p>then $\alpha_i=\beta_i$ for every $i$. In words: <b>when a vector can be written in terms of independent vectors, the coefficients are unique</b> — there is only one recipe.</p>
+  <p><b>Proof (Exercise 8, slide 35).</b> Suppose not, so some index $\tilde\imath$ has $\alpha_{\tilde\imath}-\beta_{\tilde\imath}\neq0$. Subtract the two sums:</p>
+  $$\sum_{i=1}^{n}(\alpha_i-\beta_i)\mathbf{v}_i=\mathbf{0}$$
+  <p>This is a vanishing linear combination with at least one non-zero coefficient, which contradicts Theorem 4.1 (independence allows only the trivial combination). Hence no such $\tilde\imath$ exists and $\alpha_i=\beta_i$ for all $i$. $\;\square$</p>
+  <div class="note fin"><div class="t">Why this is the whole point</div>Uniqueness of the coefficients is uniqueness of the solution to $A\mathbf{x}=\mathbf{b}$. In finance it is uniqueness of the <b>replicating portfolio</b>: if the traded securities are independent, there is exactly one way to manufacture a given payoff — which is what makes its price well defined. If they are dependent, there are infinitely many replicating portfolios, and requiring them all to cost the same is precisely the no-arbitrage condition.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Pairwise checks do not generalise<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Exercise 7 asks: <i>is it correct to say two vectors are linearly independent if they are not scalar multiples of each other?</i></p>
+  <p><b>For exactly two vectors, yes.</b> If $\alpha_1\mathbf{v}_1+\alpha_2\mathbf{v}_2=\mathbf{0}$ with, say, $\alpha_1\neq0$, then $\mathbf{v}_1=-(\alpha_2/\alpha_1)\mathbf{v}_2$, making one a multiple of the other. So "neither is a multiple of the other" $\iff$ "independent". (Note this correctly handles the zero vector: $\mathbf{0}=0\cdot\mathbf{v}$ <i>is</i> a scalar multiple of anything, so a pair containing $\mathbf{0}$ counts as dependent, as it should.)</p>
+  <p><b>For three or more vectors, no</b> — and this is the trap. Consider</p>
+  $$\mathbf{v}_1=\begin{bmatrix}1\\0\end{bmatrix},\quad \mathbf{v}_2=\begin{bmatrix}0\\1\end{bmatrix},\quad \mathbf{v}_3=\begin{bmatrix}1\\1\end{bmatrix}$$
+  <p>No two of them are multiples of each other, yet $\mathbf{v}_1+\mathbf{v}_2-\mathbf{v}_3=\mathbf{0}$: a non-trivial vanishing combination, so the set is dependent. Dependence is a property of the <b>whole set</b>, not of its pairs.</p>
+  <div class="note warn"><div class="t">Rule of thumb</div>Any $k&gt;n$ vectors in $\mathbb{R}^n$ are dependent — three vectors in $\mathbb{R}^2$, four in $\mathbb{R}^3$, and so on. If you spot that before computing, you have your answer for free.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">EX 10</span> Orthogonal implies independent — but not the reverse<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>1. Orthogonal (non-zero) vectors are independent. Show it for two vectors.</b></p>
+  <p>Let $\mathbf{u},\mathbf{v}\neq\mathbf{0}$ with $\mathbf{u}\cdot\mathbf{v}=0$. Suppose $\alpha\mathbf{u}+\beta\mathbf{v}=\mathbf{0}$. Take the dot product of both sides with $\mathbf{u}$ and use bilinearity (module 04):</p>
+  $$\mathbf{u}\cdot(\alpha\mathbf{u}+\beta\mathbf{v})=\alpha\,(\mathbf{u}\cdot\mathbf{u})+\beta\,(\mathbf{u}\cdot\mathbf{v})=\alpha\|\mathbf{u}\|^2+0=\alpha\|\mathbf{u}\|^2$$
+  <p>and the right-hand side is $\mathbf{u}\cdot\mathbf{0}=0$. Since $\mathbf{u}\neq\mathbf{0}$ we have $\|\mathbf{u}\|^2&gt;0$, hence $\alpha=0$. Dotting instead with $\mathbf{v}$ gives $\beta\|\mathbf{v}\|^2=0$, hence $\beta=0$. Only the trivial combination vanishes, so by Theorem 4.1 the vectors are independent. $\;\square$</p>
+  <p>The argument extends verbatim to any number of mutually orthogonal non-zero vectors: dot the vanishing combination with $\mathbf{v}_j$ and every term dies except $\alpha_j\|\mathbf{v}_j\|^2$.</p>
+  <p><b>2. Show the reverse is not true: independent vectors are in general not orthogonal.</b></p>
+  <p>A single counterexample suffices. Take</p>
+  $$\mathbf{u}=\begin{bmatrix}1\\0\end{bmatrix},\qquad \mathbf{v}=\begin{bmatrix}1\\1\end{bmatrix}$$
+  <p>They are independent (neither is a multiple of the other: any multiple of $\mathbf{u}$ has second coordinate 0). But</p>
+  $$\mathbf{u}\cdot\mathbf{v}=1\cdot1+0\cdot1=1\neq0$$
+  <p>so they are not orthogonal. The angle between them is $45^\circ$ — different enough to be independent, not different enough to be perpendicular.</p>
+  <div class="note tip"><div class="t">The logic, stated cleanly</div>Orthogonality is <b>strictly stronger</b> than independence: it is a sufficient but not necessary condition. That makes it a very convenient shortcut — spotting mutual orthogonality proves independence with no system to solve — but the absence of orthogonality proves nothing. This is also why orthogonal bases (module 08) are prized in practice: they give independence for free <i>and</i> make coefficients easy to compute.</div>
+  </div>
+</div>
+</section>

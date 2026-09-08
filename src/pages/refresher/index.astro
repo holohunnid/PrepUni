@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import linalg from '../../courses/refresher-linear-algebra/meta.json';
+---
+<Base title="Refresher Course · Mathematics and Probability · USI">
+
+<div class="topbar">
+  <span class="brand">REFRESHER · COURSE</span>
+  <span class="tag">Mathematics &amp; Probability · USI</span>
+  <div class="right">
+    <a href="/" title="all courses">⌂ courses</a>
+    <button id="themebtn">◐ theme: dark</button>
+  </div>
+</div>
+
+<main class="home">
+  <div class="hero">
+    <div class="bar"><span class="pill g">COURSE</span><span>Refresher Course in Mathematics and Probability ⟶ three parts</span><span class="ctl" style="margin-left:auto;color:var(--dim)">⊡ ✕</span></div>
+    <div class="body" style="grid-template-columns:1fr">
+      <div>
+        <h1>Refresher Course</h1>
+        <p>The USI refresher course, rebuilt lecture by lecture. Each part follows its slide deck in order, explains what the slides leave to the lecturer, and solves <b>every exercise</b> — including the ones whose answer slide was left blank.</p>
+        <p class="muted" style="margin-top:8px">Three parts: <b>Fundamentals</b>, <b>Linear Algebra</b>, <b>Probability</b>. Work through them in that order if you are starting from scratch; each part stands alone if you are only refreshing one topic.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="bar"><span class="pill r">SOON</span> Part 1 · Fundamentals<span class="ctl">— ⊡ ✕</span></div>
+    <div class="body">
+      <p class="muted">Not built yet — waiting on the lecture PDFs. This part will cover the algebra, functions and notation the other two parts assume.</p>
+    </div>
+  </div>
+
+  <a class="course-card" href="/refresher/linear-algebra">
+    <div class="panel" style="margin-bottom:0">
+      <div class="bar"><span class="pill g">LIVE</span> Part 2 · Linear Algebra<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body">
+        <p>{linalg.stats}</p>
+        <p class="muted">Matrix terminology → matrix algebra → the matrix product → dot product and orthogonality → vector spaces → span and subspaces → linear dependence → bases and dimension → rank → determinant → inverse → systems of linear equations → square systems. Built from the five lectures on matrices, vector spaces and systems of linear equations, plus the exercise sheet.</p>
+      </div>
+    </div>
+  </a>
+
+  <div class="panel">
+    <div class="bar"><span class="pill r">SOON</span> Part 3 · Probability<span class="ctl">— ⊡ ✕</span></div>
+    <div class="body">
+      <p class="muted">Not built yet — waiting on the lecture PDFs. In the meantime the standalone <a href="/probability">Probability course</a> and the <a href="/exam-review">Prep Exam Review</a> cover much of the same ground.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+  import '../../scripts/course.js';
+</script>
+</Base>

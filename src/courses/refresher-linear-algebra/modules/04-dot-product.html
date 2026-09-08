@@ -1,0 +1,115 @@
+<!-- ============ 04 DOT PRODUCT, LENGTH, ANGLE ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>Dot product, length and orthogonality</h2><span class="sub">lecture 1, slides 30–40 · one number that carries all the geometry</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Where geometry enters<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>So far a matrix has been an array of numbers with rules for combining. Nothing has had a <i>length</i>, an <i>angle</i>, or a notion of two things being <i>perpendicular</i>. This module introduces all three at once, and remarkably they all come from a single quantity: the dot product.</p>
+  <p>The plan is short:</p>
+  <ol class="steps">
+    <li>Define the dot product as the special case of matrix multiplication where a row meets a column (nothing new needed).</li>
+    <li>Dot a vector with <i>itself</i> and take a square root — that is its <b>length</b>.</li>
+    <li>Dot two <i>different</i> vectors — Theorem 3.1 says the result equals $\|\mathbf{u}\|\|\mathbf{v}\|\cos\theta$, so it carries the <b>angle</b>.</li>
+    <li>Set that to zero — that is <b>orthogonality</b>, which module 07 shows is a strong form of independence.</li>
+  </ol>
+  <div class="note fin"><div class="t">Why finance cares</div>Almost every quantity you meet later is a dot product wearing a costume: portfolio return $\mathbf{w}'\mathbf{r}$, the budget constraint $\mathbf{p}'\mathbf{n}=w_0$, an expected value $\sum_s p_s x_s$, a covariance. Orthogonality is the algebraic form of "uncorrelated", and it is what makes regression residuals behave.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Dot product (scalar product)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Take a row $(1\times k)$-vector $\mathbf{a}$ and a column $(k\times1)$-vector $\mathbf{b}$. By the multiplication rule of module 03 the shapes give a $(1\times1)$ result — a plain number:</p>
+  $$\mathbf{a}\mathbf{b}=\mathbf{a}\cdot\mathbf{b}=\begin{bmatrix}a_1&a_2&\dots&a_k\end{bmatrix}\begin{bmatrix}b_1\\b_2\\ \vdots\\b_k\end{bmatrix}=\sum_{\ell=1}^{k}a_\ell b_\ell\in\mathbb{R}$$
+  <p>This is the <b>dot product</b>, also called the <b>scalar product</b> precisely because the output is a scalar. Example: $(1,2,3)\cdot(4,0,-1)=4+0-3=1$.</p>
+  <h3>The transpose convention</h3>
+  <p>Since our default is that vectors are columns, we need a transpose somewhere to make the shapes fit. The lecture states both conventions explicitly (slide 31):</p>
+  <table class="formula-table">
+    <tr><td>two <b>row</b> vectors $\mathbf{a},\mathbf{b}$</td><td>$\mathbf{a}\mathbf{b}'=\sum_{\ell}a_\ell b_\ell$</td></tr>
+    <tr><td>two <b>column</b> vectors $\mathbf{a},\mathbf{b}$</td><td>$\mathbf{a}'\mathbf{b}=\sum_{\ell}a_\ell b_\ell$</td></tr>
+  </table>
+  <p>Both give the same number. The transpose is only there to satisfy the shape condition; the arithmetic is always "multiply matching entries, add them up", for any $n$-tuples of $\mathbb{R}^n$.</p>
+  <div class="note warn"><div class="t">Trap</div>$\mathbf{a}'\mathbf{b}$ is a <b>number</b>; $\mathbf{a}\mathbf{b}'$ is an $(n\times n)$ <b>matrix</b> (the outer product from module 03). One misplaced prime turns a scalar into a matrix. Check the shapes: $(1\times n)(n\times1)=1\times1$ versus $(n\times1)(1\times n)=n\times n$.</div>
+  <h3>Rules</h3>
+  <table class="formula-table">
+    <tr><td>Symmetric</td><td>$\mathbf{a}\cdot\mathbf{b}=\mathbf{b}\cdot\mathbf{a}$</td></tr>
+    <tr><td>Distributes over $+$</td><td>$\mathbf{a}\cdot(\mathbf{b}+\mathbf{c})=\mathbf{a}\cdot\mathbf{b}+\mathbf{a}\cdot\mathbf{c}$</td></tr>
+    <tr><td>Scalars pull out</td><td>$(c\,\mathbf{a})\cdot\mathbf{b}=c\,(\mathbf{a}\cdot\mathbf{b})$</td></tr>
+    <tr><td>Non-negative with itself</td><td>$\mathbf{a}\cdot\mathbf{a}\ge0$, with equality only when $\mathbf{a}=\mathbf{0}$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Length of a vector<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Dot a vector with itself and you get the sum of its squared entries — always non-negative, so a square root is available. That square root is the <b>length</b> (Euclidean norm) of $\mathbf{u}\in\mathbb{R}^n$, written $\|\mathbf{u}\|$ or $|\mathbf{u}|$:</p>
+  $$\|\mathbf{u}\|=|\mathbf{u}|:=\sqrt{\sum_{\ell=1}^{n}u_\ell^2}=\sqrt{\mathbf{u}\cdot\mathbf{u}}$$
+  <p>In $\mathbb{R}^2$ this is literally Pythagoras: the vector $(u_1,u_2)$ is the hypotenuse of a right triangle with legs $u_1$ and $u_2$, so its length is $\sqrt{u_1^2+u_2^2}$. The formula above says: keep doing that in any number of dimensions, where you can no longer draw the triangle but the algebra is unchanged.</p>
+  <figure>
+  <svg viewBox="0 0 300 175">
+    <defs><marker id="ar4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
+    <line x1="30" y1="150" x2="270" y2="150" stroke="var(--border2)"/>
+    <line x1="30" y1="150" x2="30" y2="18" stroke="var(--border2)"/>
+    <line x1="30" y1="150" x2="180" y2="40" stroke="var(--text)" stroke-width="2" marker-end="url(#ar4)"/>
+    <line x1="30" y1="150" x2="180" y2="150" stroke="var(--red)" stroke-width="2"/>
+    <line x1="180" y1="150" x2="180" y2="40" stroke="var(--blue)" stroke-width="2"/>
+    <path d="M 168 150 L 168 138 L 180 138" fill="none" stroke="var(--dim)"/>
+    <text x="95" y="88" class="svgtxt w">‖u‖</text>
+    <text x="103" y="166" class="svgtxt r">u₁</text>
+    <text x="188" y="98" class="svgtxt b">u₂</text>
+  </svg>
+  <figcaption>Slide 34's picture: the length of $\mathbf{u}$ is the hypotenuse over the legs $u_1$ and $u_2$. The general formula is the same statement in $n$ dimensions.</figcaption>
+  </figure>
+  <p>Two easy consequences worth stating: $\|c\mathbf{u}\|=|c|\,\|\mathbf{u}\|$ (scaling scales the length, and a sign flip does not shorten anything), and $\|\mathbf{u}\|=0$ only for the zero vector.</p>
+  <p class="muted"><b>Check yourself:</b> $\|(3,4)\|$, $\|(1,1,1)\|$, $\|(0,0,0,3)\|$. (Answers: $5$, $\sqrt3\approx1.73$, $3$. The last one shows that extra zero coordinates cost nothing — a vector's length only sees where it actually points. Full solutions in module 14, Exercise 2.)</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THM 3.1</span> The dot product measures the angle<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Any two vectors in $\mathbb{R}^n$ determine a plane — even if $n$ is 50, the two arrows together span at most a 2-dimensional slice — and in that plane there is an honest angle $\theta$ between them. The theorem states the link:</p>
+  $$\boxed{\;\mathbf{u}\cdot\mathbf{v}=\|\mathbf{u}\|\,\|\mathbf{v}\|\cos\theta\;}$$
+  <p>where $\theta$ is measured in radians (or degrees, as long as you are consistent). Rearranged, this is a formula for the angle itself:</p>
+  $$\cos\theta=\frac{\mathbf{u}\cdot\mathbf{v}}{\|\mathbf{u}\|\,\|\mathbf{v}\|}$$
+  <p>Since $\|\mathbf{u}\|$ and $\|\mathbf{v}\|$ are never negative, <b>the sign of the dot product is the sign of $\cos\theta$</b>. That gives the three cases of slide 39:</p>
+  <table class="formula-table">
+    <tr><td>same direction, $\theta=0$</td><td>$\cos0=1$, so $\mathbf{u}\cdot\mathbf{v}=\|\mathbf{u}\|\|\mathbf{v}\|&gt;0$</td></tr>
+    <tr><td>perpendicular, $\theta=90^\circ$</td><td>$\cos90^\circ=0$, so $\mathbf{u}\cdot\mathbf{v}=0$</td></tr>
+    <tr><td>opposite directions, $\theta=180^\circ$</td><td>$\cos180^\circ=-1$, so $\mathbf{u}\cdot\mathbf{v}=-\|\mathbf{u}\|\|\mathbf{v}\|&lt;0$</td></tr>
+  </table>
+  <p>More loosely: a positive dot product means the vectors broadly agree, a negative one means they broadly disagree, and zero means they carry no common component at all.</p>
+  <p>It is worth recalling why $\cos$ appears. On the unit circle of radius 1, the point at angle $\theta$ has coordinates $(\cos\theta,\sin\theta)$: the cosine is the horizontal coordinate, i.e. exactly "how far along the reference direction you have got". The dot product asks the same question about $\mathbf{v}$ relative to $\mathbf{u}$, then rescales by the two lengths.</p>
+
+  <div class="ctrl">
+    <label>angle of $\mathbf{v}$ <input type="range" id="dp_th" min="0" max="360" step="1" value="52"><span class="val" id="dp_th_v">52</span>°</label>
+    <label>‖v‖ <input type="range" id="dp_r" min="0.4" max="2" step="0.05" value="1.2"><span class="val" id="dp_r_v">1.20</span></label>
+    <span class="btns"><button onclick="dpSet(0,1.2)">θ = 0°</button><button onclick="dpSet(90,1.2)">orthogonal</button><button onclick="dpSet(180,1.2)">opposite</button><button onclick="dpSet(120,1.6)">obtuse</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="dpsvg" viewBox="0 0 320 250"></svg>
+    <figcaption>$\mathbf{u}$ is fixed along the horizontal; drag $\mathbf{v}$ around. The amber segment is the projection of $\mathbf{v}$ on the direction of $\mathbf{u}$ — its signed length times $\|\mathbf{u}\|$ <i>is</i> the dot product.</figcaption></figure>
+    <div>
+      <div class="readout" id="dpread"></div>
+      <p style="margin-top:10px">Watch the sign change exactly as $\mathbf{v}$ crosses the vertical: that crossing is $\theta=90^\circ$, where the projection has zero length. Everything to the right of the vertical gives a positive dot product, everything to the left a negative one.</p>
+      <p class="muted">Notice also what the length slider does <b>not</b> change: the angle. Scaling $\mathbf{v}$ scales the dot product proportionally but leaves $\cos\theta$ untouched, because the extra length cancels in the ratio. Direction and magnitude are separate pieces of information, and the dot product mixes them in a very specific way.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Orthogonality<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Theorem 3.1 justifies turning the perpendicular case into a definition that needs no geometry at all. Two vectors $\mathbf{u}\neq\mathbf{0}$ and $\mathbf{v}\neq\mathbf{0}$ in $\mathbb{R}^n$ are <b>orthogonal</b> if</p>
+  $$\mathbf{u}\cdot\mathbf{v}=\sum_{\ell=1}^{n}u_\ell v_\ell=0$$
+  <p>This is the payoff of the whole module. "Perpendicular" is a picture that only exists in 2 or 3 dimensions; "dot product equals zero" is an arithmetic test that works in $\mathbb{R}^{500}$ and can be checked in seconds.</p>
+  <p>Example: $(2,1)$ and $(-1,2)$ have dot product $-2+2=0$, so they are orthogonal — sketch them and you will see one is the other rotated by a quarter turn. Example in higher dimensions: $(1,0,0,7)$ and $(0,3,-2,0)$ have dot product $0$, and no drawing was required.</p>
+  <div class="note tip"><div class="t">Two uses coming up</div><b>Module 07:</b> a set of non-zero mutually orthogonal vectors is automatically linearly independent — orthogonality is a strong, easily checked sufficient condition for independence (the converse fails: independent vectors need not be orthogonal). <b>Statistics:</b> two mean-zero return series are uncorrelated exactly when their vectors of deviations are orthogonal, which is why "orthogonal" and "uncorrelated" get used interchangeably in econometrics.</div>
+  <p class="muted"><b>Check yourself:</b> for which $k$ are $(k,2,-1)$ and $(1,k,3)$ orthogonal? (Set $k+2k-3=0$, so $k=1$.)</p>
+  </div>
+</div>
+</section>

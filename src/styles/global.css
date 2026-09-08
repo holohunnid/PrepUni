@@ -64,6 +64,10 @@ section{margin-bottom:34px;scroll-margin-top:44px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .grid2 .panel,.grid3 .panel{margin-bottom:0}
+/* grid items default to min-width:auto, so a single wide formula would push a
+   column past the page edge; let them shrink and scroll their own content */
+.grid2 > *,.grid3 > *{min-width:0}
+.panel > .body{min-width:0;overflow-x:auto}
 @media(max-width:900px){.grid2,.grid3,.hero .body{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.side{display:none}}
 
 h3{font-size:13px;margin:14px 0 6px;color:var(--text);font-weight:700}

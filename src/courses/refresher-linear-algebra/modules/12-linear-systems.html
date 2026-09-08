@@ -1,0 +1,169 @@
+<!-- ============ 12 SYSTEMS OF LINEAR EQUATIONS ============ -->
+<section id="s12">
+<div class="sec-head"><span class="num">12</span><h2>Systems of linear equations</h2><span class="sub">lecture 4, slides 5–16 · existence and uniqueness, case by case</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Everything so far was preparation for this<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Systems of linear equations arise in economics and finance in two ways, as the lecture notes: some models are linear by nature (production, employment, tax–benefit models), and non-linear models are routinely studied through their linear approximations.</p>
+  <p>Three questions drive the whole module:</p>
+  <ol class="steps">
+    <li>Does a solution $\mathbf{x}$ <b>exist</b>?</li>
+    <li>Is it <b>unique</b>?</li>
+    <li>How do you <b>find</b> it? (Module 13, for square systems.)</li>
+  </ol>
+  <p>The answers all come from the geometric viewpoint built in modules 06–09. There is one insight to carry, and it is the one from module 03:</p>
+  <div class="note tip"><div class="t">The reframing that answers questions 1 and 2</div>Since $A\mathbf{x}$ is a linear combination of the columns of $A$, solving $A\mathbf{x}=\mathbf{b}$ means <b>finding weights that make a combination of the columns of $A$ equal to the given vector $\mathbf{b}$</b>. So: <b>existence</b> = is $\mathbf{b}$ in the span of the columns? <b>Uniqueness</b> = are the columns independent?</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Matrix form of a system<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Consider $n$ linear equations in $k$ unknowns $x_1,\dots,x_k$:</p>
+  $$\begin{aligned}a_{11}x_1+a_{12}x_2+\dots+a_{1k}x_k&=b_1\\ a_{21}x_1+a_{22}x_2+\dots+a_{2k}x_k&=b_2\\ &\ \ \vdots\\ a_{n1}x_1+a_{n2}x_2+\dots+a_{nk}x_k&=b_n\end{aligned}\tag{1.1}$$
+  <p>Using the product rule of module 03, this is a single matrix equation:</p>
+  $$A\mathbf{x}=\mathbf{b},\qquad
+  \begin{bmatrix}a_{11}&a_{12}&\dots&a_{1k}\\a_{21}&a_{22}&\dots&a_{2k}\\ &&\dots&\\a_{n1}&a_{n2}&\dots&a_{nk}\end{bmatrix}\begin{bmatrix}x_1\\x_2\\ \vdots\\x_k\end{bmatrix}=\begin{bmatrix}b_1\\b_2\\ \vdots\\b_n\end{bmatrix}\tag{1.2}$$
+  <p>with $A$ the given $(n\times k)$-matrix of coefficients, $\mathbf{b}$ the given $(n\times1)$-vector of values, and the $k$ entries of $\mathbf{x}$ the unknowns.</p>
+  <div class="note warn"><div class="t">Watch the letters</div>$n$ counts <b>equations</b> (rows), $k$ counts <b>unknowns</b> (columns). The classification below is entirely in terms of how $k$ compares with $n$, so keep them straight — mixing them up inverts every conclusion.</div>
+  <h3>Homogeneous or not</h3>
+  <table class="formula-table">
+    <tr><td><b>Homogeneous</b> system</td><td>$A\mathbf{x}=\mathbf{0}$</td></tr>
+    <tr><td><b>Non-homogeneous</b> system</td><td>$A\mathbf{x}=\mathbf{b}$ with $\mathbf{b}\neq\mathbf{0}$</td></tr>
+  </table>
+  <p>The homogeneous case is easier and comes first, because $\mathbf{x}=\mathbf{0}$ is always a solution of it (the <b>trivial</b> solution). The only question there is whether other solutions exist.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">IDEA</span> The column picture<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Rewrite (1.2) using the column reading of the matrix–vector product:</p>
+  $$x_1\begin{bmatrix}a_{11}\\a_{21}\\ \vdots\\a_{n1}\end{bmatrix}+x_2\begin{bmatrix}a_{12}\\a_{22}\\ \vdots\\a_{n2}\end{bmatrix}+\dots+x_k\begin{bmatrix}a_{1k}\\a_{2k}\\ \vdots\\a_{nk}\end{bmatrix}=\begin{bmatrix}b_1\\b_2\\ \vdots\\b_n\end{bmatrix}\tag{1.3}$$
+  <p>Four observations, which together answer questions 1 and 2:</p>
+  <ol class="steps">
+    <li>The $k$ columns of $A$ are $k$ vectors of $\mathbb{R}^n$.</li>
+    <li>The given $\mathbf{b}$ is also a vector of $\mathbb{R}^n$.</li>
+    <li>$\mathbb{R}^n$ is an $n$-dimensional space, so it holds at most $n$ independent vectors (module 08).</li>
+    <li>Solving (1.1) is therefore the same as solving (1.3): <b>find weights making a combination of the columns of $A$ equal to $\mathbf{b}$</b>.</li>
+  </ol>
+  <p>From which:</p>
+  <table class="formula-table">
+    <tr><td><b>A solution exists</b></td><td>$\iff\ \mathbf{b}\in\text{span}(\text{columns of }A)$ — i.e. $\mathbf{b}$ lies in the column space</td></tr>
+    <tr><td><b>The solution is unique</b></td><td>$\iff$ the columns of $A$ are linearly independent (Corollary 4.2, module 07)</td></tr>
+    <tr><td><b>Infinitely many solutions</b></td><td>$\iff$ a solution exists <i>and</i> the columns are dependent</td></tr>
+  </table>
+  <div class="note warn"><div class="t">There is no fourth possibility</div>A linear system has <b>zero, one, or infinitely many</b> solutions — never exactly two, never exactly seventeen. Reason: if $\mathbf{x}_1\neq\mathbf{x}_2$ both solve $A\mathbf{x}=\mathbf{b}$, then $A(\mathbf{x}_1-\mathbf{x}_2)=\mathbf{0}$ with $\mathbf{x}_1-\mathbf{x}_2\neq\mathbf{0}$, so $\mathbf{x}_1+t(\mathbf{x}_1-\mathbf{x}_2)$ is a solution for <i>every</i> real $t$. Two distinct solutions immediately generate a whole line of them.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">CASES</span> The complete classification<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The lecture organises the answer by comparing the number of unknowns $k$ with the number of equations $n$, and then by whether the columns are independent. Here is the whole table; each row is worked out underneath.</p>
+  <table class="formula-table">
+    <tr><td><b>Case</b></td><td><b>Columns of $A$</b></td><td><b>$A\mathbf{x}=\mathbf{b}$, $\mathbf{b}\neq\mathbf{0}$</b></td><td><b>$A\mathbf{x}=\mathbf{0}$</b></td></tr>
+    <tr><td>$k=n$ (square)</td><td>independent, $\text{rank}=n$</td><td>exactly <b>one</b> solution, for every $\mathbf{b}$</td><td>only $\mathbf{x}=\mathbf{0}$</td></tr>
+    <tr><td>$k=n$ (square)</td><td>dependent, $\text{rank}&lt;n$</td><td><b>none or infinitely many</b></td><td>infinitely many</td></tr>
+    <tr><td>$k&gt;n$ (more unknowns)</td><td>$n$ of them independent, $\text{rank}=n$</td><td><b>infinitely many</b>, for every $\mathbf{b}$</td><td>infinitely many</td></tr>
+    <tr><td>$k&gt;n$ (more unknowns)</td><td>$\text{rank}&lt;n$</td><td><b>none or infinitely many</b></td><td>infinitely many</td></tr>
+    <tr><td>$k&lt;n$ (more equations)</td><td>independent, $\text{rank}=k$</td><td><b>none or exactly one</b></td><td>only $\mathbf{x}=\mathbf{0}$</td></tr>
+    <tr><td>$k&lt;n$ (more equations)</td><td>dependent, $\text{rank}&lt;k$</td><td><b>none or infinitely many</b></td><td>infinitely many</td></tr>
+  </table>
+  <p>Two patterns run through the whole table and are worth extracting, because they are easier to remember than six rows:</p>
+  <ul>
+    <li><b>Uniqueness is decided by the columns alone.</b> Independent columns $\Rightarrow$ at most one solution; dependent columns $\Rightarrow$ never exactly one. The vector $\mathbf{b}$ plays no part.</li>
+    <li><b>Existence is decided by $\mathbf{b}$.</b> A solution exists iff $\mathbf{b}$ lies in the column space. When the columns span all of $\mathbb{R}^n$ (rank $=n$) existence is automatic for every $\mathbf{b}$; otherwise only special $\mathbf{b}$ work.</li>
+  </ul>
+  <p>The number of <b>free variables</b> — parameters in the solution when there are infinitely many — is $k-\text{rank}(A)$. That single formula reproduces every "infinitely many" entry in the table.</p>
+
+  <div class="ctrl">
+    <label>$a_{21}$ <input type="range" id="sy_c" min="-3" max="3" step="0.1" value="1"><span class="val" id="sy_c_v">1.0</span></label>
+    <label>$a_{22}$ <input type="range" id="sy_d" min="-3" max="3" step="0.1" value="3"><span class="val" id="sy_d_v">3.0</span></label>
+    <label>$b_2$ <input type="range" id="sy_b2" min="-4" max="4" step="0.1" value="3"><span class="val" id="sy_b2_v">3.0</span></label>
+    <span class="btns"><button onclick="sySet(1,3,3)">unique</button><button onclick="sySet(2,-2,4)">dependent rows, no solution</button><button onclick="sySet(2,-2,2)">dependent rows, a whole line</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="sysvg" viewBox="0 0 340 260"></svg>
+    <figcaption>The $2\times2$ system $\begin{cases}x_1-x_2=1\\ a_{21}x_1+a_{22}x_2=b_2\end{cases}$. Each equation is a line; a solution is a point on both. The first equation is fixed in blue, the second is yours to move.</figcaption></figure>
+    <div>
+      <div class="readout" id="syread"></div>
+      <p style="margin-top:10px">Three regimes, and the sliders let you visit all of them. <b>Crossing lines</b> — one intersection, one solution, $\det\neq0$. <b>Parallel distinct lines</b> — no intersection, no solution. <b>Coincident lines</b> — every point of the line solves both equations, infinitely many solutions. The last two both have $\det=0$: dependence guarantees you are in one of them, and $\mathbf{b}$ decides which.</p>
+      <p class="muted">Try the second preset, then move $b_2$ alone until the lines merge (at $b_2=-2$). Nothing about the matrix changed — only $\mathbf{b}$ — and the system went from unsolvable to having a whole line of solutions. That is exactly the row "none or infinitely many" in the table, and it is why $\mathbf{b}$ decides existence while $A$ decides uniqueness.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">CASE 1</span> $k=n$ — as many unknowns as equations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>1. Columns independent.</b> If $k=n$ and the $n$ columns of $A$ are linearly independent, then for <b>any</b> $\mathbf{b}\in\mathbb{R}^n$ there exists a <b>unique</b> solution $\mathbf{x}\in\mathbb{R}^n$ with $A\mathbf{x}=\mathbf{b}$.</p>
+  <p><i>Proof.</i> The columns of $A$ are $n$ independent vectors in the $n$-dimensional space $\mathbb{R}^n$, so they form a <b>basis</b> for $\mathbb{R}^n$ (module 08). Consequently any $\mathbf{b}\in\mathbb{R}^n$ can be written as a linear combination of them — that is what "basis" means, giving existence — and in a <b>unique</b> way, by Corollary 4.2, giving uniqueness. Those coefficients are the entries of $\mathbf{x}$. $\;\square$</p>
+  <p>This is the good case and the one module 13 solves explicitly with $\mathbf{x}=A^{-1}\mathbf{b}$.</p>
+
+  <p><b>2. Columns dependent.</b> If $k=n$ but the columns are linearly dependent, then</p>
+  <ul>
+    <li>for any given $\mathbf{b}\neq\mathbf{0}$, $A\mathbf{x}=\mathbf{b}$ has <b>either no solution or infinitely many</b>;</li>
+    <li>$A\mathbf{x}=\mathbf{0}$ has <b>infinitely many</b> solutions.</li>
+  </ul>
+  <p><i>Example (slide 12).</i> The $(3\times3)$-matrix</p>
+  $$A=\begin{bmatrix}1&0&4\\0&3&1\\0&0&0\end{bmatrix},\qquad \text{rank}(A)=2$$
+  <p>Rank 2 because the third row is zero, leaving two independent rows. The third equation reads $0=b_3$, so:</p>
+  <ul>
+    <li>for any $\mathbf{b}$ with $b_3\neq0$: <b>no solution</b> — the third equation is $0=b_3$, a flat contradiction;</li>
+    <li>for any $\mathbf{b}$ with $b_3=0$: <b>infinitely many solutions</b>, namely
+    $$\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}b_1-4x_3\\(b_2-x_3)/3\\x_3\end{bmatrix},\qquad x_3\in\mathbb{R}$$
+    one free variable, as $k-\text{rank}=3-2=1$ predicts.</li>
+  </ul>
+  <p>(Exercise 1 asks you to verify this solution for $\mathbf{b}=\mathbf{0}$ and $\mathbf{b}=(1,1,0)^{\mathsf T}$; both checks are done in module 14.)</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">CASE 2</span> $k&gt;n$ — more unknowns than equations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>1. Among the $k$ columns there are $n$ independent ones</b> (i.e. $\text{rank}(A)=n$, the maximum). Then for any $\mathbf{b}\in\mathbb{R}^n$, $A\mathbf{x}=\mathbf{b}$ has <b>infinitely many</b> solutions.</p>
+  <p>Why: $n$ independent columns already span $\mathbb{R}^n$, so every $\mathbf{b}$ is reachable — existence is guaranteed. But there are $k&gt;n$ columns in total, so they must be dependent as a set, and uniqueness fails. Free variables: $k-n\ge1$.</p>
+  <p><i>Example (slide 13).</i> The $(3\times4)$-matrix</p>
+  $$A=\begin{bmatrix}1&0&-1&0\\1&-1&2&0\\0&0&0&-2\end{bmatrix},\qquad \text{rank}(A)=3$$
+  <p>Writing the system out: $x_1-x_3=b_1$, $x_1-x_2+2x_3=b_2$, $-2x_4=b_3$. Solving in that order,</p>
+  $$\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}=\begin{bmatrix}b_1+x_3\\b_1-b_2+3x_3\\x_3\\-b_3/2\end{bmatrix},\qquad x_3\in\mathbb{R}$$
+  <p>with $x_3$ free: $k-\text{rank}=4-3=1$ ✓. (Exercise 2 verifies this for $\mathbf{b}=\mathbf{0}$ and $\mathbf{b}=(0,0,1)^{\mathsf T}$ — module 14.)</p>
+
+  <p><b>2. Fewer than $n$ independent columns</b> ($\text{rank}(A)&lt;n$). Then for any $\mathbf{b}\neq\mathbf{0}$: <b>no solution or infinitely many</b>; and $A\mathbf{x}=\mathbf{0}$ has infinitely many.</p>
+  <p><i>Example (slide 14).</i> The $(2\times3)$-matrix</p>
+  $$A=\begin{bmatrix}1&-1&0\\1&-1&0\end{bmatrix},\qquad\text{rank}(A)=1$$
+  <p>The two rows are identical, so the system says $x_1-x_2=b_1$ <i>and</i> $x_1-x_2=b_2$.</p>
+  <ul>
+    <li>If $b_1\neq b_2$: contradiction, <b>no solution</b>.</li>
+    <li>If $b_1=b_2=b$: <b>infinitely many</b>, $\;\mathbf{x}=(b+x_2,\;x_2,\;x_3)$ with $(x_2,x_3)\in\mathbb{R}^2$ free — two free variables, $k-\text{rank}=3-1=2$ ✓.</li>
+  </ul>
+  <p>(Exercise 3, verified in module 14.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">CASE 3</span> $k&lt;n$ — more equations than unknowns<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>1. Columns independent</b> ($\text{rank}(A)=k$). Then for any $\mathbf{b}\neq\mathbf{0}$: <b>no solution or exactly one</b>; and $A\mathbf{x}=\mathbf{0}$ has <b>only</b> $\mathbf{x}=\mathbf{0}$.</p>
+  <p>Why: independent columns give uniqueness whenever a solution exists. But $k$ columns span only a $k$-dimensional subspace of the bigger space $\mathbb{R}^n$, so most $\mathbf{b}$ lie outside it and existence fails. This is the <b>overdetermined</b> case familiar from regression: more observations than parameters, and generally no exact fit.</p>
+  <p><i>Example (slide 15).</i> The $(3\times2)$-matrix</p>
+  $$A=\begin{bmatrix}1&0\\0&3\\0&3\end{bmatrix},\qquad\text{rank}(A)=2$$
+  <p>Equations 2 and 3 both say $3x_2=b_2$ and $3x_2=b_3$, so a solution requires $b_2=b_3$. For any $\mathbf{b}=(b_1,b,b)^{\mathsf T}$ there is the unique solution</p>
+  $$\mathbf{x}=\begin{bmatrix}b_1\\b/3\end{bmatrix}$$
+  <p>and for every other $\mathbf{b}$ there is none. (Exercise 4 checks $\mathbf{b}=(1,1,0)$, $\mathbf{b}=\mathbf{0}$ and $\mathbf{b}=(1,2,2)$ — module 14.)</p>
+
+  <p><b>2. Columns dependent</b> ($\text{rank}(A)&lt;k$). Then for any $\mathbf{b}\neq\mathbf{0}$: <b>no solution or infinitely many</b>; and $A\mathbf{x}=\mathbf{0}$ has infinitely many.</p>
+  <p><i>Example (slide 16).</i> The $(3\times2)$-matrix</p>
+  $$A=\begin{bmatrix}1&2\\0&0\\0&0\end{bmatrix},\qquad\text{rank}(A)=1$$
+  <p>Equations 2 and 3 read $0=b_2$ and $0=b_3$. So a solution exists only for $\mathbf{b}=(b,0,0)^{\mathsf T}$, and then</p>
+  $$\mathbf{x}=\begin{bmatrix}b-2x_2\\x_2\end{bmatrix},\qquad x_2\in\mathbb{R}$$
+  <p>infinitely many, with $k-\text{rank}=2-1=1$ free variable ✓. (Exercise 5 — module 14.)</p>
+  <div class="note tip"><div class="t">Reading the table backwards</div>Notice that every "no solution" arises the same way: an equation reduces to $0=$ something non-zero. And every "infinitely many" arises the same way: fewer independent equations than unknowns, leaving $k-\text{rank}$ parameters free. Two mechanisms explain the entire classification.</div>
+  </div>
+</div>
+</div>
+</section>

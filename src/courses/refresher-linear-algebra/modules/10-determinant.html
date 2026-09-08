@@ -1,0 +1,128 @@
+<!-- ============ 10 DETERMINANT ============ -->
+<section id="s10">
+<div class="sec-head"><span class="num">10</span><h2>The determinant</h2><span class="sub">lecture 3, slides 14–18 and 27–30 · one number that decides full rank</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why a single number can answer a structural question<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 09 ended with a practical problem. "Are these $n$ columns independent?" is a question about a whole system of equations, and answering it directly is work. The determinant collapses it into arithmetic:</p>
+  <p><b>Proposition 3.1.</b> Let $A$ be a square $(n\times n)$-matrix. Then</p>
+  $$\boxed{\;A\text{ has full rank }n\ \ (\text{its columns are linearly independent})\iff \det(A)\neq0\;}$$
+  <p>This is the lecture's own emphasis, and it deserves it: <i>to determine whether a square matrix has full rank you only need to calculate its determinant — a number! — and see whether it is non-zero.</i></p>
+  <p>Two restrictions to fix in your mind before anything else:</p>
+  <ul>
+    <li>determinants are defined <b>only for square matrices</b>. "$\det$" of a $2\times3$ matrix does not exist — not zero, undefined;</li>
+    <li>the determinant of a matrix is a <b>number</b>, not a matrix. It is written $|A|$ or $\det(A)$.</li>
+  </ul>
+  <div class="note warn"><div class="t">Notation trap</div>The bars in $|A|$ are the determinant, and the bars in $\|\mathbf{u}\|$ (module 04) are a length. They are unrelated. Worse, $|A|$ can be negative, whereas a length never is — a negative determinant is perfectly normal and simply reflects an orientation flip.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The small cases<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The determinant is defined <b>inductively</b>: the $n\times n$ case is built from $(n-1)\times(n-1)$ determinants, so we start at the bottom.</p>
+  <h3>$1\times1$</h3>
+  <p>For $A=[a]$, simply $|A|=a$. Consistent with Proposition 3.1: the single "column" $(a)$ is independent exactly when $a\neq0$, since the zero vector is never independent.</p>
+  <h3>$2\times2$ — memorise this one</h3>
+  $$A=\begin{bmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{bmatrix}\quad\Longrightarrow\quad |A|=a_{11}a_{22}-a_{12}a_{21}$$
+  <p>Main diagonal product minus anti-diagonal product. Examples:</p>
+  $$\det\begin{pmatrix}2&3\\-2&4\end{pmatrix}=8-(-6)=14\neq0\ \text{(full rank)},\qquad
+  \det\begin{pmatrix}2&-6\\-1&3\end{pmatrix}=6-6=0\ \text{(not full rank)}$$
+  <p>The second matrix has second column $=-3\times$ first column: visibly dependent, and the determinant reports it.</p>
+  <h3>$3\times3$</h3>
+  <p>Use the general expansion below. Expanding along the first row,</p>
+  $$\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}
+  =a_{11}(a_{22}a_{33}-a_{23}a_{32})-a_{12}(a_{21}a_{33}-a_{23}a_{31})+a_{13}(a_{21}a_{32}-a_{22}a_{31})$$
+  <p>Note the alternating signs $+,-,+$: they are not decoration, they come from the $(-1)^{i+j}$ factor below, and forgetting the middle minus is the single most common arithmetic error in this course.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The general formula: minors and cofactors<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For an $(n\times n)$-matrix with $n\ge2$, pick <b>any</b> row $i$ and expand along it:</p>
+  $$|A|=\sum_{j=1}^{n}a_{ij}(-1)^{i+j}|A_{ij}|\tag{5.1}$$
+  <p>where</p>
+  <ul>
+    <li>$A_{ij}$ is the matrix obtained from $A$ by <b>deleting row $i$ and column $j$</b> — one size smaller;</li>
+    <li>$|A_{ij}|$, its determinant, is called a <b>minor</b> of $A$;</li>
+    <li>$(-1)^{i+j}|A_{ij}|$ is called a <b>cofactor</b> of $A$.</li>
+  </ul>
+  <p>You may equally expand along <b>any column $j$</b>:</p>
+  $$|A|=\sum_{i=1}^{n}a_{ij}(-1)^{i+j}|A_{ij}|\tag{5.2}$$
+  <p>All $2n$ possible expansions give the same number — that is a theorem, and it is what makes the definition consistent. The sign pattern $(-1)^{i+j}$ is a chessboard:</p>
+  $$\begin{bmatrix}+&-&+&\dots\\-&+&-&\dots\\+&-&+&\dots\\ \vdots&&&\ddots\end{bmatrix}$$
+  <p>So expanding along an <i>odd</i> row starts with $+$, and along an <i>even</i> row starts with $-$:</p>
+  $$|A|=a_{i1}|A_{i1}|-a_{i2}|A_{i2}|+a_{i3}|A_{i3}|-\dots\quad(i\text{ odd})$$
+  $$|A|=-a_{1j}|A_{1j}|+a_{2j}|A_{2j}|-a_{3j}|A_{3j}|+\dots\quad(j\text{ even})$$
+  <p>The recursion terminates because each step drops the size by one, down to the $2\times2$ rule. A $4\times4$ determinant is a sum of four $3\times3$ determinants, each a sum of three $2\times2$ ones — 24 products in total, which is why nobody does $5\times5$ by hand.</p>
+  <div class="note tip"><div class="t">The one shortcut that always pays</div>Choose the row or column <b>with the most zeros</b>. A zero entry $a_{ij}$ kills its whole cofactor term, so a row with two zeros in a $3\times3$ reduces the work to a single $2\times2$ determinant. The freedom to pick any line is there precisely to be exploited.</div>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">WORKED · a $3\times3$ determinant, two ways</div>
+  <div class="body">
+  $$A=\begin{pmatrix}1&0&2\\0&1&1\\0&1&0\end{pmatrix}$$
+  <p><b>Way 1 — expand along the first column (two zeros).</b> Here $j=1$, and only $a_{11}=1$ survives:</p>
+  $$|A|=1\cdot(-1)^{1+1}\begin{vmatrix}1&1\\1&0\end{vmatrix}+0+0=1\cdot(1\cdot0-1\cdot1)=-1$$
+  <p><b>Way 2 — expand along the third row (also two zeros).</b> Here $i=3$, and only $a_{32}=1$ survives:</p>
+  $$|A|=1\cdot(-1)^{3+2}\begin{vmatrix}1&2\\0&1\end{vmatrix}=(-1)\cdot(1\cdot1-2\cdot0)=-1$$
+  <p>Same answer, as promised. Since $|A|=-1\neq0$, the matrix has full rank, its columns are independent and form a basis of $\mathbb{R}^3$ — which is exactly the computation used in module 08, Exercise 12.</p>
+  <p><b>Way 3 — the brute-force first-row expansion</b>, for contrast:</p>
+  $$|A|=1\begin{vmatrix}1&1\\1&0\end{vmatrix}-0\begin{vmatrix}0&1\\0&0\end{vmatrix}+2\begin{vmatrix}0&1\\0&1\end{vmatrix}=1(-1)-0+2(0)=-1$$
+  <p>Also correct, but you had to write two extra determinants that turned out to be worthless. Choose your line before you start.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">EX</span> Diagonal matrices<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For a diagonal matrix, expanding repeatedly along the first column leaves a single term each time:</p>
+  $$D=\begin{bmatrix}d_1&0&\dots&0\\0&d_2&\dots&0\\ &&\dots&\\0&0&\dots&d_n\end{bmatrix}\quad\Longrightarrow\quad |D|=d_1d_2\cdots d_n=\prod_{i=1}^{n}d_i$$
+  <p>This is an immediate illustration of Proposition 3.1:</p>
+  $$\det(D)=d_1d_2\cdots d_n\neq0\iff\text{every }d_i\neq0\iff\text{the columns of }D\text{ are independent}\iff D\text{ has full rank}$$
+  <p>And that equivalence is easy to see directly: the $i$-th column of $D$ is $d_i\mathbf{e}_i$. If every $d_i\neq0$ these are just rescaled standard basis vectors, obviously independent. If some $d_j=0$, that column is the zero vector and independence dies at once.</p>
+  <p><b>Special case:</b> the identity. Every diagonal entry is 1, so</p>
+  $$\det(I_n)=1\qquad\text{for every }n=1,2,\dots$$
+  <p>(The same product rule holds for triangular matrices — the determinant is still the product of the diagonal entries, since expanding along the first column always leaves one term.)</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX 14</span> Proving Proposition 3.1 for $2\times2$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Show that $A=\begin{bmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{bmatrix}$ has full rank $\iff |A|=a_{11}a_{22}-a_{12}a_{21}\neq0$.</b></p>
+  <p><b>($\Rightarrow$) Full rank implies $|A|\neq0$.</b> Two cases, following the lecture's solution on slide 18.</p>
+  <ol class="steps">
+    <li><i>Case $a_{22}=0$.</i> Then $|A|=-a_{12}a_{21}$. If either $a_{12}$ or $a_{21}$ were 0, a column of $A$ would be a multiple of $\mathbf{e}_1$ or $\mathbf{e}_2$ in a way that makes the two columns dependent — concretely, $a_{12}=0$ makes the second column $(0,0)'$ or a multiple of the first, contradicting full rank. So with full rank both $a_{12}\neq0$ and $a_{21}\neq0$, giving $|A|=-a_{12}a_{21}\neq0$.</li>
+    <li><i>Case $a_{22}\neq0$.</i> Argue by contradiction: suppose $|A|=0$, i.e. $a_{11}a_{22}=a_{12}a_{21}$, so $a_{11}=a_{12}a_{21}/a_{22}$. Then the first column is
+    $$\begin{bmatrix}a_{11}\\a_{21}\end{bmatrix}=\begin{bmatrix}a_{12}a_{21}/a_{22}\\a_{21}\end{bmatrix}=\begin{bmatrix}a_{12}a_{21}/a_{22}\\a_{22}a_{21}/a_{22}\end{bmatrix}=\frac{a_{21}}{a_{22}}\begin{bmatrix}a_{12}\\a_{22}\end{bmatrix}$$
+    a scalar multiple of the second column. The columns are then dependent, contradicting full rank. Hence $|A|\neq0$.</li>
+  </ol>
+  <p><b>($\Leftarrow$) $|A|\neq0$ implies full rank.</b> By contradiction: suppose $A$ does <i>not</i> have full rank. Then its two columns are dependent, so one is a multiple of the other — say the second is $\lambda$ times the first, with</p>
+  $$A=\begin{bmatrix}a_{11}&\lambda a_{11}\\a_{21}&\lambda a_{21}\end{bmatrix}$$
+  <p>Then $\det(A)=a_{11}\lambda a_{21}-\lambda a_{11}a_{21}=0$, contradicting $|A|\neq0$. $\;\square$</p>
+  <div class="note"><div class="t">Insight</div>Both directions turn on the same observation: <b>$\det=0$ says one column is a multiple of the other.</b> That is the $2\times2$ face of a general truth — the determinant vanishes exactly when the columns fail to open up the full space, i.e. when the parallelogram (or, in $n$ dimensions, the box) they span has collapsed to zero volume.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> Practical determinant checklist<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>A row or column is entirely zero</td><td>$|A|=0$ — expand along it, every term dies</td></tr>
+    <tr><td>Two rows or two columns are equal, or one is a multiple of another</td><td>$|A|=0$ — the columns are visibly dependent</td></tr>
+    <tr><td>Diagonal or triangular</td><td>$|A|=$ product of the diagonal entries</td></tr>
+    <tr><td>Identity</td><td>$|I_n|=1$</td></tr>
+    <tr><td>Transpose</td><td>$|A^{\mathsf T}|=|A|$ — consistent with $\text{rank}(A)=\text{rank}(A^{\mathsf T})$</td></tr>
+    <tr><td>Inverse (module 11)</td><td>$|A^{-1}|=1/|A|$, which needs $|A|\neq0$ to make sense</td></tr>
+  </table>
+  <p>Use rows 1 and 2 of this table before computing anything. Spotting a repeated or proportional column gives you the answer $0$ instantly and, more importantly, tells you <i>why</i> — that a redundancy exists is far more informative than the number itself.</p>
+  <p class="muted"><b>Check yourself:</b> without expanding, what is $\det\begin{pmatrix}1&2&3\\2&4&6\\0&1&5\end{pmatrix}$? (Row 2 is twice row 1, so the rows are dependent: the determinant is 0, and the matrix has rank 2.)</p>
+  </div>
+</div>
+</section>

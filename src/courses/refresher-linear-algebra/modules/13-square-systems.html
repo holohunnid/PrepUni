@@ -1,0 +1,122 @@
+<!-- ============ 13 SQUARE SYSTEMS ============ -->
+<section id="s13">
+<div class="sec-head"><span class="num">13</span><h2>Square systems: how to actually solve them</h2><span class="sub">lecture 4, slides 18–26 · $\mathbf{x}=A^{-1}\mathbf{b}$, and an input–output model</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> From "does it exist" to "here it is"<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 12 answered questions 1 and 2 — existence and uniqueness — for every shape of system. This module answers question 3, <b>how to find the solution</b>, in the case that matters most: the <b>square</b> system, with as many equations as unknowns ($k=n$).</p>
+  <p>The setup: $A$ is a square $(n\times n)$-matrix, $\mathbf{b}$ is a given vector in $\mathbb{R}^n$, and the unknown $\mathbf{x}$ is also in $\mathbb{R}^n$. Everything hinges on a single number, $\det(A)$, through the chain of equivalences assembled in modules 09–11:</p>
+  $$\det(A)\neq0\iff\text{rank}(A)=n\iff\text{columns independent}\iff\text{columns are a basis of }\mathbb{R}^n\iff A^{-1}\text{ exists}$$
+  <div class="note tip"><div class="t">The procedure, in three lines</div><b>1.</b> Compute $\det(A)$. <b>2.</b> If $\det(A)\neq0$: there is exactly one solution, and it is $\mathbf{x}=A^{-1}\mathbf{b}$. <b>3.</b> If $\det(A)=0$: there is no solution or infinitely many — check whether $\mathbf{b}$ lies in the column space to decide which.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">CASE</span> The homogeneous square system<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A\mathbf{x}=\mathbf{0}\tag{3.1}$$
+  <ul>
+    <li>$\mathbf{x}=\mathbf{0}$ is always a solution — obvious, and called the <b>trivial</b> solution.</li>
+    <li>Solutions $\mathbf{x}\neq\mathbf{0}$ exist <b>if and only if $A$ does not have full rank</b>, i.e. the columns are dependent, i.e. $\det(A)=0$.</li>
+  </ul>
+  <p>Why: a non-trivial solution is exactly a non-trivial vanishing combination of the columns, which by Theorem 4.1 (module 07) is exactly dependence. And when one such solution exists there are <b>infinitely many</b>, because:</p>
+  <ul>
+    <li>if $\mathbf{x}\neq\mathbf{0}$ solves it, so does $c\mathbf{x}$ for any $c\neq0$: $A(c\mathbf{x})=cA\mathbf{x}=c\mathbf{0}=\mathbf{0}$;</li>
+    <li>if $\mathbf{x}_1$ and $\mathbf{x}_2$ both solve it, so does any linear combination of them.</li>
+  </ul>
+  <p>Those two bullets are precisely the closure conditions of module 05. Hence:</p>
+  <div class="note"><div class="t">The solution set is a subspace</div>$\{\mathbf{x}:A\mathbf{x}=\mathbf{0}\}$ is a <b>subspace of $\mathbb{R}^n$</b> — the <b>null space</b> (or kernel) of $A$. It always contains $\mathbf{0}$; it contains more than that exactly when $\det A=0$; and its dimension is $n-\text{rank}(A)$, the number of free variables.</div>
+  <h3>Example (slide 20)</h3>
+  $$\begin{bmatrix}1&3&10\\2&3&14\\3&2&16\end{bmatrix}\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=\begin{bmatrix}0\\0\\0\end{bmatrix}$$
+  <p>$\mathbf{x}=(0,0,0)^{\mathsf T}$ solves it, but so does</p>
+  $$\mathbf{x}=c\begin{bmatrix}-4\\-2\\1\end{bmatrix}\quad\text{for any }c\in\mathbb{R}$$
+  <p>Check with $c=1$: row 1 gives $-4-6+10=0$ ✓; row 2 gives $-8-6+14=0$ ✓; row 3 gives $-12-4+16=0$ ✓. So $\text{rank}(A)=2$: the third column is a combination of the first two, $4\mathbf{a}_{\cdot1}+2\mathbf{a}_{\cdot2}=\mathbf{a}_{\cdot3}$, i.e. $(4+6,8+6,12+4)=(10,14,16)$ ✓. The null space is the line through $(-4,-2,1)$, of dimension $3-2=1$.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">PROP 3.1</span> The non-homogeneous square system<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A\mathbf{x}=\mathbf{b},\qquad\mathbf{b}\neq\mathbf{0}\tag{3.2}$$
+  <p>This equation asks for $\mathbf{b}$ to be expressed as a linear combination of the columns of $A$. Two situations:</p>
+  <ul>
+    <li><b>Full rank</b> ($|A|\neq0$): the columns form a basis, so every $\mathbf{b}$ is reachable, uniquely.</li>
+    <li><b>$\text{rank}(A)&lt;n$</b> ($|A|=0$): only those $\mathbf{b}$ lying in the column space admit solutions — and then infinitely many.</li>
+  </ul>
+  <p><b>Proposition 3.1.</b> Consider $A\mathbf{x}=\mathbf{b}$ with $\mathbf{b}\neq\mathbf{0}$ and $A$ an $(n\times n)$-matrix. If $A$ is nonsingular ($A^{-1}$ exists, equivalently $\det(A)\neq0$), then a <b>unique solution</b> exists and is given by</p>
+  $$\boxed{\;\mathbf{x}=A^{-1}\mathbf{b}\;}$$
+  <p><b>Proof.</b> Multiply both sides on the left by $A^{-1}$:</p>
+  $$\underbrace{A^{-1}A}_{=I_n}\mathbf{x}=A^{-1}\mathbf{b}\quad\Longrightarrow\quad \mathbf{x}=A^{-1}\mathbf{b}$$
+  <p>Uniqueness holds because $A^{-1}$ is itself unique (Proposition 4.1, module 11) — or, equivalently, because the columns of $A$ form a basis of $\mathbb{R}^n$, so the coefficients expressing $\mathbf{b}$ in that basis are unique. $\;\square$</p>
+  <div class="note warn"><div class="t">Multiply on the left, on both sides</div>Because the product is not commutative, "multiply both sides by $A^{-1}$" is ambiguous and must be made precise. $A^{-1}(A\mathbf{x})=A^{-1}\mathbf{b}$ works. $(A\mathbf{x})A^{-1}$ is not even defined, since $A\mathbf{x}$ is $(n\times1)$ and $A^{-1}$ is $(n\times n)$.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">FORMULA</span> The explicit solution when $n=2$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Consider</p>
+  $$\begin{aligned}a_{11}x_1+a_{12}x_2&=u\\a_{21}x_1+a_{22}x_2&=v\end{aligned}
+  \qquad\Longleftrightarrow\qquad
+  \begin{bmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}u\\v\end{bmatrix}\tag{3.3}$$
+  <p>Apply $\mathbf{x}=A^{-1}\mathbf{b}$ with the $2\times2$ inverse formula (4.1) from module 11:</p>
+  $$\begin{bmatrix}x_1\\x_2\end{bmatrix}=\frac{1}{a_{11}a_{22}-a_{12}a_{21}}\begin{bmatrix}a_{22}&-a_{12}\\-a_{21}&a_{11}\end{bmatrix}\begin{bmatrix}u\\v\end{bmatrix}$$
+  <p>which multiplied out gives</p>
+  $$x_1=\frac{u\,a_{22}-a_{12}\,v}{a_{11}a_{22}-a_{12}a_{21}},\qquad x_2=\frac{v\,a_{11}-a_{21}\,u}{a_{11}a_{22}-a_{12}a_{21}}\tag{3.4}$$
+  <p>Look at the structure: the denominator is $\det(A)$ in both, and each numerator is the determinant of $A$ with the corresponding column replaced by $\mathbf{b}$ —</p>
+  $$x_1=\frac{\begin{vmatrix}u&a_{12}\\v&a_{22}\end{vmatrix}}{\begin{vmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{vmatrix}},\qquad
+  x_2=\frac{\begin{vmatrix}a_{11}&u\\a_{21}&v\end{vmatrix}}{\begin{vmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{vmatrix}}$$
+  <p>That is <b>Cramer's rule</b>, and it generalises to any $n$. It also makes the role of $\det(A)$ vivid: when it is zero, the formulas divide by zero and there is no unique solution — which is exactly Proposition 3.1 again.</p>
+  <p class="muted"><b>Check yourself:</b> solve $\begin{cases}2x_1+3x_2=1\\-2x_1+4x_2=6\end{cases}$. ($\det=14$. Then $x_1=(1\cdot4-3\cdot6)/14=-14/14=-1$ and $x_2=(6\cdot2-(-2)\cdot1)/14=14/14=1$. Check: $-2+3=1$ ✓, $2+4=6$ ✓.)</p>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE 6 (slides 24–25) · input–output linear model of production</div>
+  <div class="body">
+  <p><b>The model.</b> An economy has $n$ sectors. Sector $i$ produces $x_i$ units of a single good $i$. To produce 1 unit of good $j$, sector $j$ must use $a_{ij}$ units of good $i$; so to produce $x_j$ units it needs $a_{ij}x_j$ units of good $i$. Each sector sells part of its output to other sectors (<b>intermediate output</b>) and part to consumers (<b>final demand</b> $d_i$). Supply must equal demand:</p>
+  $$\underbrace{x_i}_{\text{total output of }i}=\underbrace{a_{i1}x_1+a_{i2}x_2+\dots+a_{in}x_n}_{\text{intermediate output}}+\underbrace{d_i}_{\text{final output}},\qquad i=1,\dots,n\tag{3.5}$$
+  <p>In matrix form, with $A=[a_{ij}]$ the $(n\times n)$-matrix of technical coefficients:</p>
+  $$\mathbf{x}=A\mathbf{x}+\mathbf{d}\tag{3.6}$$
+
+  <p><b>1. The model is economically meaningful only if the columns of $A$ sum to a number less than 1. Explain why.</b></p>
+  <ol class="steps">
+    <li>Column $j$ of $A$ lists every input needed to make <b>one unit of good $j$</b>: $a_{1j}$ units of good 1, $a_{2j}$ of good 2, and so on.</li>
+    <li>Prices are given as one unit of each good costing 1 euro (the coefficients are measured in euros), so the column sum $\sum_{i}a_{ij}$ is the <b>euro cost of the inputs</b> consumed in producing one euro's worth of good $j$.</li>
+    <li>If $\sum_i a_{ij}\ge1$, sector $j$ consumes at least as much value as it creates: production destroys or merely preserves value, leaving nothing for wages, profit or final consumers. If that held for every sector the economy could not deliver any positive final demand at all.</li>
+    <li>Requiring $\sum_i a_{ij}&lt;1$ for every $j$ says each sector adds <b>positive value</b> — the economy is <i>productive</i>. Mathematically it is also what guarantees $(I-A)$ is nonsingular with a non-negative inverse, so that part 2 delivers a sensible (non-negative) output vector.</li>
+  </ol>
+
+  <p><b>2. Find the optimal total output $\mathbf{x}^*$, assuming $I-A$ is nonsingular.</b></p>
+  <ol class="steps">
+    <li>Start from (3.6) and gather the $\mathbf{x}$ terms on one side:
+    $$\mathbf{x}-A\mathbf{x}=\mathbf{d}$$</li>
+    <li>Factor out $\mathbf{x}$ — carefully. You cannot write $(1-A)$, since 1 is a number and $A$ is a matrix. The correct step uses $\mathbf{x}=I\mathbf{x}$:
+    $$I\mathbf{x}-A\mathbf{x}=(I-A)\mathbf{x}=\mathbf{d}$$</li>
+    <li>This is now a square system of the form (3.2) with coefficient matrix $(I-A)$. By Proposition 3.1, since $I-A$ is nonsingular,
+    $$\boxed{\;\mathbf{x}^*=(I-A)^{-1}\mathbf{d}\;}$$
+    a unique solution, and it exists for <b>every</b> final demand vector $\mathbf{d}$ — which is exactly what makes the model useful: change the demand, reuse the same inverse.</li>
+  </ol>
+
+  <p><b>3. With $A=\begin{bmatrix}1/3&1/2\\1/3&1/4\end{bmatrix}$ and $\mathbf{d}=\begin{bmatrix}4\\4\end{bmatrix}$, compute $(I-A)^{-1}$ and $\mathbf{x}^*$.</b></p>
+  <ol class="steps">
+    <li>First check part 1: column sums are $1/3+1/3=2/3&lt;1$ ✓ and $1/2+1/4=3/4&lt;1$ ✓. The economy is productive.</li>
+    <li>Build $I-A$:
+    $$I-A=\begin{bmatrix}1&0\\0&1\end{bmatrix}-\begin{bmatrix}1/3&1/2\\1/3&1/4\end{bmatrix}=\begin{bmatrix}2/3&-1/2\\-1/3&3/4\end{bmatrix}$$</li>
+    <li>Determinant:
+    $$\det(I-A)=\frac23\cdot\frac34-\left(-\frac12\right)\left(-\frac13\right)=\frac12-\frac16=\frac13\neq0$$
+    so $I-A$ is nonsingular ✓ and Proposition 3.1 applies.</li>
+    <li>Inverse, by formula (4.1) — swap the diagonal, negate the off-diagonal, divide by $1/3$ (i.e. multiply by 3):
+    $$(I-A)^{-1}=3\begin{bmatrix}3/4&1/2\\1/3&2/3\end{bmatrix}=\begin{bmatrix}9/4&3/2\\1&2\end{bmatrix}$$</li>
+    <li>Optimal output:
+    $$\mathbf{x}^*=(I-A)^{-1}\mathbf{d}=\begin{bmatrix}9/4&3/2\\1&2\end{bmatrix}\begin{bmatrix}4\\4\end{bmatrix}=\begin{bmatrix}9+6\\4+8\end{bmatrix}=\begin{bmatrix}15\\12\end{bmatrix}$$</li>
+    <li><b>Check</b> against the original equation $\mathbf{x}=A\mathbf{x}+\mathbf{d}$:
+    $$A\mathbf{x}^*=\begin{bmatrix}1/3&1/2\\1/3&1/4\end{bmatrix}\begin{bmatrix}15\\12\end{bmatrix}=\begin{bmatrix}5+6\\5+3\end{bmatrix}=\begin{bmatrix}11\\8\end{bmatrix},\qquad A\mathbf{x}^*+\mathbf{d}=\begin{bmatrix}11+4\\8+4\end{bmatrix}=\begin{bmatrix}15\\12\end{bmatrix}=\mathbf{x}^*\ \checkmark$$</li>
+  </ol>
+  <div class="note fin"><div class="t">Reading the answer economically</div>Final demand is 4 units of each good, but gross output must be 15 and 12 — far more, because a large share of production is consumed as inputs by the sectors themselves. The matrix $(I-A)^{-1}$ is the <b>Leontief inverse</b>, and its entries are <i>multipliers</i>: entry $(i,j)$ says how much gross output of good $i$ is required per unit of <b>final</b> demand for good $j$, counting all the indirect rounds. Here one extra unit of final demand for good 1 requires $9/4$ units of good 1 and 1 unit of good 2 to be produced. Wassily Leontief received the 1973 Nobel prize for this model.</div>
+  <p class="muted">Reference for the model's motivation: Simon–Blume, Section 6.2.</p>
+  </div>
+</div>
+</section>

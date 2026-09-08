@@ -1,0 +1,156 @@
+<!-- ============ 06 LINEAR COMBINATIONS, SPAN, SUBSPACES ============ -->
+<section id="s6">
+<div class="sec-head"><span class="num">06</span><h2>Linear combinations, subspaces and span</h2><span class="sub">lecture 2, slides 13–26 · everything you can build from what you already hold</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> One idea, three names<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>This module has a single idea in it, dressed three ways:</p>
+  <ul>
+    <li>a <b>linear combination</b> is one recipe: scale some vectors, add the results;</li>
+    <li>a <b>subspace</b> is a subset that is closed under such recipes — a vector space living inside a bigger one;</li>
+    <li>the <b>span</b> of a set $S$ is the collection of <i>all</i> recipes you can write using the vectors of $S$. It is automatically a subspace, and it is the smallest one containing $S$.</li>
+  </ul>
+  <p>Slide 13 calls the linear combination a "very important concept" and gives the reason directly: <b>portfolio construction <i>is</i> linear combination</b>, and in asset pricing, "can I replicate this payoff?" means literally "is this vector a linear combination of the ones I have?". Module 03 already showed that $A\mathbf{x}$ is a linear combination of the columns of $A$; this module gives that observation its proper vocabulary.</p>
+  <div class="note tip"><div class="t">Translation table, keep it handy</div>"is $\mathbf{b}$ in $\text{span}(\mathbf{a}_1,\dots,\mathbf{a}_k)$?" $\;=\;$ "does $A\mathbf{x}=\mathbf{b}$ have a solution?" $\;=\;$ "can this payoff be replicated by the traded assets?" Three phrasings of one question, and you will meet all three.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Linear combination<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $V$ be a vector space and $\mathbf{v}_1,\dots,\mathbf{v}_n\in V$. A <b>linear combination</b> of them is any sum of the form</p>
+  $$\alpha_1\mathbf{v}_1+\alpha_2\mathbf{v}_2+\dots+\alpha_n\mathbf{v}_n=\sum_{i=1}^{n}\alpha_i\mathbf{v}_i\in V,\qquad \alpha_i\in\mathbb{R}$$
+  <p>The $\alpha_i$ are the <b>coefficients</b> or <b>weights</b>. They may be any reals: positive, negative, or zero. Because a vector space is closed under both operations, the result is always back inside $V$ — combining never takes you outside.</p>
+  <h3>Reading it in $\mathbb{R}^2$</h3>
+  <p>Addition is the parallelogram rule: place $\mathbf{u}$ and $\mathbf{v}$ tail to tail, complete the parallelogram, and $\mathbf{u}+\mathbf{v}$ is the diagonal. Subtraction is the same construction applied to $\mathbf{u}$ and $-\mathbf{v}$, which is why $\mathbf{u}-\mathbf{v}$ is the arrow running from the tip of $\mathbf{v}$ to the tip of $\mathbf{u}$.</p>
+  <figure>
+  <svg viewBox="0 0 520 165">
+    <defs><marker id="ar6" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
+    <g transform="translate(10,0)">
+      <text x="0" y="14" class="svgtxt w">u + v : the parallelogram diagonal</text>
+      <line x1="30" y1="130" x2="150" y2="105" stroke="var(--blue)" stroke-width="2" marker-end="url(#ar6)"/>
+      <text x="88" y="127" class="svgtxt b">u</text>
+      <line x1="30" y1="130" x2="70" y2="42" stroke="var(--red)" stroke-width="2" marker-end="url(#ar6)"/>
+      <text x="34" y="80" class="svgtxt r">v</text>
+      <line x1="30" y1="130" x2="190" y2="17" stroke="var(--green)" stroke-width="2" marker-end="url(#ar6)"/>
+      <text x="120" y="62" class="svgtxt g">u + v</text>
+      <line x1="150" y1="105" x2="190" y2="17" stroke="var(--dim)" stroke-dasharray="3 3"/>
+      <line x1="70" y1="42" x2="190" y2="17" stroke="var(--dim)" stroke-dasharray="3 3"/>
+    </g>
+    <g transform="translate(280,0)">
+      <text x="0" y="14" class="svgtxt w">u − v : add the reversed arrow</text>
+      <line x1="30" y1="130" x2="150" y2="105" stroke="var(--blue)" stroke-width="2" marker-end="url(#ar6)"/>
+      <text x="88" y="127" class="svgtxt b">u</text>
+      <line x1="30" y1="130" x2="-10" y2="42" stroke="var(--red)" stroke-width="2" marker-end="url(#ar6)" style="display:none"/>
+      <line x1="30" y1="130" x2="70" y2="42" stroke="var(--dim)" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#ar6)"/>
+      <text x="46" y="80" class="svgtxt">v</text>
+      <line x1="70" y1="42" x2="150" y2="105" stroke="var(--green)" stroke-width="2" marker-end="url(#ar6)"/>
+      <text x="118" y="66" class="svgtxt g">u − v</text>
+    </g>
+  </svg>
+  <figcaption>Left: the sum closes the parallelogram. Right: $\mathbf{u}-\mathbf{v}$ is the arrow <i>from</i> the tip of $\mathbf{v}$ <i>to</i> the tip of $\mathbf{u}$ — the difference points from the subtracted vector to the other one.</figcaption>
+  </figure>
+  <div class="note fin"><div class="t">Finance reading</div>If $\mathbf{r}_i$ is the payoff vector of asset $i$ across states of the world and $\alpha_i$ is the number of units you hold, then $\sum_i\alpha_i\mathbf{r}_i$ is your portfolio's payoff vector. Negative $\alpha_i$ is a short position. So "the set of achievable payoffs" is a set of linear combinations — which is exactly what a span is.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Subspace<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $V$ be a vector space. A set $W$ is a <b>subspace</b> of $V$ if</p>
+  <ol class="steps">
+    <li>$W$ is a subset of $V$, and</li>
+    <li>$W$ is closed under linear combinations of its own elements: whenever $\mathbf{w}_1,\mathbf{w}_2\in W$ and $\alpha_1,\alpha_2\in\mathbb{R}$, we have $\alpha_1\mathbf{w}_1+\alpha_2\mathbf{w}_2\in W$.</li>
+  </ol>
+  <p>Condition 2 is the same closure requirement as in module 05, compressed into one statement (take $\alpha_1=\alpha_2=1$ for addition, $\alpha_2=0$ for scaling). So a subspace is simply a vector space that happens to sit inside a larger one.</p>
+  <div class="note warn"><div class="t">Every subspace contains $\mathbf{0}$</div>Why? Take any $\mathbf{w}\in W$ and $\alpha_1=\alpha_2=0$. Then $\mathbf{0}\in W$. <b>Use this first, always.</b> If a candidate set does not contain the origin, you are done in one line — as with $W=\{x_1+x_2+x_3=1\}$ in module 05.</div>
+  <h3>All the subspaces of $\mathbb{R}^2$ (slide 20)</h3>
+  <p>There are exactly three kinds, and it is worth knowing the complete list:</p>
+  <ul>
+    <li>$\{\mathbf{0}\}$, the origin alone — trivially closed;</li>
+    <li>any <b>line through the origin</b>, i.e. $\{\alpha\mathbf{v}:\alpha\in\mathbb{R}\}$ for a fixed $\mathbf{v}\neq\mathbf{0}$ — scaling stays on the line, adding two points of the line stays on the line;</li>
+    <li>the whole plane $\mathbb{R}^2$.</li>
+  </ul>
+  <p>Everything else in the slide's figure fails:</p>
+  <table class="formula-table">
+    <tr><td>a line <i>not</i> through the origin</td><td>fails — does not contain $\mathbf{0}$</td></tr>
+    <tr><td>the first quadrant (a shaded corner)</td><td>fails — closed under addition, but $\lambda&lt;0$ leaves it</td></tr>
+    <tr><td>a rectangle or any bounded region</td><td>fails — scaling by a large $\lambda$ escapes it</td></tr>
+    <tr><td>a single point $\neq\mathbf{0}$</td><td>fails — no $\mathbf{0}$, and not closed under anything</td></tr>
+    <tr><td>the union of two distinct lines through $\mathbf{0}$</td><td>fails — each line is fine alone, but adding one vector from each gives a point on neither</td></tr>
+  </table>
+  <p>The same classification in $\mathbb{R}^3$ gives four kinds: $\{\mathbf{0}\}$, lines through the origin, planes through the origin, and $\mathbb{R}^3$. The pattern is by dimension, which is module 08.</p>
+  <div class="note fin"><div class="t">Why it matters (slide 19)</div>The set of payoffs achievable by trading the available securities is a subspace of the space of all conceivable payoffs. Whether that subspace is the <i>whole</i> space is exactly the definition of <b>market completeness</b>.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The subspace spanned by a set<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $S$ be a subset of a vector space $V$. The <b>subspace generated (spanned) by $S$</b>, written $[S]$ or $\text{span}(S)$, is the set of all linear combinations of vectors in $S$:</p>
+  $$\text{span}(S)=[S]:=\Big\{\textstyle\sum_{s_i\in S}\alpha_i s_i,\ \ \alpha_i\in\mathbb{R}\Big\}$$
+  <p>It is a subspace (any combination of combinations is again a combination), and it is the <b>smallest</b> subspace containing $S$: any subspace that holds all of $S$ must, by closure, hold every combination of them too.</p>
+  <h3>Two examples in $\mathbb{R}^2$ (slide 23)</h3>
+  <ol class="steps">
+    <li>$S_1=\left\{\begin{bmatrix}1\\2\end{bmatrix}\right\}$ gives $[S_1]=\left\{\alpha\begin{bmatrix}1\\2\end{bmatrix},\ \alpha\in\mathbb{R}\right\}$ — the <b>line through the origin</b> in the direction $(1,2)$: the points $(1,2)$, $(2,4)$, $(-1,-2)$, $(0,0)$, and everything between. One vector spans a line.</li>
+    <li>$S_2=\left\{\begin{bmatrix}1\\2\end{bmatrix},\begin{bmatrix}5\\1\end{bmatrix}\right\}$ gives $[S_2]=\left\{\alpha_1\begin{bmatrix}1\\2\end{bmatrix}+\alpha_2\begin{bmatrix}5\\1\end{bmatrix}\right\}$. The two directions are genuinely different, so between them they reach <b>the whole plane</b>: $[S_2]=\mathbb{R}^2$. (Formally: $\det\begin{pmatrix}1&5\\2&1\end{pmatrix}=1-10=-9\neq0$, which module 10 will show is exactly the test.)</li>
+  </ol>
+  <p>Drawing them: $[S_1]$ is a single line at slope 2 through the origin; $[S_2]$ is the entire shaded plane. The jump from one vector to two independent ones is a jump from a 1-dimensional to a 2-dimensional object — and adding a <i>third</i> vector in $\mathbb{R}^2$ would add nothing at all, which is the subject of module 07.</p>
+  <div class="note tip"><div class="t">The general pattern</div>In $\mathbb{R}^n$, the span of $k$ vectors is at most $k$-dimensional, and exactly $k$-dimensional when none of them is redundant. Fewer vectors than $n$ can never span $\mathbb{R}^n$: you cannot reach a plane with a single arrow, no matter how you scale it.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE (slide 24) · spanned payoffs versus all possible payoffs</div>
+  <div class="body">
+  <p>Three states of the economy (Boom, Flat, Recession), so security payoffs live in $\mathbb{R}^3$. Two securities are traded: $\mathbf{a}=(1,1,1)$ (a bond) and $\mathbf{b}=(2,1,0)$ (a stock).</p>
+  <p><b>a) Can $\mathbf{c}=(3,1,-1)$ be replicated? And $\mathbf{c}=(3,1,0)$?</b></p>
+  <p>"Replicate" means: find $\alpha,\beta$ with $\alpha\mathbf{a}+\beta\mathbf{b}=\mathbf{c}$. Writing it out state by state gives a linear system.</p>
+  <ol class="steps">
+    <li>For $\mathbf{c}=(3,1,-1)$:
+    $$\begin{cases}\alpha+2\beta=3&\text{(Boom)}\\ \alpha+\beta=1&\text{(Flat)}\\ \alpha+0\cdot\beta=-1&\text{(Recession)}\end{cases}$$
+    The third equation gives $\alpha=-1$ immediately. Substituting into the second: $-1+\beta=1$, so $\beta=2$. Now the first equation must be <i>checked</i>, not solved — it is an extra condition: $-1+2(2)=3$ ✓.</li>
+    <li>So <b>yes</b>: $\mathbf{c}=-\mathbf{a}+2\mathbf{b}$. Economically, short one bond and buy two stocks.</li>
+    <li>For $\mathbf{c}=(3,1,0)$: the third equation gives $\alpha=0$, the second gives $\beta=1$, and the first then requires $0+2(1)=3$, i.e. $2=3$. <b>Contradiction</b>, so this payoff cannot be replicated — <b>no</b>.</li>
+  </ol>
+  <p><b>b) Is $\text{span}(\mathbf{a},\mathbf{b})$ a subspace of $\mathbb{R}^3$? Is it all of $\mathbb{R}^3$? Describe it geometrically.</b></p>
+  <ol class="steps">
+    <li>It is a subspace by construction — every span is. It contains $\mathbf{0}$ (take $\alpha=\beta=0$) and any combination of two of its elements is again a combination of $\mathbf{a}$ and $\mathbf{b}$.</li>
+    <li>It is <b>not</b> all of $\mathbb{R}^3$: part (a) exhibited $(3,1,0)$ as unreachable. One counterexample settles it.</li>
+    <li>Geometrically, $\mathbf{a}$ and $\mathbf{b}$ are two non-parallel vectors in $\mathbb{R}^3$, so their span is a <b>plane through the origin</b> — a 2-dimensional subspace sitting inside 3-dimensional space.</li>
+  </ol>
+  <div class="note fin"><div class="t">The economic name for this</div>Two securities, three states: the market is <b>incomplete</b>. The achievable payoffs form a plane, and the payoffs off that plane — such as $(3,1,0)$ — simply cannot be manufactured. Module 08 answers the natural follow-up: how many more securities do you need, and which ones?</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE 6 (slide 25) · four candidate subspaces</div>
+  <div class="body">
+  <p><b>1. Show $W=\{(a-b,\;3a-b,\;2a+b):a,b\in\mathbb{R}\}$ is a subspace of $\mathbb{R}^3$.</b></p>
+  <p>The efficient route is to recognise it as a span. Separate the $a$ and $b$ parts:</p>
+  $$(a-b,\;3a-b,\;2a+b)=a(1,3,2)+b(-1,-1,1)$$
+  <p>so $W=\text{span}\{(1,3,2),(-1,-1,1)\}$, and every span is a subspace. Done.</p>
+  <p><i>Direct verification, if you prefer it:</i> take $\mathbf{w}_1$ generated by $(a_1,b_1)$ and $\mathbf{w}_2$ by $(a_2,b_2)$. Then $\alpha\mathbf{w}_1+\beta\mathbf{w}_2$ is generated by the parameters $(\alpha a_1+\beta a_2,\ \alpha b_1+\beta b_2)$, which are again real numbers — so the result is in $W$. Geometrically $W$ is a plane through the origin.</p>
+
+  <p><b>2. Show $W=\{(a-b,\;3a-b,\;2a+b-1):a,b\in\mathbb{R}\}$ is <i>not</i> a subspace of $\mathbb{R}^3$.</b></p>
+  <p>Use the zero test. For $\mathbf{0}\in W$ we would need all three coordinates to vanish simultaneously:</p>
+  $$a-b=0\ \Rightarrow\ a=b;\qquad 3a-b=0\ \Rightarrow\ 3a=b$$
+  <p>Together $a=b$ and $3a=b$ force $a=b=0$. But then the third coordinate is $2(0)+0-1=-1\neq0$. So $\mathbf{0}\notin W$ and $W$ is <b>not</b> a subspace.</p>
+  <p>The structural reason: this $W$ is the plane of part 1 <b>shifted</b> by the constant vector $(0,0,-1)$. A shifted plane (an <i>affine</i> set) is not a subspace unless the shift happens to be zero — the same $1$-versus-$0$ distinction as fully-invested versus self-financing portfolios in module 05.</p>
+
+  <p><b>3. Is $W=\{(x,y,0):x,y\in\mathbb{R}\}$ a subspace of $\mathbb{R}^3$?</b></p>
+  <p><b>Yes.</b> It contains $\mathbf{0}=(0,0,0)$. And</p>
+  $$\alpha(x_1,y_1,0)+\beta(x_2,y_2,0)=(\alpha x_1+\beta x_2,\ \alpha y_1+\beta y_2,\ 0)$$
+  <p>whose third coordinate is still $0$, so the result is in $W$. This is the $xy$-plane: $W=\text{span}\{(1,0,0),(0,1,0)\}$, a 2-dimensional subspace of $\mathbb{R}^3$.</p>
+
+  <p><b>4. Is $W=\{(a,b):ab\ge0\}$ a subspace of $\mathbb{R}^2$?</b></p>
+  <p><b>No.</b> The set is the union of the first and third quadrants (including the axes). It contains $\mathbf{0}$ and it <i>is</i> closed under scalar multiplication — multiplying both coordinates by $\lambda$ multiplies the product by $\lambda^2\ge0$, so the sign of $ab$ never changes. But addition breaks it:</p>
+  $$(1,0)\in W\ \ (\text{since }1\cdot0=0\ge0),\qquad (0,-1)\in W\ \ (\text{since }0\cdot(-1)=0\ge0)$$
+  $$(1,0)+(0,-1)=(1,-1),\qquad 1\cdot(-1)=-1&lt;0\ \Rightarrow\ (1,-1)\notin W$$
+  <p>One counterexample is enough.</p>
+  <div class="note tip"><div class="t">Method summary</div>Part 4 is the instructive one: it shows the two closure conditions are genuinely independent. A set can pass scaling and fail addition. Always check both — and remember that the union of two subspaces is almost never a subspace, for exactly this reason.</div>
+  </div>
+</div>
+</section>

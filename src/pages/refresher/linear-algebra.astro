@@ -1,0 +1,23 @@
+---
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import course from '../../courses/refresher-linear-algebra/meta.json';
+import hero from '../../courses/refresher-linear-algebra/hero.html?raw';
+
+// one HTML fragment per module, rendered in filename order
+const files = import.meta.glob('../../courses/refresher-linear-algebra/modules/*.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+const modulesHtml = Object.keys(files)
+  .sort()
+  .map((k) => files[k]);
+---
+<CourseLayout course={course}>
+  <Fragment set:html={hero} />
+  {modulesHtml.map((html) => <Fragment set:html={html} />)}
+</CourseLayout>
+
+<script>
+  import '../../courses/refresher-linear-algebra/interactive.js';
+</script>

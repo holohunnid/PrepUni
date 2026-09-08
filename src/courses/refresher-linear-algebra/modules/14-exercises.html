@@ -1,0 +1,713 @@
+<!-- ============ 14 ALL EXERCISES SOLVED ============ -->
+<section id="s14">
+<div class="sec-head"><span class="num">14</span><h2>Every exercise, solved</h2><span class="sub">all 30 problems from the four lectures and the exercise sheet</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">HOW TO USE</span> Attempt on paper first, then open the solution<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
+  <div class="body">
+  <p>Every exercise that appears in the four lecture decks is here, plus the seven problems from the separate <i>Exercises on Matrices</i> sheet. Several of the lecture decks show an exercise and then a blank "Solution" slide — those are filled in here in full.</p>
+  <p>Labels: <span class="pill g">L1</span> matrix algebra · <span class="pill b">L2</span> vector spaces · <span class="pill a">L3</span> geometry of matrices · <span class="pill r">L4</span> systems · <span class="pill g">SHEET</span> exercise sheet. Difficulty: <span class="pill g">●</span> routine · <span class="pill a">●●</span> standard · <span class="pill r">●●●</span> needs two ideas combined.</p>
+  </div>
+</div>
+
+<!-- ===================== LECTURE 1 ===================== -->
+
+<div class="wx">
+<div class="bar"><span class="n">E01</span><span class="pill a">●●</span><span class="tag">L1 · slide 32</span>Exercise 1 — dimensions, transposes and which operations are legal</div>
+<div class="prob">
+$$A=\begin{bmatrix}1&2&3\\0&4&5\end{bmatrix},\quad B=\begin{bmatrix}1&2\\0&4\\0&3\end{bmatrix},\quad \mathbf{c}=\begin{bmatrix}1\\0\\2\end{bmatrix},\quad \mathbf{d}=\begin{bmatrix}0\\1\\2\end{bmatrix}$$
+<b>1.</b> Dimensions of $A$ and $A'$; show $(A')'=A$. &nbsp;<b>2.</b> Dimensions of $\mathbf{c}$ and $\mathbf{c}'$; show $(\mathbf{c}')'=\mathbf{c}$. &nbsp;<b>3.</b> When possible, compute: 3.1 $A+B$, $A+B'$, $A'-B$ · 3.2 $B+\mathbf{c}$, $\mathbf{c}+B$ · 3.3 $\mathbf{c}+\mathbf{c}$, $\mathbf{c}+\mathbf{c}'$ · 3.4 $3A'$ · 3.5 $2\mathbf{c}$, $2\mathbf{c}'$ · 3.6 $AB$ and $BA$ · 3.7 the dot product of $\mathbf{c}$ and $\mathbf{d}$, and the matrix product $\mathbf{d}\,\mathbf{c}'$.
+</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Part 1.</b> $A$ has 2 rows and 3 columns: $A$ is $(2\times3)$. Transposing swaps them, so $A'$ is $(3\times2)$:
+$$A'=\begin{bmatrix}1&0\\2&4\\3&5\end{bmatrix}$$
+Transposing again returns the rows to rows: $(A')'=\begin{bmatrix}1&2&3\\0&4&5\end{bmatrix}=A$ ✓.</li>
+<li><b>Part 2.</b> $\mathbf{c}$ is $(3\times1)$; $\mathbf{c}'=\begin{bmatrix}1&0&2\end{bmatrix}$ is $(1\times3)$; and $(\mathbf{c}')'=\begin{bmatrix}1\\0\\2\end{bmatrix}=\mathbf{c}$ ✓.</li>
+<li><b>3.1 $A+B$: not possible.</b> $(2\times3)+(3\times2)$ — addition requires identical dimensions.</li>
+<li><b>3.1 $A+B'$: possible.</b> $B'=\begin{bmatrix}1&0&0\\2&4&3\end{bmatrix}$ is $(2\times3)$, matching $A$:
+$$A+B'=\begin{bmatrix}1+1&2+0&3+0\\0+2&4+4&5+3\end{bmatrix}=\begin{bmatrix}2&2&3\\2&8&8\end{bmatrix}$$</li>
+<li><b>3.1 $A'-B$: possible.</b> Both are $(3\times2)$:
+$$A'-B=\begin{bmatrix}1&0\\2&4\\3&5\end{bmatrix}-\begin{bmatrix}1&2\\0&4\\0&3\end{bmatrix}=\begin{bmatrix}0&-2\\2&0\\3&2\end{bmatrix}$$</li>
+<li><b>3.2 $B+\mathbf{c}$ and $\mathbf{c}+B$: not possible.</b> $B$ is $(3\times2)$ and $\mathbf{c}$ is $(3\times1)$. Same number of rows is not enough — the column counts differ. (There is no "broadcasting" convention in matrix algebra.)</li>
+<li><b>3.3 $\mathbf{c}+\mathbf{c}$: possible.</b> $\mathbf{c}+\mathbf{c}=2\mathbf{c}=(2,0,4)^{\mathsf T}$.</li>
+<li><b>3.3 $\mathbf{c}+\mathbf{c}'$: not possible.</b> $(3\times1)+(1\times3)$ — a column and a row are different shapes.</li>
+<li><b>3.4</b> $3A'=3\begin{bmatrix}1&0\\2&4\\3&5\end{bmatrix}=\begin{bmatrix}3&0\\6&12\\9&15\end{bmatrix}$.</li>
+<li><b>3.5</b> $2\mathbf{c}=\begin{bmatrix}2\\0\\4\end{bmatrix}$ (still $(3\times1)$) and $2\mathbf{c}'=\begin{bmatrix}2&0&4\end{bmatrix}$ (still $(1\times3)$). Scaling never changes shape.</li>
+<li><b>3.6 $AB$: possible</b>, $(2\times3)(3\times2)\to(2\times2)$. Row $(1,2,3)$ against columns $(1,0,0)$ and $(2,4,3)$; row $(0,4,5)$ against the same:
+$$AB=\begin{bmatrix}1+0+0&2+8+9\\0+0+0&0+16+15\end{bmatrix}=\begin{bmatrix}1&19\\0&31\end{bmatrix}$$</li>
+<li><b>3.6 $BA$: possible</b>, $(3\times2)(2\times3)\to(3\times3)$. Rows of $B$ are $(1,2),(0,4),(0,3)$; columns of $A$ are $(1,0),(2,4),(3,5)$:
+$$BA=\begin{bmatrix}1\cdot1+2\cdot0&1\cdot2+2\cdot4&1\cdot3+2\cdot5\\0+0&0+16&0+20\\0+0&0+12&0+15\end{bmatrix}=\begin{bmatrix}1&10&13\\0&16&20\\0&12&15\end{bmatrix}$$
+$AB$ is $(2\times2)$ and $BA$ is $(3\times3)$, so $AB\neq BA$ — they are not even the same shape.</li>
+<li><b>3.7 Dot product.</b> Both are columns, so use $\mathbf{c}'\mathbf{d}$: $(1\times3)(3\times1)\to$ a number.
+$$\mathbf{c}\cdot\mathbf{d}=\mathbf{c}'\mathbf{d}=1\cdot0+0\cdot1+2\cdot2=4$$</li>
+<li><b>3.7 The matrix product $\mathbf{d}\,\mathbf{c}'$.</b> $(3\times1)(1\times3)\to(3\times3)$, an outer product:
+$$\mathbf{d}\,\mathbf{c}'=\begin{bmatrix}0\\1\\2\end{bmatrix}\begin{bmatrix}1&0&2\end{bmatrix}=\begin{bmatrix}0&0&0\\1&0&2\\2&0&4\end{bmatrix}$$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The two parts of 3.7 use the very same two vectors and give a <b>number</b> versus a $(3\times3)$ <b>matrix</b>. One prime in the wrong place changes the type of the answer entirely. Always write the shapes first — that alone resolves every "possible / not possible" item in this exercise.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E02</span><span class="pill g">●</span><span class="tag">L1 · slide 35</span>Exercise 2 — lengths of vectors</div>
+<div class="prob">Find the length of: a) $(3,4)$ · b) $(0,-3)$ · c) $(3,3)$ · d) $(-1,-1)$ · e) $(1,1,1)$ · f) $(0,0,0,3)$. Then draw the vectors from a) to d).</div>
+<details><summary>Solution</summary><div class="sol">
+<p>Apply $\|\mathbf{u}\|=\sqrt{\sum_\ell u_\ell^2}$ throughout.</p>
+<ol class="steps">
+<li>a) $\|(3,4)\|=\sqrt{9+16}=\sqrt{25}=5$ — the classic 3–4–5 triangle.</li>
+<li>b) $\|(0,-3)\|=\sqrt{0+9}=3$. The sign is squared away: length is never negative.</li>
+<li>c) $\|(3,3)\|=\sqrt{9+9}=\sqrt{18}=3\sqrt2\approx4.243$.</li>
+<li>d) $\|(-1,-1)\|=\sqrt{1+1}=\sqrt2\approx1.414$. Same direction as (c) reversed, and exactly $1/3$ of its length: indeed $(-1,-1)=-\tfrac13(3,3)$, consistent with $\|c\mathbf{u}\|=|c|\|\mathbf{u}\|$.</li>
+<li>e) $\|(1,1,1)\|=\sqrt{1+1+1}=\sqrt3\approx1.732$.</li>
+<li>f) $\|(0,0,0,3)\|=\sqrt{0+0+0+9}=3$ — a vector in $\mathbb{R}^4$, and the extra zero coordinates cost nothing.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 340 220">
+  <defs><marker id="ar14" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
+  <line x1="30" y1="150" x2="320" y2="150" stroke="var(--border2)"/>
+  <line x1="120" y1="20" x2="120" y2="210" stroke="var(--border2)"/>
+  <text x="316" y="164" class="svgtxt">x</text><text x="126" y="26" class="svgtxt">y</text>
+  <line x1="120" y1="150" x2="210" y2="30" stroke="var(--green)" stroke-width="2" marker-end="url(#ar14)"/>
+  <text x="214" y="30" class="svgtxt g">(3,4) ‖·‖=5</text>
+  <line x1="120" y1="150" x2="120" y2="210" stroke="var(--red)" stroke-width="2" marker-end="url(#ar14)"/>
+  <text x="128" y="206" class="svgtxt r">(0,−3) ‖·‖=3</text>
+  <line x1="120" y1="150" x2="210" y2="60" stroke="var(--blue)" stroke-width="2" marker-end="url(#ar14)"/>
+  <text x="214" y="58" class="svgtxt b">(3,3) ‖·‖=3√2</text>
+  <line x1="120" y1="150" x2="90" y2="180" stroke="var(--amber)" stroke-width="2" marker-end="url(#ar14)"/>
+  <text x="20" y="192" class="svgtxt a">(−1,−1) ‖·‖=√2</text>
+</svg>
+<figcaption>Scale: 30 px per unit. Note $(3,3)$ and $(-1,-1)$ lie on the same line through the origin, pointing opposite ways — they are linearly dependent (module 07).</figcaption>
+</figure>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E03</span><span class="pill g">●</span><span class="tag">L1 · slide 26</span>Is $AB=BA$?</div>
+<div class="prob">$A=\begin{bmatrix}1&1&1\\1&1&1\end{bmatrix}$ and $B=\begin{bmatrix}1&1\\1&1\end{bmatrix}$. If possible, compute $AB$ and $BA$. Is $AB=BA$?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>$A$ is $(2\times3)$, $B$ is $(2\times2)$.</li>
+<li><b>$AB$</b>: $(2\times\mathbf{3})(\mathbf{2}\times2)$ — the inner numbers are 3 and 2, which disagree. <b>$AB$ is not defined.</b></li>
+<li><b>$BA$</b>: $(2\times\mathbf{2})(\mathbf{2}\times3)$ — the inner numbers agree, so the product exists and is $(2\times3)$. Each row of $B$ is $(1,1)$ and each column of $A$ is $(1,1)^{\mathsf T}$, so every entry is $1+1=2$:
+$$BA=\begin{bmatrix}2&2&2\\2&2&2\end{bmatrix}$$</li>
+<li><b>So $AB\neq BA$</b>, in the most extreme sense: one side does not exist at all.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Non-commutativity is not a rare pathology to look out for — it is the normal state of affairs. Even asking "is $AB=BA$?" presupposes both products exist and have the same shape, which for non-square matrices is already false.</div>
+</div></details>
+</div>
+
+<!-- ===================== LECTURE 2 ===================== -->
+
+<div class="wx">
+<div class="bar"><span class="n">E04</span><span class="pill g">●</span><span class="tag">L2 · slide 10</span>Is the budget set a vector space?</div>
+<div class="prob">$B=\{(x_1,x_2)\in\mathbb{R}^2_+:p_1x_1+p_2x_2\le m\}$ with $m&gt;0$. Check both closure conditions. Which fails, and why?</div>
+<details><summary>Solution</summary><div class="sol">
+<p><b>Neither closure holds, so $B$ is not a vector space.</b></p>
+<ol class="steps">
+<li>Take the affordable bundle $\mathbf{x}=(m/p_1,0)$, which costs exactly $m$, so $\mathbf{x}\in B$.</li>
+<li><b>Scaling fails:</b> $2\mathbf{x}=(2m/p_1,0)$ costs $2m&gt;m$, so $2\mathbf{x}\notin B$. Doubling a bundle doubles its cost while the budget stays fixed.</li>
+<li><b>Scaling fails a second way:</b> for any $\mathbf{x}\in B$ with $\mathbf{x}\neq\mathbf{0}$, $-\mathbf{x}$ has a negative coordinate and so leaves $\mathbb{R}^2_+$.</li>
+<li><b>Addition fails:</b> $\mathbf{x}+\mathbf{x}=2\mathbf{x}$ again costs $2m&gt;m$. Two individually affordable bundles need not be jointly affordable — the entire content of a budget constraint.</li>
+<li>Note the zero test is inconclusive here: $(0,0)\in B$, so the quick check passes and the work still has to be done.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Two features break closure and both are deliberate economics: the <b>positive bound</b> $m$ in an inequality, and the <b>non-negativity</b> constraint. A budget set is <i>convex</i>, not linear — and convexity is the weaker property that consumer theory actually needs. Full discussion in module 05.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E05</span><span class="pill a">●●</span><span class="tag">L2 · slide 11</span>Fully-invested versus self-financing portfolios</div>
+<div class="prob">$W=\{\mathbf{x}\in\mathbb{R}^3:x_1+x_2+x_3=1\}$ and $W_0=\{\mathbf{w}\in\mathbb{R}^3:w_1+w_2+w_3=0\}$. Which is a vector space?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>$W$ is not.</b> The fastest argument: $\mathbf{0}=(0,0,0)$ has coordinate sum $0\neq1$, so $\mathbf{0}\notin W$, and every vector space contains $\mathbf{0}$.</li>
+<li>Explicitly: $(1,0,0)$ and $(0,1,0)$ are both in $W$, but their sum $(1,1,0)$ has coordinate sum $2\neq1$. And $2(1,0,0)=(2,0,0)$ also has sum $2$. Both closures fail.</li>
+<li><b>$W_0$ is.</b> Let $\mathbf{u},\mathbf{v}\in W_0$ and $\lambda\in\mathbb{R}$. Then
+$$\sum_i(u_i+v_i)=\sum_iu_i+\sum_iv_i=0+0=0,\qquad \sum_i(\lambda u_i)=\lambda\sum_iu_i=0$$
+so $\mathbf{u}+\mathbf{v}\in W_0$ and $\lambda\mathbf{u}\in W_0$. Both closures hold for arbitrary elements — it is a subspace of $\mathbb{R}^3$, of dimension 2.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The whole difference is the right-hand side, $1$ versus $0$. A fully-invested portfolio must spend exactly your wealth (an affine constraint — a plane <i>not</i> through the origin), so adding two of them spends the money twice. A self-financing position costs nothing to open, so it can be added, scaled or reversed freely. This is why portfolio theory writes any portfolio as one benchmark <b>plus</b> a self-financing overlay: $W=\mathbf{x}_0+W_0$.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E06</span><span class="pill g">●</span><span class="tag">L2 · slide 16</span>Exercise 4 — linear combinations in $\mathbb{R}^2$</div>
+<div class="prob">Let $\mathbf{u}=(1/2,1/2)$ and $\mathbf{v}=(1,0)$. Draw them in a Cartesian system, then compute $2\mathbf{u}+\mathbf{v}$ and $-0.5\mathbf{u}+\mathbf{v}$ using the parallelogram rule and analytically.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Analytically, $2\mathbf{u}+\mathbf{v}$.</b> Scale first: $2\mathbf{u}=(1,1)$. Then add componentwise:
+$$2\mathbf{u}+\mathbf{v}=(1,1)+(1,0)=(2,1)$$</li>
+<li><b>Analytically, $-0.5\mathbf{u}+\mathbf{v}$.</b> Scale: $-0.5\mathbf{u}=(-1/4,-1/4)$. Then add:
+$$-0.5\mathbf{u}+\mathbf{v}=(-1/4,-1/4)+(1,0)=(3/4,-1/4)$$</li>
+<li><b>Geometrically.</b> For the first: stretch $\mathbf{u}$ to twice its length (it stays on the $45^\circ$ line, reaching $(1,1)$), then complete the parallelogram with $\mathbf{v}=(1,0)$; the diagonal ends at $(2,1)$.</li>
+<li>For the second: $-0.5\mathbf{u}$ points <i>backwards</i> along the $45^\circ$ line to $(-1/4,-1/4)$; adding $\mathbf{v}$ shifts it one unit right, landing at $(3/4,-1/4)$, just below the horizontal axis.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 340 200">
+  <defs><marker id="ar14b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
+  <line x1="30" y1="130" x2="320" y2="130" stroke="var(--border2)"/>
+  <line x1="70" y1="20" x2="70" y2="190" stroke="var(--border2)"/>
+  <line x1="70" y1="130" x2="115" y2="85" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar14b)"/>
+  <text x="80" y="96" class="svgtxt b">u</text>
+  <line x1="70" y1="130" x2="160" y2="130" stroke="var(--red)" stroke-width="2.5" marker-end="url(#ar14b)"/>
+  <text x="118" y="145" class="svgtxt r">v</text>
+  <line x1="70" y1="130" x2="160" y2="40" stroke="var(--dim)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ar14b)"/>
+  <text x="150" y="34" class="svgtxt">2u</text>
+  <line x1="70" y1="130" x2="250" y2="40" stroke="var(--green)" stroke-width="2.5" marker-end="url(#ar14b)"/>
+  <text x="248" y="32" class="svgtxt g" text-anchor="end">2u + v = (2,1)</text>
+  <line x1="70" y1="130" x2="47" y2="153" stroke="var(--dim)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ar14b)"/>
+  <text x="6" y="168" class="svgtxt">−0.5u</text>
+  <line x1="70" y1="130" x2="137" y2="153" stroke="var(--amber)" stroke-width="2.5" marker-end="url(#ar14b)"/>
+  <text x="142" y="163" class="svgtxt a">−0.5u + v = (0.75,−0.25)</text>
+</svg>
+<figcaption>Scale: 90 px per unit. Scaling slides a vector along its own line (dashed); adding then shifts it by the other vector.</figcaption>
+</figure>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E07</span><span class="pill g">●</span><span class="tag">L2 · slide 20</span>Find all subspaces of $\mathbb{R}^2$</div>
+<div class="prob">Which of the sets drawn on the slide are subspaces of $\mathbb{R}^2$ — a line through the origin, a line missing the origin, a shaded quadrant, a rectangle? List all subspaces of $\mathbb{R}^2$.</div>
+<details><summary>Solution</summary><div class="sol">
+<p><b>There are exactly three kinds of subspace of $\mathbb{R}^2$:</b></p>
+<ol class="steps">
+<li>$\{\mathbf{0}\}$ — the origin alone. Trivially closed: $\mathbf{0}+\mathbf{0}=\mathbf{0}$ and $\lambda\mathbf{0}=\mathbf{0}$. Dimension 0.</li>
+<li>Any <b>line through the origin</b>, $\{\alpha\mathbf{v}:\alpha\in\mathbb{R}\}$ for a fixed $\mathbf{v}\neq\mathbf{0}$. Scaling stays on the line ($\lambda(\alpha\mathbf{v})=(\lambda\alpha)\mathbf{v}$) and adding two of its points stays on it ($\alpha\mathbf{v}+\beta\mathbf{v}=(\alpha+\beta)\mathbf{v}$). Dimension 1.</li>
+<li>The whole plane $\mathbb{R}^2$. Dimension 2.</li>
+</ol>
+<p><b>And why everything else in the figure fails:</b></p>
+<table class="formula-table">
+<tr><td>line <i>not</i> through the origin</td><td>fails — $\mathbf{0}\notin$ it. (Also: adding two of its points leaves it.)</td></tr>
+<tr><td>a shaded quadrant, e.g. $\{x\ge0,y\ge0\}$</td><td>contains $\mathbf{0}$ and is closed under addition, but $\lambda&lt;0$ escapes it. Fails scaling.</td></tr>
+<tr><td>a rectangle or any bounded region</td><td>fails — scaling by a large $\lambda$ leaves any bounded set.</td></tr>
+<tr><td>a single point $\neq\mathbf{0}$</td><td>fails — no $\mathbf{0}$, closed under nothing.</td></tr>
+<tr><td>the union of two distinct lines through $\mathbf{0}$</td><td>fails — each line alone is fine, but adding one vector from each lands on neither.</td></tr>
+</table>
+<div class="note"><div class="t">Insight</div>The classification is by <b>dimension</b>: $0$, $1$, $2$. The same reasoning in $\mathbb{R}^3$ gives four kinds — the origin, lines through it, planes through it, and $\mathbb{R}^3$. Every subspace is "flat and through the origin", which is exactly what the two closure conditions force.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E08</span><span class="pill g">●</span><span class="tag">L2 · slide 23</span>Exercise 5 — drawing $[S_1]$ and $[S_2]$</div>
+<div class="prob">Draw $[S_1]=\text{span}\left\{\begin{bmatrix}1\\2\end{bmatrix}\right\}$ and $[S_2]=\text{span}\left\{\begin{bmatrix}1\\2\end{bmatrix},\begin{bmatrix}5\\1\end{bmatrix}\right\}$ in the plane.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>$[S_1]$ is a line through the origin.</b> Its points are $\alpha(1,2)$ for $\alpha\in\mathbb{R}$: $(1,2)$ at $\alpha=1$, $(2,4)$ at $\alpha=2$, $(-1,-2)$ at $\alpha=-1$, the origin at $\alpha=0$. It is the line $y=2x$, extending infinitely both ways. Dimension 1.</li>
+<li><b>$[S_2]$ is the whole plane.</b> The two generators are not multiples of each other, so they are independent (module 07). Confirm with a determinant:
+$$\det\begin{pmatrix}1&5\\2&1\end{pmatrix}=1-10=-9\neq0$$
+Two independent vectors in the 2-dimensional space $\mathbb{R}^2$ form a basis, so they span everything: $[S_2]=\mathbb{R}^2$. Dimension 2.</li>
+<li>Explicitly, to reach an arbitrary $(b_1,b_2)$ solve $\alpha_1(1,2)+\alpha_2(5,1)=(b_1,b_2)$; the determinant being non-zero guarantees a unique solution for every target.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 520 190">
+  <defs><marker id="ar14c" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="context-stroke"/></marker></defs>
+  <g transform="translate(0,0)">
+    <text x="10" y="16" class="svgtxt w">[S₁] = a line through the origin</text>
+    <line x1="20" y1="110" x2="230" y2="110" stroke="var(--border2)"/>
+    <line x1="120" y1="30" x2="120" y2="180" stroke="var(--border2)"/>
+    <line x1="65" y1="180" x2="185" y2="60" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <line x1="120" y1="110" x2="160" y2="70" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar14c)"/>
+    <text x="164" y="66" class="svgtxt b">(1,2)</text>
+    <text x="186" y="56" class="svgtxt g">y = 2x</text>
+  </g>
+  <g transform="translate(270,0)">
+    <text x="10" y="16" class="svgtxt w">[S₂] = the whole plane</text>
+    <rect x="20" y="30" width="210" height="150" fill="var(--greenbg)" opacity="0.5"/>
+    <line x1="20" y1="110" x2="230" y2="110" stroke="var(--border2)"/>
+    <line x1="120" y1="30" x2="120" y2="180" stroke="var(--border2)"/>
+    <line x1="120" y1="110" x2="160" y2="70" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#ar14c)"/>
+    <text x="162" y="66" class="svgtxt b">(1,2)</text>
+    <line x1="120" y1="110" x2="220" y2="90" stroke="var(--red)" stroke-width="2.5" marker-end="url(#ar14c)"/>
+    <text x="186" y="106" class="svgtxt r">(5,1)</text>
+  </g>
+</svg>
+<figcaption>One vector spans a line; two independent vectors span the plane. Adding a third vector in $\mathbb{R}^2$ would enlarge nothing.</figcaption>
+</figure>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E09</span><span class="pill a">●●</span><span class="tag">L2 · slide 24</span>Spanned payoffs versus all possible payoffs</div>
+<div class="prob">Three states, so payoffs live in $\mathbb{R}^3$. Traded: $\mathbf{a}=(1,1,1)$ (bond) and $\mathbf{b}=(2,1,0)$ (stock). a) Can $\mathbf{c}=(3,1,-1)$ be replicated? And $\mathbf{c}=(3,1,0)$? b) Is $\text{span}(\mathbf{a},\mathbf{b})$ a subspace of $\mathbb{R}^3$? Is it all of $\mathbb{R}^3$? Describe it geometrically.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>a) For $\mathbf{c}=(3,1,-1)$</b>, solve $\alpha\mathbf{a}+\beta\mathbf{b}=\mathbf{c}$:
+$$\alpha+2\beta=3,\qquad \alpha+\beta=1,\qquad \alpha=-1$$
+The third equation gives $\alpha=-1$; the second then gives $\beta=2$; the first must be <i>checked</i>: $-1+4=3$ ✓. <b>Yes</b>: $\mathbf{c}=-\mathbf{a}+2\mathbf{b}$ — short one bond, buy two stocks.</li>
+<li><b>a) For $\mathbf{c}=(3,1,0)$</b>: third equation gives $\alpha=0$, second gives $\beta=1$, and the first then demands $0+2=3$. Contradiction — <b>no</b>, this payoff cannot be replicated.</li>
+<li><b>b)</b> It <i>is</i> a subspace: every span is one (it contains $\mathbf{0}$, and any combination of its elements is again a combination of $\mathbf{a}$ and $\mathbf{b}$).</li>
+<li>It is <b>not</b> all of $\mathbb{R}^3$ — part (a) produced an unreachable vector, and one counterexample settles it.</li>
+<li>Geometrically: two non-parallel vectors in $\mathbb{R}^3$ span a <b>plane through the origin</b>, a 2-dimensional subspace of a 3-dimensional space.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Two securities, three states: the market is <b>incomplete</b>. Achievable payoffs form a plane, and anything off that plane cannot be manufactured at any price. Exercise E17 below asks how many extra securities are needed.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E10</span><span class="pill a">●●</span><span class="tag">L2 · slide 25</span>Exercise 6 — four candidate subspaces</div>
+<div class="prob">1. Show $W=\{(a-b,3a-b,2a+b)\}$ is a subspace of $\mathbb{R}^3$. 2. Show $W=\{(a-b,3a-b,2a+b-1)\}$ is not. 3. Is $W=\{(x,y,0)\}$ a subspace of $\mathbb{R}^3$? 4. Is $W=\{(a,b):ab\ge0\}$ a subspace of $\mathbb{R}^2$?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>1. Yes.</b> Split the parameters:
+$$(a-b,\;3a-b,\;2a+b)=a(1,3,2)+b(-1,-1,1)$$
+so $W=\text{span}\{(1,3,2),(-1,-1,1)\}$ — and every span is a subspace. Geometrically a plane through the origin. <i>(Direct check, if preferred: $\alpha\mathbf{w}_1+\beta\mathbf{w}_2$ is generated by the parameters $\alpha a_1+\beta a_2$ and $\alpha b_1+\beta b_2$, again real numbers.)</i></li>
+<li><b>2. No.</b> Zero test: $\mathbf{0}\in W$ would require $a-b=0$ and $3a-b=0$, forcing $a=b=0$; but then the third coordinate is $2(0)+0-1=-1\neq0$. So $\mathbf{0}\notin W$. Structurally $W$ is the plane of part 1 shifted by $(0,0,-1)$ — an affine set, not a subspace.</li>
+<li><b>3. Yes.</b> It contains $\mathbf{0}$, and
+$$\alpha(x_1,y_1,0)+\beta(x_2,y_2,0)=(\alpha x_1+\beta x_2,\ \alpha y_1+\beta y_2,\ 0)$$
+still has third coordinate 0. This is the $xy$-plane, $\text{span}\{(1,0,0),(0,1,0)\}$, of dimension 2.</li>
+<li><b>4. No.</b> The set is the union of the first and third quadrants. It contains $\mathbf{0}$, and it <i>is</i> closed under scaling (multiplying both coordinates by $\lambda$ multiplies $ab$ by $\lambda^2\ge0$). But addition fails:
+$$(1,0)\in W,\quad (0,-1)\in W,\quad (1,0)+(0,-1)=(1,-1)\ \text{with}\ 1\cdot(-1)=-1&lt;0\ \Rightarrow\ \notin W$$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Part 4 shows the two closure conditions are genuinely independent — a set can pass one and fail the other, so both must always be checked. It is also the standard illustration that the <b>union</b> of two subspaces is almost never a subspace.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E11</span><span class="pill g">●</span><span class="tag">L2 · slide 29</span>Exercise 7 — dependence on a span, and a tempting shortcut</div>
+<div class="prob">With $[S_1]=\text{span}\{(1,2)\}$: find one vector linearly dependent on $[S_1]$ and one linearly independent. Then: is it correct to say two vectors are linearly independent if they are not scalar multiples of each other?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Dependent:</b> any point of the line, e.g. $(2,4)=2(1,2)$. Also $(-1,-2)$, $(0,0)$, $(1/2,1)$ — all are multiples of $(1,2)$, so all lie in $[S_1]$.</li>
+<li><b>Independent:</b> any vector off the line, e.g. $(1,0)$. If $(1,0)=\alpha(1,2)$ then $\alpha=1$ from the first coordinate and $\alpha=0$ from the second — impossible. Other valid choices: $(0,1)$, $(3,1)$, $(1,3)$.</li>
+<li><b>The shortcut, for exactly two vectors: correct.</b> If $\alpha_1\mathbf{v}_1+\alpha_2\mathbf{v}_2=\mathbf{0}$ with some $\alpha_i\neq0$ — say $\alpha_1\neq0$ — then $\mathbf{v}_1=-(\alpha_2/\alpha_1)\mathbf{v}_2$, so one is a multiple of the other. Hence "neither is a multiple of the other" $\iff$ independent. It even handles the zero vector correctly, since $\mathbf{0}=0\cdot\mathbf{v}$ counts as a multiple.</li>
+<li><b>For three or more vectors: wrong.</b> Counterexample:
+$$\mathbf{v}_1=(1,0),\quad \mathbf{v}_2=(0,1),\quad \mathbf{v}_3=(1,1)$$
+No two are multiples of each other, yet $\mathbf{v}_1+\mathbf{v}_2-\mathbf{v}_3=\mathbf{0}$ — a non-trivial vanishing combination, so the set is dependent.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Dependence is a property of the <b>whole set</b>, not of its pairs. Checking pairs is a valid test only when there are exactly two vectors. And remember the free result: any $k&gt;n$ vectors in $\mathbb{R}^n$ are automatically dependent.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E12</span><span class="pill a">●●</span><span class="tag">L2 · slide 35</span>Exercise 8 — prove Corollary 4.2 (uniqueness of coefficients)</div>
+<div class="prob">If $\mathbf{v}_1,\dots,\mathbf{v}_n$ are linearly independent and $\sum_{i}\alpha_i\mathbf{v}_i=\sum_i\beta_i\mathbf{v}_i$, prove $\alpha_i=\beta_i$ for all $i$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Argue by contradiction. Suppose there is an index $\tilde\imath$ with $\alpha_{\tilde\imath}-\beta_{\tilde\imath}\neq0$.</li>
+<li>Subtract the two sums, which are equal by hypothesis:
+$$\sum_{i=1}^{n}\alpha_i\mathbf{v}_i-\sum_{i=1}^{n}\beta_i\mathbf{v}_i=\sum_{i=1}^{n}(\alpha_i-\beta_i)\mathbf{v}_i=\mathbf{0}$$</li>
+<li>This is a linear combination of $\mathbf{v}_1,\dots,\mathbf{v}_n$ equal to the zero vector, with at least one coefficient — namely $\alpha_{\tilde\imath}-\beta_{\tilde\imath}$ — different from zero.</li>
+<li>That contradicts Theorem 4.1, which says independence permits <b>only</b> the all-zero combination to vanish.</li>
+<li>Hence no such $\tilde\imath$ exists: $\alpha_i=\beta_i$ for every $i$. $\;\square$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>This little corollary is what makes <b>coordinates</b> well defined and what makes the solution of a linear system <b>unique</b>. In finance it is the statement that, when the traded securities are independent, a given payoff has exactly one replicating portfolio — which is what makes its price well defined.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E13</span><span class="pill a">●●</span><span class="tag">L2 · slide 37</span>Exercise 9 — dependent or independent?</div>
+<div class="prob">
+1. $\left\{\begin{bmatrix}1\\0\\2\end{bmatrix},\begin{bmatrix}-3\\0\\-7\end{bmatrix}\right\}$ &nbsp; 2. $\left\{\begin{bmatrix}2\\-2\\0\end{bmatrix},\begin{bmatrix}-5\\5\\0\end{bmatrix}\right\}$ &nbsp; 3a. $\left\{\begin{bmatrix}1\\0\\2\end{bmatrix},\begin{bmatrix}-3\\0\\-7\end{bmatrix},\begin{bmatrix}1\\0\\3\end{bmatrix}\right\}$ &nbsp; 3b. $\left\{\begin{bmatrix}1\\0\\2\end{bmatrix},\begin{bmatrix}-3\\0\\-7\end{bmatrix},\begin{bmatrix}1\\1\\3\end{bmatrix}\right\}$
+</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>1. Independent.</b> Two vectors, so test whether one is a multiple of the other. Matching first coordinates needs $\lambda=-3$, which would give third coordinate $2(-3)=-6\neq-7$. Not multiples.
+<br>Formally: $\alpha(1,0,2)+\beta(-3,0,-7)=\mathbf{0}$ gives $\alpha-3\beta=0$ and $2\alpha-7\beta=0$. From the first, $\alpha=3\beta$; substituting, $6\beta-7\beta=-\beta=0$, so $\beta=0$ and then $\alpha=0$. Only the trivial combination — independent.</li>
+<li><b>2. Dependent.</b> $(-5,5,0)=-\tfrac52(2,-2,0)$: check $-\tfrac52\cdot2=-5$ ✓, $-\tfrac52\cdot(-2)=5$ ✓, $0$ ✓. One is a multiple of the other.</li>
+<li><b>3a. Dependent.</b> Fastest argument: all three vectors have second coordinate 0, so they all live in the subspace $\{(x,0,z)\}$, which is 2-dimensional. Three vectors in a 2-dimensional space must be dependent (module 08).
+<br>Explicitly, solving $\alpha(1,0,2)+\beta(-3,0,-7)=(1,0,3)$ gives $\alpha-3\beta=1$ and $2\alpha-7\beta=3$; from the first $\alpha=1+3\beta$, and substituting, $2+6\beta-7\beta=3$, so $\beta=-1$ and $\alpha=-2$. Indeed $-2(1,0,2)-(-3,0,-7)=(-2+3,0,-4+7)=(1,0,3)$ ✓ — the third vector is a combination of the first two.</li>
+<li><b>3b. Independent.</b> The third vector now has second coordinate 1, escaping the plane of the other two. Confirm with a determinant, expanding along the second row (two zeros):
+$$\det\begin{pmatrix}1&-3&1\\0&0&1\\2&-7&3\end{pmatrix}=1\cdot(-1)^{2+3}\det\begin{pmatrix}1&-3\\2&-7\end{pmatrix}=(-1)(-7+6)=1\neq0$$
+Non-zero determinant means full rank, hence independence (module 10).</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Compare 3a and 3b: changing a single entry from 0 to 1 flips the answer. The rule of thumb — <i>if all the vectors share a zero in the same coordinate, they are confined to a lower-dimensional subspace</i> — settles 3a with no computation at all.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E14</span><span class="pill a">●●</span><span class="tag">L2 · slide 39</span>Exercise 10 — orthogonal implies independent, but not conversely</div>
+<div class="prob">1. Orthogonal vectors are also independent — show it for two vectors. 2. Show the reverse is not true: independent vectors are in general not orthogonal.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>1.</b> Let $\mathbf{u},\mathbf{v}\neq\mathbf{0}$ with $\mathbf{u}\cdot\mathbf{v}=0$, and suppose $\alpha\mathbf{u}+\beta\mathbf{v}=\mathbf{0}$.</li>
+<li>Dot both sides with $\mathbf{u}$ and use bilinearity:
+$$\mathbf{u}\cdot(\alpha\mathbf{u}+\beta\mathbf{v})=\alpha(\mathbf{u}\cdot\mathbf{u})+\beta\underbrace{(\mathbf{u}\cdot\mathbf{v})}_{=0}=\alpha\|\mathbf{u}\|^2$$
+and the right-hand side is $\mathbf{u}\cdot\mathbf{0}=0$. Since $\mathbf{u}\neq\mathbf{0}$ we have $\|\mathbf{u}\|^2&gt;0$, hence $\alpha=0$.</li>
+<li>Dotting instead with $\mathbf{v}$ gives $\beta\|\mathbf{v}\|^2=0$, hence $\beta=0$. Only the trivial combination vanishes, so by Theorem 4.1 the vectors are independent. $\;\square$
+<br><i>The same argument extends to any number of mutually orthogonal non-zero vectors: dotting with $\mathbf{v}_j$ kills every term but $\alpha_j\|\mathbf{v}_j\|^2$.</i></li>
+<li><b>2.</b> One counterexample suffices. Take $\mathbf{u}=(1,0)$ and $\mathbf{v}=(1,1)$. They are independent — no multiple of $(1,0)$ has a non-zero second coordinate. But
+$$\mathbf{u}\cdot\mathbf{v}=1\cdot1+0\cdot1=1\neq0$$
+so they are not orthogonal; the angle between them is $45^\circ$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Orthogonality is <b>strictly stronger</b> than independence: sufficient, not necessary. It is therefore a fast shortcut when it applies (spotting mutual orthogonality proves independence with no system to solve), but its absence proves nothing at all.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E15</span><span class="pill g">●</span><span class="tag">L2 · slide 45</span>Exercise 11 — bases and dimensions of $\mathbb{R}$, $\mathbb{R}^2$, $\mathbb{R}^3$</div>
+<div class="prob">Provide a basis for $\mathbb{R}$, $\mathbb{R}^2$ and $\mathbb{R}^3$. What is the dimension of each?</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>$\mathbb{R}$:</b> basis $\{1\}$, so $\dim\mathbb{R}=1$. It is independent (a single non-zero element) and generating, since every $x\in\mathbb{R}$ equals $x\cdot1$. Any $\{c\}$ with $c\neq0$ works equally well — bases are not unique.</li>
+<li><b>$\mathbb{R}^2$:</b> the standard basis $\left\{\begin{bmatrix}1\\0\end{bmatrix},\begin{bmatrix}0\\1\end{bmatrix}\right\}$, so $\dim\mathbb{R}^2=2$. Independent, since $\alpha_1(1,0)+\alpha_2(0,1)=(\alpha_1,\alpha_2)=\mathbf{0}$ forces both to vanish; generating, since $(x,y)=x(1,0)+y(0,1)$.</li>
+<li><b>$\mathbb{R}^3$:</b> $\left\{\begin{bmatrix}1\\0\\0\end{bmatrix},\begin{bmatrix}0\\1\\0\end{bmatrix},\begin{bmatrix}0\\0\\1\end{bmatrix}\right\}$, so $\dim\mathbb{R}^3=3$. Same argument.</li>
+<li>In general $\dim\mathbb{R}^n=n$, with basis $\{\mathbf{e}_1,\dots,\mathbf{e}_n\}$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The standard basis is convenient precisely because a vector's coefficients in it <i>are</i> its usual coordinates — no computation needed. In another basis the same vector has a different coordinate list, which is the whole point of a change of basis.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E16</span><span class="pill a">●●</span><span class="tag">L2 · slide 47</span>Exercise 12 — spans, bases and dimensions</div>
+<div class="prob">$S_1=\left\{\begin{bmatrix}1\\0\\0\end{bmatrix},\begin{bmatrix}0\\1\\1\end{bmatrix},\begin{bmatrix}2\\1\\0\end{bmatrix}\right\}$, $S_2=\left\{\begin{bmatrix}1\\0\\0\end{bmatrix},\begin{bmatrix}0\\1\\0\end{bmatrix}\right\}$. 1. Do $[S_1]$ and $[S_2]$ coincide? 2. Find a basis for $[S_1]$. 3. Is it also a basis for $\mathbb{R}^3$? Then find $\dim\text{span}(S)$ for 1) $\{(1,2)\}$, 2) $\{(1,2),(2,1)\}$, 3) $\{(1,2),(2,1),(3,3)\}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>1. No.</b> $\text{span}(S_2)=\{(x,y,0)\}$, the $xy$-plane, of dimension 2. For $S_1$, expand the determinant along the last row (two zeros):
+$$\det\begin{pmatrix}1&0&2\\0&1&1\\0&1&0\end{pmatrix}=1\cdot\det\begin{pmatrix}1&1\\1&0\end{pmatrix}=1\cdot(0-1)=-1\neq0$$
+so $S_1$ is independent; three independent vectors in $\mathbb{R}^3$ form a basis, hence $\text{span}(S_1)=\mathbb{R}^3$. Concretely, $(0,1,1)\in\text{span}(S_1)$ but not in $\text{span}(S_2)$.</li>
+<li><b>2.</b> $S_1$ itself is a basis for $[S_1]$: independent (just shown) and generating by definition of span. $\dim[S_1]=3$.</li>
+<li><b>3. Yes</b>, since $[S_1]=\mathbb{R}^3$ — the two spaces coincide, so a basis of one is a basis of the other.</li>
+<li><b>Dimensions.</b> 1) One non-zero vector is independent on its own: $\dim=1$, a line.</li>
+<li>2) $\det\begin{pmatrix}1&2\\2&1\end{pmatrix}=1-4=-3\neq0$, so independent: $\dim=2$, all of $\mathbb{R}^2$.</li>
+<li>3) Three vectors in $\mathbb{R}^2$ must be dependent, and indeed $(3,3)=(1,2)+(2,1)$. The third adds nothing: $\dim=2$, still $\mathbb{R}^2$.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The last part is the one to remember: <b>the number of vectors in $S$ is not the dimension of $\text{span}(S)$.</b> Dimension counts only the independent ones — which is exactly the definition of <b>rank</b> (module 09).</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E17</span><span class="pill a">●●</span><span class="tag">L2 · slide 46</span>How many securities to complete the market?</div>
+<div class="prob">Three states, securities $\mathbf{a}=(1,1,1)$ and $\mathbf{b}=(2,1,0)$. a) What is $\dim(\text{span}(\mathbf{a},\mathbf{b}))$? b) Minimum number of <b>additional</b> securities to complete the market, and why? c) Propose an extra security $\mathbf{d}$ so that $\mathbf{a},\mathbf{b},\mathbf{d}$ form a basis of $\mathbb{R}^3$, and argue why it works.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>a)</b> $\mathbf{a}$ and $\mathbf{b}$ are independent: $(2,1,0)=\lambda(1,1,1)$ would need $\lambda=2$ from the first coordinate and $\lambda=0$ from the third. Two independent vectors span a 2-dimensional subspace, so $\dim=\mathbf{2}$ — a plane through the origin.</li>
+<li><b>b)</b> Payoffs live in $\mathbb{R}^3$ (three states), and $\dim\mathbb{R}^3=3$. Completeness means the traded securities span all of $\mathbb{R}^3$, requiring 3 independent securities. We have 2, so the minimum number of additional ones is $3-2=\mathbf{1}$.</li>
+<li>But it must be independent of the existing pair. A new security inside the plane, e.g. $\mathbf{a}+\mathbf{b}=(3,2,1)$, is <b>redundant</b> and raises the dimension by nothing.</li>
+<li><b>c)</b> Take $\mathbf{d}=(0,0,1)$, an Arrow–Debreu security paying 1 in state 3 only. Stack the three as columns and expand along the last column:
+$$\det\begin{pmatrix}1&2&0\\1&1&0\\1&0&1\end{pmatrix}=1\cdot(-1)^{3+3}\det\begin{pmatrix}1&2\\1&1\end{pmatrix}=1-2=-1\neq0$$
+so the three are independent. Three independent vectors in $\mathbb{R}^3$ form a basis, so they span $\mathbb{R}^3$: every payoff is replicable and — by Corollary 4.2 — replicated <b>uniquely</b>. The market is complete.</li>
+<li>Many other choices work; the only requirement is $\mathbf{d}\notin\text{span}(\mathbf{a},\mathbf{b})$. The unreachable payoff $(3,1,0)$ from E09 is, by that very fact, another valid choice.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The dictionary: dimension of the payoff space = number of states; rank of the payoff matrix = number of non-redundant securities; complete market = the two are equal; unique replication (hence a well-defined price) = independence.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E18</span><span class="pill r">●●●</span><span class="tag">L2 · slide 32</span>Redundant securities and arbitrage</div>
+<div class="prob">Three securities with payoffs in two states (Boom, Recession): $s_1=(4,-1)$, $s_2=(6,3)$, $s_3=(-2,7)$. a) Must these three vectors be linearly dependent? Why? b) Find $\alpha_1,\alpha_2$ with $s_3=\alpha_1s_1+\alpha_2s_2$. c) If $s_1$ costs EUR 10, $s_2$ costs EUR 15 and $s_3$ is priced at EUR 20, is there an arbitrage? Describe the trade.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>a) Yes, necessarily.</b> Payoffs live in $\mathbb{R}^2$ (two states), which has dimension 2. Any 3 vectors in a 2-dimensional space are linearly dependent (module 08). No computation is needed — the conclusion is forced by counting alone.</li>
+<li><b>b)</b> Solve $\alpha_1(4,-1)+\alpha_2(6,3)=(-2,7)$, i.e.
+$$4\alpha_1+6\alpha_2=-2\quad\text{(Boom)},\qquad -\alpha_1+3\alpha_2=7\quad\text{(Recession)}$$
+From the second, $\alpha_1=3\alpha_2-7$. Substituting into the first:
+$$4(3\alpha_2-7)+6\alpha_2=-2\ \Rightarrow\ 12\alpha_2-28+6\alpha_2=-2\ \Rightarrow\ 18\alpha_2=26\ \Rightarrow\ \alpha_2=\tfrac{13}{9}$$
+and then $\alpha_1=3\cdot\tfrac{13}{9}-7=\tfrac{13}{3}-7=-\tfrac83$.</li>
+<li>Check: $4(-\tfrac83)+6(\tfrac{13}9)=-\tfrac{32}{3}+\tfrac{26}{3}=-\tfrac63=-2$ ✓ and $-(-\tfrac83)+3(\tfrac{13}9)=\tfrac83+\tfrac{13}3=\tfrac{21}{3}=7$ ✓. So
+$$s_3=-\tfrac83 s_1+\tfrac{13}{9}s_2$$</li>
+<li><b>c)</b> Price the replicating portfolio at market prices:
+$$\text{cost}=\alpha_1\cdot10+\alpha_2\cdot15=-\tfrac83(10)+\tfrac{13}{9}(15)=-\tfrac{80}{3}+\tfrac{65}{3}=-\tfrac{15}{3}=-5$$
+The replicating portfolio has a cost of $-5$: it <b>pays you EUR 5 today</b> (the short position in $s_1$ raises more cash than the long position in $s_2$ absorbs), while delivering exactly the payoff of $s_3$ in both states.</li>
+<li>But $s_3$ itself trades at $+20$. Two portfolios with <b>identical payoffs in every state</b> have different prices, so the law of one price is violated: <b>yes, there is an arbitrage</b>.</li>
+<li><b>The trade.</b> Sell (short) one unit of $s_3$ for $+20$, and simultaneously buy the replicating portfolio: short $\tfrac83$ units of $s_1$ (receiving $\tfrac{80}{3}\approx26.67$) and buy $\tfrac{13}{9}$ units of $s_2$ (paying $\tfrac{65}{3}\approx21.67$), for a net inflow of $+5$.
+$$\text{cash today}=20+5=\mathbf{+25}$$
+At maturity, in <b>either</b> state, the replicating portfolio pays exactly what you owe on the short $s_3$, so the net payoff is 0 in every state.</li>
+<li>Result: EUR 25 received today, no obligation in any future state, no capital committed. A textbook arbitrage.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>A redundant (dependent) security is either <b>uninformative</b> — correctly priced at the cost of its replicating portfolio, adding nothing to the market — or <b>mispriced</b>, in which case dependence is exactly what lets you construct the arbitrage. Linear dependence is what makes replication possible; a price inconsistent with it is what makes the trade profitable.</div>
+</div></details>
+</div>
+
+<!-- ===================== LECTURE 3 ===================== -->
+
+<div class="wx">
+<div class="bar"><span class="n">E19</span><span class="pill a">●●</span><span class="tag">L3 · slide 9</span>Exercise 13 — rank of rectangular matrices</div>
+<div class="prob">Find the rank of $A=\begin{bmatrix}1&2&5\\1&3&7\\1&0&1\\2&3&8\end{bmatrix}$, $B=\begin{bmatrix}1&0&-1&0\\1&-1&2&0\\0&0&0&-15\end{bmatrix}$, $C=\begin{bmatrix}2&3&0\\1&5&-1\end{bmatrix}$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>$A$ is $(4\times3)$, so $\text{rank}\le3$.</b> Columns: $\mathbf{a}_1=(1,1,1,2)$, $\mathbf{a}_2=(2,3,0,3)$, $\mathbf{a}_3=(5,7,1,8)$. Test the obvious relation:
+$$\mathbf{a}_1+2\mathbf{a}_2=(1+4,\;1+6,\;1+0,\;2+6)=(5,7,1,8)=\mathbf{a}_3\ \checkmark$$
+so the third column is redundant. The first two are not multiples of each other (third coordinates 1 and 0), hence independent. $\;\boxed{\text{rank}(A)=2}$</li>
+<li><b>$B$ is $(3\times4)$, so $\text{rank}\le3$.</b> With 4 columns in $\mathbb{R}^3$ the columns are certainly dependent, so work with the 3 rows instead ($\text{rank}(B)=\text{rank}(B^{\mathsf T})$). Suppose $\alpha\mathbf{r}_1+\beta\mathbf{r}_2+\gamma\mathbf{r}_3=\mathbf{0}$:
+<br>· last coordinate: $-15\gamma=0\Rightarrow\gamma=0$;
+<br>· second coordinate: $-\beta=0\Rightarrow\beta=0$;
+<br>· first coordinate: $\alpha=0$.
+<br>All three rows independent, so $\;\boxed{\text{rank}(B)=3}$ — the maximum possible.</li>
+<li><b>$C$ is $(2\times3)$, so $\text{rank}\le2$.</b> Rows $(2,3,0)$ and $(1,5,-1)$: matching first coordinates would need $\lambda=1/2$, but then the second would be $3/2\neq5$. Not multiples, hence independent. $\;\boxed{\text{rank}(C)=2}$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Work with whichever side has fewer vectors — rows or columns, since the rank is the same. Checking 2 or 3 rows beats checking 4 columns every time, and that freedom is the practical value of the row/column theorem.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E20</span><span class="pill r">●●●</span><span class="tag">L3 · slide 17</span>Exercise 14 — prove Proposition 3.1 for a $2\times2$ matrix</div>
+<div class="prob">Show that $A=\begin{bmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{bmatrix}$ has full rank $\iff |A|=a_{11}a_{22}-a_{12}a_{21}\neq0$.</div>
+<details><summary>Solution</summary><div class="sol">
+<p><b>($\Rightarrow$) Full rank $\Rightarrow|A|\neq0$.</b> Split on $a_{22}$.</p>
+<ol class="steps">
+<li><i>Case $a_{22}=0$.</i> Then $|A|=-a_{12}a_{21}$. If $a_{12}=0$ the second column is $(0,0)^{\mathsf T}$, which makes the columns dependent — contradiction. If $a_{21}=0$ the second row is zero, so the rank is at most 1 — contradiction. So both are non-zero and $|A|=-a_{12}a_{21}\neq0$.</li>
+<li><i>Case $a_{22}\neq0$.</i> By contradiction, suppose $|A|=0$, i.e. $a_{11}a_{22}=a_{12}a_{21}$, so $a_{11}=a_{12}a_{21}/a_{22}$. Then
+$$\begin{bmatrix}a_{11}\\a_{21}\end{bmatrix}=\begin{bmatrix}a_{12}a_{21}/a_{22}\\ a_{22}a_{21}/a_{22}\end{bmatrix}=\frac{a_{21}}{a_{22}}\begin{bmatrix}a_{12}\\a_{22}\end{bmatrix}$$
+so the first column is a multiple of the second: the columns are dependent, contradicting full rank. Hence $|A|\neq0$.</li>
+</ol>
+<p><b>($\Leftarrow$) $|A|\neq0\Rightarrow$ full rank.</b></p>
+<ol class="steps">
+<li>By contradiction, suppose $A$ does not have full rank. Then its two columns are dependent, so one is a multiple of the other — say there is $\lambda$ with
+$$A=\begin{bmatrix}a_{11}&\lambda a_{11}\\a_{21}&\lambda a_{21}\end{bmatrix}$$</li>
+<li>Then $\det(A)=a_{11}\cdot\lambda a_{21}-\lambda a_{11}\cdot a_{21}=0$, contradicting $|A|\neq0$. $\;\square$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Both directions turn on the same observation: <b>$\det=0$ says one column is a multiple of the other</b>. That is the $2\times2$ face of the general fact that the determinant measures the volume of the box spanned by the columns — zero volume means the box has collapsed into a lower dimension.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E21</span><span class="pill a">●●</span><span class="tag">L3 · slide 22</span>Exercise 17 — the inverse is unique</div>
+<div class="prob">Prove Proposition 4.1: a square matrix has at most one inverse.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Suppose $A$ had two inverses, $A^{-1}$ and $\tilde A^{-1}$, so that
+$$AA^{-1}=A^{-1}A=I\qquad\text{and}\qquad A\tilde A^{-1}=\tilde A^{-1}A=I$$</li>
+<li>Start from $A^{-1}$ and insert the identity, written as $A\tilde A^{-1}$:
+$$A^{-1}=A^{-1}I=A^{-1}(A\tilde A^{-1})$$</li>
+<li>Use associativity of the matrix product to regroup:
+$$A^{-1}(A\tilde A^{-1})=(A^{-1}A)\tilde A^{-1}=I\,\tilde A^{-1}=\tilde A^{-1}$$</li>
+<li>Hence $A^{-1}=\tilde A^{-1}$: the two supposed inverses are the same matrix. $\;\square$</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The proof uses only two properties — $I$ is neutral and the product is associative — and notably <b>not</b> commutativity, which does not hold. Uniqueness is what licenses the notation $A^{-1}$ and, through Proposition 3.1 of lecture 4, what makes the solution $\mathbf{x}=A^{-1}\mathbf{b}$ unique.</div>
+</div></details>
+</div>
+
+<!-- ===================== LECTURE 4 ===================== -->
+
+<div class="wx">
+<div class="bar"><span class="n">E22</span><span class="pill g">●</span><span class="tag">L4 · slide 12</span>Exercise 1 — verify the solution set ($k=n$, dependent columns)</div>
+<div class="prob">$A=\begin{bmatrix}1&0&4\\0&3&1\\0&0&0\end{bmatrix}$, $\text{rank}(A)=2$, with claimed solutions $x_1=b_1-4x_3$, $x_2=(b_2-x_3)/3$, $x_3$ free. Check for $\mathbf{b}=\mathbf{0}$ and $\mathbf{b}^{\mathsf T}=(1,1,0)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>Case $\mathbf{b}=\mathbf{0}$.</b> The formulas give $\mathbf{x}=(-4x_3,\;-x_3/3,\;x_3)$ with $x_3\in\mathbb{R}$ free. Substitute into each equation:
+<br>· row 1: $1(-4x_3)+0+4(x_3)=-4x_3+4x_3=0$ ✓
+<br>· row 2: $0+3(-x_3/3)+1(x_3)=-x_3+x_3=0$ ✓
+<br>· row 3: $0=0$ ✓</li>
+<li>So the null space is the line $\{x_3(-4,-1/3,1):x_3\in\mathbb{R}\}$ — infinitely many solutions, as the case table predicts for dependent columns. Its dimension is $k-\text{rank}=3-2=1$ ✓.</li>
+<li><b>Case $\mathbf{b}=(1,1,0)^{\mathsf T}$.</b> Here $b_3=0$, so a solution should exist. The formulas give $\mathbf{x}=(1-4x_3,\;(1-x_3)/3,\;x_3)$:
+<br>· row 1: $(1-4x_3)+4x_3=1=b_1$ ✓
+<br>· row 2: $3\cdot\frac{1-x_3}{3}+x_3=1-x_3+x_3=1=b_2$ ✓
+<br>· row 3: $0=0=b_3$ ✓</li>
+<li>Again infinitely many solutions, one free parameter. Note that for any $\mathbf{b}$ with $b_3\neq0$ the third equation would read $0=b_3$ — a contradiction, hence no solution.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The general solution has the structure <b>particular solution + null space</b>: here $(1,1/3,0)$ plus the line found in the first part. That decomposition holds for every consistent linear system, and it is the same "benchmark plus self-financing overlay" structure seen in E05.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E23</span><span class="pill g">●</span><span class="tag">L4 · slide 13</span>Exercise 2 — verify the solution set ($k&gt;n$, rank $=n$)</div>
+<div class="prob">$A=\begin{bmatrix}1&0&-1&0\\1&-1&2&0\\0&0&0&-2\end{bmatrix}$, $\text{rank}(A)=3$, with claimed solutions $x_1=b_1+x_3$, $x_2=b_1-b_2+3x_3$, $x_3$ free, $x_4=-b_3/2$. Check for $\mathbf{b}=\mathbf{0}$ and $\mathbf{b}^{\mathsf T}=(0,0,1)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>The three equations are $x_1-x_3=b_1$, $x_1-x_2+2x_3=b_2$, $-2x_4=b_3$.</li>
+<li><b>Case $\mathbf{b}=\mathbf{0}$.</b> The formulas give $\mathbf{x}=(x_3,\;3x_3,\;x_3,\;0)$:
+<br>· row 1: $x_3-x_3=0$ ✓
+<br>· row 2: $x_3-3x_3+2x_3=0$ ✓
+<br>· row 3: $-2(0)=0$ ✓</li>
+<li><b>Case $\mathbf{b}=(0,0,1)^{\mathsf T}$.</b> Now $x_4=-1/2$, and $\mathbf{x}=(x_3,\;3x_3,\;x_3,\;-1/2)$:
+<br>· row 1: $x_3-x_3=0=b_1$ ✓
+<br>· row 2: $x_3-3x_3+2x_3=0=b_2$ ✓
+<br>· row 3: $-2(-1/2)=1=b_3$ ✓</li>
+<li>In both cases: infinitely many solutions with exactly one free parameter, $k-\text{rank}=4-3=1$ ✓. And since $\text{rank}=n=3$, a solution exists for <b>every</b> $\mathbf{b}$ — the columns already span $\mathbb{R}^3$.</li>
+</ol>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E24</span><span class="pill g">●</span><span class="tag">L4 · slide 14</span>Exercise 3 — no solution versus infinitely many</div>
+<div class="prob">$A=\begin{bmatrix}1&-1&0\\1&-1&0\end{bmatrix}$, $\text{rank}(A)=1$. Check that there is no solution when $\mathbf{b}^{\mathsf T}=(1,2)$, and check the claimed solutions when $\mathbf{b}^{\mathsf T}=(3,3)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>Both rows are identical, so the system reads $x_1-x_2=b_1$ and $x_1-x_2=b_2$.</li>
+<li><b>$\mathbf{b}=(1,2)$:</b> the same quantity $x_1-x_2$ would have to equal both 1 and 2 — impossible. <b>No solution.</b> (Equivalently: subtracting the equations gives $0=1$.)</li>
+<li><b>$\mathbf{b}=(3,3)$:</b> the two equations are now identical, leaving the single condition $x_1-x_2=3$, i.e. $x_1=3+x_2$ with $x_2$ and $x_3$ completely free:
+$$\mathbf{x}=\begin{bmatrix}3+x_2\\x_2\\x_3\end{bmatrix},\qquad (x_2,x_3)\in\mathbb{R}^2$$</li>
+<li>Verify: row 1 gives $(3+x_2)-x_2+0=3$ ✓; row 2 is the same equation ✓. Two free parameters, matching $k-\text{rank}=3-1=2$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The matrix is identical in both cases — only $\mathbf{b}$ changed, and the system went from unsolvable to having a 2-parameter family of solutions. <b>$A$ decides uniqueness; $\mathbf{b}$ decides existence.</b> Note also that $x_3$ never appears in any equation, so it is free by default: a variable with a zero column is always free.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E25</span><span class="pill g">●</span><span class="tag">L4 · slide 15</span>Exercise 4 — overdetermined system with independent columns</div>
+<div class="prob">$A=\begin{bmatrix}1&0\\0&3\\0&3\end{bmatrix}$, $\text{rank}(A)=2$. Check there is no solution for $\mathbf{b}^{\mathsf T}=(1,1,0)$, and check the unique solution for $\mathbf{b}=\mathbf{0}$ and $\mathbf{b}^{\mathsf T}=(1,2,2)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>The system is $x_1=b_1$, $3x_2=b_2$, $3x_2=b_3$. Rows 2 and 3 are the same equation, so a solution requires $b_2=b_3$.</li>
+<li><b>$\mathbf{b}=(1,1,0)$:</b> row 2 gives $x_2=1/3$, row 3 gives $x_2=0$. Contradiction — <b>no solution</b>. (Here $b_2=1\neq0=b_3$.)</li>
+<li><b>$\mathbf{b}=\mathbf{0}$:</b> $x_1=0$ and $3x_2=0\Rightarrow x_2=0$. The <b>unique</b> solution is $\mathbf{x}=\mathbf{0}$ — as the case table promises when the columns are independent: the homogeneous system has only the trivial solution.</li>
+<li><b>$\mathbf{b}=(1,2,2)$:</b> here $b_2=b_3=2$ ✓, so a solution exists: $x_1=1$ and $x_2=2/3$. Verify: row 1 gives 1 ✓, row 2 gives $3(2/3)=2$ ✓, row 3 gives $3(2/3)=2$ ✓. <b>Unique</b>, since the two columns $(1,0,0)$ and $(0,3,3)$ are independent.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>This is the <b>overdetermined</b> case: more equations (3) than unknowns (2). The column space is a 2-dimensional plane inside $\mathbb{R}^3$, so only the special vectors $\mathbf{b}$ lying in it — those with $b_2=b_3$ — admit a solution. When one exists it is unique. This is exactly the situation of a regression with more observations than parameters, where an exact fit generally does not exist and one settles for the closest approximation instead.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E26</span><span class="pill g">●</span><span class="tag">L4 · slide 16</span>Exercise 5 — overdetermined system with dependent columns</div>
+<div class="prob">$A=\begin{bmatrix}1&2\\0&0\\0&0\end{bmatrix}$, $\text{rank}(A)=1$. Check there is no solution when $\mathbf{b}^{\mathsf T}=(1,1,0)$, and check the claimed solutions when $\mathbf{b}=\mathbf{0}$ and $\mathbf{b}^{\mathsf T}=(1,0,0)$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li>The system is $x_1+2x_2=b_1$, $0=b_2$, $0=b_3$. So a solution requires $b_2=b_3=0$.</li>
+<li><b>$\mathbf{b}=(1,1,0)$:</b> the second equation reads $0=1$ — a flat contradiction. <b>No solution.</b></li>
+<li><b>$\mathbf{b}=\mathbf{0}$:</b> only the first equation is a real constraint, $x_1+2x_2=0$, so
+$$\mathbf{x}=\begin{bmatrix}-2x_2\\x_2\end{bmatrix},\qquad x_2\in\mathbb{R}$$
+Verify: $-2x_2+2x_2=0$ ✓, and the other two rows are $0=0$ ✓. Infinitely many solutions, a line through the origin.</li>
+<li><b>$\mathbf{b}=(1,0,0)$:</b> $x_1+2x_2=1$, so
+$$\mathbf{x}=\begin{bmatrix}1-2x_2\\x_2\end{bmatrix},\qquad x_2\in\mathbb{R}$$
+Verify: $(1-2x_2)+2x_2=1$ ✓. Again infinitely many, with $k-\text{rank}=2-1=1$ free variable ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Compare with E25: same shape of matrix, but here the columns are <b>dependent</b> ($\mathbf{a}_{\cdot2}=2\mathbf{a}_{\cdot1}$), so "exactly one solution" becomes impossible. The only outcomes are none or infinitely many — the last row of the case table in module 12.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E27</span><span class="pill r">●●●</span><span class="tag">L4 · slides 24–25</span>Exercise 6 — input–output model of production</div>
+<div class="prob">$\mathbf{x}=A\mathbf{x}+\mathbf{d}$. 1. Why is the model economically meaningful only if the columns of $A$ sum to less than 1? 2. Find the optimal total output $\mathbf{x}^*$ assuming $I-A$ is nonsingular. 3. With $A=\begin{bmatrix}1/3&1/2\\1/3&1/4\end{bmatrix}$ and $\mathbf{d}=\begin{bmatrix}4\\4\end{bmatrix}$, compute $(I-A)^{-1}$ and $\mathbf{x}^*$.</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>1.</b> Column $j$ lists the inputs needed for one unit of good $j$; with each good priced at one euro, the column sum $\sum_i a_{ij}$ is the euro cost of inputs per euro of output of sector $j$. If $\sum_i a_{ij}\ge1$ the sector consumes at least as much value as it creates, leaving nothing for final demand or value added — the economy could not deliver any positive $\mathbf{d}$. Requiring $\sum_i a_{ij}&lt;1$ says every sector adds positive value (the economy is <b>productive</b>), and it is also the condition guaranteeing that $(I-A)^{-1}$ exists with non-negative entries, so that $\mathbf{x}^*\ge\mathbf{0}$.</li>
+<li><b>2.</b> Rearrange, being careful to use $I$ rather than the number 1:
+$$\mathbf{x}-A\mathbf{x}=\mathbf{d}\ \Rightarrow\ I\mathbf{x}-A\mathbf{x}=(I-A)\mathbf{x}=\mathbf{d}\ \Rightarrow\ \boxed{\mathbf{x}^*=(I-A)^{-1}\mathbf{d}}$$
+by Proposition 3.1, since $I-A$ is nonsingular. The solution is unique and exists for every $\mathbf{d}$.</li>
+<li><b>3.</b> Productivity check: column sums $1/3+1/3=2/3&lt;1$ ✓ and $1/2+1/4=3/4&lt;1$ ✓.</li>
+<li>$I-A=\begin{bmatrix}2/3&-1/2\\-1/3&3/4\end{bmatrix}$, with
+$$\det(I-A)=\tfrac23\cdot\tfrac34-\left(-\tfrac12\right)\left(-\tfrac13\right)=\tfrac12-\tfrac16=\tfrac13\neq0$$</li>
+<li>Inverse (swap the diagonal, negate the off-diagonal, divide by $1/3$ i.e. multiply by 3):
+$$(I-A)^{-1}=3\begin{bmatrix}3/4&1/2\\1/3&2/3\end{bmatrix}=\begin{bmatrix}9/4&3/2\\1&2\end{bmatrix}$$</li>
+<li>$$\mathbf{x}^*=\begin{bmatrix}9/4&3/2\\1&2\end{bmatrix}\begin{bmatrix}4\\4\end{bmatrix}=\begin{bmatrix}9+6\\4+8\end{bmatrix}=\begin{bmatrix}15\\12\end{bmatrix}$$</li>
+<li><b>Check:</b> $A\mathbf{x}^*=\begin{bmatrix}5+6\\5+3\end{bmatrix}=\begin{bmatrix}11\\8\end{bmatrix}$, and $A\mathbf{x}^*+\mathbf{d}=\begin{bmatrix}15\\12\end{bmatrix}=\mathbf{x}^*$ ✓</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Final demand is only 4 of each good, yet gross output must be 15 and 12 — the gap is what the sectors consume from each other. $(I-A)^{-1}$ is the <b>Leontief inverse</b>, whose entries are multipliers: gross output of good $i$ required per unit of <i>final</i> demand for good $j$, counting all indirect rounds. Full write-up in module 13.</div>
+</div></details>
+</div>
+
+<!-- ===================== EXERCISE SHEET ===================== -->
+
+<div class="wx">
+<div class="bar"><span class="n">E28</span><span class="pill g">●</span><span class="tag">SHEET · i–iii</span>Matrix products, a matrix squared, and an eigenvalue</div>
+<div class="prob">
+(i) Compute, stating the dimension of the result first: (a) $\begin{bmatrix}1&2\\3&1\end{bmatrix}\begin{bmatrix}1&1&1\\-2&-2&-2\end{bmatrix}$ (b) $\begin{bmatrix}1\\2\\3\end{bmatrix}\begin{bmatrix}-1&-1&-1\end{bmatrix}$ (c) $\begin{bmatrix}-1&-1&-1\end{bmatrix}\begin{bmatrix}1\\2\\3\end{bmatrix}$.
+(ii) $A=\begin{bmatrix}-1&-2&-3\\0&0&1\\1&5&2\end{bmatrix}$: compute $AA$.
+(iii) $A=\begin{bmatrix}-2&-1&4\\2&1&-2\\-1&-1&3\end{bmatrix}$, $\mathbf{x}=\begin{bmatrix}1\\0\\1\end{bmatrix}$: if it exists, find $\lambda$ with $A\mathbf{x}=\lambda\mathbf{x}$.
+</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(i)(a)</b> $(2\times2)(2\times3)\to(2\times3)$. Every column of the right factor is $(1,-2)^{\mathsf T}$, so row 1 of $A$, namely $(1,2)$, gives $1-4=-3$ each time, and row 2, $(3,1)$, gives $3-2=1$ each time:
+$$\begin{bmatrix}-3&-3&-3\\1&1&1\end{bmatrix}$$</li>
+<li><b>(i)(b)</b> $(3\times1)(1\times3)\to(3\times3)$, an <b>outer product</b>: entry $(i,j)$ is the $i$-th entry of the column times the $j$-th of the row:
+$$\begin{bmatrix}-1&-1&-1\\-2&-2&-2\\-3&-3&-3\end{bmatrix}$$</li>
+<li><b>(i)(c)</b> $(1\times3)(3\times1)\to(1\times1)$, a <b>dot product</b>: $-1-2-3=-6$.</li>
+<li><b>(ii)</b> $A^2=AA$ is $(3\times3)$. Row 1 of $A$ is $(-1,-2,-3)$:
+<br>· $(-1)(-1)+(-2)(0)+(-3)(1)=1+0-3=-2$
+<br>· $(-1)(-2)+(-2)(0)+(-3)(5)=2+0-15=-13$
+<br>· $(-1)(-3)+(-2)(1)+(-3)(2)=3-2-6=-5$
+<br>Row 2 is $(0,0,1)$, which simply picks out row 3 of $A$: $(1,5,2)$.
+<br>Row 3 is $(1,5,2)$:
+<br>· $(1)(-1)+(5)(0)+(2)(1)=-1+0+2=1$
+<br>· $(1)(-2)+(5)(0)+(2)(5)=-2+0+10=8$
+<br>· $(1)(-3)+(5)(1)+(2)(2)=-3+5+4=6$
+$$A^2=\begin{bmatrix}-2&-13&-5\\1&5&2\\1&8&6\end{bmatrix}$$</li>
+<li><b>(iii)</b> Compute $A\mathbf{x}$ directly:
+$$A\mathbf{x}=\begin{bmatrix}-2+0+4\\2+0-2\\-1+0+3\end{bmatrix}=\begin{bmatrix}2\\0\\2\end{bmatrix}$$
+Compare with $\mathbf{x}=(1,0,1)^{\mathsf T}$: the result is exactly $2\mathbf{x}$. So $\boxed{\lambda=2}$.</li>
+<li>Equivalently, use the column reading: $A\mathbf{x}=1\cdot\mathbf{a}_{\cdot1}+0\cdot\mathbf{a}_{\cdot2}+1\cdot\mathbf{a}_{\cdot3}=(-2,2,-1)+(4,-2,3)=(2,0,2)$ ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>Part (iii) is an <b>eigenvalue</b> problem in disguise: $\mathbf{x}$ is a direction that $A$ merely stretches, without rotating it, and $\lambda=2$ is the stretch factor. Parts (b) and (c) are the same two vectors multiplied in opposite orders, giving a $3\times3$ matrix versus a single number — non-commutativity at its most visible.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E29</span><span class="pill a">●●</span><span class="tag">SHEET · iv–vi</span>Solving for unknown entries; singular versus nonsingular</div>
+<div class="prob">
+(iv) Find $x,y,z$ such that $\begin{bmatrix}2&1\\-1&0\end{bmatrix}\begin{bmatrix}x&y\\z&0\end{bmatrix}-\begin{bmatrix}x&y\\z&0\end{bmatrix}\begin{bmatrix}0&1\\2&1\end{bmatrix}=\begin{bmatrix}11&-4\\0&1\end{bmatrix}$.
+(v) Is $B=\begin{bmatrix}2&-6\\-1&3\end{bmatrix}$ nonsingular? If yes, find $B^{-1}$.
+(vi) Is $A=\begin{bmatrix}2&3\\-2&4\end{bmatrix}$ nonsingular? If yes, find $A^{-1}$.
+</div>
+<details><summary>Solution</summary><div class="sol">
+<ol class="steps">
+<li><b>(iv)</b> Compute the first product:
+$$\begin{bmatrix}2&1\\-1&0\end{bmatrix}\begin{bmatrix}x&y\\z&0\end{bmatrix}=\begin{bmatrix}2x+z&2y\\-x&-y\end{bmatrix}$$</li>
+<li>Compute the second product (note the order — this one has the unknown matrix on the left):
+$$\begin{bmatrix}x&y\\z&0\end{bmatrix}\begin{bmatrix}0&1\\2&1\end{bmatrix}=\begin{bmatrix}2y&x+y\\0&z\end{bmatrix}$$</li>
+<li>Subtract:
+$$\begin{bmatrix}2x+z-2y&2y-(x+y)\\-x-0&-y-z\end{bmatrix}=\begin{bmatrix}2x-2y+z&y-x\\-x&-y-z\end{bmatrix}=\begin{bmatrix}11&-4\\0&1\end{bmatrix}$$</li>
+<li>Match entry by entry, starting with the simplest. Position $(2,1)$: $-x=0\Rightarrow \boxed{x=0}$.</li>
+<li>Position $(1,2)$: $y-x=-4$, so with $x=0$, $\boxed{y=-4}$.</li>
+<li>Position $(1,1)$: $2x-2y+z=11$, so $0+8+z=11$, giving $\boxed{z=3}$.</li>
+<li>Position $(2,2)$ is the consistency check: $-y-z=4-3=1$ ✓. The system was overdetermined (four equations, three unknowns) and happens to be consistent.</li>
+<li><b>(v)</b> $\det(B)=2\cdot3-(-6)(-1)=6-6=0$, so $B$ is <b>singular</b> and has no inverse. Structurally: the second column is $-3$ times the first, so $\text{rank}(B)=1$.</li>
+<li><b>(vi)</b> $\det(A)=2\cdot4-3\cdot(-2)=8+6=14\neq0$, so $A$ is <b>nonsingular</b>. By the $2\times2$ formula:
+$$A^{-1}=\frac{1}{14}\begin{bmatrix}4&-3\\2&2\end{bmatrix}$$
+Check: $AA^{-1}=\frac{1}{14}\begin{bmatrix}8+6&-6+6\\-8+8&6+8\end{bmatrix}=\frac{1}{14}\begin{bmatrix}14&0\\0&14\end{bmatrix}=I$ ✓</li>
+</ol>
+<div class="note"><div class="t">Insight</div>In (iv) the same unknown matrix multiplies on the <b>left</b> in one term and on the <b>right</b> in the other, and the two products are genuinely different — that is the entire content of the exercise. Compute each product separately and only then subtract; trying to "factor out" the unknown matrix is exactly the mistake non-commutativity forbids.</div>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">E30</span><span class="pill r">●●●</span><span class="tag">SHEET · vii</span>A one-period asset market: rank, replication, risk-free portfolio, state prices</div>
+<div class="prob">
+Two assets ($A=2$), three states ($S=3$), with gross returns: state 1: $R_{11}=1$, $R_{12}=3$; state 2: $R_{21}=2$, $R_{22}=2$; state 3: $R_{31}=3$, $R_{32}=1$. Both assets have the same initial price $p$.
+<b>1)</b> Write the return matrix $R$. What is its dimension? Are the two assets linearly independent? What is $\text{rank}(R)$?
+<b>2)</b> An investor buys $n_1=3$ shares of asset 1 and $n_2=1$ of asset 2. Find the state-dependent return on this portfolio.
+<b>3)</b> Can the investor form a portfolio paying only in state 2, i.e. with return $(0,c,0)^{\mathsf T}$, $c\neq0$?
+<b>4)</b> Can the investor form a <b>risk-free portfolio</b> (same cash in all states)? If possible, find its composition.
+<b>5)</b> Find the state price security vector (optional).
+</div>
+<details><summary>Solution</summary><div class="sol">
+<p><b>1) The return matrix.</b></p>
+<ol class="steps">
+<li>Rows are states, columns are assets:
+$$R=\begin{bmatrix}1&3\\2&2\\3&1\end{bmatrix},\qquad\text{dimension } (3\times2)\ \ (S\times A)$$</li>
+<li>Independence of the two columns $(1,2,3)$ and $(3,2,1)$: matching first coordinates would need $\lambda=3$, giving third coordinate $9\neq1$. Not multiples, so <b>independent</b>.</li>
+<li>Hence $\text{rank}(R)=2$ — the maximum possible for a matrix with 2 columns, but <b>less than the number of states</b>, which will matter in parts 3 and 5.</li>
+</ol>
+
+<p><b>2) The portfolio return.</b></p>
+<ol class="steps">
+<li>Initial wealth: $w_0=p_1n_1+p_2n_2=3p+p=4p$.</li>
+<li>Portfolio weights $x_a=n_ap_a/w_0$:
+$$x_1=\frac{3p}{4p}=\frac34,\qquad x_2=\frac{p}{4p}=\frac14,\qquad x_1+x_2=1\ \checkmark$$</li>
+<li>State-dependent return $R_s=\sum_a x_aR_{sa}$, i.e. the matrix–vector product $R\mathbf{x}$:
+$$R_1=\tfrac34(1)+\tfrac14(3)=\tfrac34+\tfrac34=\tfrac32$$
+$$R_2=\tfrac34(2)+\tfrac14(2)=\tfrac32+\tfrac12=2$$
+$$R_3=\tfrac34(3)+\tfrac14(1)=\tfrac94+\tfrac14=\tfrac52$$</li>
+<li>So the portfolio return vector is $\left(\tfrac32,\;2,\;\tfrac52\right)$ — a gross return of 150%, 200% or 250% depending on the state. It is risky: the outcome varies with the state.</li>
+</ol>
+
+<p><b>3) A portfolio paying only in state 2.</b></p>
+<ol class="steps">
+<li>We need weights $(\alpha,\beta)$ with $\alpha(1,2,3)+\beta(3,2,1)=(0,c,0)$, i.e.
+$$\alpha+3\beta=0,\qquad 2\alpha+2\beta=c,\qquad 3\alpha+\beta=0$$</li>
+<li>From the first, $\alpha=-3\beta$. Substituting into the third: $-9\beta+\beta=-8\beta=0$, so $\beta=0$, hence $\alpha=0$.</li>
+<li>But then the middle equation gives $c=0$, contradicting $c\neq0$. <b>No, the investor cannot form this portfolio.</b></li>
+<li>The structural reason: the achievable payoffs form the column space of $R$, a 2-dimensional plane inside $\mathbb{R}^3$, while $(0,c,0)$ lies off that plane. The market is <b>incomplete</b> — with only 2 independent securities and 3 states, Arrow–Debreu securities cannot be manufactured.</li>
+</ol>
+
+<p><b>4) A risk-free portfolio.</b></p>
+<ol class="steps">
+<li>Now we need $\alpha(1,2,3)+\beta(3,2,1)=(c,c,c)$ for some $c$:
+$$\alpha+3\beta=c,\qquad 2\alpha+2\beta=c,\qquad 3\alpha+\beta=c$$</li>
+<li>Equating the first and third: $\alpha+3\beta=3\alpha+\beta\Rightarrow 2\beta=2\alpha\Rightarrow\alpha=\beta$.</li>
+<li>Substituting back: first equation gives $\alpha+3\alpha=4\alpha=c$; second gives $2\alpha+2\alpha=4\alpha=c$ ✓; third gives $3\alpha+\alpha=4\alpha=c$ ✓. All three agree, so a solution exists.</li>
+<li><b>Yes.</b> The risk-free portfolio is the <b>equally weighted</b> one. Normalising to a fully-invested portfolio, $\alpha=\beta=1/2$ (i.e. $x_1=x_2=1/2$, equivalently one share of each asset since prices are equal), and then
+$$c=4\cdot\tfrac12=2$$</li>
+<li>Verify directly: $\tfrac12(1,2,3)+\tfrac12(3,2,1)=(2,2,2)$ ✓ — the same gross return of 2 in every state, so the risk-free rate is 100%.</li>
+<li>Why it works here despite incompleteness: the vector $(1,1,1)$ happens to lie <i>in</i> the column space of $R$, even though $(0,1,0)$ does not. Incompleteness does not rule out every desirable payoff, only some of them.</li>
+</ol>
+
+<p><b>5) The state price security vector.</b></p>
+<ol class="steps">
+<li>A state-price vector $\mathbf{q}=(q_1,q_2,q_3)$ prices every asset as the sum of its state payoffs weighted by state prices: $p_a=\sum_s q_sS_{sa}$. Dividing by $p_a$ and using $R_{sa}=S_{sa}/p_a$ gives the normalised condition
+$$\sum_{s}q_sR_{sa}=1\quad\text{for each asset }a,\qquad\text{i.e.}\qquad R^{\mathsf T}\mathbf{q}=\begin{bmatrix}1\\1\end{bmatrix}$$</li>
+<li>Written out — 2 equations, 3 unknowns:
+$$q_1+2q_2+3q_3=1,\qquad 3q_1+2q_2+q_3=1$$</li>
+<li>Subtracting: $-2q_1+2q_3=0$, so $q_1=q_3$. Writing $q_1=q_3=t$ and substituting into the first equation:
+$$t+2q_2+3t=1\ \Rightarrow\ 4t+2q_2=1\ \Rightarrow\ q_2=\frac{1-4t}{2}$$</li>
+<li>So there is a <b>one-parameter family</b> of state price vectors:
+$$\mathbf{q}=\left(t,\ \frac{1-4t}{2},\ t\right),\qquad t\in\mathbb{R}$$
+Not unique — exactly as expected in an incomplete market ($k-\text{rank}=3-2=1$ free parameter).</li>
+<li>Economically we also require strictly positive state prices (no arbitrage), which restricts $t&gt;0$ and $1-4t&gt;0$, i.e.
+$$0&lt;t&lt;\tfrac14$$</li>
+<li><b>A striking check.</b> Whatever $t$ is, the state prices sum to
+$$q_1+q_2+q_3=t+\frac{1-4t}{2}+t=2t+\frac12-2t=\frac12$$
+That sum is the price today of the payoff $(1,1,1)$ — one unit of cash in every state — i.e. the risk-free discount factor. It implies a risk-free gross return of $1/(1/2)=2$, matching part 4 exactly ✓.</li>
+</ol>
+<div class="note"><div class="t">Insight</div>The entire exercise is linear algebra with a finance vocabulary. <b>Rank of $R$</b> = number of non-redundant securities; <b>column space of $R$</b> = achievable payoffs; <b>rank &lt; number of states</b> = incomplete market, hence part 3 fails and part 5 has infinitely many answers; <b>a solution to $R\mathbf{x}=(c,c,c)$</b> = a risk-free portfolio. And the consistency between parts 4 and 5 is no accident: the risk-free rate is pinned down whenever $(1,1,1)$ lies in the column space, even though individual state prices are not.</div>
+</div></details>
+</div>
+</section>

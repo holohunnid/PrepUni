@@ -9,7 +9,7 @@ const { course } = Astro.props;
   <span class="tag">{course.tag}</span>
   <span>{course.stats}</span>
   <div class="right">
-    <a href="/" title="all courses">⌂ courses</a>
+    <a href={course.home ?? '/'} title="back to the course list">⌂ {course.homeLabel ?? 'courses'}</a>
     <button id="themebtn">◐ theme: dark</button>
     <button id="printbtn">⎙ print / PDF</button>
   </div>
