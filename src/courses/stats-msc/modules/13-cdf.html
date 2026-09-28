@@ -1,0 +1,144 @@
+<!-- ============ 13 THE CDF ============ -->
+<section id="s13">
+<div class="sec-head"><span class="num">13</span><h2>The cumulative distribution function</h2><span class="sub">lecture 2, notes p.7–9 · slides: Distribution Functions 8–11</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> One function that answers every "how likely is X in this range?"<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>With a random variable we keep asking the same kind of question: $P(a&lt;X\le b)$, $P(X&gt;a)$, $P(X&lt;a)$… The lecture's observation: <b>if you know $P(X\le t)$ for every $t$ (and the jumps $P(X=t)$), you can answer all of them.</b> So we give $P(X\le t)$ a name — the cumulative distribution function, or CDF — and treat it as <i>the</i> description of a random variable.</p>
+  <p>The CDF works the same way for discrete and continuous variables, which is why it comes first: a staircase for the coin-counting variables of module 12, a smooth ramp for the random point of module 06.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">RULES</span> Everything in terms of P(X ≤ t)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\begin{aligned}
+  P(a&lt;X\le b)&=P(X\le b)-P(X\le a)\\
+  P(a&lt;X&lt;b)&=P(X\le b)-P(X\le a)-P(X=b)\\
+  P(X&gt;a)&=1-P(X\le a)\\
+  P(X&lt;a)&=P(X\le a)-P(X=a)
+  \end{aligned}$$
+  <p>Each line is a disjoint split:</p>
+  <ul>
+    <li>$\{X\le b\}=\{X\le a\}\cup\{a&lt;X\le b\}$, disjoint ⇒ line 1.</li>
+    <li>$\{a&lt;X\le b\}=\{a&lt;X&lt;b\}\cup\{X=b\}$ ⇒ line 2.</li>
+    <li>$\{X&gt;a\}$ is the complement of $\{X\le a\}$ ⇒ line 3.</li>
+    <li>$\{X\le a\}=\{X&lt;a\}\cup\{X=a\}$ ⇒ line 4.</li>
+  </ul>
+  <figure>
+  <svg viewBox="0 0 340 110">
+    <line x1="10" y1="80" x2="330" y2="80" stroke="var(--border2)" stroke-width="1.5"/>
+    <text x="120" y="98" class="svgtxt b" text-anchor="middle">a</text><text x="240" y="98" class="svgtxt g" text-anchor="middle">b</text>
+    <line x1="120" y1="74" x2="120" y2="86" stroke="var(--blue)" stroke-width="2"/><line x1="240" y1="74" x2="240" y2="86" stroke="var(--green)" stroke-width="2"/>
+    <line x1="10" y1="22" x2="240" y2="22" stroke="var(--green)" stroke-width="4"/><circle cx="240" cy="22" r="3.5" fill="var(--green)"/>
+    <text x="250" y="26" class="svgtxt g">P(X ≤ b)</text>
+    <line x1="10" y1="40" x2="120" y2="40" stroke="var(--blue)" stroke-width="4"/><circle cx="120" cy="40" r="3.5" fill="var(--blue)"/>
+    <text x="130" y="44" class="svgtxt b">P(X ≤ a)</text>
+    <line x1="120" y1="60" x2="240" y2="60" stroke="var(--amber)" stroke-width="5"/><circle cx="120" cy="60" r="3.5" fill="var(--panel)" stroke="var(--amber)" stroke-width="1.5"/><circle cx="240" cy="60" r="3.5" fill="var(--amber)"/>
+    <text x="250" y="64" class="svgtxt a">difference</text>
+  </svg>
+  <figcaption>The notes' number line: the long green piece minus the blue piece leaves the amber interval $(a,b]$ — open at $a$, closed at $b$.</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The CDF and its five properties<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>(cumulative) distribution function</b> of a random variable $X$ is</p>
+  $$\boxed{F(t)=P(X\le t),\qquad t\in\mathbb R}$$
+  <p>(write $F_X$ when several variables are around). Properties:</p>
+  <ol class="steps">
+    <li>$F(t)\in[0,1]$ for all $t$ — it is a probability.</li>
+    <li>$F$ is <b>non-decreasing</b>: $a&lt;b\Rightarrow F(a)\le F(b)$, since $\{X\le a\}\subseteq\{X\le b\}$ (monotonicity, module 05).</li>
+    <li>$\lim_{t\to+\infty}F(t)=1$ — eventually every value is below $t$.</li>
+    <li>$\lim_{t\to-\infty}F(t)=0$.</li>
+    <li>$F$ is <b>right-continuous</b>: $\lim_{t\to a^+}F(t)=F(a)$.</li>
+  </ol>
+  <figure>
+  <svg viewBox="0 0 340 130">
+    <line x1="20" y1="100" x2="170" y2="100" stroke="var(--border2)"/><line x1="20" y1="14" x2="20" y2="100" stroke="var(--border2)"/>
+    <path d="M 20 96 L 50 95 C 80 94 90 70 110 48 C 125 32 140 26 168 24" fill="none" stroke="var(--red)" stroke-width="2"/>
+    <line x1="20" y1="24" x2="168" y2="24" stroke="var(--border)" stroke-dasharray="3 3"/><text x="14" y="28" class="svgtxt" text-anchor="end">1</text><text x="14" y="104" class="svgtxt" text-anchor="end">0</text>
+    <text x="22" y="120" class="svgtxt">rises 0 → 1, never falls</text>
+    <line x1="190" y1="100" x2="330" y2="100" stroke="var(--border2)"/><line x1="190" y1="14" x2="190" y2="100" stroke="var(--border2)"/>
+    <path d="M 190 90 C 220 88 245 80 260 72" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <circle cx="260" cy="72" r="3.5" fill="var(--panel)" stroke="var(--blue)" stroke-width="1.5"/>
+    <circle cx="260" cy="36" r="3.5" fill="var(--blue)"/>
+    <path d="M 260 36 C 280 32 300 30 328 28" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <line x1="260" y1="40" x2="260" y2="68" stroke="var(--blue)" stroke-dasharray="2 3"/>
+    <line x1="190" y1="36" x2="256" y2="36" stroke="var(--red)" stroke-dasharray="2 3"/>
+    <text x="186" y="40" class="svgtxt r" text-anchor="end">F(a)</text>
+    <text x="260" y="114" class="svgtxt" text-anchor="middle">a</text>
+    <text x="300" y="60" class="svgtxt">jump =</text><text x="300" y="74" class="svgtxt">P(X=a)</text>
+  </svg>
+  <figcaption>Right: at a jump, $F(a)$ is the <b>upper</b> value (filled dot) — because "$X\le a$" includes $a$ itself. Approaching from the right you land on it; from the left you don't.</figcaption>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY FACT</span> Jumps are point probabilities — and continuous means no jumps<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>The size of the jump of $F$ at $a$ is the probability of the single value $a$ (slides, Distribution Functions 10):</p>
+  $$\boxed{P(X=a)=F(a)-F(a^-)},\qquad F(a^-)=\lim_{t\to a^-}F(t).$$
+  <p>So <b>if $F$ is continuous at $a$, then $P(X=a)=0$</b>. For a continuous random variable this holds everywhere, and the notes draw the consequence:</p>
+  $$X\text{ continuous}\ \Longrightarrow\ P(X=a)=0\ \Longrightarrow\ P(X\le t)=P(X&lt;t).$$
+  <p>This is module 06 again, in CDF language: single points carry no probability, so "&lt;" and "≤" give the same number.</p>
+  </div>
+  <div class="note warn"><div class="t">Trap: discrete variables do care about ≤ vs &lt;</div>For $X$ = number of heads in two fair flips (module 15): $P(X\le1)=\tfrac34$ but $P(X&lt;1)=P(X=0)=\tfrac14$. The difference is the jump $P(X=1)=\tfrac12$. In an exam, read the inequality sign twice when $X$ is discrete — and use the formulas on the left rather than guessing.
+  <br><br>The PDF deck on continuous variables (slide 2) writes $F(t)=P(X&lt;t)$ with a strict sign. For continuous $X$ it makes no difference; the lecture notes and every other slide use $\le$, and that is the definition to write.</div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 2 · notes p.8–9 · slides Distribution Functions 11 — reading probabilities off a CDF<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  $$F(t)=\begin{cases}0,&amp;t&lt;-1\\0.5+0.5t,&amp;-1\le t\le1\\1,&amp;t&gt;1\end{cases}$$
+  <ol class="steps">
+    <li>$P(X\le0.5)=F(0.5)=0.5+0.5(0.5)=\mathbf{0.75}$</li>
+    <li>$P(X&gt;0)=1-P(X\le0)=1-F(0)=1-(0.5+0.5\cdot0)=\mathbf{0.5}$</li>
+    <li>$P(X\le2)=F(2)=\mathbf1$ — beyond 1 the CDF is flat at 1.</li>
+    <li>$P(X\le-5)=F(-5)=\mathbf0$.</li>
+    <li>$P(X=0.1)=F(0.1)-F(0.1^-)=0.55-0.55=\mathbf0$ — $F$ is continuous, no jump.</li>
+    <li>$P(0&lt;X\le0.3)=F(0.3)-F(0)=[0.5+0.5(0.3)]-[0.5+0.5(0)]=0.65-0.5=\mathbf{0.15}$. (The slides ask for $P(0\le X\le0.3)$ — the same number, since $P(X=0)=0$.)</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The CDF rises in a straight line from $(-1,0)$ to $(1,1)$: equal-length intervals inside $[-1,1]$ get equal probability. This is a random point in $(-1,1)$ — the module 06 model on a different interval. Probability of an interval = its length ÷ 2.</div>
+  </div>
+  <div>
+  <div class="ctrl">
+    <label>$X$ <select id="cd_kind"><option value="lin">lecture: 0.5 + 0.5t</option><option value="coins">heads in 2 coins</option><option value="coins3">tails in 3 coins</option><option value="cst">constant c = 1</option><option value="exp">−ln U (module 14)</option></select></label>
+    <label>$a$ <input type="range" id="cd_a" min="-2" max="2" step="any" value="-2"><span class="val" id="cd_a_v">-2.00</span></label>
+    <label>$b$ <input type="range" id="cd_b" min="-2" max="2" step="any" value="0.5"><span class="val" id="cd_b_v">0.50</span></label>
+  </div>
+  <div class="ctrl"><span class="btns">
+    <button onclick="cdSet('lin',-2,0.5)">P(X ≤ 0.5)</button><button onclick="cdSet('lin',0,2)">P(X &gt; 0)</button><button onclick="cdSet('lin',0,0.3)">P(0 &lt; X ≤ 0.3)</button>
+    <button onclick="cdSet('coins',-1,1)">coins: P(X ≤ 1)</button><button onclick="cdSet('coins',0,1)">coins: P(0 &lt; X ≤ 1)</button>
+  </span></div>
+  <figure style="margin:0"><svg id="cdsvg" viewBox="0 0 360 312"></svg><figcaption>Top: the CDF, with $F(a)$ and $F(b)$ read off; the amber bar on the axis is their difference. Bottom: the same probability as an area (continuous) or a sum of bars (discrete). Put $a$ at the left edge to get $P(X\le b)$; on the discrete examples, put $b$ exactly on a jump and compare $P(a&lt;X\le b)$ with $P(a&lt;X&lt;b)$.</figcaption></figure>
+  <div class="readout" id="cdread"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A step CDF</div>
+<div class="prob">$X$ = heads in 2 fair flips has $F(t)=0,\ \tfrac14,\ \tfrac34,\ 1$ on $t&lt;0$, $[0,1)$, $[1,2)$, $t\ge2$. Find $P(0&lt;X\le1)$, $P(0\le X\le1)$ and $P(X&gt;1)$.</div>
+<details><summary>Answer</summary><div class="sol">$P(0&lt;X\le1)=F(1)-F(0)=\tfrac34-\tfrac14=\tfrac12$. $P(0\le X\le1)=F(1)-F(0^-)=\tfrac34-0=\tfrac34$ — including 0 adds its jump $\tfrac14$. $P(X&gt;1)=1-F(1)=\tfrac14$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Is it a CDF?</div>
+<div class="prob">Can $G(t)=0.5+0.5\sin t$ be a CDF?</div>
+<details><summary>Answer</summary><div class="sol">No. It stays in $[0,1]$ but it is not non-decreasing (it goes up and down) and has no limits 0 and 1 at $\mp\infty$. All five properties must hold.</div></details>
+</div>
+</div>
+</section>

@@ -1,0 +1,468 @@
+<!-- ============ 16 EXPECTED VALUE ============ -->
+<section id="s16">
+<div class="sec-head"><span class="num">16</span><h2>Expected value</h2><span class="sub">slides: Distribution Functions 23–29 · ahead of the lecture notes</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A random variable is a whole list of possible values, each with a probability (module 15). Very often you want <b>one number</b> that says what you get "on average". Is a bet worth playing? What is a fair price for a lottery ticket, or for an option? Which of two strategies pays more in the long run? All of these questions are answered by the same number, the <b>expected value</b> $\mathbb{E}(X)$.</p>
+  <p>The slides build it in two steps. Keep both pictures in your head, because each one explains things the other cannot:</p>
+  <ul>
+    <li><b>Long-run average (slide 23).</b> Play a game many times. The average gain per game settles down to a fixed number, and that number is $\mathbb{E}(X)$.</li>
+    <li><b>Weighted average, or balance point (slide 24).</b> Average the possible values, weighting each one by its probability. Physically: put a weight $f(x_i)$ at position $x_i$ on a rod. $\mathbb{E}(X)$ is the point where the rod balances.</li>
+  </ul>
+  <p>After that come three tools you will use in every later module: the link between $\mathbb{E}(X)$ and the <b>sample mean</b> of data (slide 26), the expected value of a <b>function</b> of $X$ (slides 27–28), and <b>linearity</b>, $\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)$ (slide 29).</p>
+  <div class="note tip"><div class="t">Two facts to hold on to</div>$\mathbb{E}(X)$ is a <b>number</b>, not a random quantity: once the pmf is known, nothing random is left in it. And it need not be a value that $X$ can take. The game below has $\mathbb{E}(X)=\$0.19$, yet no single game ever pays 19 cents.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 23) · a game with a biased coin</div>
+  <div class="body">
+  <p>You flip a biased coin twice, with $P(\{H\})=\frac1{10}$. If you get two heads you win $\$1$. If you get one head and one tail you win $\$10$. If you get two tails you lose $\$2$. Let $X$ be the number of dollars you win. How much do you win per game, on average?</p>
+  <div class="grid2">
+  <div>
+  <ol class="steps">
+    <li><b>Name the values.</b> $X$ takes three values: $1$ (two heads), $10$ (one of each) and $-2$ (two tails). A loss is simply a negative win.</li>
+    <li><b>Probabilities of the four outcomes.</b> The two flips are independent (module 09), so probabilities multiply along each path of the tree:
+    $$P(HH)=0.1\cdot0.1=0.01,\qquad P(HT)=0.1\cdot0.9=0.09$$
+    $$P(TH)=0.9\cdot0.1=0.09,\qquad P(TT)=0.9\cdot0.9=0.81$$</li>
+    <li><b>Group the outcomes by the value of $X$.</b> "One head and one tail" happens in two ways, $HT$ or $TH$, so those two probabilities add:
+    $$P(X=1)=0.01,\qquad P(X=10)=0.09+0.09=0.18,\qquad P(X=-2)=0.81$$
+    Check: $0.01+0.18+0.81=1$ ✓ (the normalisation rule of module 15).</li>
+    <li><b>Imagine playing $n=1000$ times.</b> Over many games, each outcome happens in roughly the fraction of games given by its probability. So expect about
+    $$0.01\times1000=10,\qquad0.18\times1000=180,\qquad0.81\times1000=810$$
+    games with two heads, one of each, and two tails respectively.</li>
+    <li><b>Total gain over the 1000 games.</b> Each group of games contributes (number of games) × (gain per game):
+    $$\$1\times10+\$10\times180-\$2\times810=\$10+\$1800-\$1620=\$190$$
+    The slide writes the same sum as $\$1\times1000\times0.01+\$10\times1000\times0.18-\$2\times1000\times0.81=\$190$.</li>
+    <li><b>Gain per game.</b> Divide by the number of games, $n=1000$. The 1000 cancels in every term:
+    $$\frac{\$1\times1000\times0.01+\$10\times1000\times0.18-\$2\times1000\times0.81}{1000}$$
+    $$=0.01\times\$1+0.18\times\$10+0.81\times(-\$2)=\$0.01+\$1.80-\$1.62=\$0.19$$</li>
+  </ol>
+  </div>
+  <div>
+  <figure>
+  <svg viewBox="0 0 400 205">
+    <text x="16" y="14" class="svgtxt w">two flips, P(H) = 0.1</text>
+    <line x1="16" y1="100" x2="90" y2="52" stroke="var(--border2)" stroke-width="1.5"/>
+    <line x1="16" y1="100" x2="90" y2="148" stroke="var(--border2)" stroke-width="1.5"/>
+    <line x1="90" y1="52" x2="170" y2="28" stroke="var(--border2)" stroke-width="1.5"/>
+    <line x1="90" y1="52" x2="170" y2="76" stroke="var(--border2)" stroke-width="1.5"/>
+    <line x1="90" y1="148" x2="170" y2="124" stroke="var(--border2)" stroke-width="1.5"/>
+    <line x1="90" y1="148" x2="170" y2="172" stroke="var(--border2)" stroke-width="1.5"/>
+    <circle cx="16" cy="100" r="4" fill="var(--text)"/>
+    <circle cx="90" cy="52" r="3.5" fill="var(--text)"/>
+    <circle cx="90" cy="148" r="3.5" fill="var(--text)"/>
+    <circle cx="170" cy="28" r="3.5" fill="var(--blue)"/>
+    <circle cx="170" cy="76" r="3.5" fill="var(--green)"/>
+    <circle cx="170" cy="124" r="3.5" fill="var(--green)"/>
+    <circle cx="170" cy="172" r="3.5" fill="var(--red)"/>
+    <text x="84" y="44" class="svgtxt w" text-anchor="end">H</text>
+    <text x="84" y="166" class="svgtxt w" text-anchor="end">T</text>
+    <text x="42" y="70" class="svgtxt a" text-anchor="middle">0.1</text>
+    <text x="42" y="140" class="svgtxt a" text-anchor="middle">0.9</text>
+    <text x="128" y="33" class="svgtxt a" text-anchor="middle">0.1</text>
+    <text x="128" y="79" class="svgtxt a" text-anchor="middle">0.9</text>
+    <text x="128" y="129" class="svgtxt a" text-anchor="middle">0.1</text>
+    <text x="128" y="175" class="svgtxt a" text-anchor="middle">0.9</text>
+    <text x="178" y="32" class="svgtxt w">HH: 0.1×0.1 = 0.01</text>
+    <text x="178" y="80" class="svgtxt w">HT: 0.1×0.9 = 0.09</text>
+    <text x="178" y="128" class="svgtxt w">TH: 0.9×0.1 = 0.09</text>
+    <text x="178" y="176" class="svgtxt w">TT: 0.9×0.9 = 0.81</text>
+    <text x="304" y="32" class="svgtxt b">X = 1</text>
+    <text x="304" y="80" class="svgtxt g">X = 10</text>
+    <text x="304" y="128" class="svgtxt g">X = 10</text>
+    <text x="304" y="176" class="svgtxt r">X = −2</text>
+    <path d="M 348 76 L 354 76 L 354 124 L 348 124" fill="none" stroke="var(--green)"/>
+    <text x="358" y="104" class="svgtxt g">0.18</text>
+    <text x="178" y="199" class="svgtxt">sum: 0.01 + 0.18 + 0.81 = 1</text>
+  </svg>
+  <figcaption>Multiply along each path (the flips are independent). Two different paths lead to $X=10$, so their probabilities add up to $0.18$.</figcaption>
+  </figure>
+  <figure>
+  <svg viewBox="0 0 400 205">
+    <text x="200" y="12" class="svgtxt w" text-anchor="middle">1000 games, winnings in dollars</text>
+    <line x1="40" y1="172" x2="360" y2="172" stroke="var(--border2)"/>
+    <rect x="50" y="169" width="56" height="3" fill="var(--blue)"/>
+    <rect x="130" y="38" width="56" height="133.26" fill="var(--green)" fill-opacity="0.3" stroke="var(--green)"/>
+    <rect x="210" y="38" width="56" height="119.93" fill="var(--red)" fill-opacity="0.3" stroke="var(--red)"/>
+    <rect x="290" y="157.93" width="56" height="14.07" fill="var(--amber)" fill-opacity="0.5" stroke="var(--amber)"/>
+    <line x1="106" y1="171.26" x2="130" y2="171.26" stroke="var(--dim)" stroke-dasharray="3 2"/>
+    <line x1="186" y1="38" x2="210" y2="38" stroke="var(--dim)" stroke-dasharray="3 2"/>
+    <line x1="266" y1="157.93" x2="290" y2="157.93" stroke="var(--dim)" stroke-dasharray="3 2"/>
+    <text x="78" y="163" class="svgtxt b" text-anchor="middle">+10</text>
+    <text x="158" y="32" class="svgtxt g" text-anchor="middle">+1,800</text>
+    <text x="238" y="32" class="svgtxt r" text-anchor="middle">−1,620</text>
+    <text x="318" y="151" class="svgtxt a" text-anchor="middle">= 190</text>
+    <text x="78" y="186" class="svgtxt" text-anchor="middle" style="font-size:10px">10 × HH</text>
+    <text x="78" y="198" class="svgtxt" text-anchor="middle" style="font-size:10px">+1 each</text>
+    <text x="158" y="186" class="svgtxt" text-anchor="middle" style="font-size:10px">180 × HT or TH</text>
+    <text x="158" y="198" class="svgtxt" text-anchor="middle" style="font-size:10px">+10 each</text>
+    <text x="238" y="186" class="svgtxt" text-anchor="middle" style="font-size:10px">810 × TT</text>
+    <text x="238" y="198" class="svgtxt" text-anchor="middle" style="font-size:10px">−2 each</text>
+    <text x="318" y="186" class="svgtxt" text-anchor="middle" style="font-size:10px">total</text>
+    <text x="318" y="198" class="svgtxt" text-anchor="middle" style="font-size:10px">÷ 1000 = 0.19</text>
+  </svg>
+  <figcaption>The 1000-game ledger, drawn to scale (the tiny $+\$10$ bar is thickened so that it shows). The rare mixed outcome brings in $+\$1800$, and that more than pays for the frequent two-tails losses of $-\$1620$. What is left is $\$190$, or $\$0.19$ per game.</figcaption>
+  </figure>
+  </div>
+  </div>
+  <div class="note"><div class="t">Insight</div>The number of games cancelled. What remains, $0.01\cdot1+0.18\cdot10+0.81\cdot(-2)$, is a <b>weighted average of the possible values of $X$, with the probabilities as the weights</b>, and that is exactly the definition on slide 24. The game is worth playing ($+\$0.19$ per game on average) even though you lose in 81% of games, because the occasional $\$10$ win more than covers the frequent $\$2$ losses.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill a">TRY IT</span> Change the coin, then play the game<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$P(H)$ <input type="range" id="ev_p" min="0" max="1" step="any" value="0.1"><span class="val" id="ev_p_v">0.100</span></label>
+    <span class="btns"><button onclick="evSet(0.1)">slides: P(H) = 0.1</button><button onclick="evSet(0.0905)">break-even</button><button onclick="evSet(0.5)">fair coin</button></span>
+  </div>
+  <div class="ctrl"><span class="btns"><button onclick="evSim(100)">play 100 games</button><button onclick="evSim(1000)">play 1000 games</button><button onclick="evReset()">reset</button></span></div>
+  <figure style="margin:0"><svg id="evsvg" viewBox="0 0 360 310"></svg><figcaption>Top: the pmf of the winnings $X\in\{-2,1,10\}$ at the chosen $P(H)=p$, drawn as weights on a number line, with the fulcrum at $\mathbb{E}(X)=-21p^2+24p-2$. Bottom: the running average of simulated games. As more games are played it settles near $\mathbb{E}(X)$, which is slide 23's argument happening live.</figcaption></figure>
+  <div class="readout" id="evread"></div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">IDEA</span> The same game for any coin<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Nothing in slide 23 depended on the number $0.1$. For a coin with $P(H)=p$ and $q=1-p$, the same tree gives</p>
+  $$P(X=1)=p^2,\qquad P(X=10)=2pq,\qquad P(X=-2)=q^2$$
+  <p>so the expected gain per game is</p>
+  $$\begin{aligned}\mathbb{E}(X)&=1\cdot p^2+10\cdot2p(1-p)+(-2)(1-p)^2\\&=p^2+20p-20p^2-2+4p-2p^2\\&=-21p^2+24p-2\end{aligned}$$
+  <p>Check against the slides: at $p=0.1$ this gives $-0.21+2.4-2=0.19$ ✓.</p>
+  <p><b>When is the game fair?</b> Set $\mathbb{E}(X)=0$, i.e. $21p^2-24p+2=0$:</p>
+  $$p=\frac{24\pm\sqrt{24^2-4\cdot21\cdot2}}{2\cdot21}=\frac{24\pm\sqrt{408}}{42}\approx\frac{24\pm20.199}{42}$$
+  <p>The root $1.052$ is not a probability, so the only break-even coin is $p\approx0.0905$. For any $p$ above that the game favours you, and for $p$ below it you lose on average.</p>
+  <p><b>What to try.</b></p>
+  <ul>
+    <li><b>"slides: P(H) = 0.1".</b> The big weight $0.81$ at $-2$ is balanced by a small weight $0.18$ far out at $10$, and the fulcrum sits just right of zero, at $0.19$.</li>
+    <li><b>"break-even".</b> With $p\approx0.0905$ the fulcrum sits at $0$: a fair game.</li>
+    <li><b>"fair coin".</b> Now $P(X=10)=2\cdot\frac12\cdot\frac12=\frac12$ and $\mathbb{E}(X)=-\frac{21}4+12-2=4.75$.</li>
+    <li><b>"play 1000 games", several times, then "reset".</b> The running average jumps around for the first few dozen games, then settles near $\mathbb{E}(X)$. With only 100 games it is still visibly noisy, which is why slide 23 says "a very large number of times".</li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Expected value (slide 24)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ be a discrete random variable that takes the values $\{x_1,x_2,x_3,\dots\}$, with pmf $f(x)$. The <b>expected value</b> of $X$ is</p>
+  $$\boxed{\;\mathbb{E}(X)=\sum_{i=1}^{\infty}f(x_i)\,x_i\;}$$
+  <p><b>provided that this series converges absolutely</b>, i.e. $\sum_i f(x_i)\,|x_i|&lt;\infty$ (the sum must stay finite if every $x_i$ is replaced by its absolute value). If the series does not converge absolutely, we say that <b>the expected value of $X$ does not exist</b>.</p>
+  <p>Other names: the <b>mean</b> of $X$, written $\mu_X$ or just $\mu$.</p>
+  <h3>Reading the formula</h3>
+  <p>Multiply each possible value $x_i$ by its probability, then add up the products. Likely values pull hard and unlikely values pull weakly. With equal probabilities this is the ordinary average; with unequal ones it is a <b>weighted average</b>.</p>
+  <h3>Units</h3>
+  <p>$\mathbb{E}(X)$ has the <b>same unit of measurement as $X$</b>. Probabilities have no unit, so each term $f(x_i)\,x_i$ is in dollars when $x_i$ is in dollars. The game's $\mathbb{E}(X)$ is $\$0.19$ per game, and the expected lifetime of a TV set is measured in years.</p>
+  <h3>The balance point</h3>
+  <figure>
+  <svg viewBox="0 0 400 215">
+    <text x="200" y="16" class="svgtxt w" text-anchor="middle">module 12's (0,1) game as weights on a rod</text>
+    <line x1="194" y1="26" x2="194" y2="148" stroke="var(--green)" stroke-dasharray="4 3"/>
+    <rect x="84" y="132" width="22" height="16" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <rect x="139" y="52" width="22" height="96" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <rect x="304" y="100" width="22" height="48" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <text x="95" y="126" class="svgtxt b" text-anchor="middle">0.1</text>
+    <text x="150" y="46" class="svgtxt b" text-anchor="middle">0.6</text>
+    <text x="315" y="94" class="svgtxt b" text-anchor="middle">0.3</text>
+    <rect x="30" y="148" width="350" height="5" fill="var(--border2)"/>
+    <polygon points="194,153 182,175 206,175" fill="var(--green)"/>
+    <text x="95" y="168" class="svgtxt w" text-anchor="middle">1</text>
+    <text x="150" y="168" class="svgtxt w" text-anchor="middle">2</text>
+    <text x="315" y="168" class="svgtxt w" text-anchor="middle">5</text>
+    <text x="194" y="190" class="svgtxt g" text-anchor="middle">E(X) = 2.8</text>
+    <text x="36" y="208" class="svgtxt" style="font-size:10px">left: 0.1×1.8 + 0.6×0.8 = 0.66</text>
+    <text x="384" y="208" class="svgtxt" text-anchor="end" style="font-size:10px">right: 0.3×2.2 = 0.66</text>
+  </svg>
+  <figcaption>Weights $0.1$, $0.6$, $0.3$ at positions $1$, $2$, $5$ (bar heights to scale). The rod balances at $\mathbb{E}(X)=0.1\cdot1+0.6\cdot2+0.3\cdot5=2.8$, <b>not</b> at the most likely value $2$, because the weight at $5$ sits on a long lever arm. The turning effects cancel: $0.66$ on each side.</figcaption>
+  </figure>
+  <p>A free sanity check follows from the picture: the balance point cannot lie outside the weights, so $\min_i x_i\le\mathbb{E}(X)\le\max_i x_i$. An answer outside that range is always a computing error.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">WHY</span> Why "converges absolutely"?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>If $X$ has finitely many values, the sum is finite and there is nothing to check. The proviso matters only when the support is infinite, like $\{1,2,3,\dots\}$. Two different things can go wrong.</p>
+  <h3>1. The sum is infinite</h3>
+  <p>Win $2^k$ dollars with probability $2^{-k}$, for $k=1,2,\dots$ (the "St. Petersburg" game). Each term is $f(x_k)\,x_k=2^{-k}\cdot2^k=1$, so</p>
+  $$\sum_k f(x_k)\,x_k=1+1+1+\cdots=\infty$$
+  <p>No finite average exists.</p>
+  <h3>2. The answer depends on the order of the terms</h3>
+  <p>The labels $x_1,x_2,x_3,\dots$ are just an arbitrary numbering of the values. For "the average" to mean anything, renumbering the values must not change it. A series that converges absolutely has exactly this property: it gives the same sum in any order. A series that converges only <i>conditionally</i> does not. By Riemann's rearrangement theorem, reordering its terms can make it add up to almost anything.</p>
+  <p>Example: let $X$ take the value $(-1)^{k+1}\,2^k/k$ with probability $2^{-k}$, for $k=1,2,\dots$ (these probabilities do sum to 1). Then $f(x_k)\,x_k=(-1)^{k+1}/k$, and</p>
+  $$1-\tfrac12+\tfrac13-\tfrac14+\cdots=\ln2\approx0.693$$
+  <p>but the <b>same terms</b> taken as two positives then one negative give</p>
+  $$1+\tfrac13-\tfrac12+\tfrac15+\tfrac17-\tfrac14+\cdots=\tfrac32\ln2\approx1.040$$
+  <p>With absolute values the series becomes $1+\frac12+\frac13+\cdots=\infty$. The test fails, and the slide's rule correctly says that $\mathbb{E}(X)$ <b>does not exist</b>.</p>
+  <div class="note tip"><div class="t">In one line</div>Absolute convergence means the average does not depend on how you happened to list the values. "Does not exist" is not the same as "equals zero".</div>
+  <div class="wx">
+  <div class="bar"><span class="n">?</span><span class="tag">check yourself</span>The geometric-type pmf of module 15</div>
+  <div class="prob">Module 15 proved that $f(k)=\frac15\left(\frac45\right)^{k-1}$, $k\in\{1,2,\dots\}$, is a pmf. Does $\mathbb{E}(X)$ exist, and what is it? Hint: differentiate the geometric series $\sum_{k\ge0}q^k=\frac1{1-q}$ with respect to $q$.</div>
+  <details><summary>Answer</summary><div class="sol">
+  <p>All the terms $f(k)\,k$ are positive, so absolute convergence is the same as ordinary convergence. Differentiating the geometric series term by term (valid for $|q|&lt;1$) gives</p>
+  $$\sum_{k=1}^{\infty}k\,q^{k-1}=\frac{1}{(1-q)^2}$$
+  <p>With $q=\frac45$:</p>
+  $$\mathbb{E}(X)=\frac15\sum_{k=1}^{\infty}k\left(\frac45\right)^{k-1}=\frac15\cdot\frac{1}{(1/5)^2}=\frac15\cdot25=5$$
+  <p>So it exists and equals $5$. If each attempt succeeds with probability $\frac15$, the first success comes on attempt 5 on average (module 20).</p>
+  </div></details>
+  </div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 25) · heads in two fair flips</div>
+  <div class="body">
+  <p>A fair coin is flipped $n=2$ times. Let $X$ be the number of heads. Find $\mathbb{E}(X)$.</p>
+  <ol class="steps">
+    <li><b>Recall the pmf</b> (module 15): $f(0)=\frac14$, $f(1)=\frac12$, $f(2)=\frac14$.</li>
+    <li><b>Apply the definition</b>, with one term per value:
+    $$\mathbb{E}(X)=f(0)\cdot0+f(1)\cdot1+f(2)\cdot2$$</li>
+    <li><b>Substitute and add:</b>
+    $$\mathbb{E}(X)=\frac14\cdot0+\frac12\cdot1+\frac14\cdot2=0+\frac12+\frac12=1$$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The pmf is symmetric about 1 (weights $\frac14,\frac12,\frac14$ at $0,1,2$), and a symmetric rod balances at its centre. So $\mathbb{E}(X)=1$ could be read off the picture without any computing. On average you get one head in two flips, which is what intuition says.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXTRA EXAMPLES (modules 12 and 15) · four familiar random variables</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>Girls in a two-child family</b> (module 12). The pmf is $\frac14,\frac12,\frac14$ on $0,1,2$, identical to heads in two flips, so $\mathbb{E}(X)=1$.</li>
+    <li><b>The $\pm\$2$ game</b> (module 12, three fair flips). $X\in\{-2,0,2\}$ with probabilities $\frac14,\frac12,\frac14$:
+    $$\mathbb{E}(X)=(-2)\cdot\tfrac14+0\cdot\tfrac12+2\cdot\tfrac14=-\tfrac12+0+\tfrac12=0$$
+    A <b>fair game</b>: on average you neither win nor lose.</li>
+    <li><b>The $(0,1)$ game</b> (module 12). $P(X=1)=0.1$, $P(X=2)=0.6$, $P(X=5)=0.3$:
+    $$\mathbb{E}(X)=0.1\cdot1+0.6\cdot2+0.3\cdot5=0.1+1.2+1.5=2.8\text{ dollars}$$
+    This is the balance-point picture above.</li>
+    <li><b>Heads in three fair flips</b> (module 15). $f=\frac18,\frac38,\frac38,\frac18$ on $0,1,2,3$:
+    $$\mathbb{E}(X)=0\cdot\tfrac18+1\cdot\tfrac38+2\cdot\tfrac38+3\cdot\tfrac18=\frac{0+3+6+3}{8}=\frac{12}{8}=1.5$$
+    The number of <i>tails</i> in three flips (module 12) has the same pmf, so its mean is also $1.5$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>A pattern is showing: $n$ fair flips give $n/2$ heads on average. Module 18 proves the general rule $\mathbb{E}(X)=np$ for the binomial.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> From data to $\mathbb{E}(X)$: absolute and relative frequency mean (slide 26)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Now switch from a model to <b>data</b>. Suppose an experiment or study produced $n$ observations, and the distinct values observed are $x_1,\dots,x_k$.</p>
+  <ul>
+    <li>The <b>absolute frequency</b> of $x_j$ is the number $n(x_j)$ of times $x_j$ occurred. The counts add up to the number of observations: $n=\sum_{j=1}^{k}n(x_j)$.</li>
+    <li>The <b>relative frequency</b> of $x_j$ is the absolute frequency normalised by the total number of observations:
+    $$f(x_j)=\frac{n(x_j)}{n}$$</li>
+  </ul>
+  <p>The <b>sample mean</b> can then be written in two equivalent ways:</p>
+  $$\bar x=\frac1n\sum_{j=1}^{k}x_j\,n(x_j)\qquad\text{or}\qquad\bar x=\sum_{j=1}^{k}x_j\,f(x_j)$$
+  <p>The sum is finite, because a sample (or a real population) is finite.</p>
+  <p><b>Compare the second form with $\mathbb{E}(X)=\sum_i x_i\,f(x_i)$.</b> It is the same formula, with relative frequencies in the place of probabilities, and that is why the slide reuses the letter $f$. As $n$ grows, relative frequencies get closer and closer to the probabilities. This is the fact slide 23 relied on, and its formal version is the law of large numbers. So</p>
+  $$\bar x\;\longrightarrow\;\mathbb{E}(X)\qquad\text{as }n\to\infty$$
+  <p>The sample mean is computed from <b>data</b> and changes from sample to sample. $\mathbb{E}(X)$ is a fixed property of the <b>model</b>. The sample mean is the natural estimate of $\mathbb{E}(X)$.</p>
+  <div class="note tip"><div class="t">About the slide's notation</div>The slide writes $n=\sum_i^n n(x_i)$ and $\frac1n\sum_{i=1}^n x_i\,n(x_i)$, using $n$ both for the number of observations and for the upper limit of the sum. The sum really runs over the <b>distinct</b> values, $k$ of them, as written above. The two readings agree when every observation is listed separately ($k=n$, each $n(x_i)=1$), which gives the familiar $\bar x=\frac1n\sum_{i=1}^n x_i$.</div>
+  </div>
+  <div>
+  <h3>Illustration: 1000 pairs of flips</h3>
+  <p>Suppose you flip two fair coins 1000 times and record the number of heads each time. Hypothetical counts, of the kind you might see:</p>
+  <table class="formula-table">
+    <tr><td>value $x_j$</td><td>$n(x_j)$</td><td>relative freq. $n(x_j)/n$</td><td>pmf (model)</td></tr>
+    <tr><td>0</td><td>240</td><td>0.240</td><td>0.25</td></tr>
+    <tr><td>1</td><td>515</td><td>0.515</td><td>0.50</td></tr>
+    <tr><td>2</td><td>245</td><td>0.245</td><td>0.25</td></tr>
+    <tr><td>total</td><td>1000</td><td>1</td><td>1</td></tr>
+  </table>
+  <ol class="steps">
+    <li><b>Absolute-frequency form:</b>
+    $$\bar x=\frac{0\cdot240+1\cdot515+2\cdot245}{1000}=\frac{0+515+490}{1000}=\frac{1005}{1000}=1.005$$</li>
+    <li><b>Relative-frequency form:</b>
+    $$\bar x=0\cdot0.240+1\cdot0.515+2\cdot0.245=0+0.515+0.490=1.005\ \checkmark$$</li>
+    <li><b>Compare with the model:</b> $\mathbb{E}(X)=1$ (slide 25). The data land close to it, but not exactly on it.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The expected value is what the sample mean would be if the relative frequencies were <b>exactly</b> the probabilities. The simulation in the "TRY IT" panel above shows the running $\bar x$ closing in on $\mathbb{E}(X)$ as the number of games grows.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Expected value of a function of $X$ (slide 27)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ be a discrete random variable with values $\{x_1,x_2,x_3,\dots\}$ and pmf $f(x)$, and let $g:\mathbb{R}\to\mathbb{R}$ be a function. Then $Y=g(X)$ is a random variable, and</p>
+  $$\boxed{\;\mathbb{E}(Y)=\mathbb{E}(g(X))=\sum_{i=1}^{\infty}f(x_i)\,g(x_i)\;}$$
+  <p>In words: <b>transform the values and keep the probabilities</b>. You do not need the pmf of $Y$. As an alternative, $\mathbb{E}(Y)$ can be computed by first deriving the distribution of $Y$ (module 14) and then applying the definition to $Y$. Both routes give the same number.</p>
+  <h3>Why it is true</h3>
+  <p>$Y$ equals $y$ whenever $X$ lands on any $x_i$ with $g(x_i)=y$, so $P(Y=y)=\sum_{i:\,g(x_i)=y}f(x_i)$. Put this into the definition of $\mathbb{E}(Y)$:</p>
+  $$\mathbb{E}(Y)=\sum_y y\sum_{i:\,g(x_i)=y}f(x_i)=\sum_y\ \sum_{i:\,g(x_i)=y}g(x_i)\,f(x_i)=\sum_i g(x_i)\,f(x_i)$$
+  <p>The last step holds because every index $i$ appears exactly once, in the group of its own value $y=g(x_i)$. The theorem simply skips the grouping.</p>
+  <h3>Both routes on module 14's example</h3>
+  <p>$X\in\{-2,0,2\}$ with probabilities $\frac14,\frac12,\frac14$, and $Y=X^2$.</p>
+  <ol class="steps">
+    <li><b>Route 1, via the pmf of $Y$.</b> Module 14 found $Y\in\{0,4\}$ with probabilities $\frac12,\frac12$. So $\mathbb{E}(Y)=0\cdot\frac12+4\cdot\frac12=2$.</li>
+    <li><b>Route 2, via the theorem.</b> $\mathbb{E}(X^2)=\frac14(-2)^2+\frac12\cdot0^2+\frac14\cdot2^2=1+0+1=2$ ✓</li>
+  </ol>
+  <h3>Moments</h3>
+  <p>A special function of interest is $g(x)=x^2$, which gives the <b>second moment</b> of the random variable, $\mathbb{E}(X^2)$. More generally, $g(x)=x^k$ gives the <b>$k$-th moment</b>, $\mathbb{E}(X^k)$ (module 17). For heads in two flips:</p>
+  $$\mathbb{E}(X^2)=\tfrac14\cdot0^2+\tfrac12\cdot1^2+\tfrac14\cdot2^2=0+\tfrac12+1=\tfrac32$$
+  <div class="note warn"><div class="t">Trap: $\mathbb{E}(g(X))\ne g(\mathbb{E}(X))$</div>You cannot, in general, move $g$ inside the expectation. For heads in two flips, $\mathbb{E}(X^2)=\frac32$ but $[\mathbb{E}(X)]^2=1^2=1$: squaring and then averaging is not the same as averaging and then squaring. The gap $\frac32-1=\frac12$ is exactly the variance of module 17. The only functions that pass through $\mathbb{E}$ are straight lines $a+bx$ (slide 29).</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 28) · $\mathbb{E}\big((X-1)^+\big)$, a call option in disguise</div>
+  <div class="body">
+  <p>A fair coin is flipped $n=2$ times. Let $X$ be the number of heads, and define $Y:=(X-1)^+=\max\{X-1,0\}$. Find $\mathbb{E}(Y)$.</p>
+  <ol class="steps">
+    <li><b>Understand $(\cdot)^+$.</b> $z^+=\max\{z,0\}$ keeps positive numbers and replaces negative numbers with 0: $(-1)^+=0$, $0^+=0$, $1^+=1$.</li>
+    <li><b>Transform each value and keep its probability:</b>
+    <table class="formula-table">
+      <tr><td>$x_i$</td><td>0</td><td>1</td><td>2</td></tr>
+      <tr><td>$f(x_i)$</td><td>$\frac14$</td><td>$\frac12$</td><td>$\frac14$</td></tr>
+      <tr><td>$(x_i-1)^+$</td><td>$(-1)^+=0$</td><td>$0^+=0$</td><td>$1^+=1$</td></tr>
+    </table></li>
+    <li><b>Apply the theorem of slide 27:</b>
+    $$\begin{aligned}\mathbb{E}(Y)=\mathbb{E}\big((X-1)^+\big)&=f(0)\cdot(0-1)^++f(1)\cdot(1-1)^++f(2)\cdot(2-1)^+\\&=\tfrac14\cdot0+\tfrac12\cdot0+\tfrac14\cdot1=\tfrac14\end{aligned}$$</li>
+    <li><b>Check by route 1.</b> $Y=0$ with probability $\frac14+\frac12=\frac34$ and $Y=1$ with probability $\frac14$, so $\mathbb{E}(Y)=0\cdot\frac34+1\cdot\frac14=\frac14$ ✓</li>
+  </ol>
+  <figure>
+  <svg viewBox="0 0 380 205">
+    <line x1="50" y1="170" x2="345" y2="170" stroke="var(--border2)"/>
+    <line x1="50" y1="20" x2="50" y2="170" stroke="var(--border2)"/>
+    <text x="56" y="24" class="svgtxt w">payoff (X − 1)⁺</text>
+    <text x="44" y="174" class="svgtxt" text-anchor="end">0</text>
+    <text x="44" y="104" class="svgtxt" text-anchor="end">1</text>
+    <text x="44" y="34" class="svgtxt" text-anchor="end">2</text>
+    <line x1="46" y1="100" x2="50" y2="100" stroke="var(--border2)"/>
+    <line x1="46" y1="30" x2="50" y2="30" stroke="var(--border2)"/>
+    <line x1="50" y1="152.5" x2="345" y2="152.5" stroke="var(--green)" stroke-dasharray="4 3"/>
+    <text x="340" y="146" class="svgtxt g" text-anchor="end">E[(X − 1)⁺] = 1/4</text>
+    <path d="M 50 170 L 140 170 L 320 30" fill="none" stroke="var(--blue)" stroke-width="2.4"/>
+    <circle cx="140" cy="170" r="11" fill="none" stroke="var(--red)" stroke-width="1.5"/>
+    <circle cx="50" cy="170" r="5" fill="var(--amber)"/>
+    <circle cx="140" cy="170" r="7" fill="var(--amber)"/>
+    <circle cx="230" cy="100" r="5" fill="var(--amber)"/>
+    <text x="58" y="144" class="svgtxt a">1/4</text>
+    <text x="140" y="144" class="svgtxt a" text-anchor="middle">1/2</text>
+    <text x="222" y="96" class="svgtxt a" text-anchor="end">1/4</text>
+    <line x1="140" y1="170" x2="140" y2="174" stroke="var(--border2)"/>
+    <line x1="230" y1="170" x2="230" y2="174" stroke="var(--border2)"/>
+    <line x1="320" y1="170" x2="320" y2="174" stroke="var(--border2)"/>
+    <text x="50" y="186" class="svgtxt" text-anchor="middle">0</text>
+    <text x="140" y="186" class="svgtxt" text-anchor="middle">1</text>
+    <text x="230" y="186" class="svgtxt" text-anchor="middle">2</text>
+    <text x="320" y="186" class="svgtxt" text-anchor="middle">3</text>
+    <text x="140" y="200" class="svgtxt a" text-anchor="middle">strike K = 1</text>
+    <text x="345" y="200" class="svgtxt" text-anchor="end">X at expiry</text>
+  </svg>
+  <figcaption>The "hockey stick" $(x-1)^+$ in blue. The amber dots are the three outcomes (labelled with their probabilities), and only $x=2$ pays anything. Averaging the payoffs gives the green line at $\frac14$. The red ring marks the payoff at the mean, $(\mathbb{E}(X)-1)^+=0$, which is below the average payoff.</figcaption>
+  </figure>
+  <div class="note fin"><div class="t">Finance: this is a call option</div>If $X$ is the price of an asset at a future date, then $(X-K)^+$ is exactly the payoff of a <b>European call option with strike $K$</b>. At expiry you have the right to buy the asset for $K$. You use it if $X&gt;K$ (and gain $X-K$) and walk away otherwise (gain $0$). So slide 28 computes the expected payoff of a call with strike $K=1$ on a "stock" worth 0, 1 or 2. Option pricing starts from exactly this sum, $\sum_i f(x_i)\,(x_i-K)^+$; your derivatives course adds risk-neutral probabilities and discounting. Raising the strike makes the call cheaper:
+  <table class="formula-table">
+    <tr><td>strike $K$</td><td>0</td><td>0.5</td><td>1</td><td>1.5</td><td>2</td></tr>
+    <tr><td>$\mathbb{E}\big((X-K)^+\big)$</td><td>1</td><td>0.625</td><td>0.25</td><td>0.125</td><td>0</td></tr>
+  </table>
+  For example, $K=0.5$ gives $\frac12\cdot0.5+\frac14\cdot1.5=0.25+0.375=0.625$.</div>
+  <div class="note"><div class="t">Insight</div>Plugging in the mean gives $(\mathbb{E}(X)-1)^+=(1-1)^+=0$, but the true answer is $\frac14$. The payoff cuts off bad outcomes at 0 and keeps the good ones, so the <b>average payoff is larger than the payoff at the average price</b>. That gap is the value of having the option, and another case of $\mathbb{E}(g(X))\ne g(\mathbb{E}(X))$.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Linearity: $\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)$ (slide 29)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ be a random variable, and let $a$ and $b$ be real numbers. Then</p>
+  $$\boxed{\;\mathbb{E}(a+b\,X)=a+b\,\mathbb{E}(X)\;}$$
+  <p><b>Proof (one line).</b> Take $g(x)=a+bx$ in the theorem of slide 27, split the sum in two, and use $\sum_i f(x_i)=1$:</p>
+  $$\mathbb{E}(a+bX)=\sum_i f(x_i)(a+bx_i)=a\underbrace{\sum_i f(x_i)}_{=1}+b\underbrace{\sum_i f(x_i)\,x_i}_{=\mathbb{E}(X)}=a+b\,\mathbb{E}(X)\qquad\square$$
+  <p><b>Intuition.</b> $a+bX$ just relabels the axis. Shift every value by $a$ and the balance point shifts by $a$. Stretch every value by a factor $b$ and the balance point stretches by $b$.</p>
+  <h3>Examples</h3>
+  <ol class="steps">
+    <li><b>Module 14's $Z=3X+1$</b>, with $X\in\{-2,0,2\}$ and probabilities $\frac14,\frac12,\frac14$. Here $\mathbb{E}(X)=0$ (the $\pm\$2$ pmf), so $\mathbb{E}(Z)=3\cdot0+1=1$. Directly from the pmf of $Z$: $(-5)\cdot\frac14+1\cdot\frac12+7\cdot\frac14=-1.25+0.5+1.75=1$ ✓</li>
+    <li><b>An entry fee.</b> If the casino charges $c$ dollars per game, your net gain $X-c$ has $\mathbb{E}(X-c)=0.19-c$. The <b>fair fee</b> (zero expected net gain) is $c=\$0.19$.</li>
+    <li><b>A change of units.</b> In cents the gain is $100X$, so $\mathbb{E}(100X)=100\cdot0.19=19$ cents. $\mathbb{E}$ always follows the unit.</li>
+  </ol>
+  <p>Slide 34 (module 17) also uses the two-variable version, $\mathbb{E}(aX+bY)=a\,\mathbb{E}(X)+b\,\mathbb{E}(Y)$. It holds for <b>any</b> $X$ and $Y$, whether independent or not.</p>
+  <div class="note warn"><div class="t">Trap</div>Linearity is for straight-line functions $a+bx$ only. $\mathbb{E}(X^2)\ne[\mathbb{E}(X)]^2$, $\mathbb{E}(1/X)\ne1/\mathbb{E}(X)$, and $\mathbb{E}\big((X-1)^+\big)\ne(\mathbb{E}(X)-1)^+$ (that last one is $\frac14$ versus $0$ on slide 28).</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> R corner and summary<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>
+  <p>Store a pmf as two vectors, values and probabilities, and $\mathbb{E}(X)$ is one line:</p>
+  <p><code>x &lt;- c(-2, 1, 10); f &lt;- c(0.81, 0.01, 0.18)</code><br>
+  <code>sum(x * f)</code> gives <code>[1] 0.19</code>, and so does <code>weighted.mean(x, f)</code>.</p>
+  <p>Slide 23's argument as a simulation:<br>
+  <code>set.seed(1); g &lt;- sample(x, 1000, replace = TRUE, prob = f); mean(g)</code><br>
+  prints a number near 0.19 (the exact value depends on the seed and on the number of games).</p>
+  <p>$\mathbb{E}(g(X))$: transform the values, keep <code>f</code>:<br>
+  <code>x &lt;- 0:2; f &lt;- c(1/4, 1/2, 1/4)</code><br>
+  <code>sum(x^2 * f)</code> gives <code>[1] 1.5</code>, and <code>sum(pmax(x - 1, 0) * f)</code> gives <code>[1] 0.25</code>.</p>
+  <p>The same pmf also comes from <code>dbinom(0:2, 2, 0.5)</code>, which prints <code>[1] 0.25 0.50 0.25</code> (module 18). Similarly, <code>sum(0:3 * dbinom(0:3, 3, 0.5))</code> gives <code>[1] 1.5</code>.</p>
+  <p><b>R trap:</b> <code>max(x - 1, 0)</code> returns a <b>single</b> number, the largest entry overall (here 1). So <code>sum(max(x - 1, 0) * f)</code> returns 1, not 0.25. For an element-by-element maximum use <code>pmax</code>.</p>
+  </div>
+  <h3>Summary</h3>
+  <table class="formula-table">
+    <tr><td>definition</td><td>$\mathbb{E}(X)=\sum_i f(x_i)\,x_i$, if $\sum_i f(x_i)|x_i|&lt;\infty$</td></tr>
+    <tr><td>meaning</td><td>long-run average per trial; balance point of the pmf</td></tr>
+    <tr><td>units</td><td>same as $X$</td></tr>
+    <tr><td>function of $X$</td><td>$\mathbb{E}(g(X))=\sum_i f(x_i)\,g(x_i)$</td></tr>
+    <tr><td>linearity</td><td>$\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)$</td></tr>
+    <tr><td>data</td><td>$\bar x=\sum_j x_j\,\frac{n(x_j)}{n}\to\mathbb{E}(X)$ as $n$ grows</td></tr>
+    <tr><td>trap</td><td>$\mathbb{E}(g(X))\ne g(\mathbb{E}(X))$ unless $g$ is a straight line</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A bigger loss</div>
+<div class="prob">In slide 23's game ($P(H)=0.1$), two tails now costs $\$3$ instead of $\$2$. Find $\mathbb{E}(X)$. Is the game still worth playing?</div>
+<details><summary>Answer</summary><div class="sol">
+<p>The probabilities do not change; only one value does:</p>
+$$\mathbb{E}(X)=0.01\cdot1+0.18\cdot10+0.81\cdot(-3)=0.01+1.80-2.43=-0.62$$
+<p>No. On average you now lose $\$0.62$ per game. A $\$1$ change in the most likely outcome moves $\mathbb{E}(X)$ by $0.81\times\$1$.</p>
+</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Linearity in action</div>
+<div class="prob">Let $X$ be the number of heads in three fair flips. Find $\mathbb{E}(10-2X)$ in two ways.</div>
+<details><summary>Answer</summary><div class="sol">
+<p><b>With linearity:</b> $\mathbb{E}(10-2X)=10-2\,\mathbb{E}(X)=10-2\cdot1.5=7$.</p>
+<p><b>Directly:</b> $10-2X$ takes the values $10,8,6,4$ with probabilities $\frac18,\frac38,\frac38,\frac18$, so</p>
+$$\mathbb{E}(10-2X)=\frac{10\cdot1+8\cdot3+6\cdot3+4\cdot1}{8}=\frac{10+24+18+4}{8}=\frac{56}{8}=7\ \checkmark$$
+</div></details>
+</div>
+</div>
+<div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A second moment you will need in module 17</div>
+<div class="prob">Let $X$ be the number of heads in three fair flips. Compute $\mathbb{E}(X^2)$ and compare it with $[\mathbb{E}(X)]^2$.</div>
+<details><summary>Answer</summary><div class="sol">
+$$\mathbb{E}(X^2)=0^2\cdot\tfrac18+1^2\cdot\tfrac38+2^2\cdot\tfrac38+3^2\cdot\tfrac18=\frac{0+3+12+9}{8}=\frac{24}{8}=3$$
+<p>Meanwhile $[\mathbb{E}(X)]^2=1.5^2=2.25$. So $\mathbb{E}(X^2)&gt;[\mathbb{E}(X)]^2$ again, and the gap $0.75$ is the variance (module 17).</p>
+</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>The put option</div>
+<div class="prob">For heads in two fair flips, compute the expected payoff of a <b>put</b> with strike 1, $\mathbb{E}\big((1-X)^+\big)$. Then check that $\mathbb{E}\big((X-1)^+\big)-\mathbb{E}\big((1-X)^+\big)=\mathbb{E}(X)-1$.</div>
+<details><summary>Answer</summary><div class="sol">
+<p>$(1-x)^+$ equals $1,0,0$ at $x=0,1,2$, so $\mathbb{E}\big((1-X)^+\big)=\frac14\cdot1+\frac12\cdot0+\frac14\cdot0=\frac14$.</p>
+<p>For every number $x$, $(x-1)^+-(1-x)^+=x-1$: one of the two terms is zero and the other is $|x-1|$ with the right sign. Taking expectations and using linearity gives</p>
+$$\tfrac14-\tfrac14=0=\mathbb{E}(X)-1=1-1\ \checkmark$$
+<p>This is <b>put–call parity</b> in its simplest form: call minus put equals the asset minus the strike.</p>
+</div></details>
+</div>
+</div>
+</div>
+</section>

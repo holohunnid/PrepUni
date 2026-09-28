@@ -1,0 +1,182 @@
+<!-- ============ 09 INDEPENDENCE ============ -->
+<section id="s9">
+<div class="sec-head"><span class="num">09</span><h2>Independence</h2><span class="sub">lecture 1, notes p.13–14 · lecture 2, notes p.1–2 · slides: Conditional 12–17</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> When knowing one thing tells you nothing about the other<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 07 showed that information can change probabilities. <b>Independence</b> is the special case where it does not: learning that $A$ happened leaves the probability of $B$ exactly where it was. Two tosses of a coin, the returns of two unrelated firms (as a first approximation), the failures of two separately built components.</p>
+  <p>Independence is what lets you <b>multiply</b> probabilities: $P(\text{both})=P(\text{first})\,P(\text{second})$. Almost every model in this course — the binomial, the sample mean, the likelihood in estimation — is built on it. The lecture also shows its subtle side: three events can be independent in pairs and still <b>not</b> independent together.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Independent events<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Two events $A$ and $B$ are <b>independent</b>, written $A\perp\!\!\!\perp B$, if and only if</p>
+  $$\boxed{P(A\cap B)=P(A)\,P(B)}$$
+  <h3>Why this is the right definition</h3>
+  <p>By the law of multiplication (module 07), always $P(A\cap B)=P(A)\,P(B\mid A)$. Compare with the definition: the two agree exactly when</p>
+  $$P(B\mid A)=P(B)\qquad\text{"knowledge of }A\text{ does not affect the probability of }B\text{"}$$
+  <p>and, using the other form $P(A\cap B)=P(B)P(A\mid B)$, exactly when</p>
+  $$P(A\mid B)=P(A)\qquad\text{"knowledge of }B\text{ does not affect the probability of }A\text{"}$$
+  <p>The product form is preferred as the <i>definition</i> because it is symmetric and still makes sense when $P(A)=0$ or $P(B)=0$ (where the conditional forms would divide by zero).</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">SEE IT</span> Independence is a rectangle<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 340 200">
+    <rect x="30" y="20" width="160" height="160" fill="none" stroke="var(--border2)" stroke-width="1.5"/>
+    <rect x="30" y="20" width="64" height="160" fill="var(--blue)" opacity="0.3"/>
+    <rect x="30" y="84" width="160" height="96" fill="var(--green)" opacity="0.28"/>
+    <rect x="30" y="84" width="64" height="96" fill="var(--amber)" opacity="0.55" stroke="var(--amber)"/>
+    <text x="62" y="14" class="svgtxt b" text-anchor="middle">A: 0.4</text>
+    <text x="196" y="136" class="svgtxt g">B: 0.6</text>
+    <text x="62" y="136" class="svgtxt w" text-anchor="middle">A∩B</text>
+    <text x="62" y="150" class="svgtxt w" text-anchor="middle">0.24</text>
+    <text x="30" y="196" class="svgtxt">Ω = unit square, area 1</text>
+    <text x="206" y="40" class="svgtxt w">0.24 = 0.4 × 0.6</text>
+    <text x="206" y="64" class="svgtxt">A: vertical strip</text>
+    <text x="206" y="80" class="svgtxt">B: horizontal strip</text>
+    <text x="206" y="96" class="svgtxt">they cross at</text>
+    <text x="206" y="112" class="svgtxt">right angles</text>
+  </svg>
+  <figcaption>Inside $A$ (the blue strip), $B$ still takes up 60% of the height — exactly as in the whole square. That is $P(B\mid A)=P(B)$ drawn as a picture.</figcaption>
+  </figure>
+  <div class="note warn"><div class="t">Trap: independent ≠ disjoint</div>Disjoint events are as <i>dependent</i> as can be: if $A$ happens, $B$ certainly does not. Formally, $P(A\cap B)=0$ while $P(A)P(B)&gt;0$ whenever both have positive probability. Coin: "heads" and "tails" on the same toss are disjoint and not independent.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">RULE</span> Complements inherit independence<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>If $A\perp\!\!\!\perp B$, then also</p>
+  $$A^c\perp\!\!\!\perp B^c:\ P(A^c\cap B^c)=P(A^c)P(B^c),\quad A^c\perp\!\!\!\perp B,\quad A\perp\!\!\!\perp B^c.$$
+  <p>It would be strange otherwise: if knowing "A" tells you nothing about B, knowing "not A" shouldn't either. <b>Proof of one of them</b> (the others are the same idea):</p>
+  $$\begin{aligned}P(A\cap B^c)&=P(A)-P(A\cap B)&&\text{(module 05)}\\&=P(A)-P(A)P(B)&&\text{(independence)}\\&=P(A)\,[1-P(B)]=P(A)\,P(B^c).\ \square\end{aligned}$$
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Three or more events: joint independence<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Three events $A,B,C$ are <b>jointly</b> (mutually) independent if</p>
+  <ol class="steps">
+    <li>any two of them are independent, <b>and</b></li>
+    <li>$P(A\cap B\cap C)=P(A)P(B)P(C)$.</li>
+  </ol>
+  <p>$m$ events $A_1,\dots,A_m$ are jointly independent if <b>every</b> sub-collection $A_{i_1},\dots,A_{i_k}$ ($k\le m$) satisfies</p>
+  $$P(A_{i_1}\cap\dots\cap A_{i_k})=\prod_{j=1}^{k}P(A_{i_j}).$$
+  <p>Neither condition alone is enough. The coins below have (1) without (2). For (2) without (1): on $\Omega=\{1,\dots,8\}$ with equally likely outcomes, take $A=\{1,2,3,4\}$, $B=\{1,2,3,5\}$, $C=\{1,6,7,8\}$. Then $P(A\cap B\cap C)=P(\{1\})=\tfrac18=\big(\tfrac12\big)^3$, but $P(A\cap B)=\tfrac38\neq\tfrac14$.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 1 p.14 + LECTURE 2 p.1 · slides Conditional 14 — two fair coins<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Flip two fair coins: $\Omega=\{HH,HT,TH,TT\}$, each outcome $\tfrac14$.</p>
+  <ol class="steps">
+    <li>$A=\{\text{1st coin }H\}=\{HH,HT\}$, $P(A)=\tfrac24=\tfrac12$. $\ B=\{\text{both same face}\}=\{HH,TT\}$, $P(B)=\tfrac12$.</li>
+    <li>$P(A\cap B)=P(\{HH,HT\}\cap\{HH,TT\})=P(\{HH\})=\tfrac14$ and $P(A)P(B)=\tfrac12\cdot\tfrac12=\tfrac14$. The same ⇒ $A\perp\!\!\!\perp B$. Surprising at first — "same face" sounds linked to the first coin — but knowing the first coin is H leaves "same face" at exactly 50%.</li>
+    <li><b>Lecture 2 adds</b> $C=\{\text{2nd coin }H\}=\{HH,TH\}$, $P(C)=\tfrac12$. Are $A,B,C$ jointly independent?</li>
+    <li>Pairs: $B\cap C=\{HH\}$, $P=\tfrac14=\tfrac12\cdot\tfrac12$ ⇒ $B\perp\!\!\!\perp C$. Similarly $A\cap C=\{HH\}$ ⇒ $A\perp\!\!\!\perp C$.</li>
+    <li>Triple: $P(A\cap B\cap C)=P(\{HH\})=\tfrac14$, but $P(A)P(B)P(C)=\tfrac18$. <b>Different</b>.</li>
+    <li>So $A,B,C$ are <b>not jointly independent — only pairwise independent</b>.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Any two of the events tell you nothing about the third on their own — but <i>two together</i> tell you everything: if the first coin is H and the coins match, the second coin must be H. Joint independence forbids exactly this kind of teamwork.</div>
+  </div>
+  <div>
+  <div class="ctrl">
+    <label><input type="checkbox" id="co_A" checked> A</label><label><input type="checkbox" id="co_B" checked> B</label><label><input type="checkbox" id="co_C"> C</label>
+    <span class="btns"><button onclick="coSet(true,true,false)">A,B</button><button onclick="coSet(false,true,true)">B,C</button><button onclick="coSet(true,false,true)">A,C</button><button onclick="coSet(true,true,true)">A,B,C</button></span>
+  </div>
+  <figure style="margin:0"><svg id="cosvg" viewBox="0 0 360 206"></svg><figcaption>Rows = first coin, columns = second coin. Each ticked event is outlined in its colour; grey fill = outcomes in <i>all</i> ticked events. Every pair shares one cell ($\tfrac14$ = product ✓); all three still share that same cell, but the product has dropped to $\tfrac18$.</figcaption></figure>
+  <div class="readout" id="coread"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 2 · notes p.1–2 · slides Conditional 15–17 — a machine with three independent components<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>A machine has three independent components $K_1,K_2,K_3$ and <b>works as long as at least one of them works</b> (the slides: a rocket's redundant system — if $K_1$ fails it is bypassed and $K_2$ used, and so on). Failure probabilities: $P(K_1\text{ fails})=0.10$, $P(K_2)=0.20$, $P(K_3)=0.05$. Probability that the machine fails?</p>
+  <ol class="steps">
+    <li><b>Translate.</b> The machine fails only if <i>all three</i> fail: $\{\text{fail}\}=\{K_1\text{ F}\}\cap\{K_2\text{ F}\}\cap\{K_3\text{ F}\}$. ("At least one works" ⇒ use the complement.)</li>
+    <li><b>Independence</b> turns the intersection into a product:
+    $$P(\text{fail})=0.10\cdot0.20\cdot0.05=0.001=0.1\%.$$</li>
+    <li>$P(\text{machine works})=1-0.001=0.999=99.9\%$ — very high reliability from three mediocre parts.</li>
+    <li><b>Same answer from the tree</b> (notes): the machine works if $K_1$ works (0.90); or $K_1$ fails and $K_2$ works ($0.1\cdot0.8=0.08$); or both fail and $K_3$ works ($0.1\cdot0.2\cdot0.95=0.019$):
+    $$0.90+0.08+0.019=0.999\ \checkmark$$</li>
+  </ol>
+  <div class="ctrl">
+    <label>q₁ <input type="range" id="ma_1" min="0" max="0.6" step="any" value="0.1"><span class="val" id="ma_1_v">0.10</span></label>
+    <label>q₂ <input type="range" id="ma_2" min="0" max="0.6" step="any" value="0.2"><span class="val" id="ma_2_v">0.20</span></label>
+    <label>q₃ <input type="range" id="ma_3" min="0" max="0.6" step="any" value="0.05"><span class="val" id="ma_3_v">0.05</span></label>
+  </div>
+  <div class="ctrl"><span class="btns"><button data-ma="par" onclick="maSet('par',0.1,0.2,0.05)">lecture (parallel)</button><button data-ma="ser" onclick="maSet('ser',0.1,0.2,0.05)">same parts in series</button></span></div>
+  <figure style="margin:0"><svg id="masvg" viewBox="0 0 360 200"></svg><figcaption>Redder box = more likely to fail. Parallel needs one working path; series needs all of them.</figcaption></figure>
+  <div class="readout" id="maread"></div>
+  </div>
+  <div>
+  <h3>Slides extra: exactly two components fail</h3>
+  <p>Harder, because it can happen in three ways — $\{1,2\}$, $\{1,3\}$ or $\{2,3\}$ fail, the remaining one working. These are disjoint, so add them:</p>
+  $$\begin{aligned}P(\text{two fail})&=0.1\cdot0.2\cdot0.95+0.1\cdot0.8\cdot0.05+0.9\cdot0.2\cdot0.05\\&=0.019+0.004+0.009=0.032\end{aligned}$$
+  <figure>
+  <svg viewBox="0 0 340 262">
+    <circle cx="14" cy="130" r="4" fill="var(--text)"/>
+    <line x1="17" y1="127" x2="70" y2="68" stroke="var(--red)"/><line x1="17" y1="133" x2="70" y2="192" stroke="var(--green)"/>
+    <text x="30" y="92" class="svgtxt r">.1</text><text x="30" y="176" class="svgtxt g">.9</text>
+    <text x="74" y="72" class="svgtxt r">K₁F</text><text x="74" y="196" class="svgtxt g">K₁NF</text>
+    <line x1="104" y1="66" x2="150" y2="36" stroke="var(--red)"/><line x1="104" y1="70" x2="150" y2="100" stroke="var(--green)"/>
+    <line x1="112" y1="190" x2="150" y2="164" stroke="var(--red)"/><line x1="112" y1="194" x2="150" y2="224" stroke="var(--green)"/>
+    <text x="118" y="44" class="svgtxt r">.2</text><text x="118" y="96" class="svgtxt g">.8</text><text x="124" y="168" class="svgtxt r">.2</text><text x="124" y="222" class="svgtxt g">.8</text>
+    <text x="152" y="40" class="svgtxt r">K₂F</text><text x="152" y="104" class="svgtxt g">K₂NF</text><text x="152" y="168" class="svgtxt r">K₂F</text><text x="152" y="228" class="svgtxt g">K₂NF</text>
+    <g stroke-width="1">
+      <line x1="182" y1="36" x2="218" y2="22" stroke="var(--red)"/><line x1="182" y1="38" x2="218" y2="50" stroke="var(--green)"/>
+      <line x1="188" y1="100" x2="218" y2="86" stroke="var(--red)"/><line x1="188" y1="102" x2="218" y2="114" stroke="var(--green)"/>
+      <line x1="182" y1="164" x2="218" y2="150" stroke="var(--red)"/><line x1="182" y1="166" x2="218" y2="178" stroke="var(--green)"/>
+      <line x1="188" y1="224" x2="218" y2="210" stroke="var(--red)"/><line x1="188" y1="226" x2="218" y2="238" stroke="var(--green)"/>
+    </g>
+    <text x="222" y="26" class="svgtxt">FFF  .001</text>
+    <text x="222" y="54" class="svgtxt a">FF·N .019</text>
+    <text x="222" y="90" class="svgtxt a">F·N·F .004</text>
+    <text x="222" y="118" class="svgtxt">F·N·N .076</text>
+    <text x="222" y="154" class="svgtxt a">N·FF .009</text>
+    <text x="222" y="182" class="svgtxt">N·F·N .171</text>
+    <text x="222" y="214" class="svgtxt">N·N·F .036</text>
+    <text x="222" y="242" class="svgtxt">N·N·N .684</text>
+    <rect x="216" y="42" width="106" height="16" rx="3" fill="none" stroke="var(--amber)" stroke-dasharray="3 2"/>
+    <rect x="216" y="78" width="106" height="16" rx="3" fill="none" stroke="var(--amber)" stroke-dasharray="3 2"/>
+    <rect x="216" y="142" width="106" height="16" rx="3" fill="none" stroke="var(--amber)" stroke-dasharray="3 2"/>
+    <text x="14" y="258" class="svgtxt">F = fails, N = works; 8 leaves sum to 1</text>
+  </svg>
+  <figcaption>The full tree of the slides. The circled (amber) leaves are "exactly two fail": $0.019+0.004+0.009=0.032$. Only the top leaf (all fail) kills the machine.</figcaption>
+  </figure>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>At least one six</div>
+<div class="prob">A fair die is rolled 4 times (independent rolls). Probability of at least one six?</div>
+<details><summary>Answer</summary><div class="sol">Complement + independence: $P(\text{no six})=(5/6)^4\approx0.482$, so $P(\text{at least one})\approx0.518$ — the same "fails only if all fail" logic as the machine.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Independent or not?</div>
+<div class="prob">One die. $A=\{2,4,6\}$, $B=\{1,2,3,4\}$. Independent?</div>
+<details><summary>Answer</summary><div class="sol">$P(A)=\tfrac12$, $P(B)=\tfrac23$, $P(A\cap B)=P(\{2,4\})=\tfrac13=\tfrac12\cdot\tfrac23$ ✓ — independent. (Try $B=\{1,2,3\}$: $P(A\cap B)=\tfrac16\neq\tfrac14$, dependent.)</div></details>
+</div>
+</div>
+</section>

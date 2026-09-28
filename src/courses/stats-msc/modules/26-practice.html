@@ -1,0 +1,309 @@
+<!-- ============ 26 EXAM PRACTICE AND INDEX ============ -->
+<section id="s26">
+<div class="sec-head"><span class="num">26</span><h2>Exam practice & index</h2><span class="sub">multiple choice on theory and on R · open questions · every example with its answer</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">HOW TO USE</span> Practise in the exam's own format<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
+  <div class="body">
+  <p>The exam is 1.5 hours, closed book: <b>one open question</b> (5 points), <b>five multiple-choice questions on theory</b> (5 points) and <b>five multiple-choice questions on R</b> (5 points). This module mirrors that: click an option — the first click counts — and the explanation appears. The last panel indexes every example of modules 01–25 with its answer and where it is solved.</p>
+  <p class="muted">These questions are written for practice from the course material; they are not past exam questions. The R questions use standard R functions (the R corners in modules 15–25 introduce them).</p>
+  <div class="readout" id="mcqscore" style="margin-top:8px"></div>
+  <div class="ctrl" style="margin-top:8px"><span class="btns"><button id="mcqreset">reset all answers</button></span></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PART A</span> Multiple choice — theory<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A1</span>$A$ and $B$ are independent with $P(A)=0.5$ and $P(B)=0.4$. Then $P(A\cup B)$ equals</div>
+    <div class="opts"><button>0.9</button><button>0.7</button><button>0.2</button><button>cannot be determined</button></div>
+    <div class="why">Addition rule with the product for the overlap: $0.5+0.4-0.5\cdot0.4=0.7$. "0.9" forgets the overlap (modules 05, 09).</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">A2</span>$A$ and $B$ are mutually exclusive, $P(A)=0.3$, $P(B)=0.4$. Which statement is true?</div>
+    <div class="opts"><button>$A$ and $B$ are independent</button><button>$P(A\cap B)=0.12$</button><button>$P(A\mid B)=0$</button><button>$P(A\cup B)=0.58$</button></div>
+    <div class="why">Disjoint ⇒ $P(A\cap B)=0$ ⇒ $P(A\mid B)=0/0.4=0$. They are <i>not</i> independent ($0\neq0.12$), and $P(A\cup B)=0.7$ (module 09 trap).</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A3</span>An event $E$ has $P(E)=0$. Then</div>
+    <div class="opts"><button>$E$ must be the empty set</button><button>$E$ can be non-empty</button><button>$E^c$ must equal $\Omega$</button><button>$P(E^c)$ can be less than 1</button></div>
+    <div class="why">$P(E)=0\not\Rightarrow E=\emptyset$: a single point drawn from $(0,1)$ has probability 0 but is not empty (modules 04, 06). $P(E^c)=1$ always follows from the complement rule.</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A4</span>$P(D)=0.01$, $P(+\mid D)=0.9$, $P(+\mid D^c)=0.1$. Then $P(D\mid +)$ is closest to</div>
+    <div class="opts"><button>0.90</button><button>0.083</button><button>0.010</button><button>0.50</button></div>
+    <div class="why">Bayes: $\frac{0.9\cdot0.01}{0.9\cdot0.01+0.1\cdot0.99}=\frac{0.009}{0.108}\approx0.083$. The base rate drags it down (module 10).</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A5</span>A discrete $X$ with support $\{1,2,3\}$ has $F(1)=0.3$, $F(2)=0.7$, $F(3)=1$. $P(X=2)$ is</div>
+    <div class="opts"><button>0.7</button><button>0.4</button><button>0.3</button><button>0</button></div>
+    <div class="why">Point probability = jump of the CDF: $F(2)-F(2^-)=F(2)-F(1)=0.7-0.3=0.4$ (module 13).</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">A6</span>Which of these is <b>not</b> a property of every CDF?</div>
+    <div class="opts"><button>non-decreasing</button><button>right-continuous</button><button>continuous</button><button>$F(t)\to0$ as $t\to-\infty$</button></div>
+    <div class="why">Discrete CDFs jump, so they are not continuous — but they are always right-continuous (module 13).</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">A7</span>$X$ is continuous. Compare $P(X\le2)$ and $P(X&lt;2)$.</div>
+    <div class="opts"><button>always equal</button><button>$P(X\le2)$ is larger by $f(2)$</button><button>equal only if $X$ is symmetric</button><button>$P(X&lt;2)$ is always larger</button></div>
+    <div class="why">$P(X=2)=0$ for continuous $X$. (For discrete $X$ they differ by the jump $P(X=2)$; $f(2)$ is a density height, not a probability — modules 13, 21.)</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A8</span>$A,B,C$ are pairwise independent. Then</div>
+    <div class="opts"><button>they are jointly independent</button><button>they may fail $P(A\cap B\cap C)=P(A)P(B)P(C)$</button><button>they are mutually exclusive</button><button>$P(A\cap B\cap C)=0$</button></div>
+    <div class="why">The two-coin example: first coin H, same face, second coin H — pairwise independent, but $P(A\cap B\cap C)=\tfrac14\neq\tfrac18$ (module 09).</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">A9</span>$X$ takes $-1,0,1$ with probability $\tfrac13$ each, and $Y=X^2$. $P(Y=1)$ is</div>
+    <div class="opts"><button>1/3</button><button>1/9</button><button>1</button><button>2/3</button></div>
+    <div class="why">Both $-1$ and $1$ map to 1: $\tfrac13+\tfrac13=\tfrac23$ (module 14 — merge the preimage).</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A10</span>$\mathbb V(X)=2$. Then $\mathbb V(3-2X)$ equals</div>
+    <div class="opts"><button>−1</button><button>8</button><button>4</button><button>11</button></div>
+    <div class="why">Shifts don't matter, scales enter squared: $(-2)^2\cdot2=8$ (module 17).</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">A11</span>$X\sim$ Binomial$(10,\,0.3)$. Its mean and variance are</div>
+    <div class="opts"><button>3 and 2.1</button><button>3 and 0.21</button><button>0.3 and 2.1</button><button>3 and 3</button></div>
+    <div class="why">$np=3$, $npq=10\cdot0.3\cdot0.7=2.1$ (module 18). "3 and 3" is the Poisson answer.</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">A12</span>$X\sim$ Poisson$(2)$. $P(X=0)$ is</div>
+    <div class="opts"><button>0</button><button>0.5</button><button>$e^{-2}\approx0.135$</button><button>$2e^{-2}\approx0.271$</button></div>
+    <div class="why">$e^{-\lambda}\lambda^0/0!=e^{-2}$ (module 19). $2e^{-2}$ is $P(X=1)$ (and also $P(X=2)$).</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">A13</span>$f(x)=cx$ on $(0,2)$ and 0 elsewhere is a density when $c$ equals</div>
+    <div class="opts"><button>1/2</button><button>2</button><button>1</button><button>1/4</button></div>
+    <div class="why">Normalisation: $\int_0^2cx\,dx=c\cdot\tfrac{2^2}{2}=2c=1$ (module 21).</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">A14</span>$X\sim$ Exponential with rate $\lambda=4$. Then $\mathbb E(X)$ and $P(X&gt;1)$ are</div>
+    <div class="opts"><button>4 and $e^{-4}$</button><button>1/4 and $1-e^{-4}$</button><button>4 and $1-e^{-4}$</button><button>1/4 and $e^{-4}$</button></div>
+    <div class="why">$\mathbb E(X)=1/\lambda$; $P(X&gt;x)=e^{-\lambda x}$ (module 23).</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A15</span>$X\sim N(10,25)$. $P(X&lt;15)$ equals</div>
+    <div class="opts"><button>$\Phi(0.2)$</button><button>$\Phi(1)\approx0.841$</button><button>$\Phi(5)$</button><button>$1-\Phi(1)$</button></div>
+    <div class="why">The second parameter is the variance: $\sigma=5$, $z=(15-10)/5=1$ (module 24).</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">A16</span>As the degrees of freedom $\nu$ grow, the Student-t distribution</div>
+    <div class="opts"><button>becomes a χ² distribution</button><button>gets heavier tails</button><button>approaches the standard normal</button><button>loses its symmetry</button></div>
+    <div class="why">$t_\nu\to N(0,1)$ as $\nu\to\infty$; small $\nu$ means heavier tails (module 25).</div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">PART B</span> Multiple choice — R<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">R1</span><code>dbinom(2, 5, 0.5)</code> returns</div>
+    <div class="opts"><button>$P(X\le2)=0.5$ for $X\sim$ Bin(5, 0.5)</button><button>$P(X=2)=0.3125$ for $X\sim$ Bin(5, 0.5)</button><button>$P(X=5)$ for $X\sim$ Bin(2, 0.5)</button><button>the 2nd quantile</button></div>
+    <div class="why"><code>d…</code> = pmf/density at a point: $\binom52/2^5=10/32=0.3125$. <code>p…</code> would give $P(X\le2)=16/32=0.5$.</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">R2</span>For $X\sim$ Poisson(2), which command gives $P(X&gt;3)$?</div>
+    <div class="opts"><button><code>1 - ppois(3, 2)</code></button><button><code>ppois(3, 2)</code></button><button><code>1 - ppois(4, 2)</code></button><button><code>dpois(3, 2)</code></button></div>
+    <div class="why">$P(X&gt;3)=1-P(X\le3)$ and <code>ppois(3, 2)</code> is $P(X\le3)$. For discrete $X$, "&gt; 3" and "≥ 4" are the same, "&gt; 4" is not.</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">R3</span>$X\sim N(5,4)$ (variance 4). $P(X&lt;7)$ in R is</div>
+    <div class="opts"><button><code>pnorm(7, 5, 4)</code></button><button><code>dnorm(7, 5, 2)</code></button><button><code>pnorm(7, 5, 2)</code></button><button><code>qnorm(7, 5, 2)</code></button></div>
+    <div class="why">R's normal functions take the <b>standard deviation</b>: $\sqrt4=2$. <code>pnorm(7, 5, 2)</code> $=\Phi(1)=0.8413$ (module 24 trap).</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">R4</span><code>qnorm(0.975)</code> returns approximately</div>
+    <div class="opts"><button>0.8340</button><button>0.975</button><button>2.576</button><button>1.960</button></div>
+    <div class="why"><code>q…</code> = quantile (inverse CDF): the point with 97.5% of $N(0,1)$ below it, $z_{0.975}\approx1.96$ (module 25).</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">R5</span><code>x &lt;- c(2, 4, 6); var(x)</code> returns</div>
+    <div class="opts"><button>8/3</button><button>4</button><button>2</button><button>8</button></div>
+    <div class="why">Mean 4, squared deviations 4, 0, 4, sum 8 — and <code>var</code> divides by $n-1=2$: 4. Dividing by $n$ would give 8/3.</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">R6</span>Cards are drawn with replacement until the first ace ($p=1/13$). <code>dgeom(2, 1/13)</code> is</div>
+    <div class="opts"><button>P(the first ace is the 2nd card)</button><button>P(at most 2 draws are needed)</button><button>P(exactly 2 failures before the first ace) ≈ 0.0655</button><button>the mean number of draws</button></div>
+    <div class="why">R's geometric counts <b>failures before the first success</b> — the slides' Geometric II: $p q^2=\tfrac1{13}(\tfrac{12}{13})^2\approx0.0655$ (module 20).</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">R7</span><code>pexp(1, rate = 2)</code> returns</div>
+    <div class="opts"><button>$1-e^{-2}\approx0.865$</button><button>$e^{-2}\approx0.135$</button><button>$1-e^{-1/2}\approx0.393$</button><button>$2e^{-2}\approx0.271$</button></div>
+    <div class="why">CDF of the exponential with rate $\lambda=2$ at 1: $1-e^{-2\cdot1}$. The third option is what you get by confusing rate with mean.</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">R8</span><code>sum(dbinom(0:10, 10, 1/6))</code> returns</div>
+    <div class="opts"><button>10/6</button><button>0.4845</button><button>0</button><button>1</button></div>
+    <div class="why">Summing the pmf over the whole support: the normalisation rule (module 15). <code>pbinom(10, 10, 1/6)</code> gives the same.</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">R9</span><code>x &lt;- c(0, 1, 2); f &lt;- c(0.25, 0.5, 0.25); sum(x * f)</code> computes</div>
+    <div class="opts"><button>the variance, 0.5</button><button>the expected value, 1</button><button>the median, 1</button><button>the CDF at 2</button></div>
+    <div class="why">$\sum x\,f(x)$ is $\mathbb E(X)$ for heads in two flips (module 16). The variance would be <code>sum((x - 1)^2 * f)</code> = 0.5.</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">R10</span>Which command gives $P(0.2&lt;U&lt;0.7)$ for $U$ uniform on $(0,1)$?</div>
+    <div class="opts"><button><code>dunif(0.7) - dunif(0.2)</code></button><button><code>punif(0.7, 0.2)</code></button><button><code>punif(0.7) - punif(0.2)</code></button><button><code>dunif(0.5)</code></button></div>
+    <div class="why">$F(0.7)-F(0.2)=0.7-0.2=0.5$. <code>dunif</code> gives density heights (both 1, difference 0; and <code>dunif(0.5)</code> is 1, not a probability). <code>punif(0.7, 0.2)</code> is the CDF at 0.7 of a uniform on $(0.2,1)$ — the second argument is the lower end, not a second point.</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">R11</span><code>set.seed(1); mean(runif(100000))</code> prints a number close to</div>
+    <div class="opts"><button>0.5</button><button>1/12</button><button>1</button><button>0</button></div>
+    <div class="why">The average of many uniform draws approaches $\mathbb E(U)=\tfrac12$ (modules 16, 22). $\tfrac1{12}$ is the variance. <code>set.seed</code> just makes the random draws reproducible.</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">R12</span><code>integrate(function(x) 3*x^3, 0, 1)</code> returns 0.75. What was computed?</div>
+    <div class="opts"><button>$P(X\le1)$ for $f(x)=3x^2$</button><button>$\mathbb V(X)$ for $f(x)=3x^2$</button><button>the median of $f(x)=3x^2$</button><button>$\mathbb E(X)$ for $f(x)=3x^2$</button></div>
+    <div class="why">$\int_0^1x\cdot3x^2\,dx=\tfrac34$ — the slides' example (module 22).</div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">PART C</span> Open questions — write the full solution before opening it<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+
+  <div class="wx">
+  <div class="bar"><span class="n">O1</span><span class="pill a">●●</span><span class="tag">modules 08–10</span>Two suppliers</div>
+  <div class="prob">A firm buys components from supplier A (70%) and supplier B (30%). Defect rates: 2% for A, 5% for B.<br>(a) What is the probability that a random component is defective?<br>(b) A component is defective. What is the probability it came from B?<br>(c) A machine uses 3 components from A, independently. What is the probability that at least one is defective?</div>
+  <details><summary>Solution</summary><div class="sol">
+  <ol class="steps">
+    <li><b>(a) Total probability</b> over the partition $\{A,B\}$:
+    $$P(D)=P(D\mid A)P(A)+P(D\mid B)P(B)=0.02\cdot0.7+0.05\cdot0.3=0.014+0.015=0.029.$$</li>
+    <li><b>(b) Bayes:</b> $P(B\mid D)=\dfrac{0.05\cdot0.3}{0.029}=\dfrac{0.015}{0.029}\approx0.517$. B supplies only 30% but causes over half the defects.</li>
+    <li><b>(c) Complement + independence:</b> $P(\text{none defective})=0.98^3=0.941192$, so $P(\text{at least one})=1-0.941192\approx0.0588$.</li>
+  </ol>
+  </div></details>
+  </div>
+
+  <div class="wx">
+  <div class="bar"><span class="n">O2</span><span class="pill a">●●</span><span class="tag">modules 13, 14, 21, 22</span>From a CDF to everything else</div>
+  <div class="prob">$F(t)=0$ for $t&lt;0$, $F(t)=t^2/4$ for $0\le t\le2$, $F(t)=1$ for $t&gt;2$.<br>(a) Check that $F$ is a CDF. (b) Find $P(X\le1)$, $P(0.5&lt;X\le1.5)$ and $P(X=1)$. (c) Find the density $f$ and $\mathbb E(X)$. (d) Find the distribution of $Y=X^2$.</div>
+  <details><summary>Solution</summary><div class="sol">
+  <ol class="steps">
+    <li><b>(a)</b> Values in $[0,1]$; non-decreasing ($t^2/4$ increases on $[0,2]$); $F\to0$ and $F\to1$ at the ends; continuous (at 0: $0$; at 2: $4/4=1$), hence right-continuous ✓.</li>
+    <li><b>(b)</b> $P(X\le1)=F(1)=\tfrac14$. $P(0.5&lt;X\le1.5)=F(1.5)-F(0.5)=\tfrac{2.25-0.25}{4}=0.5$. $P(X=1)=0$ — no jump.</li>
+    <li><b>(c)</b> $f(t)=F'(t)=t/2$ on $(0,2)$, 0 elsewhere. $\mathbb E(X)=\int_0^2t\cdot\tfrac t2\,dt=\big[\tfrac{t^3}{6}\big]_0^2=\tfrac86=\tfrac43$.</li>
+    <li><b>(d)</b> CDF method: for $0\le y\le4$, $F_Y(y)=P(X^2\le y)=P(X\le\sqrt y)=\tfrac{(\sqrt y)^2}{4}=\tfrac y4$. So $Y$ is uniform on $(0,4)$ — a random point in $(0,4)$.</li>
+  </ol>
+  </div></details>
+  </div>
+
+  <div class="wx">
+  <div class="bar"><span class="n">O3</span><span class="pill g">●</span><span class="tag">modules 15–17</span>A pmf with a constant</div>
+  <div class="prob">$X$ takes the values $0,1,2,3$ with $f(k)=c(k+1)$.<br>(a) Find $c$. (b) Find $P(X\ge2)$. (c) Find $\mathbb E(X)$ and $\mathbb V(X)$. (d) Find $\mathbb E(2X-1)$ and $\mathbb V(2X-1)$.</div>
+  <details><summary>Solution</summary><div class="sol">
+  <ol class="steps">
+    <li><b>(a)</b> $c(1+2+3+4)=10c=1\Rightarrow c=\tfrac1{10}$: probabilities $0.1,0.2,0.3,0.4$.</li>
+    <li><b>(b)</b> $P(X\ge2)=0.3+0.4=0.7$.</li>
+    <li><b>(c)</b> $\mathbb E(X)=0(0.1)+1(0.2)+2(0.3)+3(0.4)=2$. $\mathbb E(X^2)=0+0.2+1.2+3.6=5$, so $\mathbb V(X)=5-2^2=1$.</li>
+    <li><b>(d)</b> $\mathbb E(2X-1)=2\cdot2-1=3$; $\mathbb V(2X-1)=2^2\cdot1=4$.</li>
+  </ol>
+  </div></details>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">INDEX</span> Every example, with its answer and where it is solved<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td><b>Source</b></td><td><b>Example</b></td><td><b>Answer</b></td><td><b>Module</b></td></tr>
+    <tr><td>L1 p.2 · Axioms 3</td><td>Die events: even, &lt; 3, negative, &lt; 10</td><td>$\{2,4,6\}$, $\{1,2\}$, $\emptyset$ (impossible), $\Omega$ (sure)</td><td>01</td></tr>
+    <tr><td>L1 p.5 · Axioms 10</td><td>Stubborn coin flipper; two dice</td><td>$\Omega=\{H,TH,TTH,\dots\}$ countably infinite; 36 pairs</td><td>01</td></tr>
+    <tr><td>L1 p.3–4 · Axioms 7–8</td><td>Coin and die events</td><td>$E_1^c=E_2$; $E_1\cap E_2=\{2\}$; $E_2\cap E_3=\emptyset$</td><td>02</td></tr>
+    <tr><td>L1 p.5 · Axioms 9</td><td>Light-bulb intervals</td><td>$E_1\cap E_3=\emptyset$; $E_2\cap E_3=(2000,3000)$; $E_2\cup E_3=\Omega$</td><td>02</td></tr>
+    <tr><td>L1 p.3 · Axioms 4–6</td><td>Inclusion–exclusion, 2 and 3 sets</td><td>die: $|A\cup B|=4$; $|E_1\cup E_2\cup E_3|=5$</td><td>03</td></tr>
+    <tr><td>L1 p.3–4 · Axioms 7–8</td><td>Power sets</td><td>coin $2^2=4$ events; die $2^6=64$</td><td>03</td></tr>
+    <tr><td>L1 p.6–7 · Axioms 12–14</td><td>$P(\emptyset)=0$; finite additivity</td><td>proved from the axioms</td><td>04</td></tr>
+    <tr><td>L1 p.8 · Axioms 15–19</td><td>Complement, bounds, monotonicity, addition rule, split along $B$</td><td>proved; e.g. $P(A\cup B)=0.8$ for $0.6/0.5/0.3$</td><td>05</td></tr>
+    <tr><td>L1 p.9 · Axioms 19–20</td><td>Random point in $(0,1)$</td><td>$P(\{0.5\})=0$; halves $\tfrac12$; $P((u,v))=v-u$; on $(a,b)$: $\frac{v-u}{b-a}$</td><td>06</td></tr>
+    <tr><td>L1 p.9–10 · Cond. 2</td><td>Book in the classroom</td><td>$\tfrac8{20}$; given not Italian $\tfrac8{13}$</td><td>07</td></tr>
+    <tr><td>L1 p.10–11 · Cond. 3–5</td><td>Two-step stock price</td><td>$P(P_2=P_0u^2)=\tfrac49$; given first move up $\tfrac23$</td><td>07</td></tr>
+    <tr><td>Cond. 8–9</td><td>Party robbers</td><td>everyone $\tfrac1{200}$</td><td>07</td></tr>
+    <tr><td>L1 p.12 · Cond. 10–11</td><td>Law of total probability</td><td>proved; factories $P(D)=0.016$</td><td>08</td></tr>
+    <tr><td>L1 p.14, L2 p.1 · Cond. 14</td><td>Two coins: $A,B$; add $C$</td><td>$A\perp\!\!\!\perp B$; pairwise but not jointly independent ($\tfrac14\neq\tfrac18$)</td><td>09</td></tr>
+    <tr><td>L2 p.1–2 · Cond. 15–17</td><td>Machine / rocket, 3 components</td><td>fails 0.001, works 0.999; exactly two fail 0.032</td><td>09</td></tr>
+    <tr><td>L2 p.3 · Cond. 18</td><td>Rare disease</td><td>$P(D\mid+)\approx0.0194\approx0.02$</td><td>10</td></tr>
+    <tr><td>L2 p.4 · Cond. 19</td><td>Three chip factories</td><td>$\tfrac5{16}$, $\tfrac8{16}$ (most likely), $\tfrac3{16}$</td><td>10</td></tr>
+    <tr><td>Cond. 20–21</td><td>Smoker; Bobby no brothers; no sisters</td><td>$\tfrac23$; $\tfrac4{11}$; $\tfrac47$</td><td>10</td></tr>
+    <tr><td>L2 p.5–6 · Cond. 22–24</td><td>Monty Hall</td><td>stay $\tfrac13$, switch $\tfrac23$</td><td>11</td></tr>
+    <tr><td>L2 p.6 · Distr. 2</td><td>Girls in a two-child family</td><td>$\tfrac14,\tfrac12,\tfrac14$</td><td>12</td></tr>
+    <tr><td>L2 p.6–7 · Distr. 3</td><td>Tails in three flips</td><td>$\tfrac18,\tfrac38,\tfrac38,\tfrac18$</td><td>12</td></tr>
+    <tr><td>Distr. 4–5</td><td>Three-flip gain game</td><td>$P(-2)=\tfrac14$, $P(0)=\tfrac12$, $P(2)=\tfrac14$</td><td>12</td></tr>
+    <tr><td>Distr. 6</td><td>Game on $(0,1)$</td><td>$P(X=1)=0.1$, $P(X=2)=0.6$, $P(X=5)=0.3$, $P(X=10)=0$</td><td>12</td></tr>
+    <tr><td>L2 p.8–9 · Distr. 11</td><td>CDF $0.5+0.5t$</td><td>$0.75$; $0.5$; $1$; $0$; $0$; $0.15$</td><td>13</td></tr>
+    <tr><td>L2 p.9 · Distr. 12</td><td>$Z=3X+1$, $Y=X^2$</td><td>$Z\in\{-5,1,7\}$ w.p. $\tfrac14,\tfrac12,\tfrac14$; $Y\in\{0,4\}$ w.p. $\tfrac12,\tfrac12$</td><td>14</td></tr>
+    <tr><td>L2 p.9–10 · Distr. 13</td><td>$X=-\ln U$</td><td>$F_X(t)=1-e^{-t}$, $t\ge0$ (exponential)</td><td>14</td></tr>
+    <tr><td>L2 p.11 · Distr. 16</td><td>Find $c$</td><td>$c=\tfrac14$; $6c=1\Rightarrow c=\tfrac16$</td><td>15</td></tr>
+    <tr><td>L2 p.12 · Distr. 17–21</td><td>Constant RV; heads in 2 and 3 flips</td><td>$F=0,\tfrac14,\tfrac34,1$; $n=3$: $0,0.125,0.5,0.875,1$</td><td>15</td></tr>
+    <tr><td>L2 p.13 · Distr. 22</td><td>$f(k)=\tfrac15(\tfrac45)^{k-1}$ is a pmf</td><td>geometric series $\frac{1/5}{1-4/5}=1$</td><td>15</td></tr>
+    <tr><td>Distr. 23</td><td>Biased-coin game, $P(H)=0.1$</td><td>0.01 / 0.18 / 0.81; $\mathbb E(X)=0.19$ per game</td><td>16</td></tr>
+    <tr><td>Distr. 25, 28</td><td>Heads in 2 flips: $\mathbb E(X)$, $\mathbb E((X-1)^+)$</td><td>$1$; $\tfrac14$</td><td>16</td></tr>
+    <tr><td>Distr. 32</td><td>$\mathbb V(X)$, heads in 2 flips</td><td>$\tfrac12$ both ways</td><td>17</td></tr>
+    <tr><td>Distr. 34</td><td>$U=2X+3$, $V=2X+Y$, $W=X-Y$</td><td>$\mathbb E$: 3, 1, −1; $\mathbb V$: 12, 16, 7</td><td>17</td></tr>
+    <tr><td>Distr. 36</td><td>First central moment</td><td>$\mu_1=0$</td><td>17</td></tr>
+    <tr><td>Disc. 8</td><td>Bernoulli mean and variance</td><td>$\mathbb E=p$, $\mathbb V=pq$</td><td>18</td></tr>
+    <tr><td>Disc. 10–11</td><td>Tails in 3 flips: fair; biased $P(T)=\tfrac13$</td><td>$\tfrac18,\tfrac38,\tfrac38,\tfrac18$; $\tfrac8{27},\tfrac{12}{27},\tfrac6{27},\tfrac1{27}$</td><td>18</td></tr>
+    <tr><td>Disc. 18</td><td>Binomial mean and variance</td><td>$np$, $npq$ (sum of Bernoullis)</td><td>18</td></tr>
+    <tr><td>Disc. 19–21</td><td>Sixes in 10 rolls</td><td>$P(X=5)=0.0130$; $P(X\le1)=0.4845$; $P(X&lt;3)=0.7752$; $P(X&gt;8)=8.43\cdot10^{-7}$</td><td>18</td></tr>
+    <tr><td>Disc. 27</td><td>Poisson tail (blank slide)</td><td>$P(X&gt;x)=1-\sum_{k\le x}e^{-\lambda}\lambda^k/k!$; Poisson(2): $P(X&gt;3)=0.1429$</td><td>19</td></tr>
+    <tr><td>Disc. 28</td><td>Defective items, $n=500$, $p=0.004$</td><td>$\lambda=2$: exact 0.1348 / 0.2707 / 0.2712 / 0.1808 vs Poisson 0.1353 / 0.2707 / 0.2707 / 0.1804</td><td>19</td></tr>
+    <tr><td>Disc. 29</td><td>Call during a 10-minute break</td><td>$1-e^{-5/6}=0.5654$</td><td>19</td></tr>
+    <tr><td>Disc. 32</td><td>Fair die as DUniform(1,6)</td><td>$\mathbb E=\tfrac72$, $\mathbb V=\tfrac{35}{12}$</td><td>20</td></tr>
+    <tr><td>Disc. 36–37</td><td>Draws before the first ace</td><td>$P(X=2)=0.0655$; $P(X\ge10)=(\tfrac{12}{13})^{10}=0.4491$</td><td>20</td></tr>
+    <tr><td>Cont. 3</td><td>Bernoulli(0.6) cdf vs random point cdf</td><td>jump from 0.4 to 1 at $t=1$; ramp $F(t)=t$</td><td>21</td></tr>
+    <tr><td>Cont. 8–9</td><td>$f=c$ on $(1,5)$</td><td>$c=0.25$; $F(t)=\frac{t-1}{4}$ on $(1,5)$</td><td>21</td></tr>
+    <tr><td>Cont. 10–11</td><td>$f(x)=5e^{-5x}$</td><td>integrates to 1; $F(t)=1-e^{-5t}$</td><td>21</td></tr>
+    <tr><td>Cont. 12–13</td><td>$\mathbb E(X)$: uniform(0,1); $3x^2$</td><td>$\tfrac12$; $\tfrac34$</td><td>22</td></tr>
+    <tr><td>Cont. 15</td><td>Moments; $Y=2+5X$</td><td>$\tfrac13,\tfrac14$; $g=0.2$ on $(2,7)$; $\mathbb E(Y)=4.5$, $\mathbb E(Y^2)\approx22.333$, $\mathbb E(Y^3)=119.25$</td><td>22</td></tr>
+    <tr><td>Cont. 17, 19</td><td>Variances</td><td>$\mathbb V(X)=\tfrac1{12}$; $\mathbb V(Y)=\tfrac{25}{12}$</td><td>22</td></tr>
+    <tr><td>Cont.2 3, 6</td><td>Uniform$(a,b)$: constant, CDF, mean, variance</td><td>$c=\frac1{b-a}$; $F=\frac{x-a}{b-a}$; $\frac{a+b}2$; $\frac{(b-a)^2}{12}$</td><td>23</td></tr>
+    <tr><td>Cont.2 5</td><td>Buses every 15 minutes</td><td>wait &lt; 5 min: $\tfrac13$; wait &gt; 10 min: $\tfrac13$</td><td>23</td></tr>
+    <tr><td>Cont.2 7–10</td><td>Exponential$(\lambda)$</td><td>$f=\lambda e^{-\lambda x}$; $\mathbb E=\tfrac1\lambda$; $\mathbb V=\tfrac1{\lambda^2}$</td><td>23</td></tr>
+    <tr><td>Cont.2 11–12</td><td>Memoryless property</td><td>$P(X&gt;a+x\mid X&gt;a)=e^{-\lambda x}=P(X&gt;x)$</td><td>23</td></tr>
+    <tr><td>Cont.2 16</td><td>Earnings $N(5,4)$</td><td>$P(Y&lt;7)=0.8413$; $P(3&lt;Y&lt;6)=0.5328$</td><td>24</td></tr>
+    <tr><td>Cont.2 17</td><td>Paternity $N(270,100)$</td><td>$0.0241$</td><td>24</td></tr>
+    <tr><td>Cont.2 18</td><td>Noisy channel</td><td>error given 1: $0.0668$; given 0: $0.0062$</td><td>24</td></tr>
+    <tr><td>Cont.2 19, 29–30</td><td>Normal moments; standardisation</td><td>$\mathbb E=\mu$, $\mathbb V=\sigma^2$; $\frac{X-\mu}\sigma\sim N(0,1)$</td><td>24</td></tr>
+    <tr><td>Cont.2 20</td><td>$W=Z^2$</td><td>$f_W(x)=\frac{1}{\sqrt{2\pi x}}e^{-x/2}$: $\chi^2(1)$</td><td>25</td></tr>
+    <tr><td>Cont.2 21–24</td><td>$\chi^2(k)$</td><td>$\mathbb E=k$, $\mathbb V=2k$</td><td>25</td></tr>
+    <tr><td>Cont.2 25–28</td><td>Student-t$(\nu)$</td><td>$\mathbb E=0$ ($\nu&gt;1$); $\mathbb V=\frac\nu{\nu-2}$ ($\nu&gt;2$); $\to N(0,1)$</td><td>25</td></tr>
+    <tr><td>Cont.2 31</td><td>Percentiles</td><td>$z_{0.975}=1.960$; $t_{5;0.975}=2.571$; $\chi^2_{1;0.95}=3.841$; Exp median $\frac{\ln2}\lambda$</td><td>25</td></tr>
+  </table>
+  </div>
+</div>
+</section>

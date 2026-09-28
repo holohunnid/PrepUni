@@ -1,0 +1,485 @@
+<!-- ============ 25 CHI-SQUARED, STUDENT-T & PERCENTILES ============ -->
+<section id="s25">
+<div class="sec-head"><span class="num">25</span><h2>χ², Student-t &amp; percentiles</h2><span class="sub">slides: Special Continuous RVs 20–28, 31 · ahead of the lecture notes</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Distributions built out of normals, and how to read them backwards<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 24 gave you the normal. This module builds two new distributions <b>from</b> normals, because they are exactly what you get when you compute statistics from normal data:</p>
+  <table class="formula-table">
+    <tr><td>$\chi^2(k)$</td><td>a sum of $k$ squared independent standard normals</td><td>describes sample <b>variances</b></td></tr>
+    <tr><td>Student-t$(\nu)$</td><td>a standard normal divided by $\sqrt{\chi^2(\nu)/\nu}$</td><td>describes the standardised <b>mean when $\sigma$ is unknown</b></td></tr>
+  </table>
+  <p>Then the deck turns the question around: instead of "what is the probability below $x$?" it asks "<b>which $x$ has probability $p$ below it?</b>" That value is a <b>percentile</b>, and percentiles of $N(0,1)$, $t$ and $\chi^2$ are the "critical values" of every confidence interval and test in the inference part of the course.</p>
+  <p>Tools reused: the cdf method (module 14) for $W=Z^2$; $\Phi$ and its symmetry (module 24); $\mathbb{E}$, $\mathbb{V}$ and their rules (module 22); the exponential of module 23 reappears twice.</p>
+  <div class="note tip"><div class="t">What you really need for the exam</div>Recognise the definitions ($\chi^2$ = sum of squared normals; $t=Z/\sqrt{V/\nu}$), know the moments ($k$ and $2k$; $0$ and $\nu/(\nu-2)$), know the shapes (χ² skewed right; t symmetric with heavier tails than the normal, tending to it as $\nu\to\infty$), and compute percentiles — with $\Phi$ by hand, or with <code>qnorm</code>, <code>qt</code>, <code>qchisq</code>, <code>qexp</code> in R. Nobody computes the $\chi^2$ or $t$ cdf by hand.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 20) · the distribution of $W=Z^2$</div>
+  <div class="body">
+  <p>Let $Z\sim N(0,1)$. Find the distribution function and the density of $W=Z^2$.</p>
+  <div class="grid2">
+  <ol class="steps">
+    <li><b>Support.</b> Obviously $W&gt;0$ (a square is never negative, and $P(Z=0)=0$). So $F_W(x)=0$ for $x\le0$, and we work with $x&gt;0$.</li>
+    <li><b>The cdf trick</b> (module 14): write the event about $W$ as an event about $Z$. For $x&gt;0$, $z^2\le x$ exactly when $-\sqrt x\le z\le\sqrt x$:
+    $$F_W(x)=P(W\le x)=P(Z^2\le x)=P(-\sqrt x&lt;Z&lt;\sqrt x)=\Phi(\sqrt x)-\Phi(-\sqrt x).$$
+    (By symmetry this is also $2\Phi(\sqrt x)-1$.)</li>
+    <li><b>Differentiate, using the chain rule.</b> $\Phi'=f_Z$, and the inner derivatives are $\frac{d}{dx}\sqrt x=\frac{1}{2\sqrt x}$ and $\frac{d}{dx}(-\sqrt x)=-\frac{1}{2\sqrt x}$:
+    $$f_W(x)=f_Z(\sqrt x)\cdot\frac{1}{2\sqrt x}-f_Z(-\sqrt x)\cdot\left(-\frac{1}{2\sqrt x}\right)=\frac{1}{2\sqrt x}f_Z(\sqrt x)+\frac{1}{2\sqrt x}f_Z(-\sqrt x).$$</li>
+    <li><b>Use evenness,</b> $f_Z(-\sqrt x)=f_Z(\sqrt x)$, so the two halves are equal:
+    $$f_W(x)=\frac{1}{\sqrt x}f_Z(\sqrt x)=\frac{1}{\sqrt x}\cdot\frac{1}{\sqrt{2\pi}}e^{-\frac{(\sqrt x)^2}{2}}=\boxed{\,\frac{1}{\sqrt{2\pi x}}\,e^{-\frac x2}\qquad x&gt;0\,}$$</li>
+    <li><b>Name it (slide 20).</b> The random variable $W=Z^2$ is called a <b>$\chi^2$ variable with one degree of freedom</b>.</li>
+  </ol>
+  <figure><svg viewBox="0 0 400 176">
+  <path d="M 14 30 V 150 H 186 M 19.4 150 v 3 M 46.3 150 v 3 M 73.1 150 v 3 M 100 150 v 3 M 126.9 150 v 3 M 153.8 150 v 3 M 180.6 150 v 3" fill="none" stroke="var(--border2)"/>
+  <text x="19.4" y="164" class="svgtxt" text-anchor="middle">−3</text>
+  <text x="46.3" y="164" class="svgtxt" text-anchor="middle">−2</text>
+  <text x="73.1" y="164" class="svgtxt" text-anchor="middle">−1</text>
+  <text x="100" y="164" class="svgtxt" text-anchor="middle">0</text>
+  <text x="126.9" y="164" class="svgtxt" text-anchor="middle">1</text>
+  <text x="153.8" y="164" class="svgtxt" text-anchor="middle">2</text>
+  <text x="180.6" y="164" class="svgtxt" text-anchor="middle">3</text>
+  <path d="M 73.1 150 L 73.1 82.5 L 82.1 60.9 L 88.4 48.6 L 91.9 43.6 L 94.6 40.9 L 97.3 39.2 L 100 38.7 L 102.7 39.2 L 105.4 40.9 L 108.1 43.6 L 111.6 48.6 L 117.9 60.9 L 126.9 82.5 L 126.9 150 Z" fill="var(--greenbg)" stroke="none"/>
+  <path d="M 14 149.3 L 24.8 147.8 L 33.3 144.9 L 40.9 140.1 L 48.4 132.4 L 54.9 122.9 L 61.3 110.5 L 80.6 64.1 L 87.1 50.8 L 90.3 45.7 L 93.5 41.8 L 96.8 39.5 L 100 38.7 L 103.2 39.5 L 106.5 41.8 L 109.7 45.7 L 112.9 50.8 L 119.3 64.1 L 138.7 110.5 L 145.2 122.9 L 151.6 132.4 L 159.1 140.1 L 166.7 144.9 L 175.2 147.8 L 186 149.3" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <text x="100" y="14" class="svgtxt w" text-anchor="middle">Z ~ N(0,1): |Z| ≤ 1</text>
+  <text x="100" y="122.1" class="svgtxt g" text-anchor="middle" style="font-size:10px">0.6827</text>
+  <path d="M 226 30 V 150 H 390 M 226 150 v 3 M 253.3 150 v 3 M 280.7 150 v 3 M 308 150 v 3 M 335.3 150 v 3 M 362.7 150 v 3 M 390 150 v 3" fill="none" stroke="var(--border2)"/>
+  <text x="226" y="164" class="svgtxt" text-anchor="middle">0</text>
+  <text x="253.3" y="164" class="svgtxt" text-anchor="middle">1</text>
+  <text x="280.7" y="164" class="svgtxt" text-anchor="middle">2</text>
+  <text x="308" y="164" class="svgtxt" text-anchor="middle">3</text>
+  <text x="335.3" y="164" class="svgtxt" text-anchor="middle">4</text>
+  <text x="362.7" y="164" class="svgtxt" text-anchor="middle">5</text>
+  <text x="390" y="164" class="svgtxt" text-anchor="middle">6</text>
+  <path d="M 226 150 L 226 30 L 228.5 30 L 231.2 70.5 L 233.3 85.1 L 236 97.3 L 239.2 106.7 L 243.1 114.6 L 247.6 121 L 253.3 126.8 L 253.3 150 Z" fill="var(--greenbg)" stroke="none"/>
+  <path d="M 228.9 38.4 L 230.1 58.6 L 231.8 75 L 234.2 89.9 L 237.1 100.9 L 240.8 110.3 L 245.3 118 L 251 124.7 L 257.6 130 L 265.8 134.7 L 275.6 138.5 L 287.5 141.7 L 301.5 144.2 L 317.9 146.1 L 337.1 147.5 L 390 149.2" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <text x="308" y="14" class="svgtxt w" text-anchor="middle">W = Z² ~ χ²(1): W ≤ 1</text>
+  <text x="239.7" y="138.5" class="svgtxt g" text-anchor="middle" style="font-size:10px">0.6827</text>
+  <text x="269.7" y="63.6" class="svgtxt b" style="font-size:10px">f_W → ∞ as x → 0</text>
+  <text x="206" y="94" class="svgtxt a" text-anchor="middle" style="font-size:10px">w = z²</text>
+  <text x="206" y="106" class="svgtxt a" text-anchor="middle" style="font-size:12px">⟶</text>
+  </svg><figcaption>Same event, two pictures: $\{W\le1\}=\{|Z|\le1\}$, so both green areas are $2\Phi(1)-1=0.6827$. Squaring folds the two halves of the bell onto $(0,\infty)$ and piles mass up near 0 — the $\chi^2(1)$ density is unbounded at 0 but still has area 1.</figcaption></figure>
+  </div>
+  <div class="note"><div class="t">Insight</div>The method never used a formula for $\Phi$ — only that $\Phi'=f_Z$. That is why the cdf trick is so powerful: probabilities can stay "unknown" as long as you only need their derivatives.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> $\chi^2$ with $k$ degrees of freedom (slide 21)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $Z_1,\dots,Z_k$ be <b>independent</b> $N(0,1)$ random variables. Then</p>
+  $$\boxed{\,W=\sum_{i=1}^{k}Z_i^2\ \sim\ \chi^2(k)\ \text{ or }\ \chi^2_k\,}$$
+  <p>The number of squared normals, $k$, is the <b>degrees of freedom</b>. Slide 20 was the case $k=1$.</p>
+  <h3>pdf and cdf of $\chi^2_k$</h3>
+  $$f(x)=\frac{1}{2^{k/2}\,\Gamma\!\left(\frac k2\right)}\,x^{\frac k2-1}\,e^{-\frac x2}\qquad0\le x&lt;\infty$$
+  $$F(x)=\frac{1}{\Gamma\!\left(\frac k2\right)}\,\gamma\!\left(\frac k2,\frac x2\right)\qquad0\le x&lt;\infty$$
+  <p>where $\Gamma$ is the Gamma function and $\gamma(a,b)$ the (lower) incomplete gamma function, both explained on the right. The density formula is given, not derived — the derivation needs joint distributions.</p>
+  <h3>Two checks that tie it to what you know</h3>
+  <ul>
+    <li><b>$k=1$:</b> with $\Gamma(\tfrac12)=\sqrt\pi$, the constant is $\frac{1}{2^{1/2}\sqrt\pi}=\frac{1}{\sqrt{2\pi}}$ and the power is $x^{-1/2}$, so $f(x)=\frac{1}{\sqrt{2\pi x}}e^{-x/2}$ — exactly slide 20 ✓.</li>
+    <li><b>$k=2$:</b> $\Gamma(1)=1$ and $x^0=1$, so $f(x)=\frac12e^{-x/2}$: the <b>exponential with $\lambda=\tfrac12$</b> of module 23 (mean 2).</li>
+  </ul>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The Gamma function (slide 21)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For $z&gt;0$,</p>
+  $$\boxed{\,\Gamma(z)=\int_0^\infty t^{z-1}e^{-t}\,dt\,}$$
+  <p>(the slide writes $\Gamma(x)$ on the left and $t^{z-1}$ inside — it is one and the same variable). And the lower incomplete gamma function stops the integral at $b$:</p>
+  $$\gamma(a,b)=\int_0^b t^{a-1}e^{-t}\,dt,\qquad\text{so }\gamma(a,b)\to\Gamma(a)\text{ as }b\to\infty.$$
+  <p>That is why $F(x)=\gamma(\frac k2,\frac x2)/\Gamma(\frac k2)$ climbs from 0 to 1.</p>
+  <h3>Why $\Gamma(n)=(n-1)!$ (the slide's first line)</h3>
+  <ol class="steps">
+    <li>$\Gamma(1)=\int_0^\infty e^{-t}dt=1$.</li>
+    <li>Integration by parts ($u=t^z$, $dv=e^{-t}dt$) gives the recursion $\Gamma(z+1)=\big[-t^ze^{-t}\big]_0^\infty+z\int_0^\infty t^{z-1}e^{-t}dt=z\,\Gamma(z)$.</li>
+    <li>So $\Gamma(2)=1$, $\Gamma(3)=2\cdot1$, $\Gamma(4)=3\cdot2\cdot1$, …, $\Gamma(n)=(n-1)!$ for positive integers $n$. The Gamma function is the factorial extended to non-integers ("otherwise" on the slide).</li>
+  </ol>
+  <h3>$\Gamma(\tfrac12)=\sqrt\pi$</h3>
+  <p>Substitute $t=u^2/2$ ($dt=u\,du$, $t^{-1/2}=\sqrt2/u$): $\Gamma(\tfrac12)=\int_0^\infty\frac{\sqrt2}{u}e^{-u^2/2}u\,du=\sqrt2\int_0^\infty e^{-u^2/2}du=\sqrt2\cdot\frac{\sqrt{2\pi}}{2}=\sqrt\pi$, using the Gaussian integral of module 24.</p>
+  <table class="formula-table">
+    <tr><th>$z$</th><td class="c">$\tfrac12$</td><td class="c">1</td><td class="c">$\tfrac32$</td><td class="c">2</td><td class="c">$\tfrac52$</td><td class="c">3</td><td class="c">4</td></tr>
+    <tr><th>$\Gamma(z)$</th><td class="c">$\sqrt\pi\approx1.772$</td><td class="c">1</td><td class="c">$\tfrac{\sqrt\pi}{2}\approx0.886$</td><td class="c">1</td><td class="c">$\tfrac{3\sqrt\pi}{4}\approx1.329$</td><td class="c">2</td><td class="c">6</td></tr>
+  </table>
+  <p class="muted">R: <code>gamma(0.5)</code> → <code>1.772454</code>; <code>gamma(5)</code> → <code>24</code> $=4!$.</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">PICTURE</span> The $\chi^2_k$ family (slides 22–23)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure><svg viewBox="0 0 380 196">
+  <path d="M 42 14 V 176 H 300 M 42 176 v 3 M 74.2 176 v 3 M 106.5 176 v 3 M 138.8 176 v 3 M 171 176 v 3 M 203.2 176 v 3 M 235.5 176 v 3 M 267.8 176 v 3 M 300 176 v 3 M 39 176 h 3 M 39 144.8 h 3 M 39 113.7 h 3 M 39 82.5 h 3 M 39 51.4 h 3 M 39 20.2 h 3" fill="none" stroke="var(--border2)"/>
+  <text x="42" y="190" class="svgtxt" text-anchor="middle">0</text>
+  <text x="74.2" y="190" class="svgtxt" text-anchor="middle">4</text>
+  <text x="106.5" y="190" class="svgtxt" text-anchor="middle">8</text>
+  <text x="138.8" y="190" class="svgtxt" text-anchor="middle">12</text>
+  <text x="171" y="190" class="svgtxt" text-anchor="middle">16</text>
+  <text x="203.2" y="190" class="svgtxt" text-anchor="middle">20</text>
+  <text x="235.5" y="190" class="svgtxt" text-anchor="middle">24</text>
+  <text x="267.8" y="190" class="svgtxt" text-anchor="middle">28</text>
+  <text x="300" y="190" class="svgtxt" text-anchor="middle">32</text>
+  <text x="37" y="179.5" class="svgtxt" text-anchor="end">0</text>
+  <text x="37" y="148.3" class="svgtxt" text-anchor="end">0.1</text>
+  <text x="37" y="117.2" class="svgtxt" text-anchor="end">0.2</text>
+  <text x="37" y="86" class="svgtxt" text-anchor="end">0.3</text>
+  <text x="37" y="54.9" class="svgtxt" text-anchor="end">0.4</text>
+  <text x="37" y="23.7" class="svgtxt" text-anchor="end">0.5</text>
+  <text x="300" y="171" class="svgtxt" text-anchor="end">x</text>
+  <path d="M 45.2 15.2 L 46.4 48.8 L 48.5 82.9 L 50.9 107.7 L 53.7 126 L 57.3 141.1 L 62.2 153.5 L 67.8 162 L 74.7 167.9 L 81.1 171 L 89.2 173.2 L 99.2 174.7 L 112.5 175.5 L 150 176 L 300 176" fill="none" stroke="var(--text)" stroke-width="1.8"/>
+  <path d="M 42 20.2 L 46 54.7 L 50.1 81.5 L 54.5 104.2 L 59.3 122.8 L 65 138.5 L 71 150.3 L 78.3 159.6 L 86.7 166.3 L 94.4 170 L 103.3 172.5 L 114.2 174.2 L 128.3 175.3 L 166.6 175.9 L 300 176" fill="none" stroke="var(--blue)" stroke-width="1.8"/>
+  <path d="M 42 176 L 42.4 148.9 L 44 121.2 L 46.4 106 L 48 102 L 50.1 100.6 L 52.1 101.6 L 54.9 105.4 L 70.6 136.3 L 75.9 144.8 L 81.5 152.3 L 87.6 158.5 L 94 163.5 L 101.3 167.5 L 109.3 170.5 L 117.4 172.5 L 126.7 173.9 L 152.1 175.5 L 300 176" fill="none" stroke="var(--green)" stroke-width="1.8"/>
+  <path d="M 42 176 L 45.2 150.5 L 48.9 132.7 L 50.9 126.6 L 53.3 121.9 L 55.7 119.4 L 58.1 118.7 L 61.4 119.7 L 65.4 123 L 84.7 146.8 L 90.8 153.1 L 96.4 158 L 102.9 162.5 L 109.3 166 L 116.6 168.9 L 124.6 171.3 L 142.8 174.1 L 167.8 175.5 L 300 176" fill="none" stroke="var(--red)" stroke-width="1.8"/>
+  <path d="M 42 176 L 84.3 175.8 L 104.5 174.2 L 121.8 170.6 L 150.4 161.5 L 161.7 158.4 L 173.8 156.3 L 185.5 155.5 L 196.4 155.8 L 208.5 157.2 L 265.3 168.2 L 300 172.7" fill="none" stroke="var(--amber)" stroke-width="1.8"/>
+  <line x1="308" y1="22" x2="326" y2="22" stroke="var(--text)" stroke-width="2"/>
+  <text x="330" y="26" class="svgtxt" style="font-size:10.5px">k = 1</text>
+  <line x1="308" y1="38" x2="326" y2="38" stroke="var(--blue)" stroke-width="2"/>
+  <text x="330" y="42" class="svgtxt" style="font-size:10.5px">k = 2</text>
+  <line x1="308" y1="54" x2="326" y2="54" stroke="var(--green)" stroke-width="2"/>
+  <text x="330" y="58" class="svgtxt" style="font-size:10.5px">k = 3</text>
+  <line x1="308" y1="70" x2="326" y2="70" stroke="var(--red)" stroke-width="2"/>
+  <text x="330" y="74" class="svgtxt" style="font-size:10.5px">k = 4</text>
+  <line x1="308" y1="86" x2="326" y2="86" stroke="var(--amber)" stroke-width="2"/>
+  <text x="330" y="90" class="svgtxt" style="font-size:10.5px">k = 20</text>
+  <line x1="203.2" y1="176" x2="203.2" y2="156.5" stroke="var(--amber)" stroke-dasharray="3 3"/>
+  <text x="203.2" y="148" class="svgtxt a" text-anchor="middle" style="font-size:10px">mean 20, sd √40 ≈ 6.3</text>
+  <text x="68.6" y="24.2" class="svgtxt b" style="font-size:10px">k=2: f(0) = 1/2</text>
+  <text x="308" y="124" class="svgtxt w" style="font-size:10px">mean = k</text>
+  <text x="308" y="138" class="svgtxt w" style="font-size:10px">var = 2k</text>
+  <text x="308" y="152" class="svgtxt" style="font-size:10px">k ↑: right</text>
+  <text x="308" y="166" class="svgtxt" style="font-size:10px">and bell-</text>
+  <text x="308" y="180" class="svgtxt" style="font-size:10px">shaped</text>
+  </svg><figcaption>The densities for $k=1,2,3,4,20$, recomputed. $k=1$ shoots to infinity at 0; $k=2$ starts at $\tfrac12$ (the exponential); from $k=3$ the curve starts at 0 and peaks at $x=k-2$ (0.242 at 1 for $k=3$, 0.184 at 2 for $k=4$). For $k=20$ the peak is at 18 and the shape is already close to a bell.</figcaption></figure>
+  <p>The slides draw the same curves on $0\le x\le15$, with the matching cdfs on slide 23: every cdf starts at 0 and rises to 1, more slowly the larger $k$ (for $k=20$ it has only reached $F(15)=0.22$).</p>
+  <div class="note"><div class="t">A note on slide 22's legend</div>The fifth curve of the pdf plot is labelled "k = ∞", but it is the same curve as the "k = 20" of the cdf plot on slide 23 (its height near $x=15$ is about 0.057, which is the $\chi^2_{20}$ density there). A "$\chi^2_\infty$" has no density: its mean and variance would be infinite.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> $\mathbb{E}(W)=k$ and $\mathbb{V}(W)=2k$ (slide 24)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{\,\mathbb{E}(W)=k\,}\qquad\boxed{\,\mathbb{V}(W)=2k\,}$$
+  <p>The slide states the results; here is why they hold, one squared normal at a time.</p>
+  <ol class="steps">
+    <li><b>Mean of one square.</b> $\mathbb{E}(Z^2)=\mathbb{V}(Z)+\big(\mathbb{E}(Z)\big)^2=1+0=1$ (module 24).</li>
+    <li><b>Fourth moment.</b> Parts with $u=x^3$, $dv=xf_Z(x)dx$, $v=-f_Z(x)$:
+    $$\mathbb{E}(Z^4)=\big[-x^3f_Z(x)\big]_{-\infty}^{\infty}+3\int x^2f_Z(x)\,dx=0+3\,\mathbb{E}(Z^2)=3.$$</li>
+    <li><b>Variance of one square.</b> $\mathbb{V}(Z^2)=\mathbb{E}(Z^4)-\big(\mathbb{E}(Z^2)\big)^2=3-1=2$.</li>
+    <li><b>Add them up.</b> Expectations always add: $\mathbb{E}(W)=\sum_{i=1}^k\mathbb{E}(Z_i^2)=k$. For <b>independent</b> variables variances add too (a fact you will meet with joint distributions): $\mathbb{V}(W)=\sum_{i=1}^k\mathbb{V}(Z_i^2)=2k$.</li>
+  </ol>
+  <table class="formula-table">
+    <tr><th>$k$</th><th>$\mathbb{E}(W)$</th><th>$\mathbb{V}(W)$</th><th>sd $\sqrt{2k}$</th></tr>
+    <tr><td>1</td><td>1</td><td>2</td><td>1.41</td></tr>
+    <tr><td>2 (= Exp(½))</td><td>2</td><td>4</td><td>2 (= mean, as for every exponential)</td></tr>
+    <tr><td>4</td><td>4</td><td>8</td><td>2.83</td></tr>
+    <tr><td>20</td><td>20</td><td>40</td><td>6.32</td></tr>
+  </table>
+  <div class="note"><div class="t">Insight</div>The mean grows like $k$ but the sd only like $\sqrt{2k}$, so relative to its centre the distribution gets <b>narrower</b> and more symmetric as $k$ grows — a first glimpse of the central limit theorem ($W$ is a sum of $k$ independent terms).</div>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div><code>dchisq(x, df)</code>, <code>pchisq(q, df)</code>, <code>qchisq(p, df)</code>, <code>rchisq(n, df)</code>.<br>
+  <code>pchisq(1, df = 1)</code> → <code>0.6826895</code> — the same number as <code>pnorm(1) - pnorm(-1)</code>, as the figure of slide 20 predicts.<br>
+  Simulate the definition: <code>w &lt;- colSums(matrix(rnorm(4 * 1e5), nrow = 4)^2); mean(w); var(w)</code> → about <code>4</code> and <code>8</code>.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Student-t with $\nu$ degrees of freedom (slide 25)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $Z\sim N(0,1)$ and $V\sim\chi^2(\nu)$ be <b>independent</b>. Then</p>
+  $$\boxed{\,T=\frac{Z}{\sqrt{V/\nu}}=Z\cdot\sqrt{\frac{\nu}{V}}\,}$$
+  <p>is a Student-t random variable with $\nu$ degrees of freedom.</p>
+  <p><b>Intuition.</b> $V/\nu$ is an average of $\nu$ squared standard normals, so $\mathbb{E}(V/\nu)=1$ and $\mathbb{V}(V/\nu)=2\nu/\nu^2=2/\nu$. The denominator is therefore a <b>noisy estimate of 1</b>. Dividing $Z$ by something that is sometimes well below 1 occasionally blows it up, so $T$ has more extreme values than $Z$. As $\nu$ grows the noise $2/\nu$ vanishes and $T$ becomes $Z$.</p>
+  <p>Student-t plays an important role when estimating the mean of a normally distributed population when the sample size is small and the variance is unknown.</p>
+  <h3>The sample-mean construction (slide 25)</h3>
+  <p>Let $X_1,\dots,X_n\sim N(\mu,\sigma^2)$ be independent, with sample mean and sample variance</p>
+  $$\overline{X}_n=\frac1n(X_1+\dots+X_n),\qquad S_n^2=\frac{1}{n-1}\sum_{i=1}^n(X_i-\overline{X}_n)^2$$
+  <p>($S_n^2$ is an unbiased estimator of the variance — the inference part explains the $n-1$). Then:</p>
+  <ol class="steps">
+    <li><b>The variance part is $\chi^2$:</b>
+    $$V=(n-1)\frac{S_n^2}{\sigma^2}=\frac{\sum_{i=1}^n(X_i-\overline{X}_n)^2}{\sigma^2}\sim\chi^2(n-1).$$</li>
+    <li><b>The mean part is standard normal:</b> $\overline X_n$ has mean $\mu$ and variance $\sigma^2/n$, so
+    $$Z=(\overline X_n-\mu)\frac{\sqrt n}{\sigma}\sim N(0,1),$$
+    and it can be shown that $Z$ and $V$ are independent.</li>
+    <li><b>Build $T$ with $\nu=n-1$.</b> The denominator is $\sqrt{V/(n-1)}=\sqrt{S_n^2/\sigma^2}=S_n/\sigma$, so
+    $$T\equiv\frac{Z}{\sqrt{V/\nu}}=\frac{(\overline X_n-\mu)\sqrt n/\sigma}{S_n/\sigma}=\boxed{\,(\overline X_n-\mu)\frac{\sqrt n}{S_n}\,}\sim t(n-1).$$</li>
+  </ol>
+  <div class="note tip"><div class="t">Why $S_n$ replaces $\sigma$ — a preview of inference</div>In practice $\sigma$ is unknown, so $Z=(\overline X_n-\mu)\sqrt n/\sigma$ cannot be computed. Step 3 shows the fix: replace $\sigma$ by the sample sd $S_n$ and the <b>unknown $\sigma$ cancels</b>. The price is that the result is no longer $N(0,1)$ but $t(n-1)$, a little wider, to account for the extra uncertainty in $S_n$. This is the t-statistic, and it gives the 95% confidence interval $\overline x\pm t_{n-1,\,0.975}\,S_n/\sqrt n$. The student-t approaches the standard normal as the degrees of freedom go to infinity.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">PICTURE</span> The Student-t density (slide 26)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$f(x)=\frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\;\Gamma\!\left(\frac\nu2\right)}\left(1+\frac{x^2}{\nu}\right)^{-\frac{\nu+1}{2}}\qquad-\infty&lt;x&lt;\infty$$
+  <figure><svg viewBox="0 0 380 190">
+  <path d="M 42 14 V 170 H 370 M 42 170 v 3 M 74.8 170 v 3 M 107.6 170 v 3 M 140.4 170 v 3 M 173.2 170 v 3 M 206 170 v 3 M 238.8 170 v 3 M 271.6 170 v 3 M 304.4 170 v 3 M 337.2 170 v 3 M 370 170 v 3 M 39 170 h 3 M 39 132.9 h 3 M 39 95.7 h 3 M 39 58.6 h 3 M 39 21.4 h 3" fill="none" stroke="var(--border2)"/>
+  <text x="42" y="184" class="svgtxt" text-anchor="middle">−5</text>
+  <text x="74.8" y="184" class="svgtxt" text-anchor="middle">−4</text>
+  <text x="107.6" y="184" class="svgtxt" text-anchor="middle">−3</text>
+  <text x="140.4" y="184" class="svgtxt" text-anchor="middle">−2</text>
+  <text x="173.2" y="184" class="svgtxt" text-anchor="middle">−1</text>
+  <text x="206" y="184" class="svgtxt" text-anchor="middle">0</text>
+  <text x="238.8" y="184" class="svgtxt" text-anchor="middle">1</text>
+  <text x="271.6" y="184" class="svgtxt" text-anchor="middle">2</text>
+  <text x="304.4" y="184" class="svgtxt" text-anchor="middle">3</text>
+  <text x="337.2" y="184" class="svgtxt" text-anchor="middle">4</text>
+  <text x="370" y="184" class="svgtxt" text-anchor="middle">5</text>
+  <text x="37" y="173.5" class="svgtxt" text-anchor="end">0</text>
+  <text x="37" y="136.4" class="svgtxt" text-anchor="end">0.1</text>
+  <text x="37" y="99.2" class="svgtxt" text-anchor="end">0.2</text>
+  <text x="37" y="62.1" class="svgtxt" text-anchor="end">0.3</text>
+  <text x="37" y="24.9" class="svgtxt" text-anchor="end">0.4</text>
+  <text x="370" y="165" class="svgtxt" text-anchor="end">x</text>
+  <path d="M 42 165.5 L 80 162.5 L 94.5 160.6 L 107.6 158.2 L 119.4 155.2 L 128.6 152 L 137.8 147.8 L 145.6 143 L 152.2 138 L 157.5 132.9 L 162.7 126.9 L 168 119.6 L 173.2 110.9 L 178.4 100.7 L 191.6 70.9 L 196.8 60.4 L 199.4 56.3 L 202.1 53.4 L 206 51.8 L 209.9 53.4 L 212.6 56.3 L 215.2 60.4 L 220.4 70.9 L 233.6 100.7 L 238.8 110.9 L 244 119.6 L 249.3 126.9 L 254.5 132.9 L 259.8 138 L 266.4 143 L 274.2 147.8 L 283.4 152 L 292.6 155.2 L 304.4 158.2 L 317.5 160.6 L 332 162.5 L 370 165.5" fill="none" stroke="var(--text)" stroke-width="1.8"/>
+  <path d="M 42 167.4 L 78.7 164.7 L 93.2 162.8 L 105 160.5 L 115.5 157.5 L 124.7 154 L 132.5 150 L 140.4 144.7 L 150.9 134.9 L 156.1 128.5 L 161.4 120.8 L 171.9 101.3 L 188.9 61.4 L 194.2 50.5 L 198.1 44.2 L 200.8 41.2 L 203.4 39.3 L 206 38.7 L 208.6 39.3 L 211.2 41.2 L 213.9 44.2 L 217.8 50.5 L 223.1 61.4 L 240.1 101.3 L 250.6 120.8 L 255.9 128.5 L 261.1 134.9 L 271.6 144.7 L 279.5 150 L 287.3 154 L 296.5 157.5 L 307 160.5 L 318.8 162.8 L 333.3 164.7 L 370 167.4" fill="none" stroke="var(--blue)" stroke-width="1.8"/>
+  <path d="M 42 169.3 L 78.7 167.8 L 91.9 166.5 L 103.7 164.5 L 112.8 162.1 L 122 158.6 L 129.9 154.3 L 136.5 149.4 L 143 143.1 L 148.3 136.8 L 154.8 127.1 L 160.1 117.7 L 169.3 98 L 187.6 52.5 L 194.2 39.4 L 198.1 33.8 L 200.8 31.1 L 203.4 29.5 L 206 29 L 208.6 29.5 L 211.2 31.1 L 213.9 33.8 L 217.8 39.4 L 224.4 52.5 L 242.7 98 L 251.9 117.7 L 257.2 127.1 L 263.7 136.8 L 269 143.1 L 275.5 149.4 L 282.1 154.3 L 290 158.6 L 299.2 162.1 L 308.3 164.5 L 320.1 166.5 L 333.3 167.8 L 370 169.3" fill="none" stroke="var(--green)" stroke-width="1.8"/>
+  <path d="M 42 170 L 87.9 169.8 L 107.6 168.4 L 115.5 166.7 L 122 164.4 L 128.6 160.9 L 133.8 156.8 L 139.1 151.5 L 144.3 144.7 L 149.6 136.2 L 154.8 126.1 L 164 104.7 L 182.4 55.7 L 190.3 37.9 L 194.2 31.1 L 198.1 26 L 202.1 22.9 L 206 21.8 L 209.9 22.9 L 213.9 26 L 217.8 31.1 L 221.7 37.9 L 229.6 55.7 L 248 104.7 L 257.2 126.1 L 262.4 136.2 L 267.7 144.7 L 272.9 151.5 L 278.2 156.8 L 283.4 160.9 L 290 164.4 L 296.5 166.7 L 304.4 168.4 L 324.1 169.8 L 370 170" fill="none" stroke="var(--red)" stroke-width="1.8"/>
+  <line x1="252" y1="22" x2="270" y2="22" stroke="var(--text)" stroke-width="2"/>
+  <text x="274" y="26" class="svgtxt" style="font-size:10px">ν = 1 (Cauchy)</text>
+  <line x1="252" y1="37" x2="270" y2="37" stroke="var(--blue)" stroke-width="2"/>
+  <text x="274" y="41" class="svgtxt" style="font-size:10px">ν = 2</text>
+  <line x1="252" y1="52" x2="270" y2="52" stroke="var(--green)" stroke-width="2"/>
+  <text x="274" y="56" class="svgtxt" style="font-size:10px">ν = 5</text>
+  <line x1="252" y1="67" x2="270" y2="67" stroke="var(--red)" stroke-width="2"/>
+  <text x="274" y="71" class="svgtxt" style="font-size:10px">N(0,1) = ν → ∞</text>
+  <text x="176.5" y="51.8" class="svgtxt" text-anchor="end" style="font-size:9.5px">ν=1 peak 1/π = 0.318</text>
+  <text x="45.3" y="132.9" class="svgtxt w" style="font-size:10px">heavier</text>
+  <text x="45.3" y="144.9" class="svgtxt w" style="font-size:10px">tails</text>
+  </svg><figcaption>Slide 26's curves, recomputed: $\nu=1,2,5$ and the limit $N(0,1)$. All are symmetric about 0; fewer degrees of freedom means a lower peak (0.318, 0.354, 0.380 against 0.399) and more mass in the tails — the curves cross near $\pm2$.</figcaption></figure>
+  <ul>
+    <li><b>Symmetric</b>, with the y-axis as axis of symmetry (slide 26): $f$ depends on $x$ only through $x^2$.</li>
+    <li><b>Heavier tails</b> than the normal: the tail decays like a power of $x$, not like $e^{-x^2/2}$.</li>
+    <li><b>Tends to $N(0,1)$</b> as $\nu\to\infty$: $\ln\!\big(1+\frac{x^2}{\nu}\big)^{-\frac{\nu+1}{2}}=-\frac{\nu+1}{2}\ln\!\big(1+\frac{x^2}{\nu}\big)\approx-\frac{\nu+1}{2}\cdot\frac{x^2}{\nu}\to-\frac{x^2}{2}$, and the constant tends to $\frac{1}{\sqrt{2\pi}}$.</li>
+  </ul>
+  <table class="formula-table">
+    <tr><th>tail mass</th><th>$\nu=1$</th><th>$\nu=2$</th><th>$\nu=5$</th><th>$\nu=30$</th><th>$N(0,1)$</th></tr>
+    <tr><td>$P(|T|&gt;2)$</td><td>0.295</td><td>0.184</td><td>0.102</td><td>0.055</td><td>0.046</td></tr>
+  </table>
+  <p class="muted">So a "2-sigma" event is more than twice as likely under $t(5)$ as under the normal — the reason fat-tailed return models use the t.</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">FORMULA</span> The Student-t cdf (slide 27)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$F(x)=\frac12+x\,\Gamma\!\left(\frac{\nu+1}{2}\right)\cdot\frac{{}_2F_1\!\left(\frac12,\frac{\nu+1}{2};\frac32;-\frac{x^2}{\nu}\right)}{\sqrt{\nu\pi}\;\Gamma\!\left(\frac\nu2\right)}$$
+  <p>where ${}_2F_1$ is the <b>hypergeometric</b> function (the slide says "hyperbolic" — a slip; ${}_2F_1$ is Gauss's hypergeometric function, a power series you will never evaluate by hand).</p>
+  <p><b>How to read it.</b> $F(0)=\frac12$ (symmetry), and the second term is an odd function of $x$ that pushes $F$ up for $x&gt;0$ and down for $x&lt;0$. The slide 27 plot shows the four cdfs ($\nu=1,2,5,\infty$) as S-curves all passing through $(0,\tfrac12)$: the $\nu=1$ curve is the flattest (still about 0.03 at $x=-10$), the normal the steepest.</p>
+  <p><b>One case by hand</b> (not on the slides). For $\nu=1$, ${}_2F_1(\tfrac12,1;\tfrac32;-x^2)=\frac{\arctan x}{x}$, and with $\Gamma(1)=1$, $\Gamma(\tfrac12)=\sqrt\pi$:</p>
+  $$F(x)=\frac12+\frac{\arctan x}{\pi}\qquad(\text{Cauchy}),\qquad\text{e.g. }F(2)=\frac12+\frac{1.1071}{\pi}=0.8524.$$
+  <p>For every other $\nu$ use software: <code>pt(q, df)</code> in R. <code>pt(2, df = 1)</code> → <code>0.8524164</code>.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Moments of the Student-t (slide 28)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td>Expected value</td><td>$\mathbb{E}(X)=0$ for $\nu&gt;1$; otherwise undefined</td></tr>
+    <tr><td>Variance</td><td>$\mathbb{V}(X)=\dfrac{\nu}{\nu-2}$ for $\nu&gt;2$</td></tr>
+    <tr><td></td><td>$\mathbb{V}(X)=\infty$ for $1&lt;\nu\le2$; otherwise undefined</td></tr>
+  </table>
+  <ul>
+    <li><b>Mean 0</b> by symmetry — but only when the integral $\int|x|f(x)dx$ is finite, which needs $\nu&gt;1$.</li>
+    <li><b>$\nu=1$ is the Cauchy distribution</b>, $f(x)=\frac{1}{\pi(1+x^2)}$ (plug $\nu=1$ into slide 26: $\Gamma(1)/(\sqrt\pi\,\Gamma(\frac12))=\frac1\pi$). It has <b>no mean</b>: $\int_0^\infty\frac{x}{\pi(1+x^2)}dx=\frac{1}{2\pi}\big[\ln(1+x^2)\big]_0^\infty=\infty$. The tails are so heavy that the positive and negative parts are each infinite, and "$\infty-\infty$" is undefined. Averages of Cauchy draws never settle down.</li>
+    <li><b>Variance above 1</b>, shrinking to 1: $\nu=3$: $3$; $\nu=5$: $\frac53\approx1.667$; $\nu=30$: $\frac{30}{28}\approx1.071$; $\nu\to\infty$: 1, the $N(0,1)$ value.</li>
+  </ul>
+  <div class="note warn"><div class="t">TRAP · "symmetric, so the mean is 0"</div>True for $\nu&gt;1$ only. For the Cauchy the centre of symmetry is 0 and the <b>median</b> is 0, but the mean does not exist. This is the case slide 29 excludes: "some random variables do not have finite mean or variance".</div>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div><code>dt(x, df)</code>, <code>pt(q, df)</code>, <code>qt(p, df)</code>, <code>rt(n, df)</code>.<br>
+  <code>dt(0, df = 1)</code> → <code>0.3183099</code> $=1/\pi$ · <code>2 * pt(-2, df = 5)</code> → <code>0.1019395</code> $=P(|T|&gt;2)$ · <code>var(rt(1e6, df = 5))</code> → about <code>1.67</code>.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Percentiles (slide 31)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>One can characterise a probability distribution by dividing points, called <i>percentiles</i>.</p>
+  <p><b>Definition.</b> The $(100p)$th percentile, $0&lt;p&lt;1$, is a point $\pi_p$ such that</p>
+  $$P(X\le\pi_p)=p\qquad\text{and}\qquad P(X&gt;\pi_p)=1-p.$$
+  <p>So $\pi_p$ is the solution of the equation</p>
+  $$\boxed{\,F(\pi_p)=p\,}$$
+  <p>For the continuous distributions of this course $F$ is continuous and strictly increasing on the support, so the solution is unique: $\pi_p=F^{-1}(p)$, the cdf read <b>backwards</b> — from the probability on the vertical axis to the value on the horizontal axis.</p>
+  <p><b>The most important percentiles:</b></p>
+  <ul>
+    <li>the <b>median</b> $m=\pi_{1/2}$ — a point such that at most half the population lies below it and at most half above it;</li>
+    <li>the <b>quartiles</b> $q_1=\pi_{1/4}$ and $q_3=\pi_{3/4}$, the first and third quartiles. Together with the median they cut the distribution into four pieces of probability $\tfrac14$.</li>
+  </ul>
+  </div>
+  <figure><svg viewBox="0 0 400 184">
+  <path d="M 14 30 V 150 H 186" fill="none" stroke="var(--border2)"/>
+  <path d="M 14 150 L 14 149.3 L 24.9 147.8 L 34.4 144.4 L 42.5 138.7 L 49.3 131.2 L 54.7 123.1 L 61.5 110.1 L 81.9 61.3 L 81.9 150 Z" fill="var(--bluebg)" stroke="none"/>
+  <path d="M 81.9 150 L 81.9 61.3 L 86.9 51.1 L 91.3 44.4 L 95.6 40.1 L 100 38.7 L 100 150 Z" fill="var(--greenbg)" stroke="none"/>
+  <path d="M 100 150 L 100 38.7 L 104.4 40.1 L 108.7 44.4 L 113.1 51.1 L 118.1 61.3 L 118.1 150 Z" fill="var(--greenbg)" stroke="none"/>
+  <path d="M 118.1 150 L 118.1 61.3 L 138.5 110.1 L 145.3 123.1 L 150.7 131.2 L 157.5 138.7 L 165.6 144.4 L 175.1 147.8 L 186 149.3 L 186 150 Z" fill="var(--bluebg)" stroke="none"/>
+  <path d="M 14 149.3 L 24.8 147.8 L 33.3 144.9 L 40.9 140.1 L 48.4 132.4 L 54.9 122.9 L 61.3 110.5 L 80.6 64.1 L 87.1 50.8 L 90.3 45.7 L 93.5 41.8 L 96.8 39.5 L 100 38.7 L 103.2 39.5 L 106.5 41.8 L 109.7 45.7 L 112.9 50.8 L 119.3 64.1 L 138.7 110.5 L 145.2 122.9 L 151.6 132.4 L 159.1 140.1 L 166.7 144.9 L 175.2 147.8 L 186 149.3" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="81.9" y1="150" x2="81.9" y2="61.3" stroke="var(--amber)"/>
+  <line x1="81.9" y1="150" x2="81.9" y2="154" stroke="var(--amber)"/>
+  <line x1="100" y1="150" x2="100" y2="38.7" stroke="var(--amber)"/>
+  <line x1="100" y1="150" x2="100" y2="154" stroke="var(--amber)"/>
+  <line x1="118.1" y1="150" x2="118.1" y2="61.3" stroke="var(--amber)"/>
+  <line x1="118.1" y1="150" x2="118.1" y2="154" stroke="var(--amber)"/>
+  <text x="100" y="14" class="svgtxt w" text-anchor="middle">N(0,1): four areas of 0.25</text>
+  <text x="84.9" y="164" class="svgtxt a" text-anchor="end" style="font-size:9.5px">−0.674</text>
+  <text x="100" y="176" class="svgtxt a" text-anchor="middle" style="font-size:9.5px">0</text>
+  <text x="115.1" y="164" class="svgtxt a" style="font-size:9.5px">0.674</text>
+  <text x="32.8" y="124.9" class="svgtxt b" text-anchor="middle" style="font-size:9.5px">25%</text>
+  <text x="167.2" y="124.9" class="svgtxt b" text-anchor="middle" style="font-size:9.5px">25%</text>
+  <path d="M 226 30 V 150 H 390" fill="none" stroke="var(--border2)"/>
+  <path d="M 226 150 L 226 35.7 L 231.7 50.5 L 237.8 64.3 L 237.8 150 Z" fill="var(--bluebg)" stroke="none"/>
+  <path d="M 237.8 150 L 237.8 64.3 L 245.8 79.4 L 254.4 92.9 L 254.4 150 Z" fill="var(--greenbg)" stroke="none"/>
+  <path d="M 254.4 150 L 254.4 92.9 L 261.2 101.6 L 268.1 109 L 275.4 115.8 L 282.8 121.4 L 282.8 150 Z" fill="var(--greenbg)" stroke="none"/>
+  <path d="M 282.8 150 L 282.8 121.4 L 291.4 126.8 L 302.1 132.2 L 312.8 136.3 L 325.7 140 L 338.6 142.7 L 353.6 144.9 L 390 147.9 L 390 150 Z" fill="var(--bluebg)" stroke="none"/>
+  <path d="M 226 35.7 L 232.2 51.6 L 238.3 65.3 L 244.4 77.1 L 251.6 88.8 L 258.8 98.6 L 267 108 L 275.2 115.6 L 283.4 121.8 L 292.6 127.5 L 302.9 132.5 L 313.1 136.4 L 325.4 139.9 L 338.8 142.7 L 353.1 144.9 L 390 147.9" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="237.8" y1="150" x2="237.8" y2="64.3" stroke="var(--amber)"/>
+  <line x1="237.8" y1="150" x2="237.8" y2="154" stroke="var(--amber)"/>
+  <line x1="254.4" y1="150" x2="254.4" y2="92.9" stroke="var(--amber)"/>
+  <line x1="254.4" y1="150" x2="254.4" y2="154" stroke="var(--amber)"/>
+  <line x1="282.8" y1="150" x2="282.8" y2="121.4" stroke="var(--amber)"/>
+  <line x1="282.8" y1="150" x2="282.8" y2="154" stroke="var(--amber)"/>
+  <text x="308" y="14" class="svgtxt w" text-anchor="middle">Exp(1): same four areas</text>
+  <text x="239.8" y="164" class="svgtxt a" text-anchor="end" style="font-size:9.5px">0.288</text>
+  <text x="254.4" y="176" class="svgtxt a" text-anchor="middle" style="font-size:9.5px">0.693</text>
+  <text x="280.8" y="164" class="svgtxt a" style="font-size:9.5px">1.386</text>
+  <text x="336.7" y="87.1" class="svgtxt b" text-anchor="middle" style="font-size:9.5px">last 25%: from</text>
+  <text x="336.7" y="98.1" class="svgtxt b" text-anchor="middle" style="font-size:9.5px">1.386 to ∞</text>
+  </svg><figcaption>Quartiles cut the area into four equal pieces. For the symmetric normal they sit symmetrically, $\pm0.674$ around the median 0. For the skewed exponential the pieces have very different widths: the last quarter stretches from 1.386 to infinity.</figcaption></figure>
+  </div>
+  <div class="note warn"><div class="t">Where the deck stops</div>The PDF ends after this first "Percentiles" slide: the navigation bar shows six more frames in the section that are not in the file. The worked percentiles below are computed here, not transcribed.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Percentiles of t and χ², and the normal for comparison<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>show <select id="tq_mode"><option value="t">Student-t(ν) against N(0,1)</option><option value="chi2">χ²(k)</option></select></label>
+    <label><span id="tq_1_lab">ν</span> <input type="range" id="tq_1"><span class="val" id="tq_1_v"></span></label>
+    <label>percentile $p$ <input type="range" id="tq_p" min="0.01" max="0.995" step="any" value="0.975"><span class="val" id="tq_p_v">0.975</span></label>
+  </div>
+  <div class="ctrl"><span class="btns">
+    <button onclick="tqSet('t',1,0.975)">t, ν = 1</button>
+    <button onclick="tqSet('t',5,0.975)">t, ν = 5</button>
+    <button onclick="tqSet('t',30,0.975)">t, ν = 30</button>
+    <button onclick="tqSet('chi2',1,0.95)">χ²(1)</button>
+    <button onclick="tqSet('chi2',4,0.5)">χ²(4): median</button>
+    <button onclick="tqSet('chi2',20,0.95)">χ²(20)</button>
+  </span></div>
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0"><svg id="tqsvg" viewBox="0 0 360 250"></svg><figcaption>t mode: the Student-t density over the $N(0,1)$ density, with the percentile line and the area $p$ to its left shaded. χ² mode: the $\chi^2(k)$ density with its percentile. The readout gives $t_{\nu,p}$ next to $z_p$, the tail masses $P(|T|&gt;2)$ and $P(|Z|&gt;2)$, and $\mathbb{V}(T)$; in χ² mode, the percentile with $\mathbb{E}=k$ and $\mathbb{V}=2k$.</figcaption></figure>
+  <div>
+  <div class="readout" id="tqread"></div>
+  <p style="margin-top:10px"><b>Try this.</b> Step through the three t presets: the 97.5th percentile falls from 12.706 ($\nu=1$) to 2.571 ($\nu=5$) to 2.042 ($\nu=30$), closing in on $z_{0.975}=1.960$ as the t density merges with the normal. Press "χ²(1)": the 95th percentile is 3.841 $=1.96^2$ (explained below). "χ²(4): median" gives 3.357, <b>below</b> the mean 4 — the mark of right skew. "χ²(20)" gives 31.41, still well above the mean 20.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">WORKED PERCENTILES (computed here) · uniform, exponential, normal</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>Uniform $U(a,b)$.</b> Solve $\frac{\pi_p-a}{b-a}=p$: $\pi_p=a+p(b-a)$. For the bus arrival $U(0,30)$: median 15 (7:15), quartiles 7.5 and 22.5 minutes past 7.</li>
+    <li><b>Exponential$(\lambda)$: the median.</b> Solve $F(m)=\frac12$:
+    $$1-e^{-\lambda m}=\tfrac12\ \Longrightarrow\ e^{-\lambda m}=\tfrac12\ \Longrightarrow\ -\lambda m=\ln\tfrac12=-\ln2\ \Longrightarrow\ \boxed{\,m=\frac{\ln2}{\lambda}\,}$$
+    In general $\pi_p=-\ln(1-p)/\lambda$. For Exponential(1): $q_1=\ln\frac43=0.288$, $m=\ln2=0.693$, $q_3=\ln4=1.386$ — the figure above. The median $0.693/\lambda$ is below the mean $1/\lambda$: right skew.</li>
+    <li><b>$N(0,1)$: the quartiles.</b> $q_3$ solves $\Phi(q_3)=0.75$; the table (or <code>qnorm(0.75)</code>) gives $q_3=0.674$. By symmetry $\Phi(-q_3)=1-0.75=0.25$, so $q_1=-0.674$, and the median is 0. In general $\pi_{1-p}=-\pi_p$ for any symmetric distribution.</li>
+    <li><b>$N(0,1)$: $z_{0.975}=1.960$.</b> $\Phi(1.96)=0.975$, so the 97.5th percentile is 1.960 and, by symmetry, the 2.5th is $-1.960$: the central 95% of $N(0,1)$ lies in $\pm1.96$ (the "±1.96" preset of module 23's figure).</li>
+    <li><b>Any normal.</b> $F(\pi_p)=\Phi\big((\pi_p-\mu)/\sigma\big)=p$ gives $\pi_p=\mu+\sigma z_p$. For the earnings $N(5,4)$ of module 24: $q_3=5+2(0.674)=6.349$ and $\pi_{0.975}=5+2(1.96)=8.92$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Percentiles transform like the variable: if $Y=\mu+\sigma Z$ then $\pi_p(Y)=\mu+\sigma\,\pi_p(Z)$. That is why one table of $z_p$ serves every normal — standardisation once more.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">WORKED PERCENTILES (computed here) · Student-t and χ²</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>$t_{5,\,0.975}=2.571$.</b> There is no closed form: <code>qt(0.975, df = 5)</code> → <code>2.570582</code>. Check: <code>pt(2.570582, 5)</code> → <code>0.975</code>. By symmetry $t_{5,\,0.025}=-2.571$. Compared with $z_{0.975}=1.960$, the heavier tails push the cut-off outwards: a 95% interval from $n=6$ observations ($\nu=5$) is $2.571/1.960\approx1.31$ times wider than it would be with $\sigma$ known.</li>
+    <li><b>$\chi^2_{1,\,0.95}=3.841$, by hand.</b> Since $W=Z^2$, for $c&gt;0$: $P(W\le c)=P(|Z|\le\sqrt c)=2\Phi(\sqrt c)-1$. Setting this to 0.95 gives $\Phi(\sqrt c)=0.975$, so $\sqrt c=1.96$ and
+    $$c=1.96^2=3.8416\quad(\texttt{qchisq(0.95, 1)}\to3.841459).$$
+    The 95th percentile of $\chi^2(1)$ is the square of the 97.5th percentile of $N(0,1)$.</li>
+    <li><b>χ² is not symmetric.</b> Its lower and upper percentiles are not mirror images: for $\chi^2(9)$ the 2.5th and 97.5th percentiles are 2.700 and 19.023, around a mean of 9.</li>
+  </ol>
+  <figure><svg viewBox="0 0 380 162">
+  <text x="10" y="14" class="svgtxt w" style="font-size:10.5px">97.5th percentiles (97.5% of the area to the left)</text>
+  <text x="78" y="40" class="svgtxt" text-anchor="end" style="font-size:10px">N(0,1)</text>
+  <rect x="84" y="30" width="98" height="13" fill="var(--red)" opacity="0.35"/>
+  <rect x="84" y="30" width="98" height="13" fill="none" stroke="var(--red)"/>
+  <text x="188" y="40" class="svgtxt r" style="font-size:10px">1.960</text>
+  <text x="78" y="59" class="svgtxt" text-anchor="end" style="font-size:10px">t, ν = 30</text>
+  <rect x="84" y="49" width="102.1" height="13" fill="var(--green)" opacity="0.35"/>
+  <rect x="84" y="49" width="102.1" height="13" fill="none" stroke="var(--green)"/>
+  <text x="192.1" y="59" class="svgtxt g" style="font-size:10px">2.042</text>
+  <text x="78" y="78" class="svgtxt" text-anchor="end" style="font-size:10px">t, ν = 10</text>
+  <rect x="84" y="68" width="111.4" height="13" fill="var(--green)" opacity="0.35"/>
+  <rect x="84" y="68" width="111.4" height="13" fill="none" stroke="var(--green)"/>
+  <text x="201.4" y="78" class="svgtxt g" style="font-size:10px">2.228</text>
+  <text x="78" y="97" class="svgtxt" text-anchor="end" style="font-size:10px">t, ν = 5</text>
+  <rect x="84" y="87" width="128.6" height="13" fill="var(--green)" opacity="0.35"/>
+  <rect x="84" y="87" width="128.6" height="13" fill="none" stroke="var(--green)"/>
+  <text x="218.6" y="97" class="svgtxt g" style="font-size:10px">2.571</text>
+  <text x="78" y="116" class="svgtxt" text-anchor="end" style="font-size:10px">t, ν = 2</text>
+  <rect x="84" y="106" width="215.2" height="13" fill="var(--blue)" opacity="0.35"/>
+  <rect x="84" y="106" width="215.2" height="13" fill="none" stroke="var(--blue)"/>
+  <text x="305.1" y="116" class="svgtxt b" style="font-size:10px">4.303</text>
+  <text x="78" y="135" class="svgtxt" text-anchor="end" style="font-size:10px">t, ν = 1</text>
+  <rect x="84" y="125" width="235" height="13" fill="var(--text)" opacity="0.35"/>
+  <rect x="84" y="125" width="235" height="13" fill="none" stroke="var(--text)"/>
+  <line x1="307" y1="123" x2="301" y2="140" stroke="var(--panel2)" stroke-width="4"/>
+  <text x="325" y="135" class="svgtxt w" style="font-size:10px">12.706</text>
+  <line x1="182" y1="26" x2="182" y2="144" stroke="var(--red)" stroke-dasharray="3 3"/>
+  <line x1="84" y1="142" x2="84" y2="146" stroke="var(--border2)"/>
+  <text x="84" y="158" class="svgtxt" text-anchor="middle" style="font-size:10px">0</text>
+  <line x1="134" y1="142" x2="134" y2="146" stroke="var(--border2)"/>
+  <text x="134" y="158" class="svgtxt" text-anchor="middle" style="font-size:10px">1</text>
+  <line x1="184" y1="142" x2="184" y2="146" stroke="var(--border2)"/>
+  <text x="184" y="158" class="svgtxt" text-anchor="middle" style="font-size:10px">2</text>
+  <line x1="234" y1="142" x2="234" y2="146" stroke="var(--border2)"/>
+  <text x="234" y="158" class="svgtxt" text-anchor="middle" style="font-size:10px">3</text>
+  <line x1="284" y1="142" x2="284" y2="146" stroke="var(--border2)"/>
+  <text x="284" y="158" class="svgtxt" text-anchor="middle" style="font-size:10px">4</text>
+  <line x1="84" y1="144" x2="319" y2="144" stroke="var(--border2)"/>
+  </svg><figcaption>The fewer the degrees of freedom, the further out the 97.5th percentile of $t$ sits (the $\nu=1$ bar is cut: 12.706). By $\nu=30$ it is within 0.08 of the normal's 1.960 (red dashed line).</figcaption></figure>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div>
+<div class="note fin"><div class="t">R corner · the q-functions (standard R, not on the slides)</div>
+Every <code>p…</code> function has a <code>q…</code> inverse that returns $\pi_p$:<br>
+<code>qnorm(0.975)</code> → <code>1.959964</code> · <code>qnorm(c(0.25, 0.75))</code> → <code>-0.6744898 0.6744898</code> · <code>qnorm(0.975, mean = 5, sd = 2)</code> → <code>8.919928</code><br>
+<code>qt(0.975, df = 5)</code> → <code>2.570582</code> · <code>qt(0.975, df = 30)</code> → <code>2.042272</code> · <code>qt(0.975, df = 1)</code> → <code>12.7062</code><br>
+<code>qchisq(0.95, df = 1)</code> → <code>3.841459</code> · <code>qchisq(0.5, df = 4)</code> → <code>3.356694</code> · <code>qchisq(0.95, df = 20)</code> → <code>31.41043</code><br>
+<code>qexp(0.5, rate = 1)</code> → <code>0.6931472</code> $=\ln2$ · <code>qexp(0.5, rate = 2)</code> → <code>0.3465736</code> · <code>qunif(0.25, 0, 30)</code> → <code>7.5</code><br>
+Round trip: <code>pnorm(qnorm(0.3))</code> → <code>0.3</code>.</div>
+<div class="note warn"><div class="t">TRAP · degrees of freedom are $n-1$</div>With $n$ observations the t-statistic has $\nu=n-1$. For $n=6$: <code>qt(0.975, 5)</code> $=2.571$, not <code>qt(0.975, 6)</code> $=2.447$. The same $n-1$ appears in $V=(n-1)S_n^2/\sigma^2\sim\chi^2(n-1)$.</div>
+<div class="note warn"><div class="t">TRAP · which tail?</div>The slides' $\pi_p$ has area $p$ to the <b>left</b>, so 1.96 is $\pi_{0.975}$. Many books write it $z_{0.025}$ or $z_{\alpha/2}$ with $\alpha=0.05$, naming the area to the <b>right</b>. R's <code>q</code>-functions always use the left area (unless <code>lower.tail = FALSE</code>). Draw the picture before you look anything up.</div>
+</div>
+<div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>χ² with one degree of freedom</div>
+<div class="prob">$W\sim\chi^2(1)$. Find $P(W\le1)$ and $P(W&gt;3.841)$ without any χ² table.</div>
+<details><summary>Answer</summary><div class="sol">$W=Z^2$, so $P(W\le1)=P(|Z|\le1)=2\Phi(1)-1=0.6827$, and $P(W&gt;3.841)=P(|Z|&gt;1.96)=2(1-0.975)=0.05$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Moments at a glance</div>
+<div class="prob">Give $\mathbb{E}$ and $\mathbb{V}$ of $\chi^2(10)$ and of $t(10)$. Which of $t(1)$, $t(2)$ has a mean?</div>
+<details><summary>Answer</summary><div class="sol">$\chi^2(10)$: mean 10, variance 20. $t(10)$: mean 0, variance $10/8=1.25$. $t(1)$ (Cauchy) has no mean; $t(2)$ has mean 0 but infinite variance.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A median and a critical value</div>
+<div class="prob">(a) Median of the exponential with $\lambda=2$. (b) With $n=10$ normal observations and $\sigma$ unknown, which percentile multiplies $S_n/\sqrt n$ in a 95% interval for $\mu$?</div>
+<details><summary>Answer</summary><div class="sol">(a) $m=\ln2/2=0.347$ (<code>qexp(0.5, rate = 2)</code>). (b) $t_{9,\,0.975}=2.262$ (<code>qt(0.975, df = 9)</code>), with $\nu=n-1=9$ — not $z_{0.975}=1.960$, and not <code>qt(0.975, 10)</code>.</div></details>
+</div>
+</div>
+</div>
+</section>

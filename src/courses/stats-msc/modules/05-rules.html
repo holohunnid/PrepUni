@@ -1,0 +1,180 @@
+<!-- ============ 05 RULES FROM THE AXIOMS ============ -->
+<section id="s5">
+<div class="sec-head"><span class="num">05</span><h2>Rules from the axioms</h2><span class="sub">lecture 1, notes p.7–8 · slides: Axioms 15–19</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The toolbox you will use in every exercise<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 04 gave three axioms. This module derives the <b>working rules</b> from them — the ones you reach for without thinking: equally likely outcomes, the complement rule, "probabilities are between 0 and 1", "a bigger event is more likely", the addition rule for overlapping events, and splitting an event in two. Each proof is two or three lines, and each is built the same way: <b>cut the event into disjoint pieces, then use additivity</b>. Learn that one move and you can re-derive the whole list in an exam.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Countable Ω: outcome probabilities sum to 1<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>If $\Omega=\{\omega_1,\omega_2,\omega_3,\dots\}$ is countable and $p_i:=P(\{\omega_i\})$, then</p>
+  $$p_1+p_2+p_3+\dots=1.$$
+  <p><b>Why:</b> $\Omega$ is the union of the disjoint singletons $\{\omega_1\},\{\omega_2\},\dots$, so axiom 3 gives $P(\Omega)=\sum_ip_i$, and axiom 2 says this is 1.</p>
+  <p>This is how you <b>specify</b> a probability on a countable $\Omega$: give each outcome a non-negative weight, make the weights sum to 1, and every event's probability is the sum of its weights. (It is the seed of the <i>pmf</i> in module 15.)</p>
+  <div class="ex"><div class="bar">EXAMPLE · the stubborn coin flipper, fair coin</div><div class="body">
+  $P(H)=\tfrac12$, $P(TH)=\tfrac14$, $P(TTH)=\tfrac18$, … so $p_k=(\tfrac12)^k$ and $\sum_k p_k=\tfrac12+\tfrac14+\dots=1$ ✓. Then, for example, $P(\text{done within 3 tosses})=\tfrac12+\tfrac14+\tfrac18=\tfrac78$.
+  </div></div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Equally likely outcomes<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>When each $\omega\in\Omega$ is <b>equally likely</b> and $\Omega$ has $N$ outcomes,</p>
+  $$\boxed{P(E)=\frac{|E|}{|\Omega|}=\frac{\text{number of outcomes in }E}{\text{number of outcomes}}}$$
+  <p><b>Why:</b> $N$ equal numbers summing to 1 (previous theorem) must each equal $1/N$. An event with $k$ outcomes is the disjoint union of $k$ singletons, so its probability is $k\cdot\frac1N$.</p>
+  <figure>
+  <svg viewBox="0 0 330 192">
+    <text x="30" y="14" class="svgtxt w">two dice: 36 equally likely pairs</text>
+    <g>
+      <text x="44" y="32" class="svgtxt b" text-anchor="middle">1</text><text x="68" y="32" class="svgtxt b" text-anchor="middle">2</text><text x="92" y="32" class="svgtxt b" text-anchor="middle">3</text><text x="116" y="32" class="svgtxt b" text-anchor="middle">4</text><text x="140" y="32" class="svgtxt b" text-anchor="middle">5</text><text x="164" y="32" class="svgtxt b" text-anchor="middle">6</text>
+      <text x="24" y="54" class="svgtxt r" text-anchor="middle">1</text><text x="24" y="78" class="svgtxt r" text-anchor="middle">2</text><text x="24" y="102" class="svgtxt r" text-anchor="middle">3</text><text x="24" y="126" class="svgtxt r" text-anchor="middle">4</text><text x="24" y="150" class="svgtxt r" text-anchor="middle">5</text><text x="24" y="174" class="svgtxt r" text-anchor="middle">6</text>
+    </g>
+    <g fill="var(--panel2)" stroke="var(--border)">
+      <rect x="32" y="38" width="24" height="24"/><rect x="56" y="38" width="24" height="24"/><rect x="80" y="38" width="24" height="24"/><rect x="104" y="38" width="24" height="24"/><rect x="128" y="38" width="24" height="24"/><rect x="152" y="38" width="24" height="24"/>
+      <rect x="32" y="62" width="24" height="24"/><rect x="56" y="62" width="24" height="24"/><rect x="80" y="62" width="24" height="24"/><rect x="104" y="62" width="24" height="24"/><rect x="128" y="62" width="24" height="24"/><rect x="152" y="62" width="24" height="24"/>
+      <rect x="32" y="86" width="24" height="24"/><rect x="56" y="86" width="24" height="24"/><rect x="80" y="86" width="24" height="24"/><rect x="104" y="86" width="24" height="24"/><rect x="128" y="86" width="24" height="24"/><rect x="152" y="86" width="24" height="24"/>
+      <rect x="32" y="110" width="24" height="24"/><rect x="56" y="110" width="24" height="24"/><rect x="80" y="110" width="24" height="24"/><rect x="104" y="110" width="24" height="24"/><rect x="128" y="110" width="24" height="24"/><rect x="152" y="110" width="24" height="24"/>
+      <rect x="32" y="134" width="24" height="24"/><rect x="56" y="134" width="24" height="24"/><rect x="80" y="134" width="24" height="24"/><rect x="104" y="134" width="24" height="24"/><rect x="128" y="134" width="24" height="24"/><rect x="152" y="134" width="24" height="24"/>
+      <rect x="32" y="158" width="24" height="24"/><rect x="56" y="158" width="24" height="24"/><rect x="80" y="158" width="24" height="24"/><rect x="104" y="158" width="24" height="24"/><rect x="128" y="158" width="24" height="24"/><rect x="152" y="158" width="24" height="24"/>
+    </g>
+    <g fill="var(--amber)" opacity="0.7">
+      <rect x="152" y="38" width="24" height="24"/><rect x="128" y="62" width="24" height="24"/><rect x="104" y="86" width="24" height="24"/><rect x="80" y="110" width="24" height="24"/><rect x="56" y="134" width="24" height="24"/><rect x="32" y="158" width="24" height="24"/>
+    </g>
+    <text x="188" y="60" class="svgtxt">rows: red die</text>
+    <text x="188" y="76" class="svgtxt">columns: blue die</text>
+    <text x="188" y="104" class="svgtxt a">amber: sum = 7</text>
+    <text x="188" y="120" class="svgtxt a">(1,6) (2,5) (3,4)</text>
+    <text x="188" y="136" class="svgtxt a">(4,3) (5,2) (6,1)</text>
+    <text x="188" y="164" class="svgtxt w">P = 6/36 = 1/6</text>
+  </svg>
+  <figcaption>The 36 ordered pairs of module 01's two-dice example. The six pairs summing to 7 lie on the anti-diagonal. Counting cells is all the equally-likely rule asks.</figcaption>
+  </figure>
+  <div class="note warn"><div class="t">Only when "equally likely" is true</div>The sum of two dice takes 11 values, but $P(\text{sum}=7)\neq\frac1{11}$: the <i>sums</i> are not equally likely, the <i>pairs</i> are. Always count in a sample space whose outcomes really are equally likely.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Complement rule and bounds<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{P(E^c)=1-P(E)}\qquad\boxed{0\le P(E)\le1}$$
+  <p><b>Complement — proof.</b> $E$ and $E^c$ are disjoint ($E\cap E^c=\emptyset$) and $E\cup E^c=\Omega$. Finite additivity and axiom 2:</p>
+  $$P(E)+P(E^c)=P(E\cup E^c)=P(\Omega)=1\ \Longrightarrow\ P(E^c)=1-P(E).$$
+  <p><b>Bounds — proof.</b> $P(E)\ge0$ is axiom 1. And $P(E)=1-P(E^c)\le1$ because $P(E^c)\ge0$ (axiom 1 again).</p>
+  <div class="note tip"><div class="t">Exam reflex: "at least one" ⇒ complement</div>"At least one six in two rolls" has many cases; its complement "no six at all" has one: $P=1-\tfrac{25}{36}=\tfrac{11}{36}$. Whenever an event is described with "at least", compute its complement.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Monotonicity: a bigger event is at least as likely<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{A\subseteq B\ \Longrightarrow\ P(A)\le P(B)}$$
+  <div class="grid2" style="align-items:center">
+  <div>
+  <p><b>Proof (notes p.8).</b> Split $B$ into $A$ and the ring around it:</p>
+  $$B=A\cup(B-A),$$
+  <p>two pieces with no intersection. So</p>
+  $$P(B)=P(A)+\underbrace{P(B-A)}_{\ge0}\ \ge\ P(A).\ \square$$
+  </div>
+  <figure style="margin:0">
+  <svg viewBox="0 0 160 130">
+    <circle cx="80" cy="65" r="56" fill="var(--green)" opacity="0.25" stroke="var(--green)" stroke-width="1.5"/>
+    <circle cx="94" cy="72" r="26" fill="var(--blue)" opacity="0.5" stroke="var(--blue)" stroke-width="1.5"/>
+    <text x="94" y="76" class="svgtxt w" text-anchor="middle">A</text>
+    <text x="50" y="52" class="svgtxt g">B − A</text>
+    <text x="126" y="24" class="svgtxt g">B</text>
+  </svg>
+  </figure>
+  </div>
+  <p class="muted">A useful by-product of the proof: $P(B-A)=P(B)-P(A)$ when $A\subseteq B$.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Inclusion–exclusion for probabilities (the addition rule)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>The counting rule of module 03, with $P$ in place of $|\cdot|$. For <b>any</b> events $A,B$ (not necessarily disjoint):</p>
+  $$\boxed{P(A\cup B)=P(A)+P(B)-P(A\cap B)}$$
+  <p>and for three sets</p>
+  $$\begin{aligned}P(A\cup B\cup C)=\;&P(A)+P(B)+P(C)\\&-P(A\cap B)-P(B\cap C)-P(A\cap C)\\&+P(A\cap B\cap C).\end{aligned}$$
+  <h3>Proof for two sets (the slides omit it)</h3>
+  <ol class="steps">
+    <li>$A\cup B=A\cup(B-A)$, disjoint, so $P(A\cup B)=P(A)+P(B-A)$.</li>
+    <li>$B=(A\cap B)\cup(B-A)$, disjoint, so $P(B-A)=P(B)-P(A\cap B)$.</li>
+    <li>Substitute: $P(A\cup B)=P(A)+P(B)-P(A\cap B)$. $\square$</li>
+  </ol>
+  </div>
+  <div>
+  <div class="ex"><div class="bar">EXAMPLE · four regions from three numbers</div><div class="body">
+  $P(A)=0.6$, $P(B)=0.5$, $P(A\cap B)=0.3$.
+  <ol class="steps">
+    <li>$P(A\cup B)=0.6+0.5-0.3=0.8$.</li>
+    <li>$P(A\text{ only})=P(A)-P(A\cap B)=0.3$; $P(B\text{ only})=0.5-0.3=0.2$.</li>
+    <li>$P(\text{neither})=1-P(A\cup B)=0.2$.</li>
+    <li>Check: $0.3+0.3+0.2+0.2=1$ ✓.</li>
+  </ol>
+  <figure>
+  <svg viewBox="0 0 300 120">
+    <rect x="6" y="8" width="288" height="104" fill="none" stroke="var(--border2)"/>
+    <circle cx="120" cy="60" r="44" fill="var(--blue)" opacity="0.28" stroke="var(--blue)"/>
+    <circle cx="178" cy="60" r="44" fill="var(--green)" opacity="0.28" stroke="var(--green)"/>
+    <text x="100" y="64" class="svgtxt w" text-anchor="middle">0.3</text><text x="149" y="64" class="svgtxt a" text-anchor="middle">0.3</text><text x="200" y="64" class="svgtxt w" text-anchor="middle">0.2</text>
+    <text x="270" y="102" class="svgtxt" text-anchor="middle">0.2</text>
+    <text x="80" y="24" class="svgtxt b">A</text><text x="214" y="24" class="svgtxt g">B</text>
+  </svg>
+  </figure>
+  </div></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Splitting an event along another one<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:center">
+  <div>
+  <p>The notes call this the <b>law of total probability</b> — its simplest form:</p>
+  $$\boxed{P(A)=P(A\cap B)+P(A\cap B^c)}$$
+  <p>The part of $A$ inside $B$ plus the part of $A$ outside $B$. The two pieces cannot overlap (an outcome cannot be both in $B$ and in $B^c$), so additivity does the rest. The full proof and the general version with many pieces — which feeds straight into Bayes — are module 08.</p>
+  <p>Reading it backwards is just as useful: $P(A\cap B^c)=P(A)-P(A\cap B)$, "A but not B".</p>
+  </div>
+  <figure style="margin:0">
+  <svg viewBox="0 0 220 130">
+    <rect x="6" y="8" width="208" height="112" fill="none" stroke="var(--border2)"/>
+    <path d="M 110 27.81 A 44 44 0 1 0 110 92.19 A 44 44 0 0 1 110 27.81 Z" fill="var(--blue)" opacity="0.45"/>
+    <path d="M 110 27.81 A 44 44 0 0 1 110 92.19 A 44 44 0 0 1 110 27.81 Z" fill="var(--green)" opacity="0.6"/>
+    <circle cx="80" cy="60" r="44" fill="none" stroke="var(--text)" stroke-width="1.3"/>
+    <circle cx="140" cy="60" r="44" fill="none" stroke="var(--border2)" stroke-width="1.3"/>
+    <text x="60" y="64" class="svgtxt w" text-anchor="middle">A∩Bᶜ</text>
+    <text x="110" y="64" class="svgtxt w" text-anchor="middle">A∩B</text>
+    <text x="40" y="24" class="svgtxt w">A</text><text x="176" y="24" class="svgtxt">B</text>
+  </svg>
+  <figcaption>The notes' picture: blue $A\cap B^c$ + green $A\cap B$ = all of $A$.</figcaption>
+  </figure>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Complement</div>
+<div class="prob">Toss a fair coin 4 times. Probability of at least one head?</div>
+<details><summary>Answer</summary><div class="sol">16 equally likely sequences, only $TTTT$ has no head: $P=1-\frac1{16}=\frac{15}{16}$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Addition rule backwards</div>
+<div class="prob">$P(A)=0.5$, $P(B)=0.4$, $P(A\cup B)=0.7$. Find $P(A\cap B)$ and $P(A\cap B^c)$.</div>
+<details><summary>Answer</summary><div class="sol">$P(A\cap B)=0.5+0.4-0.7=0.2$. Then $P(A\cap B^c)=P(A)-P(A\cap B)=0.3$.</div></details>
+</div>
+</div>
+</section>

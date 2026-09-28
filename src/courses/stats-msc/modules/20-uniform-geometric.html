@@ -1,0 +1,476 @@
+<!-- ============ 20 DISCRETE UNIFORM AND GEOMETRIC ============ -->
+<section id="s20">
+<div class="sec-head"><span class="num">20</span><h2>Discrete uniform &amp; geometric</h2><span class="sub">slides: Special Discrete Distributions 31–38 · ahead of the lecture notes</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The questions this module answers<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The last two named discrete distributions of the deck answer two very different questions:</p>
+  <ol class="steps">
+    <li><b>Discrete uniform.</b> "Every whole number from $a$ to $b$ is equally likely. What are the probabilities, the mean and the spread?" A fair die, a random digit, a ticket drawn from a numbered hat. The distribution of <b>complete ignorance</b> over a range of integers.</li>
+    <li><b>Geometric.</b> "I repeat a yes/no trial until the <b>first success</b>. How long do I wait?" The first default in a loan book, the first day a VaR limit is breached, the first ace in a shuffled deck. The binomial (module 18) fixes the number of trials and counts successes. The geometric fixes the number of successes at one and counts the <b>trials</b>.</li>
+  </ol>
+  <p>You have met a geometric already. In module 15 we checked that $f(k)=\tfrac15\left(\tfrac45\right)^{k-1}$, $k=1,2,\dots$ sums to 1. That pmf is exactly the <b>Geometric distribution with $p=\tfrac15$</b> (version I below). This module gives it a name, a mean and a variance.</p>
+  <p>At the end: the <b>complete summary table</b> of all six discrete distributions in the deck, and a short guide to <b>recognising which one a problem is about</b>. That recognition is where most exam marks are won or lost.</p>
+  <div class="note warn"><div class="t">The classic confusion, flagged up front</div>The slides give <b>two</b> geometric distributions under the same name: one counts the <b>trials</b> up to and including the first success (support $1,2,3,\dots$), the other counts the <b>failures</b> before it (support $0,1,2,\dots$). They differ by exactly 1. R's <code>dgeom</code> uses the second. Always check which one a question or a formula means.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Discrete uniform random variable (slide 31)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $a$ and $b$ be integers with $a\le b$. A discrete random variable $X$ with support $\{a,a+1,a+2,\dots,b\}$ is a <b>discrete uniform random variable</b>, written $X\sim\text{DUniform}(a,b)$, if its pmf is</p>
+  $$\boxed{\;f(k)=P(X=k)=\begin{cases}\dfrac{1}{b-a+1}&amp;k\in\{a,a+1,a+2,\dots,b\}\\[6pt]0&amp;\text{otherwise}\end{cases}\;}$$
+  <p><b>Why $b-a+1$?</b> It is the number of integers from $a$ to $b$ <i>inclusive</i>: from 1 to 6 there are $6-1+1=6$ values, not 5. Giving each of them the same probability and requiring the total to be 1 forces each to be $1/(b-a+1)$.</p>
+  <p><b>Mean and variance</b> (slide 31). If $X\sim\text{DUniform}(a,b)$ then</p>
+  $$\boxed{\;\mathbb{E}(X)=\frac{a+b}{2},\qquad\mathbb{V}(X)=\frac{(b-a+1)^2-1}{12}\;}$$
+  <p>The mean is the <b>midpoint</b>, by symmetry: the bars are flat, so the balance point is in the middle. The variance depends only on the <b>number of values</b> $m=b-a+1$, not on where they sit. Shifting all values by a constant moves the mean but not the spread (module 17: $\mathbb{V}(X+c)=\mathbb{V}(X)$).</p>
+  <p class="muted"><b>Where the variance comes from</b> (sketch, not on the slides). Shift to $Y=X-a+1$, uniform on $1,\dots,m$. Using $\sum_{k=1}^mk=\frac{m(m+1)}2$ and $\sum_{k=1}^mk^2=\frac{m(m+1)(2m+1)}6$: $\mathbb{E}(Y)=\frac{m+1}2$ and $\mathbb{E}(Y^2)=\frac{(m+1)(2m+1)}6$, so $\mathbb{V}(Y)=\frac{(m+1)(2m+1)}6-\frac{(m+1)^2}4=\frac{(m+1)(m-1)}{12}=\frac{m^2-1}{12}$.</p>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 32) · a fair die</div>
+  <div class="body">
+  <p>We toss a fair die. Let $X$ be the observed number. How is $X$ distributed? Find its mean and variance.</p>
+  <ol class="steps">
+    <li><b>Support and probabilities.</b> The support is $\{1,2,\dots,6\}$ and the die is fair, so
+    $$P(X=1)=P(X=2)=\cdots=P(X=6)=\tfrac16$$
+    Therefore $X$ is discrete uniform: $X\sim\text{DUniform}(a=1,\,b=6)$.</li>
+    <li><b>Mean</b> from the formula:
+    $$\mathbb{E}(X)=\frac{a+b}{2}=\frac{1+6}{2}=\frac72=3.5$$</li>
+    <li><b>Variance</b> from the formula:
+    $$\mathbb{V}(X)=\frac{(b-a+1)^2-1}{12}=\frac{(6-1+1)^2-1}{12}=\frac{36-1}{12}=\frac{35}{12}\approx2.917$$</li>
+    <li><b>Verify directly</b> with $\mathbb{V}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2$ (module 17):
+    $$\mathbb{E}(X^2)=\frac{1+4+9+16+25+36}{6}=\frac{91}{6}$$
+    $$\mathbb{V}(X)=\frac{91}{6}-\left(\frac72\right)^2=\frac{182}{12}-\frac{147}{12}=\frac{35}{12}\ \checkmark$$</li>
+    <li>Standard deviation: $\sqrt{35/12}\approx1.708$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The mean 3.5 is a value the die can <b>never show</b>. An expected value is a balance point (module 16), not a prediction of a single roll. A typical roll lands about 1.7 away from it.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">PICTURE</span> The fair die: flat bars, a balance point in the middle<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0">
+  <svg viewBox="0 0 400 168">
+  <line x1="45" y1="134" x2="365" y2="134" stroke="var(--border2)"/>
+  <line x1="45" y1="24" x2="45" y2="134" stroke="var(--border2)"/>
+  <text x="40" y="137.5" class="svgtxt" text-anchor="end" font-size="9.5">0</text>
+  <line x1="45" y1="97.3" x2="365" y2="97.3" stroke="var(--border)" stroke-dasharray="2 3"/>
+  <text x="40" y="100.8" class="svgtxt" text-anchor="end" font-size="9.5">1/12</text>
+  <line x1="45" y1="60.7" x2="365" y2="60.7" stroke="var(--border)" stroke-dasharray="2 3"/>
+  <text x="40" y="64.2" class="svgtxt" text-anchor="end" font-size="9.5">1/6</text>
+  <line x1="45" y1="24" x2="365" y2="24" stroke="var(--border)" stroke-dasharray="2 3"/>
+  <text x="40" y="27.5" class="svgtxt" text-anchor="end" font-size="9.5">1/4</text>
+  <text x="76" y="147" class="svgtxt" text-anchor="middle" font-size="9.5">1</text>
+  <text x="127.6" y="147" class="svgtxt" text-anchor="middle" font-size="9.5">2</text>
+  <text x="179.2" y="147" class="svgtxt" text-anchor="middle" font-size="9.5">3</text>
+  <text x="230.8" y="147" class="svgtxt" text-anchor="middle" font-size="9.5">4</text>
+  <text x="282.4" y="147" class="svgtxt" text-anchor="middle" font-size="9.5">5</text>
+  <text x="334" y="147" class="svgtxt" text-anchor="middle" font-size="9.5">6</text>
+  <text x="369" y="138" class="svgtxt" font-size="9.5">k</text>
+  <text x="45" y="17" class="svgtxt" text-anchor="middle" font-size="9.5">f(k)</text>
+  <rect x="65" y="60.7" width="22" height="73.3" fill="var(--blue)"/>
+  <rect x="116.6" y="60.7" width="22" height="73.3" fill="var(--blue)"/>
+  <rect x="168.2" y="60.7" width="22" height="73.3" fill="var(--blue)"/>
+  <rect x="219.8" y="60.7" width="22" height="73.3" fill="var(--blue)"/>
+  <rect x="271.4" y="60.7" width="22" height="73.3" fill="var(--blue)"/>
+  <rect x="323" y="60.7" width="22" height="73.3" fill="var(--blue)"/>
+  <path d="M 205 135 L 201 142 L 209 142 Z" fill="var(--green)"/>
+  <text x="205" y="162" class="svgtxt g" text-anchor="middle" font-size="9.5">E(X) = 7/2</text>
+  <line x1="116.9" y1="39.4" x2="293.1" y2="39.4" stroke="var(--amber)" stroke-width="1.8"/>
+  <line x1="116.9" y1="35.4" x2="116.9" y2="43.4" stroke="var(--amber)" stroke-width="1.8"/>
+  <line x1="293.1" y1="35.4" x2="293.1" y2="43.4" stroke="var(--amber)" stroke-width="1.8"/>
+  <text x="205" y="32.4" class="svgtxt a" text-anchor="middle" font-size="9.5">3.5 ± 1.708 (one sd)</text>
+  </svg>
+  <figcaption>DUniform(1, 6): six equal bars of height $\tfrac16$. The mean sits at 3.5, between two bars, and the amber bar spans one standard deviation either side.</figcaption>
+  </figure>
+  <div>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>Base R has no <code>dunif</code> for the <i>discrete</i> uniform. <code>dunif(x, min, max)</code> is the <b>continuous</b> uniform density of module 23. Work with the values directly:<br>
+  <code>x &lt;- 1:6</code><br>
+  <code>mean(x)</code> → <code>3.5</code><br>
+  <code>mean(x^2) - mean(x)^2</code> → <code>2.916667</code> (= 35/12)<br>
+  <code>sample(1:6, 10, replace = TRUE)</code> simulates ten rolls.</div>
+  <div class="note warn"><div class="t">TRAP: <code>var(1:6)</code> is not 35/12</div><code>var(1:6)</code> returns <code>3.5</code>, not 2.9167. R's <code>var</code> is the <b>sample</b> variance: it divides the sum of squared deviations ($17.5$) by $n-1=5$ instead of $n=6$. For the variance of a distribution whose values are all equally likely, divide by $n$: $17.5/6=35/12$. This $n$ versus $n-1$ difference is a favourite R multiple-choice question.</div>
+  <p class="muted">Explorer (module 18): the <b>fair die</b> preset shows the six flat bars and reads out $\mathbb{E}=3.5$, $\mathbb{V}=2.917$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Geometric, version I: trials up to the first success (slide 34)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Repeat a Bernoulli trial with success probability $p$, independently. Let $X$ be the <b>number of trials needed to obtain the first success</b>, counting the successful trial itself. The support is $\{1,2,3,\dots\}$ (at least one trial is always needed), and</p>
+  $$\boxed{\;f(k)=P(X=k)=\begin{cases}pq^{k-1}&amp;k\in\{1,2,3,\dots\}\\0&amp;\text{otherwise}\end{cases}\;}$$
+  <p>$X$ is a <b>geometric random variable with parameter $p$</b>: $X\sim\text{Geometric}(p)$.</p>
+  <p><b>Why this pmf.</b> "$X=k$" means: the first $k-1$ trials all fail, then trial $k$ succeeds. By independence that sequence has probability $\underbrace{q\cdot q\cdots q}_{k-1}\cdot p=pq^{k-1}$. There is exactly <b>one</b> such sequence, so no counting factor is needed, unlike the binomial.</p>
+  <p><b>Mean and variance</b> (slide 34):</p>
+  $$\boxed{\;\mathbb{E}(X)=\frac1p,\qquad\mathbb{V}(X)=\frac{1-p}{p^2}\;}$$
+  <p>Module 15's pmf $\tfrac15\left(\tfrac45\right)^{k-1}$ is version I with $p=\tfrac15$, so its mean is $\mathbb{E}(X)=5$ trials and its variance $\mathbb{V}(X)=\frac{4/5}{1/25}=20$.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Geometric, version II: failures before the first success (slide 35)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Same experiment, different count. Let $X$ be the <b>number of failures until the first success</b>, <i>not</i> counting the success. The support is $\{0,1,2,3,\dots\}$ (0 means the very first trial succeeded), and</p>
+  $$\boxed{\;f(k)=P(X=k)=\begin{cases}pq^{k}&amp;k\in\{0,1,2,3,\dots\}\\0&amp;\text{otherwise}\end{cases}\;}$$
+  <p>The slides call this $X\sim\text{Geometric}(p)$ as well.</p>
+  <p><b>Why this pmf.</b> "$X=k$" means $k$ failures then a success: probability $q^k\cdot p$.</p>
+  <p><b>Mean and variance</b> (slide 35):</p>
+  $$\boxed{\;\mathbb{E}(X)=\frac{1-p}{p},\qquad\mathbb{V}(X)=\frac{1-p}{p^2}\;}$$
+  <p><b>The link between the versions.</b> Failures = trials $-\,1$. So if $X_{\rm I}$ is version I, then $X_{\rm II}=X_{\rm I}-1$. Subtracting a constant lowers the mean by exactly 1, $\frac1p-1=\frac{1-p}{p}$ ✓, and leaves the variance unchanged, which is why both versions share $\frac{1-p}{p^2}$ ✓.</p>
+  <p class="muted">The summary table writes $p\in[0,1]$. In practice $p&gt;0$ is needed: with $p=0$ the first success never arrives and the pmf is identically zero.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> The two geometrics side by side<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0">
+  <svg viewBox="0 0 400 270">
+  <text x="12" y="16" class="svgtxt w" font-size="10">one realisation: fail, fail, success</text>
+  <rect x="16" y="24" width="46" height="26" rx="3" fill="var(--redbg)" stroke="var(--red)"/>
+  <text x="39" y="41" class="svgtxt r" text-anchor="middle" font-size="9.5">fail</text>
+  <text x="39" y="62" class="svgtxt" text-anchor="middle" font-size="8.5">trial 1</text>
+  <rect x="66" y="24" width="46" height="26" rx="3" fill="var(--redbg)" stroke="var(--red)"/>
+  <text x="89" y="41" class="svgtxt r" text-anchor="middle" font-size="9.5">fail</text>
+  <text x="89" y="62" class="svgtxt" text-anchor="middle" font-size="8.5">trial 2</text>
+  <rect x="116" y="24" width="46" height="26" rx="3" fill="var(--greenbg)" stroke="var(--green)"/>
+  <text x="139" y="41" class="svgtxt g" text-anchor="middle" font-size="9.5">success</text>
+  <text x="139" y="62" class="svgtxt" text-anchor="middle" font-size="8.5">trial 3</text>
+  <text x="170" y="34" class="svgtxt b" font-size="10">Version I counts TRIALS: X = 3</text>
+  <text x="170" y="50" class="svgtxt a" font-size="10">Version II counts FAILURES: X = 2</text>
+  <line x1="40" y1="146" x2="380" y2="146" stroke="var(--border2)"/>
+  <line x1="40" y1="94" x2="40" y2="146" stroke="var(--border2)"/>
+  <text x="35" y="149.5" class="svgtxt" text-anchor="end" font-size="9.5">0</text>
+  <text x="35" y="123.5" class="svgtxt" text-anchor="end" font-size="9.5">0.1</text>
+  <text x="35" y="97.5" class="svgtxt" text-anchor="end" font-size="9.5">0.2</text>
+  <text x="55.5" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">0</text>
+  <text x="81.2" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">1</text>
+  <text x="107" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">2</text>
+  <text x="132.7" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">3</text>
+  <text x="158.5" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">4</text>
+  <text x="184.2" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">5</text>
+  <text x="210" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">6</text>
+  <text x="235.8" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">7</text>
+  <text x="261.5" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">8</text>
+  <text x="287.3" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">9</text>
+  <text x="313" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">10</text>
+  <text x="338.8" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">11</text>
+  <text x="364.5" y="159" class="svgtxt" text-anchor="middle" font-size="9.5">12</text>
+  <text x="40" y="88" class="svgtxt b" font-size="9.5">Geometric I, p = 1/5 (module 15): support 1, 2, 3, …</text>
+  <rect x="75.2" y="94" width="12" height="52" fill="var(--blue)"/>
+  <rect x="101" y="104.4" width="12" height="41.6" fill="var(--blue)"/>
+  <rect x="126.7" y="112.7" width="12" height="33.3" fill="var(--blue)"/>
+  <rect x="152.5" y="119.4" width="12" height="26.6" fill="var(--blue)"/>
+  <rect x="178.2" y="124.7" width="12" height="21.3" fill="var(--blue)"/>
+  <rect x="204" y="129" width="12" height="17" fill="var(--blue)"/>
+  <rect x="229.8" y="132.4" width="12" height="13.6" fill="var(--blue)"/>
+  <rect x="255.5" y="135.1" width="12" height="10.9" fill="var(--blue)"/>
+  <rect x="281.3" y="137.3" width="12" height="8.7" fill="var(--blue)"/>
+  <rect x="307" y="139" width="12" height="7" fill="var(--blue)"/>
+  <rect x="332.8" y="140.4" width="12" height="5.6" fill="var(--blue)"/>
+  <rect x="358.5" y="141.5" width="12" height="4.5" fill="var(--blue)"/>
+  <text x="55.5" y="142" class="svgtxt r" text-anchor="middle" font-size="8.5">none</text>
+  <line x1="40" y1="230" x2="380" y2="230" stroke="var(--border2)"/>
+  <line x1="40" y1="178" x2="40" y2="230" stroke="var(--border2)"/>
+  <text x="35" y="233.5" class="svgtxt" text-anchor="end" font-size="9.5">0</text>
+  <text x="35" y="207.5" class="svgtxt" text-anchor="end" font-size="9.5">0.1</text>
+  <text x="35" y="181.5" class="svgtxt" text-anchor="end" font-size="9.5">0.2</text>
+  <text x="55.5" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">0</text>
+  <text x="81.2" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">1</text>
+  <text x="107" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">2</text>
+  <text x="132.7" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">3</text>
+  <text x="158.5" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">4</text>
+  <text x="184.2" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">5</text>
+  <text x="210" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">6</text>
+  <text x="235.8" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">7</text>
+  <text x="261.5" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">8</text>
+  <text x="287.3" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">9</text>
+  <text x="313" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">10</text>
+  <text x="338.8" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">11</text>
+  <text x="364.5" y="243" class="svgtxt" text-anchor="middle" font-size="9.5">12</text>
+  <text x="40" y="172" class="svgtxt a" font-size="9.5">Geometric II, p = 1/5: support 0, 1, 2, …</text>
+  <rect x="49.5" y="178" width="12" height="52" fill="var(--amber)" opacity="0.9"/>
+  <rect x="75.2" y="188.4" width="12" height="41.6" fill="var(--amber)" opacity="0.9"/>
+  <rect x="101" y="196.7" width="12" height="33.3" fill="var(--amber)" opacity="0.9"/>
+  <rect x="126.7" y="203.4" width="12" height="26.6" fill="var(--amber)" opacity="0.9"/>
+  <rect x="152.5" y="208.7" width="12" height="21.3" fill="var(--amber)" opacity="0.9"/>
+  <rect x="178.2" y="213" width="12" height="17" fill="var(--amber)" opacity="0.9"/>
+  <rect x="204" y="216.4" width="12" height="13.6" fill="var(--amber)" opacity="0.9"/>
+  <rect x="229.8" y="219.1" width="12" height="10.9" fill="var(--amber)" opacity="0.9"/>
+  <rect x="255.5" y="221.3" width="12" height="8.7" fill="var(--amber)" opacity="0.9"/>
+  <rect x="281.3" y="223" width="12" height="7" fill="var(--amber)" opacity="0.9"/>
+  <rect x="307" y="224.4" width="12" height="5.6" fill="var(--amber)" opacity="0.9"/>
+  <rect x="332.8" y="225.5" width="12" height="4.5" fill="var(--amber)" opacity="0.9"/>
+  <rect x="358.5" y="226.4" width="12" height="3.6" fill="var(--amber)" opacity="0.9"/>
+  <text x="394" y="262" class="svgtxt" font-size="9.5" text-anchor="end">k</text>
+  </svg>
+  <figcaption>Top: the same outcome gives $X=3$ in version I and $X=2$ in version II. Bottom: the two pmfs for $p=\tfrac15$ have <b>identical bar heights</b> (0.2, 0.16, 0.128, …, each $\tfrac45$ of the one before), shifted by one step. Version I has no bar at 0.</figcaption>
+  </figure>
+  <div>
+  <table class="formula-table">
+    <tr><td></td><td><b>Version I</b></td><td><b>Version II</b></td></tr>
+    <tr><td>counts</td><td>trials, including the success</td><td>failures before the success</td></tr>
+    <tr><td>support</td><td>$\{1,2,3,\dots\}$</td><td>$\{0,1,2,\dots\}$</td></tr>
+    <tr><td>pmf</td><td>$pq^{k-1}$</td><td>$pq^{k}$</td></tr>
+    <tr><td>$\mathbb{E}(X)$</td><td>$1/p$</td><td>$(1-p)/p$</td></tr>
+    <tr><td>$\mathbb{V}(X)$</td><td>$(1-p)/p^2$</td><td>$(1-p)/p^2$</td></tr>
+    <tr><td>tail</td><td>$P(X&gt;k)=q^k$</td><td>$P(X\ge k)=q^k$</td></tr>
+    <tr><td>in R</td><td><code>dgeom(k - 1, p)</code></td><td><code>dgeom(k, p)</code></td></tr>
+  </table>
+  <div class="note warn"><div class="t">TRAP: R's <code>dgeom</code> is version II</div><code>dgeom(k, prob)</code> $=pq^k$ counts <b>failures</b>, and <code>pgeom(k, prob)</code> $=P(X\le k)=1-q^{k+1}$ is its cdf. For version I (trials) shift by one: $P(X_{\rm I}=k)$ is <code>dgeom(k - 1, p)</code>. Check: <code>dgeom(0, 1/5)</code> → <code>0.2</code>, which is $P(\text{success on the first trial})$: 0 failures in version II, 1 trial in version I.</div>
+  <p><b>Wording decides the version.</b> "How many trials <b>until / to get</b> the first success" means version I. "How many failures, or draws <b>before</b>, the first success" means version II. The aces example below says "draws needed <b>before</b> an ace", so it is version II.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PROOF</span> Why $\mathbb{E}(X)=1/p$ (version I)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The slides state the mean and variance without proof. Here are two derivations of the mean, a short one and a careful one.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <h3>1. The first-step argument (intuition)</h3>
+  <p>Let $E=\mathbb{E}(X)$. The first trial is always used. With probability $p$ it succeeds and we stop. With probability $q$ it fails, and then, because trials are independent, we are <b>back at the start</b>, needing on average another $E$ trials. So</p>
+  $$E=1+q\,E\quad\Longrightarrow\quad E(1-q)=1\quad\Longrightarrow\quad E=\frac{1}{1-q}=\frac1p$$
+  <p>A success with probability $\tfrac15$ takes 5 tries on average. A six on a die takes 6 rolls. A 1% event takes 100 days.</p>
+  </div>
+  <div>
+  <h3>2. From the series (rigorous)</h3>
+  <ol class="steps">
+    <li><b>Definition:</b> $\mathbb{E}(X)=\sum_{k=1}^{\infty}k\,pq^{k-1}=p\sum_{k=1}^{\infty}k\,q^{k-1}$.</li>
+    <li><b>Geometric series</b> (the same one module 15 used to check the total is 1): $\sum_{k=0}^{\infty}q^k=\frac{1}{1-q}$ for $0\le q&lt;1$.</li>
+    <li><b>Differentiate both sides in $q$:</b> $\sum_{k=1}^{\infty}k\,q^{k-1}=\frac{1}{(1-q)^2}=\frac{1}{p^2}$.</li>
+    <li><b>Collect:</b> $\mathbb{E}(X)=p\cdot\dfrac{1}{p^2}=\dfrac1p\qquad\square$</li>
+  </ol>
+  <p class="muted"><b>Variance, sketch.</b> Differentiating once more gives $\mathbb{E}[X(X-1)]=\frac{2q}{p^2}$, so $\mathbb{E}(X^2)=\frac{2q}{p^2}+\frac1p$ and $\mathbb{V}(X)=\frac{2q}{p^2}+\frac1p-\frac1{p^2}=\frac{2q+p-1}{p^2}=\frac{q}{p^2}=\frac{1-p}{p^2}$.</p>
+  </div>
+  </div>
+  <p><b>The tail, which you will use constantly.</b> "More than $k$ trials needed" (version I) means the first $k$ trials all fail, so $P(X_{\rm I}&gt;k)=q^k$. In version II, "at least $k$ failures" means the same event, so $P(X_{\rm II}\ge k)=q^k$. No summation required. The aces example shows the long way round and then this shortcut.</p>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE (slides 36–37) · drawing cards until the first ace</div>
+  <div class="body">
+  <p>From a deck of cards we draw cards at random, <b>with replacement</b>, before drawing an ace. (1) Find the probability that 2 draws are needed before an ace. (2) Find the probability that at least 10 draws are needed before an ace.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li><b>The trial.</b> Each draw is a Bernoulli trial with success = "ace". With replacement, the draws are independent and $p$ never changes:
+    $$p=\frac{4}{52}=\frac{1}{13},\qquad q=\frac{12}{13}$$</li>
+    <li><b>The variable and the version.</b> $X$ = number of draws needed <b>before</b> the first ace appears, i.e. the number of non-aces before the first ace. That counts failures, so it is <b>version II</b>:
+    $$X\sim\text{Geometric}(p=1/13),\qquad f(k)=pq^k,\quad k=0,1,2,\dots$$</li>
+    <li><b>(1) Two draws before an ace.</b> $X=2$ means non-ace, non-ace, ace:
+    $$P(X=2)=pq^2=\frac1{13}\left(\frac{12}{13}\right)^2=\frac{144}{2197}=\mathbf{0.06554392}$$</li>
+    <li><b>(2) At least 10 draws before an ace.</b> Add all the terms from 10 on:
+    $$\begin{aligned}
+    P(X\ge10)&amp;=P(X=10)+P(X=11)+P(X=12)+\cdots\\
+    &amp;=f(10)+f(11)+f(12)+\cdots\\
+    &amp;=pq^{10}+pq^{11}+pq^{12}+\cdots\\
+    &amp;=pq^{10}\sum_{j=0}^{\infty}q^j\qquad\text{(factor out }pq^{10}\text{)}\\
+    &amp;=\frac{pq^{10}}{1-q}\qquad\text{(geometric series)}\\
+    &amp;=q^{10}\qquad\text{(since }1-q=p\text{)}\\
+    &amp;=\left(\frac{12}{13}\right)^{10}\simeq\mathbf{0.4491371}
+    \end{aligned}$$</li>
+    <li><b>The shortcut, and what it means.</b> "At least 10 non-aces before the first ace" is the same event as "<b>the first 10 draws all fail</b>" (all non-aces). By independence that has probability $q^{10}$ directly. The infinite sum in step 4 is just a longer route to the same place.</li>
+  </ol>
+  </div>
+  <div>
+  <figure style="margin:0">
+  <svg viewBox="0 0 400 182">
+  <line x1="45" y1="144" x2="375" y2="144" stroke="var(--border2)"/>
+  <line x1="45" y1="24" x2="45" y2="144" stroke="var(--border2)"/>
+  <text x="40" y="147.5" class="svgtxt" text-anchor="end" font-size="9.5">0.00</text>
+  <line x1="45" y1="115.8" x2="375" y2="115.8" stroke="var(--border)" stroke-dasharray="2 3"/>
+  <text x="40" y="119.3" class="svgtxt" text-anchor="end" font-size="9.5">0.02</text>
+  <line x1="45" y1="87.5" x2="375" y2="87.5" stroke="var(--border)" stroke-dasharray="2 3"/>
+  <text x="40" y="91" class="svgtxt" text-anchor="end" font-size="9.5">0.04</text>
+  <line x1="45" y1="59.3" x2="375" y2="59.3" stroke="var(--border)" stroke-dasharray="2 3"/>
+  <text x="40" y="62.8" class="svgtxt" text-anchor="end" font-size="9.5">0.06</text>
+  <line x1="45" y1="31.1" x2="375" y2="31.1" stroke="var(--border)" stroke-dasharray="2 3"/>
+  <text x="40" y="34.6" class="svgtxt" text-anchor="end" font-size="9.5">0.08</text>
+  <text x="49.8" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">0</text>
+  <text x="65.8" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">2</text>
+  <text x="89.9" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">5</text>
+  <text x="129.9" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">10</text>
+  <text x="170" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">15</text>
+  <text x="210" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">20</text>
+  <text x="250" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">25</text>
+  <text x="290.1" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">30</text>
+  <text x="330.1" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">35</text>
+  <text x="370.2" y="157" class="svgtxt" text-anchor="middle" font-size="9.5">40</text>
+  <text x="379" y="148" class="svgtxt" font-size="9.5">k</text>
+  <text x="45" y="17" class="svgtxt" text-anchor="middle" font-size="9.5">f(k)</text>
+  <rect x="47.3" y="35.4" width="5" height="108.6" fill="var(--blue)"/>
+  <rect x="55.3" y="43.8" width="5" height="100.2" fill="var(--blue)"/>
+  <rect x="63.3" y="51.5" width="5" height="92.5" fill="var(--amber)"/>
+  <rect x="71.3" y="58.6" width="5" height="85.4" fill="var(--blue)"/>
+  <rect x="79.3" y="65.2" width="5" height="78.8" fill="var(--blue)"/>
+  <rect x="87.4" y="71.2" width="5" height="72.8" fill="var(--blue)"/>
+  <rect x="95.4" y="76.8" width="5" height="67.2" fill="var(--blue)"/>
+  <rect x="103.4" y="82" width="5" height="62" fill="var(--blue)"/>
+  <rect x="111.4" y="86.8" width="5" height="57.2" fill="var(--blue)"/>
+  <rect x="119.4" y="91.2" width="5" height="52.8" fill="var(--blue)"/>
+  <rect x="127.4" y="95.2" width="5" height="48.8" fill="var(--red)" opacity="0.85"/>
+  <rect x="135.4" y="99" width="5" height="45" fill="var(--red)" opacity="0.85"/>
+  <rect x="143.4" y="102.4" width="5" height="41.6" fill="var(--red)" opacity="0.85"/>
+  <rect x="151.4" y="105.6" width="5" height="38.4" fill="var(--red)" opacity="0.85"/>
+  <rect x="159.4" y="108.6" width="5" height="35.4" fill="var(--red)" opacity="0.85"/>
+  <rect x="167.5" y="111.3" width="5" height="32.7" fill="var(--red)" opacity="0.85"/>
+  <rect x="175.5" y="113.8" width="5" height="30.2" fill="var(--red)" opacity="0.85"/>
+  <rect x="183.5" y="116.1" width="5" height="27.9" fill="var(--red)" opacity="0.85"/>
+  <rect x="191.5" y="118.3" width="5" height="25.7" fill="var(--red)" opacity="0.85"/>
+  <rect x="199.5" y="120.3" width="5" height="23.7" fill="var(--red)" opacity="0.85"/>
+  <rect x="207.5" y="122.1" width="5" height="21.9" fill="var(--red)" opacity="0.85"/>
+  <rect x="215.5" y="123.8" width="5" height="20.2" fill="var(--red)" opacity="0.85"/>
+  <rect x="223.5" y="125.3" width="5" height="18.7" fill="var(--red)" opacity="0.85"/>
+  <rect x="231.5" y="126.8" width="5" height="17.2" fill="var(--red)" opacity="0.85"/>
+  <rect x="239.5" y="128.1" width="5" height="15.9" fill="var(--red)" opacity="0.85"/>
+  <rect x="247.5" y="129.3" width="5" height="14.7" fill="var(--red)" opacity="0.85"/>
+  <rect x="255.6" y="130.4" width="5" height="13.6" fill="var(--red)" opacity="0.85"/>
+  <rect x="263.6" y="131.5" width="5" height="12.5" fill="var(--red)" opacity="0.85"/>
+  <rect x="271.6" y="132.5" width="5" height="11.5" fill="var(--red)" opacity="0.85"/>
+  <rect x="279.6" y="133.3" width="5" height="10.7" fill="var(--red)" opacity="0.85"/>
+  <rect x="287.6" y="134.2" width="5" height="9.8" fill="var(--red)" opacity="0.85"/>
+  <rect x="295.6" y="134.9" width="5" height="9.1" fill="var(--red)" opacity="0.85"/>
+  <rect x="303.6" y="135.6" width="5" height="8.4" fill="var(--red)" opacity="0.85"/>
+  <rect x="311.6" y="136.3" width="5" height="7.7" fill="var(--red)" opacity="0.85"/>
+  <rect x="319.6" y="136.9" width="5" height="7.1" fill="var(--red)" opacity="0.85"/>
+  <rect x="327.6" y="137.4" width="5" height="6.6" fill="var(--red)" opacity="0.85"/>
+  <rect x="335.7" y="137.9" width="5" height="6.1" fill="var(--red)" opacity="0.85"/>
+  <rect x="343.7" y="138.4" width="5" height="5.6" fill="var(--red)" opacity="0.85"/>
+  <rect x="351.7" y="138.8" width="5" height="5.2" fill="var(--red)" opacity="0.85"/>
+  <rect x="359.7" y="139.2" width="5" height="4.8" fill="var(--red)" opacity="0.85"/>
+  <rect x="367.7" y="139.6" width="5" height="4.4" fill="var(--red)" opacity="0.85"/>
+  <text x="71.8" y="45.5" class="svgtxt a" text-anchor="start" font-size="9.5">P(X = 2) = 0.0655</text>
+  <text x="258.1" y="73.4" class="svgtxt r" text-anchor="middle" font-size="10">P(X ≥ 10) = (12/13)¹⁰ = 0.4491</text>
+  <text x="258.1" y="87.4" class="svgtxt r" text-anchor="middle" font-size="9">= sum of all red bars, k = 10, 11, 12, …</text>
+  <path d="M 145.9 145 L 141.9 152 L 149.9 152 Z" fill="var(--green)"/>
+  <text x="145.9" y="170" class="svgtxt g" text-anchor="middle" font-size="9">E(X) = 12</text>
+  </svg>
+  <figcaption>Geometric II with $p=1/13$, for $k=0,\dots,40$. Each bar is $\tfrac{12}{13}$ of the one before. The amber bar is the answer to (1). The red bars, which continue forever, add up to the answer to (2): almost half the total probability. The mean number of non-aces before the first ace is $(1-p)/p=12$.</figcaption>
+  </figure>
+  <div class="note"><div class="t">Insight</div>The pmf is <b>largest at $k=0$</b>: the single most likely outcome is an ace on the very first draw (probability $1/13\approx0.077$). Yet the distribution is so spread out that there is a 45% chance of 10 or more non-aces first. The mean is 12 and the standard deviation $\sqrt{156}\approx12.5$ is as large as the mean. Waiting times for rare events are long and very unpredictable.</div>
+  <div class="note warn"><div class="t">TRAP: the wrong version gives a different answer</div>With version I (draws up to and <i>including</i> the ace), $X=2$ would mean "the ace comes on the 2nd draw": $pq=\frac{12}{169}=0.0710$. That answers a different question. The slide's answer $pq^2$ is version II. When a question is ambiguous, say which convention you use.</div>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div><code>dgeom(2, 1/13)</code> → <code>0.06554392</code> (version II, as the slide)<br><code>1 - pgeom(9, 1/13)</code> → <code>0.4491371</code>, since $P(X\ge10)=1-P(X\le9)$. The same as <code>pgeom(9, 1/13, lower.tail = FALSE)</code>.<br>In the explorer (module 18) the <b>aces</b> presets load this example. For $P(X\ge10)$ the slider stops at $k=9$ and you read $P(X&gt;9)$.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TEASER</span> The geometric has no memory<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Suppose you have already drawn 10 non-aces. Is an ace now "due"? Compute, with $X$ version II and the tail formula $P(X\ge k)=q^k$:</p>
+  $$P(X\ge10+5\mid X\ge10)=\frac{P(X\ge15)}{P(X\ge10)}=\frac{q^{15}}{q^{10}}=q^{5}=P(X\ge5)$$
+  <p>(Conditional probability, module 07. The event $\{X\ge15\}$ is contained in $\{X\ge10\}$, so their intersection is $\{X\ge15\}$.) Having already waited 10 draws, the chance of waiting at least 5 more is <b>exactly the same</b> as it was at the very start. The past failures are forgotten: this is the <b>memoryless property</b>, and it follows directly from independence. The belief that an ace (or a market reversal, or a red number at roulette) becomes more likely after a long drought is the <b>gambler's fallacy</b>.</p>
+  <p class="muted">Module 23 meets the continuous version: the exponential distribution, the waiting time of a Poisson process, is the only continuous distribution with this property.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">SUMMARY</span> All six discrete distributions (slide 38)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><td><b>R.V.</b></td><td><b>Parameters</b></td><td><b>Support</b></td><td><b>PMF</b></td><td><b>$\mathbb{E}(X)$</b></td><td><b>$\mathbb{V}(X)$</b></td><td><b>R pmf (not on slides)</b></td></tr>
+    <tr><td>Bernoulli$(p)$</td><td>$p\in[0,1]$</td><td>$\{0,1\}$</td><td>$f(0)=q,\ f(1)=p$</td><td>$p$</td><td>$pq$</td><td><code>dbinom(k, 1, p)</code></td></tr>
+    <tr><td>Binomial$(n,p)$</td><td>$n\in\mathbb{N},\ p\in[0,1]$</td><td>$\{0,1,\dots,n\}$</td><td>$f(k)=\dfrac{n!}{k!(n-k)!}\,p^kq^{n-k}$</td><td>$np$</td><td>$npq$</td><td><code>dbinom(k, n, p)</code></td></tr>
+    <tr><td>Poisson$(\lambda)$</td><td>$\lambda\in\mathbb{R}^+$</td><td>$\{0,1,2,\dots\}$</td><td>$f(k)=e^{-\lambda}\dfrac{\lambda^k}{k!}$</td><td>$\lambda$</td><td>$\lambda$</td><td><code>dpois(k, lambda)</code></td></tr>
+    <tr><td>DUniform$(a,b)$</td><td>$a,b\in\mathbb{Z},\ a\le b$</td><td>$\{a,\dots,b\}$</td><td>$f(k)=\dfrac{1}{b-a+1}$</td><td>$\dfrac{a+b}{2}$</td><td>$\dfrac{(b-a+1)^2-1}{12}$</td><td><code>1/(b - a + 1)</code></td></tr>
+    <tr><td>Geometric$(p)$ I</td><td>$p\in[0,1]$</td><td>$\{1,2,\dots\}$</td><td>$f(k)=pq^{k-1}$</td><td>$\dfrac1p$</td><td>$\dfrac{1-p}{p^2}$</td><td><code>dgeom(k - 1, p)</code></td></tr>
+    <tr><td>Geometric$(p)$ II</td><td>$p\in[0,1]$</td><td>$\{0,1,2,\dots\}$</td><td>$f(k)=pq^{k}$</td><td>$\dfrac{1-p}{p}$</td><td>$\dfrac{1-p}{p^2}$</td><td><code>dgeom(k, p)</code></td></tr>
+  </table>
+  <p>Replace <code>d</code> by <code>p</code> for the cdf, e.g. <code>pbinom</code>, <code>ppois</code>, <code>pgeom</code>. Replace it by <code>r</code> to simulate. For the geometric, $p&gt;0$ is needed in practice (see the note in version II).</p>
+  <p><b>Connections worth remembering:</b> Bernoulli = Binomial with $n=1$; Binomial = sum of $n$ i.i.d. Bernoullis; Poisson = limit of Binomial as $n\to\infty$, $p\to0$, $np=\lambda$; Geometric II = Geometric I $-\,1$. The binomial counts successes in a fixed number of trials, and the geometric counts trials until a fixed number (one) of successes.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">GUIDE</span> Which distribution is it?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0">
+  <svg viewBox="0 0 420 250">
+  <text x="10" y="16" class="svgtxt w" font-size="10.5">What does X count?</text>
+  <rect x="10" y="28" width="250" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+  <text x="20" y="47" class="svgtxt w" font-size="9.5">successes in a FIXED number n</text>
+  <text x="20" y="63" class="svgtxt w" font-size="9.5">of independent trials, same p</text>
+  <line x1="262" y1="51" x2="280" y2="51" stroke="var(--border2)" stroke-width="1.5"/>
+  <path d="M 284 51 L 277 47 L 277 55 Z" fill="var(--border2)"/>
+  <rect x="286" y="28" width="126" height="46" rx="4" fill="var(--bluebg)" stroke="var(--blue)"/>
+  <text x="296" y="47" class="svgtxt b" font-size="10.5">Binomial(n, p)</text>
+  <text x="296" y="63" class="svgtxt" font-size="8.5">n = 1: Bernoulli(p)</text>
+  <rect x="10" y="84" width="250" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+  <text x="20" y="103" class="svgtxt w" font-size="9.5">events in an interval of time,</text>
+  <text x="20" y="119" class="svgtxt w" font-size="9.5">known rate, no upper limit</text>
+  <line x1="262" y1="107" x2="280" y2="107" stroke="var(--border2)" stroke-width="1.5"/>
+  <path d="M 284 107 L 277 103 L 277 111 Z" fill="var(--border2)"/>
+  <rect x="286" y="84" width="126" height="46" rx="4" fill="var(--greenbg)" stroke="var(--green)"/>
+  <text x="296" y="103" class="svgtxt g" font-size="10.5">Poisson(λ)</text>
+  <text x="296" y="119" class="svgtxt" font-size="8.5">λ = rate × window</text>
+  <rect x="10" y="140" width="250" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+  <text x="20" y="159" class="svgtxt w" font-size="9.5">trials until, or failures</text>
+  <text x="20" y="175" class="svgtxt w" font-size="9.5">before, the FIRST success</text>
+  <line x1="262" y1="163" x2="280" y2="163" stroke="var(--border2)" stroke-width="1.5"/>
+  <path d="M 284 163 L 277 159 L 277 167 Z" fill="var(--border2)"/>
+  <rect x="286" y="140" width="126" height="46" rx="4" fill="var(--amberbg)" stroke="var(--amber)"/>
+  <text x="296" y="159" class="svgtxt a" font-size="10.5">Geometric(p)</text>
+  <text x="296" y="175" class="svgtxt" font-size="8.5">I trials, II failures</text>
+  <rect x="10" y="196" width="250" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+  <text x="20" y="215" class="svgtxt w" font-size="9.5">a whole number in a..b,</text>
+  <text x="20" y="231" class="svgtxt w" font-size="9.5">every value equally likely</text>
+  <line x1="262" y1="219" x2="280" y2="219" stroke="var(--border2)" stroke-width="1.5"/>
+  <path d="M 284 219 L 277 215 L 277 223 Z" fill="var(--border2)"/>
+  <rect x="286" y="196" width="126" height="46" rx="4" fill="var(--redbg)" stroke="var(--red)"/>
+  <text x="296" y="215" class="svgtxt r" font-size="10.5">DUniform(a, b)</text>
+  <text x="296" y="231" class="svgtxt" font-size="8.5">1/(b − a + 1) each</text>
+  </svg>
+  <figcaption>Four questions, four families. Ask what $X$ counts, then check the assumptions (independence, constant $p$ or constant rate).</figcaption>
+  </figure>
+  <div>
+  <ol class="steps">
+    <li><b>Is there a fixed number $n$ of independent yes/no trials, and $X$ counts the successes?</b> Binomial$(n,p)$. One trial: Bernoulli$(p)$. Keywords: "out of", "in $n$ tosses / loans / days".</li>
+    <li><b>Does $X$ count events in a window of time or space, given only an average rate?</b> Poisson$(\lambda)$, with $\lambda$ = expected count <i>in that window</i>. Also use it for a binomial with huge $n$ and tiny $p$. Keywords: "per hour", "on average", "rare".</li>
+    <li><b>Does $X$ measure how long until the first success?</b> Geometric$(p)$. Then decide: trials up to and including the success (I, starts at 1) or failures before it (II, starts at 0). Keywords: "until", "before", "first".</li>
+    <li><b>Is every integer between $a$ and $b$ equally likely?</b> DUniform$(a,b)$. Keywords: "fair", "at random from 1 to …".</li>
+  </ol>
+  <div class="note tip"><div class="t">Upper limit as a quick discriminator</div>Binomial: $X\le n$. DUniform: $a\le X\le b$. Poisson and geometric: <b>no upper bound</b>. If the question's variable could in principle be arbitrarily large, it is not binomial.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Name the distribution</div>
+<div class="prob">Give the distribution, with parameters, and the mean: (a) the number of trading days until the first exceedance of a correct 99% VaR; (b) the number of client complaints in a week, when complaints average 3 per week; (c) the number of the next 12 months with a positive return, if each month is independently positive with probability 0.6; (d) a digit drawn at random from 0 to 9.</div>
+<details><summary>Answer</summary><div class="sol">
+<ol class="steps">
+<li>(a) Geometric I with $p=0.01$ (days <i>until and including</i> the exceedance): $\mathbb{E}=1/p=100$ days.</li>
+<li>(b) Poisson(3): $\mathbb{E}=\mathbb{V}=3$.</li>
+<li>(c) Binomial(12, 0.6): $\mathbb{E}=7.2$ months, $\mathbb{V}=12\times0.6\times0.4=2.88$.</li>
+<li>(d) DUniform(0, 9): $\mathbb{E}=4.5$, $\mathbb{V}=\frac{10^2-1}{12}=8.25$.</li>
+</ol></div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Waiting for a six, and module 15's pmf</div>
+<div class="prob">(1) You roll a fair die until the first 6. Find the expected number of rolls, the variance, and the probability that more than 6 rolls are needed. (2) For module 15's $f(k)=\tfrac15\left(\tfrac45\right)^{k-1}$, $k\ge1$, find $\mathbb{E}(X)$, $\mathbb{V}(X)$ and $P(X&gt;3)$.</div>
+<details><summary>Answer</summary><div class="sol">
+<ol class="steps">
+<li>(1) Rolls <i>until</i> the 6, including it: Geometric I with $p=\tfrac16$. $\mathbb{E}=6$ rolls; $\mathbb{V}=\frac{5/6}{1/36}=30$; $P(X&gt;6)=\left(\tfrac56\right)^6=0.3349$, since the first six rolls must all miss. In R: <code>1 - pgeom(5, 1/6)</code> → <code>0.334898</code> (5 failures or fewer means at most 6 rolls).</li>
+<li>(2) Geometric I with $p=\tfrac15$: $\mathbb{E}=5$, $\mathbb{V}=\frac{4/5}{1/25}=20$, $P(X&gt;3)=\left(\tfrac45\right)^3=0.512$.</li>
+</ol></div></details>
+</div>
+</div>
+</section>

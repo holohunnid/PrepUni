@@ -1,0 +1,187 @@
+<!-- ============ 12 RANDOM VARIABLES ============ -->
+<section id="s12">
+<div class="sec-head"><span class="num">12</span><h2>Random variables</h2><span class="sub">lecture 2, notes p.6–7 · slides: Distribution Functions 2–7</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Attach a number to every outcome<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Outcomes like "GB" or "HTT" are awkward to compute with. Usually we care about a <b>number</b> attached to the outcome: how many girls, how many tails, how much money we win. A <b>random variable</b> is exactly that — a rule that assigns a real number to each outcome:</p>
+  $$X:\Omega\to\mathbb R,\qquad \omega\mapsto X(\omega).$$
+  <p>The name is slightly misleading: a random variable is <b>not random and not a variable</b> — it is a fixed function. The randomness sits in <i>which</i> $\omega$ occurs; once the experiment is run, $X(\omega)$ is determined. Before it is run, $X$ is uncertain, and that is what "random" means here.</p>
+  <p>The key move of this module is the <b>preimage</b>: the event "$X=1$" is really the set of outcomes that $X$ sends to 1, $\{\omega:X(\omega)=1\}$. That set is an event, so we already know how to find its probability. Everything about random variables is computed this way.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 2 · notes p.6 · slides Distribution Functions 2 — families with two kids<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Pick a family at random from the population of families with two children: $\Omega=\{GG,GB,BG,BB\}$ (first child, second child). Define $X$ = <b>number of girls</b>. $X$ takes the values 0, 1, 2.</p>
+  <ol class="steps">
+    <li>$P(X=0)=P(\{\omega\in\Omega:X(\omega)=0\})=P(\{BB\})=\tfrac14$</li>
+    <li>$P(X=1)=P(\{\omega\in\Omega:X(\omega)=1\})=P(\{GB,BG\})=\tfrac12$</li>
+    <li>$P(X=2)=P(\{\omega\in\Omega:X(\omega)=2\})=P(\{GG\})=\tfrac14$</li>
+  </ol>
+  <p>assuming B and G equally likely (so the four outcomes are equally likely). The slides write the same thing as $P(X=1)=P(X^{-1}(1))$: the probability of the <b>preimage</b> of 1.</p>
+  <div class="note"><div class="t">Insight</div>Two different outcomes, $GB$ and $BG$, are sent to the same number 1. That is why $P(X=1)$ is <i>twice</i> the others: a value collects the probability of <b>all</b> outcomes mapped onto it.</div>
+  </div>
+  <figure style="margin:0">
+  <svg viewBox="0 0 340 250">
+    <ellipse cx="60" cy="100" rx="44" ry="80" fill="var(--panel2)" stroke="var(--red)"/>
+    <text x="60" y="14" class="svgtxt r" text-anchor="middle">Ω</text>
+    <text x="60" y="54" class="svgtxt w" text-anchor="middle">GG</text><text x="60" y="88" class="svgtxt w" text-anchor="middle">GB</text><text x="60" y="122" class="svgtxt w" text-anchor="middle">BG</text><text x="60" y="156" class="svgtxt w" text-anchor="middle">BB</text>
+    <line x1="220" y1="28" x2="220" y2="172" stroke="var(--border2)" stroke-width="1.5"/>
+    <text x="220" y="14" class="svgtxt" text-anchor="middle">ℝ</text>
+    <circle cx="220" cy="50" r="4" fill="var(--green)"/><text x="232" y="54" class="svgtxt g">2</text>
+    <circle cx="220" cy="100" r="4" fill="var(--blue)"/><text x="232" y="104" class="svgtxt b">1</text>
+    <circle cx="220" cy="150" r="4" fill="var(--red)"/><text x="232" y="154" class="svgtxt r">0</text>
+    <path d="M 82 50 C 140 44 180 46 214 50" fill="none" stroke="var(--green)" stroke-width="1.4"/>
+    <path d="M 82 84 C 140 84 180 96 214 100" fill="none" stroke="var(--blue)" stroke-width="1.4"/>
+    <path d="M 82 118 C 140 118 180 104 214 101" fill="none" stroke="var(--blue)" stroke-width="1.4"/>
+    <path d="M 82 152 C 140 156 180 152 214 150" fill="none" stroke="var(--red)" stroke-width="1.4"/>
+    <text x="110" y="196" class="svgtxt" text-anchor="middle">X = number of girls</text>
+    <g transform="translate(0,6)">
+    <line x1="30" y1="236" x2="310" y2="236" stroke="var(--border2)"/>
+    <rect x="80" y="220" width="22" height="16" fill="var(--red)" opacity="0.6"/>
+    <rect x="160" y="204" width="22" height="32" fill="var(--blue)" opacity="0.6"/>
+    <rect x="240" y="220" width="22" height="16" fill="var(--green)" opacity="0.6"/>
+    <text x="118" y="232" class="svgtxt r">1/4</text><text x="198" y="232" class="svgtxt b">1/2</text><text x="278" y="232" class="svgtxt g">1/4</text>
+    </g>
+  </svg>
+  <figcaption>The notes' arrow picture: $X$ carries each outcome to a number. The bars underneath (heights ∝ probability) are the <b>distribution</b> of $X$ — module 15 calls it the pmf.</figcaption>
+  </figure>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">LECTURE 2 · notes p.6–7 · slides 3 — three flips, X = number of tails</div>
+  <div class="body">
+  <p>Flip a fair coin 3 times: $\Omega=\{HHH,HHT,\dots,TTT\}$, $|\Omega|=2^3=8$ equally likely outcomes.</p>
+  <ol class="steps">
+    <li>$P(X=0)=P(\{HHH\})=\tfrac18$</li>
+    <li>$P(X=1)=P(\{THH,HTH,HHT\})=\tfrac38$</li>
+    <li>$P(X=2)=P(\{HTT,THT,TTH\})=\tfrac38$</li>
+    <li>$P(X=3)=P(\{TTT\})=\tfrac18$</li>
+  </ol>
+  <p>The probabilities sum to 1 ✓. All possible values of $X$ form the <b>support</b> of $X$: here $\{0,1,2,3\}$.</p>
+  <figure>
+  <svg viewBox="0 0 320 110">
+    <line x1="30" y1="90" x2="300" y2="90" stroke="var(--border2)"/>
+    <rect x="50" y="70" width="30" height="20" fill="var(--blue)" opacity="0.55" stroke="var(--blue)"/>
+    <rect x="115" y="30" width="30" height="60" fill="var(--blue)" opacity="0.55" stroke="var(--blue)"/>
+    <rect x="180" y="30" width="30" height="60" fill="var(--blue)" opacity="0.55" stroke="var(--blue)"/>
+    <rect x="245" y="70" width="30" height="20" fill="var(--blue)" opacity="0.55" stroke="var(--blue)"/>
+    <text x="65" y="104" class="svgtxt" text-anchor="middle">0</text><text x="130" y="104" class="svgtxt" text-anchor="middle">1</text><text x="195" y="104" class="svgtxt" text-anchor="middle">2</text><text x="260" y="104" class="svgtxt" text-anchor="middle">3</text>
+    <text x="65" y="64" class="svgtxt w" text-anchor="middle">1/8</text><text x="130" y="24" class="svgtxt w" text-anchor="middle">3/8</text><text x="195" y="24" class="svgtxt w" text-anchor="middle">3/8</text><text x="260" y="64" class="svgtxt w" text-anchor="middle">1/8</text>
+  </svg>
+  </figure>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">SLIDES · Distribution Functions 4–5 — a game on three flips</div>
+  <div class="body">
+  <p>Flip a fair coin 3 times. From the second flip on, win $\$1$ if the coin shows the same face as the previous flip, lose $\$1$ otherwise. $X$ = total gain.</p>
+  <table class="formula-table">
+    <tr><td>outcome</td><td>HHH</td><td>HHT</td><td>HTH</td><td>HTT</td><td>THH</td><td>THT</td><td>TTH</td><td>TTT</td></tr>
+    <tr><td>$X$</td><td class="g">+2</td><td>0</td><td class="r">−2</td><td>0</td><td>0</td><td class="r">−2</td><td>0</td><td class="g">+2</td></tr>
+  </table>
+  <ol class="steps">
+    <li>$P(X=-2)=P(X^{-1}(-2))=P(\{HTH,THT\})=\tfrac28=\tfrac14$</li>
+    <li>$P(X=0)=P(\{HHT,HTT,THH,TTH\})=\tfrac48=\tfrac12$</li>
+    <li>$P(X=+2)=P(\{HHH,TTT\})=\tfrac28=\tfrac14$</li>
+  </ol>
+  <p>Same $\Omega$ as the tails example, a <b>different function</b> on it — hence a different distribution. The sample space describes the experiment; the random variable describes what you are interested in.</p>
+  <p class="muted">Note: $X^{-1}(-2)=\{HTH,THT\}$ is an event, so its probability is well defined — this is the whole point of the definition below.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> SLIDES · Distribution Functions 6 — a random variable on a continuous Ω<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Draw a number $\omega$ at random from $(0,1)$ (module 06). You win $\$1$ if $\omega\in(0,0.1)$, $\$2$ if $\omega\in[0.1,0.5)$, $\$5$ if $\omega\in[0.5,0.8)$ and $\$2$ if $\omega\in[0.8,1)$. $X$ = amount won — only the values 1, 2, 5 are possible.</p>
+  <ol class="steps">
+    <li>$P(X=1)=P((0,0.1))=0.1$ — length of the interval.</li>
+    <li>$P(X=2)=P([0.1,0.5)\cup[0.8,1))=0.4+0.2=0.6$ — two disjoint pieces map to 2, so add.</li>
+    <li>$P(X=5)=P([0.5,0.8))=0.3$ <span class="muted">(not computed on the slide)</span>.</li>
+    <li>$P(X=10)=P(\emptyset)=0$ — nothing maps to 10.</li>
+  </ol>
+  <p>Check: $0.1+0.6+0.3=1$ ✓.</p>
+  </div>
+  <figure style="margin:0">
+  <svg viewBox="0 0 340 150">
+    <rect x="20" y="30" width="30" height="26" fill="var(--blue)" opacity="0.55"/>
+    <rect x="50" y="30" width="120" height="26" fill="var(--green)" opacity="0.55"/>
+    <rect x="170" y="30" width="90" height="26" fill="var(--amber)" opacity="0.6"/>
+    <rect x="260" y="30" width="60" height="26" fill="var(--green)" opacity="0.55"/>
+    <rect x="20" y="30" width="300" height="26" fill="none" stroke="var(--border2)"/>
+    <text x="20" y="72" class="svgtxt" text-anchor="middle">0</text><text x="50" y="72" class="svgtxt" text-anchor="middle">.1</text><text x="170" y="72" class="svgtxt" text-anchor="middle">.5</text><text x="260" y="72" class="svgtxt" text-anchor="middle">.8</text><text x="320" y="72" class="svgtxt" text-anchor="middle">1</text>
+    <text x="35" y="22" class="svgtxt b" text-anchor="middle">1</text><text x="110" y="22" class="svgtxt g" text-anchor="middle">2</text><text x="215" y="22" class="svgtxt a" text-anchor="middle">5</text><text x="290" y="22" class="svgtxt g" text-anchor="middle">2</text>
+    <text x="170" y="94" class="svgtxt" text-anchor="middle">Ω = (0,1), coloured by the value of X</text>
+    <text x="30" y="122" class="svgtxt b">P(X=1) = 0.1</text>
+    <text x="130" y="122" class="svgtxt g">P(X=2) = 0.4+0.2</text>
+    <text x="250" y="122" class="svgtxt a">P(X=5) = 0.3</text>
+    <text x="170" y="142" class="svgtxt" text-anchor="middle">both green pieces are the preimage of 2</text>
+  </svg>
+  </figure>
+  </div>
+  <div class="note"><div class="t">Insight</div>The sample space is continuous, but $X$ takes only three values. Whether a random variable is "discrete" is about its <b>values</b>, not about $\Omega$ (module 15).</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Random variable<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A <b>random variable</b> is a function $X:\Omega\to\mathbb R$ such that, for any interval $I\subseteq\mathbb R$,</p>
+  $$\boxed{X^{-1}(I)=\{\omega\in\Omega:\ X(\omega)\in I\}\ \text{ is an event.}}$$
+  <p>We use capital letters $X,Y,\dots$ for random variables and lower case $x,y$ for the numbers they can take.</p>
+  <h3>Why the condition on preimages?</h3>
+  <p>We want to be able to ask "$P(X\le 3)$?" or "$P(1&lt;X\le2)$?". Those are probabilities of the sets $X^{-1}((-\infty,3])$ and $X^{-1}((1,2])$ — and probabilities are only defined for <b>events</b>. The condition guarantees every such question has an answer. (With finite $\Omega$ where every subset is an event it holds automatically.)</p>
+  <p>Notation: $\{X\in I\}$ and $P(X\in I)$ are shorthand for $\{\omega:X(\omega)\in I\}$ and its probability.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">SEE IT</span> A preimage: pull an interval back into Ω<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 340 170">
+    <rect x="10" y="20" width="140" height="130" rx="6" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="80" y="14" class="svgtxt w" text-anchor="middle">Ω</text>
+    <circle cx="40" cy="46" r="5" fill="var(--dim)"/><circle cx="92" cy="40" r="5" fill="var(--amber)"/><circle cx="125" cy="70" r="5" fill="var(--dim)"/>
+    <circle cx="56" cy="92" r="5" fill="var(--amber)"/><circle cx="104" cy="112" r="5" fill="var(--amber)"/><circle cx="36" cy="132" r="5" fill="var(--dim)"/><circle cx="130" cy="136" r="5" fill="var(--dim)"/>
+    <line x1="270" y1="20" x2="270" y2="150" stroke="var(--border2)" stroke-width="1.5"/>
+    <text x="270" y="14" class="svgtxt" text-anchor="middle">ℝ</text>
+    <rect x="264" y="56" width="12" height="54" fill="var(--amber)" opacity="0.45" stroke="var(--amber)"/>
+    <text x="282" y="86" class="svgtxt a">I</text>
+    <path d="M 97 40 C 180 40 220 62 262 64" fill="none" stroke="var(--amber)"/>
+    <path d="M 61 92 C 150 92 210 86 262 84" fill="none" stroke="var(--amber)"/>
+    <path d="M 109 112 C 190 112 230 104 262 102" fill="none" stroke="var(--amber)"/>
+    <path d="M 45 46 C 150 30 230 30 262 34" fill="none" stroke="var(--dim)" stroke-dasharray="3 3"/>
+    <path d="M 130 70 C 200 70 240 124 262 128" fill="none" stroke="var(--dim)" stroke-dasharray="3 3"/>
+    <text x="80" y="166" class="svgtxt a" text-anchor="middle">amber dots = X⁻¹(I)</text>
+  </svg>
+  <figcaption>Pick an interval $I$ of values; the outcomes that land in it form an event in $\Omega$. $P(X\in I)$ is the probability of that event.</figcaption>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Sum of two dice</div>
+<div class="prob">Roll two dice, $X$ = sum. What is $X^{-1}(\{4\})$ and $P(X=4)$?</div>
+<details><summary>Answer</summary><div class="sol">$X^{-1}(4)=\{(1,3),(2,2),(3,1)\}$, three of 36 equally likely pairs: $P(X=4)=\tfrac3{36}=\tfrac1{12}$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Same Ω, new X</div>
+<div class="prob">Families with two kids, $Y$ = 1 if the first child is a girl, 0 otherwise. Distribution of $Y$?</div>
+<details><summary>Answer</summary><div class="sol">$Y^{-1}(1)=\{GG,GB\}$, $Y^{-1}(0)=\{BG,BB\}$: $P(Y=1)=P(Y=0)=\tfrac12$. (A Bernoulli variable — module 18.)</div></details>
+</div>
+</div>
+</section>

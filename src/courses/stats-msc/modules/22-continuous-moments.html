@@ -1,0 +1,460 @@
+<!-- ============ 22 E AND V OF CONTINUOUS RVs ============ -->
+<section id="s22">
+<div class="sec-head"><span class="num">22</span><h2>E and V of continuous RVs</h2><span class="sub">slides: Continuous Random Variables 12–19 · ahead of the lecture notes</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 21 described a continuous random variable by its density $f$. This module asks the next two questions: <b>where is the centre of that density, and how spread out is it?</b></p>
+  <p>You already know the answers for discrete variables (modules 16–17): $\mathbb{E}(X)=\sum_x x\,f(x)$ and $\mathbb{V}(X)=\sum_x(x-\mu)^2f(x)$. For a continuous variable <b>the meaning is identical</b>: a long-run average, a balance point, an average squared distance from the mean. <b>Only the machinery changes: the sum becomes an integral and the pmf becomes the pdf.</b> Every rule you learned carries over unchanged: linearity, the shortcut $\mathbb{E}(X^2)-[\mathbb{E}(X)]^2$, and $\mathbb{V}(a+bX)=b^2\mathbb{V}(X)$.</p>
+  <table class="formula-table">
+    <tr><td><b>what we compute</b></td><td><b>answer</b></td><td><b>where</b></td></tr>
+    <tr><td>$X\sim\mathcal{U}(0,1)$: $\mathbb{E}(X)$, $\mathbb{E}(X^2)$, $\mathbb{E}(X^3)$, $\mathbb{V}(X)$</td><td>$\tfrac12,\ \tfrac13,\ \tfrac14,\ \tfrac1{12}$</td><td>slides 12, 15, 17</td></tr>
+    <tr><td>$f(x)=3x^2$ on $(0,1)$: $\mathbb{E}(X)$, $\mathbb{V}(X)$</td><td>$\tfrac34$, and $\tfrac3{80}$ (not on slides)</td><td>slide 13</td></tr>
+    <tr><td>$Y=2+5X$: its density $g$, $\mathbb{E}(Y)$, $\mathbb{E}(Y^2)$, $\mathbb{E}(Y^3)$, $\mathbb{V}(Y)$</td><td>$0.2$ on $(2,7)$; $4.5$; $\tfrac{67}{3}$; $119.25$ (left unsolved on slides); $\tfrac{25}{12}$</td><td>slides 15, 19</td></tr>
+  </table>
+  <div class="note tip"><div class="t">One recipe covers the whole module</div>$$\mathbb{E}[\text{anything in }X]=\int_{-\infty}^{+\infty}(\text{that thing, written with }x)\times f(x)\,dx,$$ integrated over the region where $f\ne0$. The mean, the moments and the variance are all this recipe with a different "thing": $x$, $x^2$, $x^3$, $(x-\mu)^2$.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Expected value of a continuous random variable (slide 12)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Assume $X$ is a continuous random variable with pdf $f(x)$. The <b>expected value</b> of $X$ is denoted by $\mathbb{E}(X)$ and is defined as</p>
+  $$\boxed{\;\mathbb{E}(X)=\int_{-\infty}^{+\infty}x\ f(x)\ dx\;}$$
+  <p>If this integral does not exist, we say the expected value of $X$ does not exist. Sometimes the expected value of $X$ is denoted by $\mu_X$, or simply $\mu$. It is also called the <b>mean</b>, or the <b>mathematical expectation</b>.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <h3>Why an integral: the continuous twin of $\sum x\,f(x)$</h3>
+  <p>Chop the line into thin slices of width $\Delta x$. The slice at $x_i$ has probability $\approx f(x_i)\,\Delta x$ (module 21). Treat each slice as one discrete value $x_i$ with that probability. The discrete formula of module 16 then gives</p>
+  $$\mathbb{E}(X)\approx\sum_i x_i\,f(x_i)\,\Delta x\ \xrightarrow{\ \Delta x\to0\ }\ \int x\,f(x)\,dx.$$
+  <p>The figure does this for the density $3x^2$ of slide 13. With 5 slices the slice probabilities are $0.008,\,0.056,\,0.152,\,0.296,\,0.488$, from $F(t)=t^3$. The discrete mean is</p>
+  $$0.1(0.008)+0.3(0.056)+0.5(0.152)+0.7(0.296)+0.9(0.488)=0.74.$$
+  <p>With 10 slices it is $0.7475$, and with 100 slices $0.749975$. The limit is the integral, $0.75$ (slide 13 below).</p>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 412 180">
+  <text x="115" y="14" class="svgtxt w" text-anchor="middle" font-size="10">chop (0,1) into 5 slices</text>
+  <line x1="38" y1="140" x2="196" y2="140" stroke="var(--border2)" stroke-width="1"/><line x1="38" y1="22" x2="38" y2="140" stroke="var(--border2)" stroke-width="1"/>
+  <text x="33" y="143" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="33" y="105" class="svgtxt" text-anchor="end" font-size="9">0.2</text>
+  <text x="33" y="67" class="svgtxt" text-anchor="end" font-size="9">0.4</text>
+  <line x1="55" y1="140" x2="55" y2="138.5" stroke="var(--blue)" stroke-width="9"/>
+  <text x="55" y="133.5" class="svgtxt b" text-anchor="middle" font-size="9">.008</text>
+  <text x="55" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.1</text>
+  <line x1="85" y1="140" x2="85" y2="129.4" stroke="var(--blue)" stroke-width="9"/>
+  <text x="85" y="124.4" class="svgtxt b" text-anchor="middle" font-size="9">.056</text>
+  <text x="85" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.3</text>
+  <line x1="115" y1="140" x2="115" y2="111.1" stroke="var(--blue)" stroke-width="9"/>
+  <text x="115" y="106.1" class="svgtxt b" text-anchor="middle" font-size="9">.152</text>
+  <text x="115" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <line x1="145" y1="140" x2="145" y2="83.8" stroke="var(--blue)" stroke-width="9"/>
+  <text x="145" y="78.8" class="svgtxt b" text-anchor="middle" font-size="9">.296</text>
+  <text x="145" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.7</text>
+  <line x1="175" y1="140" x2="175" y2="47.3" stroke="var(--blue)" stroke-width="9"/>
+  <text x="175" y="42.3" class="svgtxt b" text-anchor="middle" font-size="9">.488</text>
+  <text x="175" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.9</text>
+  <text x="115" y="170" class="svgtxt b" text-anchor="middle" font-size="10">Σ x·P = 0.74</text>
+  <text x="325" y="14" class="svgtxt w" text-anchor="middle" font-size="10">shrink the slices: 3x²</text>
+  <line x1="248" y1="140" x2="406" y2="140" stroke="var(--border2)" stroke-width="1"/><line x1="248" y1="22" x2="248" y2="140" stroke="var(--border2)" stroke-width="1"/>
+  <text x="243" y="143" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="243" y="107" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <text x="243" y="71" class="svgtxt" text-anchor="end" font-size="9">2</text>
+  <text x="243" y="35" class="svgtxt" text-anchor="end" font-size="9">3</text>
+  <path d="M 250 140 L 250 140 L 255 139.9 L 260 139.5 L 265 138.9 L 270 138.1 L 275 137 L 280 135.7 L 285 134.1 L 290 132.3 L 295 130.3 L 300 128 L 305 125.5 L 310 122.7 L 315 119.7 L 320 116.5 L 325 113 L 330 109.3 L 335 105.3 L 340 101.1 L 345 96.7 L 350 92 L 355 87.1 L 360 81.9 L 365 76.5 L 370 70.9 L 375 65 L 380 58.9 L 385 52.5 L 390 45.9 L 395 39.1 L 400 32 L 400 140 Z" fill="var(--greenbg)" stroke="none"/>
+  <path d="M 250 140 L 255 139.9 L 260 139.5 L 265 138.9 L 270 138.1 L 275 137 L 280 135.7 L 285 134.1 L 290 132.3 L 295 130.3 L 300 128 L 305 125.5 L 310 122.7 L 315 119.7 L 320 116.5 L 325 113 L 330 109.3 L 335 105.3 L 340 101.1 L 345 96.7 L 350 92 L 355 87.1 L 360 81.9 L 365 76.5 L 370 70.9 L 375 65 L 380 58.9 L 385 52.5 L 390 45.9 L 395 39.1 L 400 32" fill="none" stroke="var(--green)" stroke-width="2"/>
+  <circle cx="400" cy="32" r="3.2" fill="var(--panel2)" stroke="var(--green)" stroke-width="1.5"/>
+  <text x="250" y="153" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="325" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <text x="400" y="153" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="325" y="170" class="svgtxt g" text-anchor="middle" font-size="10">∫ x·f(x) dx = 0.75</text>
+  <path d="M 204 80 L 232 80" stroke="var(--muted)" stroke-width="1.5"/>
+  <path d="M 232 75 L 240 80 L 232 85 Z" fill="var(--muted)"/>
+  </svg><figcaption>Left: the density $3x^2$ lumped into 5 slices, each drawn as a pmf bar at its midpoint. The bar heights are true slice probabilities and add up to 1. Right: let the slices shrink to width 0 and the sum $\sum x\cdot P$ becomes the integral $\int x\,f(x)\,dx$.</figcaption></figure>
+  </div>
+  <table class="formula-table">
+    <tr><td></td><td><b>discrete (modules 16–17)</b></td><td><b>continuous (this module)</b></td></tr>
+    <tr><td>mean</td><td>$\mathbb{E}(X)=\sum_x x\,f(x)$</td><td>$\mathbb{E}(X)=\int_{-\infty}^{+\infty}x\,f(x)\,dx$</td></tr>
+    <tr><td>function of $X$</td><td>$\mathbb{E}[h(X)]=\sum_x h(x)\,f(x)$</td><td>$\mathbb{E}[h(X)]=\int_{-\infty}^{+\infty}h(x)\,f(x)\,dx$</td></tr>
+    <tr><td>variance</td><td>$\sum_x(x-\mu)^2f(x)$</td><td>$\int_{-\infty}^{+\infty}(x-\mu)^2f(x)\,dx$</td></tr>
+    <tr><td>shortcut</td><td colspan="2">$\mathbb{V}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2$ in both cases</td></tr>
+  </table>
+  <div class="note warn"><div class="t">"If this integral does not exist": an example (not on the slides)</div>$f(x)=\dfrac{1}{x^2}$ for $x\ge1$ (0 otherwise) is a valid density: $\int_1^{\infty}x^{-2}\,dx=\left[-x^{-1}\right]_1^{\infty}=1$. But $\mathbb{E}(X)=\int_1^{\infty}x\cdot\dfrac{1}{x^2}\,dx=\int_1^{\infty}\dfrac1x\,dx=\left[\ln x\right]_1^{\infty}=\infty$. The tail thins out too slowly, so rare huge values dominate the average and <b>the mean does not exist</b>. Heavy-tailed return models in finance can behave like this, which is why "compute the mean" is not always a safe first step.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 12) · uniform distribution on (0,1): the mean</div>
+  <div class="body">
+  <p>Assume $X$ is a random variable with pdf
+  $$f(x)=\begin{cases}1 & x\in(0,1)\\ 0 & \text{otherwise}\end{cases}$$
+  Compute $\mathbb{E}(X)$.</p>
+  <ol class="steps">
+    <li><b>Write the definition</b> and keep only the region where $f\ne0$. Outside $(0,1)$ the integrand $x\cdot0$ is 0:
+    $$\mathbb{E}(X)=\int_{-\infty}^{+\infty}x\,f(x)\,dx=\int_0^1 x\cdot1\,dx=\int_0^1x\,dx.$$</li>
+    <li><b>Antiderivative.</b> $\int x\,dx=\frac12x^2$.</li>
+    <li><b>Evaluate.</b>
+    $$\frac12x^2\Big|_{x=0}^{x=1}=\frac12\cdot1^2-\frac12\cdot0^2=\frac12.$$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The density is symmetric about $\tfrac12$, so the mean <b>must</b> be $\tfrac12$. This is a free check on the integral. In general, if $f$ is symmetric about a point $c$ and the mean exists, then $\mathbb{E}(X)=c$. The standard normal of module 24 has mean 0 for the same reason.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 13) · f(x) = 3x² on (0,1): the mean</div>
+  <div class="body">
+  <p>Assume $X$ has pdf
+  $$f(x)=\begin{cases}3x^2 & x\in(0,1)\\ 0 & \text{otherwise}\end{cases}$$
+  Compute $\mathbb{E}(X)$.</p>
+  <ol class="steps">
+    <li><b>Is it a density?</b> $3x^2\ge0$ ✓ and $\int_0^13x^2\,dx=x^3\big|_0^1=1$ ✓. (This is the "find the constant" check-yourself of module 21.)</li>
+    <li><b>Definition on the support.</b>
+    $$\mathbb{E}(X)=\int_{-\infty}^{+\infty}x\,f(x)\,dx=\int_0^1x\cdot3x^2\,dx=\int_0^13x^3\,dx.$$</li>
+    <li><b>Antiderivative.</b> $\int3x^3\,dx=\frac34x^4$.</li>
+    <li><b>Evaluate.</b>
+    $$\frac34x^4\Big|_{x=0}^{x=1}=\frac34-0=\frac34.$$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>$\frac34&gt;\frac12$: the density rises toward 1, so the mass is piled on the right and the balance point moves right. See the balance picture below.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">IDEA</span> The mean is the balance point of the density<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure><svg viewBox="0 0 420 175">
+  <text x="110" y="14" class="svgtxt w" text-anchor="middle" font-size="10">U(0,1): flat plate</text>
+  <rect x="30" y="68" width="160" height="60" fill="var(--bluebg)" stroke="var(--blue)" stroke-width="1.5"/>
+  <rect x="22" y="128" width="176" height="4" fill="var(--text)" opacity="0.75"/>
+  <path d="M 110 132 L 99 150 L 121 150 Z" fill="var(--amber)"/>
+  <text x="110" y="164" class="svgtxt b" text-anchor="middle" font-size="10">E(X) = 1/2</text>
+  <text x="30" y="144" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="190" y="144" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="315" y="14" class="svgtxt w" text-anchor="middle" font-size="10">3x²: mass piled right</text>
+  <path d="M 235 128 L 235 128 L 241.4 127.9 L 247.8 127.4 L 254.2 126.7 L 260.6 125.7 L 267 124.4 L 273.4 122.8 L 279.8 120.9 L 286.2 118.8 L 292.6 116.3 L 299 113.6 L 305.4 110.6 L 311.8 107.3 L 318.2 103.7 L 324.6 99.8 L 331 95.6 L 337.4 91.1 L 343.8 86.4 L 350.2 81.3 L 356.6 76 L 363 70.4 L 369.4 64.5 L 375.8 58.3 L 382.2 51.8 L 388.6 45.1 L 395 38 L 395 128 Z" fill="var(--greenbg)" stroke="var(--green)" stroke-width="1.5"/>
+  <rect x="227" y="128" width="176" height="4" fill="var(--text)" opacity="0.75"/>
+  <path d="M 355 132 L 344 150 L 366 150 Z" fill="var(--amber)"/>
+  <text x="355" y="164" class="svgtxt g" text-anchor="middle" font-size="10">E(X) = 3/4</text>
+  <text x="235" y="144" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="395" y="144" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <line x1="355" y1="128" x2="355" y2="30" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="351.8" y="42" class="svgtxt a" text-anchor="end" font-size="9.5">42%</text>
+  <text x="358.2" y="42" class="svgtxt a" text-anchor="start" font-size="9.5">58%</text>
+  </svg><figcaption>Cut each density out of sheet metal and lay it on a beam. It balances exactly on the fulcrum placed at $\mathbb{E}(X)$: at $\tfrac12$ for the flat plate and at $\tfrac34$ for $3x^2$. The numbers are the shares of the mass on each side of $\tfrac34$.</figcaption></figure>
+  <p><b>Why "balance".</b> $\mathbb{E}(X)=\mu$ is equivalent to $\int(x-\mu)f(x)\,dx=0$: the "torques" $(x-\mu)f(x)$ on the two sides cancel. For $3x^2$: $P(X&lt;0.75)=0.75^3\approx0.42$ and $P(X&gt;0.75)\approx0.58$. <b>The mass is not split 50/50 at the mean.</b> The 42% on the left sits farther from the fulcrum (it reaches all the way to 0), so its longer lever arm balances the heavier right side.</p>
+  <div class="note warn"><div class="t">TRAP · the mean is not the median</div>Half the probability lies below the <b>median</b> $m$, where $F(m)=0.5$. For $3x^2$ that is $m^3=0.5$, so $m=0.5^{1/3}\approx0.794$. The mean is $0.75$. They coincide only for symmetric densities such as $\mathcal{U}(0,1)$. Here the mean is below the median because the long thin tail is on the <b>left</b>.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Expected value of a function of $X$; linearity; moments (slide 14)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Expected value of a function of $X$.</b> Let $X$ be a random variable, $f(x)$ its pdf, and $h:\mathbb{R}\to\mathbb{R}$ an arbitrary function. Then</p>
+  $$\boxed{\;\mathbb{E}\left[h(X)\right]=\int_{-\infty}^{+\infty}h(x)\ f(x)\ dx\;}$$
+  <p><b>What it saves you.</b> $h(X)$ is a new random variable with its own density. The theorem says you do <b>not</b> need that density: keep the weights $f(x)$ of $X$ and average the values $h(x)$. It is the continuous twin of module 16's $\mathbb{E}[h(X)]=\sum_x h(x)f(x)$, and the slicing argument above explains it. On the slice near $x$, which has probability $f(x)\Delta x$, the value of $h(X)$ is about $h(x)$.</p>
+  <p><b>Expected value of a linear transformation.</b> Setting $h(x)=a+bx$, with $a$ and $b$ fixed real numbers:</p>
+  $$\boxed{\;\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)\;}$$
+  <p><i>Proof (the slide states it without one).</i> Split the integral and use the normalization rule of module 21:
+  $$\int(a+bx)f(x)\,dx=a\underbrace{\int f(x)\,dx}_{=1}+b\underbrace{\int x\,f(x)\,dx}_{=\mathbb{E}(X)}=a+b\,\mathbb{E}(X).\qquad\square$$</p>
+  <p><b>Moments of $X$.</b> Taking $h(x)=x^2$ and $h(x)=x^3$:</p>
+  $$\begin{aligned}\mathbb{E}\left(X^2\right)&amp;=\int_{-\infty}^{+\infty}x^2\ f(x)\ dx\qquad\text{2nd moment of }X\\ \mathbb{E}\left(X^3\right)&amp;=\int_{-\infty}^{+\infty}x^3\ f(x)\ dx\qquad\text{3rd moment of }X\end{aligned}$$
+  <p>and in general the $k$-th moment is $\mathbb{E}(X^k)=\int x^kf(x)\,dx$. The 2nd moment feeds the variance shortcut. The 3rd is needed as soon as you expand a cube such as $(2+5X)^3$ (below).</p>
+  <div class="note warn"><div class="t">TRAP · $\mathbb{E}(X^2)\ne[\mathbb{E}(X)]^2$</div>For $\mathcal{U}(0,1)$, $\mathbb{E}(X^2)=\frac13$ (next example) while $[\mathbb{E}(X)]^2=\frac14$. More generally $\mathbb{E}[h(X)]\ne h(\mathbb{E}(X))$ unless $h$ is linear. For instance $\mathbb{E}(1/X)\ne1/\mathbb{E}(X)$ and $\mathbb{E}(X^3)\ne\mathbb{E}(X)^3$. Linearity is the only "push $\mathbb{E}$ inside" rule you are allowed.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 15) · uniform on (0,1): 2nd and 3rd moments</div>
+  <div class="body">
+  <p>$X\sim\mathcal{U}(0,1)$, i.e. $f(x)=1$ on $(0,1)$ and 0 otherwise. Compute its $2^{nd}$ and $3^{rd}$ moments.</p>
+  <ol class="steps">
+    <li><b>Second moment.</b> Use $h(x)=x^2$ and keep only $(0,1)$:
+    $$\mathbb{E}(X^2)=\int_{-\infty}^{+\infty}x^2\,f(x)\,dx=\int_0^1x^2\cdot1\,dx=\int_0^1x^2\,dx=\frac13x^3\Big|_{x=0}^{x=1}=\frac13.$$</li>
+    <li><b>Third moment.</b> Use $h(x)=x^3$:
+    $$\mathbb{E}(X^3)=\int_0^1x^3\cdot1\,dx=\frac14x^4\Big|_{x=0}^{x=1}=\frac14.$$</li>
+    <li><b>Pattern.</b> For the standard uniform, $\mathbb{E}(X^k)=\int_0^1x^k\,dx=\dfrac{1}{k+1}$. So the mean is $\frac12$, then $\frac13,\ \frac14,\dots$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Since $0&lt;X&lt;1$, higher powers are smaller, $X^3&lt;X^2&lt;X$, and so the moments shrink: $\frac12&gt;\frac13&gt;\frac14$. A good sanity check whenever a variable lives in $(0,1)$.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill a">IDEA</span> $Y=2+5X$: why its density is $g(y)=0.2$ on $(2,7)$ (slide 15)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Slide 15 defines $Y:=2+5X$ with $X\sim\mathcal{U}(0,1)$, lets $g(y)$ be the pdf of $Y$, and says "it can be shown easily" that</p>
+  $$g(y)=\begin{cases}0.2 & y\in(2,7)\\ 0 & \text{otherwise}\end{cases}$$
+  <p><b>The picture.</b> $x=0$ is sent to $y=2$ and $x=1$ to $y=7$, so $Y$ lives on $(2,7)$, an interval <b>5 times wider</b>. The total probability is still 1. Spreading the same area over 5 times the width forces the height to be <b>divided by 5</b>: $1/5=0.2$. The "+2" only slides the block along without changing its shape.</p>
+  <figure><svg viewBox="0 0 410 214">
+  <text x="76" y="16" class="svgtxt b" text-anchor="middle" font-size="10">X ~ U(0,1)</text>
+  <line x1="30" y1="100" x2="402.6" y2="100" stroke="var(--border2)" stroke-width="1"/>
+  <rect x="53" y="40" width="46" height="60" fill="var(--bluebg)" stroke="var(--blue)" stroke-width="1.5"/>
+  <text x="105" y="58" class="svgtxt b" text-anchor="start" font-size="9.5">height 1</text>
+  <text x="105" y="71" class="svgtxt b" text-anchor="start" font-size="9.5">width 1  → area 1</text>
+  <line x1="30" y1="175" x2="402.6" y2="175" stroke="var(--border2)" stroke-width="1"/>
+  <rect x="145" y="163" width="230" height="12" fill="var(--greenbg)" stroke="var(--green)" stroke-width="1.5"/>
+  <text x="260" y="206" class="svgtxt g" text-anchor="middle" font-size="10">Y = 2 + 5X:  height 0.2 × width 5 → area 1</text>
+  <text x="53" y="113" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="53" y="188" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="99" y="113" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="99" y="188" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="145" y="113" class="svgtxt" text-anchor="middle" font-size="9">2</text>
+  <text x="145" y="188" class="svgtxt" text-anchor="middle" font-size="9">2</text>
+  <text x="191" y="113" class="svgtxt" text-anchor="middle" font-size="9">3</text>
+  <text x="191" y="188" class="svgtxt" text-anchor="middle" font-size="9">3</text>
+  <text x="237" y="113" class="svgtxt" text-anchor="middle" font-size="9">4</text>
+  <text x="237" y="188" class="svgtxt" text-anchor="middle" font-size="9">4</text>
+  <text x="283" y="113" class="svgtxt" text-anchor="middle" font-size="9">5</text>
+  <text x="283" y="188" class="svgtxt" text-anchor="middle" font-size="9">5</text>
+  <text x="329" y="113" class="svgtxt" text-anchor="middle" font-size="9">6</text>
+  <text x="329" y="188" class="svgtxt" text-anchor="middle" font-size="9">6</text>
+  <text x="375" y="113" class="svgtxt" text-anchor="middle" font-size="9">7</text>
+  <text x="375" y="188" class="svgtxt" text-anchor="middle" font-size="9">7</text>
+  <line x1="53" y1="119" x2="145" y2="161" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="99" y1="119" x2="375" y2="161" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="131.2" y="150" class="svgtxt" text-anchor="start" font-size="9">x = 0 ↦ y = 2</text>
+  <text x="264.6" y="132" class="svgtxt" text-anchor="start" font-size="9">x = 1 ↦ y = 7</text>
+  </svg><figcaption>Both blocks are drawn to the same scale. The map $y=2+5x$ stretches $(0,1)$ onto $(2,7)$, and the height drops from 1 to 0.2 so that the area stays 1.</figcaption></figure>
+  <p><b>The proof, with the cdf method of module 14.</b> For $2&lt;y&lt;7$:
+  $$G(y)=P(Y\le y)=P(2+5X\le y)=P\!\left(X\le\frac{y-2}{5}\right)=\frac{y-2}{5},$$
+  because $\frac{y-2}{5}\in(0,1)$ and $P(X\le t)=t$ there. Also $G(y)=0$ for $y\le2$ and $G(y)=1$ for $y\ge7$. Differentiating (module 21, $g=G'$) gives $g(y)=\frac15=0.2$ on $(2,7)$. $\square$</p>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 15) · E(Y) and E(Y²) for Y = 2 + 5X, two ways each</div>
+  <div class="body">
+  <p>"You can use $g(y)$ to find $\mathbb{E}(Y)$, $\mathbb{E}(Y^2)$ and $\mathbb{E}(Y^3)$. As an alternative you can use the following approach": linearity and the moments of $X$. We do both.</p>
+  <ol class="steps">
+    <li><b>$\mathbb{E}(Y)$ by linearity (slide 15).</b>
+    $$\mathbb{E}(Y)=\mathbb{E}(2+5X)=2+5\,\mathbb{E}(X)=2+5\cdot\frac12=4.5.$$</li>
+    <li><b>$\mathbb{E}(Y)$ from $g$.</b> The density of $Y$ is $0.2$ on $(2,7)$:
+    $$\int_2^7y\cdot0.2\,dy=0.2\cdot\frac{y^2}{2}\Big|_{2}^{7}=0.2\cdot\frac{49-4}{2}=0.2\cdot22.5=4.5\ \checkmark$$
+    It is also the midpoint of $(2,7)$, as symmetry demands.</li>
+    <li><b>$\mathbb{E}(Y^2)$ by expanding (slide 15).</b> First square: $(2+5X)^2=4+20X+25X^2$. Then apply linearity:
+    $$\mathbb{E}(Y^2)=\mathbb{E}\left[(2+5X)^2\right]=\mathbb{E}\left(4+25X^2+20X\right)=4+25\,\mathbb{E}(X^2)+20\,\mathbb{E}(X).$$</li>
+    <li><b>Plug in the moments</b> $\mathbb{E}(X^2)=\frac13$ and $\mathbb{E}(X)=\frac12$:
+    $$4+25\cdot\frac13+20\cdot\frac12=4+\frac{25}{3}+10=\frac{12+25+30}{3}=\frac{67}{3}\approx22.333.$$</li>
+    <li><b>$\mathbb{E}(Y^2)$ from $g$.</b>
+    $$\int_2^7y^2\cdot0.2\,dy=0.2\cdot\frac{y^3}{3}\Big|_2^7=0.2\cdot\frac{343-8}{3}=0.2\cdot\frac{335}{3}=\frac{67}{3}\ \checkmark$$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Two routes, same number. Route 1 needs the density of $Y$ but no algebra. Route 2 needs only the moments of $X$, which is why slide 15 computes $\mathbb{E}(X^2)$ and $\mathbb{E}(X^3)$ first. Note $\mathbb{E}(Y^2)=22.33\ne[\mathbb{E}(Y)]^2=20.25$. The gap, $2.083$, is exactly $\mathbb{V}(Y)$ (slide 19).</div>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 15, left unsolved on the slides) · E(Y³) for Y = 2 + 5X</div>
+  <div class="body">
+  <p>Slide 15 lists $\mathbb{E}(Y^3)$ among the things "you can find" but stops after $\mathbb{E}(Y^2)$. Here it is both ways.</p>
+  <ol class="steps">
+    <li><b>From $g$.</b> The antiderivative of $y^3$ is $y^4/4$:
+    $$\mathbb{E}(Y^3)=\int_2^7y^3\cdot0.2\,dy=0.2\cdot\frac{y^4}{4}\Big|_2^7=0.2\cdot\frac{7^4-2^4}{4}=0.2\cdot\frac{2401-16}{4}=0.2\cdot\frac{2385}{4}=0.2\cdot596.25=\mathbf{119.25}.$$</li>
+    <li><b>By expansion: cube the binomial.</b> With $(a+b)^3=a^3+3a^2b+3ab^2+b^3$, $a=2$, $b=5X$:
+    $$(2+5X)^3=8+3\cdot4\cdot5X+3\cdot2\cdot25X^2+125X^3=8+60X+150X^2+125X^3.$$</li>
+    <li><b>Take expectations term by term</b> (linearity), using $\mathbb{E}(X)=\frac12$, $\mathbb{E}(X^2)=\frac13$, $\mathbb{E}(X^3)=\frac14$:
+    $$\mathbb{E}(Y^3)=8+60\cdot\frac12+150\cdot\frac13+125\cdot\frac14=8+30+50+31.25=\mathbf{119.25}\ \checkmark$$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>$119.25=\frac{477}{4}$, while $[\mathbb{E}(Y)]^3=4.5^3=91.125$. Once more, powers do not pass through $\mathbb{E}$. The expansion route shows why all three moments of $X$ were needed: a cube of $a+bX$ brings in $X$, $X^2$ and $X^3$.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Variance and standard deviation (slide 16)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ be a continuous random variable. The <b>variance</b> and the <b>standard deviation</b> of $X$ are denoted by $\mathbb{V}(X)$ and $\sigma_X$ respectively, and defined as</p>
+  $$\boxed{\;\begin{aligned}\mathbb{V}(X)&amp;=\mathbb{E}\left[(X-\mathbb{E}(X))^2\right]=\mathbb{E}\left[(X-\mu)^2\right]=\int_{-\infty}^{+\infty}f(x)\,(x-\mu)^2\,dx\\ \sigma_X&amp;=\sqrt{\mathbb{V}(X)}\end{aligned}\;}$$
+  <p><b>Reading it.</b> $(x-\mu)^2$ is the squared distance of the value $x$ from the centre. The variance averages it with the weights $f(x)$. It is $\mathbb{E}[h(X)]$ with $h(x)=(x-\mu)^2$. So the variance is <b>an area</b>: the area under the curve $f(x)(x-\mu)^2$. Squaring puts the result in squared units, and $\sigma_X$ brings it back to the units of $X$.</p>
+  <p><b>THEOREM (slide 16).</b>
+  $$\boxed{\;\mathbb{V}(X)=\mathbb{E}\left[(X-\mathbb{E}(X))^2\right]=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2\;}$$</p>
+  <p><i>Proof (not on the slides; the same algebra as module 17).</i> Expand $(x-\mu)^2=x^2-2\mu x+\mu^2$ and split the integral:
+  $$\int f(x)(x^2-2\mu x+\mu^2)\,dx=\underbrace{\int x^2f(x)\,dx}_{\mathbb{E}(X^2)}-2\mu\underbrace{\int x\,f(x)\,dx}_{\mu}+\mu^2\underbrace{\int f(x)\,dx}_{1}=\mathbb{E}(X^2)-2\mu^2+\mu^2=\mathbb{E}(X^2)-\mu^2.\ \square$$</p>
+  <figure><svg viewBox="0 0 420 180">
+  <text x="120" y="14" class="svgtxt w" text-anchor="middle" font-size="10">U(0,1):  (x − ½)² · 1</text>
+  <line x1="40" y1="140" x2="206" y2="140" stroke="var(--border2)" stroke-width="1"/><line x1="40" y1="24" x2="40" y2="140" stroke="var(--border2)" stroke-width="1"/>
+  <text x="36" y="143" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="36" y="103" class="svgtxt" text-anchor="end" font-size="9">0.1</text>
+  <text x="36" y="63" class="svgtxt" text-anchor="end" font-size="9">0.2</text>
+  <text x="36" y="43" class="svgtxt" text-anchor="end" font-size="9">0.25</text>
+  <path d="M 42 140 L 42 40 L 47.3 52.9 L 52.7 64.9 L 58 76 L 63.3 86.2 L 68.7 95.6 L 74 104 L 79.3 111.6 L 84.7 118.2 L 90 124 L 95.3 128.9 L 100.7 132.9 L 106 136 L 111.3 138.2 L 116.7 139.6 L 122 140 L 127.3 139.6 L 132.7 138.2 L 138 136 L 143.3 132.9 L 148.7 128.9 L 154 124 L 159.3 118.2 L 164.7 111.6 L 170 104 L 175.3 95.6 L 180.7 86.2 L 186 76 L 191.3 64.9 L 196.7 52.9 L 202 40 L 202 140 Z" fill="var(--bluebg)" stroke="none"/>
+  <path d="M 42 40 L 47.3 52.9 L 52.7 64.9 L 58 76 L 63.3 86.2 L 68.7 95.6 L 74 104 L 79.3 111.6 L 84.7 118.2 L 90 124 L 95.3 128.9 L 100.7 132.9 L 106 136 L 111.3 138.2 L 116.7 139.6 L 122 140 L 127.3 139.6 L 132.7 138.2 L 138 136 L 143.3 132.9 L 148.7 128.9 L 154 124 L 159.3 118.2 L 164.7 111.6 L 170 104 L 175.3 95.6 L 180.7 86.2 L 186 76 L 191.3 64.9 L 196.7 52.9 L 202 40" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="122" y1="140" x2="122" y2="40" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="122" y="36" class="svgtxt a" text-anchor="middle" font-size="10">μ</text>
+  <text x="42" y="153" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="122" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <text x="202" y="153" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="120" y="170" class="svgtxt b" text-anchor="middle" font-size="10">area = 1/12 ≈ 0.083</text>
+  <text x="325" y="14" class="svgtxt w" text-anchor="middle" font-size="10">3x²:  (x − ¾)² · 3x²</text>
+  <line x1="245" y1="140" x2="411" y2="140" stroke="var(--border2)" stroke-width="1"/><line x1="245" y1="24" x2="245" y2="140" stroke="var(--border2)" stroke-width="1"/>
+  <text x="241" y="143" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="241" y="103" class="svgtxt" text-anchor="end" font-size="9">0.1</text>
+  <text x="241" y="63" class="svgtxt" text-anchor="end" font-size="9">0.2</text>
+  <text x="241" y="43" class="svgtxt" text-anchor="end" font-size="9">0.25</text>
+  <path d="M 247 140 L 247 140 L 252.3 139.3 L 257.7 137.5 L 263 134.9 L 268.3 131.9 L 273.7 128.7 L 279 125.5 L 284.3 122.6 L 289.7 120.1 L 295 118.1 L 300.3 116.9 L 305.7 116.3 L 311 116.5 L 316.3 117.4 L 321.7 119 L 327 121.2 L 332.3 124 L 337.7 127 L 343 130.3 L 348.3 133.4 L 353.7 136.3 L 359 138.5 L 364.3 139.8 L 369.7 139.8 L 375 138.1 L 380.3 134.2 L 385.7 127.7 L 391 118.1 L 396.3 104.9 L 401.7 87.4 L 407 65 L 407 140 Z" fill="var(--greenbg)" stroke="none"/>
+  <path d="M 247 140 L 252.3 139.3 L 257.7 137.5 L 263 134.9 L 268.3 131.9 L 273.7 128.7 L 279 125.5 L 284.3 122.6 L 289.7 120.1 L 295 118.1 L 300.3 116.9 L 305.7 116.3 L 311 116.5 L 316.3 117.4 L 321.7 119 L 327 121.2 L 332.3 124 L 337.7 127 L 343 130.3 L 348.3 133.4 L 353.7 136.3 L 359 138.5 L 364.3 139.8 L 369.7 139.8 L 375 138.1 L 380.3 134.2 L 385.7 127.7 L 391 118.1 L 396.3 104.9 L 401.7 87.4 L 407 65" fill="none" stroke="var(--green)" stroke-width="2"/>
+  <line x1="367" y1="140" x2="367" y2="40" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="367" y="36" class="svgtxt a" text-anchor="middle" font-size="10">μ</text>
+  <text x="247" y="153" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="327" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <text x="407" y="153" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="325" y="170" class="svgtxt g" text-anchor="middle" font-size="10">area = 3/80 = 0.0375</text>
+  </svg><figcaption>The variance is the area under $f(x)(x-\mu)^2$, drawn here on the same scale for both densities. For $\mathcal{U}(0,1)$ the curve is the parabola $(x-\tfrac12)^2$ and the area is $\tfrac1{12}$. For $3x^2$ the mass near the mean $\tfrac34$ contributes almost nothing and the area is only $\tfrac3{80}$: this density is more concentrated.</figcaption></figure>
+  <div class="note warn"><div class="t">TRAP · the shortcut in the wrong order</div>It is $\mathbb{E}(X^2)$ <b>minus</b> $[\mathbb{E}(X)]^2$, "mean of the square minus square of the mean". Swapping them gives $\frac14-\frac13=-\frac1{12}$ for $\mathcal{U}(0,1)$. A <b>negative variance is always an error</b>, because $\mathbb{V}(X)$ is an area under a non-negative curve.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 17) · variance of the uniform on (0,1), two ways</div>
+  <div class="body">
+  <p>$X\sim\mathcal{U}(0,1)$. We have already seen $\mu:=\mathbb{E}(X)=\frac12$ and $\mathbb{E}(X^2)=\frac13$. Compute $\mathbb{V}(X)$.</p>
+  <ol class="steps">
+    <li><b>By the definition.</b> Restrict to $(0,1)$ where $f=1$:
+    $$\mathbb{V}(X)=\int_{-\infty}^{+\infty}(x-\mu)^2f(x)\,dx=\int_0^1\left(x-\frac12\right)^2\cdot1\,dx.$$</li>
+    <li><b>Expand the square.</b> $\left(x-\frac12\right)^2=x^2-x+\frac14$, so the integral is $\int_0^1\left(x^2-x+\frac14\right)dx$.</li>
+    <li><b>Antiderivative and evaluation.</b>
+    $$\frac13x^3-\frac12x^2+\frac14x\Big|_{x=0}^{x=1}=\frac13-\frac12+\frac14=\frac{4-6+3}{12}=\frac1{12}.$$</li>
+    <li><b>By the shortcut (the theorem of slide 16).</b>
+    $$\mathbb{V}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2=\frac13-\left(\frac12\right)^2=\frac13-\frac14=\frac1{12}\ \checkmark$$</li>
+    <li><b>Standard deviation.</b> $\sigma_X=\sqrt{1/12}=\dfrac{1}{2\sqrt3}\approx0.289$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The shortcut is two lines because the moments were already known. That is the usual situation, and the reason to compute $\mathbb{E}(X)$ and $\mathbb{E}(X^2)$ first. The value $\frac1{12}$ is the seed of the general uniform formula $\mathbb{V}=\frac{(b-a)^2}{12}$ (module 23).</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXAMPLE (not on the slides) · variance of f(x) = 3x²</div>
+  <div class="body">
+  <p>Complete slide 13: for $f(x)=3x^2$ on $(0,1)$ with $\mu=\frac34$, find $\mathbb{V}(X)$ and $\sigma_X$.</p>
+  <ol class="steps">
+    <li><b>Second moment.</b>
+    $$\mathbb{E}(X^2)=\int_0^1x^2\cdot3x^2\,dx=\int_0^13x^4\,dx=\frac35x^5\Big|_0^1=\frac35.$$</li>
+    <li><b>Shortcut.</b>
+    $$\mathbb{V}(X)=\frac35-\left(\frac34\right)^2=\frac35-\frac9{16}=\frac{48-45}{80}=\frac{3}{80}=0.0375.$$</li>
+    <li><b>Check with the definition.</b> $(x-\frac34)^2\cdot3x^2=3x^4-\frac92x^3+\frac{27}{16}x^2$, so
+    $$\int_0^1\left(3x^4-\tfrac92x^3+\tfrac{27}{16}x^2\right)dx=\frac35-\frac98+\frac9{16}=\frac{48-90+45}{80}=\frac3{80}\ \checkmark$$</li>
+    <li><b>Standard deviation.</b> $\sigma_X=\sqrt{0.0375}\approx0.194$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>$0.0375&lt;0.0833$: with the mass piled near 1, values of $3x^2$ stay closer to their mean than the flat uniform's values do. The variance measures exactly this concentration, and it is the area comparison in the figure above.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Variance of a shifted and scaled variable (slide 18)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ be a continuous random variable with pdf $f(x)$, and let $a$ and $b$ be fixed real numbers. Then</p>
+  $$\boxed{\;\begin{aligned}\mathbb{V}(X+a)&amp;=\mathbb{V}(X)\\ \mathbb{V}(bX)&amp;=b^2\,\mathbb{V}(X)\\ \mathbb{V}(a+bX)&amp;=b^2\,\mathbb{V}(X)\end{aligned}\;}$$
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><i>Proof (not on the slides; as in module 17).</i> Put $Y=a+bX$. By linearity $\mathbb{E}(Y)=a+b\mu$. Subtract:
+  $$Y-\mathbb{E}(Y)=(a+bX)-(a+b\mu)=b(X-\mu).$$
+  The $a$ cancels. Square and take expectations:
+  $$\mathbb{V}(Y)=\mathbb{E}\left[b^2(X-\mu)^2\right]=b^2\,\mathbb{E}\left[(X-\mu)^2\right]=b^2\,\mathbb{V}(X).$$
+  $b=1$ gives the first line, $a=0$ the second. $\square$</p>
+  <p><b>In words.</b> Shifting moves the whole distribution but leaves every distance to the mean unchanged, so the spread is unchanged. Scaling by $b$ multiplies every distance to the mean by $|b|$, so squared distances are multiplied by $b^2$. In standard deviations: $\sigma_{a+bX}=|b|\,\sigma_X$.</p>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 412 228">
+  <text x="8" y="52" class="svgtxt b" text-anchor="start" font-size="10.5">X</text>
+  <line x1="60" y1="58" x2="337.2" y2="58" stroke="var(--border2)" stroke-width="1"/>
+  <rect x="70.8" y="22" width="36" height="36" fill="var(--bluebg)" stroke="var(--blue)" stroke-width="1.3"/>
+  <line x1="78.4" y1="68" x2="99.2" y2="68" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="78.4" y1="64" x2="78.4" y2="72" stroke="var(--blue)" stroke-width="1.5"/>
+  <line x1="99.2" y1="64" x2="99.2" y2="72" stroke="var(--blue)" stroke-width="1.5"/>
+  <circle cx="88.8" cy="68" r="2.8" fill="var(--blue)"/>
+  <text x="406" y="52" class="svgtxt b" text-anchor="end" font-size="10">V = 1/12</text>
+  <text x="406" y="66" class="svgtxt" text-anchor="end" font-size="9">σ ≈ 0.289</text>
+  <text x="8" y="114" class="svgtxt a" text-anchor="start" font-size="10.5">X + 2</text>
+  <line x1="60" y1="120" x2="337.2" y2="120" stroke="var(--border2)" stroke-width="1"/>
+  <rect x="142.8" y="84" width="36" height="36" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="1.3"/>
+  <line x1="150.4" y1="130" x2="171.2" y2="130" stroke="var(--amber)" stroke-width="2"/>
+  <line x1="150.4" y1="126" x2="150.4" y2="134" stroke="var(--amber)" stroke-width="1.5"/>
+  <line x1="171.2" y1="126" x2="171.2" y2="134" stroke="var(--amber)" stroke-width="1.5"/>
+  <circle cx="160.8" cy="130" r="2.8" fill="var(--amber)"/>
+  <text x="406" y="114" class="svgtxt a" text-anchor="end" font-size="10">V = 1/12</text>
+  <text x="406" y="128" class="svgtxt" text-anchor="end" font-size="9">σ ≈ 0.289</text>
+  <text x="8" y="176" class="svgtxt g" text-anchor="start" font-size="10.5">2 + 5X</text>
+  <line x1="60" y1="182" x2="337.2" y2="182" stroke="var(--border2)" stroke-width="1"/>
+  <rect x="142.8" y="174.8" width="180" height="7.2" fill="var(--greenbg)" stroke="var(--green)" stroke-width="1.3"/>
+  <line x1="180.8" y1="192" x2="284.8" y2="192" stroke="var(--green)" stroke-width="2"/>
+  <line x1="180.8" y1="188" x2="180.8" y2="196" stroke="var(--green)" stroke-width="1.5"/>
+  <line x1="284.8" y1="188" x2="284.8" y2="196" stroke="var(--green)" stroke-width="1.5"/>
+  <circle cx="232.8" cy="192" r="2.8" fill="var(--green)"/>
+  <text x="406" y="176" class="svgtxt g" text-anchor="end" font-size="10">V = 25/12</text>
+  <text x="406" y="190" class="svgtxt" text-anchor="end" font-size="9">σ ≈ 1.443</text>
+  <text x="70.8" y="208" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="106.8" y="208" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="142.8" y="208" class="svgtxt" text-anchor="middle" font-size="9">2</text>
+  <text x="178.8" y="208" class="svgtxt" text-anchor="middle" font-size="9">3</text>
+  <text x="214.8" y="208" class="svgtxt" text-anchor="middle" font-size="9">4</text>
+  <text x="250.8" y="208" class="svgtxt" text-anchor="middle" font-size="9">5</text>
+  <text x="286.8" y="208" class="svgtxt" text-anchor="middle" font-size="9">6</text>
+  <text x="322.8" y="208" class="svgtxt" text-anchor="middle" font-size="9">7</text>
+  <text x="196.8" y="222" class="svgtxt" text-anchor="middle" font-size="9">bar under each block: mean ± one standard deviation</text>
+  </svg><figcaption>Three uniform densities on one axis. Adding 2 slides the block and leaves $\sigma$ and $\mathbb{V}$ alone. Multiplying by 5 stretches the block 5 times wider (and 5 times lower), multiplies $\sigma$ by 5 and $\mathbb{V}$ by 25.</figcaption></figure>
+  </div>
+  <div class="note warn"><div class="t">TRAP · where the $a$ and the $b$ go</div>$\mathbb{V}(a+bX)$ is <b>not</b> $a+b\,\mathbb{V}(X)$, and not $b\,\mathbb{V}(X)$. The constant $a$ disappears and $b$ comes out <b>squared</b>. Hence $\mathbb{V}(-X)=\mathbb{V}(X)$, not $-\mathbb{V}(X)$, and $\mathbb{V}(2-3X)=9\,\mathbb{V}(X)$. Compare the mean, where $a$ stays and $b$ is not squared: $\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)$.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 19) · variance of Y = 2 + 5X, by integration and by the theorem</div>
+  <div class="body">
+  <p>$X\sim\mathcal{U}(0,1)$, so we have already seen $\mathbb{E}(X)=\frac12$, $\mathbb{E}(X^2)=\frac13$ and $\mathbb{V}(X)=\frac1{12}$. Define $Y:=2+5X$ with pdf $g(y)=0.2$ on $(2,7)$ (slide 15) and $\mu_Y:=\mathbb{E}(Y)=4.5$. Compute $\mathbb{V}(Y)$.</p>
+  <ol class="steps">
+    <li><b>Definition, with the density of $Y$.</b>
+    $$\mathbb{V}(Y)=\int_{-\infty}^{+\infty}(y-\mu_Y)^2\,g(y)\,dy=\int_2^7(y-4.5)^2\cdot0.2\,dy=0.2\int_2^7\left(y^2-9y+20.25\right)dy,$$
+    using $(y-4.5)^2=y^2-9y+20.25$.</li>
+    <li><b>Antiderivative.</b>
+    $$0.2\cdot\left(\frac13y^3-\frac92y^2+20.25y\Big|_{y=2}^{y=7}\right).$$</li>
+    <li><b>Upper limit $y=7$.</b> $\frac13\cdot7^3-\frac92\cdot7^2+20.25\cdot7=114.333-220.5+141.75=35.583\ \left(=\tfrac{427}{12}\right)$.</li>
+    <li><b>Lower limit $y=2$.</b> $\frac13\cdot2^3-\frac92\cdot2^2+20.25\cdot2=2.667-18+40.5=25.167\ \left(=\tfrac{302}{12}\right)$.</li>
+    <li><b>Subtract and multiply by 0.2.</b>
+    $$\mathbb{V}(Y)=0.2\cdot\left[\left(\frac13\cdot7^3-\frac92\cdot7^2+20.25\cdot7\right)-\left(\frac13\cdot2^3-\frac92\cdot2^2+20.25\cdot2\right)\right]=0.2\cdot\frac{427-302}{12}=\frac15\cdot\frac{125}{12}=\frac{25}{12}\approx2.083.$$</li>
+    <li><b>The theorem of slide 18: one line.</b>
+    $$\mathbb{V}(Y)=\mathbb{V}(2+5X)=5^2\,\mathbb{V}(X)=25\cdot\frac1{12}=\frac{25}{12}\ \checkmark$$</li>
+    <li><b>A third check (not on the slides): the shortcut</b>, with $\mathbb{E}(Y^2)=\frac{67}{3}$ from slide 15:
+    $$\mathbb{E}(Y^2)-[\mathbb{E}(Y)]^2=\frac{67}{3}-4.5^2=\frac{67}{3}-\frac{81}{4}=\frac{268-243}{12}=\frac{25}{12}\ \checkmark$$</li>
+  </ol>
+  <p>Standard deviation: $\sigma_Y=\sqrt{25/12}=\dfrac{5}{\sqrt{12}}\approx1.443=5\,\sigma_X$.</p>
+  <div class="note"><div class="t">Insight</div>Three routes, one answer. The integral takes five lines of arithmetic, the theorem takes one. On an exam, recognise $Y$ as $a+bX$ and use $b^2\mathbb{V}(X)$. The "+2" plays no role at all. And since $Y$ is uniform on an interval of width 5, $\frac{25}{12}=\frac{5^2}{12}$ is $\frac{(b-a)^2}{12}$ again.</div>
+  </div>
+</div>
+
+<div class="note fin"><div class="t">R corner · moments with integrate(), and a simulation check (standard R, not on the slides)</div>
+<p><b>Exact moments by numerical integration.</b> <code>integrate(h, lower, upper)$value</code> returns $\int h$. Put the "thing" times the density inside.</p>
+<p><code>f &lt;- function(x) 3 * x^2</code><br>
+<code>m1 &lt;- integrate(function(x) x * f(x), 0, 1)$value</code> → <code>0.75</code><br>
+<code>m2 &lt;- integrate(function(x) x^2 * f(x), 0, 1)$value</code> → <code>0.6</code><br>
+<code>m2 - m1^2</code> → <code>0.0375</code> $=\frac3{80}$</p>
+<p><code>g &lt;- function(y) dunif(y, min = 2, max = 7)</code><br>
+<code>integrate(function(y) y * g(y), 2, 7)$value</code> → <code>4.5</code><br>
+<code>integrate(function(y) y^3 * g(y), 2, 7)$value</code> → <code>119.25</code>, the moment the slides leave unsolved<br>
+<code>integrate(function(y) (y - 4.5)^2 * g(y), 2, 7)$value</code> → <code>2.083333</code> $=\frac{25}{12}$</p>
+<p><b>Simulation check.</b> <code>set.seed(1); x &lt;- runif(1e6); y &lt;- 2 + 5 * x</code>, then <code>mean(y)</code>, <code>mean(y^3)</code>, <code>var(y)</code> print numbers close to $4.5$, $119.25$ and $2.083$. The last digits depend on the seed.</p>
+<p><b>Traps.</b> (i) <code>mean(y)^2</code> is $[\mathbb{E}(Y)]^2$ but <code>mean(y^2)</code> is $\mathbb{E}(Y^2)$, and the brackets decide which one you get. (ii) <code>var()</code> divides by $n-1$ (sample variance). With $10^6$ draws the difference from dividing by $n$ is invisible, but with $n=5$ it is not. (iii) <code>dunif(y, 2, 7)</code> already returns $0.2$ on $(2,7)$ and $0$ outside, so you may integrate over a wider range, e.g. <code>0</code> to <code>10</code>, and get the same answer.</p>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Mean and variance of U(1,5)</div>
+<div class="prob">For the uniform on $(1,5)$ of module 21 ($f=0.25$ there), compute $\mathbb{E}(X)$, $\mathbb{E}(X^2)$ and $\mathbb{V}(X)$.</div>
+<details><summary>Answer</summary><div class="sol">$\mathbb{E}(X)=\int_1^5x\cdot0.25\,dx=0.25\cdot\frac{25-1}{2}=3$, the midpoint. $\mathbb{E}(X^2)=\int_1^5x^2\cdot0.25\,dx=0.25\cdot\frac{125-1}{3}=\frac{31}{3}$. $\mathbb{V}(X)=\frac{31}{3}-9=\frac43$. Check: width 4, and $\frac{4^2}{12}=\frac43$ ✓.</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A linear transformation of 3x²</div>
+<div class="prob">$X$ has density $3x^2$ on $(0,1)$. Find $\mathbb{E}(5-2X)$ and $\mathbb{V}(5-2X)$.</div>
+<details><summary>Answer</summary><div class="sol">$\mathbb{E}(5-2X)=5-2\cdot\frac34=3.5$. $\mathbb{V}(5-2X)=(-2)^2\cdot\frac3{80}=\frac{12}{80}=0.15$. The minus sign disappears when squared, and the 5 plays no role.</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>The mean of $5e^{-5x}$</div>
+<div class="prob">Compute $\mathbb{E}(X)$ for the density $f(x)=5e^{-5x}$, $x\ge0$, of module 21. (Hint: integration by parts.)</div>
+<details><summary>Answer</summary><div class="sol">$\mathbb{E}(X)=\int_0^{\infty}x\cdot5e^{-5x}\,dx$. Take $u=x$, $dv=5e^{-5x}dx$, so $v=-e^{-5x}$:
+$$\left[-xe^{-5x}\right]_0^{\infty}+\int_0^{\infty}e^{-5x}\,dx=0+\left[-\tfrac15e^{-5x}\right]_0^{\infty}=\frac15=0.2.$$
+In R: <code>integrate(function(x) x * dexp(x, rate = 5), 0, Inf)$value</code> → <code>0.2</code>. Module 23 shows that the exponential with rate $\lambda$ has mean $1/\lambda$.</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Spot the error</div>
+<div class="prob">A student writes, for $X\sim\mathcal{U}(0,1)$: "$\mathbb{V}(X)=[\mathbb{E}(X)]^2-\mathbb{E}(X^2)=\frac14-\frac13=-\frac1{12}$, and so $\mathbb{V}(3+2X)=3+2\cdot\left(-\frac1{12}\right)$." Find both mistakes and give the right value.</div>
+<details><summary>Answer</summary><div class="sol">First, the shortcut is reversed. $\mathbb{V}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2=\frac1{12}$, and a negative variance is impossible. Second, $\mathbb{V}(a+bX)=b^2\,\mathbb{V}(X)$: the 3 vanishes and the 2 is squared. Correct value: $\mathbb{V}(3+2X)=4\cdot\frac1{12}=\frac13$.</div></details>
+</div>
+</section>

@@ -1,0 +1,128 @@
+<!-- ============ 06 A RANDOM POINT IN (0,1) ============ -->
+<section id="s6">
+<div class="sec-head"><span class="num">06</span><h2>A random point in (0,1)</h2><span class="sub">lecture 1, notes p.9 · slides: Axioms 19–20</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> When outcomes can't be counted, probability moves to intervals<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Pick a number "completely at random" from the interval $(0,1)$. The sample space $\Omega=(0,1)$ is uncountable (module 01), and this changes the game: we can no longer give each outcome a positive probability and add them up. Instead:</p>
+  <ul>
+    <li>every <b>single point</b> gets probability <b>0</b> — $P(\{0.5\})=0$;</li>
+    <li><b>intervals</b> carry the probability, and it is <b>proportional to their length</b> — $P((u,v))=v-u$.</li>
+  </ul>
+  <p>This is the first continuous model of the course, and it is the prototype for everything in modules 21–25 (densities, the uniform, the normal). It is also the "raw material" of simulation: module 14 turns this random point into an exponential random variable.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">STEP 1</span> A single point has probability 0<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The lecture states $P(\{0.5\})=0$; here is why it cannot be anything else. "At random" means no point is special, so every point would get the <b>same</b> probability $\varepsilon$. Suppose $\varepsilon&gt;0$. Take $N$ different points in $(0,1)$ — the events $\{x_1\},\dots,\{x_N\}$ are disjoint, so by finite additivity</p>
+  $$P(\{x_1,\dots,x_N\})=N\varepsilon.$$
+  <p>Choose $N&gt;1/\varepsilon$ and this exceeds 1, which is impossible (module 05). So $\varepsilon=0$.</p>
+  <figure>
+  <svg viewBox="0 0 340 110">
+    <line x1="14" y1="60" x2="326" y2="60" stroke="var(--border2)" stroke-width="1.5"/>
+    <text x="14" y="78" class="svgtxt" text-anchor="middle">0</text><text x="326" y="78" class="svgtxt" text-anchor="middle">1</text>
+    <g fill="var(--red)">
+      <circle cx="40" cy="60" r="3"/><circle cx="66" cy="60" r="3"/><circle cx="92" cy="60" r="3"/><circle cx="118" cy="60" r="3"/><circle cx="144" cy="60" r="3"/><circle cx="170" cy="60" r="3"/><circle cx="196" cy="60" r="3"/><circle cx="222" cy="60" r="3"/><circle cx="248" cy="60" r="3"/><circle cx="274" cy="60" r="3"/><circle cx="300" cy="60" r="3"/>
+    </g>
+    <text x="170" y="36" class="svgtxt r" text-anchor="middle">if each point carried ε &gt; 0 …</text>
+    <text x="170" y="98" class="svgtxt r" text-anchor="middle">… enough points would add up to more than 1</text>
+  </svg>
+  </figure>
+  <div class="note"><div class="t">Consequence: endpoints don't matter</div>Adding or removing a single point changes a probability by 0. So
+  $$P((a,b))=P([a,b))=P((a,b])=P([a,b]).$$
+  In continuous models, "&lt;" versus "≤" is irrelevant. (In discrete models it matters a lot — module 13.)</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">STEP 2</span> Symmetry, then halving: probability = length<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>No half of $(0,1)$ is favoured, so it is reasonable that $P((0,0.5))=P((0.5,1))$. The two halves are disjoint and (ignoring the single point $0.5$, which has probability 0) fill $(0,1)$:</p>
+  $$P((0,0.5))+P((0.5,1))=P((0,1))=1\ \Longrightarrow\ P((0,0.5))=P((0.5,1))=0.5.$$
+  <p>Repeat the argument on each half, and on each quarter… every interval of length $\tfrac1{2^k}$ gets probability $\tfrac1{2^k}$:</p>
+  <figure>
+  <svg viewBox="0 0 340 130">
+    <g stroke="var(--panel)" stroke-width="2">
+      <rect x="14" y="10" width="312" height="22" fill="var(--green)" opacity="0.6"/>
+      <rect x="14" y="42" width="156" height="22" fill="var(--blue)" opacity="0.55"/><rect x="170" y="42" width="156" height="22" fill="var(--blue)" opacity="0.35"/>
+      <rect x="14" y="74" width="78" height="22" fill="var(--amber)" opacity="0.6"/><rect x="92" y="74" width="78" height="22" fill="var(--amber)" opacity="0.4"/><rect x="170" y="74" width="78" height="22" fill="var(--amber)" opacity="0.6"/><rect x="248" y="74" width="78" height="22" fill="var(--amber)" opacity="0.4"/>
+    </g>
+    <text x="170" y="25" class="svgtxt w" text-anchor="middle">(0,1): probability 1</text>
+    <text x="92" y="57" class="svgtxt w" text-anchor="middle">1/2</text><text x="248" y="57" class="svgtxt w" text-anchor="middle">1/2</text>
+    <text x="53" y="89" class="svgtxt w" text-anchor="middle">1/4</text><text x="131" y="89" class="svgtxt w" text-anchor="middle">1/4</text><text x="209" y="89" class="svgtxt w" text-anchor="middle">1/4</text><text x="287" y="89" class="svgtxt w" text-anchor="middle">1/4</text>
+    <text x="14" y="120" class="svgtxt">equal pieces, equal probabilities, total 1</text>
+  </svg>
+  </figure>
+  <p>Building intervals out of such pieces leads to the result on the slides:</p>
+  $$\boxed{0\le u&lt;v\le1:\qquad P((u,v))=\frac{v-u}{\text{length of }\Omega}=v-u}$$
+  <p>and, for a random point in a general interval $(a,b)$,</p>
+  $$\boxed{a\le u&lt;v\le b:\qquad P((u,v))=\frac{v-u}{b-a}}$$
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">TRY IT</span> Probability as a length<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Drag $u$ and $v$. The shaded block has height 1 over $(0,1)$, so its <b>area</b> equals its width — the probability. Press "a single point" to shrink the interval to nothing: the probability goes to 0 even though the point is still there.</p>
+  <div class="ctrl">
+    <label>$u$ <input type="range" id="un_u" min="0" max="1" step="any" value="0.2"><span class="val" id="un_u_v">0.20</span></label>
+    <label>$v$ <input type="range" id="un_v" min="0" max="1" step="any" value="0.7"><span class="val" id="un_v_v">0.70</span></label>
+    <span class="btns"><button onclick="unSet(0,0.5)">(0, 0.5)</button><button onclick="unSet(0.5,1)">(0.5, 1)</button><button onclick="unSet(0.2,0.7)">(0.2, 0.7)</button><button onclick="unSet(0.5,0.5)">a single point</button></span>
+  </div>
+  <figure style="margin:0"><svg id="unsvg" viewBox="0 0 360 172"></svg><figcaption>Height 1 × width $v-u$ = probability $v-u$. This "height" is the first density of the course: module 21 generalises it to shapes that are not flat.</figcaption></figure>
+  <div class="readout" id="unread"></div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXAMPLE · a random point in (2, 6)</div>
+  <div class="body">
+  <p>A number is drawn at random from $(2,6)$. Find $P(3&lt;X&lt;4.5)$ and $P(X&gt;5)$.</p>
+  <ol class="steps">
+    <li>Length of $\Omega$: $b-a=6-2=4$.</li>
+    <li>$P((3,4.5))=\dfrac{4.5-3}{4}=\dfrac{1.5}{4}=0.375$.</li>
+    <li>$P(X&gt;5)=P((5,6))=\dfrac{6-5}{4}=0.25$ — same as $P(X\ge5)$, endpoints don't matter.</li>
+  </ol>
+  <figure>
+  <svg viewBox="0 0 330 70">
+    <line x1="20" y1="44" x2="310" y2="44" stroke="var(--border2)" stroke-width="1.5"/>
+    <rect x="20" y="14" width="290" height="30" fill="var(--blue)" opacity="0.08" stroke="var(--blue)" stroke-dasharray="3 3"/>
+    <rect x="92.5" y="14" width="108.75" height="30" fill="var(--green)" opacity="0.45"/>
+    <rect x="237.5" y="14" width="72.5" height="30" fill="var(--amber)" opacity="0.5"/>
+    <text x="20" y="60" class="svgtxt" text-anchor="middle">2</text><text x="92.5" y="60" class="svgtxt" text-anchor="middle">3</text><text x="201" y="60" class="svgtxt" text-anchor="middle">4.5</text><text x="237.5" y="60" class="svgtxt" text-anchor="middle">5</text><text x="310" y="60" class="svgtxt" text-anchor="middle">6</text>
+    <text x="147" y="33" class="svgtxt w" text-anchor="middle">0.375</text><text x="274" y="33" class="svgtxt w" text-anchor="middle">0.25</text>
+  </svg>
+  </figure>
+  <div class="note"><div class="t">Insight</div>Only lengths relative to the whole interval matter: this is why the "height" of the flat block is $\frac1{b-a}=\frac14$ here — module 23 calls it the Uniform$(a,b)$ density.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">STRETCH</span> Why axiom 3 needed infinite sequences<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>What is the probability that the random point is a <b>rational</b> number (a fraction like $\tfrac12$, $\tfrac37$)?</p>
+  <p>The rationals in $(0,1)$ can be listed one after another — $\tfrac12,\tfrac13,\tfrac23,\tfrac14,\tfrac34,\dots$ — so they form a <b>countable</b> union of single points. Axiom 3 (countable additivity) gives</p>
+  $$P(\text{rational})=\sum_{i=1}^{\infty}P(\{q_i\})=0+0+0+\dots=0.$$
+  <p>Infinitely many possible outcomes, and still probability 0. Finite additivity alone could not have told us this.</p>
+  <div class="note warn"><div class="t">But not every union works</div>$(0,1)$ itself is also a union of single points, each with probability 0, yet $P((0,1))=1$. No contradiction: that union is <b>uncountable</b>, and axiom 3 only speaks about countable sequences. This is exactly the line between discrete and continuous that module 15 draws.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Complement on (0,1)</div>
+<div class="prob">A point is drawn at random from $(0,1)$. Find $P(X&lt;0.3\ \text{or}\ X&gt;0.8)$.</div>
+<details><summary>Answer</summary><div class="sol">Disjoint pieces: $0.3+(1-0.8)=0.5$. Or by complement: $1-P((0.3,0.8))=1-0.5=0.5$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Closest to the middle</div>
+<div class="prob">Point at random in $(0,1)$. Probability it is within $0.1$ of $0.5$?</div>
+<details><summary>Answer</summary><div class="sol">The event is $(0.4,0.6)$, length $0.2$, so $P=0.2$. The exact value $0.5$ alone would have probability 0.</div></details>
+</div>
+</div>
+</section>

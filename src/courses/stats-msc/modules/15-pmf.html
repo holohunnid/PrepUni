@@ -1,0 +1,210 @@
+<!-- ============ 15 DISCRETE RANDOM VARIABLES AND THE PMF ============ -->
+<section id="s15">
+<div class="sec-head"><span class="num">15</span><h2>Discrete random variables & the pmf</h2><span class="sub">lecture 2, notes p.10–13 · slides: Distribution Functions 14–22</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Countable values ⇒ list each value with its probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Random variables come in two kinds, and the dividing line is the one module 01 drew for sample spaces: can you <b>count</b> the possible values?</p>
+  <ul>
+    <li>If yes — finitely many, or an infinite list $x_1,x_2,\dots$ — the variable is <b>discrete</b>, and we describe it by listing each value with its probability. That list is the <b>probability mass function</b> (pmf).</li>
+    <li>If the values fill an interval, the variable is <b>continuous</b>, single values have probability 0 (module 06), and a list is useless — modules 21–25 use densities instead.</li>
+  </ul>
+  <p>For discrete variables the pmf and the CDF are two views of the same information: the CDF is the running total of the pmf, and the pmf is the size of the CDF's jumps.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Support; discrete vs continuous<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>support</b> $\mathrm{supp}(X)$ is the set of values $X$ can take. The notes' three examples:</p>
+  <ul>
+    <li>$\mathrm{supp}(X)=\{0,1,\dots,5\}$ — heads in 5 flips: <b>finite</b> (hence countable);</li>
+    <li>$\mathrm{supp}(Y)=\{1,2,3,\dots\}$ — tosses needed by the stubborn coin flipper: <b>infinite but countable</b>;</li>
+    <li>$\mathrm{supp}(Z)=[0,+\infty)$ — lifetime of a TV set: <b>infinite and uncountable</b> (even $[0,1]$ alone is uncountable).</li>
+  </ul>
+  <p>$X$ and $Y$ are <b>discrete</b>; $Z$ is <b>continuous</b>.</p>
+  <div class="note"><div class="t">Definition</div>A <b>discrete random variable</b> is one with a <b>countable</b> support — finite or infinite. "Countable" means the elements can be numbered 1st, 2nd, 3rd, … so that every element eventually gets a number.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">SEE IT</span> Three kinds of support<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 340 196">
+    <text x="10" y="18" class="svgtxt w">finite: {0,1,…,5}</text>
+    <line x1="20" y1="42" x2="330" y2="42" stroke="var(--border2)"/>
+    <g fill="var(--green)"><circle cx="40" cy="42" r="4.5"/><circle cx="90" cy="42" r="4.5"/><circle cx="140" cy="42" r="4.5"/><circle cx="190" cy="42" r="4.5"/><circle cx="240" cy="42" r="4.5"/><circle cx="290" cy="42" r="4.5"/></g>
+    <text x="40" y="58" class="svgtxt" text-anchor="middle">0</text><text x="290" y="58" class="svgtxt" text-anchor="middle">5</text>
+    <text x="10" y="84" class="svgtxt w">countably infinite: {1,2,3,…}</text>
+    <line x1="20" y1="108" x2="330" y2="108" stroke="var(--border2)"/>
+    <g fill="var(--blue)"><circle cx="50" cy="108" r="4.5"/><circle cx="90" cy="108" r="4.5"/><circle cx="130" cy="108" r="4.5"/><circle cx="170" cy="108" r="4.5"/><circle cx="210" cy="108" r="4.5"/><circle cx="250" cy="108" r="4.5"/><circle cx="290" cy="108" r="4.5"/></g>
+    <text x="312" y="112" class="svgtxt b">…</text>
+    <text x="50" y="124" class="svgtxt" text-anchor="middle">1</text><text x="90" y="124" class="svgtxt" text-anchor="middle">2</text><text x="130" y="124" class="svgtxt" text-anchor="middle">3</text>
+    <text x="10" y="150" class="svgtxt w">uncountable: [0, ∞)</text>
+    <line x1="20" y1="174" x2="330" y2="174" stroke="var(--border2)"/>
+    <line x1="40" y1="174" x2="326" y2="174" stroke="var(--amber)" stroke-width="5"/>
+    <circle cx="40" cy="174" r="4" fill="var(--amber)"/>
+    <text x="40" y="190" class="svgtxt" text-anchor="middle">0</text>
+    <text x="330" y="160" class="svgtxt a" text-anchor="end">no gaps at all → continuous</text>
+  </svg>
+  <figcaption>Isolated points (even infinitely many) can each carry a positive probability. A solid interval cannot — it is continuous.</figcaption>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Probability mass function and the normalisation rule<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ be discrete with support $\{x_1,x_2,\dots\}$. Its <b>probability mass function</b> is $f:\mathbb R\to[0,1]$ with</p>
+  $$\boxed{f(x_i)=P(X=x_i)\ \text{ if }x_i\in\mathrm{supp}(X),\qquad f(x)=0\ \text{ otherwise.}}$$
+  <p>Because the events $\{X=x_i\}$ are disjoint and together certain (module 05), the masses must add to one — the <b>normalisation rule</b>:</p>
+  $$\boxed{\sum_{i=1}^{\infty}f(x_i)=\sum_{x\in\mathrm{supp}(X)}f(x)=1}$$
+  <p>A function is a valid pmf exactly when it is <b>non-negative</b> and satisfies normalisation. Those are the two things to check in "prove that $f$ is a pmf" questions.</p>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>A discrete distribution is two vectors: <code>x &lt;- c(-2, 4, 6.4)</code>, <code>f &lt;- c(1/2, 1/4, 1/4)</code>. Check normalisation with <code>sum(f)</code> → <code>1</code>; get $P(X\le t)$ with <code>sum(f[x &lt;= t])</code>; get the CDF values with <code>cumsum(f)</code> → <code>0.50 0.75 1.00</code>.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 2 · notes p.11 · slides 16 — find the missing constant<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <h3>One unknown probability</h3>
+  $$X=\begin{cases}-2&amp;\text{w.p. }\tfrac12\\+4&amp;\text{w.p. }\tfrac14\\6.4&amp;\text{w.p. }c\ \text{(unknown)}\end{cases}\qquad\mathrm{supp}(X)=\{-2,4,6.4\}$$
+  <ol class="steps">
+    <li>pmf: $f(-2)=\tfrac12$, $f(4)=\tfrac14$, $f(6.4)=c$, and $f(x)=0$ for all other $x$.</li>
+    <li>Normalisation: $\tfrac12+\tfrac14+c=1\Rightarrow c=1-\big(\tfrac12+\tfrac14\big)=\tfrac14$.</li>
+  </ol>
+  <p class="muted" style="font-size:12px">(The slides use 6.7 for the last value; the value is irrelevant to $c$ — only probabilities enter the normalisation.)</p>
+  <h3>Probabilities proportional to known weights</h3>
+  $$Y=\begin{cases}5&amp;\text{w.p. }2c\\7&amp;\text{w.p. }c\\8&amp;\text{w.p. }3c\end{cases}\qquad 2c+c+3c=6c=1\ \Rightarrow\ c=\tfrac16$$
+  <p>so $Y$ takes 5, 7, 8 with probabilities $\tfrac26,\tfrac16,\tfrac36$.</p>
+  <figure>
+  <svg viewBox="0 0 330 110">
+    <line x1="20" y1="86" x2="320" y2="86" stroke="var(--border2)"/>
+    <rect x="70" y="46" width="30" height="40" fill="var(--blue)" opacity="0.55" stroke="var(--blue)"/>
+    <rect x="170" y="66" width="30" height="20" fill="var(--blue)" opacity="0.55" stroke="var(--blue)"/>
+    <rect x="230" y="26" width="30" height="60" fill="var(--blue)" opacity="0.55" stroke="var(--blue)"/>
+    <text x="85" y="102" class="svgtxt" text-anchor="middle">5</text><text x="185" y="102" class="svgtxt" text-anchor="middle">7</text><text x="245" y="102" class="svgtxt" text-anchor="middle">8</text>
+    <text x="85" y="40" class="svgtxt w" text-anchor="middle">2c</text><text x="185" y="60" class="svgtxt w" text-anchor="middle">c</text><text x="245" y="20" class="svgtxt w" text-anchor="middle">3c</text>
+    <text x="300" y="50" class="svgtxt a" text-anchor="end">6c = 1</text>
+  </svg>
+  <figcaption>The shape (2 : 1 : 3) is given; normalisation fixes the scale so the heights add to 1.</figcaption>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> LECTURE 2 · notes p.12 · slides 17 — the constant random variable<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$X$ is <b>constant</b> if $P(X=c)=1$ and $P(X=c')=0$ for every $c'\neq c$ — "degenerate, with no real randomness". Its pmf and CDF:</p>
+  $$f(t)=\begin{cases}1,&amp;t=c\\0,&amp;t\neq c\end{cases}\qquad F(t)=\begin{cases}0,&amp;t&lt;c\\1,&amp;t\ge c\end{cases}$$
+  <figure>
+  <svg viewBox="0 0 330 120">
+    <line x1="20" y1="96" x2="150" y2="96" stroke="var(--border2)"/><line x1="24" y1="14" x2="24" y2="100" stroke="var(--border2)"/>
+    <line x1="90" y1="96" x2="90" y2="24" stroke="var(--red)" stroke-width="2.5"/><circle cx="90" cy="24" r="4" fill="var(--red)"/>
+    <line x1="24" y1="24" x2="86" y2="24" stroke="var(--border)" stroke-dasharray="3 3"/>
+    <text x="18" y="28" class="svgtxt" text-anchor="end">1</text><text x="90" y="112" class="svgtxt" text-anchor="middle">c</text><text x="140" y="112" class="svgtxt">t</text>
+    <text x="30" y="12" class="svgtxt w">f</text>
+    <line x1="180" y1="96" x2="320" y2="96" stroke="var(--border2)"/><line x1="184" y1="14" x2="184" y2="100" stroke="var(--border2)"/>
+    <line x1="184" y1="94" x2="246" y2="94" stroke="var(--red)" stroke-width="2.5"/>
+    <circle cx="250" cy="94" r="3.5" fill="var(--panel)" stroke="var(--red)" stroke-width="1.5"/>
+    <circle cx="250" cy="24" r="4" fill="var(--red)"/>
+    <line x1="250" y1="24" x2="318" y2="24" stroke="var(--red)" stroke-width="2.5"/>
+    <line x1="250" y1="30" x2="250" y2="90" stroke="var(--red)" stroke-dasharray="2 3"/>
+    <text x="178" y="28" class="svgtxt" text-anchor="end">1</text><text x="250" y="112" class="svgtxt" text-anchor="middle">c</text><text x="312" y="112" class="svgtxt">t</text>
+    <text x="190" y="12" class="svgtxt w">F</text>
+  </svg>
+  <figcaption>All the mass at one point: a single spike of height 1, and a CDF that jumps from 0 to 1 at $c$ (filled dot on top — right-continuity).</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 2 · notes p.12–13 · slides 18–21 — pmf and CDF of the number of heads<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$X$ = number of heads in $n=2$ fair flips. $\mathrm{supp}(X)=\{0,1,2\}$ ⇒ discrete.</p>
+  <ol class="steps">
+    <li>$f(0)=P(\{TT\})=\tfrac12\cdot\tfrac12=\tfrac14$</li>
+    <li>$f(1)=P(\{HT,TH\})=2\cdot\tfrac12\cdot\tfrac12=\tfrac24=\tfrac12$</li>
+    <li>$f(2)=P(\{HH\})=\tfrac14$, and $f(x)=0$ for $x\notin\mathrm{supp}(X)$.</li>
+    <li>The CDF accumulates the pmf:
+    $$F(t)=\begin{cases}0,&amp;t&lt;0\\\tfrac14,&amp;0\le t&lt;1\quad(f(0))\\\tfrac34,&amp;1\le t&lt;2\quad(f(0)+f(1))\\1,&amp;t\ge2\quad(f(0)+f(1)+f(2))\end{cases}$$</li>
+  </ol>
+  <figure>
+  <svg viewBox="0 0 330 130">
+    <text x="20" y="12" class="svgtxt w">pmf f</text>
+    <line x1="16" y1="104" x2="150" y2="104" stroke="var(--border2)"/>
+    <line x1="40" y1="104" x2="40" y2="76" stroke="var(--blue)" stroke-width="2.5"/><circle cx="40" cy="76" r="3.5" fill="var(--blue)"/>
+    <line x1="85" y1="104" x2="85" y2="48" stroke="var(--blue)" stroke-width="2.5"/><circle cx="85" cy="48" r="3.5" fill="var(--blue)"/>
+    <line x1="130" y1="104" x2="130" y2="76" stroke="var(--blue)" stroke-width="2.5"/><circle cx="130" cy="76" r="3.5" fill="var(--blue)"/>
+    <text x="40" y="68" class="svgtxt" text-anchor="middle">¼</text><text x="85" y="40" class="svgtxt" text-anchor="middle">½</text><text x="130" y="68" class="svgtxt" text-anchor="middle">¼</text>
+    <text x="40" y="120" class="svgtxt" text-anchor="middle">0</text><text x="85" y="120" class="svgtxt" text-anchor="middle">1</text><text x="130" y="120" class="svgtxt" text-anchor="middle">2</text>
+    <text x="180" y="12" class="svgtxt w">CDF F</text>
+    <line x1="170" y1="104" x2="326" y2="104" stroke="var(--border2)"/>
+    <line x1="170" y1="103" x2="196" y2="103" stroke="var(--red)" stroke-width="2.2"/>
+    <circle cx="200" cy="103" r="3" fill="var(--panel)" stroke="var(--red)" stroke-width="1.4"/>
+    <circle cx="200" cy="82" r="3.2" fill="var(--red)"/><line x1="200" y1="82" x2="241" y2="82" stroke="var(--red)" stroke-width="2.2"/>
+    <circle cx="245" cy="82" r="3" fill="var(--panel)" stroke="var(--red)" stroke-width="1.4"/>
+    <circle cx="245" cy="40" r="3.2" fill="var(--red)"/><line x1="245" y1="40" x2="286" y2="40" stroke="var(--red)" stroke-width="2.2"/>
+    <circle cx="290" cy="40" r="3" fill="var(--panel)" stroke="var(--red)" stroke-width="1.4"/>
+    <circle cx="290" cy="19" r="3.2" fill="var(--red)"/><line x1="290" y1="19" x2="326" y2="19" stroke="var(--red)" stroke-width="2.2"/>
+    <g stroke="var(--red)" stroke-dasharray="2 3"><line x1="200" y1="86" x2="200" y2="100"/><line x1="245" y1="44" x2="245" y2="78"/><line x1="290" y1="23" x2="290" y2="37"/></g>
+    <text x="252" y="64" class="svgtxt b">jump ½</text>
+    <text x="200" y="120" class="svgtxt" text-anchor="middle">0</text><text x="245" y="120" class="svgtxt" text-anchor="middle">1</text><text x="290" y="120" class="svgtxt" text-anchor="middle">2</text>
+  </svg>
+  <figcaption>The notes' two sketches. Each jump of $F$ equals the bar of $f$ at the same place. In words: $P(X\le t)=\sum_{\{x\le t\}}f(x)$.</figcaption>
+  </figure>
+  <p><b>Same exercise with $n=3$</b> (the notes point to the PDF): $f=\tfrac18,\tfrac38,\tfrac38,\tfrac18$ on $\{0,1,2,3\}$ and $F=0,\ 0.125,\ 0.5,\ 0.875,\ 1$ on $t&lt;0$, $[0,1)$, $[1,2)$, $[2,3)$, $t\ge3$. The "tails in 3 coins" option of module 13's CDF figure draws it.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 2 · notes p.13 · slides 22 — prove that f(k) = (1/5)(4/5)^(k−1) is a pmf<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  $$f(k)=\frac15\Big(\frac45\Big)^{k-1},\qquad k=1,2,3,\dots$$
+  <p>Two things to check.</p>
+  <ol class="steps">
+    <li><b>Non-negativity:</b> $f(k)&gt;0$ for every $k$ — a positive number times a positive power ✓.</li>
+    <li><b>Normalisation.</b> Hint from the lecture — the <b>geometric series</b>: if $a\in(-1,1)$,
+    $$b+ab+a^2b+\dots=\frac{b}{1-a}.$$</li>
+    <li>Write out the sum:
+    $$\sum_{k=1}^{\infty}f(k)=\frac15+\frac15\cdot\frac45+\frac15\Big(\frac45\Big)^2+\dots$$
+    This is a geometric series with $b=\tfrac15$ and $a=\tfrac45$.</li>
+    <li>So $\displaystyle\sum_{k\ge1}f(k)=\frac{1/5}{1-4/5}=\frac{1/5}{1/5}=1$ ✓. $\square$</li>
+  </ol>
+  <h3>Where the geometric-series formula comes from</h3>
+  <p>Let $S=b+ab+a^2b+\dots$. Then $aS=ab+a^2b+\dots$ — the same series without its first term. Subtract: $S-aS=b$, so $S=\frac b{1-a}$. (Needs $|a|&lt;1$ so the terms shrink and $S$ is finite.)</p>
+  <div class="note"><div class="t">What is this random variable?</div>It is the stubborn coin flipper of module 01 with a biased coin, $P(H)=\tfrac15$: the first head comes at toss $k$ if the first $k-1$ tosses are tails ($\tfrac45$ each, independent — module 09) and toss $k$ is a head ($\tfrac15$). Module 20 names it: <b>Geometric</b> with $p=\tfrac15$.</div>
+  </div>
+  <div>
+  <div class="ctrl">
+    <label>$p$ <input type="range" id="ge_p" min="0.05" max="0.9" step="any" value="0.2"><span class="val" id="ge_p_v">0.20</span></label>
+    <label>sum the first $K$ <input type="range" id="ge_K" min="1" max="25" step="1" value="5"><span class="val" id="ge_K_v">5</span></label>
+  </div>
+  <div class="ctrl"><span class="btns"><button onclick="geSet(0.2,1)">K = 1</button><button onclick="geSet(0.2,5)">K = 5</button><button onclick="geSet(0.2,25)">K = 25</button><button onclick="geSet(0.5,5)">fair coin</button></span></div>
+  <figure style="margin:0"><svg id="gesvg" viewBox="0 0 360 230"></svg><figcaption>Bars: $f(k)=p(1-p)^{k-1}$, the lecture's case is $p=\tfrac15$. Amber: the running total. It creeps up towards 1 but never overshoots — what is still missing after $K$ terms is exactly $(1-p)^K$, the probability that the first $K$ tosses are all tails.</figcaption></figure>
+  <div class="readout" id="geread"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Using the pmf</div>
+<div class="prob">With $f(k)=\tfrac15(\tfrac45)^{k-1}$, find $P(X\le3)$ and $P(X&gt;3)$.</div>
+<details><summary>Answer</summary><div class="sol">$P(X\le3)=\tfrac15\big(1+\tfrac45+\tfrac{16}{25}\big)=\tfrac15\cdot\tfrac{61}{25}=\tfrac{61}{125}=0.488$. $P(X&gt;3)=1-0.488=0.512=(\tfrac45)^3$ — "three tails in a row".</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Valid pmf?</div>
+<div class="prob">Is $f(k)=\tfrac{k}{10}$ for $k=1,2,3,4$ a pmf? And $g(k)=\tfrac{k-2}{2}$ for $k=1,2,3,4$?</div>
+<details><summary>Answer</summary><div class="sol">$f$: all positive and $\tfrac{1+2+3+4}{10}=1$ ✓ — a pmf. $g$: $g(1)=-\tfrac12&lt;0$ ✗ — not a pmf, even though $\sum g=\tfrac{-1+0+1+2}{2}=1$. Both conditions are needed.</div></details>
+</div>
+</div>
+</section>

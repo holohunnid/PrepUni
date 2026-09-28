@@ -1,0 +1,540 @@
+<!-- ============ 23 UNIFORM & EXPONENTIAL ============ -->
+<section id="s23">
+<div class="sec-head"><span class="num">23</span><h2>Uniform &amp; exponential</h2><span class="sub">slides: Special Continuous RVs 2–12 · ahead of the lecture notes</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Ready-made densities, and the two simplest ones<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Modules 21–22 gave you the machinery: a density $f$, probabilities as areas $\int f$, the cdf $F$, and the integrals for $\mathbb{E}(X)$ and $\mathbb{V}(X)$. This deck asks the practical question: <b>which densities keep coming back, and what do we know about each one once and for all?</b> A named distribution is a density you never have to rebuild — its cdf, mean and variance are computed once, here, and then reused.</p>
+  <p>Slide 2 lists the families of the deck:</p>
+  <table class="formula-table">
+    <tr><th>family</th><th>typical job</th><th>where</th></tr>
+    <tr><td>Uniform $U(a,b)$</td><td>"somewhere in $(a,b)$, no value preferred" — a random arrival time, a latency</td><td>this module</td></tr>
+    <tr><td>Exponential$(\lambda)$</td><td>a waiting time: time to the next trade, claim, default</td><td>this module</td></tr>
+    <tr><td>Gaussian $N(\mu,\sigma^2)$</td><td>measurements, errors, returns, averages</td><td>module 24</td></tr>
+    <tr><td>$\chi^2(k)$</td><td>sums of squared normals — sample variances</td><td>module 25</td></tr>
+    <tr><td>Student-t$(\nu)$</td><td>the mean when $\sigma$ is unknown — the t-test</td><td>module 25</td></tr>
+    <tr><td>Beta, Gamma</td><td>listed on slide 2 but <b>not developed in the deck</b></td><td>(the Gamma <i>function</i> appears in module 25)</td></tr>
+  </table>
+  <p>You have already met both families of this module without their names: the random point of module 06 is $U(0,1)$; the density $5e^{-5x}$ of module 21 is Exponential$(5)$ and its $U(1,5)$ is the uniform with $a=1$, $b=5$; and module 14 showed that $X=-\ln U$ has cdf $1-e^{-t}$ — that is Exponential$(1)$.</p>
+  <div class="note tip"><div class="t">What to take away</div>For each family learn four things: the <b>support</b> (where the values live), the <b>density</b>, the <b>cdf</b> (the fastest route to any probability), and the <b>mean and variance</b>. Everything in the exercises is one of these four, or a conditional probability built from the cdf.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The continuous uniform (slide 3)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Intuition first.</b> "All values in $(a,b)$ are equally likely" cannot mean each value has the same positive probability — there are infinitely many values, and every single point has probability 0 (module 21). It means the <b>density is flat</b>: equally long pieces of the interval get equal probability.</p>
+  <p><b>Definition.</b> $X$ takes values in $(a,b)$ with density</p>
+  $$f(x)=\begin{cases}c&amp;x\in(a,b)\\0&amp;\text{otherwise}\end{cases}$$
+  <p>for some constants $a,b,c$. The constant is not free: the total area must be 1.</p>
+  $$\int_a^b f(x)\,dx=c\,(b-a)=1\quad\Longrightarrow\quad\boxed{\,c=\frac{1}{b-a}\,}$$
+  <p>A rectangle of width $b-a$ must have height $1/(b-a)$ to have area 1 — the wider the interval, the lower the density.</p>
+  <h3>The cdf</h3>
+  <p>For $a&lt;x&lt;b$, integrate the density from the left end of the support up to $x$:</p>
+  $$F(x)=\int_a^x f(u)\,du=\int_a^x\frac{1}{b-a}\,du=\frac{u}{b-a}\Big|_a^x=\frac{x-a}{b-a}.$$
+  <p>The slide gives the middle piece; the full cdf (module 13: $F$ must start at 0 and end at 1) is</p>
+  $$F(x)=\begin{cases}0&amp;x\le a\\[2pt]\dfrac{x-a}{b-a}&amp;a&lt;x&lt;b\\[6pt]1&amp;x\ge b\end{cases}$$
+  <div class="note"><div class="t">The one formula you actually use</div>For $a\le c&lt;d\le b$:
+  $$P(c&lt;X&lt;d)=F(d)-F(c)=\frac{d-c}{b-a}=\frac{\text{length of the piece}}{\text{length of the whole}}.$$
+  Uniform probabilities are ratios of lengths. Open or closed endpoints make no difference, since $P(X=c)=0$.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">PICTURE</span> $U(-2,5)$: density and cdf (slide 4)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$f(x)=\frac{1}{b-a},\qquad F(x)=\frac{x-a}{b-a}\qquad\text{for }a&lt;x&lt;b.$$
+  <figure><svg viewBox="0 0 380 202">
+  <path d="M 42 16 V 170 H 362 M 42 170 v 3 M 97.7 170 v 3 M 153.3 170 v 3 M 195 170 v 3 M 236.8 170 v 3 M 292.4 170 v 3 M 348.1 170 v 3 M 39 170 h 3 M 39 98.7 h 3 M 39 27.4 h 3" fill="none" stroke="var(--border2)"/>
+  <text x="42" y="184" class="svgtxt" text-anchor="middle">−4</text>
+  <text x="97.7" y="184" class="svgtxt" text-anchor="middle">−2</text>
+  <text x="153.3" y="184" class="svgtxt" text-anchor="middle">0</text>
+  <text x="195" y="184" class="svgtxt" text-anchor="middle">1.5</text>
+  <text x="236.8" y="184" class="svgtxt" text-anchor="middle">3</text>
+  <text x="292.4" y="184" class="svgtxt" text-anchor="middle">5</text>
+  <text x="348.1" y="184" class="svgtxt" text-anchor="middle">7</text>
+  <text x="37" y="173.5" class="svgtxt" text-anchor="end">0</text>
+  <text x="37" y="102.2" class="svgtxt" text-anchor="end">0.5</text>
+  <text x="37" y="30.9" class="svgtxt" text-anchor="end">1</text>
+  <rect x="97.7" y="149.6" width="194.8" height="20.4" fill="var(--bluebg)"/>
+  <path d="M 42 170 L 97.7 170 L 97.7 149.6 L 292.4 149.6 L 292.4 170 L 362 170" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <path d="M 42 170 L 97.7 170 L 292.4 27.4 L 362 27.4" fill="none" stroke="var(--green)" stroke-width="2"/>
+  <line x1="39" y1="149.6" x2="42" y2="149.6" stroke="var(--border2)"/>
+  <text x="37" y="153.1" class="svgtxt b" text-anchor="end">1/7</text>
+  <line x1="195" y1="170" x2="195" y2="98.7" stroke="var(--amber)" stroke-dasharray="3 3"/>
+  <line x1="42" y1="98.7" x2="195" y2="98.7" stroke="var(--amber)" stroke-dasharray="3 3"/>
+  <circle cx="195" cy="98.7" r="3" fill="var(--amber)"/>
+  <text x="201" y="110.7" class="svgtxt a">F(1.5) = 0.5, midpoint</text>
+  <text x="195" y="165.6" class="svgtxt b" text-anchor="middle">area = 7 × 1/7 = 1</text>
+  <text x="247.9" y="143.6" class="svgtxt b" text-anchor="middle">f(x) = 1/7</text>
+  <text x="238.3" y="64.5" class="svgtxt g" text-anchor="end">F(x) = (x+2)/7</text>
+  <text x="362" y="21.4" class="svgtxt g" text-anchor="end">F = 1 for x ≥ 5</text>
+  <text x="44.8" y="127.2" class="svgtxt">f = F = 0</text>
+  <text x="44.8" y="140.2" class="svgtxt">for x ≤ −2</text>
+  <text x="362" y="198" class="svgtxt" text-anchor="end">x</text>
+  </svg><figcaption>The slide's picture, recomputed for $U(-2,5)$. Blue: the density is a rectangle of height $1/7\approx0.143$ over $(-2,5)$. Green: the cdf is 0, then a straight ramp $(x+2)/7$, then 1. The ramp is straight <b>because</b> the density is flat — equal steps in $x$ add equal area.</figcaption></figure>
+  <p>We write $X\sim U(a,b)$. Because the graph of $f$ is a rectangle over $(a,b)$, the uniform distribution is sometimes called <i>rectangular</i>.</p>
+  <p>Two ways to picture a draw from $U(a,b)$ (slide 4): a <b>completely randomly selected point</b> of $(a,b)$, or the <b>hit point</b> when you shoot at the interval at random. The random point of module 06 is the special case $U(0,1)$.</p>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 5) · buses every 15 minutes</div>
+  <div class="body">
+  <p>Buses arrive at a stop at 15-minute intervals starting at 7 A.M.: 7:00, 7:15, 7:30, 7:45, … A passenger arrives at a time uniformly distributed between 7:00 and 7:30. Find the probability that he waits <b>(a)</b> less than 5 minutes, <b>(b)</b> more than 10 minutes.</p>
+  <div class="grid2">
+  <figure><svg viewBox="0 0 400 238">
+  <line x1="36" y1="58" x2="372" y2="58" stroke="var(--border2)"/>
+  <line x1="36" y1="55" x2="36" y2="61" stroke="var(--border2)"/>
+  <text x="36" y="88" class="svgtxt" text-anchor="middle" style="font-size:10px">7:00</text>
+  <line x1="92" y1="55" x2="92" y2="61" stroke="var(--border2)"/>
+  <text x="92" y="88" class="svgtxt" text-anchor="middle" style="font-size:10px">7:05</text>
+  <line x1="148" y1="55" x2="148" y2="61" stroke="var(--border2)"/>
+  <text x="148" y="88" class="svgtxt" text-anchor="middle" style="font-size:10px">7:10</text>
+  <line x1="204" y1="55" x2="204" y2="61" stroke="var(--border2)"/>
+  <text x="204" y="88" class="svgtxt" text-anchor="middle" style="font-size:10px">7:15</text>
+  <line x1="260" y1="55" x2="260" y2="61" stroke="var(--border2)"/>
+  <text x="260" y="88" class="svgtxt" text-anchor="middle" style="font-size:10px">7:20</text>
+  <line x1="316" y1="55" x2="316" y2="61" stroke="var(--border2)"/>
+  <text x="316" y="88" class="svgtxt" text-anchor="middle" style="font-size:10px">7:25</text>
+  <line x1="372" y1="55" x2="372" y2="61" stroke="var(--border2)"/>
+  <text x="372" y="88" class="svgtxt" text-anchor="middle" style="font-size:10px">7:30</text>
+  <rect x="148" y="42" width="56" height="14" fill="var(--greenbg)" stroke="var(--green)"/>
+  <rect x="316" y="42" width="56" height="14" fill="var(--greenbg)" stroke="var(--green)"/>
+  <rect x="36" y="61" width="56" height="14" fill="var(--redbg)" stroke="var(--red)"/>
+  <rect x="204" y="61" width="56" height="14" fill="var(--redbg)" stroke="var(--red)"/>
+  <rect x="23" y="18" width="26" height="13" rx="2" fill="var(--bluebg)" stroke="var(--blue)"/>
+  <text x="36" y="27.5" class="svgtxt b" text-anchor="middle" style="font-size:9px">BUS</text>
+  <line x1="36" y1="31" x2="36" y2="58" stroke="var(--blue)"/>
+  <rect x="191" y="18" width="26" height="13" rx="2" fill="var(--bluebg)" stroke="var(--blue)"/>
+  <text x="204" y="27.5" class="svgtxt b" text-anchor="middle" style="font-size:9px">BUS</text>
+  <line x1="204" y1="31" x2="204" y2="58" stroke="var(--blue)"/>
+  <rect x="359" y="18" width="26" height="13" rx="2" fill="var(--bluebg)" stroke="var(--blue)"/>
+  <text x="372" y="27.5" class="svgtxt b" text-anchor="middle" style="font-size:9px">BUS</text>
+  <line x1="372" y1="31" x2="372" y2="58" stroke="var(--blue)"/>
+  <text x="176" y="38" class="svgtxt g" text-anchor="middle" style="font-size:10px">(a)</text>
+  <text x="344" y="38" class="svgtxt g" text-anchor="middle" style="font-size:10px">(a)</text>
+  <text x="64" y="72" class="svgtxt r" text-anchor="middle" style="font-size:10px">(b)</text>
+  <text x="232" y="72" class="svgtxt r" text-anchor="middle" style="font-size:10px">(b)</text>
+  <text x="372" y="12" class="svgtxt" text-anchor="end" style="font-size:10px">green: wait &lt; 5 min · red: wait &gt; 10 min</text>
+  <path d="M 36 108 V 200 H 372 M 36 200 v 3 M 92 200 v 3 M 148 200 v 3 M 204 200 v 3 M 260 200 v 3 M 316 200 v 3 M 372 200 v 3 M 33 200 h 3 M 33 169.3 h 3 M 33 138.7 h 3 M 33 108 h 3" fill="none" stroke="var(--border2)"/>
+  <text x="36" y="214" class="svgtxt" text-anchor="middle">0</text>
+  <text x="92" y="214" class="svgtxt" text-anchor="middle">5</text>
+  <text x="148" y="214" class="svgtxt" text-anchor="middle">10</text>
+  <text x="204" y="214" class="svgtxt" text-anchor="middle">15</text>
+  <text x="260" y="214" class="svgtxt" text-anchor="middle">20</text>
+  <text x="316" y="214" class="svgtxt" text-anchor="middle">25</text>
+  <text x="372" y="214" class="svgtxt" text-anchor="middle">30</text>
+  <text x="31" y="203.5" class="svgtxt" text-anchor="end">0</text>
+  <text x="31" y="172.8" class="svgtxt" text-anchor="end">5</text>
+  <text x="31" y="142.2" class="svgtxt" text-anchor="end">10</text>
+  <text x="31" y="111.5" class="svgtxt" text-anchor="end">15</text>
+  <text x="40" y="104" class="svgtxt" style="font-size:10px">wait W (min)</text>
+  <text x="372" y="228" class="svgtxt" text-anchor="end" style="font-size:10px">arrival X = minutes past 7:00</text>
+  <line x1="36" y1="169.3" x2="372" y2="169.3" stroke="var(--green)" stroke-dasharray="3 3"/>
+  <line x1="36" y1="138.7" x2="372" y2="138.7" stroke="var(--red)" stroke-dasharray="3 3"/>
+  <path d="M 36 108 L 92 138.7" fill="none" stroke="var(--red)" stroke-width="2.4"/>
+  <path d="M 92 138.7 L 148 169.3" fill="none" stroke="var(--muted)" stroke-width="2"/>
+  <path d="M 148 169.3 L 204 200" fill="none" stroke="var(--green)" stroke-width="2.4"/>
+  <path d="M 204 108 L 260 138.7" fill="none" stroke="var(--red)" stroke-width="2.4"/>
+  <path d="M 260 138.7 L 316 169.3" fill="none" stroke="var(--muted)" stroke-width="2"/>
+  <path d="M 316 169.3 L 372 200" fill="none" stroke="var(--green)" stroke-width="2.4"/>
+  <line x1="204" y1="200" x2="204" y2="108" stroke="var(--border2)" stroke-dasharray="2 2"/>
+  </svg><figcaption>Top: the 7:00–7:30 timeline with the buses. Arriving in a green window means a wait under 5 minutes; a red window means a wait over 10. Bottom: the wait as a function of the arrival time — a sawtooth that restarts at 15 each time a bus leaves. Each colour covers 10 of the 30 minutes.</figcaption></figure>
+  <ol class="steps">
+    <li><b>Name the variable.</b> Let $X$ = minutes past 7:00 at which the passenger arrives. Then $X\sim U(0,30)$ and $f(x)=\frac{1}{30}$ on $(0,30)$.</li>
+    <li><b>Translate (a) into $X$.</b> He waits less than 5 minutes if and only if he arrives in the last 5 minutes before a bus: between 7:10 and 7:15, or between 7:25 and 7:30. The two windows are disjoint, so their probabilities add:
+    $$P(10&lt;X&lt;15)+P(25&lt;X&lt;30)=\int_{10}^{15}\frac{1}{30}dx+\int_{25}^{30}\frac{1}{30}dx=\frac{5}{30}+\frac{5}{30}=\frac{1}{3}.$$</li>
+    <li><b>Translate (b) into $X$.</b> He waits more than 10 minutes if and only if he arrives in the first 5 minutes after a bus: between 7:00 and 7:05, or between 7:15 and 7:20:
+    $$P(0&lt;X&lt;5)+P(15&lt;X&lt;20)=\int_{0}^{5}\frac{1}{30}dx+\int_{15}^{20}\frac{1}{30}dx=\frac{5}{30}+\frac{5}{30}=\frac{1}{3}.$$</li>
+    <li><b>Sanity check.</b> The remaining event, a wait between 5 and 10 minutes (grey in the sawtooth), must have probability $1-\frac13-\frac13=\frac13$ — and indeed it also covers 10 of the 30 minutes.</li>
+  </ol>
+  </div>
+  <div class="note"><div class="t">Insight</div>With a uniform variable you never really integrate: each answer is "total length of the favourable windows ÷ 30". The hard part is the translation, "wait less than 5" ⟺ "arrive in these windows" — draw the timeline and it is immediate.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Mean and variance of $U(a,b)$ (slide 6)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>If $X\sim U(a,b)$ then $f(x)=1/(b-a)$ for $a&lt;x&lt;b$, and module 22's integrals give:</p>
+  <ol class="steps">
+    <li><b>Mean.</b>
+    $$\mathbb{E}(X)=\int_a^b\frac{x}{b-a}\,dx=\frac{x^2}{2(b-a)}\Big|_a^b=\frac{b^2-a^2}{2(b-a)}=\frac{(b-a)(b+a)}{2(b-a)}=\boxed{\frac{a+b}{2}}$$
+    $\mathbb{E}(X)$ is exactly the <b>midpoint</b> of $(a,b)$: all points are "equally likely", so the midpoint is the fairest expected value.</li>
+    <li><b>Variance</b>, straight from the definition $\mathbb{V}(X)=\mathbb{E}\big[(X-\mu)^2\big]$ with $\mu=\frac{a+b}{2}$. The antiderivative of $(x-\mu)^2$ is $(x-\mu)^3/3$:
+    $$\mathbb{V}(X)=\int_a^b\frac{\left(x-\frac{a+b}{2}\right)^2}{b-a}dx=\frac{\left(x-\frac{a+b}{2}\right)^3}{3(b-a)}\Big|_a^b.$$</li>
+    <li><b>Evaluate at the two ends.</b> At $x=b$: $b-\frac{a+b}{2}=\frac{b-a}{2}$. At $x=a$: $a-\frac{a+b}{2}=\frac{a-b}{2}=-\frac{b-a}{2}$. So
+    $$\mathbb{V}(X)=\frac{\left(\frac{b-a}{2}\right)^3-\left(\frac{a-b}{2}\right)^3}{3(b-a)}=\frac{2\cdot\frac{(b-a)^3}{8}}{3(b-a)}=\frac{(b-a)^3}{8}\cdot\frac{2}{3(b-a)}=\boxed{\frac{(b-a)^2}{12}}$$
+    (the minus sign turns the second cube into a plus, because $(-t)^3=-t^3$).</li>
+    <li><b>Cross-check with the shortcut</b> $\mathbb{V}(X)=\mathbb{E}(X^2)-\mu^2$ (not on the slides):
+    $$\mathbb{E}(X^2)=\int_a^b\frac{x^2}{b-a}dx=\frac{b^3-a^3}{3(b-a)}=\frac{a^2+ab+b^2}{3},$$
+    $$\begin{aligned}\mathbb{V}(X)&amp;=\frac{a^2+ab+b^2}{3}-\frac{(a+b)^2}{4}\\&amp;=\frac{4a^2+4ab+4b^2-3a^2-6ab-3b^2}{12}\\&amp;=\frac{a^2-2ab+b^2}{12}=\frac{(b-a)^2}{12}\ \checkmark\end{aligned}$$</li>
+  </ol>
+  <figure><svg viewBox="0 0 380 172">
+  <rect x="60" y="50" width="260" height="80" fill="var(--bluebg)" stroke="var(--blue)"/>
+  <rect x="114.9" y="50" width="150.1" height="80" fill="var(--amberbg)" stroke="var(--amber)" stroke-dasharray="3 3"/>
+  <line x1="30" y1="130" x2="350" y2="130" stroke="var(--border2)"/>
+  <path d="M 190 130 L 182 142 L 198 142 Z" fill="var(--green)"/>
+  <text x="60" y="146" class="svgtxt w" text-anchor="middle">a</text>
+  <text x="320" y="146" class="svgtxt w" text-anchor="middle">b</text>
+  <text x="190" y="156" class="svgtxt g" text-anchor="middle">E(X) = (a+b)/2</text>
+  <text x="114.9" y="44" class="svgtxt a" text-anchor="middle">μ − σ</text>
+  <text x="265.1" y="44" class="svgtxt a" text-anchor="middle">μ + σ</text>
+  <text x="190" y="72" class="svgtxt a" text-anchor="middle">σ = (b−a)/√12</text>
+  <text x="190" y="88" class="svgtxt a" text-anchor="middle">≈ 0.289 (b−a)</text>
+  <text x="190" y="110" class="svgtxt a" text-anchor="middle">57.7% inside ±σ</text>
+  <text x="56" y="54" class="svgtxt b" text-anchor="end" style="font-size:10px">1/(b−a)</text>
+  <text x="190" y="16" class="svgtxt w" text-anchor="middle">the rectangle balances at its midpoint</text>
+  </svg><figcaption>Mean at the centre of the rectangle; one standard deviation $\sigma=(b-a)/\sqrt{12}$ on each side covers the amber band, $2\times0.289=57.7\%$ of the mass. (For a normal the same band holds 68.3% — module 24.)</figcaption></figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">IDEA</span> The same result in two lines, from modules 14 and 22<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Every uniform is a stretched and shifted $U(0,1)$. If $U\sim U(0,1)$, set $X=a+(b-a)U$. Then for $a&lt;x&lt;b$ (the cdf method of module 14):</p>
+  $$P(X\le x)=P\!\left(U\le\frac{x-a}{b-a}\right)=\frac{x-a}{b-a},$$
+  <p>which is the $U(a,b)$ cdf. For $U$ itself: $\mathbb{E}(U)=\int_0^1u\,du=\frac12$, $\mathbb{E}(U^2)=\int_0^1u^2du=\frac13$, so $\mathbb{V}(U)=\frac13-\frac14=\frac{1}{12}$. Now module 22's rules $\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)$ and $\mathbb{V}(a+bX)=b^2\,\mathbb{V}(X)$ give</p>
+  $$\mathbb{E}(X)=a+\frac{b-a}{2}=\frac{a+b}{2},\qquad\mathbb{V}(X)=(b-a)^2\cdot\frac{1}{12}.$$
+  <p>This explains the shape of the answer: the shift $a$ moves the mean but never the variance; the variance grows with the <b>square of the width</b>.</p>
+  <table class="formula-table">
+    <tr><th>example</th><th>$\mathbb{E}(X)$</th><th>$\mathbb{V}(X)$</th><th>sd</th></tr>
+    <tr><td>$U(0,1)$ (module 06)</td><td>0.5</td><td>$1/12\approx0.0833$</td><td>0.289</td></tr>
+    <tr><td>$U(1,5)$ (module 21)</td><td>3</td><td>$16/12=4/3$</td><td>1.155</td></tr>
+    <tr><td>$U(-2,5)$ (slide 4)</td><td>1.5</td><td>$49/12\approx4.083$</td><td>2.021</td></tr>
+    <tr><td>$U(0,30)$ (buses)</td><td>15 min</td><td>$900/12=75$</td><td>8.66 min</td></tr>
+  </table>
+  <div class="note warn"><div class="t">TRAP · twelve, and the square root</div>The variance is $(b-a)^2/12$; the standard deviation is $(b-a)/\sqrt{12}$, <b>not</b> $(b-a)/12$. For the bus: $\sigma=30/\sqrt{12}=8.66$ minutes, while $30/12=2.5$ would be wildly too small — the arrival time is spread over half an hour, not over a few minutes.</div>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>
+  <code>punif(q, min, max)</code> is the cdf, <code>dunif</code> the density, <code>runif</code> simulates.<br>
+  Bus (a): <code>(punif(15, 0, 30) - punif(10, 0, 30)) + (punif(30, 0, 30) - punif(25, 0, 30))</code> → <code>0.3333333</code>.<br>
+  <code>dunif(1, -2, 5)</code> → <code>0.1428571</code> (the height $1/7$). <code>punif(1.5, -2, 5)</code> → <code>0.5</code>.<br>
+  Simulation check: <code>x &lt;- runif(1e6, 0, 30); mean(x); var(x)</code> → about <code>15</code> and <code>75</code>.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The exponential distribution (slide 7)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Intuition first.</b> Think of a waiting time: until the next trade in a stock, the next insurance claim, the next failure of a component. Short waits are the most common; long waits happen but get rarer and rarer. The exponential is the simplest model with exactly that shape.</p>
+  <p><b>Definition (the slide starts from the cdf).</b> $X$ takes positive values, $X&gt;0$, and its distribution function is</p>
+  $$\boxed{\,F_X(x)=1-e^{-\lambda x}\qquad x&gt;0\,}$$
+  <p>By differentiating (module 21: $f=F'$), using $\frac{d}{dx}e^{-\lambda x}=-\lambda e^{-\lambda x}$:</p>
+  $$f(x)=F_X'(x)=0-\left(-\lambda e^{-\lambda x}\right)=\boxed{\,\lambda e^{-\lambda x}\qquad x&gt;0\,}$$
+  <p>The constant $\lambda&gt;0$ is the parameter; we write $X\sim$ exponential$(\lambda)$. (For $x\le0$: $F=0$ and $f=0$.)</p>
+  <p><b>Checks.</b> $F(0)=1-1=0$ and $F(x)\to1$ as $x\to\infty$ ✓. Area: $\int_0^\infty\lambda e^{-\lambda x}dx=\big[-e^{-\lambda x}\big]_0^\infty=0-(-1)=1$ ✓.</p>
+  <h3>What $\lambda$ means</h3>
+  <p>$\lambda$ is a <b>rate</b>: events per unit of time. A bigger rate means shorter waits — we will prove the mean wait is $1/\lambda$. Note $f(0)=\lambda$, so for $\lambda&gt;1$ the density starts above 1. That is allowed: a density is not a probability (module 21's $5e^{-5x}$ starts at 5).</p>
+  <div class="note"><div class="t">You have seen it before</div>Module 14 showed $X=-\ln U$, with $U\sim U(0,1)$, has cdf $1-e^{-t}$: Exponential$(1)$. Dividing by $\lambda$ gives any rate: $P(-\ln U/\lambda\le t)=P(U\ge e^{-\lambda t})=1-e^{-\lambda t}$. So $-\ln(U)/\lambda\sim$ Exponential$(\lambda)$ — the recipe computers use to simulate waiting times from uniform random numbers.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">PICTURES</span> The $\lambda$ family: pdf and cdf (slides 8–9)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure><svg viewBox="0 0 380 196">
+  <path d="M 42 14 V 176 H 300 M 42 176 v 3 M 93.6 176 v 3 M 145.2 176 v 3 M 196.8 176 v 3 M 248.4 176 v 3 M 300 176 v 3 M 39 176 h 3 M 39 139.2 h 3 M 39 102.4 h 3 M 39 65.5 h 3 M 39 28.7 h 3" fill="none" stroke="var(--border2)"/>
+  <text x="42" y="190" class="svgtxt" text-anchor="middle">0</text>
+  <text x="93.6" y="190" class="svgtxt" text-anchor="middle">1</text>
+  <text x="145.2" y="190" class="svgtxt" text-anchor="middle">2</text>
+  <text x="196.8" y="190" class="svgtxt" text-anchor="middle">3</text>
+  <text x="248.4" y="190" class="svgtxt" text-anchor="middle">4</text>
+  <text x="300" y="190" class="svgtxt" text-anchor="middle">5</text>
+  <text x="37" y="179.5" class="svgtxt" text-anchor="end">0</text>
+  <text x="37" y="142.7" class="svgtxt" text-anchor="end">0.5</text>
+  <text x="37" y="105.9" class="svgtxt" text-anchor="end">1</text>
+  <text x="37" y="69" class="svgtxt" text-anchor="end">1.5</text>
+  <text x="37" y="32.2" class="svgtxt" text-anchor="end">2</text>
+  <text x="300" y="171" class="svgtxt" text-anchor="end">x</text>
+  <path d="M 42 102.4 L 50.3 113.3 L 58.5 122.5 L 67.8 131.3 L 78.1 139.4 L 88.4 146.1 L 99.8 152 L 112.2 157.1 L 125.6 161.4 L 139 164.8 L 154.5 167.7 L 171 170 L 190.6 171.9 L 236 174.3 L 300 175.5" fill="none" stroke="var(--blue)" stroke-width="1.8"/>
+  <path d="M 42 28.7 L 47.2 55.4 L 53.4 81.2 L 59.5 101.4 L 66.8 119.6 L 74 133.4 L 82.2 145.1 L 91.5 154.4 L 101.9 161.5 L 112.2 166.3 L 123.5 169.8 L 138 172.4 L 154.5 174.1 L 198.9 175.7 L 300 176" fill="none" stroke="var(--green)" stroke-width="1.8"/>
+  <path d="M 48.2 21.9 L 52.3 54.8 L 56.4 80.6 L 61.6 105.3 L 66.8 123.7 L 73 139.5 L 79.2 150.5 L 86.4 159.3 L 94.6 165.6 L 101.9 169.2 L 111.1 172 L 122.5 174 L 136.9 175.1 L 175.1 175.9 L 300 176" fill="none" stroke="var(--amber)" stroke-width="1.8"/>
+  <path d="M 50.3 20.7 L 53.4 53.8 L 56.4 79.9 L 60.6 106.2 L 64.7 125.3 L 69.9 142 L 75 153.2 L 81.2 161.9 L 88.4 168 L 94.6 171 L 102.9 173.4 L 112.2 174.7 L 124.6 175.5 L 158.6 176 L 300 176" fill="none" stroke="var(--red)" stroke-width="1.8"/>
+  <path d="M 51.3 26.3 L 56.4 85.2 L 59.5 108.7 L 63.7 130.9 L 67.8 145.8 L 71.9 155.7 L 77.1 163.7 L 80.2 166.9 L 84.3 169.9 L 89.5 172.3 L 96.7 174.2 L 115.3 175.7 L 300 176" fill="none" stroke="var(--text)" stroke-width="1.8"/>
+  <line x1="308" y1="22" x2="326" y2="22" stroke="var(--blue)" stroke-width="2"/>
+  <text x="330" y="26" class="svgtxt" style="font-size:10.5px">λ = 1</text>
+  <line x1="308" y1="38" x2="326" y2="38" stroke="var(--green)" stroke-width="2"/>
+  <text x="330" y="42" class="svgtxt" style="font-size:10.5px">λ = 2</text>
+  <line x1="308" y1="54" x2="326" y2="54" stroke="var(--amber)" stroke-width="2"/>
+  <text x="330" y="58" class="svgtxt" style="font-size:10.5px">λ = 3</text>
+  <line x1="308" y1="70" x2="326" y2="70" stroke="var(--red)" stroke-width="2"/>
+  <text x="330" y="74" class="svgtxt" style="font-size:10.5px">λ = 4</text>
+  <line x1="308" y1="86" x2="326" y2="86" stroke="var(--text)" stroke-width="2"/>
+  <text x="330" y="90" class="svgtxt" style="font-size:10.5px">λ = 5</text>
+  <circle cx="42" cy="102.4" r="3" fill="var(--blue)"/>
+  <circle cx="42" cy="28.7" r="3" fill="var(--green)"/>
+  <text x="56.4" y="22.8" class="svgtxt" style="font-size:10px">↑ f(0) = λ = 3, 4, 5</text>
+  <text x="308" y="124" class="svgtxt w" style="font-size:10px">f(0) = λ</text>
+  <text x="308" y="138" class="svgtxt" style="font-size:10px">bigger λ:</text>
+  <text x="308" y="152" class="svgtxt" style="font-size:10px">faster decay</text>
+  </svg><figcaption>Slide 8: $f(x)=\lambda e^{-\lambda x}$ for $\lambda=1,\dots,5$ (y-axis cut at 2, as on the slide, so the curves for $\lambda=3,4,5$ start off the top). Every curve encloses area 1: a higher start is paid for by a faster fall.</figcaption></figure>
+  <figure><svg viewBox="0 0 380 196">
+  <path d="M 42 14 V 176 H 300 M 42 176 v 3 M 93.6 176 v 3 M 145.2 176 v 3 M 196.8 176 v 3 M 248.4 176 v 3 M 300 176 v 3 M 39 176 h 3 M 39 145.1 h 3 M 39 114.3 h 3 M 39 83.4 h 3 M 39 52.6 h 3 M 39 21.7 h 3" fill="none" stroke="var(--border2)"/>
+  <text x="42" y="190" class="svgtxt" text-anchor="middle">0</text>
+  <text x="93.6" y="190" class="svgtxt" text-anchor="middle">1</text>
+  <text x="145.2" y="190" class="svgtxt" text-anchor="middle">2</text>
+  <text x="196.8" y="190" class="svgtxt" text-anchor="middle">3</text>
+  <text x="248.4" y="190" class="svgtxt" text-anchor="middle">4</text>
+  <text x="300" y="190" class="svgtxt" text-anchor="middle">5</text>
+  <text x="37" y="179.5" class="svgtxt" text-anchor="end">0</text>
+  <text x="37" y="148.6" class="svgtxt" text-anchor="end">0.2</text>
+  <text x="37" y="117.8" class="svgtxt" text-anchor="end">0.4</text>
+  <text x="37" y="86.9" class="svgtxt" text-anchor="end">0.6</text>
+  <text x="37" y="56.1" class="svgtxt" text-anchor="end">0.8</text>
+  <text x="37" y="25.2" class="svgtxt" text-anchor="end">1</text>
+  <path d="M 42 145.1 H 300 M 42 114.3 H 300 M 42 83.4 H 300 M 42 52.6 H 300 M 42 21.7 H 300" stroke="var(--border)" stroke-dasharray="2 3"/>
+  <text x="300" y="171" class="svgtxt" text-anchor="end">x</text>
+  <path d="M 42 176 L 50.3 153.2 L 58.5 133.7 L 67.8 115.3 L 78.1 98.3 L 88.4 84.4 L 99.8 72.1 L 112.2 61.3 L 125.6 52.2 L 139 45.3 L 154.5 39.2 L 171 34.4 L 190.6 30.4 L 211.2 27.5 L 236 25.3 L 264.9 23.8 L 300 22.8" fill="none" stroke="var(--blue)" stroke-width="1.8"/>
+  <path d="M 42 176 L 47.2 148 L 53.4 121.1 L 59.5 99.9 L 66.8 80.8 L 74 66.4 L 82.2 54.1 L 91.5 44.3 L 101.9 36.9 L 112.2 31.9 L 123.5 28.3 L 138 25.5 L 154.5 23.7 L 198.9 22.1 L 300 21.7" fill="none" stroke="var(--green)" stroke-width="1.8"/>
+  <path d="M 42 176 L 46.1 143.1 L 50.3 117.2 L 55.4 92.4 L 60.6 74.1 L 66.8 58.3 L 73 47.2 L 80.2 38.5 L 88.4 32.1 L 96.7 28.1 L 106 25.5 L 117.3 23.6 L 131.8 22.5 L 171 21.8 L 300 21.7" fill="none" stroke="var(--amber)" stroke-width="1.8"/>
+  <path d="M 42 176 L 45.1 143.1 L 48.2 117.2 L 52.3 91 L 56.4 72.1 L 61.6 55.5 L 66.8 44.3 L 73 35.7 L 80.2 29.7 L 86.4 26.7 L 94.6 24.3 L 103.9 23 L 116.3 22.2 L 150.4 21.7 L 300 21.7" fill="none" stroke="var(--red)" stroke-width="1.8"/>
+  <path d="M 42 176 L 47.2 115.3 L 50.3 91 L 54.4 68.2 L 58.5 52.9 L 62.6 42.6 L 67.8 34.4 L 70.9 31.1 L 75 28 L 80.2 25.5 L 87.4 23.6 L 95.7 22.6 L 107 22 L 300 21.7" fill="none" stroke="var(--text)" stroke-width="1.8"/>
+  <line x1="93.6" y1="176" x2="93.6" y2="21.7" stroke="var(--border2)" stroke-dasharray="3 3"/>
+  <circle cx="93.6" cy="78.5" r="2.6" fill="var(--blue)"/>
+  <circle cx="93.6" cy="42.6" r="2.6" fill="var(--green)"/>
+  <circle cx="93.6" cy="29.4" r="2.6" fill="var(--amber)"/>
+  <circle cx="93.6" cy="24.5" r="2.6" fill="var(--red)"/>
+  <circle cx="93.6" cy="22.8" r="2.6" fill="var(--text)"/>
+  <text x="99.6" y="82.5" class="svgtxt b" style="font-size:10px">0.632</text>
+  <line x1="308" y1="66" x2="326" y2="66" stroke="var(--blue)" stroke-width="2"/>
+  <text x="330" y="70" class="svgtxt" style="font-size:10.5px">λ = 1</text>
+  <line x1="308" y1="82" x2="326" y2="82" stroke="var(--green)" stroke-width="2"/>
+  <text x="330" y="86" class="svgtxt" style="font-size:10.5px">λ = 2</text>
+  <line x1="308" y1="98" x2="326" y2="98" stroke="var(--amber)" stroke-width="2"/>
+  <text x="330" y="102" class="svgtxt" style="font-size:10.5px">λ = 3</text>
+  <line x1="308" y1="114" x2="326" y2="114" stroke="var(--red)" stroke-width="2"/>
+  <text x="330" y="118" class="svgtxt" style="font-size:10.5px">λ = 4</text>
+  <line x1="308" y1="130" x2="326" y2="130" stroke="var(--text)" stroke-width="2"/>
+  <text x="330" y="134" class="svgtxt" style="font-size:10.5px">λ = 5</text>
+  <text x="308" y="160" class="svgtxt" style="font-size:10px">dots: F(1)</text>
+  <text x="308" y="174" class="svgtxt" style="font-size:10px">= 1 − e^−λ</text>
+  </svg><figcaption>Slide 9: $F_X(x)=1-e^{-\lambda x}$. At $x=1$ the dots read $F(1)=0.632,\ 0.865,\ 0.950,\ 0.982,\ 0.993$ for $\lambda=1,\dots,5$: with rate 5, a wait longer than one unit is already a 0.7% event.</figcaption></figure>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> One density, any interval — the area is the probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>family <select id="cc_fam">
+      <option value="unif">Uniform(a, b)</option>
+      <option value="exp">Exponential(λ)</option>
+      <option value="norm">Normal(μ, σ²)</option>
+      <option value="chi2">χ²(k)</option>
+      <option value="t">Student-t(ν)</option>
+    </select></label>
+    <label><span id="cc_1_lab">a</span> <input type="range" id="cc_1"><span class="val" id="cc_1_v"></span></label>
+    <label id="cc_2_wrap"><span id="cc_2_lab">b</span> <input type="range" id="cc_2"><span class="val" id="cc_2_v"></span></label>
+  </div>
+  <div class="ctrl">
+    <label>from $x_1$ <input type="range" id="cc_lo"><span class="val" id="cc_lo_v"></span></label>
+    <label>to $x_2$ <input type="range" id="cc_hi"><span class="val" id="cc_hi_v"></span></label>
+  </div>
+  <div class="ctrl"><span class="btns">
+    <button onclick="ccSet('unif',[0,30],10,15)">bus: arrive 7:10–7:15</button>
+    <button onclick="ccSet('unif',[0,30],25,30)">… and 7:25–7:30</button>
+    <button onclick="ccSet('unif',[-2,5],-2,1)">U(−2, 5)</button>
+    <button onclick="ccSet('exp',[1],0,1)">Exp(1): P(X ≤ 1)</button>
+    <button onclick="ccSet('exp',[5],0,0.2)">Exp(5): P(X ≤ 0.2)</button>
+    <button onclick="ccSet('norm',[0,1],-1.96,1.96)">N(0,1): ±1.96</button>
+  </span></div>
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0"><svg id="ccsvg" viewBox="0 0 360 260"></svg><figcaption>The density of the chosen family, with the area between $x_1$ and $x_2$ shaded. That area <b>is</b> $P(x_1&lt;X&lt;x_2)=F(x_2)-F(x_1)$; the readout also shows $\mathbb{E}(X)$, $\mathbb{V}(X)$ and the standard deviation.</figcaption></figure>
+  <div>
+  <div class="readout" id="ccread"></div>
+  <p style="margin-top:10px"><b>Try this.</b> Press the two bus presets: each window is a strip of width 5 under a rectangle of height $1/30$, so each shows $1/6$ — together the $1/3$ of slide 5. Press "U(−2, 5)" and drag $x_2$: the probability grows <b>linearly</b>, exactly the straight cdf of slide 4. Press "Exp(1)" and "Exp(5)": both show $0.632=1-e^{-1}$, because $0.2$ is one mean for rate 5 just as $1$ is one mean for rate 1. Then move $\lambda$ and watch $\mathbb{E}(X)=1/\lambda$ and the sd move together — they are equal (proved below).</p>
+  <p class="muted">The family menu also holds the normal, $\chi^2$ and Student-t distributions of modules 24–25; the "±1.96" preset is the 95% band you will meet there.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> $\mathbb{E}(X)=1/\lambda$ by integration by parts (slide 10)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X\sim$ exponential$(\lambda)$. By module 22, $\mathbb{E}(X)=\int_0^\infty x\,\lambda e^{-\lambda x}dx$. The integrand is a product, so use integration by parts, $\int u\,dv=uv-\int v\,du$:</p>
+  <ol class="steps">
+    <li><b>Choose the parts.</b> $u=x$ (it gets simpler when differentiated) and $dv=\lambda e^{-\lambda x}dx$. Then $du=dx$ and $v=-e^{-\lambda x}$ (check: $\frac{d}{dx}(-e^{-\lambda x})=\lambda e^{-\lambda x}$ ✓).</li>
+    <li><b>Apply the formula.</b>
+    $$\mathbb{E}(X)=\int_0^\infty x\lambda e^{-\lambda x}dx=-xe^{-\lambda x}\Big|_0^\infty+\int_0^\infty e^{-\lambda x}dx$$</li>
+    <li><b>The boundary term is zero.</b> At the upper end $xe^{-\lambda x}=x/e^{\lambda x}\to0$, since the exponential grows faster than any power of $x$ (the slide's "$e^{-\infty}=0$"). At the lower end $x=0$, so $0\cdot e^0=0$.</li>
+    <li><b>The remaining integral.</b> Multiply and divide by $\lambda$ to recognise a density:
+    $$\int_0^\infty e^{-\lambda x}dx=\lambda^{-1}\int_0^\infty\lambda e^{-\lambda x}dx=\lambda^{-1}\cdot1,$$
+    because the integral of a density over its support is 1 (normalisation).</li>
+    <li><b>Result.</b>
+    $$\boxed{\,\mathbb{E}(X)=1/\lambda\,}$$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Rate and mean are reciprocals. Trades arriving at $\lambda=3$ per minute means an average gap of $1/3$ minute = 20 seconds; defaults at an intensity of 2% per year mean an expected time to default of $1/0.02=50$ years.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> $\mathbb{V}(X)=1/\lambda^2$ — the step the slides skip<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The slide says "similarly (by partial integration)". Here is the computation, via the shortcut $\mathbb{V}(X)=\mathbb{E}(X^2)-\big(\mathbb{E}(X)\big)^2$ from module 22.</p>
+  <ol class="steps">
+    <li><b>Set up.</b> $\mathbb{E}(X^2)=\int_0^\infty x^2\lambda e^{-\lambda x}dx$. Parts again: $u=x^2$, $du=2x\,dx$, $dv=\lambda e^{-\lambda x}dx$, $v=-e^{-\lambda x}$.</li>
+    <li><b>Apply.</b>
+    $$\mathbb{E}(X^2)=-x^2e^{-\lambda x}\Big|_0^\infty+\int_0^\infty2x\,e^{-\lambda x}dx=0+\frac{2}{\lambda}\int_0^\infty x\,\lambda e^{-\lambda x}dx.$$
+    The boundary term vanishes for the same reason as before ($x^2/e^{\lambda x}\to0$).</li>
+    <li><b>Recycle the mean.</b> The last integral is exactly $\mathbb{E}(X)=1/\lambda$, so
+    $$\mathbb{E}(X^2)=\frac{2}{\lambda}\cdot\frac{1}{\lambda}=\frac{2}{\lambda^2}.$$</li>
+    <li><b>Variance.</b>
+    $$\mathbb{V}(X)=\frac{2}{\lambda^2}-\left(\frac{1}{\lambda}\right)^2=\boxed{\frac{1}{\lambda^2}}\qquad\text{so}\qquad\sigma=\frac1\lambda=\mathbb{E}(X).$$</li>
+  </ol>
+  <figure><svg viewBox="0 0 380 186">
+  <path d="M 42 18 V 160 H 360 M 42 160 v 3 M 105.6 160 v 3 M 169.2 160 v 3 M 232.8 160 v 3 M 296.4 160 v 3 M 360 160 v 3 M 39 160 h 3 M 39 94.3 h 3 M 39 28.5 h 3" fill="none" stroke="var(--border2)"/>
+  <text x="42" y="174" class="svgtxt" text-anchor="middle">0</text>
+  <text x="105.6" y="174" class="svgtxt" text-anchor="middle">1</text>
+  <text x="169.2" y="174" class="svgtxt" text-anchor="middle">2</text>
+  <text x="232.8" y="174" class="svgtxt" text-anchor="middle">3</text>
+  <text x="296.4" y="174" class="svgtxt" text-anchor="middle">4</text>
+  <text x="360" y="174" class="svgtxt" text-anchor="middle">5</text>
+  <text x="37" y="163.5" class="svgtxt" text-anchor="end">0</text>
+  <text x="37" y="97.8" class="svgtxt" text-anchor="end">0.5</text>
+  <text x="37" y="32" class="svgtxt" text-anchor="end">1</text>
+  <text x="360" y="155" class="svgtxt" text-anchor="end">x</text>
+  <path d="M 105.6 160 L 105.6 111.6 L 123.4 123.4 L 133.6 128.8 L 143.8 133.5 L 166.7 141.5 L 179.4 144.8 L 194.6 148.1 L 225.2 152.6 L 260.8 155.8 L 304 157.9 L 360 159.1 L 360 160 Z" fill="var(--amberbg)" stroke="none"/>
+  <path d="M 42 28.5 L 51.5 46.8 L 62.7 65 L 73.8 80.3 L 86.5 94.7 L 99.2 106.5 L 113.5 117.3 L 129.4 126.8 L 145.4 134.1 L 161.2 139.8 L 180.3 145.1 L 201 149.2 L 224.8 152.6 L 250.3 155 L 280.5 156.9 L 360 159.1" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="86.1" y1="160" x2="86.1" y2="73.2" stroke="var(--blue)" stroke-dasharray="3 3"/>
+  <line x1="105.6" y1="160" x2="105.6" y2="94.3" stroke="var(--green)" stroke-dasharray="3 3"/>
+  <path d="M 105.6 160 L 98.6 171 L 112.6 171 Z" fill="var(--green)"/>
+  <text x="90.1" y="73.2" class="svgtxt b" style="font-size:10px">median ln 2 ≈ 0.693</text>
+  <text x="109.6" y="94.3" class="svgtxt g" style="font-size:10px">mean 1 (balance point)</text>
+  <text x="143.8" y="131.1" class="svgtxt a">P(X &gt; 1) = e^(−1) ≈ 0.368</text>
+  <text x="49.6" y="32.5" class="svgtxt b">f(x) = e^(−x)</text>
+  </svg><figcaption>Exponential(1): mean 1, standard deviation 1. Only $e^{-1}=36.8\%$ of waits exceed the mean — for <b>every</b> $\lambda$, since $P(X&gt;1/\lambda)=e^{-\lambda\cdot1/\lambda}=e^{-1}$. The long right tail pulls the mean above the median $\ln2\approx0.693$ (module 25).</figcaption></figure>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>
+  R parametrises by the <b>rate</b>: <code>pexp(q, rate = λ)</code>, <code>dexp</code>, <code>qexp</code>, <code>rexp</code>.<br>
+  <code>pexp(1, rate = 1)</code> → <code>0.6321206</code>; <code>1 - pexp(1, rate = 1)</code> → <code>0.3678794</code>.<br>
+  <code>pexp(0.2, rate = 5)</code> → <code>0.6321206</code> (same number: 0.2 is one mean when $\lambda=5$). <code>dexp(0, rate = 5)</code> → <code>5</code>.<br>
+  Check the moments numerically: <code>integrate(function(x) x * dexp(x, rate = 5), 0, Inf)</code> → <code>0.2</code>, and with <code>x^2</code> → <code>0.08</code> $=2/5^2$, so the variance is $0.08-0.04=0.04=1/5^2$.</div>
+  <div class="note warn"><div class="t">TRAP · rate or mean?</div>"Claims arrive on average every 5 days" means a <b>mean</b> of 5, so $\lambda=1/5=0.2$ per day: <code>pexp(x, rate = 0.2)</code>. Writing <code>pexp(x, 5)</code> models a mean wait of $1/5$ of a day. Some books parametrise the exponential by its mean $\theta=1/\lambda$ — always check which one a formula uses.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> The memoryless ("no aging") property (slides 11–12)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>The idea in words (slide 11).</b> The chance that a product works without failure for another $x$ units of time does not depend on how long it has already worked since the last failure: it is the same as for a brand-new product. Two names: <i>no aging</i> (the product does not get older — its chance of failing is always the same) and <i>lack of memory</i> (it does not "remember" when it last failed, so its future is independent of its past history of failures).</p>
+  <p><b>The question, formally.</b> Let $X$ be exponential$(\lambda)$, the time to failure. For $a&gt;0$ and $x&gt;0$ consider</p>
+  $$A=\{X&gt;a\}\ \text{(it has worked fine for } a \text{ units)},\qquad B=\{X&gt;a+x\}\ \text{(it works without failure for } a+x \text{ units)}.$$
+  <p>Given that it has already worked $a$ units, what is the probability that it works $x$ <b>more</b> units? That is the conditional probability $P(B\mid A)$ (the slides write $P(B/A)$).</p>
+  <div class="grid2">
+  <div>
+  <ol class="steps">
+    <li><b>Definition of conditional probability</b> (module 07): $P(B\mid A)=\dfrac{P(B\cap A)}{P(A)}$.</li>
+    <li><b>Simplify the intersection.</b> Surviving past $a+x$ implies surviving past $a$: $B\subset A$, hence $B\cap A=B$.</li>
+    <li><b>Survival probabilities from the cdf.</b> For any $t&gt;0$: $P(X&gt;t)=1-F(t)=e^{-\lambda t}$.</li>
+    <li><b>Compute.</b>
+    $$P(B\mid A)=\frac{P(B)}{P(A)}=\frac{P(X&gt;a+x)}{P(X&gt;a)}=\frac{e^{-\lambda(a+x)}}{e^{-\lambda a}}=e^{-\lambda x}.$$</li>
+    <li><b>Compare (slide 12).</b> For a brand-new product, $P(X&gt;x)=1-F(x)=e^{-\lambda x}$. They coincide!
+    $$\boxed{\,P(X&gt;a+x\mid X&gt;a)=P(X&gt;x)\quad\text{for all }a,x&gt;0\,}$$</li>
+  </ol>
+  <div class="note tip"><div class="t">Remark (slide 12)</div>The "no aging / memoryless" property is characteristic of exponential random variables: <b>no other continuous random variable has it</b>. Why, in one line: memorylessness says the survival function $S(t)=P(X&gt;t)$ satisfies $S(a+x)=S(a)\,S(x)$. Taking logarithms, $g=\ln S$ is additive, $g(a+x)=g(a)+g(x)$, and a monotone additive function is linear, $g(t)=-\lambda t$. So $S(t)=e^{-\lambda t}$: the exponential, and only it.</div>
+  </div>
+  <div>
+  <figure><svg viewBox="0 0 400 194">
+  <path d="M 34 30 V 160 H 186 M 34 160 v 3 M 84.7 160 v 3 M 135.3 160 v 3 M 186 160 v 3 M 31 160 h 3 M 31 98.1 h 3 M 31 36.2 h 3" fill="none" stroke="var(--border2)"/>
+  <text x="34" y="174" class="svgtxt" text-anchor="middle">0</text>
+  <text x="84.7" y="174" class="svgtxt" text-anchor="middle">1</text>
+  <text x="135.3" y="174" class="svgtxt" text-anchor="middle">2</text>
+  <text x="186" y="174" class="svgtxt" text-anchor="middle">3</text>
+  <text x="29" y="163.5" class="svgtxt" text-anchor="end">0</text>
+  <text x="29" y="101.6" class="svgtxt" text-anchor="end">0.5</text>
+  <text x="29" y="39.7" class="svgtxt" text-anchor="end">1</text>
+  <text x="110" y="14" class="svgtxt w" text-anchor="middle">exponential (λ = 1)</text>
+  <path d="M 34 36.2 L 46.2 62.6 L 53.3 75.3 L 60.3 86.4 L 67.4 96 L 75.5 105.5 L 83.7 113.5 L 91.8 120.4 L 100.9 126.9 L 110 132.4 L 120.1 137.4 L 131.3 141.8 L 143.4 145.7 L 156.6 149 L 186 153.8" fill="none" stroke="var(--blue)" stroke-width="4" opacity="0.55"/>
+  <path d="M 34 36.2 L 46.2 62.6 L 53.3 75.3 L 60.3 86.4 L 67.4 96 L 75.5 105.5 L 83.7 113.5 L 91.8 120.4 L 100.9 126.9 L 110 132.4 L 120.1 137.4 L 131.3 141.8 L 143.4 145.7 L 156.6 149 L 186 153.8" fill="none" stroke="var(--amber)" stroke-width="1.8" stroke-dasharray="5 4"/>
+  <text x="72" y="44.9" class="svgtxt b" style="font-size:10px">new: P(X &gt; x)</text>
+  <text x="72" y="59.7" class="svgtxt a" style="font-size:10px">aged 1:</text>
+  <text x="72" y="73.3" class="svgtxt a" style="font-size:10px">P(X&gt;1+x | X&gt;1)</text>
+  <text x="72" y="90.7" class="svgtxt w" style="font-size:10px">= same curve</text>
+  <text x="186" y="188" class="svgtxt" text-anchor="end" style="font-size:10px">extra time x</text>
+  <path d="M 236 30 V 160 H 388 M 236 160 v 3 M 286.7 160 v 3 M 337.3 160 v 3 M 388 160 v 3 M 233 160 h 3 M 233 98.1 h 3 M 233 36.2 h 3" fill="none" stroke="var(--border2)"/>
+  <text x="236" y="174" class="svgtxt" text-anchor="middle">0</text>
+  <text x="286.7" y="174" class="svgtxt" text-anchor="middle">5</text>
+  <text x="337.3" y="174" class="svgtxt" text-anchor="middle">10</text>
+  <text x="388" y="174" class="svgtxt" text-anchor="middle">15</text>
+  <text x="231" y="163.5" class="svgtxt" text-anchor="end">0</text>
+  <text x="231" y="101.6" class="svgtxt" text-anchor="end">0.5</text>
+  <text x="231" y="39.7" class="svgtxt" text-anchor="end">1</text>
+  <text x="312" y="14" class="svgtxt w" text-anchor="middle">bus wait W ~ U(0, 15)</text>
+  <path d="M 236 36.2 L 388 160" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <path d="M 236 36.2 L 337.3 160" fill="none" stroke="var(--amber)" stroke-width="1.8" stroke-dasharray="5 4"/>
+  <text x="298.8" y="36.2" class="svgtxt b" style="font-size:10px">new: P(W &gt; x)</text>
+  <text x="298.8" y="49.8" class="svgtxt a" style="font-size:10px">waited 5 min:</text>
+  <text x="298.8" y="63.4" class="svgtxt a" style="font-size:10px">P(W&gt;5+x|W&gt;5)</text>
+  <text x="298.8" y="77" class="svgtxt w" style="font-size:10px">≠ drops faster</text>
+  <text x="388" y="188" class="svgtxt" text-anchor="end" style="font-size:10px">extra minutes x</text>
+  </svg><figcaption>Left: for the exponential, the remaining-life curve of a unit that has already survived 1 (amber, dashed) lies exactly on the curve of a new unit (blue). Right, for contrast: the wait $W$ for the scheduled buses of slide 5 is uniform on $(0,15)$ (see the check-yourself below). Having waited 5 minutes, the remaining wait is <b>shorter</b> — a timetable has memory.</figcaption></figure>
+  <div class="note fin"><div class="t">Finance and insurance reading</div>In reduced-form credit models the time to default $\tau$ is exponential with a constant <b>default intensity</b> (hazard rate) $\lambda$: $P(\tau&gt;T)=e^{-\lambda T}$. Memorylessness then says a firm that has survived 10 years is exactly as likely to survive the next 5 as a newly issued name. With $\lambda=0.02$ per year: $P(\text{no default in the next 5 years})=e^{-0.1}=0.905$, whatever the firm's age. The same model is used for the time to the next insurance claim. It is a strong assumption: people and machines <i>do</i> age, and credit quality drifts — then the hazard is not constant and the exponential is the wrong model.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Survival curve: aged or new, the future looks the same<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\lambda$ <input type="range" id="ml_l" min="0.2" max="3" step="any" value="1"><span class="val" id="ml_l_v">1.00</span></label>
+    <label>already worked $a$ <input type="range" id="ml_a" min="0" max="3" step="any" value="1"><span class="val" id="ml_a_v">1.00</span></label>
+    <label>extra time $x$ <input type="range" id="ml_x" min="0.05" max="3" step="any" value="0.5"><span class="val" id="ml_x_v">0.50</span></label>
+    <span class="btns"><button onclick="mlSet(1,0,0.5)">brand new</button><button onclick="mlSet(1,1,0.5)">worked 1 unit</button><button onclick="mlSet(1,2.5,0.5)">worked 2.5 units</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0"><svg id="mlsvg" viewBox="0 0 360 250"></svg><figcaption>The survival curve $P(X&gt;t)=e^{-\lambda t}$, with $P(X&gt;a)$ and $P(X&gt;a+x)$ marked. Their ratio is the conditional probability $P(X&gt;a+x\mid X&gt;a)$, and the readout puts it next to $P(X&gt;x)$ for a new unit.</figcaption></figure>
+  <div>
+  <div class="readout" id="mlread"></div>
+  <p style="margin-top:10px"><b>Try this.</b> Press the three presets. The two heights $P(X&gt;a)$ and $P(X&gt;a+x)$ both shrink as the unit gets older, but their <b>ratio</b> stays at $e^{-0.5}=0.607$ — exactly $P(X&gt;0.5)$ for a brand-new unit. Now move $\lambda$ or $x$: the ratio changes, but it always equals $P(X&gt;x)$. Moving $a$ alone never changes it; that is the whole theorem.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A uniform in one line</div>
+<div class="prob">$X\sim U(2,10)$. Find $P(X&gt;7)$, $\mathbb{E}(X)$ and $\mathbb{V}(X)$.</div>
+<details><summary>Answer</summary><div class="sol">$P(X&gt;7)=\frac{10-7}{10-2}=\frac38=0.375$ (length ratio). $\mathbb{E}(X)=\frac{2+10}{2}=6$. $\mathbb{V}(X)=\frac{(10-2)^2}{12}=\frac{64}{12}=\frac{16}{3}\approx5.33$, sd $\approx2.31$. In R: <code>1 - punif(7, 2, 10)</code> → <code>0.375</code>.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>The bus passenger's wait</div>
+<div class="prob">In slide 5, let $W$ be the wait. Show that $W\sim U(0,15)$ and find $\mathbb{E}(W)$. Is $W$ memoryless — compare $P(W&gt;10\mid W&gt;5)$ with $P(W&gt;5)$.</div>
+<details><summary>Answer</summary><div class="sol">For $0&lt;w&lt;15$, $W\le w$ means arriving in the last $w$ minutes before one of the two buses: $P(W\le w)=\frac{w}{30}+\frac{w}{30}=\frac{w}{15}$ — the $U(0,15)$ cdf. So $\mathbb{E}(W)=7.5$ minutes. Memory: $P(W&gt;10\mid W&gt;5)=\frac{P(W&gt;10)}{P(W&gt;5)}=\frac{5/15}{10/15}=\frac12$, while $P(W&gt;5)=\frac{10}{15}=\frac23$. Not equal: having waited already makes a long remaining wait <b>less</b> likely. Only the exponential forgets.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Trades arriving at random</div>
+<div class="prob">The time $X$ (minutes) to the next trade in a stock is exponential with rate $\lambda=3$ per minute. Find $\mathbb{E}(X)$, $P(X&gt;1)$, and the probability that, having already waited 2 minutes, you wait more than 1 more.</div>
+<details><summary>Answer</summary><div class="sol">$\mathbb{E}(X)=1/3$ minute = 20 seconds. $P(X&gt;1)=e^{-3}\approx0.0498$. By memorylessness $P(X&gt;3\mid X&gt;2)=P(X&gt;1)=e^{-3}\approx0.0498$ — the 2 minutes already waited are irrelevant. In R: <code>1 - pexp(1, rate = 3)</code> → <code>0.04978707</code>.</div></details>
+</div>
+</div>
+<div>
+<div class="note warn"><div class="t">TRAP · what memoryless does NOT say</div>It does not say $P(X&gt;a+x)=P(X&gt;x)$ — unconditionally, surviving longer is always less likely ($e^{-\lambda(a+x)}&lt;e^{-\lambda x}$). It says the <b>conditional</b> probability, given survival to $a$, equals the unconditional one for the extra time. Equivalently: given $X&gt;a$, the remaining life $X-a$ is again exponential$(\lambda)$, with mean $1/\lambda$ whatever $a$ is.</div>
+<div class="note warn"><div class="t">TRAP · the uniform is not "flat everywhere"</div>Outside $(a,b)$ the density is 0, and so $F=0$ below $a$ and $F=1$ above $b$. A question like "$P(X&lt;12)$ for $X\sim U(2,10)$" has answer 1, not $\frac{12-2}{8}=1.25$ — a probability above 1 is a sure sign the formula was used outside its range.</div>
+<div class="panel" style="margin-top:10px">
+  <div class="bar"><span class="pill g">SUMMARY</span> The two families on one card<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table class="formula-table">
+    <tr><th></th><th>$U(a,b)$</th><th>exponential$(\lambda)$</th></tr>
+    <tr><td>support</td><td>$(a,b)$</td><td>$x&gt;0$</td></tr>
+    <tr><td>density $f$</td><td>$\dfrac{1}{b-a}$</td><td>$\lambda e^{-\lambda x}$</td></tr>
+    <tr><td>cdf $F$</td><td>$\dfrac{x-a}{b-a}$</td><td>$1-e^{-\lambda x}$</td></tr>
+    <tr><td>$\mathbb{E}(X)$</td><td>$\dfrac{a+b}{2}$</td><td>$\dfrac1\lambda$</td></tr>
+    <tr><td>$\mathbb{V}(X)$</td><td>$\dfrac{(b-a)^2}{12}$</td><td>$\dfrac{1}{\lambda^2}$</td></tr>
+    <tr><td>R</td><td><code>punif(x, a, b)</code></td><td><code>pexp(x, rate = λ)</code></td></tr>
+    <tr><td>signature</td><td>probabilities = length ratios</td><td>memoryless</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+</div>
+</section>

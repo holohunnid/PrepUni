@@ -1,0 +1,182 @@
+<!-- ============ 10 BAYES' THEOREM ============ -->
+<section id="s10">
+<div class="sec-head"><span class="num">10</span><h2>Bayes' theorem</h2><span class="sub">lecture 2, notes p.2–4 · slides: Conditional 18–21</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Turning P(evidence | cause) into P(cause | evidence)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Problems usually hand you probabilities in the <b>"forward" direction</b>: how likely a test is to be positive <i>if</i> you are ill, how often a factory makes a defective chip. But the question you care about goes <b>backwards</b>: I tested positive — how likely am I ill? This chip is defective — which factory made it?</p>
+  <p><b>Bayes' theorem</b> reverses the conditioning. It is nothing new: it is the definition of conditional probability (module 07) with the numerator rewritten by the multiplication law and the denominator by the law of total probability (module 08). Three things you already know, glued together.</p>
+  <p>The punchline of the lecture's first example is worth knowing before you start: a test that is <b>99% accurate</b> on the ill can leave a positive-testing person with only a <b>2%</b> chance of being ill. Rare things stay unlikely even after good evidence.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Bayes' theorem<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $B_1,\dots,B_m$ be a partition of $\Omega$ and $A$ an event with $P(A)&gt;0$. Then for each $i$</p>
+  $$\boxed{P(B_i\mid A)=\frac{P(A\mid B_i)\,P(B_i)}{P(A\mid B_1)P(B_1)+\dots+P(A\mid B_m)P(B_m)}}$$
+  <h3>Where each piece comes from (the notes' arrows)</h3>
+  <ol class="steps">
+    <li><b>Definition</b> (module 07): $P(B_i\mid A)=\dfrac{P(A\cap B_i)}{P(A)}$.</li>
+    <li><b>Numerator</b> — law of multiplication: $P(A\cap B_i)=P(A\mid B_i)P(B_i)$.</li>
+    <li><b>Denominator</b> — law of total probability over the partition: $P(A)=\sum_jP(A\mid B_j)P(B_j)$.</li>
+  </ol>
+  <p>So the compact form is</p>
+  $$P(B_i\mid A)=\frac{P(A\mid B_i)P(B_i)}{P(A)}.$$
+  <h3>Vocabulary (not on the slides, but universal)</h3>
+  <table class="formula-table">
+    <tr><td>$P(B_i)$</td><td><b>prior</b> — what you believed before seeing $A$</td></tr>
+    <tr><td>$P(A\mid B_i)$</td><td><b>likelihood</b> — how well $B_i$ explains the evidence</td></tr>
+    <tr><td>$P(B_i\mid A)$</td><td><b>posterior</b> — updated belief after seeing $A$</td></tr>
+  </table>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">SEE IT</span> The three ingredients<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 340 250">
+    <rect x="96" y="10" width="148" height="34" rx="4" fill="var(--amberbg)" stroke="var(--amber)"/>
+    <text x="170" y="32" class="svgtxt a" text-anchor="middle" font-size="12">P(Bᵢ | A)</text>
+    <line x1="170" y1="44" x2="170" y2="66" stroke="var(--border2)"/>
+    <text x="178" y="60" class="svgtxt">definition</text>
+    <line x1="80" y1="102" x2="260" y2="102" stroke="var(--text)" stroke-width="1.5"/>
+    <rect x="96" y="68" width="148" height="28" rx="4" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="170" y="87" class="svgtxt g" text-anchor="middle">P(A ∩ Bᵢ)</text>
+    <rect x="96" y="108" width="148" height="28" rx="4" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <text x="170" y="127" class="svgtxt b" text-anchor="middle">P(A)</text>
+    <path d="M 96 82 C 50 82 40 170 60 186" fill="none" stroke="var(--green)"/>
+    <rect x="6" y="186" width="150" height="28" rx="4" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="81" y="205" class="svgtxt g" text-anchor="middle">P(A|Bᵢ) · P(Bᵢ)</text>
+    <text x="81" y="230" class="svgtxt" text-anchor="middle">law of multiplication</text>
+    <path d="M 244 122 C 290 122 300 170 280 186" fill="none" stroke="var(--blue)"/>
+    <rect x="184" y="186" width="150" height="28" rx="4" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <text x="259" y="205" class="svgtxt b" text-anchor="middle">Σⱼ P(A|Bⱼ) · P(Bⱼ)</text>
+    <text x="259" y="230" class="svgtxt" text-anchor="middle">law of total probability</text>
+  </svg>
+  <figcaption>Bayes in one picture: the definition, with the top rewritten by module 07 and the bottom by module 08. If you forget the formula, rebuild it from this.</figcaption>
+  </figure>
+  <div class="note tip"><div class="t">The shortcut the notes end with: ∝</div>The denominator $P(A)$ is the same for every $i$ — it only makes the posteriors add up to 1. So
+  $$P(B_i\mid A)\ \propto\ P(A\mid B_i)\,P(B_i)$$
+  ("proportional to"). Compute likelihood × prior for each $B_i$, then divide each by their total. The figure at the bottom of this module is exactly that.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 2 · notes p.3 · slides Conditional 18 — a rare disease and a good test<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>A disease affects 1 person in 1000: $P(D)=0.001$, $P(D^c)=0.999$. A medical test has</p>
+  $$\begin{aligned}P(\text{positive}\mid D)&=0.99&&P(\text{negative}\mid D)=0.01\ \text{"false negative"}\\P(\text{negative}\mid D^c)&=0.95&&P(\text{positive}\mid D^c)=0.05\ \text{"false positive"}\end{aligned}$$
+  <p>Your test is positive (PT). What is $P(D\mid PT)$?</p>
+  <ol class="steps">
+    <li><b>Partition:</b> $\{D,D^c\}$. <b>Evidence:</b> $A=PT$.</li>
+    <li><b>Bayes:</b>
+    $$P(D\mid PT)=\frac{P(PT\mid D)P(D)}{P(PT\mid D)P(D)+P(PT\mid D^c)P(D^c)}$$</li>
+    <li><b>Numbers:</b>
+    $$=\frac{0.99\cdot0.001}{0.99\cdot0.001+0.05\cdot0.999}=\frac{0.00099}{0.00099+0.04995}=\frac{0.00099}{0.05094}\approx0.0194\approx0.02$$</li>
+  </ol>
+  <div class="note"><div class="t">Why so small? Count people.</div>Screen 100,000 people. About 100 are ill, and 99 of them test positive. Of the 99,900 healthy, 5% — <b>4,995</b> — also test positive. So among the 5,094 positives only 99 are ill: $99/5094\approx2\%$. The false positives win because there are so many more healthy people to produce them. The figure shows exactly this tree.</div>
+  </div>
+  <div>
+  <div class="ctrl">
+    <label>prevalence $P(D)$ <input type="range" id="dz_p" min="-4" max="-0.0005" step="any" value="-3"><span class="val" id="dz_p_v">0.0010</span></label>
+  </div>
+  <div class="ctrl">
+    <label>$P(+\mid D)$ <input type="range" id="dz_s" min="0.5" max="1" step="any" value="0.99"><span class="val" id="dz_s_v">0.990</span></label>
+    <label>$P(+\mid D^c)$ <input type="range" id="dz_f" min="0.001" max="0.3" step="any" value="0.05"><span class="val" id="dz_f_v">0.050</span></label>
+  </div>
+  <div class="ctrl"><span class="btns"><button onclick="dzSet(0.001,0.99,0.05)">lecture</button><button onclick="dzRetest()">test again (posterior → new prior)</button><button onclick="dzSet(0.1,0.99,0.05)">common disease</button><button onclick="dzSet(0.001,0.99,0.001)">fewer false positives</button></span></div>
+  <figure style="margin:0"><svg id="dzsvg" viewBox="0 0 360 266"></svg><figcaption>A frequency tree for 100,000 people. The bottom bar lines up everyone who tests positive: green are truly ill, red are false alarms. $P(D\mid+)$ is the green share.</figcaption></figure>
+  <div class="readout" id="dzread"></div>
+  </div>
+  </div>
+  <div class="note tip"><div class="t">Try this</div>Press <b>test again</b> a few times: a second positive test (independent, same accuracy) uses 0.0194 as the new prior and gives ≈ 0.28; a third gives ≈ 0.89. Bayes is a machine you can feed its own output — that is how evidence accumulates.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 2 · notes p.4 · slides Conditional 19 — which factory made the defective chip?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Three factories produce chips: $F_1$ has 50% of the market, $F_2$ 40%, $F_3$ 10%. Defect rates: $P(D\mid F_1)=0.01$, $P(D\mid F_2)=0.02$, $P(D\mid F_3)=0.03$. A chip is defective. Which factory most likely made it?</p>
+  <ol class="steps">
+    <li><b>Total probability of a defect</b> (the denominator, module 08):
+    $$P(D)=0.01\cdot0.5+0.02\cdot0.4+0.03\cdot0.1=0.005+0.008+0.003=0.016$$</li>
+    <li><b>Bayes for each factory:</b>
+    $$P(F_1\mid D)=\frac{0.01\cdot0.5}{0.016}=\frac{0.005}{0.016}=\frac{5}{16}$$
+    $$P(F_2\mid D)=\frac{0.008}{0.016}=\frac8{16}\ \longleftarrow\text{most likely}\qquad P(F_3\mid D)=\frac{0.003}{0.016}=\frac3{16}$$</li>
+    <li><b>Check:</b> $\tfrac5{16}+\tfrac8{16}+\tfrac3{16}=1$ ✓.</li>
+  </ol>
+  <p>The slides tell it as Betty's reasoning: first she blames $F_1$ (biggest producer), then $F_3$ (worst quality). Both are half-right: <b>size and quality both count</b>, multiplied — and $F_2$ wins, with $0.4\times0.02$.</p>
+  <div class="note"><div class="t">The "∝" route (notes)</div>$P(F_i\mid D)\propto P(D\mid F_i)P(F_i)$: the products are $0.005 : 0.008 : 0.003$, i.e. $5:8:3$. Divide by the total 16. No need to compute $P(D)$ separately — it <i>is</i> the total.</div>
+  </div>
+  <div>
+  <div class="ctrl">
+    <label>$P(H_1)$ <input type="range" id="by_p1" min="0" max="1" step="any" value="0.5"><span class="val" id="by_p1_v">0.500</span></label>
+    <label>$P(H_2)$ <input type="range" id="by_p2" min="0" max="1" step="any" value="0.4"><span class="val" id="by_p2_v">0.400</span></label>
+    <span class="muted" style="font-size:11px">$P(H_3)=1-P(H_1)-P(H_2)$</span>
+  </div>
+  <div class="ctrl">
+    <label>$P(A\mid H_1)$ <input type="range" id="by_l1" min="0" max="1" step="any" value="0.01"><span class="val" id="by_l1_v">0.010</span></label>
+    <label>$P(A\mid H_2)$ <input type="range" id="by_l2" min="0" max="1" step="any" value="0.02"><span class="val" id="by_l2_v">0.020</span></label>
+    <label>$P(A\mid H_3)$ <input type="range" id="by_l3" min="0" max="1" step="any" value="0.03"><span class="val" id="by_l3_v">0.030</span></label>
+  </div>
+  <div class="ctrl"><span class="btns"><button onclick="bySetFactories()">factories</button><button onclick="bySetMonty()">Monty Hall (module 11)</button><button onclick="bySetFlat()">equal likelihoods</button></span></div>
+  <figure style="margin:0"><svg id="bysvg" viewBox="0 0 360 262"></svg><figcaption>Each column is a hypothesis: its <b>width</b> is the prior, its shaded <b>height</b> the likelihood, so the shaded <b>area</b> is prior × likelihood. The posterior bar just rescales the three shaded areas to fill the whole width. Try "equal likelihoods": evidence that every hypothesis explains equally well changes nothing.</figcaption></figure>
+  <div class="readout" id="byread"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> SLIDES · Conditional 20–21 — three more, same machine<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid3">
+  <div>
+  <h3>Smoker on the plane</h3>
+  <p>3% of men and 1% of women smoke. 40 men, 60 women on board; someone smokes in the restroom. $P(\text{man}\mid S)$?</p>
+  $$P(M\mid S)=\frac{0.4\cdot0.03}{0.4\cdot0.03+0.6\cdot0.01}=\frac{0.012}{0.018}=\frac23$$
+  <p class="muted">Men are fewer, but three times as likely to smoke: 12 : 6.</p>
+  </div>
+  <div>
+  <h3>Bobby has no brothers</h3>
+  <p>Families have 1, 2 or 3 children (prob. $\tfrac13$ each), boys and girls equally likely. Bobby has no brothers — $A$ = "the family has exactly one boy". $P(A\mid B_1)=\tfrac12$, $P(A\mid B_2)=\tfrac12$ (GB, BG of 4), $P(A\mid B_3)=\tfrac38$ (3 of 8 orders).</p>
+  $$P(B_1\mid A)=\frac{\tfrac13\cdot\tfrac12}{\tfrac13\cdot\tfrac12+\tfrac13\cdot\tfrac12+\tfrac13\cdot\tfrac38}=\frac4{11}$$
+  </div>
+  <div>
+  <h3>Bobby has no sisters</h3>
+  <p>Now $A$ = "the family has no girls": $P(A\mid B_1)=\tfrac12$, $P(A\mid B_2)=\tfrac14$, $P(A\mid B_3)=\tfrac18$.</p>
+  $$P(B_1\mid A)=\frac{\tfrac16}{\tfrac16+\tfrac1{12}+\tfrac1{24}}=\frac{4/24}{7/24}=\frac47$$
+  <p class="muted">Surprise: not 4/11. "All boys" gets rarer much faster with family size than "exactly one boy" does ($\tfrac18$ vs $\tfrac38$ for three kids), so big families are penalised more.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> The base-rate fallacy<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>"The test is 99% accurate, so a positive result means 99% ill" confuses $P(+\mid D)=0.99$ with $P(D\mid+)\approx0.02$. The missing ingredient is the <b>prior</b> (base rate) $P(D)=0.001$. In an exam, whenever you see a conditional probability given one way and asked the other way, it is a Bayes question: write the partition, the priors, the likelihoods, then the formula.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Negative test</div>
+<div class="prob">In the disease example, what is $P(D\mid\text{negative})$?</div>
+<details><summary>Answer</summary><div class="sol">$\dfrac{0.01\cdot0.001}{0.01\cdot0.001+0.95\cdot0.999}=\dfrac{0.00001}{0.94906}\approx0.0000105$. A negative test is extremely reassuring — about 1 in 95,000.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Default risk</div>
+<div class="prob">20% of a bank's borrowers are "risky". A risky borrower misses a payment with probability 0.3, a safe one with 0.05. A borrower misses a payment. Probability they are risky?</div>
+<details><summary>Answer</summary><div class="sol">$\dfrac{0.3\cdot0.2}{0.3\cdot0.2+0.05\cdot0.8}=\dfrac{0.06}{0.10}=0.6$. One missed payment triples the risk estimate (0.2 → 0.6).</div></details>
+</div>
+</div>
+</section>

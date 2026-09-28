@@ -1,0 +1,150 @@
+<!-- ============ 07 CONDITIONAL PROBABILITY ============ -->
+<section id="s7">
+<div class="sec-head"><span class="num">07</span><h2>Conditional probability</h2><span class="sub">lecture 1, notes p.9–12 · slides: Conditional 2–9</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> New information changes probabilities<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Probabilities are not fixed facts about the world — they depend on <b>what you know</b>. If you learn that the book on the floor does not belong to an Italian student, the chance that it belongs to a Chinese student goes up. If you learn the stock went up yesterday, the chance of two up-moves in a row changes.</p>
+  <p>The lecture introduces the idea with two examples <i>before</i> giving any formula, and so does this module. In both, the same thing happens: <b>the outcomes ruled out by the information are thrown away, and the probabilities of what is left are scaled up so that they sum to 1 again.</b> The formula $P(A\mid B)=P(A\cap B)/P(B)$ is just that sentence written in symbols.</p>
+  <div class="note tip"><div class="t">Read the bar as "given"</div>$P(A\mid B)$ is "the probability of $A$ <b>given</b> $B$": we take $B$ as known to have happened (whether or not it really has — we can condition on hypotheticals). $P(A)$ without a bar is the <b>unconditional</b> probability.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 1 · notes p.9–10 · slides Conditional 2 — the book in the classroom<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>A classroom has <b>8 Chinese, 7 Italian and 5 Korean</b> students. A book is found. What is the probability that it belongs to a Chinese student?</p>
+  <ol class="steps">
+    <li><b>Sample space.</b> $\Omega=\{C_1,\dots,C_8,\ I_1,\dots,I_7,\ K_1,\dots,K_5\}$, where $C_i$ = "the book belongs to the $i$-th Chinese student" (similarly $I_i$, $K_i$). $|\Omega|=20$.</li>
+    <li><b>Event.</b> $E=\{C_1,\dots,C_8\}$. Assuming equally likely owners (module 05):
+    $$P(E)=\frac{|E|}{|\Omega|}=\frac{8}{20}=0.4\qquad\text{— the unconditional probability.}$$</li>
+    <li><b>New information: the book does not belong to an Italian.</b> Then $P(I_1)=\dots=P(I_7)=0$. If the remaining 13 outcomes stay equally likely, each now has probability $\frac1{13}$:
+    $$P(C_1)=\dots=P(C_8)=P(K_1)=\dots=P(K_5)=\tfrac1{13}.$$</li>
+    <li><b>Answer.</b> $P(E\mid\text{book not of }I_1,\dots,I_7)=\dfrac{8}{13}\approx0.615$.</li>
+  </ol>
+  <p class="muted" style="font-size:12px">The slides add a footnote: writing plain $P$ in step 3 is "somehow ambiguous" — those are the probabilities <i>after</i> conditioning, a new probability measure. The $P(\cdot\mid B)$ notation below fixes that.</p>
+  </div>
+  <div>
+  <div class="ctrl"><span class="btns"><button data-cl="none" onclick="clSet('none')">no information</button><button data-cl="notI" onclick="clSet('notI')">not an Italian</button><button data-cl="notK" onclick="clSet('notK')">not a Korean</button><button data-cl="notC" onclick="clSet('notC')">not a Chinese</button></span></div>
+  <figure style="margin:0"><svg id="clsvg" viewBox="0 0 360 200"></svg><figcaption>Crossed-out students are ruled out; the world shrinks to what is left. The green bar is the Chinese share of the <i>remaining</i> world.</figcaption></figure>
+  <div class="readout" id="clread"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 1 · notes p.10–11 · slides Conditional 3–5 — a stock price in two steps<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>At $t=0$ a stock costs $P_0$. Each period it moves <b>up</b> by a factor $u&gt;1$ with probability $p_u=\tfrac23$, or <b>down</b> by $d=\tfrac1u&lt;1$ with probability $p_d=\tfrac13$. So $P_1\in\{P_0u,\ P_0d\}$ and $P_2\in\{P_1u,\ P_1d\}$. What is the probability that $P_2=P_0u^2$?</p>
+  <ol class="steps">
+    <li><b>Sample space</b> — pairs (price at $t=1$, price at $t=2$):
+    $$\Omega=\{(P_0u,P_0u^2),\ (P_0u,P_0),\ (P_0d,P_0),\ (P_0d,P_0d^2)\}$$
+    Note $P_0ud=P_0$ because $d=1/u$: up-then-down returns to the start (the tree "recombines").</li>
+    <li><b>Probabilities multiply along a path:</b>
+    $$\begin{aligned}P((P_0u,P_0u^2))&=p_up_u=\tfrac23\cdot\tfrac23=\tfrac49\\P((P_0u,P_0))&=p_up_d=\tfrac29\\P((P_0d,P_0))&=p_dp_u=\tfrac29\\P((P_0d,P_0d^2))&=p_dp_d=\tfrac19\end{aligned}$$
+    (they sum to $\tfrac99=1$ ✓), so $P(P_2=P_0u^2)=\tfrac49$.</li>
+    <li><b>Now suppose we know the first move was up.</b> The two paths starting with $P_0d$ become impossible: $P((P_0d,P_0))=0=P((P_0d,P_0d^2))$. What remains is the second step alone:
+    $$P((P_0u,P_0u^2))=p_u=\tfrac23,\qquad P((P_0u,P_0))=p_d=\tfrac13.$$</li>
+    <li>"More precisely", as the notes say, that first number is $P\big((P_0u,P_0u^2)\,\big|\,P_1=P_0u\big)=\tfrac23$.</li>
+  </ol>
+  </div>
+  <div>
+  <div class="ctrl">
+    <label>$p_u$ <input type="range" id="tr_p" min="0.01" max="0.99" step="any" value="0.6666666666666666"><span class="val" id="tr_p_v">0.667</span></label>
+    <label><input type="checkbox" id="tr_c"> we know P₁ = P₀u</label>
+  </div>
+  <div class="ctrl"><span class="btns"><button onclick="trSet(2/3,false)">lecture: no information</button><button onclick="trSet(2/3,true)">lecture: first move up</button><button onclick="trSet(0.5,false)">p_u = 1/2</button></span></div>
+  <figure style="margin:0"><svg id="trsvg" viewBox="0 0 360 244"></svg><figcaption>Amber path: two up-moves. Tick the box to condition on the first move: the lower branch fades out and the amber leaf's probability jumps from $p_u^2$ to $p_u$.</figcaption></figure>
+  <div class="readout" id="trread"></div>
+  </div>
+  </div>
+  <div class="note fin"><div class="t">Finance</div>This is the <b>binomial tree</b> used to price options: $u$, $d$ and the step probabilities fix the distribution of the price at maturity. With the formula below you can check the conditional answer: $P(\text{two ups}\mid\text{first up})=\frac{P(\text{two ups})}{P(\text{first up})}=\frac{4/9}{2/3}=\frac23$ ✓.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Conditional probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $A$ and $B$ be two events with $P(B)&gt;0$. The <b>conditional probability of $A$ given $B$</b> is</p>
+  $$\boxed{P(A\mid B)=\frac{P(A\cap B)}{P(B)}}$$
+  <figure>
+  <svg viewBox="0 0 330 150">
+    <text x="80" y="14" class="svgtxt w" text-anchor="middle">before: world = Ω</text>
+    <rect x="6" y="22" width="150" height="100" fill="none" stroke="var(--border2)"/>
+    <circle cx="62" cy="72" r="36" fill="var(--blue)" opacity="0.2" stroke="var(--blue)"/>
+    <circle cx="104" cy="72" r="36" fill="none" stroke="var(--green)"/>
+    <text x="40" y="76" class="svgtxt b">A</text><text x="120" y="76" class="svgtxt g">B</text>
+    <text x="250" y="14" class="svgtxt w" text-anchor="middle">after: world = B</text>
+    <rect x="176" y="22" width="150" height="100" fill="none" stroke="var(--border)" stroke-dasharray="3 3"/>
+    <circle cx="262" cy="72" r="36" fill="var(--green)" opacity="0.18" stroke="var(--green)"/>
+    <path d="M 241 42.76 A 36 36 0 0 0 241 101.24 A 36 36 0 0 0 241 42.76 Z" fill="var(--amber)" opacity="0.65"/>
+    <text x="287" y="76" class="svgtxt g">B</text>
+    <text x="80" y="140" class="svgtxt" text-anchor="middle">P(A): blue vs all of Ω</text>
+    <text x="250" y="140" class="svgtxt" text-anchor="middle">P(A|B): amber vs green</text>
+  </svg>
+  </figure>
+  <ul>
+    <li><b>Numerator</b> $P(A\cap B)$: of the outcomes still possible (those in $B$), keep the ones where $A$ also happens.</li>
+    <li><b>Denominator</b> $P(B)$: rescale, so that the new world $B$ has total probability 1.</li>
+  </ul>
+  <p>Check it on the classroom: $P(E\mid\text{not }I)=\dfrac{P(E\cap\text{not }I)}{P(\text{not }I)}=\dfrac{8/20}{13/20}=\dfrac{8}{13}$ ✓ — the same answer the "throw away and rescale" reasoning gave.</p>
+  <div class="note warn"><div class="t">P(B) &gt; 0 is required</div>You cannot condition on an impossible event — you would divide by 0.</div>
+  <div class="note"><div class="t">A conditional probability is a probability</div>Fix $B$: then $A\mapsto P(A\mid B)$ satisfies all three axioms, with $B$ playing the role of $\Omega$. So every rule of module 05 has a conditional twin, e.g. $P(A^c\mid B)=1-P(A\mid B)$.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">RULE</span> Law of multiplication and the chain rule<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Multiply the definition through by $P(B)$ — and, swapping the roles of $A$ and $B$, by $P(A)$:</p>
+  $$\boxed{P(A\cap B)=P(A\mid B)\,P(B)=P(B\mid A)\,P(A)}$$
+  <p>This <b>law of multiplication</b> runs the definition backwards: it builds a <i>joint</i> probability from a <i>conditional</i> one — which is usually what a problem hands you ("the second step, given the first"). It is exactly what we did along the branches of the stock tree.</p>
+  <p>For three events, apply it twice:</p>
+  $$P(A\cap B\cap C)=P(A)\,P(B\mid A)\,P(C\mid A\cap B)$$
+  <p>and for $m$ events — the <b>chain rule</b>:</p>
+  $$P(A_1\cap\dots\cap A_m)=P(A_1)\,P(A_2\mid A_1)\,P(A_3\mid A_2\cap A_1)\cdots P(A_m\mid A_{m-1}\cap\dots\cap A_1)$$
+  <p>Read it as a story told in order: the first thing happens, then the second <i>given</i> the first, then the third given the first two…</p>
+  <div class="ex">
+  <div class="bar">SLIDES · Conditional 8–9 — the party robbers</div>
+  <div class="body">
+  <p>200 guests (you included) draw from a hat with 199 blank papers and one "you lose"; whoever draws it is robbed. The robbers let you choose your turn. When should you draw?</p>
+  <ol class="steps">
+    <li>First: $P(E_1)=\tfrac1{200}$.</li>
+    <li>Second — the chain rule, since the second person can only lose if the first drew a blank:
+    $$P(E_2)=\frac{199}{200}\cdot\frac1{199}=\frac1{200}.$$</li>
+    <li>Third: $P(E_3)=\frac{199}{200}\cdot\frac{198}{199}\cdot\frac1{198}=\frac1{200}$. The fractions telescope — every numerator cancels the next denominator.</li>
+    <li>Last: $P(E_{200})=\frac{199}{200}\cdot\frac{198}{199}\cdots\frac12\cdot\frac11=\frac1{200}$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>It does not matter when you draw: everyone has the same $\tfrac1{200}$. Drawing late means you need all the others to survive first, which exactly compensates the better odds at the end.</div>
+  </div>
+  </div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> P(A | B) is not P(B | A)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The bar is not symmetric. In the classroom, $P(\text{Chinese}\mid\text{not Italian})=\frac8{13}$, but $P(\text{not Italian}\mid\text{Chinese})=1$ — every Chinese student is not Italian. Mixing the two up is the "prosecutor's fallacy", and module 10 (Bayes) shows it can be off by a factor of 50: a test that is positive 99% of the time given a disease does <b>not</b> mean you have the disease with 99% probability given a positive test.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Two aces</div>
+<div class="prob">Two cards are drawn from a 52-card deck without replacement. Probability both are aces?</div>
+<details><summary>Answer</summary><div class="sol">Multiplication law: $P(A_1\cap A_2)=P(A_1)P(A_2\mid A_1)=\frac4{52}\cdot\frac3{51}=\frac{12}{2652}=\frac1{221}\approx0.0045$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A die, given odd</div>
+<div class="prob">One fair die. Find $P(\text{roll}\le2\mid\text{odd})$.</div>
+<details><summary>Answer</summary><div class="sol">$P(\{1,2\}\cap\{1,3,5\})/P(\{1,3,5\})=P(\{1\})/\tfrac12=\frac{1/6}{1/2}=\frac13$. Shrink the world to $\{1,3,5\}$: one of three faces qualifies.</div></details>
+</div>
+</div>
+</section>

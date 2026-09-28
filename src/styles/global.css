@@ -31,6 +31,7 @@ a:hover{text-decoration:underline}
 .side a:hover{color:var(--text);text-decoration:none;background:var(--panel2)}
 .side a.active{color:var(--green);border-left-color:var(--green);background:var(--panel2)}
 .side a .n{color:var(--dim);margin-right:6px}
+.side .lbl.part{margin-top:10px;color:var(--green);font-size:10.5px}
 
 .main{padding:18px 22px 80px;max-width:1120px;width:100%;min-width:0}
 .layout.collapsed .main{margin:0 auto}
@@ -68,6 +69,11 @@ section{margin-bottom:34px;scroll-margin-top:44px}
    column past the page edge; let them shrink and scroll their own content */
 .grid2 > *,.grid3 > *{min-width:0}
 .panel > .body{min-width:0;overflow-x:auto}
+/* the same for worked examples and exercise blocks: a wide table or formula scrolls
+   inside its box instead of widening the page on a phone */
+.ex > .body,.wx .prob,.wx .sol{min-width:0;overflow-x:auto}
+@media(max-width:900px){.topbar > span:not(.brand):not(.tag){display:none}}
+@media(max-width:600px){.topbar .tag,#printbtn{display:none}}
 @media(max-width:900px){.grid2,.grid3,.hero .body{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.side{display:none}}
 
 h3{font-size:13px;margin:14px 0 6px;color:var(--text);font-weight:700}
@@ -116,6 +122,9 @@ figcaption{font-size:11.5px;color:var(--muted);margin-top:6px;border-top:1px sol
 .ctrl label{display:flex;gap:6px;align-items:center;color:var(--muted)}
 .ctrl input[type=range]{width:110px;accent-color:var(--green)}
 .ctrl .val{color:var(--text);min-width:38px;display:inline-block}
+.ctrl select,.ctrl input[type=text]{background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11.5px;padding:1px 4px}
+.ctrl input[type=text]{width:64px}
+.ctrl select:focus,.ctrl input[type=text]:focus{outline:none;border-color:var(--green)}
 .readout{font-size:12px;background:var(--panel2);border:1px solid var(--border);padding:6px 10px;display:flex;gap:18px;flex-wrap:wrap}
 .readout b{color:var(--green);font-weight:500}
 .btns button{background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:2px 8px;cursor:pointer;margin-right:4px}
@@ -128,6 +137,20 @@ figcaption{font-size:11.5px;color:var(--muted);margin-top:6px;border-top:1px sol
 .mx span.hb{background:var(--bluebg);border-color:#2a4a80;color:var(--blue)}
 .mx span.ha{background:var(--amberbg);border-color:#7a5a1a;color:var(--amber)}
 .mx span.z{color:var(--dim)}
+
+/* multiple-choice practice */
+.mcq{border:1px solid var(--border);background:var(--panel);margin-bottom:10px;padding:9px 12px}
+.mcq .q{margin-bottom:7px}
+.mcq .q .n{color:var(--green);font-weight:700;margin-right:6px}
+.mcq .opts{display:flex;flex-direction:column;gap:4px}
+.mcq .opts button{text-align:left;background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px;padding:4px 9px;cursor:pointer;line-height:1.5}
+.mcq .opts button:hover{border-color:var(--green)}
+.mcq .opts button.ok{border-color:var(--green2);background:var(--greenbg);color:var(--green)}
+.mcq .opts button.no{border-color:#7a2a2d;background:var(--redbg);color:var(--red)}
+.mcq .why{display:none;margin-top:7px;font-size:12px;border-left:3px solid var(--blue);padding:5px 9px;background:var(--panel2)}
+.mcq.done .why{display:block}
+.mcq .opts pre,.mcq .q pre{margin:4px 0;background:var(--panel2);border:1px solid var(--border);padding:4px 8px;font-size:12px;overflow-x:auto}
+@media print{.mcq .why{display:block}}
 
 /* checklist */
 .chk li{list-style:none;padding-left:18px;position:relative}

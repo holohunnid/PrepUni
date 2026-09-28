@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import msc from '../../courses/stats-msc/meta.json';
+---
+<Base title="Statistics · USI">
+
+<div class="topbar">
+  <span class="brand">STATISTICS · HUB</span>
+  <span class="tag">Semester courses · USI</span>
+  <div class="right">
+    <a href="/" title="all courses">⌂ courses</a>
+    <button id="themebtn">◐ theme: dark</button>
+  </div>
+</div>
+
+<main class="home">
+  <div class="hero">
+    <div class="bar"><span class="pill g">HUB</span><span>Statistics ⟶ two separate courses</span><span class="ctl" style="margin-left:auto;color:var(--dim)">⊡ ✕</span></div>
+    <div class="body" style="grid-template-columns:1fr">
+      <div>
+        <h1>Statistics</h1>
+        <p>This semester's two statistics courses, kept <b>apart on purpose</b>. They overlap in places — both start from probability and both end up estimating things from data — but they have different lecturers, different notation, different exams, and a formula that looks the same in both can be introduced with different assumptions. Each course follows its own lectures.</p>
+        <p class="muted" style="margin-top:8px">Both courses grow lecture by lecture: new modules are added as the lectures happen.</p>
+      </div>
+    </div>
+  </div>
+
+  <a class="course-card" href="/statistics/msc">
+    <div class="panel" style="margin-bottom:0">
+      <div class="bar"><span class="pill g">LIVE</span> MSc · Statistics — S. Peluso<span class="ctl">— ⊡ ✕</span></div>
+      <div class="body">
+        <p>{msc.stats}</p>
+        <p class="muted">Probability block, built from the handwritten lecture notes first and the PDF notes second: sample spaces and events → Kolmogorov's axioms → the probability rules → conditional probability → independence → total probability and Bayes → random variables and the CDF → discrete random variables and the pmf → the named discrete distributions → continuous random variables → the named continuous distributions. Later blocks (point estimation, confidence intervals, time series) will be added as they are lectured.</p>
+      </div>
+    </div>
+  </a>
+
+  <div class="panel">
+    <div class="bar"><span class="pill r">SOON</span> BSc · Statistical Inference<span class="ctl">— ⊡ ✕</span></div>
+    <div class="body">
+      <p class="muted">Not built yet — waiting on the lecture material. A separate course with its own modules; it will not share pages with the MSc course even where the topics meet.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+  import '../../scripts/course.js';
+</script>
+</Base>

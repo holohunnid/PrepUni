@@ -1,0 +1,144 @@
+<!-- ============ 04 KOLMOGOROV'S AXIOMS ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>Kolmogorov's axioms</h2><span class="sub">lecture 1, notes p.6–7 · slides: Axioms 11–14</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Three rules, and everything else is a consequence<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Any mathematical theory starts from <b>axioms</b>: a few simple, consistent statements accepted without proof. Everything else — the <b>theorems</b> — is derived from them by logic. In 1933 Andrei Kolmogorov did this for probability: he showed that <b>three</b> properties are enough, and every rule you have ever used ($P(A^c)=1-P(A)$, the addition rule, Bayes…) follows from them.</p>
+  <p>The easiest way to hold the axioms in your head is to think of probability as <b>mass</b> — one kilogram of sand spread over $\Omega$. $P(E)$ is the amount of sand lying on $E$. Then the three axioms say the obvious things about sand: an amount is never negative; there is exactly one kilogram in total; and if you split a region into pieces that do not overlap, the amounts on the pieces add up.</p>
+  <div class="note tip"><div class="t">What an axiom does NOT tell you</div>The axioms don't say what $P(E)$ <i>is</i> for a particular experiment — a fair die and a loaded die both satisfy them. They only say what any sensible assignment must obey. Choosing the numbers is modelling ("the die is fair", module 05).</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The axioms of probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>To each event $E$ we associate a number $P(E)$ such that</p>
+  <ol class="steps">
+    <li>$\boxed{P(E)\ge 0}$ for every event $E$;</li>
+    <li>$\boxed{P(\Omega)=1}$;</li>
+    <li>if $E_1,E_2,\dots$ is an <b>infinite sequence of mutually exclusive events</b> — that is, $E_i\cap E_j=\emptyset$ for all $i\neq j$ — then
+    $$\boxed{P\Big(\bigcup_{i=1}^{\infty}E_i\Big)=\sum_{i=1}^{\infty}P(E_i)}$$</li>
+  </ol>
+  <p>A function $P$ satisfying these is a <b>probability function</b>, and $P(E)$ is <b>the probability of $E$</b>.</p>
+  <h3>Reading axiom 3</h3>
+  <p>"Mutually exclusive" means no two of the events can happen together — the pieces don't overlap. Then the probability that <i>one of them</i> happens is the sum of their probabilities. No overlap ⇒ nothing is double counted ⇒ just add (compare module 03, where overlap forced a correction).</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">SEE IT</span> Probability as one unit of mass<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 360 150">
+    <rect x="10" y="20" width="340" height="80" fill="none" stroke="var(--border2)" stroke-width="1.5"/>
+    <text x="16" y="14" class="svgtxt w">Ω — total mass 1 (axiom 2)</text>
+    <path d="M 10 20 L 120 20 L 100 100 L 10 100 Z" fill="var(--blue)" opacity="0.35" stroke="var(--blue)"/>
+    <path d="M 120 20 L 230 20 L 250 100 L 100 100 Z" fill="var(--green)" opacity="0.35" stroke="var(--green)"/>
+    <path d="M 230 20 L 350 20 L 350 60 L 240 60 Z" fill="var(--amber)" opacity="0.35" stroke="var(--amber)"/>
+    <path d="M 240 60 L 350 60 L 350 100 L 250 100 Z" fill="var(--red)" opacity="0.3" stroke="var(--red)"/>
+    <text x="55" y="64" class="svgtxt w" text-anchor="middle">E₁: 0.2</text>
+    <text x="175" y="64" class="svgtxt w" text-anchor="middle">E₂: 0.45</text>
+    <text x="293" y="44" class="svgtxt w" text-anchor="middle">E₃: 0.25</text>
+    <text x="298" y="84" class="svgtxt w" text-anchor="middle">E₄: 0.1</text>
+    <text x="10" y="122" class="svgtxt">no piece has negative mass (axiom 1)</text>
+    <text x="10" y="138" class="svgtxt">disjoint: P(E₁∪E₃) = 0.2+0.25 (axiom 3)</text>
+  </svg>
+  </figure>
+  <h3>Why an <i>infinite</i> sequence?</h3>
+  <p>Because sample spaces can be infinite (module 01). For the stubborn coin flipper with a fair coin, the outcomes $H, TH, TTH,\dots$ carry $\tfrac12,\tfrac14,\tfrac18,\dots$ — infinitely many disjoint pieces, and axiom 3 is what lets us add them all up:</p>
+  <figure>
+  <svg viewBox="0 0 360 60">
+    <rect x="10" y="8" width="170" height="24" fill="var(--green)" opacity="0.5" stroke="var(--green)"/><text x="95" y="24" class="svgtxt w" text-anchor="middle">H: 1/2</text>
+    <rect x="180" y="8" width="85" height="24" fill="var(--blue)" opacity="0.45" stroke="var(--blue)"/><text x="222" y="24" class="svgtxt w" text-anchor="middle">TH: 1/4</text>
+    <rect x="265" y="8" width="42.5" height="24" fill="var(--amber)" opacity="0.5" stroke="var(--amber)"/><text x="286" y="24" class="svgtxt w" text-anchor="middle">1/8</text>
+    <rect x="307.5" y="8" width="21.25" height="24" fill="var(--green)" opacity="0.5" stroke="var(--green)"/>
+    <rect x="328.75" y="8" width="10.6" height="24" fill="var(--blue)" opacity="0.45" stroke="var(--blue)"/>
+    <rect x="339.4" y="8" width="5.3" height="24" fill="var(--amber)" opacity="0.5"/>
+    <text x="10" y="50" class="svgtxt">1/2 + 1/4 + 1/8 + … = 1</text>
+  </svg>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> The impossible event has probability 0<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{P(\emptyset)=0}$$
+  <p>A first direct consequence — and a nice example of how theorems come out of axioms. The trick is to choose a clever sequence and feed it to axiom 3.</p>
+  <ol class="steps">
+    <li><b>Choose</b> $E_1=\Omega$ and $E_2=E_3=\dots=\emptyset$. These are mutually exclusive: $\Omega\cap\emptyset=\emptyset$ and $\emptyset\cap\emptyset=\emptyset$. Their union is $\Omega\cup\emptyset\cup\emptyset\cup\dots=\Omega$.</li>
+    <li><b>Axiom 3</b> gives
+    $$P\Big(\bigcup_{i=1}^{\infty}E_i\Big)=\sum_{i=1}^{\infty}P(E_i)\quad\Longrightarrow\quad P(\Omega)=P(\Omega)+\sum_{i=2}^{\infty}P(\emptyset)$$</li>
+    <li><b>Axiom 2</b> replaces $P(\Omega)$ by 1:
+    $$1=1+\sum_{i=2}^{\infty}P(\emptyset)\quad\Longrightarrow\quad\sum_{i=2}^{\infty}P(\emptyset)=0$$</li>
+    <li>An infinite sum of copies of the <b>same</b> non-negative number (axiom 1) can only be 0 if that number is 0. So $P(\emptyset)=0$. $\square$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Notice that we never "assumed" $P(\emptyset)=0$ — it would have been redundant. Good axiom systems are minimal: nothing that can be proved is taken as an axiom.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill r">WARNING</span> The converses are false<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>We know $P(\Omega)=1$ and $P(\emptyset)=0$. But the arrows only go one way:</p>
+  $$\begin{cases}E=\Omega\ \Longrightarrow\ P(E)=1\\ P(E)=1\ \not\Longrightarrow\ E=\Omega\end{cases}\qquad\begin{cases}E=\emptyset\ \Longrightarrow\ P(E)=0\\ P(E)=0\ \not\Longrightarrow\ E=\emptyset\end{cases}$$
+  <p>A probability-zero event can be perfectly possible, and a probability-one event can fail. The example comes from module 06: pick a point at random from $(0,1)$.</p>
+  <figure>
+  <svg viewBox="0 0 330 120">
+    <line x1="20" y1="40" x2="310" y2="40" stroke="var(--border2)" stroke-width="1.5"/>
+    <circle cx="165" cy="40" r="5" fill="var(--red)"/>
+    <text x="165" y="24" class="svgtxt r" text-anchor="middle">{0.5}: possible, yet P = 0</text>
+    <text x="20" y="56" class="svgtxt" text-anchor="middle">0</text><text x="310" y="56" class="svgtxt" text-anchor="middle">1</text>
+    <line x1="20" y1="92" x2="161" y2="92" stroke="var(--green)" stroke-width="5"/>
+    <line x1="169" y1="92" x2="310" y2="92" stroke="var(--green)" stroke-width="5"/>
+    <circle cx="165" cy="92" r="4" fill="var(--panel)" stroke="var(--green)" stroke-width="1.5"/>
+    <text x="165" y="114" class="svgtxt g" text-anchor="middle">(0,1) minus {0.5}: P = 1, yet it is not Ω</text>
+  </svg>
+  <figcaption>A single point has no length, so it gets probability 0 — but it is not empty: the point you draw is always <i>some</i> single point. Remove it from $\Omega$ and the rest still has probability 1.</figcaption>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Finite additivity — the version you actually use<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>If $E_1,E_2,\dots,E_m$ is a <b>finite</b> sequence of mutually exclusive events, then</p>
+  $$\boxed{P\Big(\bigcup_{i=1}^{m}E_i\Big)=\sum_{i=1}^{m}P(E_i)}$$
+  <p><b>Special case</b> ($m=2$, $E_1=A$, $E_2=B$): for mutually exclusive $A,B$,</p>
+  $$\boxed{P(A\cup B)=P(A)+P(B)}$$
+  <p>Axiom 3 talks about infinite sequences, but in practice you split events into two or three pieces. This theorem says axiom 3 covers that too.</p>
+  </div>
+  <div>
+  <h3>Proof (notes p.7): pad with empty sets</h3>
+  <ol class="steps">
+    <li>Let $E_{m+1}=E_{m+2}=\dots=\emptyset$. The long sequence $E_1,\dots,E_m,\emptyset,\emptyset,\dots$ is still mutually exclusive.</li>
+    <li>Axiom 3 on the long sequence:
+    $$P\Big(\Big(\bigcup_{i=1}^{m}E_i\Big)\cup\Big(\bigcup_{i=m+1}^{\infty}E_i\Big)\Big)=\sum_{i=1}^{m}P(E_i)+\sum_{i=m+1}^{\infty}P(E_i)$$</li>
+    <li>The second union is empty, so the left side is just $P(\bigcup_{i=1}^mE_i)$. Each term of the second sum is $P(\emptyset)=0$ by the previous theorem.</li>
+    <li>Hence $P\big(\bigcup_{i=1}^{m}E_i\big)=\sum_{i=1}^{m}P(E_i)$. $\square$</li>
+  </ol>
+  </div>
+  </div>
+  <div class="note warn"><div class="t">Trap</div>$P(A\cup B)=P(A)+P(B)$ needs $A\cap B=\emptyset$. For overlapping events it overcounts — the general rule, with the $-P(A\cap B)$ correction, is in module 05.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Impossible numbers</div>
+<div class="prob">Someone claims $A$ and $B$ are mutually exclusive with $P(A)=0.6$ and $P(B)=0.5$. Why must they be wrong?</div>
+<details><summary>Answer</summary><div class="sol">Disjoint ⇒ $P(A\cup B)=0.6+0.5=1.1$. But $A\cup B\subseteq\Omega$, and (module 05) no probability exceeds 1. So the events cannot be disjoint: they must overlap by at least $0.1$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A loaded die</div>
+<div class="prob">Is $P(\{1\})=0.5$, $P(\{2\})=\dots=P(\{6\})=0.1$ a valid probability on the die?</div>
+<details><summary>Answer</summary><div class="sol">Yes. All numbers are $\ge0$ (axiom 1), they add to $0.5+5(0.1)=1$ (axiom 2), and every event's probability is the sum over its outcomes (axiom 3). It just isn't a <i>fair</i> die — the axioms allow any such assignment.</div></details>
+</div>
+</div>
+</section>

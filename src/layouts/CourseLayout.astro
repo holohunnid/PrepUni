@@ -19,7 +19,10 @@ const { course } = Astro.props;
 <nav class="side">
   <div class="lbl">Modules</div>
   {course.modules.map((m) => (
-    <a href={'#' + m.anchor}><span class="n">{m.num}</span>{m.title}</a>
+    <>
+      {m.part && <div class="lbl part">{m.part}</div>}
+      <a href={'#' + m.anchor}><span class="n">{m.num}</span>{m.title}</a>
+    </>
   ))}
   <div class="lbl" style="margin-top:14px">Legend</div>
   <div style="padding:0 14px;font-size:11.5px;color:var(--muted);line-height:1.9">

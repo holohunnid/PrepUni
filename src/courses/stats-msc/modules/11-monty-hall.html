@@ -1,0 +1,117 @@
+<!-- ============ 11 MONTY HALL ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>Monty Hall</h2><span class="sub">lecture 2, notes p.5–6 · slides: Conditional 22–24</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The most famous argument about probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>A TV show (<i>Let's Make a Deal</i>, host Monty Hall). Behind three doors: one <b>car</b>, two <b>goats</b>. You pick a door. The presenter — who <b>knows</b> where the car is — opens one of the two remaining doors and shows you a goat. Then he asks: <b>do you want to switch</b> to the other closed door?</p>
+  <p>Almost everyone's intuition says "two doors left, so it's 50/50, switching doesn't matter". That is wrong: <b>switching wins with probability 2/3</b>. The lecture proves it with Bayes' theorem (module 10); this module adds the intuition, a tree, and a game you can play until you believe it.</p>
+  </div>
+  <figure style="margin:0">
+  <svg viewBox="0 0 330 150">
+    <rect x="20" y="20" width="80" height="100" rx="3" fill="var(--panel2)" stroke="var(--blue)" stroke-width="2.2"/>
+    <text x="60" y="76" class="svgtxt w" text-anchor="middle" font-size="18">?</text>
+    <text x="60" y="138" class="svgtxt b" text-anchor="middle">door 1: your pick</text>
+    <rect x="125" y="20" width="80" height="100" rx="3" fill="var(--panel2)" stroke="var(--dim)"/>
+    <text x="165" y="76" class="svgtxt" text-anchor="middle" font-size="13">goat</text>
+    <text x="165" y="138" class="svgtxt a" text-anchor="middle">door 2: opened</text>
+    <rect x="230" y="20" width="80" height="100" rx="3" fill="var(--panel2)" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <text x="270" y="76" class="svgtxt w" text-anchor="middle" font-size="18">?</text>
+    <text x="270" y="138" class="svgtxt g" text-anchor="middle">door 3: switch?</text>
+  </svg>
+  <figcaption>The situation in the notes: you chose door 1, the presenter opened door 2.</figcaption>
+  </figure>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> LECTURE 2 · notes p.5–6 · slides Conditional 23–24 — the Bayes solution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <ol class="steps">
+    <li><b>Events.</b> Say we choose door 1 and the presenter opens door 2 (any other labelling is the same by symmetry).
+    $$A=\{\text{car behind door 1}\},\ B=\{\ldots\text{door 2}\},\ C=\{\ldots\text{door 3}\}$$
+    Before anything is opened, $P(A)=P(B)=P(C)=\tfrac13$. $\{A,B,C\}$ is a partition.</li>
+    <li><b>Question.</b> Compare $P(A\mid\text{opens door 2})$ — staying wins — with $P(C\mid\text{opens door 2})$ — switching wins.</li>
+    <li><b>Likelihoods</b> — how would the presenter behave in each scenario?
+    <ul>
+      <li>If $A$ (car behind <i>your</i> door): doors 2 and 3 both hide goats; he picks one at random: $P(\text{opens }2\mid A)=\tfrac12$.</li>
+      <li>If $B$: he never reveals the car: $P(\text{opens }2\mid B)=0$.</li>
+      <li>If $C$: he cannot open your door or the car's door — door 2 is forced: $P(\text{opens }2\mid C)=1$.</li>
+    </ul></li>
+    <li><b>Denominator</b> (total probability, module 08):
+    $$P(\text{opens }2)=\tfrac12\cdot\tfrac13+0\cdot\tfrac13+1\cdot\tfrac13=\tfrac12$$</li>
+    <li><b>Bayes:</b>
+    $$P(A\mid\text{opens }2)=\frac{P(\text{opens }2\mid A)P(A)}{P(\text{opens }2)}=\frac{\tfrac12\cdot\tfrac13}{\tfrac12}=\frac13$$
+    $$P(C\mid\text{opens }2)=\frac{P(\text{opens }2\mid C)P(C)}{P(\text{opens }2)}=\frac{1\cdot\tfrac13}{\tfrac12}=\frac23$$</li>
+    <li><b>Conclusion.</b> It is more convenient to switch: it <b>doubles</b> the chance of winning the car.</li>
+  </ol>
+  </div>
+  <div>
+  <h3>The whole story as a tree</h3>
+  <figure>
+  <svg viewBox="0 0 330 230">
+    <circle cx="14" cy="110" r="4" fill="var(--text)"/>
+    <line x1="17" y1="107" x2="84" y2="40" stroke="var(--blue)"/><line x1="18" y1="110" x2="84" y2="110" stroke="var(--dim)"/><line x1="17" y1="113" x2="84" y2="180" stroke="var(--green)"/>
+    <text x="40" y="64" class="svgtxt">1/3</text><text x="44" y="104" class="svgtxt">1/3</text><text x="40" y="164" class="svgtxt">1/3</text>
+    <text x="88" y="44" class="svgtxt b">car 1 (A)</text><text x="88" y="114" class="svgtxt">car 2 (B)</text><text x="88" y="184" class="svgtxt g">car 3 (C)</text>
+    <line x1="150" y1="38" x2="190" y2="22" stroke="var(--amber)"/><line x1="150" y1="42" x2="190" y2="58" stroke="var(--dim)"/>
+    <text x="160" y="24" class="svgtxt">½</text><text x="160" y="62" class="svgtxt">½</text>
+    <text x="194" y="26" class="svgtxt a">opens 2 → 1/6</text><text x="194" y="62" class="svgtxt">opens 3 → 1/6</text>
+    <line x1="150" y1="110" x2="190" y2="110" stroke="var(--dim)"/><text x="160" y="104" class="svgtxt">1</text>
+    <text x="194" y="114" class="svgtxt">opens 3 → 1/3</text>
+    <line x1="150" y1="180" x2="190" y2="180" stroke="var(--amber)"/><text x="160" y="174" class="svgtxt">1</text>
+    <text x="194" y="184" class="svgtxt a">opens 2 → 1/3</text>
+    <line x1="14" y1="210" x2="320" y2="210" stroke="var(--border)"/>
+    <text x="14" y="226" class="svgtxt a">given "opens 2": stay 1/3, switch 2/3</text>
+  </svg>
+  <figcaption>Keep only the amber leaves ("opens door 2"): they carry $\tfrac16$ (car behind your door) and $\tfrac13$ (car behind door 3). Renormalise: $\frac{1/6}{1/2}=\tfrac13$ and $\frac{1/3}{1/2}=\tfrac23$.</figcaption>
+  </figure>
+  <div class="note tip"><div class="t">Intuition in one line</div>Switching wins <b>exactly when your first pick was wrong</b> — and your first pick was wrong with probability $\tfrac23$. The host's reveal doesn't change that; it just shows you where the car must be if you were wrong.</div>
+  <div class="note"><div class="t">If you are still not convinced: 100 doors</div>Pick 1 of 100 doors. The host, who knows, opens 98 goat doors and leaves one other closed. Stay (1% chance) or switch (99%)? Same logic, more obvious numbers.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">TRY IT</span> Play it — then let the computer play it a thousand times<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Click a door, then stay or switch. Your personal score is tallied separately for each strategy.</p>
+  <div class="ctrl"><span class="btns"><button id="mh_stay" onclick="mhDecide(false)">stay</button><button id="mh_sw" onclick="mhDecide(true)">switch</button><button onclick="mhNew()">new game</button></span></div>
+  <figure style="margin:0"><svg id="mhsvg" viewBox="0 0 360 186"></svg></figure>
+  <div class="readout" id="mhread"></div>
+  </div>
+  <div>
+  <p>Each simulated game places the car at random and picks a door at random; staying wins if the pick was right, switching wins otherwise. The lines are the running win rates.</p>
+  <div class="ctrl"><span class="btns"><button onclick="mhSim(100)">simulate 100</button><button onclick="mhSim(1000)">simulate 1000</button><button onclick="mhSimReset()">reset</button></span></div>
+  <figure style="margin:0"><svg id="mhsim" viewBox="0 0 360 190"></svg><figcaption>The law of large numbers at work: the running frequencies settle at the probabilities $\tfrac13$ and $\tfrac23$.</figcaption></figure>
+  <div class="readout" id="mhsimread"></div>
+  </div>
+  </div>
+  <p class="muted" style="margin-top:8px">The Bayes-area figure in module 10 has a "Monty Hall" preset too: priors $\tfrac13,\tfrac13,\tfrac13$ and likelihoods $\tfrac12,0,1$ give posteriors $\tfrac13,0,\tfrac23$.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> "Two doors left, so 50/50"<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Equal probabilities need a reason — symmetry. Here there is none: the host's choice was <b>not random</b>. He was forced away from the car, and his action carries information (likelihood 1 for door 3 vs $\tfrac12$ for door 1). Bayes weighs exactly that asymmetry.</p>
+  <p>The answer depends on the host's rules. The standard assumptions, all used above: he knows where the car is, always opens a goat door you did not pick, chooses at random when he has a choice, and always offers the switch.</p>
+  </div>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>An ignorant host</div>
+<div class="prob">Suppose the host does <b>not</b> know where the car is: he opens door 2 or 3 at random, and it happens to show a goat. Should you switch now?</div>
+<details><summary>Answer</summary><div class="sol">Now the evidence is "opens 2 <i>and</i> it's a goat". Likelihoods: under $A$: $\tfrac12$; under $B$: 0 (it would have shown the car); under $C$: $\tfrac12$ (he picks door 2 half the time, and it's a goat). Equal likelihoods for $A$ and $C$ ⇒ posteriors $\tfrac12,\tfrac12$. Switching no longer helps — the host's knowledge was the whole point.</div></details>
+</div>
+</div>
+</section>

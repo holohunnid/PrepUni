@@ -1,0 +1,132 @@
+<!-- ============ 08 TOTAL PROBABILITY ============ -->
+<section id="s8">
+<div class="sec-head"><span class="num">08</span><h2>Total probability</h2><span class="sub">lecture 1, notes p.12 · slides: Conditional 10–11</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Break a hard probability into easy pieces<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Often $P(A)$ is hard to see directly, but easy <b>once you know which "scenario" you are in</b>: the chance that a chip is defective depends on which factory made it; the chance that a test is positive depends on whether you are ill. The <b>law of total probability</b> says: list the scenarios (they must not overlap and must cover everything), work out $A$'s probability inside each one, and add.</p>
+  $$P(A)=\sum_{\text{scenarios }i}P(A\mid B_i)\,P(B_i)$$
+  <p>It is the <b>denominator of Bayes' theorem</b> (module 10), so it is worth getting completely comfortable with it here.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Two pieces: B and its complement<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{P(A)=P(A\cap B)+P(A\cap B^c)}$$
+  <p><b>Proof (notes p.12)</b> — every step has a reason:</p>
+  <ol class="steps">
+    <li>$P(A)=P(A\cap\Omega)$ — because $A\subseteq\Omega$, so $A\cap\Omega=A$.</li>
+    <li>$\phantom{P(A)}=P\big(A\cap(B\cup B^c)\big)$ — because $B\cup B^c=\Omega$.</li>
+    <li>$\phantom{P(A)}=P\big((A\cap B)\cup(A\cap B^c)\big)$ — distributive law (module 02).</li>
+    <li>$\phantom{P(A)}=P(A\cap B)+P(A\cap B^c)$ — the two pieces are mutually exclusive (nothing is in both $B$ and $B^c$), so finite additivity applies. $\square$</li>
+  </ol>
+  <p>With the multiplication law (module 07) each piece becomes "conditional × probability of the scenario":</p>
+  $$P(A)=P(A\mid B)P(B)+P(A\mid B^c)P(B^c)$$
+  <div class="ex"><div class="bar">EXAMPLE · traffic</div><div class="body">
+  It rains on 30% of days. A traffic jam happens with probability 0.6 on rainy days and 0.2 on dry days. Then
+  $$P(\text{jam})=0.6\cdot0.3+0.2\cdot0.7=0.18+0.14=0.32.$$
+  The overall probability is a <b>weighted average</b> of the scenario probabilities 0.6 and 0.2, weighted by how often each scenario occurs. So it must lie between them.
+  </div></div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> A partition of Ω<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Instead of just $B$ and $B^c$ we can cut $\Omega$ into any number of pieces. A <b>partition</b> of $\Omega$ is a collection of events $B_1,B_2,\dots,B_m$ such that</p>
+  $$B_i\cap B_j=\emptyset\ \ \forall i\neq j\qquad\text{and}\qquad\bigcup_{i=1}^{m}B_i=\Omega$$
+  <p>— they never overlap, and together they cover everything (the slides also ask each $B_i$ to be non-empty). Every outcome lands in <b>exactly one</b> piece. $\{B,B^c\}$ is the simplest partition.</p>
+  <figure>
+  <svg viewBox="0 0 340 190">
+    <defs><clipPath id="m08A"><circle cx="140" cy="100" r="58"/></clipPath></defs>
+    <rect x="10" y="12" width="320" height="168" fill="none" stroke="var(--border2)" stroke-width="1.5"/>
+    <g clip-path="url(#m08A)">
+      <rect x="10" y="12" width="110" height="78" fill="var(--blue)" opacity="0.5"/>
+      <rect x="10" y="90" width="110" height="90" fill="var(--dim)" opacity="0.55"/>
+      <rect x="120" y="12" width="110" height="98" fill="var(--amber)" opacity="0.55"/>
+      <rect x="120" y="110" width="110" height="70" fill="var(--green)" opacity="0.55"/>
+    </g>
+    <g stroke="var(--border2)" stroke-width="1.5">
+      <line x1="120" y1="12" x2="120" y2="180"/><line x1="230" y1="12" x2="230" y2="180"/>
+      <line x1="10" y1="90" x2="120" y2="90"/><line x1="120" y1="110" x2="230" y2="110"/><line x1="230" y1="72" x2="330" y2="72"/>
+    </g>
+    <circle cx="140" cy="100" r="58" fill="none" stroke="var(--text)" stroke-width="1.8"/>
+    <text x="22" y="30" class="svgtxt w">B₁</text><text x="22" y="170" class="svgtxt w">B₂</text><text x="210" y="30" class="svgtxt w">B₃</text><text x="210" y="170" class="svgtxt w">B₄</text><text x="310" y="30" class="svgtxt w">B₅</text><text x="310" y="170" class="svgtxt w">B₆</text>
+    <text x="140" y="36" class="svgtxt w" text-anchor="middle">A</text>
+    <text x="102" y="76" class="svgtxt" text-anchor="middle" fill="var(--text)">A∩B₁</text>
+    <text x="102" y="126" class="svgtxt" text-anchor="middle" fill="var(--text)">A∩B₂</text>
+    <text x="164" y="84" class="svgtxt" text-anchor="middle" fill="var(--text)">A∩B₃</text>
+    <text x="164" y="134" class="svgtxt" text-anchor="middle" fill="var(--text)">A∩B₄</text>
+  </svg>
+  <figcaption>The notes' picture: $\Omega$ cut into six pieces, and $A$ cut along the same lines. $A$ is the disjoint union of its pieces $A\cap B_i$ (here $A\cap B_5=A\cap B_6=\emptyset$ — empty pieces simply contribute 0).</figcaption>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> General law of total probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>If $B_1,\dots,B_m$ is a partition of $\Omega$ and $A$ is any event,</p>
+  $$\boxed{P(A)=\sum_{i=1}^{m}P(A\cap B_i)=\sum_{i=1}^{m}P(A\mid B_i)\,P(B_i)}$$
+  <p><b>Why:</b> exactly as in the two-piece proof. $A=A\cap\Omega=A\cap(B_1\cup\dots\cup B_m)=(A\cap B_1)\cup\dots\cup(A\cap B_m)$; the pieces are disjoint because the $B_i$ are; finite additivity adds them up. The second form is the multiplication law applied to each term.</p>
+  <h3>The tree picture</h3>
+  <p>Draw the scenarios as first-level branches (weights $P(B_i)$), then $A$ as a second-level branch inside each (weights $P(A\mid B_i)$). Multiply along each path to $A$, then add the paths. The example on the right is the three-factory problem of module 10.</p>
+  <div class="note tip"><div class="t">Checklist before using it</div>1. Do the $B_i$ really not overlap? 2. Do they really cover every possibility? If either fails, the sum is wrong. Complements and "which of $m$ sources" are the classic safe partitions.</div>
+  </div>
+  <figure style="margin:0">
+  <svg viewBox="0 0 340 230">
+    <circle cx="20" cy="115" r="5" fill="var(--text)"/>
+    <line x1="24" y1="112" x2="118" y2="42" stroke="var(--blue)" stroke-width="1.6"/>
+    <line x1="24" y1="115" x2="118" y2="115" stroke="var(--green)" stroke-width="1.6"/>
+    <line x1="24" y1="118" x2="118" y2="188" stroke="var(--amber)" stroke-width="1.6"/>
+    <text x="62" y="66" class="svgtxt b">0.5</text><text x="62" y="110" class="svgtxt g">0.4</text><text x="62" y="170" class="svgtxt a">0.1</text>
+    <rect x="120" y="30" width="36" height="22" rx="3" fill="var(--bluebg)" stroke="var(--blue)"/><text x="138" y="45" class="svgtxt b" text-anchor="middle">F₁</text>
+    <rect x="120" y="104" width="36" height="22" rx="3" fill="var(--greenbg)" stroke="var(--green)"/><text x="138" y="119" class="svgtxt g" text-anchor="middle">F₂</text>
+    <rect x="120" y="178" width="36" height="22" rx="3" fill="var(--amberbg)" stroke="var(--amber)"/><text x="138" y="193" class="svgtxt a" text-anchor="middle">F₃</text>
+    <line x1="158" y1="41" x2="206" y2="30" stroke="var(--red)" stroke-width="1.6"/><text x="176" y="28" class="svgtxt r">0.01</text>
+    <line x1="158" y1="115" x2="206" y2="104" stroke="var(--red)" stroke-width="1.6"/><text x="176" y="102" class="svgtxt r">0.02</text>
+    <line x1="158" y1="189" x2="206" y2="178" stroke="var(--red)" stroke-width="1.6"/><text x="176" y="176" class="svgtxt r">0.03</text>
+    <text x="210" y="34" class="svgtxt w">D: 0.5·0.01 = 0.005</text>
+    <text x="210" y="108" class="svgtxt w">D: 0.4·0.02 = 0.008</text>
+    <text x="210" y="182" class="svgtxt w">D: 0.1·0.03 = 0.003</text>
+    <line x1="210" y1="206" x2="334" y2="206" stroke="var(--border2)"/>
+    <text x="334" y="222" class="svgtxt g" text-anchor="end">P(D) = 0.016</text>
+  </svg>
+  <figcaption>Three factories supply 50/40/10% of the chips, with defect rates 1/2/3%. The probability that a random chip is defective (D) is the sum of the three paths ending in D.</figcaption>
+  </figure>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">WHERE IT IS USED · the denominators of module 10–11</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>Rare disease.</b> Partition: ill ($D$) or not ($D^c$).
+    $$P(+)=P(+\mid D)P(D)+P(+\mid D^c)P(D^c)=0.99\cdot0.001+0.05\cdot0.999=0.05094$$</li>
+    <li><b>Monty Hall.</b> Partition: the car is behind door 1, 2 or 3 ($A,B,C$, each $\tfrac13$). You picked door 1; the host opens door 2 with probability $\tfrac12$, $0$, $1$ in the three cases:
+    $$P(\text{opens }2)=\tfrac12\cdot\tfrac13+0\cdot\tfrac13+1\cdot\tfrac13=\tfrac12$$</li>
+    <li><b>Stock tree (module 07).</b> Partition: first move up or down.
+    $$P(P_2=P_0)=P(\text{down}\mid\text{up})P(\text{up})+P(\text{up}\mid\text{down})P(\text{down})=\tfrac13\cdot\tfrac23+\tfrac23\cdot\tfrac13=\tfrac49$$</li>
+  </ol>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Forgetting a scenario, or overlapping ones<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Writing $P(\text{jam})=0.6\cdot0.3$ and stopping forgets the dry days: that's $P(\text{jam}\cap\text{rain})$, not $P(\text{jam})$. And using scenarios like "rain" and "cold" (which can happen together) double counts the cold rainy days. Always check: <b>every outcome in exactly one scenario</b>.</p>
+  <div class="wx" style="margin-top:10px">
+  <div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Two urns</div>
+  <div class="prob">Flip a fair coin. Heads: draw from urn 1 (3 red, 1 blue). Tails: urn 2 (1 red, 3 blue). $P(\text{red})$?</div>
+  <details><summary>Answer</summary><div class="sol">$P(R)=P(R\mid H)P(H)+P(R\mid T)P(T)=\tfrac34\cdot\tfrac12+\tfrac14\cdot\tfrac12=\tfrac12$.</div></details>
+  </div>
+  </div>
+</div>
+</div>
+</section>

@@ -1,0 +1,541 @@
+<!-- ============ 21 CONTINUOUS RVs & THE PDF ============ -->
+<section id="s21">
+<div class="sec-head"><span class="num">21</span><h2>Continuous RVs &amp; the pdf</h2><span class="sub">slides: Continuous Random Variables 2–11 · ahead of the lecture notes</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Some random quantities can land <b>anywhere in an interval</b>: a waiting time, tomorrow's return, a random point in $(0,1)$. In module 06 you saw the problem this creates. A single point has length 0, so $P(X=x)=0$ for <b>every</b> $x$. A pmf "$f(x)=P(X=x)$" (module 15) would be 0 everywhere and would tell you nothing.</p>
+  <p>This module answers: <b>what replaces the pmf when every single value has probability 0?</b> The answer is the <b>probability density function</b> (pdf). It is a curve $f$ whose <b>area</b> over an interval is the probability of that interval:</p>
+  $$P(a\le X\le b)=\int_a^b f(x)\,dx=\text{area under }f\text{ between }a\text{ and }b.$$
+  <p>You already know two special cases. In module 06 the random point in $(0,1)$ had "probability = length". That is the density $f(x)=1$ on $(0,1)$, because the area of a rectangle of height 1 is its width. In module 14, $X=-\ln U$ had cdf $1-e^{-t}$. Here you will meet its big brother $5e^{-5x}$ and see where its density comes from.</p>
+  <p>Plan: why we want a continuous cdf (slides 2–3) → the definition (slide 4) → the key warning that <b>a density is not a probability</b> → every property, including $P(X=a)=0$ and $F'=f$ (slides 5–7) → two fully worked examples, uniform on $(1,5)$ and $5e^{-5x}$ (slides 8–11).</p>
+  <div class="note tip"><div class="t">The one picture to keep</div><b>Probability is area under the density, never its height.</b> Every formula in this module is this sentence written in calculus: totals are areas (they must equal 1), cdfs are areas to the left, a single point has zero area, and the density is how fast the area accumulates.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">IDEA</span> The cdf again, and two very different shapes (slides 2–3)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Slide 2 recalls the tool from module 13. The <b>cumulative distribution function</b> (cdf) of a random variable $X$ is</p>
+  $$F(t)=P(X\le t)$$
+  <p>(see the TRAP below about the slide's "$&lt;$"). It is defined <b>in the same way for discrete and for continuous random variables</b>, and <b>the cdf completely defines a random variable</b>: two variables with the same cdf have the same distribution. So a good way to see the difference between "discrete" and "continuous" is to look at the <b>shape of $F$</b>.</p>
+  <figure><svg viewBox="0 0 410 190">
+  <text x="115" y="16" class="svgtxt w" text-anchor="middle">Bernoulli(0.6): F jumps</text>
+  <line x1="40" y1="150" x2="192" y2="150" stroke="var(--border2)" stroke-width="1"/><line x1="40" y1="38" x2="40" y2="150" stroke="var(--border2)" stroke-width="1"/>
+  <text x="35" y="153" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="35" y="111" class="svgtxt" text-anchor="end" font-size="9">0.4</text>
+  <line x1="40" y1="108" x2="192" y2="108" stroke="var(--border)" stroke-width="0.8" stroke-dasharray="2 3"/>
+  <text x="35" y="48" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <line x1="40" y1="45" x2="192" y2="45" stroke="var(--border)" stroke-width="0.8" stroke-dasharray="2 3"/>
+  <text x="68.1" y="163" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="115" y="163" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <text x="161.9" y="163" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <line x1="40" y1="150" x2="68.1" y2="150" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="68.1" y1="108" x2="161.9" y2="108" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="161.9" y1="45" x2="190" y2="45" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="68.1" y1="150" x2="68.1" y2="108" stroke="var(--red)" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="161.9" y1="108" x2="161.9" y2="45" stroke="var(--red)" stroke-width="1" stroke-dasharray="2 2"/>
+  <circle cx="68.1" cy="150" r="3.2" fill="var(--panel2)" stroke="var(--blue)" stroke-width="1.5"/>
+  <circle cx="68.1" cy="108" r="3.2" fill="var(--blue)"/>
+  <circle cx="161.9" cy="108" r="3.2" fill="var(--panel2)" stroke="var(--blue)" stroke-width="1.5"/>
+  <circle cx="161.9" cy="45" r="3.2" fill="var(--blue)"/>
+  <text x="156.9" y="79.5" class="svgtxt r" text-anchor="end" font-size="9.5">jump 0.6</text>
+  <text x="73.1" y="132" class="svgtxt r" text-anchor="start" font-size="9.5">jump 0.4</text>
+  <text x="115" y="180" class="svgtxt r" text-anchor="middle" font-size="9">t 0.99999→1.00001: F 0.4→1</text>
+  <text x="325" y="16" class="svgtxt w" text-anchor="middle">(0,1) point: F continuous</text>
+  <line x1="250" y1="150" x2="402" y2="150" stroke="var(--border2)" stroke-width="1"/><line x1="250" y1="38" x2="250" y2="150" stroke="var(--border2)" stroke-width="1"/>
+  <text x="245" y="153" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="245" y="100.5" class="svgtxt" text-anchor="end" font-size="9">0.5</text>
+  <line x1="250" y1="97.5" x2="402" y2="97.5" stroke="var(--border)" stroke-width="0.8" stroke-dasharray="2 3"/>
+  <text x="245" y="48" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <line x1="250" y1="45" x2="402" y2="45" stroke="var(--border)" stroke-width="0.8" stroke-dasharray="2 3"/>
+  <text x="278.1" y="163" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="325" y="163" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <text x="371.9" y="163" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <path d="M 250 150 L 278.1 150 L 371.9 45 L 400 45" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <circle cx="371.9" cy="45" r="3" fill="var(--green)"/>
+  <text x="325" y="180" class="svgtxt g" text-anchor="middle" font-size="9">t 0.99999→1.00001: F +0.00001</text>
+  </svg><figcaption>Left: the cdf of a Bernoulli(0.6) is a staircase. A filled dot marks the value $F$ takes at a jump and an open dot the value it has just left. Right: the cdf of a random point in $(0,1)$ is an unbroken ramp. The same tiny move of $t$ across 1 changes $F$ by 0.6 on the left and by 0.00001 on the right.</figcaption></figure>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXAMPLE 1 (slide 3) · Bernoulli(0.6): a tiny step in t, a big jump in F</div>
+  <div class="body">
+  <p>Assume $X\sim\text{Bernoulli}(0.6)$. Show that a very small change in $t$ can cause a large change in $F(t)$.</p>
+  <ol class="steps">
+    <li><b>Name things.</b> $X$ takes the value 1 with probability $p=0.6$ and 0 with probability $q=1-p=0.4$ (the Bernoulli of module 18).</li>
+    <li><b>Write the cdf</b> by adding up the pmf over the values $\le t$ (module 13):
+    $$F(t)=P(X\le t)=\begin{cases}0 & t&lt;0\\ 0.4 & 0\le t&lt;1\\ 1 & t\ge1\end{cases}$$</li>
+    <li><b>Just below 1.</b> At $t=0.99999$ only the value 0 is $\le t$, so $F(0.99999)=P(X=0)=0.4$.</li>
+    <li><b>Just above 1.</b> At $t=1.00001$ both values are $\le t$, so $F(1.00001)=0.4+0.6=1$.</li>
+    <li><b>Compare.</b> $t$ moved by $0.00002$ and $F$ moved by $0.6$. The size of the jump is exactly $P(X=1)=0.6$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Every discrete random variable has a staircase cdf, with a jump at each possible value whose height is the pmf there. For many applications this is not a desired characteristic. A price or a waiting time measured a hair differently should not make a probability jump by 0.6. We would <b>prefer a continuous cdf</b>.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXAMPLE 2 (slide 3) · a random point in (0,1): F is continuous</div>
+  <div class="body">
+  <p>Let $X$ be a number drawn randomly from the interval $(0,1)$. Find its cdf and check that small changes in $t$ cause only small changes in $F$.</p>
+  <ol class="steps">
+    <li><b>Use module 06.</b> For a random point, probability = length. For $0\le t\le1$ the event $\{X\le t\}$ is the piece $(0,t]$, of length $t$. So $F(t)=t$.</li>
+    <li><b>Below the interval.</b> If $t&lt;0$ no part of $(0,1)$ lies below $t$, so $F(t)=0$.</li>
+    <li><b>Above the interval.</b> If $t&gt;1$ the whole interval lies below $t$, so $F(t)=1$. Together:
+    $$F(t)=\begin{cases}0 & t&lt;0\\ t & 0\le t\le1\\ 1 & t&gt;1\end{cases}$$</li>
+    <li><b>Same test as Example 1.</b> $F(0.99999)=0.99999$ and $F(1.00001)=1$. $t$ moved by $0.00002$, and $F$ moved by only $0.00001$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>No jumps anywhere. Since the jump of $F$ at $t$ is $P(X=t)$ (module 13), a cdf without jumps means that <b>every single value has probability 0</b>. This is the defining feature of the continuous random variables in this module.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Slide 2 writes $F(t)=P(X&lt;t)$ with a strict inequality<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Slide 2 defines $F(t):=P(X&lt;t)$. Every other slide of the deck (6, 7 and 11), the lecture notes, module 13 and R all use <b>$F(t)=P(X\le t)$</b>. Use $\le$ everywhere. Does it matter?</p>
+  <ul>
+    <li><b>Continuous $X$: no difference.</b> $P(X\le t)=P(X&lt;t)+P(X=t)=P(X&lt;t)+0$. The two definitions give the same function.</li>
+    <li><b>Discrete $X$: they differ exactly at the jumps.</b> For the Bernoulli(0.6) of Example 1, $P(X\le1)=1$ but $P(X&lt;1)=0.4$. Likewise $P(X\le0)=0.4$ but $P(X&lt;0)=0$. Slide 3's own figure uses $\le$: the filled dot at $t=1$ sits at height 1.</li>
+  </ul>
+  <div class="note warn"><div class="t">Exam habit</div>For a discrete variable, read the inequality in the question letter by letter. "At most 3" is $\le3$ and "fewer than 3" is $&lt;3=\le2$. R's <code>pbinom(q, …)</code>, <code>ppois(q, …)</code> etc. always return $P(X\le q)$. For a continuous variable, relax: $&lt;$ and $\le$ are interchangeable.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Continuous random variable and its pdf (slide 4)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ be a random variable. $X$ is called a <b>continuous</b> random variable if there exists a non-negative function $f:\mathbb{R}\to[0,+\infty)$ such that for any interval $A$:</p>
+  $$\boxed{\;P(X\in A)=\int_A f(x)\,dx\;}$$
+  <p>$f$ is called the <b>probability density function (pdf)</b> of the random variable $X$. (Footnote on the slide: in this chapter the terms <i>continuous</i> and <i>absolutely continuous</i> are used interchangeably.)</p>
+  <h3>Reading the definition</h3>
+  <ul>
+    <li><b>"non-negative function"</b>: $f(x)\ge0$ for every $x$, because an area built from negative heights would be a negative probability.</li>
+    <li><b>"for any interval $A$"</b>: one function $f$ answers every question of the form "what is the probability that $X$ lands in $A$?" You integrate $f$ over $A$, which means you take the area under $f$ above $A$.</li>
+    <li><b>Why "density"?</b> Think of a metal rod whose mass is spread unevenly. Its density (kg per metre) is not a mass. The mass of a piece is density × length where the density is constant, and the integral of the density otherwise. Likewise $f$ is <b>probability per unit length</b>, and probability is density integrated over length.</li>
+  </ul>
+  <h3>You have met two densities already</h3>
+  <ul>
+    <li>Module 06's random point in $(0,1)$: $P(X\in A)=\text{length of }A=\int_A 1\,dx$. So its density is $f(x)=1$ on $(0,1)$ and $0$ elsewhere.</li>
+    <li>Module 13's lecture cdf $F(t)=0.5+0.5t$ on $[-1,1]$ rises at constant rate $0.5$. Its density is $f(x)=0.5$ on $[-1,1]$, a rectangle of width 2 and height 0.5, so area 1.</li>
+  </ul>
+  <p class="muted">About the footnote: there exist exotic random variables with a continuous cdf but no density at all. That is why mathematicians say "absolutely continuous" for "has a density". In this course the two words mean the same thing: continuous = has a pdf.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">IDEA</span> A density is NOT a probability<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$f(x)$ is a <b>height</b>. Probabilities are <b>areas</b>. Nothing forces the height to be at most 1. Only the total area is capped, at exactly 1.</p>
+  <figure><svg viewBox="0 0 410 192">
+  <text x="115" y="16" class="svgtxt w" text-anchor="middle">two uniform densities</text>
+  <line x1="40" y1="160" x2="192" y2="160" stroke="var(--border2)" stroke-width="1"/><line x1="40" y1="30" x2="40" y2="160" stroke="var(--border2)" stroke-width="1"/>
+  <text x="35" y="163" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="35" y="108" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <text x="35" y="53" class="svgtxt" text-anchor="end" font-size="9">2</text>
+  <text x="61.4" y="173" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="115" y="173" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <text x="168.6" y="173" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <rect x="61.4" y="105" width="107.1" height="55" fill="var(--bluebg)" stroke="var(--blue)" stroke-width="1.5"/>
+  <rect x="61.4" y="50" width="53.6" height="110" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="1.5" opacity="0.9"/>
+  <text x="62" y="45" class="svgtxt a" text-anchor="start" font-size="9.5">height 2 × width ½</text>
+  <text x="142" y="121" class="svgtxt b" text-anchor="middle" font-size="9.5">height 1</text>
+  <text x="142" y="134" class="svgtxt b" text-anchor="middle" font-size="9.5">width 1</text>
+  <text x="115" y="186" class="svgtxt" text-anchor="middle" font-size="9.5">both areas = 1</text>
+  <text x="325" y="16" class="svgtxt w" text-anchor="middle">f(x) = 5e^(−5x)</text>
+  <line x1="250" y1="160" x2="402" y2="160" stroke="var(--border2)" stroke-width="1"/><line x1="250" y1="30" x2="250" y2="160" stroke="var(--border2)" stroke-width="1"/>
+  <text x="245" y="163" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="245" y="139" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <text x="245" y="43" class="svgtxt" text-anchor="end" font-size="9">5</text>
+  <line x1="250" y1="136" x2="402" y2="136" stroke="var(--red)" stroke-width="0.8" stroke-dasharray="3 3"/>
+  <text x="400" y="132" class="svgtxt r" text-anchor="end" font-size="9">height 1</text>
+  <text x="263.6" y="173" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="331.8" y="173" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <text x="400" y="173" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <path d="M 263.6 160 L 263.6 40 L 263.9 41 L 264.1 42 L 264.3 43 L 264.5 43.9 L 264.8 44.9 L 265 45.9 L 265.2 46.8 L 265.5 47.7 L 265.7 48.7 L 265.9 49.6 L 266.1 50.5 L 266.4 51.4 L 266.4 160 Z" fill="var(--amber)" stroke="none"/>
+  <line x1="250" y1="160" x2="263.6" y2="160" stroke="var(--blue)" stroke-width="2"/>
+  <path d="M 263.6 40 L 267 54.1 L 270.5 66.5 L 273.9 77.5 L 277.3 87.2 L 280.7 95.8 L 284.1 103.3 L 287.5 110 L 290.9 115.9 L 294.3 121 L 297.7 125.6 L 301.1 129.7 L 304.5 133.2 L 308 136.4 L 311.4 139.1 L 314.8 141.6 L 318.2 143.8 L 321.6 145.7 L 325 147.4 L 328.4 148.8 L 331.8 150.1 L 335.2 151.3 L 338.6 152.3 L 342 153.2 L 345.5 154 L 348.9 154.7 L 352.3 155.3 L 355.7 155.9 L 359.1 156.4 L 362.5 156.8 L 365.9 157.2 L 369.3 157.5 L 372.7 157.8 L 376.1 158.1 L 379.5 158.3 L 383 158.5 L 386.4 158.7 L 389.8 158.8 L 393.2 159 L 396.6 159.1 L 400 159.2" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <circle cx="263.6" cy="160" r="3.2" fill="var(--panel2)" stroke="var(--blue)" stroke-width="1.5"/>
+  <circle cx="263.6" cy="40" r="3.2" fill="var(--blue)"/>
+  <text x="271.6" y="44" class="svgtxt r" text-anchor="start" font-size="9.5">f(0) = 5: a height</text>
+  <line x1="268.4" y1="85.6" x2="289" y2="80.8" stroke="var(--amber)" stroke-width="0.8"/>
+  <text x="292" y="83.8" class="svgtxt a" text-anchor="start" font-size="9">strip [0,0.02]</text>
+  <text x="292" y="96.8" class="svgtxt a" text-anchor="start" font-size="9">area ≈ 5×0.02 = 0.1</text>
+  <text x="325" y="186" class="svgtxt" text-anchor="middle" font-size="9.5">area = probability</text>
+  </svg><figcaption>Left: a uniform density on $(0,\tfrac12)$ has height 2 everywhere, yet its area is $2\times\tfrac12=1$. Right: the density $5e^{-5x}$ of slides 10–11 reaches height 5 at $x=0$. The thin amber strip next to 0 has probability of only about 0.1.</figcaption></figure>
+  <p><b>What the height does mean.</b> Over a short interval of width $h$ the area is roughly a rectangle, so</p>
+  $$P(x\le X\le x+h)\approx f(x)\cdot h.$$
+  <p>For $5e^{-5x}$ with $x=0$, $h=0.02$ the exact area is $1-e^{-0.1}=0.0952$ (using the cdf of slide 11), close to $5\times0.02=0.1$. So $f(x)$ compares how likely values <i>near</i> different points are. Since $f(0)=5$ and $f(0.5)=5e^{-2.5}\approx0.41$, values near 0 are about $e^{2.5}\approx12$ times as likely as values near 0.5.</p>
+  <div class="note warn"><div class="t">TRAP · "f(x) ≤ 1 because it is a probability"</div>Wrong on both counts: $f(x)$ is not a probability and can be 5 or 5000. The only requirements are $f\ge0$ and total area 1. Conversely, even where $f(x)=5$, the probability of hitting that exact value is $P(X=x)=0$.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RULES</span> Properties of the pdf (slides 5–7)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Assume $X$ is a continuous random variable with pdf $f(x)$. The following are direct consequences of the definition. Each one is an "area" statement.</p>
+  <figure><svg viewBox="0 0 420 150">
+  <text x="77" y="16" class="svgtxt w" text-anchor="middle" font-size="10">total area = 1</text>
+  <line x1="14" y1="118" x2="140" y2="118" stroke="var(--border2)" stroke-width="1"/>
+  <path d="M 18 118 L 18 117.8 L 21.4 117.7 L 24.7 117.4 L 28.1 116.8 L 31.5 116 L 34.9 114.6 L 38.2 112.5 L 41.6 109.4 L 45 105.2 L 48.3 99.7 L 51.7 92.7 L 55.1 84.6 L 58.5 75.5 L 61.8 66.1 L 65.2 57.1 L 68.6 49.3 L 71.9 43.6 L 75.3 40.6 L 78.7 40.6 L 82.1 43.6 L 85.4 49.3 L 88.8 57.1 L 92.2 66.1 L 95.5 75.5 L 98.9 84.6 L 102.3 92.7 L 105.7 99.7 L 109 105.2 L 112.4 109.4 L 115.8 112.5 L 119.1 114.6 L 122.5 116 L 125.9 116.8 L 129.3 117.4 L 132.6 117.7 L 136 117.8 L 136 118 Z" fill="var(--bluebg)" stroke="none"/>
+  <text x="77" y="100" class="svgtxt b" text-anchor="middle" font-size="10">area 1</text>
+  <path d="M 18 117.8 L 21.4 117.7 L 24.7 117.4 L 28.1 116.8 L 31.5 116 L 34.9 114.6 L 38.2 112.5 L 41.6 109.4 L 45 105.2 L 48.3 99.7 L 51.7 92.7 L 55.1 84.6 L 58.5 75.5 L 61.8 66.1 L 65.2 57.1 L 68.6 49.3 L 71.9 43.6 L 75.3 40.6 L 78.7 40.6 L 82.1 43.6 L 85.4 49.3 L 88.8 57.1 L 92.2 66.1 L 95.5 75.5 L 98.9 84.6 L 102.3 92.7 L 105.7 99.7 L 109 105.2 L 112.4 109.4 L 115.8 112.5 L 119.1 114.6 L 122.5 116 L 125.9 116.8 L 129.3 117.4 L 132.6 117.7 L 136 117.8" fill="none" stroke="var(--blue)" stroke-width="1.8"/>
+  <text x="77" y="131" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="212" y="16" class="svgtxt w" text-anchor="middle" font-size="10">F(t): area left of t</text>
+  <line x1="149" y1="118" x2="275" y2="118" stroke="var(--border2)" stroke-width="1"/>
+  <path d="M 153 118 L 153 117.8 L 155 117.7 L 157 117.6 L 159.1 117.4 L 161.1 117.2 L 163.1 116.8 L 165.1 116.4 L 167.2 115.7 L 169.2 114.9 L 171.2 113.8 L 173.2 112.5 L 175.3 110.8 L 177.3 108.7 L 179.3 106.2 L 181.3 103.2 L 183.3 99.7 L 185.4 95.7 L 187.4 91.2 L 189.4 86.3 L 191.4 81 L 193.5 75.5 L 193.5 118 Z" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="0.8"/>
+  <line x1="193.5" y1="118" x2="193.5" y2="40" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="193.5" y="131" class="svgtxt a" text-anchor="middle" font-size="10">t</text>
+  <path d="M 153 117.8 L 156.4 117.7 L 159.7 117.4 L 163.1 116.8 L 166.5 116 L 169.9 114.6 L 173.2 112.5 L 176.6 109.4 L 180 105.2 L 183.3 99.7 L 186.7 92.7 L 190.1 84.6 L 193.5 75.5 L 196.8 66.1 L 200.2 57.1 L 203.6 49.3 L 206.9 43.6 L 210.3 40.6 L 213.7 40.6 L 217.1 43.6 L 220.4 49.3 L 223.8 57.1 L 227.2 66.1 L 230.5 75.5 L 233.9 84.6 L 237.3 92.7 L 240.7 99.7 L 244 105.2 L 247.4 109.4 L 250.8 112.5 L 254.1 114.6 L 257.5 116 L 260.9 116.8 L 264.3 117.4 L 267.6 117.7 L 271 117.8" fill="none" stroke="var(--blue)" stroke-width="1.8"/>
+  <text x="212" y="131" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="347" y="16" class="svgtxt w" text-anchor="middle" font-size="10">area from a to b</text>
+  <line x1="284" y1="118" x2="410" y2="118" stroke="var(--border2)" stroke-width="1"/>
+  <path d="M 321.7 118 L 321.7 92.7 L 323.3 89 L 325 84.9 L 326.6 80.7 L 328.2 76.3 L 329.8 71.8 L 331.4 67.2 L 333 62.8 L 334.7 58.5 L 336.3 54.5 L 337.9 50.8 L 339.5 47.5 L 341.1 44.8 L 342.8 42.6 L 344.4 41.1 L 346 40.3 L 347.6 40.3 L 349.2 40.9 L 350.8 42.2 L 352.5 44.2 L 354.1 46.8 L 355.7 49.9 L 357.3 53.5 L 358.9 57.5 L 360.6 61.7 L 362.2 66.1 L 362.2 118 Z" fill="var(--greenbg)" stroke="var(--green)" stroke-width="0.8"/>
+  <line x1="321.7" y1="118" x2="321.7" y2="40" stroke="var(--green)" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="362.2" y1="118" x2="362.2" y2="40" stroke="var(--green)" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="321.7" y="131" class="svgtxt g" text-anchor="middle" font-size="10">a</text>
+  <text x="362.2" y="131" class="svgtxt g" text-anchor="middle" font-size="10">b</text>
+  <path d="M 288 117.8 L 291.4 117.7 L 294.7 117.4 L 298.1 116.8 L 301.5 116 L 304.9 114.6 L 308.2 112.5 L 311.6 109.4 L 315 105.2 L 318.3 99.7 L 321.7 92.7 L 325.1 84.6 L 328.5 75.5 L 331.8 66.1 L 335.2 57.1 L 338.6 49.3 L 341.9 43.6 L 345.3 40.6 L 348.7 40.6 L 352.1 43.6 L 355.4 49.3 L 358.8 57.1 L 362.2 66.1 L 365.5 75.5 L 368.9 84.6 L 372.3 92.7 L 375.7 99.7 L 379 105.2 L 382.4 109.4 L 385.8 112.5 L 389.1 114.6 L 392.5 116 L 395.9 116.8 L 399.3 117.4 L 402.6 117.7 L 406 117.8" fill="none" stroke="var(--blue)" stroke-width="1.8"/>
+  <text x="347" y="131" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  </svg><figcaption>The bell curve of slides 5–6 (it is the standard normal density of module 24). Left: the whole area is 1. Middle: $F(t)$ is the area to the left of $t$; here $t\approx-1.1$ and $F(t)\approx0.136$. Right: $P(a\le X\le b)$ is the area between $a$ and $b$; here $a\approx-1.5$, $b\approx0.9$ and the area is $\approx0.749$.</figcaption></figure>
+  <ol class="steps">
+    <li><b>Non-negative (slide 5).</b> $f(x)\ge0$ for all $x\in\mathbb{R}$. The curve never dips below the axis.</li>
+    <li><b>Total area 1: the normalization rule for continuous random variables (slides 5, 7).</b>
+    $$\int_{-\infty}^{+\infty}f(x)\,dx=P(X\in(-\infty,+\infty))=1.$$
+    $X$ must land somewhere on the real line, and $P(\Omega)=1$ by the axioms (module 04). This is the continuous twin of "the pmf sums to 1", and it is how you find an unknown constant in a density (slide 8).</li>
+    <li><b>The cdf is the area to the left (slides 6–7).</b>
+    $$F(t)=P(X\le t)=P(X\in(-\infty,t])=\int_{-\infty}^{t}f(x)\,dx.$$</li>
+    <li><b>A single point has probability 0 (slide 7).</b>
+    $$P(X=a)=P(X\in[a,a])=\int_a^a f(x)\,dx=0.$$
+    The "interval" $[a,a]$ has width 0, so the area above it is 0, however tall $f$ is at $a$.</li>
+    <li><b>Endpoints do not matter (slides 6–7).</b> Because of property 4, adding or removing an endpoint changes nothing:
+    $$P(a\le X\le b)=P(a&lt;X\le b)=P(a\le X&lt;b)=P(a&lt;X&lt;b)=\int_a^b f(x)\,dx.$$
+    Combined with property 3 this gives the formula you will use most:
+    $$\boxed{\;P(a\le X\le b)=\int_a^b f(x)\,dx=F(b)-F(a)\;}$$</li>
+    <li><b>The density is the derivative of the cdf (slide 7).</b>
+    $$\frac{dF(x)}{dx}=f(x).$$
+    See the "slope" panel below.</li>
+  </ol>
+  <table class="formula-table">
+    <tr><td></td><td><b>discrete (modules 13, 15)</b></td><td><b>continuous (this module)</b></td></tr>
+    <tr><td>what $f(x)$ is</td><td>a probability, $P(X=x)$</td><td>a density (height), not a probability</td></tr>
+    <tr><td>total</td><td>$\sum_x f(x)=1$</td><td>$\int_{-\infty}^{+\infty}f(x)\,dx=1$</td></tr>
+    <tr><td>cdf</td><td>$F(t)=\sum_{x\le t}f(x)$, a staircase</td><td>$F(t)=\int_{-\infty}^t f(x)\,dx$, no jumps</td></tr>
+    <tr><td>$P(X=a)$</td><td>the jump of $F$ at $a$</td><td>always 0</td></tr>
+    <tr><td>$&lt;$ vs $\le$</td><td>can matter</td><td>never matters</td></tr>
+    <tr><td>going back</td><td>$f(x)=$ jump of $F$ at $x$</td><td>$f(x)=F'(x)$</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RULE</span> $dF/dx=f$: the density is the slope of the cdf<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Why it holds.</b> Move $t$ a little to the right, to $t+h$. The cdf grows by the area of the thin strip between $t$ and $t+h$:</p>
+  $$F(t+h)-F(t)=P(t&lt;X\le t+h)=\int_t^{t+h}f(x)\,dx\approx f(t)\cdot h.$$
+  <p>Divide by $h$:</p>
+  $$\frac{F(t+h)-F(t)}{h}\approx f(t),$$
+  <p>and let $h\to0$. The left side becomes $F'(t)$. This is the fundamental theorem of calculus: <b>integrating $f$ gives $F$, differentiating $F$ gives back $f$</b>.</p>
+  <p><b>The picture.</b> Where the density is <b>high</b>, area piles up fast and the cdf climbs <b>steeply</b>. Where the density is near 0, the cdf is almost <b>flat</b>. A flat cdf means no probability there.</p>
+  <p><b>Use it both ways.</b> Given $f$, integrate to get $F$ (slides 9, 11). Given $F$, differentiate to get $f$. In module 14, $F(t)=1-e^{-t}$ for $t\ge0$ gives $f(t)=e^{-t}$.</p>
+  <p class="muted">Small print: at a point where $f$ jumps (at 1 and 5 for the uniform on $(1,5)$, at 0 for $5e^{-5x}$) the cdf has a corner and no derivative. The value of $f$ at such a single point is irrelevant, because changing a height at one point changes no area. That is why writing $x\in(1,5)$ or $x\in[1,5]$ in a density makes no difference.</p>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 400 300">
+  <text x="383" y="40" class="svgtxt w" text-anchor="end" font-size="10">density  f(x) = 5e^(−5x)</text>
+  <text x="383" y="54" class="svgtxt g" text-anchor="end" font-size="9.5">green dot = height f(t)</text>
+  <line x1="50" y1="130" x2="385" y2="130" stroke="var(--border2)" stroke-width="1"/><line x1="50" y1="22" x2="50" y2="130" stroke="var(--border2)" stroke-width="1"/>
+  <text x="45" y="133" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="45" y="113" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <text x="45" y="93" class="svgtxt" text-anchor="end" font-size="9">2</text>
+  <text x="45" y="73" class="svgtxt" text-anchor="end" font-size="9">3</text>
+  <text x="45" y="53" class="svgtxt" text-anchor="end" font-size="9">4</text>
+  <text x="45" y="33" class="svgtxt" text-anchor="end" font-size="9">5</text>
+  <line x1="50" y1="130" x2="80" y2="130" stroke="var(--blue)" stroke-width="2"/>
+  <path d="M 80 30 L 86.7 40.5 L 93.3 49.9 L 100 58.3 L 106.7 65.9 L 113.3 72.6 L 120 78.7 L 126.7 84.1 L 133.3 88.9 L 140 93.2 L 146.7 97.1 L 153.3 100.5 L 160 103.6 L 166.7 106.4 L 173.3 108.9 L 180 111.1 L 186.7 113.1 L 193.3 114.9 L 200 116.5 L 206.7 117.9 L 213.3 119.2 L 220 120.3 L 226.7 121.3 L 233.3 122.2 L 240 123.1 L 246.7 123.8 L 253.3 124.4 L 260 125 L 266.7 125.5 L 273.3 126 L 280 126.4 L 286.7 126.8 L 293.3 127.1 L 300 127.4 L 306.7 127.7 L 313.3 128 L 320 128.2 L 326.7 128.4 L 333.3 128.5 L 340 128.7 L 346.7 128.8 L 353.3 128.9 L 360 129.1 L 366.7 129.2 L 373.3 129.2 L 380 129.3" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <circle cx="80" cy="130" r="3.2" fill="var(--panel2)" stroke="var(--blue)" stroke-width="1.5"/>
+  <text x="383" y="238" class="svgtxt w" text-anchor="end" font-size="10">cdf  F(t) = 1 − e^(−5t)</text>
+  <text x="383" y="252" class="svgtxt g" text-anchor="end" font-size="9.5">green line = tangent, slope f(t)</text>
+  <line x1="50" y1="278" x2="385" y2="278" stroke="var(--border2)" stroke-width="1"/><line x1="50" y1="172" x2="50" y2="278" stroke="var(--border2)" stroke-width="1"/>
+  <text x="45" y="281" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="45" y="231" class="svgtxt" text-anchor="end" font-size="9">0.5</text>
+  <text x="45" y="181" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <line x1="50" y1="178" x2="385" y2="178" stroke="var(--border)" stroke-width="0.8" stroke-dasharray="3 3"/>
+  <line x1="50" y1="278" x2="80" y2="278" stroke="var(--red)" stroke-width="2"/>
+  <path d="M 80 278 L 86.7 267.5 L 93.3 258.1 L 100 249.7 L 106.7 242.1 L 113.3 235.4 L 120 229.3 L 126.7 223.9 L 133.3 219.1 L 140 214.8 L 146.7 210.9 L 153.3 207.5 L 160 204.4 L 166.7 201.6 L 173.3 199.1 L 180 196.9 L 186.7 194.9 L 193.3 193.1 L 200 191.5 L 206.7 190.1 L 213.3 188.8 L 220 187.7 L 226.7 186.7 L 233.3 185.8 L 240 184.9 L 246.7 184.2 L 253.3 183.6 L 260 183 L 266.7 182.5 L 273.3 182 L 280 181.6 L 286.7 181.2 L 293.3 180.9 L 300 180.6 L 306.7 180.3 L 313.3 180 L 320 179.8 L 326.7 179.6 L 333.3 179.5 L 340 179.3 L 346.7 179.2 L 353.3 179.1 L 360 178.9 L 366.7 178.8 L 373.3 178.8 L 380 178.7" fill="none" stroke="var(--red)" stroke-width="2"/>
+  <text x="80" y="292" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="140" y="292" class="svgtxt" text-anchor="middle" font-size="9">0.2</text>
+  <text x="200" y="292" class="svgtxt" text-anchor="middle" font-size="9">0.4</text>
+  <text x="260" y="292" class="svgtxt" text-anchor="middle" font-size="9">0.6</text>
+  <text x="320" y="292" class="svgtxt" text-anchor="middle" font-size="9">0.8</text>
+  <text x="380" y="292" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <line x1="80" y1="30" x2="80" y2="278" stroke="var(--green)" stroke-width="1" stroke-dasharray="2 3"/>
+  <circle cx="80" cy="30" r="3.2" fill="var(--green)"/>
+  <circle cx="80" cy="278" r="3.2" fill="var(--green)"/>
+  <line x1="80" y1="278" x2="95" y2="253" stroke="var(--green)" stroke-width="1.6"/>
+  <text x="98" y="257" class="svgtxt g" text-anchor="start" font-size="9.5">slope 5</text>
+  <text x="87" y="34" class="svgtxt g" text-anchor="start" font-size="9.5">f = 5</text>
+  <line x1="140" y1="93.2" x2="140" y2="214.8" stroke="var(--green)" stroke-width="1" stroke-dasharray="2 3"/>
+  <circle cx="140" cy="93.2" r="3.2" fill="var(--green)"/>
+  <circle cx="140" cy="214.8" r="3.2" fill="var(--green)"/>
+  <line x1="110" y1="233.2" x2="170" y2="196.4" stroke="var(--green)" stroke-width="1.6"/>
+  <text x="181" y="184" class="svgtxt g" text-anchor="middle" font-size="9.5">slope 1.84</text>
+  <text x="147" y="88.2" class="svgtxt g" text-anchor="start" font-size="9.5">f = 1.84</text>
+  <line x1="260" y1="125" x2="260" y2="183" stroke="var(--green)" stroke-width="1" stroke-dasharray="2 3"/>
+  <circle cx="260" cy="125" r="3.2" fill="var(--green)"/>
+  <circle cx="260" cy="183" r="3.2" fill="var(--green)"/>
+  <line x1="215" y1="186.7" x2="305" y2="179.2" stroke="var(--green)" stroke-width="1.6"/>
+  <text x="303" y="172.2" class="svgtxt g" text-anchor="middle" font-size="9.5">slope 0.25</text>
+  <text x="267" y="120" class="svgtxt g" text-anchor="start" font-size="9.5">f = 0.25</text>
+  </svg><figcaption>Top: the density $5e^{-5x}$. Bottom: its cdf $1-e^{-5t}$. At $t=0,\ 0.2,\ 0.6$ the height of the density (5, 1.84, 0.25) equals the slope of the tangent to the cdf directly below it.</figcaption></figure>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">TRY IT</span> Area up to $t$ and slope at $t$, for five distributions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+<div class="ctrl">
+  <label>distribution <select id="pc_fam">
+    <option value="u15">Uniform(1,5): f(x) = 0.25</option>
+    <option value="exp5">f(x) = 5e^(−5x), x ≥ 0</option>
+    <option value="cube">f(x) = 3x² on (0,1)</option>
+    <option value="norm">standard normal</option>
+    <option value="bern">Bernoulli(0.6) — discrete, for contrast</option>
+  </select></label>
+  <label>$t$ <input type="range" id="pc_t"><span class="val" id="pc_t_v"></span></label>
+  <span class="btns"><button onclick="pcSet('u15',3)">U(1,5): F(3)</button><button onclick="pcSet('exp5',0.2)">exp: F(0.2)</button><button onclick="pcSet('cube',0.5)">3x²: F(0.5)</button><button onclick="pcSet('bern',1)">Bernoulli: the jump</button></span>
+</div>
+<figure style="margin:0"><svg id="pcsvg" viewBox="0 0 360 330"></svg><figcaption>Top: the density $f$ with the area up to $t$ shaded. That shaded area <b>is</b> $F(t)$. Bottom: the cdf $F$, the point $(t,F(t))$ and its tangent. The slope of that tangent <b>is</b> $f(t)$. The two panels show the same information, once as area and once as slope.</figcaption></figure>
+<div class="readout" id="pcread"></div>
+  <p style="margin-top:10px"><b>What to try.</b></p>
+  <ul>
+    <li><b>U(1,5): F(3).</b> Half of the rectangle is shaded, so $F(3)=0.5$. The tangent has slope $0.25$ at every $t$ in $(1,5)$: a flat density gives a straight-line cdf. Drag $t$ below 1 or above 5 and the slope drops to 0.</li>
+    <li><b>exp: F(0.2).</b> The readout shows $F(0.2)=1-e^{-1}\approx0.632$ and $f(0.2)=5e^{-1}\approx1.84$. Now drag $t$ down to 0. The density is highest there ($f=5$), and the cdf is steepest there.</li>
+    <li><b>3x²: F(0.5).</b> $F(0.5)=0.5^3=0.125$ and $f(0.5)=0.75$. Only 12.5% of the area lies left of the midpoint, because the mass is piled on the right. Module 22 finds the balance point of this density.</li>
+    <li><b>standard normal.</b> Put $t=0$: $F(0)=0.5$ by symmetry, and the tangent is steepest there, with slope $f(0)\approx0.399$.</li>
+    <li><b>Bernoulli: the jump.</b> The discrete contrast. The cdf is a staircase, with a jump of 0.6 at $t=1$ and flat pieces elsewhere. There is no density whose area gives probabilities. The probability sits in the jumps, not in any slope.</li>
+  </ul>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXAMPLE (slides 8–9) · continuous uniform on (1,5): find c, then the cdf</div>
+  <div class="body">
+  <p>Let $X$ be a continuous r.v. with pdf
+  $$f(x)=\begin{cases}c & x\in(1,5)\\ 0 & \text{otherwise}\end{cases}$$
+  where $c$ is a fixed positive constant. Find $c$, then the cdf of $X$.</p>
+  <ol class="steps">
+    <li><b>Normalization rule.</b> The total area must be 1:
+    $$\int_{-\infty}^{+\infty}f(x)\,dx=1.$$
+    Since $f=0$ outside $(1,5)$, only $(1,5)$ contributes: $\int_1^5 f(x)\,dx=1$.</li>
+    <li><b>Integrate the constant.</b>
+    $$\int_1^5 c\,dx=c\cdot(5-1)=4c=1\;\Rightarrow\;\boxed{c=0.25}$$
+    Geometrically this is a rectangle of width 4 and height $c$, whose area must be 1.</li>
+    <li><b>cdf for $t\le1$.</b> No area yet:
+    $$F(t)=\int_{-\infty}^t 0\,dx=0.$$</li>
+    <li><b>cdf for $1&lt;t&lt;5$.</b> Split at 1, where $f$ changes formula:
+    $$F(t)=\int_{-\infty}^{1}0\,dx+\int_1^t0.25\,dx=0+0.25(t-1)=\frac{t-1}{4}.$$</li>
+    <li><b>cdf for $t\ge5$.</b> All the area is to the left of $t$:
+    $$F(t)=\int_{-\infty}^{t}f(x)\,dx=\int_1^5 f(x)\,dx=\int_1^5 0.25\,dx=1.$$</li>
+    <li><b>Checks.</b> The pieces join up: $\frac{1-1}{4}=0$ at $t=1$ and $\frac{5-1}{4}=1$ at $t=5$, so there are no jumps. The slope of $\frac{t-1}{4}$ is $\frac14=f$ on $(1,5)$ ✓.</li>
+  </ol>
+  $$F(t)=\begin{cases}0 & t\le1\\ \dfrac{t-1}{4} & 1&lt;t&lt;5\\ 1 & t\ge5\end{cases}$$
+  <p>This random variable is called the <b>continuous uniform random variable on $(1,5)$</b>: $X\sim\text{Uniform}(1,5)$ or $X\sim\mathcal{U}(1,5)$. The variable $X\sim\mathcal{U}(0,1)$ is called the <b>standard continuous uniform</b>. It is module 06's random point. The generalization to $X\sim\mathcal{U}(a,b)$, with height $1/(b-a)$, is straightforward and comes in module 23.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Reading probabilities off U(1,5)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure><svg viewBox="0 0 410 180">
+  <text x="117" y="14" class="svgtxt w" text-anchor="middle" font-size="10">pdf  f(x) = 0.25 on (1, 5)</text>
+  <line x1="38" y1="140" x2="198" y2="140" stroke="var(--border2)" stroke-width="1"/><line x1="38" y1="28" x2="38" y2="140" stroke="var(--border2)" stroke-width="1"/>
+  <text x="33" y="143" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="33" y="59.7" class="svgtxt r" text-anchor="end" font-size="9">0.25</text>
+  <rect x="71.9" y="56.7" width="90.3" height="83.3" fill="var(--bluebg)" stroke="none"/>
+  <rect x="94.4" y="56.7" width="22.6" height="83.3" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="1"/>
+  <line x1="38" y1="56.7" x2="71.9" y2="56.7" stroke="var(--red)" stroke-width="0.8" stroke-dasharray="3 3"/>
+  <line x1="38" y1="140" x2="71.9" y2="140" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="162.1" y1="140" x2="196" y2="140" stroke="var(--blue)" stroke-width="2"/>
+  <line x1="71.9" y1="56.7" x2="162.1" y2="56.7" stroke="var(--blue)" stroke-width="2"/>
+  <circle cx="71.9" cy="56.7" r="3.2" fill="var(--panel2)" stroke="var(--blue)" stroke-width="1.5"/>
+  <circle cx="162.1" cy="56.7" r="3.2" fill="var(--panel2)" stroke="var(--blue)" stroke-width="1.5"/>
+  <circle cx="71.9" cy="140" r="3.2" fill="var(--blue)"/>
+  <circle cx="162.1" cy="140" r="3.2" fill="var(--blue)"/>
+  <text x="139.6" y="101.3" class="svgtxt b" text-anchor="middle" font-size="9.5">area 1</text>
+  <text x="117" y="48.7" class="svgtxt b" text-anchor="middle" font-size="9.5">width 4 × height c</text>
+  <text x="49.3" y="153" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="71.9" y="153" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="94.4" y="153" class="svgtxt" text-anchor="middle" font-size="9">2</text>
+  <text x="117" y="153" class="svgtxt" text-anchor="middle" font-size="9">3</text>
+  <text x="139.6" y="153" class="svgtxt" text-anchor="middle" font-size="9">4</text>
+  <text x="162.1" y="153" class="svgtxt" text-anchor="middle" font-size="9">5</text>
+  <text x="184.7" y="153" class="svgtxt" text-anchor="middle" font-size="9">6</text>
+  <text x="117" y="172" class="svgtxt a" text-anchor="middle" font-size="9.5">P(2&lt;X&lt;3) = 1 × 0.25</text>
+  <text x="322" y="14" class="svgtxt w" text-anchor="middle" font-size="10">cdf  F(t)</text>
+  <line x1="243" y1="140" x2="403" y2="140" stroke="var(--border2)" stroke-width="1"/><line x1="243" y1="28" x2="243" y2="140" stroke="var(--border2)" stroke-width="1"/>
+  <text x="238" y="143" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="238" y="116.8" class="svgtxt" text-anchor="end" font-size="9">0.25</text>
+  <text x="238" y="90.5" class="svgtxt" text-anchor="end" font-size="9">0.5</text>
+  <text x="238" y="38" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <line x1="243" y1="35" x2="403" y2="35" stroke="var(--border)" stroke-width="0.8" stroke-dasharray="3 3"/>
+  <line x1="243" y1="113.8" x2="299.4" y2="113.8" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="299.4" y1="113.8" x2="299.4" y2="140" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="243" y1="87.5" x2="322" y2="87.5" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="322" y1="87.5" x2="322" y2="140" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="247" y1="113.8" x2="247" y2="87.5" stroke="var(--amber)" stroke-width="4"/>
+  <path d="M 243 140 L 276.9 140 L 367.1 35 L 401 35" fill="none" stroke="var(--red)" stroke-width="2"/>
+  <circle cx="299.4" cy="113.8" r="3" fill="var(--amber)"/>
+  <circle cx="322" cy="87.5" r="3" fill="var(--amber)"/>
+  <text x="328.8" y="74.9" class="svgtxt r" text-anchor="end" font-size="9.5">(t − 1)/4</text>
+  <text x="254.3" y="134" class="svgtxt r" text-anchor="middle" font-size="9.5">0</text>
+  <text x="385.2" y="29" class="svgtxt r" text-anchor="middle" font-size="9.5">1</text>
+  <text x="254.3" y="153" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="276.9" y="153" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="299.4" y="153" class="svgtxt" text-anchor="middle" font-size="9">2</text>
+  <text x="322" y="153" class="svgtxt" text-anchor="middle" font-size="9">3</text>
+  <text x="344.6" y="153" class="svgtxt" text-anchor="middle" font-size="9">4</text>
+  <text x="367.1" y="153" class="svgtxt" text-anchor="middle" font-size="9">5</text>
+  <text x="389.7" y="153" class="svgtxt" text-anchor="middle" font-size="9">6</text>
+  <text x="322" y="172" class="svgtxt a" text-anchor="middle" font-size="9.5">F(3) − F(2) = 0.25</text>
+  </svg><figcaption>Left, as on slide 8: open dots at height $c$ and filled dots at 0 mark the density's value at the break points 1 and 5. The amber slice is $P(2&lt;X&lt;3)$ as an area. Right, as on slide 9: the same probability read off the cdf as a rise, $F(3)-F(2)$.</figcaption></figure>
+  <p>A few probabilities that are not on the slides, each done two ways:</p>
+  <ol class="steps">
+    <li><b>$P(2&lt;X&lt;3)$.</b> Area: a slice of width 1 and height 0.25, so $0.25$. Cdf: $F(3)-F(2)=\frac{2}{4}-\frac{1}{4}=0.25$ ✓.</li>
+    <li><b>$P(X&gt;4.5)$.</b> Area: width $5-4.5=0.5$ times $0.25$ is $0.125$. Cdf: $1-F(4.5)=1-\frac{3.5}{4}=0.125$ ✓.</li>
+    <li><b>$P(0&lt;X&lt;2)$.</b> Only the part $(1,2)$ carries density, so the answer is $1\times0.25=0.25$. Cdf: $F(2)-F(0)=0.25-0=0.25$ ✓.</li>
+    <li><b>$P(X=3)$ and $P(X\le3)$ vs $P(X&lt;3)$.</b> $P(X=3)=0$, so $P(X\le3)=P(X&lt;3)=F(3)=0.5$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>For a uniform, every question reduces to "length of the overlap with $(1,5)$, divided by 4". That is module 06's "probability = length", rescaled so that the total is 1. The height $c=\frac14$ is exactly this rescaling factor.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXAMPLE (slides 10–11) · f(x) = 5e^(−5x): normalization and cdf</div>
+  <div class="body">
+  <p>Let $X$ be a continuous r.v. with pdf
+  $$f(x)=\begin{cases}5e^{-5x} & x\ge0\\ 0 & x&lt;0\end{cases}$$
+  Verify the normalization rule and find the cdf.</p>
+  <ol class="steps">
+    <li><b>Non-negative?</b> $e^{-5x}&gt;0$ for every $x$, so $5e^{-5x}&gt;0$ for $x\ge0$, and $f=0$ for $x&lt;0$ ✓.</li>
+    <li><b>Restrict to where $f$ lives.</b> The part over $(-\infty,0)$ contributes 0:
+    $$\int_{-\infty}^{+\infty}f(x)\,dx=\int_0^{+\infty}5e^{-5x}\,dx.$$</li>
+    <li><b>Find an antiderivative.</b> By the chain rule $\frac{d}{dx}\left(-e^{-5x}\right)=-e^{-5x}\cdot(-5)=5e^{-5x}$. So
+    $$\int_0^{+\infty}5e^{-5x}\,dx=-e^{-5x}\Big|_{x=0}^{x=+\infty}.$$</li>
+    <li><b>Evaluate.</b> At $+\infty$: $-e^{-\infty}=0$. At 0: $-e^{-5\cdot0}=-1$. Upper minus lower:
+    $$0-\left(-e^{-5\cdot0}\right)=0+e^{-5\cdot0}=1\ \checkmark$$</li>
+    <li><b>cdf for $t&lt;0$.</b> $F(t)=\int_{-\infty}^t0\,dx=0$.</li>
+    <li><b>cdf for $t\ge0$.</b> Same antiderivative, now stopping at $t$:
+    $$F(t)=\int_0^t 5e^{-5x}\,dx=-e^{-5x}\Big|_{x=0}^{x=t}=-e^{-5t}-(-1)=1-e^{-5t}.$$</li>
+    <li><b>Checks.</b> $F(0)=1-1=0$, which joins the flat piece. $F(t)\to1$ as $t\to\infty$. $F'(t)=5e^{-5t}=f(t)$ ✓.</li>
+  </ol>
+  $$F(t)=\begin{cases}0 & t&lt;0\\ 1-e^{-5t} & t\ge0\end{cases}$$
+  <div class="note"><div class="t">Insight</div>Compare module 14. There $X=-\ln U$ had $F(t)=1-e^{-t}$. Here the exponent carries a 5: the same shape, squeezed 5 times closer to 0. In fact $X=-\tfrac15\ln U$ has exactly this cdf, because $P\!\left(-\tfrac15\ln U\le t\right)=P\!\left(U\ge e^{-5t}\right)=1-e^{-5t}$. Module 23 names the whole family: the exponential distribution with rate $\lambda$, here $\lambda=5$.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">EX</span> Probabilities from $5e^{-5x}$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure><svg viewBox="0 0 410 180">
+  <text x="117" y="14" class="svgtxt w" text-anchor="middle" font-size="10">pdf  f(x) = 5e^(−5x)</text>
+  <line x1="38" y1="140" x2="198" y2="140" stroke="var(--border2)" stroke-width="1"/><line x1="38" y1="26" x2="38" y2="140" stroke="var(--border2)" stroke-width="1"/>
+  <text x="33" y="143" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="33" y="122" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <text x="33" y="101" class="svgtxt" text-anchor="end" font-size="9">2</text>
+  <text x="33" y="80" class="svgtxt" text-anchor="end" font-size="9">3</text>
+  <text x="33" y="59" class="svgtxt" text-anchor="end" font-size="9">4</text>
+  <text x="33" y="38" class="svgtxt" text-anchor="end" font-size="9">5</text>
+  <path d="M 57.8 140 L 57.8 35 L 59.4 43.4 L 61 51.1 L 62.7 58.2 L 64.3 64.8 L 66 70.8 L 67.6 76.3 L 69.3 81.4 L 70.9 86.1 L 72.6 90.4 L 74.2 94.4 L 75.9 98 L 77.5 101.4 L 77.5 140 Z" fill="var(--bluebg)" stroke="none"/>
+  <path d="M 77.5 140 L 77.5 101.4 L 81.5 108.4 L 85.4 114.1 L 89.3 118.8 L 93.3 122.6 L 97.3 125.8 L 101.2 128.4 L 105.2 130.5 L 109.1 132.2 L 113.1 133.6 L 117 134.8 L 121 135.7 L 124.9 136.5 L 128.8 137.1 L 132.8 137.7 L 136.8 138.1 L 140.7 138.4 L 144.6 138.7 L 148.6 138.9 L 152.6 139.1 L 156.5 139.3 L 160.4 139.4 L 164.4 139.5 L 168.3 139.6 L 172.3 139.7 L 176.2 139.7 L 180.2 139.8 L 184.1 139.8 L 188.1 139.9 L 192 139.9 L 196 139.9 L 196 140 Z" fill="var(--amberbg)" stroke="none"/>
+  <line x1="77.5" y1="140" x2="77.5" y2="101.4" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="38" y1="140" x2="57.8" y2="140" stroke="var(--blue)" stroke-width="2"/>
+  <path d="M 57.8 35 L 60.8 50.1 L 63.9 63.1 L 67 74.2 L 70 83.6 L 73.1 91.8 L 76.2 98.7 L 79.3 104.7 L 82.3 109.7 L 85.4 114.1 L 88.5 117.8 L 91.5 121 L 94.6 123.8 L 97.7 126.1 L 100.8 128.1 L 103.8 129.8 L 106.9 131.3 L 110 132.5 L 113.1 133.6 L 116.1 134.5 L 119.2 135.3 L 122.3 136 L 125.3 136.6 L 128.4 137.1 L 131.5 137.5 L 134.6 137.9 L 137.6 138.2 L 140.7 138.4 L 143.8 138.7 L 146.8 138.8 L 149.9 139 L 153 139.2 L 156.1 139.3 L 159.1 139.4 L 162.2 139.5 L 165.3 139.5 L 168.3 139.6 L 171.4 139.7 L 174.5 139.7 L 177.6 139.8 L 180.6 139.8 L 183.7 139.8 L 186.8 139.8 L 189.9 139.9 L 192.9 139.9 L 196 139.9" fill="none" stroke="var(--blue)" stroke-width="2"/>
+  <circle cx="57.8" cy="140" r="3.2" fill="var(--panel2)" stroke="var(--blue)" stroke-width="1.5"/>
+  <circle cx="57.8" cy="35" r="3.2" fill="var(--blue)"/>
+  <text x="64.8" y="39" class="svgtxt r" text-anchor="start" font-size="9.5">f(0) = 5</text>
+  <text x="112.1" y="106.4" class="svgtxt a" text-anchor="start" font-size="9.5">P(X &gt; 0.2)</text>
+  <text x="112.1" y="119.4" class="svgtxt a" text-anchor="start" font-size="9.5">= e^(−1) ≈ 0.368</text>
+  <text x="57.8" y="153" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="77.5" y="153" class="svgtxt a" text-anchor="middle" font-size="9">0.2</text>
+  <text x="107.1" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <text x="156.5" y="153" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="322" y="14" class="svgtxt w" text-anchor="middle" font-size="10">cdf  F(t) = 1 − e^(−5t)</text>
+  <line x1="243" y1="140" x2="403" y2="140" stroke="var(--border2)" stroke-width="1"/><line x1="243" y1="26" x2="243" y2="140" stroke="var(--border2)" stroke-width="1"/>
+  <text x="238" y="143" class="svgtxt" text-anchor="end" font-size="9">0</text>
+  <text x="238" y="76.6" class="svgtxt" text-anchor="end" font-size="9">0.632</text>
+  <text x="238" y="38" class="svgtxt" text-anchor="end" font-size="9">1</text>
+  <line x1="243" y1="35" x2="403" y2="35" stroke="var(--red)" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="243" y1="140" x2="262.8" y2="140" stroke="var(--red)" stroke-width="2"/>
+  <path d="M 262.8 140 L 265.8 124.9 L 268.9 111.9 L 272 100.8 L 275 91.4 L 278.1 83.2 L 281.2 76.3 L 284.3 70.3 L 287.3 65.3 L 290.4 60.9 L 293.5 57.2 L 296.5 54 L 299.6 51.2 L 302.7 48.9 L 305.8 46.9 L 308.8 45.2 L 311.9 43.7 L 315 42.5 L 318.1 41.4 L 321.1 40.5 L 324.2 39.7 L 327.3 39 L 330.3 38.4 L 333.4 37.9 L 336.5 37.5 L 339.6 37.1 L 342.6 36.8 L 345.7 36.6 L 348.8 36.3 L 351.8 36.2 L 354.9 36 L 358 35.8 L 361.1 35.7 L 364.1 35.6 L 367.2 35.5 L 370.3 35.5 L 373.4 35.4 L 376.4 35.3 L 379.5 35.3 L 382.6 35.2 L 385.6 35.2 L 388.7 35.2 L 391.8 35.2 L 394.9 35.1 L 397.9 35.1 L 401 35.1" fill="none" stroke="var(--red)" stroke-width="2"/>
+  <line x1="243" y1="73.6" x2="282.5" y2="73.6" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="282.5" y1="73.6" x2="282.5" y2="140" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2"/>
+  <circle cx="282.5" cy="73.6" r="3" fill="var(--amber)"/>
+  <text x="307.2" y="92.8" class="svgtxt a" text-anchor="start" font-size="9.5">1 − e^(−1)</text>
+  <text x="262.8" y="153" class="svgtxt" text-anchor="middle" font-size="9">0</text>
+  <text x="282.5" y="153" class="svgtxt a" text-anchor="middle" font-size="9">0.2</text>
+  <text x="312.1" y="153" class="svgtxt" text-anchor="middle" font-size="9">0.5</text>
+  <text x="361.5" y="153" class="svgtxt" text-anchor="middle" font-size="9">1</text>
+  <text x="322" y="172" class="svgtxt" text-anchor="middle" font-size="9.5">F → 1, never reaches it</text>
+  <text x="117" y="172" class="svgtxt" text-anchor="middle" font-size="9.5">blue + amber = 1</text>
+  </svg><figcaption>Left: the density, with the filled dot $(0,5)$ and the open dot $(0,0)$ as on slide 10. The blue area up to 0.2 plus the amber tail beyond it make up the total area 1. Right: the cdf of slide 11. It creeps toward the dashed asymptote at 1.</figcaption></figure>
+  <p>Probabilities not on the slides:</p>
+  <ol class="steps">
+    <li><b>$P(X\le0.2)$.</b> $F(0.2)=1-e^{-5\cdot0.2}=1-e^{-1}\approx1-0.368=0.632$.</li>
+    <li><b>$P(X&gt;0.2)$.</b> Complement: $1-F(0.2)=e^{-1}\approx\mathbf{0.368}$. The tail probability of this cdf has the neat form $P(X&gt;t)=e^{-5t}$.</li>
+    <li><b>$P(0.2&lt;X\le0.4)$.</b> $F(0.4)-F(0.2)=(1-e^{-2})-(1-e^{-1})=e^{-1}-e^{-2}\approx0.368-0.135=0.233$.</li>
+    <li><b>$P(X=0)$.</b> 0, even though $f(0)=5$ is the highest point of the density.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Most of the mass is packed near 0: 63% of it lies below 0.2. Yet the density's peak value 5 is a height, not a probability. Only areas, such as the 0.632 and the 0.368 here, are probabilities.</div>
+  </div>
+</div>
+</div>
+
+<div class="note fin"><div class="t">R corner · densities, cdfs and integrate() (standard R, not on the slides)</div>
+<p>Write the density as an R function and let <code>integrate(f, lower, upper)</code> find areas. The limits may be <code>Inf</code>.</p>
+<p><code>f &lt;- function(x) 5 * exp(-5 * x)</code><br>
+<code>integrate(f, 0, Inf)$value</code> → <code>1</code> (normalization ✓)<br>
+<code>integrate(f, 0, 0.2)$value</code> → <code>0.6321206</code> $=F(0.2)$<br>
+<code>pexp(0.2, rate = 5)</code> → <code>0.6321206</code>, the built-in cdf of this density<br>
+<code>1 - pexp(0.2, rate = 5)</code> → <code>0.3678794</code> $=P(X&gt;0.2)$<br>
+<code>dexp(0, rate = 5)</code> → <code>5</code>, a density value above 1, which is perfectly fine</p>
+<p><code>punif(3, min = 1, max = 5)</code> → <code>0.5</code>; <code>punif(3, 1, 5) - punif(2, 1, 5)</code> → <code>0.25</code>; <code>dunif(3, 1, 5)</code> → <code>0.25</code> (the height $c$).</p>
+<p><b>Traps.</b> (i) The second argument of <code>pexp</code> is the <b>rate</b> 5, not $1/5$. <code>pexp(0.2, 0.2)</code> returns $1-e^{-0.04}\approx0.039$, a different distribution. (ii) Printed without <code>$value</code>, <code>integrate</code> adds "with absolute error &lt; …". That is a numerical error bound, not part of the answer. (iii) <code>integrate</code> needs a function that returns one value per input. <code>integrate(function(x) 0.25, 1, 5)</code> fails with "evaluation of function gave a result of wrong length". Use <code>function(x) rep(0.25, length(x))</code> or <code>function(x) dunif(x, 1, 5)</code>, which gives <code>1</code>.</p>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Height vs probability</div>
+<div class="prob">Can a density take the value 3 at some point? Can a cdf? Give an example or a reason.</div>
+<details><summary>Answer</summary><div class="sol">A density can: the uniform density on $(0,\tfrac13)$ has height 3 everywhere, with area $3\times\tfrac13=1$. A cdf cannot: $F(t)=P(X\le t)$ is a probability, so $0\le F(t)\le1$ always.</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Find the constant</div>
+<div class="prob">For which $c$ is $f(x)=cx^2$ on $(0,1)$ (0 otherwise) a density? For that $c$, find $F(t)$ and $P(X\le0.5)$.</div>
+<details><summary>Answer</summary><div class="sol">Normalization: $\int_0^1cx^2\,dx=c\cdot\frac{x^3}{3}\Big|_0^1=\frac c3=1$, so $c=3$. Then for $0\le t\le1$, $F(t)=\int_0^t3x^2\,dx=t^3$, and $P(X\le0.5)=0.5^3=0.125$. This is the "3x²" density of the interactive figure and of module 22.</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Endpoints</div>
+<div class="prob">$X\sim\mathcal{U}(1,5)$. Compute $P(X\le3)$, $P(X&lt;3)$ and $P(X=3)$. Would the answers change if $X$ were discrete?</div>
+<details><summary>Answer</summary><div class="sol">$P(X=3)=0$, so $P(X\le3)=P(X&lt;3)=F(3)=\frac{3-1}{4}=0.5$. For a discrete $X$ with $P(X=3)&gt;0$ the two would differ by exactly $P(X=3)$ (see the TRAP above).</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>From cdf to pdf</div>
+<div class="prob">A continuous $X$ has $F(t)=1-\dfrac{1}{t^2}$ for $t\ge1$ and $F(t)=0$ for $t&lt;1$. Find its density and check that it integrates to 1.</div>
+<details><summary>Answer</summary><div class="sol">Differentiate: $f(t)=F'(t)=\dfrac{2}{t^3}$ for $t&gt;1$, and $0$ for $t&lt;1$. Check: $\int_1^{\infty}2t^{-3}\,dt=\left[-t^{-2}\right]_1^{\infty}=0-(-1)=1$ ✓.</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>The median of $5e^{-5x}$</div>
+<div class="prob">Find the value $m$ with $P(X\le m)=0.5$ for the density of slides 10–11.</div>
+<details><summary>Answer</summary><div class="sol">Solve $F(m)=1-e^{-5m}=0.5$. Then $e^{-5m}=0.5$, so $-5m=\ln0.5$ and $m=\dfrac{\ln2}{5}\approx0.139$. In R: <code>qexp(0.5, rate = 5)</code> → <code>0.1386294</code>. Half of the area lies left of 0.139, which shows again how much of the mass sits near 0.</div></details>
+</div>
+</section>

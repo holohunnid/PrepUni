@@ -1,0 +1,227 @@
+<!-- ============ 02 SET OPERATIONS ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Set operations</h2><span class="sub">lecture 1, notes p.2–5 · slides: Axioms 3–4, 7–9</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Words become symbols<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Because events are sets (module 01), we can <b>combine</b> them with set operations. Each operation is simply a precise version of an everyday word:</p>
+  <table class="formula-table">
+    <tr><td>you say…</td><td>you write…</td><td>which outcomes are in it?</td></tr>
+    <tr><td>"A <b>or</b> B"</td><td>$A\cup B$</td><td>those in $A$, in $B$, or in both (inclusive "or")</td></tr>
+    <tr><td>"A <b>and</b> B"</td><td>$A\cap B$ (slides also write $AB$)</td><td>those in both at once</td></tr>
+    <tr><td>"<b>not</b> A"</td><td>$A^c$ or $\bar A$</td><td>those outside $A$</td></tr>
+    <tr><td>"B <b>but not</b> A"</td><td>$B-A$</td><td>those in $B$ and outside $A$</td></tr>
+  </table>
+  <p>Almost every probability exercise starts by translating a sentence into one of these expressions. Get the translation right and the rest is arithmetic.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The four operations, as the lecture draws them<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$A\cup B=\{\omega:\ \omega\in A\ \text{or}\ \omega\in B\}\qquad A\cap B=\{\omega:\ \omega\in A\ \text{and}\ \omega\in B\}$$
+  $$A^c=\{\omega:\ \omega\notin A\}\qquad\qquad B-A=\{\omega:\ \omega\in B\ \text{and}\ \omega\notin A\}$$
+  <figure>
+  <svg viewBox="0 0 380 250">
+    <g>
+      <rect x="8" y="22" width="164" height="78" fill="none" stroke="var(--border2)"/>
+      <path d="M 88 36 A 30 30 0 1 0 88 84 A 30 30 0 1 0 88 36 Z" fill="var(--red)" opacity="0.45"/>
+      <circle cx="70" cy="60" r="30" fill="none" stroke="var(--blue)" stroke-width="1.5"/><circle cx="106" cy="60" r="30" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+      <text x="44" y="42" class="svgtxt b">A</text><text x="130" y="42" class="svgtxt g">B</text><text x="164" y="34" class="svgtxt" text-anchor="end">Ω</text>
+      <text x="90" y="14" class="svgtxt w" text-anchor="middle">A ∪ B — "or"</text>
+    </g>
+    <g transform="translate(196,0)">
+      <rect x="8" y="22" width="164" height="78" fill="none" stroke="var(--border2)"/>
+      <path d="M 88 36 A 30 30 0 0 1 88 84 A 30 30 0 0 1 88 36 Z" fill="var(--green)" opacity="0.6"/>
+      <circle cx="70" cy="60" r="30" fill="none" stroke="var(--blue)" stroke-width="1.5"/><circle cx="106" cy="60" r="30" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+      <text x="44" y="42" class="svgtxt b">A</text><text x="130" y="42" class="svgtxt g">B</text><text x="164" y="34" class="svgtxt" text-anchor="end">Ω</text>
+      <text x="90" y="14" class="svgtxt w" text-anchor="middle">A ∩ B — "and"</text>
+    </g>
+    <g transform="translate(0,128)">
+      <path d="M 8 22 L 172 22 L 172 100 L 8 100 Z M 58 60 a 30 30 0 1 0 60 0 a 30 30 0 1 0 -60 0 Z" fill="var(--blue)" opacity="0.35" fill-rule="evenodd"/>
+      <rect x="8" y="22" width="164" height="78" fill="none" stroke="var(--border2)"/>
+      <circle cx="88" cy="60" r="30" fill="var(--panel)" stroke="var(--text)" stroke-width="1.5"/>
+      <text x="88" y="64" class="svgtxt w" text-anchor="middle">A</text><text x="18" y="38" class="svgtxt b">Aᶜ</text>
+      <text x="90" y="14" class="svgtxt w" text-anchor="middle">Aᶜ — "not"</text>
+    </g>
+    <g transform="translate(196,128)">
+      <rect x="8" y="22" width="164" height="78" fill="none" stroke="var(--border2)"/>
+      <path d="M 88 36 A 30 30 0 1 0 88 84 A 30 30 0 0 1 88 36 Z" fill="var(--blue)" opacity="0.5"/>
+      <path d="M 88 36 A 30 30 0 1 1 88 84 A 30 30 0 0 0 88 36 Z" fill="var(--green)" opacity="0.5"/>
+      <circle cx="70" cy="60" r="30" fill="none" stroke="var(--blue)" stroke-width="1.5"/><circle cx="106" cy="60" r="30" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+      <text x="56" y="64" class="svgtxt w" text-anchor="middle">A−B</text><text x="120" y="64" class="svgtxt w" text-anchor="middle">B−A</text>
+      <text x="90" y="14" class="svgtxt w" text-anchor="middle">differences — "but not"</text>
+    </g>
+  </svg>
+  <figcaption>The four pictures from the notes. The last one is worth staring at: $A-B$ (blue) and $B-A$ (green) are different sets — the difference is <b>not</b> symmetric. Together with the lens $A\cap B$ they cut $A\cup B$ into three non-overlapping pieces.</figcaption>
+  </figure>
+  <div class="note"><div class="t">A handy identity</div>"B but not A" is the same as "B and not-A": $\;B-A=B\cap A^c$. The lecture's definition $\{\omega:\omega\in B,\ \omega\notin A\}$ says exactly this. It is how differences get turned into intersections in proofs (module 05).</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">TRY IT</span> Shade any expression on one roll of a die<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Pick an operation and see which faces survive. Switch to the second pair of events to replay the "even / prime" example from the notes. Compare <b>(A∪B)ᶜ</b> with <b>Aᶜ∩Bᶜ</b>, and <b>(A∩B)ᶜ</b> with <b>Aᶜ∪Bᶜ</b> — they always shade the same region. That is De Morgan's law, below.</p>
+  <div class="ctrl">
+    <span class="btns"><button data-so="A" onclick="soOp('A')">A</button><button data-so="union" onclick="soOp('union')">A∪B</button><button data-so="inter" onclick="soOp('inter')">A∩B</button><button data-so="Ac" onclick="soOp('Ac')">Aᶜ</button><button data-so="AmB" onclick="soOp('AmB')">A−B</button><button data-so="BmA" onclick="soOp('BmA')">B−A</button></span>
+  </div>
+  <div class="ctrl">
+    <span class="btns"><button data-so="unionC" onclick="soOp('unionC')">(A∪B)ᶜ</button><button data-so="AcBc" onclick="soOp('AcBc')">Aᶜ∩Bᶜ</button><button data-so="interC" onclick="soOp('interC')">(A∩B)ᶜ</button><button data-so="AcuBc" onclick="soOp('AcuBc')">Aᶜ∪Bᶜ</button></span>
+    <span class="btns" style="margin-left:auto"><button onclick="soPair('lt3')">A even, B &lt; 3</button><button onclick="soPair('prime')">E₁ even, E₂ prime</button></span>
+  </div>
+  <figure style="margin:0"><svg id="sosvg" viewBox="0 0 360 222"></svg><figcaption>Each face of the die sits in the region it belongs to. Amber = the outcomes in the chosen event. Since all faces are equally likely, its probability is (number of amber faces)/6 — a preview of module 05.</figcaption></figure>
+  <div class="readout" id="soread"></div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">RULES</span> Set laws (from the PDF notes)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For any sets $A,B,C$ in $\Omega$:</p>
+  <ul>
+    <li><b>double complement</b> $\;(A^c)^c=A$ — "not not A" is A.</li>
+    <li><b>commutative</b> $\;A\cup B=B\cup A,\quad A\cap B=B\cap A$ — order does not matter.</li>
+    <li><b>associative</b> $\;A\cup(B\cup C)=(A\cup B)\cup C$, same for $\cap$ — so we can drop brackets and write $A\cup B\cup C$.</li>
+    <li><b>distributive</b>
+    $$A\cup(B\cap C)=(A\cup B)\cap(A\cup C)$$
+    $$A\cap(B\cup C)=(A\cap B)\cup(A\cap C)$$
+    Like $a(b+c)=ab+ac$, with $\cap$ playing "times" and $\cup$ playing "plus" — except here it works both ways round.</li>
+    <li><b>De Morgan's laws</b>
+    $$\boxed{(A\cup B)^c=A^c\cap B^c\qquad(A\cap B)^c=A^c\cup B^c}$$</li>
+  </ul>
+  <p class="muted">The lecture: proofs not required. The pictures on the right are the proof you need to <i>believe</i> them.</p>
+  <div class="note tip"><div class="t">De Morgan in words</div>"Not (rain or snow)" = "no rain <b>and</b> no snow". "Not (rich and famous)" = "not rich <b>or</b> not famous". The complement flips $\cup\leftrightarrow\cap$.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">SEE IT</span> De Morgan, one shading at a time<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 400 200">
+    <text x="4" y="12" class="svgtxt w">first law</text>
+    <g transform="translate(0,16)">
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 20 32 a 16 16 0 1 0 32 0 a 16 16 0 1 0 -32 0 Z" fill="var(--blue)" opacity="0.4" fill-rule="evenodd"/>
+      <rect x="4" y="8" width="82" height="48" fill="none" stroke="var(--border2)"/><circle cx="36" cy="32" r="16" fill="none" stroke="var(--blue)"/><circle cx="54" cy="32" r="16" fill="none" stroke="var(--green)"/>
+      <text x="45" y="70" class="svgtxt b" text-anchor="middle">Aᶜ</text>
+    </g>
+    <text x="95" y="52" class="svgtxt w">∩</text>
+    <g transform="translate(104,16)">
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 38 32 a 16 16 0 1 0 32 0 a 16 16 0 1 0 -32 0 Z" fill="var(--green)" opacity="0.4" fill-rule="evenodd"/>
+      <rect x="4" y="8" width="82" height="48" fill="none" stroke="var(--border2)"/><circle cx="36" cy="32" r="16" fill="none" stroke="var(--blue)"/><circle cx="54" cy="32" r="16" fill="none" stroke="var(--green)"/>
+      <text x="45" y="70" class="svgtxt g" text-anchor="middle">Bᶜ</text>
+    </g>
+    <text x="199" y="52" class="svgtxt w">=</text>
+    <g transform="translate(208,16)">
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 20 32 a 16 16 0 1 0 32 0 a 16 16 0 1 0 -32 0 Z" fill="var(--blue)" opacity="0.3" fill-rule="evenodd"/>
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 38 32 a 16 16 0 1 0 32 0 a 16 16 0 1 0 -32 0 Z" fill="var(--green)" opacity="0.3" fill-rule="evenodd"/>
+      <rect x="4" y="8" width="82" height="48" fill="none" stroke="var(--border2)"/><circle cx="36" cy="32" r="16" fill="none" stroke="var(--blue)"/><circle cx="54" cy="32" r="16" fill="none" stroke="var(--green)"/>
+      <text x="45" y="70" class="svgtxt" text-anchor="middle">both colours</text>
+    </g>
+    <text x="303" y="52" class="svgtxt w">=</text>
+    <g transform="translate(312,16)">
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 45 18.77 A 16 16 0 1 0 45 45.23 A 16 16 0 1 0 45 18.77 Z" fill="var(--amber)" opacity="0.55" fill-rule="evenodd"/>
+      <rect x="4" y="8" width="82" height="48" fill="none" stroke="var(--border2)"/><circle cx="36" cy="32" r="16" fill="none" stroke="var(--blue)"/><circle cx="54" cy="32" r="16" fill="none" stroke="var(--green)"/>
+      <text x="45" y="70" class="svgtxt a" text-anchor="middle">(A∪B)ᶜ</text>
+    </g>
+    <text x="4" y="112" class="svgtxt w">second law</text>
+    <g transform="translate(0,116)">
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 20 32 a 16 16 0 1 0 32 0 a 16 16 0 1 0 -32 0 Z" fill="var(--blue)" opacity="0.4" fill-rule="evenodd"/>
+      <rect x="4" y="8" width="82" height="48" fill="none" stroke="var(--border2)"/><circle cx="36" cy="32" r="16" fill="none" stroke="var(--blue)"/><circle cx="54" cy="32" r="16" fill="none" stroke="var(--green)"/>
+      <text x="45" y="70" class="svgtxt b" text-anchor="middle">Aᶜ</text>
+    </g>
+    <text x="95" y="152" class="svgtxt w">∪</text>
+    <g transform="translate(104,116)">
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 38 32 a 16 16 0 1 0 32 0 a 16 16 0 1 0 -32 0 Z" fill="var(--green)" opacity="0.4" fill-rule="evenodd"/>
+      <rect x="4" y="8" width="82" height="48" fill="none" stroke="var(--border2)"/><circle cx="36" cy="32" r="16" fill="none" stroke="var(--blue)"/><circle cx="54" cy="32" r="16" fill="none" stroke="var(--green)"/>
+      <text x="45" y="70" class="svgtxt g" text-anchor="middle">Bᶜ</text>
+    </g>
+    <text x="199" y="152" class="svgtxt w">=</text>
+    <g transform="translate(208,116)">
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 20 32 a 16 16 0 1 0 32 0 a 16 16 0 1 0 -32 0 Z" fill="var(--blue)" opacity="0.3" fill-rule="evenodd"/>
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 38 32 a 16 16 0 1 0 32 0 a 16 16 0 1 0 -32 0 Z" fill="var(--green)" opacity="0.3" fill-rule="evenodd"/>
+      <rect x="4" y="8" width="82" height="48" fill="none" stroke="var(--border2)"/><circle cx="36" cy="32" r="16" fill="none" stroke="var(--blue)"/><circle cx="54" cy="32" r="16" fill="none" stroke="var(--green)"/>
+      <text x="45" y="70" class="svgtxt" text-anchor="middle">any colour</text>
+    </g>
+    <text x="303" y="152" class="svgtxt w">=</text>
+    <g transform="translate(312,116)">
+      <path d="M 4 8 L 86 8 L 86 56 L 4 56 Z M 45 18.77 A 16 16 0 0 1 45 45.23 A 16 16 0 0 1 45 18.77 Z" fill="var(--amber)" opacity="0.55" fill-rule="evenodd"/>
+      <rect x="4" y="8" width="82" height="48" fill="none" stroke="var(--border2)"/><circle cx="36" cy="32" r="16" fill="none" stroke="var(--blue)"/><circle cx="54" cy="32" r="16" fill="none" stroke="var(--green)"/>
+      <text x="45" y="70" class="svgtxt a" text-anchor="middle">(A∩B)ᶜ</text>
+    </g>
+  </svg>
+  <figcaption>Row 1: the region coloured by <i>both</i> $A^c$ and $B^c$ is exactly what lies outside $A\cup B$. Row 2: the region coloured by <i>at least one</i> of them is everything except the lens $A\cap B$.</figcaption>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">LECTURE 1 · notes p.3–4 · slides Axioms 7–8 — coin and die</div>
+  <div class="body">
+  <p><b>Coin.</b> $\Omega=\{H,T\}$, $E_1=\{\text{heads}\}=\{H\}$, $E_2=\{\text{tails}\}=\{T\}$.</p>
+  <ol class="steps">
+    <li>$E_1^c=\{H\}^c=\{T\}=E_2$ and $E_2^c=\{\text{"not" }T\}=\{H\}=E_1$.</li>
+    <li>$E_1\cap E_2=\{H\}\cap\{T\}=\emptyset$ — no outcome is both, the impossible event.</li>
+    <li>$E_1\cup E_2=\{H\}\cup\{T\}=\Omega$ — the sure event.</li>
+  </ol>
+  <p><b>Die.</b> $E_1=\{2,4,6\}$ "even", $E_2=\{2,3,5\}$ "prime", $E_3=\{6\}$ "greater than 5".</p>
+  <ol class="steps">
+    <li>$E_1^c=\{\omega:\omega\notin E_1\}=\{1,3,5\}$.</li>
+    <li>"Prime <b>and</b> even" $=E_1\cap E_2=\{2,4,6\}\cap\{2,3,5\}=\{2\}$ — the only even prime.</li>
+    <li>"Prime <b>and</b> greater than 5" $=E_2\cap E_3=\{2,3,5\}\cap\{6\}=\emptyset$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>$E_1$ and $E_2$ in the coin example have empty intersection <i>and</i> fill $\Omega$ between them: they are complements. Two events with $A\cap B=\emptyset$ are called <b>mutually exclusive</b> (disjoint) — the key word of Kolmogorov's third axiom in module 04.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">LECTURE 1 · notes p.5 · slides Axioms 9 — light-bulb lifetimes</div>
+  <div class="body">
+  <p>$\Omega=[0,+\infty)$ hours; $E_1=\{1000\}$, $E_2=\{\text{less than }3000\}=[0,3000)$, $E_3=\{\text{more than }2000\}=(2000,+\infty)$.</p>
+  <ol class="steps">
+    <li>$E_1\cap E_3=\emptyset$: lasting <i>exactly</i> 1000 h is not lasting more than 2000 h.</li>
+    <li>$E_2\cap E_3$ = "more than 2000 h <b>and</b> less than 3000 h" $=[0,3000)\cap(2000,+\infty)=(2000,3000)$. Intersect intervals by taking the larger left end and the smaller right end.</li>
+    <li>$E_2\cup E_3$ = "more than 2000 h <b>or</b> less than 3000 h" $=[0,3000)\cup(2000,+\infty)=\Omega$: every lifetime satisfies at least one condition.</li>
+  </ol>
+  <figure>
+  <svg viewBox="0 0 330 96">
+    <line x1="14" y1="80" x2="320" y2="80" stroke="var(--border2)"/>
+    <text x="14" y="94" class="svgtxt" text-anchor="middle">0</text><text x="134" y="94" class="svgtxt" text-anchor="middle">2000</text><text x="194" y="94" class="svgtxt" text-anchor="middle">3000</text>
+    <line x1="14" y1="20" x2="194" y2="20" stroke="var(--green)" stroke-width="4"/><text x="200" y="24" class="svgtxt g">E₂</text>
+    <line x1="134" y1="36" x2="316" y2="36" stroke="var(--red)" stroke-width="4"/><text x="100" y="40" class="svgtxt r">E₃</text>
+    <line x1="134" y1="56" x2="194" y2="56" stroke="var(--amber)" stroke-width="6"/><text x="200" y="60" class="svgtxt a">E₂∩E₃ = (2000,3000)</text>
+    <line x1="134" y1="20" x2="134" y2="80" stroke="var(--border)" stroke-dasharray="2 3"/><line x1="194" y1="20" x2="194" y2="80" stroke="var(--border)" stroke-dasharray="2 3"/>
+  </svg>
+  </figure>
+  <p class="muted" style="font-size:12px">The PDF slides phrase $E_3$ as "2000 hours or more" $=[2000,+\infty)$; then $E_2\cap E_3=[2000,3000)$, and they add $E_1\cup E_3=\{1000\}\cup[2000,+\infty)$. The endpoint changes nothing in the reasoning (and, as module 06 shows, nothing in the probability).</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Three translation slips that cost exam points<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ul>
+    <li><b>"Or" is inclusive.</b> $A\cup B$ contains the outcomes in both. "Exactly one of A and B" is a different event: $(A-B)\cup(B-A)$.</li>
+    <li><b>$B-A\neq A-B$.</b> With $A=\{2,4,6\}$, $B=\{1,2\}$: $B-A=\{1\}$ but $A-B=\{4,6\}$.</li>
+    <li><b>Complement of a union is not the union of complements.</b> $(A\cup B)^c=A^c\cap B^c$ — the operation flips. Writing $A^c\cup B^c$ is the most common De Morgan error.</li>
+  </ul>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>De Morgan on the die</div>
+<div class="prob">With $A=\{2,4,6\}$ and $B=\{1,2\}$, compute $(A\cup B)^c$ both directly and as $A^c\cap B^c$.</div>
+<details><summary>Answer</summary><div class="sol">Directly: $A\cup B=\{1,2,4,6\}$, so $(A\cup B)^c=\{3,5\}$. Via De Morgan: $A^c=\{1,3,5\}$, $B^c=\{3,4,5,6\}$, and $A^c\cap B^c=\{3,5\}$ ✓.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Exactly one</div>
+<div class="prob">Write "exactly one of $E_1$ (even) and $E_2$ (prime) happens" as a set, for one die.</div>
+<details><summary>Answer</summary><div class="sol">$(E_1-E_2)\cup(E_2-E_1)=\{4,6\}\cup\{3,5\}=\{3,4,5,6\}$. Equivalently $(E_1\cup E_2)-(E_1\cap E_2)=\{2,3,4,5,6\}-\{2\}$.</div></details>
+</div>
+</div>
+</section>

@@ -1,0 +1,133 @@
+<!-- ============ 03 INCLUSION–EXCLUSION AND THE POWER SET ============ -->
+<section id="s3">
+<div class="sec-head"><span class="num">03</span><h2>Inclusion–exclusion & the power set</h2><span class="sub">lecture 1, notes p.3–4 · slides: Axioms 4–8</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Counting a union without double counting<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Write $|A|$ for the <b>cardinality</b> of $A$: the number of outcomes $\omega\in A$. How many outcomes are in $A\cup B$? The tempting answer $|A|+|B|$ is wrong whenever the two sets overlap, because every outcome in $A\cap B$ gets counted twice — once as a member of $A$, once as a member of $B$. The fix is to subtract the overlap once. That is the whole <b>inclusion–exclusion principle</b>: <i>include</i> the pieces, <i>exclude</i> what you counted too often, and repeat.</p>
+  <p>Why do we care in a probability course? Because in module 05 exactly the same formula holds with $P$ in place of $|\cdot|$: $P(A\cup B)=P(A)+P(B)-P(A\cap B)$. Probability behaves like a (weighted) way of counting, and this module is where the pattern is easiest to see.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">RULE</span> Two sets<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{\;|A\cup B|=|A|+|B|-|A\cap B|\;}$$
+  <figure>
+  <svg viewBox="0 0 370 130">
+    <g>
+      <text x="90" y="14" class="svgtxt w" text-anchor="middle">|A| + |B|</text>
+      <rect x="8" y="22" width="164" height="78" fill="none" stroke="var(--border2)"/>
+      <circle cx="70" cy="60" r="30" fill="var(--blue)" fill-opacity="0.18" stroke="var(--blue)" stroke-width="1.5"/><circle cx="106" cy="60" r="30" fill="var(--green)" fill-opacity="0.18" stroke="var(--green)" stroke-width="1.5"/>
+      <text x="55" y="64" class="svgtxt g" text-anchor="middle">1</text><text x="88" y="64" class="svgtxt r" text-anchor="middle" font-size="13">2</text><text x="121" y="64" class="svgtxt g" text-anchor="middle">1</text>
+      <text x="90" y="118" class="svgtxt r" text-anchor="middle">overlap counted twice ✗</text>
+    </g>
+    <g transform="translate(190,0)">
+      <text x="90" y="14" class="svgtxt w" text-anchor="middle">|A| + |B| − |A∩B|</text>
+      <rect x="8" y="22" width="164" height="78" fill="none" stroke="var(--border2)"/>
+      <circle cx="70" cy="60" r="30" fill="var(--blue)" fill-opacity="0.18" stroke="var(--blue)" stroke-width="1.5"/><circle cx="106" cy="60" r="30" fill="var(--green)" fill-opacity="0.18" stroke="var(--green)" stroke-width="1.5"/>
+      <text x="55" y="64" class="svgtxt g" text-anchor="middle">1</text><text x="88" y="64" class="svgtxt g" text-anchor="middle">1</text><text x="121" y="64" class="svgtxt g" text-anchor="middle">1</text>
+      <text x="90" y="118" class="svgtxt g" text-anchor="middle">every region once ✓</text>
+    </g>
+  </svg>
+  <figcaption>The numbers say how many times each region is counted. Subtracting $|A\cap B|$ once brings the lens back from 2 to 1.</figcaption>
+  </figure>
+  <div class="ex">
+    <div class="bar">EXAMPLE · one die</div>
+    <div class="body">$A=\{2,4,6\}$, $B=\{1,2\}$, $A\cap B=\{2\}$:
+    $$|A\cup B|=3+2-1=4\qquad\text{and indeed }A\cup B=\{1,2,4,6\}.$$</div>
+  </div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">RULE</span> Three sets<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{\begin{aligned}|A\cup B\cup C|=\;&|A|+|B|+|C|\\&-|A\cap B|-|B\cap C|-|A\cap C|\\&+|A\cap B\cap C|\end{aligned}}$$
+  <p>Add the three sets, subtract the three pairwise overlaps, add back the triple overlap. The pattern generalises to $n$ sets with alternating signs: singles $+$, pairs $-$, triples $+$, quadruples $-$, …</p>
+  <p>Why the $+$ at the end? Step through it on the right: after adding the three sets the centre is counted <b>3</b> times; subtracting the three pairwise overlaps removes it <b>3</b> times — now it is counted <b>0</b> times, so it has to be put back once.</p>
+  <div class="ex">
+    <div class="bar">EXAMPLE · the notes' three die events</div>
+    <div class="body">$E_1=\{2,4,6\}$, $E_2=\{2,3,5\}$, $E_3=\{6\}$. Overlaps: $E_1\cap E_2=\{2\}$, $E_2\cap E_3=\emptyset$, $E_1\cap E_3=\{6\}$, triple $=\emptyset$.
+    $$|E_1\cup E_2\cup E_3|=3+3+1-1-0-1+0=5$$
+    Check: $E_1\cup E_2\cup E_3=\{2,3,4,5,6\}$ — five faces (only 1 is missing) ✓.</div>
+  </div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">TRY IT</span> Build the three-set formula one term at a time<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Each number is how many times that region has been counted so far. Press <b>next term</b> seven times and watch the counts: green means "counted exactly once" — the goal — amber means twice, red three times, grey not at all. The highlighted region is the set the current term adds (green) or removes (red).</p>
+  <div class="ctrl"><span class="btns"><button onclick="ieBack()">◂ back</button><button onclick="ieStep()">next term ▸</button><button onclick="ieAll()">all seven</button><button onclick="ieReset()">reset</button></span></div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="iesvg" viewBox="0 0 360 250"></svg><figcaption>This is the three-panel picture on the PDF slide, turned into steps: counts 1/2/3 after the singles, 1/1/0 after the pairs, all 1 after the triple.</figcaption></figure>
+    <div>
+      <div class="readout" id="ieread" style="flex-direction:column;gap:6px"></div>
+      <div class="note fin" style="margin-top:10px"><div class="t">Finance flavour</div>A bank has 100 clients: 60 hold stocks, 50 hold bonds, 30 hold both. Clients holding at least one: $60+50-30=80$; holding neither: $100-80=20$. Divide everything by 100 and you are already doing probability: $P(S\cup B)=0.6+0.5-0.3=0.8$.</div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The power set: the list of all possible events<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>power set</b> $\mathcal P(\Omega)$ is the set of <b>all subsets</b> of $\Omega$ — i.e. the complete list of events you could ever ask about.</p>
+  <p><b>Coin</b> (notes p.3–4): $\Omega=\{H,T\}$ and</p>
+  $$\mathcal P(\Omega)=\big\{\{\ \},\{H\},\{T\},\{H,T\}\big\},\qquad|\mathcal P(\Omega)|=2^{|\Omega|}=2^2=4.$$
+  <p><b>Die</b>: $\Omega=\{1,\dots,6\}$ and</p>
+  $$\mathcal P(\Omega)=\big\{\{\ \},\{1\},\dots,\{6\},\{1,2\},\dots,\{5,6\},\{1,2,3\},\dots,\Omega\big\},\quad|\mathcal P(\Omega)|=2^6=64.$$
+  <h3>Why $2^{|\Omega|}$?</h3>
+  <p>To build a subset, walk through the outcomes one by one and decide <i>in</i> or <i>out</i> for each. That is $|\Omega|$ independent yes/no decisions, so $2\times2\times\cdots\times2=2^{|\Omega|}$ different subsets. The tree on the right does it for the coin.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill b">SEE IT</span> Every subset is a path of in/out choices<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 330 190">
+    <circle cx="30" cy="95" r="5" fill="var(--text)"/>
+    <text x="30" y="80" class="svgtxt" text-anchor="middle">start</text>
+    <line x1="34" y1="92" x2="118" y2="50" stroke="var(--green)" stroke-width="1.5"/><text x="66" y="62" class="svgtxt g">H in</text>
+    <line x1="34" y1="98" x2="118" y2="140" stroke="var(--dim)" stroke-width="1.5"/><text x="62" y="136" class="svgtxt">H out</text>
+    <circle cx="122" cy="48" r="4" fill="var(--text)"/><circle cx="122" cy="142" r="4" fill="var(--text)"/>
+    <line x1="126" y1="46" x2="210" y2="24" stroke="var(--green)" stroke-width="1.5"/><text x="160" y="28" class="svgtxt g">T in</text>
+    <line x1="126" y1="50" x2="210" y2="72" stroke="var(--dim)" stroke-width="1.5"/><text x="156" y="74" class="svgtxt">T out</text>
+    <line x1="126" y1="140" x2="210" y2="118" stroke="var(--green)" stroke-width="1.5"/><text x="160" y="122" class="svgtxt g">T in</text>
+    <line x1="126" y1="144" x2="210" y2="166" stroke="var(--dim)" stroke-width="1.5"/><text x="156" y="170" class="svgtxt">T out</text>
+    <rect x="214" y="12" width="70" height="22" rx="3" fill="var(--amberbg)" stroke="var(--amber)"/><text x="249" y="27" class="svgtxt a" text-anchor="middle">{H, T} = Ω</text>
+    <rect x="214" y="60" width="70" height="22" rx="3" fill="var(--amberbg)" stroke="var(--amber)"/><text x="249" y="75" class="svgtxt a" text-anchor="middle">{H}</text>
+    <rect x="214" y="106" width="70" height="22" rx="3" fill="var(--amberbg)" stroke="var(--amber)"/><text x="249" y="121" class="svgtxt a" text-anchor="middle">{T}</text>
+    <rect x="214" y="154" width="70" height="22" rx="3" fill="var(--amberbg)" stroke="var(--amber)"/><text x="249" y="169" class="svgtxt a" text-anchor="middle">{ } = ∅</text>
+    <text x="292" y="95" class="svgtxt w">2×2=4</text>
+  </svg>
+  <figcaption>Two outcomes, two decisions, four leaves — the four events of $\mathcal P(\{H,T\})$. For the die the tree has six levels and $2^6=64$ leaves.</figcaption>
+  </figure>
+  <table class="formula-table">
+    <tr><td>experiment</td><td>$|\Omega|$</td><td>number of events $2^{|\Omega|}$</td></tr>
+    <tr><td>one coin</td><td>2</td><td>4</td></tr>
+    <tr><td>one die</td><td>6</td><td>64</td></tr>
+    <tr><td>two dice</td><td>36</td><td>$2^{36}\approx 6.9\times10^{10}$</td></tr>
+  </table>
+  <div class="note"><div class="t">Where this is going</div>Kolmogorov's axioms (module 04) assign a probability $P(E)$ to <b>each element</b> of $\mathcal P(\Omega)$. For finite $\Omega$ you never need to list them all — the rules in module 05 let you compute any $P(E)$ from a few basic numbers.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Survey</div>
+<div class="prob">Of 40 students, 25 take Statistics, 18 take Econometrics and 10 take both. How many take neither?</div>
+<details><summary>Answer</summary><div class="sol">At least one: $25+18-10=33$. Neither: $40-33=7$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Counting events</div>
+<div class="prob">$\Omega=\{a,b,c\}$. How many events contain the outcome $a$?</div>
+<details><summary>Answer</summary><div class="sol">$a$ is forced "in"; $b$ and $c$ are free: $2^2=4$ events — $\{a\},\{a,b\},\{a,c\},\{a,b,c\}$. Exactly half of the $2^3=8$ events.</div></details>
+</div>
+</div>
+</section>

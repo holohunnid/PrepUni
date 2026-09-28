@@ -1,0 +1,460 @@
+<!-- ============ 17 VARIANCE & MOMENTS ============ -->
+<section id="s17">
+<div class="sec-head"><span class="num">17</span><h2>Variance &amp; moments</h2><span class="sub">slides: Distribution Functions 30–36 · ahead of the lecture notes</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <p>Two bets can have the same expected value and still feel completely different. Take $\$0$ for sure, or play module 12's $\pm\$2$ game: both have $\mathbb{E}(X)=0$. The first never surprises you. The second lands $\$2$ away from its mean half of the time. The expected value (module 16) says <b>where</b> a distribution sits. This module measures <b>how spread out</b> it is, meaning how far $X$ typically lands from its mean. In finance, that spread is <b>risk</b>.</p>
+  <p><b>Why squares?</b> The obvious idea is to average the deviations $X-\mathbb{E}(X)$, but it fails. Positive and negative deviations cancel exactly, for every random variable (slide 36 proves $\mu_1=0$). Squaring makes every deviation count as positive, and makes large deviations count a lot. The price is the unit, which becomes squared dollars. The <b>standard deviation</b> takes the square root to get back to dollars.</p>
+  <p>The plan: definition (slide 30), the shortcut formula (31–32), what $a+bX$ and sums of independent variables do to the variance (33–34), and finally the coefficient of variation and higher moments (35–36).</p>
+  </div>
+  <div>
+  <figure>
+  <svg viewBox="0 0 400 160">
+    <text x="100" y="16" class="svgtxt w" text-anchor="middle">0 for sure: E = 0, V = 0</text>
+    <text x="300" y="16" class="svgtxt w" text-anchor="middle">±2 game: E = 0, V = 2</text>
+    <line x1="20" y1="128" x2="182" y2="128" stroke="var(--border2)"/>
+    <line x1="218" y1="128" x2="388" y2="128" stroke="var(--border2)"/>
+    <rect x="92" y="38" width="16" height="90" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <text x="114" y="46" class="svgtxt b">1</text>
+    <rect x="222" y="105.5" width="16" height="22.5" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <rect x="292" y="83" width="16" height="45" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <rect x="362" y="105.5" width="16" height="22.5" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <text x="230" y="100" class="svgtxt b" text-anchor="middle">1/4</text>
+    <text x="300" y="78" class="svgtxt b" text-anchor="middle">1/2</text>
+    <text x="370" y="100" class="svgtxt b" text-anchor="middle">1/4</text>
+    <polygon points="100,130 95,138 105,138" fill="var(--green)"/>
+    <polygon points="300,130 295,138 305,138" fill="var(--green)"/>
+    <text x="30" y="152" class="svgtxt" text-anchor="middle">−2</text>
+    <text x="100" y="152" class="svgtxt" text-anchor="middle">0</text>
+    <text x="170" y="152" class="svgtxt" text-anchor="middle">2</text>
+    <text x="230" y="152" class="svgtxt" text-anchor="middle">−2</text>
+    <text x="300" y="152" class="svgtxt" text-anchor="middle">0</text>
+    <text x="370" y="152" class="svgtxt" text-anchor="middle">2</text>
+  </svg>
+  <figcaption>Same balance point (green), different spread. On the right, half of the probability sits a distance 2 from the mean, so the average squared distance is $\frac14\cdot4+\frac12\cdot0+\frac14\cdot4=2$.</figcaption>
+  </figure>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Variance and standard deviation (slide 30)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ be a random variable with mean $\mu=\mathbb{E}(X)$. The <b>variance</b> and the <b>standard deviation</b> of $X$ are written $\mathbb{V}(X)$ and $\sigma_X$, and are defined as</p>
+  $$\boxed{\;\begin{aligned}\mathbb{V}(X)&=\mathbb{E}\Big[(X-\mathbb{E}(X))^2\Big]=\mathbb{E}\Big[(X-\mu)^2\Big]=\sum_{i=1}^{\infty}f(x_i)\,(x_i-\mu)^2\\ \sigma_X&=\sqrt{\mathbb{V}(X)}\end{aligned}\;}$$
+  <p>The variance is sometimes written $\sigma_X^2$.</p>
+  <h3>Reading the formula in three steps</h3>
+  <ol class="steps">
+    <li><b>Deviation</b> $x_i-\mu$: how far value $i$ is from the centre, with a sign.</li>
+    <li><b>Square it:</b> $(x_i-\mu)^2\ge0$, so it no longer matters which side the value is on, and far values are penalised heavily.</li>
+    <li><b>Average with the probabilities as weights.</b> The last equality is module 16's theorem $\mathbb{E}(g(X))=\sum_i f(x_i)\,g(x_i)$, with $g(x)=(x-\mu)^2$.</li>
+  </ol>
+  <h3>Units</h3>
+  <p>The unit of $\mathbb{V}(X)$ is the <b>square</b> of the unit of $X$. If $X$ is measured in meters, $\mathbb{V}(X)$ is in square meters. The standard deviation $\sigma_X$ has the <b>same unit as $X$</b> (meters). That is why $\sigma$ is the number people report: "the game's standard deviation is $\$4.61$" means something, while "its variance is 21.21 squared dollars" does not.</p>
+  <div class="note tip"><div class="t">Always $\mathbb{V}(X)\ge0$</div>It is an average of squares. It equals $0$ only when every value with positive probability equals $\mu$, i.e. for a <b>constant</b> random variable (module 15). A negative variance is always a computing error.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXTRA EXAMPLE (module 12's (0,1) game) · variance as an average of squares</div>
+  <div class="body">
+  <p>$X$ pays $1$, $2$ or $5$ dollars with probabilities $0.1$, $0.6$, $0.3$, and module 16 found $\mu=2.8$. Find $\mathbb{V}(X)$ and $\sigma_X$.</p>
+  <ol class="steps">
+    <li><b>Deviations from the mean:</b> $1-2.8=-1.8$, $2-2.8=-0.8$, $5-2.8=2.2$.</li>
+    <li><b>Squared deviations:</b> $(-1.8)^2=3.24$, $(-0.8)^2=0.64$, $2.2^2=4.84$.</li>
+    <li><b>Weight by the probabilities and add:</b>
+    $$\mathbb{V}(X)=0.1\cdot3.24+0.6\cdot0.64+0.3\cdot4.84=0.324+0.384+1.452=2.16\ \text{dollars}^2$$</li>
+    <li><b>Back to dollars:</b> $\sigma_X=\sqrt{2.16}\approx1.47$ dollars.</li>
+  </ol>
+  <figure>
+  <svg viewBox="0 0 380 240">
+    <line x1="20" y1="130" x2="360" y2="130" stroke="var(--border2)"/>
+    <line x1="170" y1="10" x2="170" y2="228" stroke="var(--green)" stroke-dasharray="4 3"/>
+    <rect x="170" y="20" width="110" height="110" fill="var(--greenbg)" stroke="var(--green)"/>
+    <rect x="130" y="90" width="40" height="40" fill="var(--amberbg)" stroke="var(--amber)"/>
+    <rect x="80" y="130" width="90" height="90" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <text x="225" y="70" class="svgtxt w" text-anchor="middle">(2.2)² = 4.84</text>
+    <text x="225" y="86" class="svgtxt g" text-anchor="middle">× 0.3 = 1.452</text>
+    <text x="126" y="98" class="svgtxt w" text-anchor="end">(0.8)² = 0.64</text>
+    <text x="126" y="112" class="svgtxt a" text-anchor="end">× 0.6 = 0.384</text>
+    <text x="125" y="172" class="svgtxt w" text-anchor="middle" style="font-size:10px">(1.8)² = 3.24</text>
+    <text x="125" y="188" class="svgtxt b" text-anchor="middle" style="font-size:10px">× 0.1 = 0.324</text>
+    <circle cx="80" cy="130" r="3" fill="var(--text)"/>
+    <circle cx="130" cy="130" r="3" fill="var(--text)"/>
+    <circle cx="280" cy="130" r="3" fill="var(--text)"/>
+    <text x="76" y="124" class="svgtxt w" text-anchor="end">x=1</text>
+    <text x="126" y="124" class="svgtxt w" text-anchor="end">x=2</text>
+    <text x="284" y="124" class="svgtxt w">x=5</text>
+    <text x="174" y="146" class="svgtxt g">μ = 2.8</text>
+    <text x="182" y="186" class="svgtxt w">V(X) = 0.324 + 0.384 + 1.452</text>
+    <text x="182" y="202" class="svgtxt w">= 2.16, σ = √2.16 ≈ 1.47</text>
+  </svg>
+  <figcaption>Each value's squared deviation drawn as a real square, with side equal to the distance from $\mu=2.8$ (same scale on both axes). The variance is the probability-weighted average of the three areas. The square for $x=1$ is drawn below the axis only so that it does not overlap the square for $x=2$.</figcaption>
+  </figure>
+  <div class="note"><div class="t">Insight</div>The value $5$ is less likely than $2$, yet it contributes most of the variance ($1.452$ of $2.16$), because squaring punishes large deviations. Variance is driven by the <b>tails</b>, which is exactly why risk managers watch it.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> The computational formula (slide 31)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\boxed{\;\mathbb{V}(X)=\mathbb{E}\Big[(X-\mathbb{E}(X))^2\Big]=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2\;}$$
+  <p>In words: <b>the mean of the square minus the square of the mean</b>.</p>
+  <h3>Proof (slide 31), one justification per line</h3>
+  $$\begin{aligned}\mathbb{V}(X)&=\mathbb{E}\Big[(X-\mathbb{E}(X))^2\Big]\\&=\mathbb{E}\Big[X^2-2\,\mathbb{E}(X)\cdot X+\mathbb{E}(X)^2\Big]\\&=\mathbb{E}(X^2)-2\,\mathbb{E}(X)\cdot\mathbb{E}(X)+\mathbb{E}(X)^2\\&=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2\end{aligned}$$
+  <ol class="steps">
+    <li>Definition of the variance.</li>
+    <li>Expand the square, $(u-v)^2=u^2-2uv+v^2$, with $u=X$ and $v=\mathbb{E}(X)$.</li>
+    <li>Linearity (module 16). $\mathbb{E}(X)$ is just a number, so $\mathbb{E}\big(2\,\mathbb{E}(X)\cdot X\big)=2\,\mathbb{E}(X)\,\mathbb{E}(X)$, and the expectation of the constant $\mathbb{E}(X)^2$ is itself.</li>
+    <li>Collect terms: $-2[\mathbb{E}(X)]^2+[\mathbb{E}(X)]^2=-[\mathbb{E}(X)]^2$. $\square$</li>
+  </ol>
+  <p class="muted">On the slide, $\mathbb{E}(X)^2$ means $[\mathbb{E}(X)]^2$, the square of the mean. It does not mean $\mathbb{E}(X^2)$.</p>
+  <h3>Why it is useful</h3>
+  <p>You only need $\sum_i f(x_i)\,x_i^2$ and $\sum_i f(x_i)\,x_i$, and no deviations. Check it on the $(0,1)$ game: $\mathbb{E}(X^2)=0.1\cdot1+0.6\cdot4+0.3\cdot25=0.1+2.4+7.5=10$, so $\mathbb{V}(X)=10-2.8^2=10-7.84=2.16$ ✓, the same as the squares picture.</p>
+  <div class="note tip"><div class="t">A free inequality</div>Since $\mathbb{V}(X)\ge0$, the formula gives $\mathbb{E}(X^2)\ge[\mathbb{E}(X)]^2$ for every random variable. The gap flagged in module 16's trap ($\frac32$ versus $1$) <b>is</b> the variance.</div>
+  <div class="note warn"><div class="t">Trap</div>Three classic slips: writing $\mathbb{E}(X^2)-\mathbb{E}(X)$ (forgetting to square the mean), computing $[\mathbb{E}(X)]^2-\mathbb{E}(X^2)$ (the wrong order, which gives a negative "variance"), and using $\mathbb{E}(X^2)$ alone as the variance. Check the sign of your answer every time.</div>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 32) · heads in two fair flips, two ways</div>
+  <div class="body">
+  <p>A fair coin is flipped $n=2$ times. Let $X$ be the number of heads. Find $\mathbb{V}(X)$.</p>
+  <p>From modules 15–16: $f(0)=\frac14$, $f(1)=\frac12$, $f(2)=\frac14$ and $\mathbb{E}(X)=1$.</p>
+  <h3>Way 1: the definition</h3>
+  <ol class="steps">
+    <li>Substitute the mean: $\mathbb{V}(X)=\mathbb{E}\big[(X-\mathbb{E}(X))^2\big]=\mathbb{E}\big[(X-1)^2\big]$.</li>
+    <li>One term per value:
+    $$\mathbb{V}(X)=f(0)\cdot(0-1)^2+f(1)\cdot(1-1)^2+f(2)\cdot(2-1)^2$$</li>
+    <li>Substitute and add:
+    $$\mathbb{V}(X)=\tfrac14\cdot1+\tfrac12\cdot0+\tfrac14\cdot1=\tfrac12$$</li>
+  </ol>
+  <h3>Way 2: the computational formula</h3>
+  <ol class="steps">
+    <li>$\mathbb{V}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2=\big[f(0)\cdot0^2+f(1)\cdot1^2+f(2)\cdot2^2\big]-1^2$</li>
+    <li>Substitute: $=\big[\tfrac14\cdot0+\tfrac12\cdot1+\tfrac14\cdot4\big]-1$</li>
+    <li>Add inside the bracket: $=\big[0+\tfrac12+1\big]-1=\tfrac32-1=\tfrac12$</li>
+  </ol>
+  <p>Standard deviation (not on the slide): $\sigma_X=\sqrt{1/2}\approx0.707$ heads.</p>
+  <div class="note"><div class="t">Insight</div>The two ways must agree, so on an exam compute one and use the other as a check. Way 1 shows the meaning (only the outer values $0$ and $2$ deviate, each by $1$). Way 2 is faster when the mean is an awkward decimal.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Variance of $aX+b$ (slide 33)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Let $X$ be a random variable, and let $a$ and $b$ be real numbers. Then</p>
+  $$\boxed{\;\mathbb{V}(X+b)=\mathbb{V}(X),\qquad\mathbb{V}(aX)=a^2\,\mathbb{V}(X),\qquad\mathbb{V}(aX+b)=a^2\,\mathbb{V}(X)\;}$$
+  <h3>Proof (all three at once)</h3>
+  <ol class="steps">
+    <li>Let $Z=aX+b$. By linearity (module 16), $\mathbb{E}(Z)=a\,\mathbb{E}(X)+b$.</li>
+    <li>Subtract: $Z-\mathbb{E}(Z)=aX+b-a\,\mathbb{E}(X)-b=a\big(X-\mathbb{E}(X)\big)$. <b>The $b$ cancels.</b></li>
+    <li>Square: $\big(Z-\mathbb{E}(Z)\big)^2=a^2\big(X-\mathbb{E}(X)\big)^2$.</li>
+    <li>Take expectations, pulling out the constant $a^2$: $\mathbb{V}(aX+b)=a^2\,\mathbb{V}(X)$. Setting $a=1$ gives the first rule, and setting $b=0$ gives the second. $\square$</li>
+  </ol>
+  <h3>Why a shift does not change the spread</h3>
+  <p>Adding $b$ moves every value <b>and</b> the mean by the same amount, so every distance to the mean stays the same. Paying a fixed entry fee changes your expected gain, not your risk.</p>
+  <h3>Why the scale enters squared</h3>
+  <p>Multiplying by $a$ multiplies every deviation by $a$, so it multiplies every <b>squared</b> deviation by $a^2$. The standard deviation goes back to a plain factor:</p>
+  $$\sigma_{aX+b}=\sqrt{a^2\,\mathbb{V}(X)}=|a|\,\sigma_X$$
+  <p>with an absolute value, because a spread is never negative.</p>
+  <div class="note warn"><div class="t">Trap</div>$\mathbb{V}(-X)=(-1)^2\,\mathbb{V}(X)=\mathbb{V}(X)$, not $-\mathbb{V}(X)$: a mirror image is exactly as spread out. And $\mathbb{V}(2X)=4\,\mathbb{V}(X)$, not $2\,\mathbb{V}(X)$, while $\sigma_{2X}=2\sigma_X$.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TRY IT</span> Shift and stretch a distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>shift $a$ <input type="range" id="vr_a" min="-4" max="4" step="any" value="0"><span class="val" id="vr_a_v">0.00</span></label>
+    <label>scale $b$ <input type="range" id="vr_b" min="-3" max="3" step="any" value="1"><span class="val" id="vr_b_v">1.00</span></label>
+    <span class="btns"><button onclick="vrSet(0,1)">Y = X</button><button onclick="vrSet(3,1)">Y = X + 3</button><button onclick="vrSet(0,2)">Y = 2X</button><button onclick="vrSet(0,-1)">Y = −X</button><button onclick="vrSet(-2,2)">Y = 2X − 2</button></span>
+  </div>
+  <figure style="margin:0"><svg id="vrsvg" viewBox="0 0 360 240"></svg><figcaption>Grey ghost bars: $X$, the number of heads in two fair flips ($\mathbb{E}(X)=1$, $\mathbb{V}(X)=\frac12$). Green: $Y=a+bX$, with its mean marked and a $\pm\sigma_Y$ bracket. The readout shows $\mathbb{E}(Y)=a+b$, $\mathbb{V}(Y)=b^2/2$ and $\sigma_Y=|b|/\sqrt2$.</figcaption></figure>
+  <div class="readout" id="vrread"></div>
+  <div class="note tip"><div class="t">Notation alert</div>The widget writes $Y=a+bX$, with $a$ the <b>shift</b> and $b$ the <b>scale</b>, matching $\mathbb{E}(a+bX)$ on slide 29. Slide 33 writes $aX+b$, with the letters swapped. The rule is the same either way: the scale factor gets squared and the shift disappears.</div>
+  <p><b>What to try.</b></p>
+  <ul>
+    <li><b>"Y = X + 3".</b> The bars slide 3 to the right. The bracket keeps its width, and $\mathbb{V}(Y)$ stays $\frac12$.</li>
+    <li><b>"Y = 2X".</b> The values become $0,2,4$. The bracket doubles in width ($\sigma_Y=\sqrt2\approx1.41$), but the variance becomes $4\cdot\frac12=2$, four times as large.</li>
+    <li><b>"Y = −X".</b> A mirror image around $0$: the mean becomes $-1$, and the variance is unchanged.</li>
+    <li><b>"Y = 2X − 2".</b> The values are $-2,0,2$ with probabilities $\frac14,\frac12,\frac14$, exactly module 12's $\pm\$2$ game. So that game has $\mathbb{E}=0$ and $\mathbb{V}=2$.</li>
+    <li>Drag $b$ through $0$. At $b=0$, $Y=a$ is a constant, and the bracket collapses to $\mathbb{V}(Y)=0$.</li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Sums of independent random variables (slide 33, second part)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Moreover, assume $Y$ is a random variable that is <b>independent</b> of $X$. Then</p>
+  $$\boxed{\;\mathbb{V}(aX+bY)=a^2\,\mathbb{V}(X)+b^2\,\mathbb{V}(Y)\;}$$
+  <p>Here "independent" means that knowing the value of one tells you nothing about the other. Formally, $P(X=x,\,Y=y)=P(X=x)\,P(Y=y)$ for all $x,y$, which is module 09's product rule applied to the events $\{X=x\}$ and $\{Y=y\}$.</p>
+  <h3>Why it holds</h3>
+  <ol class="steps">
+    <li>Write $\mu_X=\mathbb{E}(X)$ and $\mu_Y=\mathbb{E}(Y)$. By linearity, $aX+bY-\mathbb{E}(aX+bY)=a(X-\mu_X)+b(Y-\mu_Y)$.</li>
+    <li>Square it:
+    $$a^2(X-\mu_X)^2+b^2(Y-\mu_Y)^2+2ab\,(X-\mu_X)(Y-\mu_Y)$$</li>
+    <li>Take expectations:
+    $$\mathbb{V}(aX+bY)=a^2\,\mathbb{V}(X)+b^2\,\mathbb{V}(Y)+2ab\,\mathbb{E}\big[(X-\mu_X)(Y-\mu_Y)\big]$$</li>
+    <li>For independent variables, the expectation of a product is the product of the expectations. So the last term is $2ab\,\mathbb{E}(X-\mu_X)\,\mathbb{E}(Y-\mu_Y)=2ab\cdot0\cdot0=0$, since each factor is a first central moment and equals zero (slide 36). $\square$</li>
+  </ol>
+  <p>If $X$ and $Y$ are <b>dependent</b>, the cross term stays. It is $2ab$ times the <b>covariance</b> of $X$ and $Y$, a later topic.</p>
+  <div class="note fin"><div class="t">Finance: diversification</div>Put half your money in each of two independent assets with the same variance $\sigma^2$. Then $\mathbb{V}\big(\tfrac12X+\tfrac12Y\big)=\tfrac14\sigma^2+\tfrac14\sigma^2=\tfrac12\sigma^2$, so the standard deviation drops by a factor $\sqrt2$ at no cost in expected return. With $n$ independent assets the variance falls to $\sigma^2/n$. This is the mathematical core of diversification.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> $\mathbb{V}(X-Y)=\mathbb{V}(X)+\mathbb{V}(Y)$, never minus<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Take $a=1$, $b=-1$ in the rule: $\mathbb{V}(X-Y)=1^2\,\mathbb{V}(X)+(-1)^2\,\mathbb{V}(Y)=\mathbb{V}(X)+\mathbb{V}(Y)$. The minus sign gets squared away. Subtracting an independent random quantity <b>adds</b> uncertainty, just as adding one does.</p>
+  <figure>
+  <svg viewBox="0 0 400 205">
+    <text x="130" y="18" class="svgtxt w" text-anchor="middle">X: V(X) = 1/2</text>
+    <text x="295" y="18" class="svgtxt w" text-anchor="middle">X − Y: V = 1/2 + 1/2 = 1</text>
+    <line x1="62" y1="150" x2="192" y2="150" stroke="var(--border2)"/>
+    <line x1="198" y1="150" x2="392" y2="150" stroke="var(--border2)"/>
+    <rect x="81" y="100" width="18" height="50" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <rect x="121" y="50" width="18" height="100" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <rect x="161" y="100" width="18" height="50" fill="var(--blue)" fill-opacity="0.35" stroke="var(--blue)"/>
+    <text x="90" y="95" class="svgtxt b" text-anchor="middle">1/4</text>
+    <text x="130" y="45" class="svgtxt b" text-anchor="middle">1/2</text>
+    <text x="170" y="95" class="svgtxt b" text-anchor="middle">1/4</text>
+    <rect x="201" y="137.5" width="18" height="12.5" fill="var(--red)" fill-opacity="0.3" stroke="var(--red)"/>
+    <rect x="241" y="100" width="18" height="50" fill="var(--red)" fill-opacity="0.3" stroke="var(--red)"/>
+    <rect x="281" y="75" width="18" height="75" fill="var(--red)" fill-opacity="0.3" stroke="var(--red)"/>
+    <rect x="321" y="100" width="18" height="50" fill="var(--red)" fill-opacity="0.3" stroke="var(--red)"/>
+    <rect x="361" y="137.5" width="18" height="12.5" fill="var(--red)" fill-opacity="0.3" stroke="var(--red)"/>
+    <text x="210" y="132" class="svgtxt r" text-anchor="middle">1/16</text>
+    <text x="250" y="95" class="svgtxt r" text-anchor="middle">4/16</text>
+    <text x="290" y="70" class="svgtxt r" text-anchor="middle">6/16</text>
+    <text x="330" y="95" class="svgtxt r" text-anchor="middle">4/16</text>
+    <text x="370" y="132" class="svgtxt r" text-anchor="middle">1/16</text>
+    <text x="90" y="164" class="svgtxt" text-anchor="middle">0</text>
+    <text x="130" y="164" class="svgtxt" text-anchor="middle">1</text>
+    <text x="170" y="164" class="svgtxt" text-anchor="middle">2</text>
+    <text x="210" y="164" class="svgtxt" text-anchor="middle">−2</text>
+    <text x="250" y="164" class="svgtxt" text-anchor="middle">−1</text>
+    <text x="290" y="164" class="svgtxt" text-anchor="middle">0</text>
+    <text x="330" y="164" class="svgtxt" text-anchor="middle">1</text>
+    <text x="370" y="164" class="svgtxt" text-anchor="middle">2</text>
+    <line x1="101.7" y1="178" x2="158.3" y2="178" stroke="var(--green)" stroke-width="1.5"/>
+    <line x1="101.7" y1="174" x2="101.7" y2="182" stroke="var(--green)" stroke-width="1.5"/>
+    <line x1="158.3" y1="174" x2="158.3" y2="182" stroke="var(--green)" stroke-width="1.5"/>
+    <circle cx="130" cy="178" r="3" fill="var(--green)"/>
+    <line x1="250" y1="178" x2="330" y2="178" stroke="var(--green)" stroke-width="1.5"/>
+    <line x1="250" y1="174" x2="250" y2="182" stroke="var(--green)" stroke-width="1.5"/>
+    <line x1="330" y1="174" x2="330" y2="182" stroke="var(--green)" stroke-width="1.5"/>
+    <circle cx="290" cy="178" r="3" fill="var(--green)"/>
+    <text x="130" y="196" class="svgtxt g" text-anchor="middle">±σ, σ = 0.71</text>
+    <text x="290" y="196" class="svgtxt g" text-anchor="middle">±σ, σ = 1</text>
+  </svg>
+  <figcaption>$X$ and $Y$ are the numbers of heads in two <b>separate</b> pairs of fair flips, so they are independent and each has the pmf on the left. Their difference $X-Y$ ranges over $-2,\dots,2$ with probabilities $\frac1{16},\frac4{16},\frac6{16},\frac4{16},\frac1{16}$ (bar heights to scale). It is <b>wider</b>, not narrower: $\mathbb{E}\big[(X-Y)^2\big]=\frac{4+4+0+4+4}{16}=1=\frac12+\frac12$.</figcaption>
+  </figure>
+  <h3>And the rule needs independence</h3>
+  <p>Take $Y=X$, which is as dependent as it gets. Then $\mathbb{V}(X-X)=\mathbb{V}(0)=0$, not $2\,\mathbb{V}(X)$. And $\mathbb{V}(X+X)=\mathbb{V}(2X)=4\,\mathbb{V}(X)$, not $2\,\mathbb{V}(X)$. The rule for means, $\mathbb{E}(aX+bY)=a\,\mathbb{E}(X)+b\,\mathbb{E}(Y)$, needs no independence. The rule for variances does.</p>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 34) · expectations and variances of $U$, $V$, $W$</div>
+  <div class="body">
+  <p>Let $X$ and $Y$ be two independent random variables with $\mathbb{E}(X)=0$, $\mathbb{E}(Y)=1$, $\mathbb{V}(X)=3$ and $\mathbb{V}(Y)=4$. Define $U=2X+3$, $V=2X+Y$ and $W=X-Y$. Find the expectation and the variance of $U$, $V$ and $W$.</p>
+  <div class="grid2">
+  <div>
+  <h3>Expectations (linearity, no independence needed)</h3>
+  <ol class="steps">
+    <li>$\mathbb{E}(U)=\mathbb{E}(2X+3)=2\,\mathbb{E}(X)+3=2\cdot0+3=3$</li>
+    <li>$\mathbb{E}(V)=\mathbb{E}(2X+Y)=2\,\mathbb{E}(X)+\mathbb{E}(Y)=2\cdot0+1=1$</li>
+    <li>$\mathbb{E}(W)=\mathbb{E}(X-Y)=\mathbb{E}(X)-\mathbb{E}(Y)=0-1=-1$</li>
+  </ol>
+  </div>
+  <div>
+  <h3>Variances (squared coefficients; independence for $V$ and $W$)</h3>
+  <ol class="steps">
+    <li>$\mathbb{V}(U)=\mathbb{V}(2X+3)=2^2\,\mathbb{V}(X)=4\cdot3=12$. The $+3$ disappears.</li>
+    <li>$\mathbb{V}(V)=\mathbb{V}(2X+Y)=2^2\,\mathbb{V}(X)+1^2\,\mathbb{V}(Y)=4\cdot3+1\cdot4=16$</li>
+    <li>$\mathbb{V}(W)=\mathbb{V}(X-Y)=1^2\,\mathbb{V}(X)+(-1)^2\,\mathbb{V}(Y)=1\cdot3+1\cdot4=7$</li>
+  </ol>
+  </div>
+  </div>
+  <p>Standard deviations (not on the slide): $\sigma_U=\sqrt{12}\approx3.46$, $\sigma_V=\sqrt{16}=4$, $\sigma_W=\sqrt7\approx2.65$.</p>
+  <p class="muted">On the slide, the letter V names both the random variable $V=2X+Y$ and the variance operator $\mathbb{V}$ (blackboard bold). So $\mathbb{V}(V)=16$ reads "the variance of $V$ is 16". The slide writes $1^2\,\mathbb{V}(Y)$ in the last line, because the coefficient $-1$ squares to $1$.</p>
+  <div class="note"><div class="t">Insight</div>Means follow linearity blindly, minus signs included. Variances square the coefficients, so minus signs vanish, shifts vanish, and every independent piece <b>adds</b> its variance. That is why $W=X-Y$ has variance $7$, more than either $\mathbb{V}(X)=3$ or $\mathbb{V}(Y)=4$.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Coefficient of variation (slide 35)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>coefficient of variation</b> of the random variable $X$ is</p>
+  $$\boxed{\;\mathrm{CV}(X)=\frac{\sigma_X}{|\mathbb{E}(X)|}\;}$$
+  <p>It is a <b>normalised measure of dispersion</b>: it measures the spread relative to the size of the mean. It is <b>dimensionless</b>, because $\sigma_X$ and $\mathbb{E}(X)$ have the same unit, which cancels. Measure a gain in cents instead of dollars and both $\sigma_X$ and $|\mathbb{E}(X)|$ are multiplied by 100, so the CV does not change.</p>
+  <div class="note fin"><div class="t">Finance: risk per unit of expected return</div>If $X$ is the payoff of an investment, $\mathrm{CV}(X)$ is the amount of risk (standard deviation) you carry for each unit of expected payoff. It lets you compare investments of very different sizes. Its reciprocal, $|\mathbb{E}(X)|/\sigma_X$, is expected return per unit of risk, the idea behind the Sharpe ratio.</div>
+  <figure>
+  <svg viewBox="0 0 400 180">
+    <line x1="150" y1="35" x2="150" y2="49" stroke="var(--dim)" stroke-dasharray="3 3"/>
+    <line x1="150" y1="80" x2="150" y2="94" stroke="var(--dim)" stroke-dasharray="3 3"/>
+    <line x1="150" y1="125" x2="150" y2="152" stroke="var(--dim)" stroke-dasharray="3 3"/>
+    <line x1="50" y1="152" x2="290" y2="152" stroke="var(--border2)"/>
+    <text x="70" y="166" class="svgtxt" text-anchor="middle">−4</text>
+    <text x="110" y="166" class="svgtxt" text-anchor="middle">−2</text>
+    <text x="150" y="166" class="svgtxt" text-anchor="middle">0</text>
+    <text x="190" y="166" class="svgtxt" text-anchor="middle">2</text>
+    <text x="230" y="166" class="svgtxt" text-anchor="middle">4</text>
+    <text x="270" y="166" class="svgtxt" text-anchor="middle">6</text>
+    <text x="50" y="30" class="svgtxt w">heads in 2 flips: μ = 1, σ = 0.71</text>
+    <line x1="155.9" y1="42" x2="184.1" y2="42" stroke="var(--blue)" stroke-width="3"/>
+    <line x1="155.9" y1="37" x2="155.9" y2="47" stroke="var(--blue)" stroke-width="1.5"/>
+    <line x1="184.1" y1="37" x2="184.1" y2="47" stroke="var(--blue)" stroke-width="1.5"/>
+    <circle cx="170" cy="42" r="3.5" fill="var(--green)"/>
+    <text x="392" y="46" class="svgtxt b" text-anchor="end">CV = 0.71</text>
+    <text x="50" y="75" class="svgtxt w">(0,1) game: μ = 2.8, σ = 1.47</text>
+    <line x1="176.6" y1="87" x2="235.4" y2="87" stroke="var(--blue)" stroke-width="3"/>
+    <line x1="176.6" y1="82" x2="176.6" y2="92" stroke="var(--blue)" stroke-width="1.5"/>
+    <line x1="235.4" y1="82" x2="235.4" y2="92" stroke="var(--blue)" stroke-width="1.5"/>
+    <circle cx="206" cy="87" r="3.5" fill="var(--green)"/>
+    <text x="392" y="91" class="svgtxt b" text-anchor="end">CV = 0.52</text>
+    <text x="50" y="120" class="svgtxt w">biased-coin game: μ = 0.19, σ = 4.61</text>
+    <line x1="61.7" y1="132" x2="245.9" y2="132" stroke="var(--red)" stroke-width="3"/>
+    <line x1="61.7" y1="127" x2="61.7" y2="137" stroke="var(--red)" stroke-width="1.5"/>
+    <line x1="245.9" y1="127" x2="245.9" y2="137" stroke="var(--red)" stroke-width="1.5"/>
+    <circle cx="153.8" cy="132" r="3.5" fill="var(--green)"/>
+    <text x="392" y="136" class="svgtxt r" text-anchor="end">CV = 24.2</text>
+  </svg>
+  <figcaption>Each bar runs from $\mu-\sigma$ to $\mu+\sigma$, with the green dot at $\mu$. Slide 23's game has a tiny mean and a huge spread: about 24 dollars of standard deviation per dollar of expected gain.</figcaption>
+  </figure>
+  <p>The three CVs, computed:</p>
+  <ol class="steps">
+    <li><b>Heads in two flips:</b> $\mathrm{CV}=\sqrt{1/2}\,/\,1\approx0.71$.</li>
+    <li><b>The $(0,1)$ game:</b> $\mathrm{CV}=1.47/2.8\approx0.52$.</li>
+    <li><b>Slide 23's game ($P(H)=0.1$):</b> $\mathbb{E}(X^2)=0.01\cdot1+0.18\cdot100+0.81\cdot4=0.01+18+3.24=21.25$, so $\mathbb{V}(X)=21.25-0.19^2=21.25-0.0361=21.2139$, $\sigma_X\approx4.61$ and $\mathrm{CV}\approx4.61/0.19\approx24.2$.</li>
+  </ol>
+  <div class="note warn"><div class="t">Trap</div>The CV is undefined when $\mathbb{E}(X)=0$ (the $\pm\$2$ game) and explodes when $\mathbb{E}(X)$ is close to 0. Use it for quantities whose mean is clearly away from zero, typically positive ones such as prices, lifetimes and sizes. The absolute value in the denominator keeps it positive when the mean is negative.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Moments (slide 35)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>$k$-th moment</b> and the <b>$k$-th central moment</b> of the random variable $X$ are</p>
+  $$\boxed{\;\mu_k'=\mathbb{E}(X^k),\qquad\mu_k=\mathbb{E}\big[(X-\mathbb{E}(X))^k\big]\;}$$
+  <p>Raw moments measure powers of the values themselves. Central moments measure powers of the deviations from the mean. For a discrete random variable, module 16's theorem with $g(x)=x^k$ or $g(x)=(x-\mathbb{E}(X))^k$ gives</p>
+  $$\mu_k'=\mathbb{E}(X^k)=\sum_{i=1}^{+\infty}f(x_i)\,x_i^k\qquad\text{and}\qquad\mu_k=\mathbb{E}\big[(X-\mathbb{E}(X))^k\big]=\sum_{i=1}^{+\infty}f(x_i)\,[x_i-\mathbb{E}(X)]^k$$
+  <h3>A dictionary of what you already know</h3>
+  <table class="formula-table">
+    <tr><td>$\mu_1'=\mathbb{E}(X)$</td><td>the mean</td></tr>
+    <tr><td>$\mu_1=0$</td><td>always (slide 36, below)</td></tr>
+    <tr><td>$\mu_2=\mathbb{V}(X)$</td><td>the variance</td></tr>
+    <tr><td>$\mu_2=\mu_2'-(\mu_1')^2$</td><td>the computational formula, in moment language</td></tr>
+    <tr><td>$\mu_3$</td><td>sign shows the <b>skew</b>: $&gt;0$ means a long right tail</td></tr>
+    <tr><td>$\mu_4$</td><td>how much weight sits in the <b>tails</b></td></tr>
+  </table>
+  <h3>Heads in two flips, first four moments</h3>
+  <table class="formula-table">
+    <tr><td>$k$</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+    <tr><td>$\mu_k'=\frac14\cdot0^k+\frac12\cdot1^k+\frac14\cdot2^k$</td><td>$1$</td><td>$\frac32$</td><td>$\frac52$</td><td>$\frac92$</td></tr>
+    <tr><td>$\mu_k=\frac14(-1)^k+\frac12\cdot0^k+\frac14\cdot1^k$</td><td>$0$</td><td>$\frac12$</td><td>$0$</td><td>$\frac12$</td></tr>
+  </table>
+  <p>For example, $\mu_3'=\frac14\cdot0+\frac12\cdot1+\frac14\cdot8=\frac12+2=\frac52$. The odd central moments vanish because the pmf is <b>symmetric</b> about its mean: every deviation $-d$ is matched by $+d$ with the same probability.</p>
+  <p><b>A skewed example.</b> For the $(0,1)$ game (deviations $-1.8$, $-0.8$, $2.2$):</p>
+  $$\mu_3=0.1(-1.8)^3+0.6(-0.8)^3+0.3(2.2)^3=-0.5832-0.3072+3.1944=2.304&gt;0$$
+  <p>This is right-skewed: the long tail points toward the payoff of $5$.</p>
+  <div class="note fin"><div class="t">Finance (beyond the slides)</div>Dividing by powers of $\sigma$ gives unit-free versions. <b>Skewness</b> is $\mu_3/\sigma^3$ (about $2.304/1.47^3\approx0.73$ for the $(0,1)$ game), and <b>kurtosis</b> is $\mu_4/\sigma^4$. Asset returns typically show negative skewness and high kurtosis ("fat tails"), which is why the first two moments alone understate crash risk.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXAMPLE (slide 36) · the first central moment is zero</div>
+  <div class="body">
+  <p>A fair coin is flipped $n=2$ times. Let $X$ be the number of heads. Prove that the first central moment of $X$ is zero.</p>
+  <ol class="steps">
+    <li><b>Ingredients</b> (modules 15–16): $f(0)=\frac14$, $f(1)=\frac12$, $f(2)=\frac14$, and $\mathbb{E}(X)=1$.</li>
+    <li><b>Apply the definition with $k=1$:</b>
+    $$\mu_1=\mathbb{E}[X-\mathbb{E}(X)]=f(0)\cdot(0-1)+f(1)\cdot(1-1)+f(2)\cdot(2-1)$$</li>
+    <li><b>Substitute and add:</b>
+    $$\mu_1=\tfrac14\cdot(-1)+\tfrac12\cdot0+\tfrac14\cdot1=-\tfrac14+0+\tfrac14=0$$</li>
+    <li><b>The general statement.</b> For <b>any</b> random variable with a finite mean, linearity with $a=-\mathbb{E}(X)$ and $b=1$ gives
+    $$\mu_1=\mathbb{E}[X-\mathbb{E}(X)]=\mathbb{E}(X)-\mathbb{E}(X)=0$$</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>This is the balance point of module 16 in algebraic form. The probability-weighted deviations on the left of the mean exactly cancel those on the right (in the $(0,1)$ game, $0.66$ on each side). It is also why variance has to <b>square</b> the deviations: averaging them unsquared always gives $0$, whatever the spread.</div>
+  <p><b>In R</b> (slide 36): <code>sum(x-mean(x))</code> returns <code>0</code>. This is the sample version: the deviations of any data set from its <b>own</b> sample mean sum to zero. With decimal data R may print a tiny number such as <code>1e-16</code> instead. That is floating-point rounding, and it should be read as zero.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">TIP</span> R corner and summary<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>
+  <p>A pmf is two vectors, and both variance formulas are one line each:</p>
+  <p><code>x &lt;- 0:2; f &lt;- c(1/4, 1/2, 1/4)</code><br>
+  <code>mu &lt;- sum(x * f)</code> stores the mean, 1 (an assignment prints nothing)<br>
+  <code>sum((x - mu)^2 * f)</code> gives <code>[1] 0.5</code> (the definition)<br>
+  <code>sum(x^2 * f) - mu^2</code> gives <code>[1] 0.5</code> (the shortcut)<br>
+  <code>sqrt(sum((x - mu)^2 * f))</code> gives <code>[1] 0.7071068</code></p>
+  <p><b>R trap:</b> <code>var(x)</code> gives <code>[1] 1</code>, <b>not</b> $\mathbb{V}(X)=0.5$. <code>var</code> treats its input as a <i>sample</i> of equally weighted observations and divides by $n-1$: $\big((0-1)^2+(1-1)^2+(2-1)^2\big)/2=1$. It knows nothing about <code>f</code>. The same applies to <code>sd(x)</code>, which gives 1 here.</p>
+  <p>To estimate $\mathbb{V}(X)$ from simulated data, use a large sample: <code>set.seed(1); s &lt;- rbinom(100000, 2, 0.5); var(s)</code> prints a number close to 0.5.</p>
+  </div>
+  <h3>Summary</h3>
+  <table class="formula-table">
+    <tr><td>variance</td><td>$\mathbb{V}(X)=\mathbb{E}\big[(X-\mu)^2\big]=\sum_i f(x_i)(x_i-\mu)^2$</td></tr>
+    <tr><td>shortcut</td><td>$\mathbb{V}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2$</td></tr>
+    <tr><td>st. deviation</td><td>$\sigma_X=\sqrt{\mathbb{V}(X)}$, in the units of $X$</td></tr>
+    <tr><td>shift and scale</td><td>$\mathbb{V}(aX+b)=a^2\,\mathbb{V}(X)$, $\sigma_{aX+b}=|a|\sigma_X$</td></tr>
+    <tr><td>independent sums</td><td>$\mathbb{V}(aX+bY)=a^2\,\mathbb{V}(X)+b^2\,\mathbb{V}(Y)$</td></tr>
+    <tr><td>difference</td><td>$\mathbb{V}(X-Y)=\mathbb{V}(X)+\mathbb{V}(Y)$ (independent)</td></tr>
+    <tr><td>CV</td><td>$\sigma_X/|\mathbb{E}(X)|$, unit-free</td></tr>
+    <tr><td>moments</td><td>$\mu_k'=\mathbb{E}(X^k)$, $\mu_k=\mathbb{E}\big[(X-\mathbb{E}(X))^k\big]$, $\mu_1=0$</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Heads in three flips</div>
+<div class="prob">Let $X$ be the number of heads in three fair flips. Module 16 gave $\mathbb{E}(X)=1.5$ and $\mathbb{E}(X^2)=3$. Find $\mathbb{V}(X)$ and $\sigma_X$.</div>
+<details><summary>Answer</summary><div class="sol">
+$$\mathbb{V}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2=3-1.5^2=3-2.25=0.75,\qquad\sigma_X=\sqrt{0.75}\approx0.866$$
+<p>Check with the definition: $\frac18(1.5)^2+\frac38(0.5)^2+\frac38(0.5)^2+\frac18(1.5)^2=\frac{2.25+0.75+0.75+2.25}{8}=\frac{6}{8}=0.75$ ✓</p>
+</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>The $\pm\$2$ game, two ways</div>
+<div class="prob">Module 12's game pays $-2$, $0$, $+2$ dollars with probabilities $\frac14,\frac12,\frac14$. Find its variance directly, and then again from $Y=2X-2$ with $X$ = heads in two flips.</div>
+<details><summary>Answer</summary><div class="sol">
+<p><b>Directly:</b> the mean is $0$, so $\mathbb{V}=\frac14\cdot4+\frac12\cdot0+\frac14\cdot4=2$, and $\sigma=\sqrt2\approx1.41$ dollars.</p>
+<p><b>Via slide 33:</b> $\mathbb{V}(2X-2)=2^2\,\mathbb{V}(X)=4\cdot\frac12=2$ ✓. The $-2$ shift does not matter.</p>
+</div></details>
+</div>
+</div>
+<div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Linear transformation</div>
+<div class="prob">$\mathbb{V}(X)=0.5$. Find $\mathbb{V}(3-2X)$ and the standard deviation of $3-2X$.</div>
+<details><summary>Answer</summary><div class="sol">
+<p>The shift $3$ disappears and the scale $-2$ is squared: $\mathbb{V}(3-2X)=(-2)^2\cdot0.5=2$. The standard deviation is $|{-2}|\cdot\sqrt{0.5}=\sqrt2\approx1.41$.</p>
+</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Slide 34, one step further</div>
+<div class="prob">With the data of slide 34 ($X,Y$ independent, $\mathbb{V}(X)=3$, $\mathbb{V}(Y)=4$), find $\mathbb{V}(X-2Y)$.</div>
+<details><summary>Answer</summary><div class="sol">
+$$\mathbb{V}(X-2Y)=1^2\cdot3+(-2)^2\cdot4=3+16=19$$
+<p>Not $3-16$, and not $3-8$: the coefficient $-2$ is squared.</p>
+</div></details>
+</div>
+</div>
+</div>
+</section>

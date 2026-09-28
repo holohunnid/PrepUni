@@ -1,0 +1,176 @@
+<!-- ============ 01 SAMPLE SPACES AND EVENTS ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>Sample spaces & events</h2><span class="sub">lecture 1, notes p.1–5 · slides: Axioms 2–3, 9–10</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Before we can say "the probability of X is 0.3" we need to say <b>what X is</b>. This module builds the vocabulary that every later formula is written in. It has only three words, and the whole course rests on them:</p>
+  <ul>
+    <li><b>random experiment</b> — something whose outcome is <i>uncertain</i>, but whose <i>possible</i> outcomes we can list in advance (toss a die: we don't know the face, but we know it is one of six);</li>
+    <li><b>sample space</b> $\Omega$ — the set of <i>all</i> possible outcomes;</li>
+    <li><b>event</b> — a <i>subset</i> of $\Omega$, i.e. a collection of outcomes we care about ("the face is even").</li>
+  </ul>
+  <p>The big move is the last one: <b>events are sets</b>. That sounds pedantic, but it buys us an entire algebra for free — "A or B" becomes a union, "A and B" an intersection, "not A" a complement (module 02) — and probability will be defined as a function that eats sets (module 04).</p>
+  <div class="note tip"><div class="t">One sentence to remember</div>An event <b>happens</b> when the outcome $\omega$ that actually occurs lies inside it. Rolling a 4 makes "even" happen and "less than 3" not happen — same roll, different events.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Sample space and outcomes<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>sample space</b> $\Omega$ is the set of all possible outcomes of a random experiment. Its elements are the <b>outcomes</b>, written $\omega\in\Omega$.</p>
+  <ul>
+    <li><b>Ex 1 — toss a die.</b> $\Omega=\{1,2,3,4,5,6\}$, with outcomes $\omega_1=1,\dots,\omega_6=6$.</li>
+    <li><b>Ex 2 — flip a coin.</b> $\Omega=\{H,T\}$, with $\omega_1=H$, $\omega_2=T$.</li>
+  </ul>
+  <figure>
+  <svg viewBox="0 0 380 150">
+    <text x="8" y="16" class="svgtxt w">Ex 1: Ω for one die</text>
+    <rect x="6" y="24" width="238" height="66" fill="none" stroke="var(--border2)"/>
+    <g>
+      <rect x="16" y="38" width="30" height="30" rx="4" fill="var(--panel2)" stroke="var(--blue)"/><text x="31" y="58" class="svgtxt w" text-anchor="middle">1</text>
+      <rect x="54" y="38" width="30" height="30" rx="4" fill="var(--panel2)" stroke="var(--blue)"/><text x="69" y="58" class="svgtxt w" text-anchor="middle">2</text>
+      <rect x="92" y="38" width="30" height="30" rx="4" fill="var(--panel2)" stroke="var(--blue)"/><text x="107" y="58" class="svgtxt w" text-anchor="middle">3</text>
+      <rect x="130" y="38" width="30" height="30" rx="4" fill="var(--panel2)" stroke="var(--blue)"/><text x="145" y="58" class="svgtxt w" text-anchor="middle">4</text>
+      <rect x="168" y="38" width="30" height="30" rx="4" fill="var(--panel2)" stroke="var(--blue)"/><text x="183" y="58" class="svgtxt w" text-anchor="middle">5</text>
+      <rect x="206" y="38" width="30" height="30" rx="4" fill="var(--panel2)" stroke="var(--blue)"/><text x="221" y="58" class="svgtxt w" text-anchor="middle">6</text>
+    </g>
+    <text x="31" y="84" class="svgtxt b" text-anchor="middle">ω₁</text><text x="221" y="84" class="svgtxt b" text-anchor="middle">ω₆</text>
+    <text x="264" y="16" class="svgtxt w">Ex 2: a coin</text>
+    <rect x="258" y="24" width="116" height="66" fill="none" stroke="var(--border2)"/>
+    <circle cx="290" cy="53" r="16" fill="var(--panel2)" stroke="var(--amber)"/><text x="290" y="57" class="svgtxt a" text-anchor="middle">H</text>
+    <circle cx="342" cy="53" r="16" fill="var(--panel2)" stroke="var(--amber)"/><text x="342" y="57" class="svgtxt a" text-anchor="middle">T</text>
+    <text x="8" y="116" class="svgtxt">the box is Ω; each tile is one outcome ω.</text>
+    <text x="8" y="132" class="svgtxt">one tile lights up per run — we don't know which</text>
+  </svg>
+  <figcaption>A sample space is just the full list of what can happen. Getting $\Omega$ right is the first step of every exercise.</figcaption>
+  </figure>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Events are subsets of Ω<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Subsets</b> of $\Omega$ are called <b>events</b>, written with capital letters ($E$, $A$, $B$, …). In Ex 1 (the die):</p>
+  $$\begin{aligned}
+  A&=\{\text{even number}\}=\{2,4,6\}\subset\Omega\\
+  B&=\{\text{number}&lt;3\}=\{1,2\}\\
+  C&=\{\text{negative number}\}=\{\ \}=\emptyset\\
+  D&=\{\text{number}&lt;10\}=\Omega
+  \end{aligned}$$
+  <p>Two events get names of their own: the <b>empty set</b> $\emptyset$ is the <b>impossible event</b> (it contains no outcome, so it can never happen) and $\Omega$ itself is the <b>sure event</b> (it contains every outcome, so it always happens).</p>
+  <figure>
+  <svg viewBox="0 0 380 170">
+    <text x="118" y="14" class="svgtxt" text-anchor="middle">outcome →</text>
+    <g class="svgtxt w">
+      <text x="96" y="30" text-anchor="middle" class="svgtxt w">1</text><text x="136" y="30" text-anchor="middle" class="svgtxt w">2</text><text x="176" y="30" text-anchor="middle" class="svgtxt w">3</text>
+      <text x="216" y="30" text-anchor="middle" class="svgtxt w">4</text><text x="256" y="30" text-anchor="middle" class="svgtxt w">5</text><text x="296" y="30" text-anchor="middle" class="svgtxt w">6</text>
+    </g>
+    <text x="8" y="56" class="svgtxt b">A even</text>
+    <rect x="80" y="40" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="120" y="40" width="32" height="24" fill="var(--blue)" opacity="0.6"/><rect x="160" y="40" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="200" y="40" width="32" height="24" fill="var(--blue)" opacity="0.6"/><rect x="240" y="40" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="280" y="40" width="32" height="24" fill="var(--blue)" opacity="0.6"/>
+    <text x="8" y="86" class="svgtxt g">B &lt; 3</text>
+    <rect x="80" y="70" width="32" height="24" fill="var(--green)" opacity="0.6"/><rect x="120" y="70" width="32" height="24" fill="var(--green)" opacity="0.6"/><rect x="160" y="70" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="200" y="70" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="240" y="70" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="280" y="70" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/>
+    <text x="8" y="116" class="svgtxt r">C = ∅</text>
+    <rect x="80" y="100" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="120" y="100" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="160" y="100" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="200" y="100" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="240" y="100" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/><rect x="280" y="100" width="32" height="24" fill="var(--panel2)" stroke="var(--border)"/>
+    <text x="8" y="146" class="svgtxt a">D = Ω</text>
+    <rect x="80" y="130" width="32" height="24" fill="var(--amber)" opacity="0.6"/><rect x="120" y="130" width="32" height="24" fill="var(--amber)" opacity="0.6"/><rect x="160" y="130" width="32" height="24" fill="var(--amber)" opacity="0.6"/><rect x="200" y="130" width="32" height="24" fill="var(--amber)" opacity="0.6"/><rect x="240" y="130" width="32" height="24" fill="var(--amber)" opacity="0.6"/><rect x="280" y="130" width="32" height="24" fill="var(--amber)" opacity="0.6"/>
+    <text x="322" y="116" class="svgtxt">never</text><text x="322" y="146" class="svgtxt">always</text>
+  </svg>
+  <figcaption>An event is a choice of "which outcomes count". Row $C$ selects nothing (impossible); row $D$ selects everything (sure). Roll a 2 and look at column 2: $A$, $B$ and $D$ all happen at once.</figcaption>
+  </figure>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">IDEA</span> How big can Ω be? Finite, countably infinite, uncountable<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The die has 6 outcomes and two dice have $6^2=36$ (ordered pairs $(x,y)$, one red die and one blue die). But $|\Omega|$ — the number of outcomes — does not have to be finite. The lecture gives two examples that go beyond, and the distinction between them comes back in module 15 (discrete vs continuous random variables).</p>
+  <div class="grid2">
+  <div>
+  <h3>The stubborn coin flipper — countably infinite</h3>
+  <p>Toss a coin <i>until the first head</i>. You might stop at once, or after one tail, or after two… so</p>
+  $$\Omega=\{H,\ TH,\ TTH,\ TTTH,\ \dots\}$$
+  <p>Infinitely many outcomes, but you can <b>count</b> them: the 1st, the 2nd, the 3rd… Every outcome gets a natural number.</p>
+  <figure>
+  <svg viewBox="0 0 330 150">
+    <circle cx="20" cy="30" r="5" fill="var(--text)"/>
+    <line x1="25" y1="30" x2="75" y2="30" stroke="var(--border2)"/><text x="50" y="24" class="svgtxt" text-anchor="middle">T</text>
+    <line x1="22" y1="34" x2="60" y2="70" stroke="var(--green)"/><text x="30" y="58" class="svgtxt g">H</text>
+    <rect x="46" y="72" width="36" height="20" rx="3" fill="var(--greenbg)" stroke="var(--green)"/><text x="64" y="86" class="svgtxt g" text-anchor="middle">H</text>
+    <circle cx="80" cy="30" r="5" fill="var(--text)"/>
+    <line x1="85" y1="30" x2="135" y2="30" stroke="var(--border2)"/><text x="110" y="24" class="svgtxt" text-anchor="middle">T</text>
+    <line x1="82" y1="34" x2="120" y2="70" stroke="var(--green)"/>
+    <rect x="102" y="72" width="40" height="20" rx="3" fill="var(--greenbg)" stroke="var(--green)"/><text x="122" y="86" class="svgtxt g" text-anchor="middle">TH</text>
+    <circle cx="140" cy="30" r="5" fill="var(--text)"/>
+    <line x1="145" y1="30" x2="195" y2="30" stroke="var(--border2)"/><text x="170" y="24" class="svgtxt" text-anchor="middle">T</text>
+    <line x1="142" y1="34" x2="180" y2="70" stroke="var(--green)"/>
+    <rect x="158" y="72" width="46" height="20" rx="3" fill="var(--greenbg)" stroke="var(--green)"/><text x="181" y="86" class="svgtxt g" text-anchor="middle">TTH</text>
+    <circle cx="200" cy="30" r="5" fill="var(--text)"/>
+    <line x1="205" y1="30" x2="255" y2="30" stroke="var(--border2)"/><text x="230" y="24" class="svgtxt" text-anchor="middle">T</text>
+    <line x1="202" y1="34" x2="240" y2="70" stroke="var(--green)"/>
+    <rect x="214" y="72" width="54" height="20" rx="3" fill="var(--greenbg)" stroke="var(--green)"/><text x="241" y="86" class="svgtxt g" text-anchor="middle">TTTH</text>
+    <text x="268" y="34" class="svgtxt w">…</text>
+    <text x="6" y="118" class="svgtxt">one outcome per green box; no end</text>
+    <text x="6" y="134" class="svgtxt">box k needs exactly k tosses → countable</text>
+  </svg>
+  </figure>
+  </div>
+  <div>
+  <h3>Lifetime of a light bulb — uncountable</h3>
+  <p>Measure how many hours a bulb lasts. Any non-negative real number is possible:</p>
+  $$\Omega=[0,+\infty)$$
+  <p>Now you <b>cannot</b> list the outcomes one by one — between any two lifetimes there are infinitely many others. Events are typically intervals (module 02 works them out):</p>
+  <figure>
+  <svg viewBox="0 0 330 150">
+    <line x1="20" y1="100" x2="316" y2="100" stroke="var(--border2)" stroke-width="1.5"/>
+    <path d="M 316 100 l -7 -4 l 0 8 Z" fill="var(--border2)"/>
+    <circle cx="20" cy="100" r="3.5" fill="var(--text)"/>
+    <text x="20" y="118" class="svgtxt" text-anchor="middle">0</text>
+    <text x="80" y="118" class="svgtxt" text-anchor="middle">1000</text>
+    <text x="140" y="118" class="svgtxt" text-anchor="middle">2000</text>
+    <text x="200" y="118" class="svgtxt" text-anchor="middle">3000</text>
+    <text x="310" y="118" class="svgtxt" text-anchor="end">hours</text>
+    <circle cx="80" cy="40" r="4" fill="var(--blue)"/><text x="88" y="44" class="svgtxt b">E₁ = {1000}</text>
+    <line x1="20" y1="62" x2="200" y2="62" stroke="var(--green)" stroke-width="5"/><circle cx="20" cy="62" r="3.5" fill="var(--green)"/><circle cx="200" cy="62" r="3.5" fill="var(--panel)" stroke="var(--green)" stroke-width="1.5"/>
+    <text x="206" y="66" class="svgtxt g">E₂ = [0, 3000)</text>
+    <line x1="140" y1="82" x2="310" y2="82" stroke="var(--red)" stroke-width="5"/><circle cx="140" cy="82" r="3.5" fill="var(--panel)" stroke="var(--red)" stroke-width="1.5"/>
+    <text x="100" y="86" class="svgtxt r" text-anchor="end">E₃ = (2000, ∞)</text>
+    <text x="6" y="142" class="svgtxt">filled dot = included · hollow = excluded</text>
+  </svg>
+  </figure>
+  </div>
+  </div>
+  <div class="note"><div class="t">Why this distinction will matter</div>On a finite or countable $\Omega$ we can give every single outcome its own probability and add them up. On an uncountable $\Omega$ like $[0,\infty)$ we <b>cannot</b>: single points will turn out to have probability 0 (module 06), and probability has to live on intervals instead. That split — countable vs uncountable — is exactly the split between discrete and continuous random variables in module 15.</div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 1 · notes p.2 · slides Axioms 3 — reading an event off a sentence</div>
+  <div class="body">
+  <p>Most exam mistakes in this chapter are translation mistakes. The recipe the lecture uses is always the same: <b>write $\Omega$ first, then collect the outcomes that make the sentence true.</b></p>
+  <ol class="steps">
+    <li><b>"Observing an even number."</b> Go through $\Omega=\{1,\dots,6\}$ and keep those that are even: $\{2,4,6\}$.</li>
+    <li><b>"Observing a number less than 3."</b> Keep 1 and 2: $\{1,2\}$. (Strictly less — 3 itself is out.)</li>
+    <li><b>"Observing a negative number."</b> No face is negative, so nothing is kept: $\emptyset$. The sentence is legal, the event just can't happen.</li>
+    <li><b>"Observing a number less than 10."</b> Every face qualifies: the event is all of $\Omega$.</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>Events are about <i>which outcomes</i>, not about how likely they are. $\emptyset$ and $\Omega$ are perfectly good events; probability is attached later, in module 04.</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Two coins</div>
+<div class="prob">You flip two coins. Write $\Omega$, and the event "at least one head".</div>
+<details><summary>Answer</summary><div class="sol">$\Omega=\{HH,HT,TH,TT\}$ — order matters, so $HT$ and $TH$ are different outcomes (first coin, second coin). "At least one head" $=\{HH,HT,TH\}$: everything except $TT$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Is it an event?</div>
+<div class="prob">For one die, is $\{7\}$ an event? Is $\{2,5\}$? Is $\Omega$?</div>
+<details><summary>Answer</summary><div class="sol">$\{7\}$ is <b>not</b> — 7 is not an outcome, so $\{7\}\not\subset\Omega$ (the event "rolling a 7" is written $\emptyset$). $\{2,5\}$ is (any subset is). $\Omega$ is — the sure event.</div></details>
+</div>
+</div>
+</section>
