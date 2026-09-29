@@ -1,12 +1,12 @@
-<!-- ============ 26 EXAM PRACTICE AND INDEX ============ -->
-<section id="s26">
-<div class="sec-head"><span class="num">26</span><h2>Exam practice & index</h2><span class="sub">multiple choice on theory and on R · open questions · every example with its answer</span></div>
+<!-- ============ 27 EXAM PRACTICE AND INDEX ============ -->
+<section id="s27">
+<div class="sec-head"><span class="num">27</span><h2>Exam practice & index</h2><span class="sub">multiple choice on theory and on R · open questions · every example with its answer</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">HOW TO USE</span> Practise in the exam's own format<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
   <div class="body">
-  <p>The exam is 1.5 hours, closed book: <b>one open question</b> (5 points), <b>five multiple-choice questions on theory</b> (5 points) and <b>five multiple-choice questions on R</b> (5 points). This module mirrors that: click an option — the first click counts — and the explanation appears. The last panel indexes every example of modules 01–25 with its answer and where it is solved.</p>
-  <p class="muted">These questions are written for practice from the course material; they are not past exam questions. The R questions use standard R functions (the R corners in modules 15–25 introduce them).</p>
+  <p>The exam is 1.5 hours, closed book: <b>one open question</b> (5 points), <b>five multiple-choice questions on theory</b> (5 points) and <b>five multiple-choice questions on R</b> (5 points). This module mirrors that: click an option — the first click counts — and the explanation appears. The last panel indexes every example of modules 01–26 with its answer and where it is solved.</p>
+  <p class="muted">These questions are written for practice from the course material; they are not past exam questions. The R questions use standard R functions (the R corners in modules 15–26 introduce them).</p>
   <div class="readout" id="mcqscore" style="margin-top:8px"></div>
   <div class="ctrl" style="margin-top:8px"><span class="btns"><button id="mcqreset">reset all answers</button></span></div>
   </div>
@@ -55,7 +55,7 @@
   <div class="mcq" data-ans="0">
     <div class="q"><span class="n">A7</span>$X$ is continuous. Compare $P(X\le2)$ and $P(X&lt;2)$.</div>
     <div class="opts"><button>always equal</button><button>$P(X\le2)$ is larger by $f(2)$</button><button>equal only if $X$ is symmetric</button><button>$P(X&lt;2)$ is always larger</button></div>
-    <div class="why">$P(X=2)=0$ for continuous $X$. (For discrete $X$ they differ by the jump $P(X=2)$; $f(2)$ is a density height, not a probability — modules 13, 21.)</div>
+    <div class="why">$P(X=2)=0$ for continuous $X$. (For discrete $X$ they differ by the jump $P(X=2)$; $f(2)$ is a density height, not a probability — modules 13, 22.)</div>
   </div>
 
   <div class="mcq" data-ans="1">
@@ -79,37 +79,37 @@
   <div class="mcq" data-ans="0">
     <div class="q"><span class="n">A11</span>$X\sim$ Binomial$(10,\,0.3)$. Its mean and variance are</div>
     <div class="opts"><button>3 and 2.1</button><button>3 and 0.21</button><button>0.3 and 2.1</button><button>3 and 3</button></div>
-    <div class="why">$np=3$, $npq=10\cdot0.3\cdot0.7=2.1$ (module 18). "3 and 3" is the Poisson answer.</div>
+    <div class="why">$np=3$, $npq=10\cdot0.3\cdot0.7=2.1$ (module 19). "3 and 3" is the Poisson answer.</div>
   </div>
 
   <div class="mcq" data-ans="2">
     <div class="q"><span class="n">A12</span>$X\sim$ Poisson$(2)$. $P(X=0)$ is</div>
     <div class="opts"><button>0</button><button>0.5</button><button>$e^{-2}\approx0.135$</button><button>$2e^{-2}\approx0.271$</button></div>
-    <div class="why">$e^{-\lambda}\lambda^0/0!=e^{-2}$ (module 19). $2e^{-2}$ is $P(X=1)$ (and also $P(X=2)$).</div>
+    <div class="why">$e^{-\lambda}\lambda^0/0!=e^{-2}$ (module 20). $2e^{-2}$ is $P(X=1)$ (and also $P(X=2)$).</div>
   </div>
 
   <div class="mcq" data-ans="0">
     <div class="q"><span class="n">A13</span>$f(x)=cx$ on $(0,2)$ and 0 elsewhere is a density when $c$ equals</div>
     <div class="opts"><button>1/2</button><button>2</button><button>1</button><button>1/4</button></div>
-    <div class="why">Normalisation: $\int_0^2cx\,dx=c\cdot\tfrac{2^2}{2}=2c=1$ (module 21).</div>
+    <div class="why">Normalisation: $\int_0^2cx\,dx=c\cdot\tfrac{2^2}{2}=2c=1$ (module 22).</div>
   </div>
 
   <div class="mcq" data-ans="3">
     <div class="q"><span class="n">A14</span>$X\sim$ Exponential with rate $\lambda=4$. Then $\mathbb E(X)$ and $P(X&gt;1)$ are</div>
     <div class="opts"><button>4 and $e^{-4}$</button><button>1/4 and $1-e^{-4}$</button><button>4 and $1-e^{-4}$</button><button>1/4 and $e^{-4}$</button></div>
-    <div class="why">$\mathbb E(X)=1/\lambda$; $P(X&gt;x)=e^{-\lambda x}$ (module 23).</div>
+    <div class="why">$\mathbb E(X)=1/\lambda$; $P(X&gt;x)=e^{-\lambda x}$ (module 24).</div>
   </div>
 
   <div class="mcq" data-ans="1">
     <div class="q"><span class="n">A15</span>$X\sim N(10,25)$. $P(X&lt;15)$ equals</div>
     <div class="opts"><button>$\Phi(0.2)$</button><button>$\Phi(1)\approx0.841$</button><button>$\Phi(5)$</button><button>$1-\Phi(1)$</button></div>
-    <div class="why">The second parameter is the variance: $\sigma=5$, $z=(15-10)/5=1$ (module 24).</div>
+    <div class="why">The second parameter is the variance: $\sigma=5$, $z=(15-10)/5=1$ (module 25).</div>
   </div>
 
   <div class="mcq" data-ans="2">
     <div class="q"><span class="n">A16</span>As the degrees of freedom $\nu$ grow, the Student-t distribution</div>
     <div class="opts"><button>becomes a χ² distribution</button><button>gets heavier tails</button><button>approaches the standard normal</button><button>loses its symmetry</button></div>
-    <div class="why">$t_\nu\to N(0,1)$ as $\nu\to\infty$; small $\nu$ means heavier tails (module 25).</div>
+    <div class="why">$t_\nu\to N(0,1)$ as $\nu\to\infty$; small $\nu$ means heavier tails (module 26).</div>
   </div>
   </div>
 </div>
@@ -133,13 +133,13 @@
   <div class="mcq" data-ans="2">
     <div class="q"><span class="n">R3</span>$X\sim N(5,4)$ (variance 4). $P(X&lt;7)$ in R is</div>
     <div class="opts"><button><code>pnorm(7, 5, 4)</code></button><button><code>dnorm(7, 5, 2)</code></button><button><code>pnorm(7, 5, 2)</code></button><button><code>qnorm(7, 5, 2)</code></button></div>
-    <div class="why">R's normal functions take the <b>standard deviation</b>: $\sqrt4=2$. <code>pnorm(7, 5, 2)</code> $=\Phi(1)=0.8413$ (module 24 trap).</div>
+    <div class="why">R's normal functions take the <b>standard deviation</b>: $\sqrt4=2$. <code>pnorm(7, 5, 2)</code> $=\Phi(1)=0.8413$ (module 25 trap).</div>
   </div>
 
   <div class="mcq" data-ans="3">
     <div class="q"><span class="n">R4</span><code>qnorm(0.975)</code> returns approximately</div>
     <div class="opts"><button>0.8340</button><button>0.975</button><button>2.576</button><button>1.960</button></div>
-    <div class="why"><code>q…</code> = quantile (inverse CDF): the point with 97.5% of $N(0,1)$ below it, $z_{0.975}\approx1.96$ (module 25).</div>
+    <div class="why"><code>q…</code> = quantile (inverse CDF): the point with 97.5% of $N(0,1)$ below it, $z_{0.975}\approx1.96$ (module 26).</div>
   </div>
 
   <div class="mcq" data-ans="1">
@@ -151,7 +151,7 @@
   <div class="mcq" data-ans="2">
     <div class="q"><span class="n">R6</span>Cards are drawn with replacement until the first ace ($p=1/13$). <code>dgeom(2, 1/13)</code> is</div>
     <div class="opts"><button>P(the first ace is the 2nd card)</button><button>P(at most 2 draws are needed)</button><button>P(exactly 2 failures before the first ace) ≈ 0.0655</button><button>the mean number of draws</button></div>
-    <div class="why">R's geometric counts <b>failures before the first success</b> — the slides' Geometric II: $p q^2=\tfrac1{13}(\tfrac{12}{13})^2\approx0.0655$ (module 20).</div>
+    <div class="why">R's geometric counts <b>failures before the first success</b> — the slides' Geometric II: $p q^2=\tfrac1{13}(\tfrac{12}{13})^2\approx0.0655$ (module 21).</div>
   </div>
 
   <div class="mcq" data-ans="0">
@@ -181,13 +181,13 @@
   <div class="mcq" data-ans="0">
     <div class="q"><span class="n">R11</span><code>set.seed(1); mean(runif(100000))</code> prints a number close to</div>
     <div class="opts"><button>0.5</button><button>1/12</button><button>1</button><button>0</button></div>
-    <div class="why">The average of many uniform draws approaches $\mathbb E(U)=\tfrac12$ (modules 16, 22). $\tfrac1{12}$ is the variance. <code>set.seed</code> just makes the random draws reproducible.</div>
+    <div class="why">The average of many uniform draws approaches $\mathbb E(U)=\tfrac12$ (modules 16, 23). $\tfrac1{12}$ is the variance. <code>set.seed</code> just makes the random draws reproducible.</div>
   </div>
 
   <div class="mcq" data-ans="3">
     <div class="q"><span class="n">R12</span><code>integrate(function(x) 3*x^3, 0, 1)</code> returns 0.75. What was computed?</div>
     <div class="opts"><button>$P(X\le1)$ for $f(x)=3x^2$</button><button>$\mathbb V(X)$ for $f(x)=3x^2$</button><button>the median of $f(x)=3x^2$</button><button>$\mathbb E(X)$ for $f(x)=3x^2$</button></div>
-    <div class="why">$\int_0^1x\cdot3x^2\,dx=\tfrac34$ — the slides' example (module 22).</div>
+    <div class="why">$\int_0^1x\cdot3x^2\,dx=\tfrac34$ — the slides' example (module 23).</div>
   </div>
   </div>
 </div>
@@ -210,7 +210,7 @@
   </div>
 
   <div class="wx">
-  <div class="bar"><span class="n">O2</span><span class="pill a">●●</span><span class="tag">modules 13, 14, 21, 22</span>From a CDF to everything else</div>
+  <div class="bar"><span class="n">O2</span><span class="pill a">●●</span><span class="tag">modules 13, 14, 22, 23</span>From a CDF to everything else</div>
   <div class="prob">$F(t)=0$ for $t&lt;0$, $F(t)=t^2/4$ for $0\le t\le2$, $F(t)=1$ for $t&gt;2$.<br>(a) Check that $F$ is a CDF. (b) Find $P(X\le1)$, $P(0.5&lt;X\le1.5)$ and $P(X=1)$. (c) Find the density $f$ and $\mathbb E(X)$. (d) Find the distribution of $Y=X^2$.</div>
   <details><summary>Solution</summary><div class="sol">
   <ol class="steps">
@@ -271,38 +271,39 @@
     <tr><td>L2 p.11 · Distr. 16</td><td>Find $c$</td><td>$c=\tfrac14$; $6c=1\Rightarrow c=\tfrac16$</td><td>15</td></tr>
     <tr><td>L2 p.12 · Distr. 17–21</td><td>Constant RV; heads in 2 and 3 flips</td><td>$F=0,\tfrac14,\tfrac34,1$; $n=3$: $0,0.125,0.5,0.875,1$</td><td>15</td></tr>
     <tr><td>L2 p.13 · Distr. 22</td><td>$f(k)=\tfrac15(\tfrac45)^{k-1}$ is a pmf</td><td>geometric series $\frac{1/5}{1-4/5}=1$</td><td>15</td></tr>
-    <tr><td>Distr. 23</td><td>Biased-coin game, $P(H)=0.1$</td><td>0.01 / 0.18 / 0.81; $\mathbb E(X)=0.19$ per game</td><td>16</td></tr>
-    <tr><td>Distr. 25, 28</td><td>Heads in 2 flips: $\mathbb E(X)$, $\mathbb E((X-1)^+)$</td><td>$1$; $\tfrac14$</td><td>16</td></tr>
-    <tr><td>Distr. 32</td><td>$\mathbb V(X)$, heads in 2 flips</td><td>$\tfrac12$ both ways</td><td>17</td></tr>
-    <tr><td>Distr. 34</td><td>$U=2X+3$, $V=2X+Y$, $W=X-Y$</td><td>$\mathbb E$: 3, 1, −1; $\mathbb V$: 12, 16, 7</td><td>17</td></tr>
-    <tr><td>Distr. 36</td><td>First central moment</td><td>$\mu_1=0$</td><td>17</td></tr>
-    <tr><td>Disc. 8</td><td>Bernoulli mean and variance</td><td>$\mathbb E=p$, $\mathbb V=pq$</td><td>18</td></tr>
-    <tr><td>Disc. 10–11</td><td>Tails in 3 flips: fair; biased $P(T)=\tfrac13$</td><td>$\tfrac18,\tfrac38,\tfrac38,\tfrac18$; $\tfrac8{27},\tfrac{12}{27},\tfrac6{27},\tfrac1{27}$</td><td>18</td></tr>
-    <tr><td>Disc. 18</td><td>Binomial mean and variance</td><td>$np$, $npq$ (sum of Bernoullis)</td><td>18</td></tr>
-    <tr><td>Disc. 19–21</td><td>Sixes in 10 rolls</td><td>$P(X=5)=0.0130$; $P(X\le1)=0.4845$; $P(X&lt;3)=0.7752$; $P(X&gt;8)=8.43\cdot10^{-7}$</td><td>18</td></tr>
-    <tr><td>Disc. 27</td><td>Poisson tail (blank slide)</td><td>$P(X&gt;x)=1-\sum_{k\le x}e^{-\lambda}\lambda^k/k!$; Poisson(2): $P(X&gt;3)=0.1429$</td><td>19</td></tr>
-    <tr><td>Disc. 28</td><td>Defective items, $n=500$, $p=0.004$</td><td>$\lambda=2$: exact 0.1348 / 0.2707 / 0.2712 / 0.1808 vs Poisson 0.1353 / 0.2707 / 0.2707 / 0.1804</td><td>19</td></tr>
-    <tr><td>Disc. 29</td><td>Call during a 10-minute break</td><td>$1-e^{-5/6}=0.5654$</td><td>19</td></tr>
-    <tr><td>Disc. 32</td><td>Fair die as DUniform(1,6)</td><td>$\mathbb E=\tfrac72$, $\mathbb V=\tfrac{35}{12}$</td><td>20</td></tr>
-    <tr><td>Disc. 36–37</td><td>Draws before the first ace</td><td>$P(X=2)=0.0655$; $P(X\ge10)=(\tfrac{12}{13})^{10}=0.4491$</td><td>20</td></tr>
-    <tr><td>Cont. 3</td><td>Bernoulli(0.6) cdf vs random point cdf</td><td>jump from 0.4 to 1 at $t=1$; ramp $F(t)=t$</td><td>21</td></tr>
-    <tr><td>Cont. 8–9</td><td>$f=c$ on $(1,5)$</td><td>$c=0.25$; $F(t)=\frac{t-1}{4}$ on $(1,5)$</td><td>21</td></tr>
-    <tr><td>Cont. 10–11</td><td>$f(x)=5e^{-5x}$</td><td>integrates to 1; $F(t)=1-e^{-5t}$</td><td>21</td></tr>
-    <tr><td>Cont. 12–13</td><td>$\mathbb E(X)$: uniform(0,1); $3x^2$</td><td>$\tfrac12$; $\tfrac34$</td><td>22</td></tr>
-    <tr><td>Cont. 15</td><td>Moments; $Y=2+5X$</td><td>$\tfrac13,\tfrac14$; $g=0.2$ on $(2,7)$; $\mathbb E(Y)=4.5$, $\mathbb E(Y^2)\approx22.333$, $\mathbb E(Y^3)=119.25$</td><td>22</td></tr>
-    <tr><td>Cont. 17, 19</td><td>Variances</td><td>$\mathbb V(X)=\tfrac1{12}$; $\mathbb V(Y)=\tfrac{25}{12}$</td><td>22</td></tr>
-    <tr><td>Cont.2 3, 6</td><td>Uniform$(a,b)$: constant, CDF, mean, variance</td><td>$c=\frac1{b-a}$; $F=\frac{x-a}{b-a}$; $\frac{a+b}2$; $\frac{(b-a)^2}{12}$</td><td>23</td></tr>
-    <tr><td>Cont.2 5</td><td>Buses every 15 minutes</td><td>wait &lt; 5 min: $\tfrac13$; wait &gt; 10 min: $\tfrac13$</td><td>23</td></tr>
-    <tr><td>Cont.2 7–10</td><td>Exponential$(\lambda)$</td><td>$f=\lambda e^{-\lambda x}$; $\mathbb E=\tfrac1\lambda$; $\mathbb V=\tfrac1{\lambda^2}$</td><td>23</td></tr>
-    <tr><td>Cont.2 11–12</td><td>Memoryless property</td><td>$P(X&gt;a+x\mid X&gt;a)=e^{-\lambda x}=P(X&gt;x)$</td><td>23</td></tr>
-    <tr><td>Cont.2 16</td><td>Earnings $N(5,4)$</td><td>$P(Y&lt;7)=0.8413$; $P(3&lt;Y&lt;6)=0.5328$</td><td>24</td></tr>
-    <tr><td>Cont.2 17</td><td>Paternity $N(270,100)$</td><td>$0.0241$</td><td>24</td></tr>
-    <tr><td>Cont.2 18</td><td>Noisy channel</td><td>error given 1: $0.0668$; given 0: $0.0062$</td><td>24</td></tr>
-    <tr><td>Cont.2 19, 29–30</td><td>Normal moments; standardisation</td><td>$\mathbb E=\mu$, $\mathbb V=\sigma^2$; $\frac{X-\mu}\sigma\sim N(0,1)$</td><td>24</td></tr>
-    <tr><td>Cont.2 20</td><td>$W=Z^2$</td><td>$f_W(x)=\frac{1}{\sqrt{2\pi x}}e^{-x/2}$: $\chi^2(1)$</td><td>25</td></tr>
-    <tr><td>Cont.2 21–24</td><td>$\chi^2(k)$</td><td>$\mathbb E=k$, $\mathbb V=2k$</td><td>25</td></tr>
-    <tr><td>Cont.2 25–28</td><td>Student-t$(\nu)$</td><td>$\mathbb E=0$ ($\nu&gt;1$); $\mathbb V=\frac\nu{\nu-2}$ ($\nu&gt;2$); $\to N(0,1)$</td><td>25</td></tr>
-    <tr><td>Cont.2 31</td><td>Percentiles</td><td>$z_{0.975}=1.960$; $t_{5;0.975}=2.571$; $\chi^2_{1;0.95}=3.841$; Exp median $\frac{\ln2}\lambda$</td><td>25</td></tr>
+    <tr><td>L3 p.1 · Distr. 23</td><td>Biased-coin game, $P(H)=0.1$</td><td>0.01 / 0.18 / 0.81; $\mathbb E(X)=0.19$ per game</td><td>16</td></tr>
+    <tr><td>L3 p.1–2 · Distr. 25, 28</td><td>Heads in 2 flips: $\mathbb E(X)$, $\mathbb E((X-1)^+)$</td><td>$1$; $\tfrac14$</td><td>16</td></tr>
+    <tr><td>L3 p.2 · Distr. 32</td><td>$\mathbb V(X)$, heads in 2 flips</td><td>$\tfrac12$ both ways</td><td>17</td></tr>
+    <tr><td>L3 p.3 · Distr. 34</td><td>$U=2X+3$, $V=2X+Y$, $W=X-Y$</td><td>$\mathbb E$: 3, 1, −1; $\mathbb V$: 12, 16, 7</td><td>17</td></tr>
+    <tr><td>L3 p.3 · Distr. 36</td><td>First central moment</td><td>$\mu_1=0$</td><td>17</td></tr>
+    <tr><td>L3 p.4 · Disc. 1–2</td><td>The special discrete distributions: what each one counts, how they relate</td><td>Bernoulli → Binomial (count in $n$), Geometric (wait for 1st success), Poisson (binomial limit); DUniform on its own</td><td>18</td></tr>
+    <tr><td>L3 p.5 · Disc. 8</td><td>Bernoulli mean and variance</td><td>$\mathbb E=p$, $\mathbb V=pq$</td><td>19</td></tr>
+    <tr><td>L3 p.4–5 · Disc. 10–11</td><td>3 flips: fair; biased (notes count heads with $P(H)=\tfrac13$)</td><td>$\tfrac18,\tfrac38,\tfrac38,\tfrac18$; $\tfrac8{27},\tfrac{12}{27},\tfrac6{27},\tfrac1{27}$</td><td>19</td></tr>
+    <tr><td>L3 p.5 · Disc. 18</td><td>Binomial mean and variance</td><td>$np$, $npq$ (sum of Bernoullis)</td><td>19</td></tr>
+    <tr><td>L3 p.6 · Disc. 19–21</td><td>Sixes in 10 rolls</td><td>$P(X=5)=0.0130$; $P(X\le1)=0.4845$; $P(X&lt;3)=0.7752$; $P(X&gt;8)=8.43\cdot10^{-7}$</td><td>19</td></tr>
+    <tr><td>Disc. 27</td><td>Poisson tail (blank slide)</td><td>$P(X&gt;x)=1-\sum_{k\le x}e^{-\lambda}\lambda^k/k!$; Poisson(2): $P(X&gt;3)=0.1429$</td><td>20</td></tr>
+    <tr><td>Disc. 28</td><td>Defective items, $n=500$, $p=0.004$</td><td>$\lambda=2$: exact 0.1348 / 0.2707 / 0.2712 / 0.1808 vs Poisson 0.1353 / 0.2707 / 0.2707 / 0.1804</td><td>20</td></tr>
+    <tr><td>L3 p.7 · Disc. 29</td><td>Call during a 10-minute break</td><td>$1-e^{-5/6}=0.5654$</td><td>20</td></tr>
+    <tr><td>L3 p.8 · Disc. 32</td><td>Fair die as DUniform(1,6)</td><td>$\mathbb E=\tfrac72$, $\mathbb V=\tfrac{35}{12}$</td><td>21</td></tr>
+    <tr><td>Disc. 36–37</td><td>Draws before the first ace</td><td>$P(X=2)=0.0655$; $P(X\ge10)=(\tfrac{12}{13})^{10}=0.4491$</td><td>21</td></tr>
+    <tr><td>Cont. 3</td><td>Bernoulli(0.6) cdf vs random point cdf</td><td>jump from 0.4 to 1 at $t=1$; ramp $F(t)=t$</td><td>22</td></tr>
+    <tr><td>Cont. 8–9</td><td>$f=c$ on $(1,5)$</td><td>$c=0.25$; $F(t)=\frac{t-1}{4}$ on $(1,5)$</td><td>22</td></tr>
+    <tr><td>Cont. 10–11</td><td>$f(x)=5e^{-5x}$</td><td>integrates to 1; $F(t)=1-e^{-5t}$</td><td>22</td></tr>
+    <tr><td>Cont. 12–13</td><td>$\mathbb E(X)$: uniform(0,1); $3x^2$</td><td>$\tfrac12$; $\tfrac34$</td><td>23</td></tr>
+    <tr><td>Cont. 15</td><td>Moments; $Y=2+5X$</td><td>$\tfrac13,\tfrac14$; $g=0.2$ on $(2,7)$; $\mathbb E(Y)=4.5$, $\mathbb E(Y^2)\approx22.333$, $\mathbb E(Y^3)=119.25$</td><td>23</td></tr>
+    <tr><td>Cont. 17, 19</td><td>Variances</td><td>$\mathbb V(X)=\tfrac1{12}$; $\mathbb V(Y)=\tfrac{25}{12}$</td><td>23</td></tr>
+    <tr><td>Cont.2 3, 6</td><td>Uniform$(a,b)$: constant, CDF, mean, variance</td><td>$c=\frac1{b-a}$; $F=\frac{x-a}{b-a}$; $\frac{a+b}2$; $\frac{(b-a)^2}{12}$</td><td>24</td></tr>
+    <tr><td>Cont.2 5</td><td>Buses every 15 minutes</td><td>wait &lt; 5 min: $\tfrac13$; wait &gt; 10 min: $\tfrac13$</td><td>24</td></tr>
+    <tr><td>Cont.2 7–10</td><td>Exponential$(\lambda)$</td><td>$f=\lambda e^{-\lambda x}$; $\mathbb E=\tfrac1\lambda$; $\mathbb V=\tfrac1{\lambda^2}$</td><td>24</td></tr>
+    <tr><td>Cont.2 11–12</td><td>Memoryless property</td><td>$P(X&gt;a+x\mid X&gt;a)=e^{-\lambda x}=P(X&gt;x)$</td><td>24</td></tr>
+    <tr><td>Cont.2 16</td><td>Earnings $N(5,4)$</td><td>$P(Y&lt;7)=0.8413$; $P(3&lt;Y&lt;6)=0.5328$</td><td>25</td></tr>
+    <tr><td>Cont.2 17</td><td>Paternity $N(270,100)$</td><td>$0.0241$</td><td>25</td></tr>
+    <tr><td>Cont.2 18</td><td>Noisy channel</td><td>error given 1: $0.0668$; given 0: $0.0062$</td><td>25</td></tr>
+    <tr><td>Cont.2 19, 29–30</td><td>Normal moments; standardisation</td><td>$\mathbb E=\mu$, $\mathbb V=\sigma^2$; $\frac{X-\mu}\sigma\sim N(0,1)$</td><td>25</td></tr>
+    <tr><td>Cont.2 20</td><td>$W=Z^2$</td><td>$f_W(x)=\frac{1}{\sqrt{2\pi x}}e^{-x/2}$: $\chi^2(1)$</td><td>26</td></tr>
+    <tr><td>Cont.2 21–24</td><td>$\chi^2(k)$</td><td>$\mathbb E=k$, $\mathbb V=2k$</td><td>26</td></tr>
+    <tr><td>Cont.2 25–28</td><td>Student-t$(\nu)$</td><td>$\mathbb E=0$ ($\nu&gt;1$); $\mathbb V=\frac\nu{\nu-2}$ ($\nu&gt;2$); $\to N(0,1)$</td><td>26</td></tr>
+    <tr><td>Cont.2 31</td><td>Percentiles</td><td>$z_{0.975}=1.960$; $t_{5;0.975}=2.571$; $\chi^2_{1;0.95}=3.841$; Exp median $\frac{\ln2}\lambda$</td><td>26</td></tr>
   </table>
   </div>
 </div>

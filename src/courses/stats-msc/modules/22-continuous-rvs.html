@@ -1,6 +1,6 @@
-<!-- ============ 21 CONTINUOUS RVs & THE PDF ============ -->
-<section id="s21">
-<div class="sec-head"><span class="num">21</span><h2>Continuous RVs &amp; the pdf</h2><span class="sub">slides: Continuous Random Variables 2–11 · ahead of the lecture notes</span></div>
+<!-- ============ 22 CONTINUOUS RVs & THE PDF ============ -->
+<section id="s22">
+<div class="sec-head"><span class="num">22</span><h2>Continuous RVs &amp; the pdf</h2><span class="sub">slides: Continuous Random Variables 2–11 · ahead of the lecture notes</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
@@ -66,7 +66,7 @@
   <div class="body">
   <p>Assume $X\sim\text{Bernoulli}(0.6)$. Show that a very small change in $t$ can cause a large change in $F(t)$.</p>
   <ol class="steps">
-    <li><b>Name things.</b> $X$ takes the value 1 with probability $p=0.6$ and 0 with probability $q=1-p=0.4$ (the Bernoulli of module 18).</li>
+    <li><b>Name things.</b> $X$ takes the value 1 with probability $p=0.6$ and 0 with probability $q=1-p=0.4$ (the Bernoulli of module 19).</li>
     <li><b>Write the cdf</b> by adding up the pmf over the values $\le t$ (module 13):
     $$F(t)=P(X\le t)=\begin{cases}0 & t&lt;0\\ 0.4 & 0\le t&lt;1\\ 1 & t\ge1\end{cases}$$</li>
     <li><b>Just below 1.</b> At $t=0.99999$ only the value 0 is $\le t$, so $F(0.99999)=P(X=0)=0.4$.</li>
@@ -200,7 +200,7 @@
   <text x="362.2" y="131" class="svgtxt g" text-anchor="middle" font-size="10">b</text>
   <path d="M 288 117.8 L 291.4 117.7 L 294.7 117.4 L 298.1 116.8 L 301.5 116 L 304.9 114.6 L 308.2 112.5 L 311.6 109.4 L 315 105.2 L 318.3 99.7 L 321.7 92.7 L 325.1 84.6 L 328.5 75.5 L 331.8 66.1 L 335.2 57.1 L 338.6 49.3 L 341.9 43.6 L 345.3 40.6 L 348.7 40.6 L 352.1 43.6 L 355.4 49.3 L 358.8 57.1 L 362.2 66.1 L 365.5 75.5 L 368.9 84.6 L 372.3 92.7 L 375.7 99.7 L 379 105.2 L 382.4 109.4 L 385.8 112.5 L 389.1 114.6 L 392.5 116 L 395.9 116.8 L 399.3 117.4 L 402.6 117.7 L 406 117.8" fill="none" stroke="var(--blue)" stroke-width="1.8"/>
   <text x="347" y="131" class="svgtxt" text-anchor="middle" font-size="9">0</text>
-  </svg><figcaption>The bell curve of slides 5–6 (it is the standard normal density of module 24). Left: the whole area is 1. Middle: $F(t)$ is the area to the left of $t$; here $t\approx-1.1$ and $F(t)\approx0.136$. Right: $P(a\le X\le b)$ is the area between $a$ and $b$; here $a\approx-1.5$, $b\approx0.9$ and the area is $\approx0.749$.</figcaption></figure>
+  </svg><figcaption>The bell curve of slides 5–6 (it is the standard normal density of module 25). Left: the whole area is 1. Middle: $F(t)$ is the area to the left of $t$; here $t\approx-1.1$ and $F(t)\approx0.136$. Right: $P(a\le X\le b)$ is the area between $a$ and $b$; here $a\approx-1.5$, $b\approx0.9$ and the area is $\approx0.749$.</figcaption></figure>
   <ol class="steps">
     <li><b>Non-negative (slide 5).</b> $f(x)\ge0$ for all $x\in\mathbb{R}$. The curve never dips below the axis.</li>
     <li><b>Total area 1: the normalization rule for continuous random variables (slides 5, 7).</b>
@@ -316,7 +316,7 @@
   <ul>
     <li><b>U(1,5): F(3).</b> Half of the rectangle is shaded, so $F(3)=0.5$. The tangent has slope $0.25$ at every $t$ in $(1,5)$: a flat density gives a straight-line cdf. Drag $t$ below 1 or above 5 and the slope drops to 0.</li>
     <li><b>exp: F(0.2).</b> The readout shows $F(0.2)=1-e^{-1}\approx0.632$ and $f(0.2)=5e^{-1}\approx1.84$. Now drag $t$ down to 0. The density is highest there ($f=5$), and the cdf is steepest there.</li>
-    <li><b>3x²: F(0.5).</b> $F(0.5)=0.5^3=0.125$ and $f(0.5)=0.75$. Only 12.5% of the area lies left of the midpoint, because the mass is piled on the right. Module 22 finds the balance point of this density.</li>
+    <li><b>3x²: F(0.5).</b> $F(0.5)=0.5^3=0.125$ and $f(0.5)=0.75$. Only 12.5% of the area lies left of the midpoint, because the mass is piled on the right. Module 23 finds the balance point of this density.</li>
     <li><b>standard normal.</b> Put $t=0$: $F(0)=0.5$ by symmetry, and the tangent is steepest there, with slope $f(0)\approx0.399$.</li>
     <li><b>Bernoulli: the jump.</b> The discrete contrast. The cdf is a staircase, with a jump of 0.6 at $t=1$ and flat pieces elsewhere. There is no density whose area gives probabilities. The probability sits in the jumps, not in any slope.</li>
   </ul>
@@ -346,7 +346,7 @@
     <li><b>Checks.</b> The pieces join up: $\frac{1-1}{4}=0$ at $t=1$ and $\frac{5-1}{4}=1$ at $t=5$, so there are no jumps. The slope of $\frac{t-1}{4}$ is $\frac14=f$ on $(1,5)$ ✓.</li>
   </ol>
   $$F(t)=\begin{cases}0 & t\le1\\ \dfrac{t-1}{4} & 1&lt;t&lt;5\\ 1 & t\ge5\end{cases}$$
-  <p>This random variable is called the <b>continuous uniform random variable on $(1,5)$</b>: $X\sim\text{Uniform}(1,5)$ or $X\sim\mathcal{U}(1,5)$. The variable $X\sim\mathcal{U}(0,1)$ is called the <b>standard continuous uniform</b>. It is module 06's random point. The generalization to $X\sim\mathcal{U}(a,b)$, with height $1/(b-a)$, is straightforward and comes in module 23.</p>
+  <p>This random variable is called the <b>continuous uniform random variable on $(1,5)$</b>: $X\sim\text{Uniform}(1,5)$ or $X\sim\mathcal{U}(1,5)$. The variable $X\sim\mathcal{U}(0,1)$ is called the <b>standard continuous uniform</b>. It is module 06's random point. The generalization to $X\sim\mathcal{U}(a,b)$, with height $1/(b-a)$, is straightforward and comes in module 24.</p>
   </div>
 </div>
 <div class="panel">
@@ -437,7 +437,7 @@
     <li><b>Checks.</b> $F(0)=1-1=0$, which joins the flat piece. $F(t)\to1$ as $t\to\infty$. $F'(t)=5e^{-5t}=f(t)$ ✓.</li>
   </ol>
   $$F(t)=\begin{cases}0 & t&lt;0\\ 1-e^{-5t} & t\ge0\end{cases}$$
-  <div class="note"><div class="t">Insight</div>Compare module 14. There $X=-\ln U$ had $F(t)=1-e^{-t}$. Here the exponent carries a 5: the same shape, squeezed 5 times closer to 0. In fact $X=-\tfrac15\ln U$ has exactly this cdf, because $P\!\left(-\tfrac15\ln U\le t\right)=P\!\left(U\ge e^{-5t}\right)=1-e^{-5t}$. Module 23 names the whole family: the exponential distribution with rate $\lambda$, here $\lambda=5$.</div>
+  <div class="note"><div class="t">Insight</div>Compare module 14. There $X=-\ln U$ had $F(t)=1-e^{-t}$. Here the exponent carries a 5: the same shape, squeezed 5 times closer to 0. In fact $X=-\tfrac15\ln U$ has exactly this cdf, because $P\!\left(-\tfrac15\ln U\le t\right)=P\!\left(U\ge e^{-5t}\right)=1-e^{-5t}$. Module 24 names the whole family: the exponential distribution with rate $\lambda$, here $\lambda=5$.</div>
   </div>
 </div>
 <div class="panel">
@@ -518,7 +518,7 @@
 <div class="wx">
 <div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Find the constant</div>
 <div class="prob">For which $c$ is $f(x)=cx^2$ on $(0,1)$ (0 otherwise) a density? For that $c$, find $F(t)$ and $P(X\le0.5)$.</div>
-<details><summary>Answer</summary><div class="sol">Normalization: $\int_0^1cx^2\,dx=c\cdot\frac{x^3}{3}\Big|_0^1=\frac c3=1$, so $c=3$. Then for $0\le t\le1$, $F(t)=\int_0^t3x^2\,dx=t^3$, and $P(X\le0.5)=0.5^3=0.125$. This is the "3x²" density of the interactive figure and of module 22.</div></details>
+<details><summary>Answer</summary><div class="sol">Normalization: $\int_0^1cx^2\,dx=c\cdot\frac{x^3}{3}\Big|_0^1=\frac c3=1$, so $c=3$. Then for $0\le t\le1$, $F(t)=\int_0^t3x^2\,dx=t^3$, and $P(X\le0.5)=0.5^3=0.125$. This is the "3x²" density of the interactive figure and of module 23.</div></details>
 </div>
 
 <div class="wx">

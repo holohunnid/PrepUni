@@ -1,22 +1,22 @@
-<!-- ============ 23 UNIFORM & EXPONENTIAL ============ -->
-<section id="s23">
-<div class="sec-head"><span class="num">23</span><h2>Uniform &amp; exponential</h2><span class="sub">slides: Special Continuous RVs 2–12 · ahead of the lecture notes</span></div>
+<!-- ============ 24 UNIFORM & EXPONENTIAL ============ -->
+<section id="s24">
+<div class="sec-head"><span class="num">24</span><h2>Uniform &amp; exponential</h2><span class="sub">slides: Special Continuous RVs 2–12 · ahead of the lecture notes</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> Ready-made densities, and the two simplest ones<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>Modules 21–22 gave you the machinery: a density $f$, probabilities as areas $\int f$, the cdf $F$, and the integrals for $\mathbb{E}(X)$ and $\mathbb{V}(X)$. This deck asks the practical question: <b>which densities keep coming back, and what do we know about each one once and for all?</b> A named distribution is a density you never have to rebuild — its cdf, mean and variance are computed once, here, and then reused.</p>
+  <p>Modules 22–23 gave you the machinery: a density $f$, probabilities as areas $\int f$, the cdf $F$, and the integrals for $\mathbb{E}(X)$ and $\mathbb{V}(X)$. This deck asks the practical question: <b>which densities keep coming back, and what do we know about each one once and for all?</b> A named distribution is a density you never have to rebuild — its cdf, mean and variance are computed once, here, and then reused.</p>
   <p>Slide 2 lists the families of the deck:</p>
   <table class="formula-table">
     <tr><th>family</th><th>typical job</th><th>where</th></tr>
     <tr><td>Uniform $U(a,b)$</td><td>"somewhere in $(a,b)$, no value preferred" — a random arrival time, a latency</td><td>this module</td></tr>
     <tr><td>Exponential$(\lambda)$</td><td>a waiting time: time to the next trade, claim, default</td><td>this module</td></tr>
-    <tr><td>Gaussian $N(\mu,\sigma^2)$</td><td>measurements, errors, returns, averages</td><td>module 24</td></tr>
-    <tr><td>$\chi^2(k)$</td><td>sums of squared normals — sample variances</td><td>module 25</td></tr>
-    <tr><td>Student-t$(\nu)$</td><td>the mean when $\sigma$ is unknown — the t-test</td><td>module 25</td></tr>
-    <tr><td>Beta, Gamma</td><td>listed on slide 2 but <b>not developed in the deck</b></td><td>(the Gamma <i>function</i> appears in module 25)</td></tr>
+    <tr><td>Gaussian $N(\mu,\sigma^2)$</td><td>measurements, errors, returns, averages</td><td>module 25</td></tr>
+    <tr><td>$\chi^2(k)$</td><td>sums of squared normals — sample variances</td><td>module 26</td></tr>
+    <tr><td>Student-t$(\nu)$</td><td>the mean when $\sigma$ is unknown — the t-test</td><td>module 26</td></tr>
+    <tr><td>Beta, Gamma</td><td>listed on slide 2 but <b>not developed in the deck</b></td><td>(the Gamma <i>function</i> appears in module 26)</td></tr>
   </table>
-  <p>You have already met both families of this module without their names: the random point of module 06 is $U(0,1)$; the density $5e^{-5x}$ of module 21 is Exponential$(5)$ and its $U(1,5)$ is the uniform with $a=1$, $b=5$; and module 14 showed that $X=-\ln U$ has cdf $1-e^{-t}$ — that is Exponential$(1)$.</p>
+  <p>You have already met both families of this module without their names: the random point of module 06 is $U(0,1)$; the density $5e^{-5x}$ of module 22 is Exponential$(5)$ and its $U(1,5)$ is the uniform with $a=1$, $b=5$; and module 14 showed that $X=-\ln U$ has cdf $1-e^{-t}$ — that is Exponential$(1)$.</p>
   <div class="note tip"><div class="t">What to take away</div>For each family learn four things: the <b>support</b> (where the values live), the <b>density</b>, the <b>cdf</b> (the fastest route to any probability), and the <b>mean and variance</b>. Everything in the exercises is one of these four, or a conditional probability built from the cdf.</div>
   </div>
 </div>
@@ -25,7 +25,7 @@
 <div class="panel">
   <div class="bar"><span class="pill g">DEF</span> The continuous uniform (slide 3)<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p><b>Intuition first.</b> "All values in $(a,b)$ are equally likely" cannot mean each value has the same positive probability — there are infinitely many values, and every single point has probability 0 (module 21). It means the <b>density is flat</b>: equally long pieces of the interval get equal probability.</p>
+  <p><b>Intuition first.</b> "All values in $(a,b)$ are equally likely" cannot mean each value has the same positive probability — there are infinitely many values, and every single point has probability 0 (module 22). It means the <b>density is flat</b>: equally long pieces of the interval get equal probability.</p>
   <p><b>Definition.</b> $X$ takes values in $(a,b)$ with density</p>
   $$f(x)=\begin{cases}c&amp;x\in(a,b)\\0&amp;\text{otherwise}\end{cases}$$
   <p>for some constants $a,b,c$. The constant is not free: the total area must be 1.</p>
@@ -160,7 +160,7 @@
 <div class="panel">
   <div class="bar"><span class="pill g">THEOREM</span> Mean and variance of $U(a,b)$ (slide 6)<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>If $X\sim U(a,b)$ then $f(x)=1/(b-a)$ for $a&lt;x&lt;b$, and module 22's integrals give:</p>
+  <p>If $X\sim U(a,b)$ then $f(x)=1/(b-a)$ for $a&lt;x&lt;b$, and module 23's integrals give:</p>
   <ol class="steps">
     <li><b>Mean.</b>
     $$\mathbb{E}(X)=\int_a^b\frac{x}{b-a}\,dx=\frac{x^2}{2(b-a)}\Big|_a^b=\frac{b^2-a^2}{2(b-a)}=\frac{(b-a)(b+a)}{2(b-a)}=\boxed{\frac{a+b}{2}}$$
@@ -189,21 +189,21 @@
   <text x="190" y="110" class="svgtxt a" text-anchor="middle">57.7% inside ±σ</text>
   <text x="56" y="54" class="svgtxt b" text-anchor="end" style="font-size:10px">1/(b−a)</text>
   <text x="190" y="16" class="svgtxt w" text-anchor="middle">the rectangle balances at its midpoint</text>
-  </svg><figcaption>Mean at the centre of the rectangle; one standard deviation $\sigma=(b-a)/\sqrt{12}$ on each side covers the amber band, $2\times0.289=57.7\%$ of the mass. (For a normal the same band holds 68.3% — module 24.)</figcaption></figure>
+  </svg><figcaption>Mean at the centre of the rectangle; one standard deviation $\sigma=(b-a)/\sqrt{12}$ on each side covers the amber band, $2\times0.289=57.7\%$ of the mass. (For a normal the same band holds 68.3% — module 25.)</figcaption></figure>
   </div>
 </div>
 <div class="panel">
-  <div class="bar"><span class="pill a">IDEA</span> The same result in two lines, from modules 14 and 22<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill a">IDEA</span> The same result in two lines, from modules 14 and 23<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
   <p>Every uniform is a stretched and shifted $U(0,1)$. If $U\sim U(0,1)$, set $X=a+(b-a)U$. Then for $a&lt;x&lt;b$ (the cdf method of module 14):</p>
   $$P(X\le x)=P\!\left(U\le\frac{x-a}{b-a}\right)=\frac{x-a}{b-a},$$
-  <p>which is the $U(a,b)$ cdf. For $U$ itself: $\mathbb{E}(U)=\int_0^1u\,du=\frac12$, $\mathbb{E}(U^2)=\int_0^1u^2du=\frac13$, so $\mathbb{V}(U)=\frac13-\frac14=\frac{1}{12}$. Now module 22's rules $\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)$ and $\mathbb{V}(a+bX)=b^2\,\mathbb{V}(X)$ give</p>
+  <p>which is the $U(a,b)$ cdf. For $U$ itself: $\mathbb{E}(U)=\int_0^1u\,du=\frac12$, $\mathbb{E}(U^2)=\int_0^1u^2du=\frac13$, so $\mathbb{V}(U)=\frac13-\frac14=\frac{1}{12}$. Now module 23's rules $\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)$ and $\mathbb{V}(a+bX)=b^2\,\mathbb{V}(X)$ give</p>
   $$\mathbb{E}(X)=a+\frac{b-a}{2}=\frac{a+b}{2},\qquad\mathbb{V}(X)=(b-a)^2\cdot\frac{1}{12}.$$
   <p>This explains the shape of the answer: the shift $a$ moves the mean but never the variance; the variance grows with the <b>square of the width</b>.</p>
   <table class="formula-table">
     <tr><th>example</th><th>$\mathbb{E}(X)$</th><th>$\mathbb{V}(X)$</th><th>sd</th></tr>
     <tr><td>$U(0,1)$ (module 06)</td><td>0.5</td><td>$1/12\approx0.0833$</td><td>0.289</td></tr>
-    <tr><td>$U(1,5)$ (module 21)</td><td>3</td><td>$16/12=4/3$</td><td>1.155</td></tr>
+    <tr><td>$U(1,5)$ (module 22)</td><td>3</td><td>$16/12=4/3$</td><td>1.155</td></tr>
     <tr><td>$U(-2,5)$ (slide 4)</td><td>1.5</td><td>$49/12\approx4.083$</td><td>2.021</td></tr>
     <tr><td>$U(0,30)$ (buses)</td><td>15 min</td><td>$900/12=75$</td><td>8.66 min</td></tr>
   </table>
@@ -224,12 +224,12 @@
   <p><b>Intuition first.</b> Think of a waiting time: until the next trade in a stock, the next insurance claim, the next failure of a component. Short waits are the most common; long waits happen but get rarer and rarer. The exponential is the simplest model with exactly that shape.</p>
   <p><b>Definition (the slide starts from the cdf).</b> $X$ takes positive values, $X&gt;0$, and its distribution function is</p>
   $$\boxed{\,F_X(x)=1-e^{-\lambda x}\qquad x&gt;0\,}$$
-  <p>By differentiating (module 21: $f=F'$), using $\frac{d}{dx}e^{-\lambda x}=-\lambda e^{-\lambda x}$:</p>
+  <p>By differentiating (module 22: $f=F'$), using $\frac{d}{dx}e^{-\lambda x}=-\lambda e^{-\lambda x}$:</p>
   $$f(x)=F_X'(x)=0-\left(-\lambda e^{-\lambda x}\right)=\boxed{\,\lambda e^{-\lambda x}\qquad x&gt;0\,}$$
   <p>The constant $\lambda&gt;0$ is the parameter; we write $X\sim$ exponential$(\lambda)$. (For $x\le0$: $F=0$ and $f=0$.)</p>
   <p><b>Checks.</b> $F(0)=1-1=0$ and $F(x)\to1$ as $x\to\infty$ ✓. Area: $\int_0^\infty\lambda e^{-\lambda x}dx=\big[-e^{-\lambda x}\big]_0^\infty=0-(-1)=1$ ✓.</p>
   <h3>What $\lambda$ means</h3>
-  <p>$\lambda$ is a <b>rate</b>: events per unit of time. A bigger rate means shorter waits — we will prove the mean wait is $1/\lambda$. Note $f(0)=\lambda$, so for $\lambda&gt;1$ the density starts above 1. That is allowed: a density is not a probability (module 21's $5e^{-5x}$ starts at 5).</p>
+  <p>$\lambda$ is a <b>rate</b>: events per unit of time. A bigger rate means shorter waits — we will prove the mean wait is $1/\lambda$. Note $f(0)=\lambda$, so for $\lambda&gt;1$ the density starts above 1. That is allowed: a density is not a probability (module 22's $5e^{-5x}$ starts at 5).</p>
   <div class="note"><div class="t">You have seen it before</div>Module 14 showed $X=-\ln U$, with $U\sim U(0,1)$, has cdf $1-e^{-t}$: Exponential$(1)$. Dividing by $\lambda$ gives any rate: $P(-\ln U/\lambda\le t)=P(U\ge e^{-\lambda t})=1-e^{-\lambda t}$. So $-\ln(U)/\lambda\sim$ Exponential$(\lambda)$ — the recipe computers use to simulate waiting times from uniform random numbers.</div>
   </div>
 </div>
@@ -348,7 +348,7 @@
   <div>
   <div class="readout" id="ccread"></div>
   <p style="margin-top:10px"><b>Try this.</b> Press the two bus presets: each window is a strip of width 5 under a rectangle of height $1/30$, so each shows $1/6$ — together the $1/3$ of slide 5. Press "U(−2, 5)" and drag $x_2$: the probability grows <b>linearly</b>, exactly the straight cdf of slide 4. Press "Exp(1)" and "Exp(5)": both show $0.632=1-e^{-1}$, because $0.2$ is one mean for rate 5 just as $1$ is one mean for rate 1. Then move $\lambda$ and watch $\mathbb{E}(X)=1/\lambda$ and the sd move together — they are equal (proved below).</p>
-  <p class="muted">The family menu also holds the normal, $\chi^2$ and Student-t distributions of modules 24–25; the "±1.96" preset is the 95% band you will meet there.</p>
+  <p class="muted">The family menu also holds the normal, $\chi^2$ and Student-t distributions of modules 25–26; the "±1.96" preset is the 95% band you will meet there.</p>
   </div>
   </div>
   </div>
@@ -358,7 +358,7 @@
 <div class="panel">
   <div class="bar"><span class="pill g">THEOREM</span> $\mathbb{E}(X)=1/\lambda$ by integration by parts (slide 10)<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>Let $X\sim$ exponential$(\lambda)$. By module 22, $\mathbb{E}(X)=\int_0^\infty x\,\lambda e^{-\lambda x}dx$. The integrand is a product, so use integration by parts, $\int u\,dv=uv-\int v\,du$:</p>
+  <p>Let $X\sim$ exponential$(\lambda)$. By module 23, $\mathbb{E}(X)=\int_0^\infty x\,\lambda e^{-\lambda x}dx$. The integrand is a product, so use integration by parts, $\int u\,dv=uv-\int v\,du$:</p>
   <ol class="steps">
     <li><b>Choose the parts.</b> $u=x$ (it gets simpler when differentiated) and $dv=\lambda e^{-\lambda x}dx$. Then $du=dx$ and $v=-e^{-\lambda x}$ (check: $\frac{d}{dx}(-e^{-\lambda x})=\lambda e^{-\lambda x}$ ✓).</li>
     <li><b>Apply the formula.</b>
@@ -376,7 +376,7 @@
 <div class="panel">
   <div class="bar"><span class="pill g">THEOREM</span> $\mathbb{V}(X)=1/\lambda^2$ — the step the slides skip<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>The slide says "similarly (by partial integration)". Here is the computation, via the shortcut $\mathbb{V}(X)=\mathbb{E}(X^2)-\big(\mathbb{E}(X)\big)^2$ from module 22.</p>
+  <p>The slide says "similarly (by partial integration)". Here is the computation, via the shortcut $\mathbb{V}(X)=\mathbb{E}(X^2)-\big(\mathbb{E}(X)\big)^2$ from module 23.</p>
   <ol class="steps">
     <li><b>Set up.</b> $\mathbb{E}(X^2)=\int_0^\infty x^2\lambda e^{-\lambda x}dx$. Parts again: $u=x^2$, $du=2x\,dx$, $dv=\lambda e^{-\lambda x}dx$, $v=-e^{-\lambda x}$.</li>
     <li><b>Apply.</b>
@@ -408,7 +408,7 @@
   <text x="109.6" y="94.3" class="svgtxt g" style="font-size:10px">mean 1 (balance point)</text>
   <text x="143.8" y="131.1" class="svgtxt a">P(X &gt; 1) = e^(−1) ≈ 0.368</text>
   <text x="49.6" y="32.5" class="svgtxt b">f(x) = e^(−x)</text>
-  </svg><figcaption>Exponential(1): mean 1, standard deviation 1. Only $e^{-1}=36.8\%$ of waits exceed the mean — for <b>every</b> $\lambda$, since $P(X&gt;1/\lambda)=e^{-\lambda\cdot1/\lambda}=e^{-1}$. The long right tail pulls the mean above the median $\ln2\approx0.693$ (module 25).</figcaption></figure>
+  </svg><figcaption>Exponential(1): mean 1, standard deviation 1. Only $e^{-1}=36.8\%$ of waits exceed the mean — for <b>every</b> $\lambda$, since $P(X&gt;1/\lambda)=e^{-\lambda\cdot1/\lambda}=e^{-1}$. The long right tail pulls the mean above the median $\ln2\approx0.693$ (module 26).</figcaption></figure>
   <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>
   R parametrises by the <b>rate</b>: <code>pexp(q, rate = λ)</code>, <code>dexp</code>, <code>qexp</code>, <code>rexp</code>.<br>
   <code>pexp(1, rate = 1)</code> → <code>0.6321206</code>; <code>1 - pexp(1, rate = 1)</code> → <code>0.3678794</code>.<br>

@@ -1,6 +1,6 @@
 <!-- ============ 17 VARIANCE & MOMENTS ============ -->
 <section id="s17">
-<div class="sec-head"><span class="num">17</span><h2>Variance &amp; moments</h2><span class="sub">slides: Distribution Functions 30–36 · ahead of the lecture notes</span></div>
+<div class="sec-head"><span class="num">17</span><h2>Variance &amp; moments</h2><span class="sub">lecture 3, notes p.2–3 · slides: Distribution Functions 30–36</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
@@ -37,6 +37,49 @@
   </svg>
   <figcaption>Same balance point (green), different spread. On the right, half of the probability sits a distance 2 from the mean, so the average squared distance is $\frac14\cdot4+\frac12\cdot0+\frac14\cdot4=2$.</figcaption>
   </figure>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 3</span> What the lecturer stressed (notes p.2–3)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <div class="note warn" style="margin-top:0"><div class="t">Exam flag: know this proof</div>The notes mark the theorem $\mathbb V(X)=\mathbb E(X^2)-\mathbb E(X)^2$ with <b>"know that proof!!"</b> and the proof with <b>"know for exam"</b>. Here it is in the form to reproduce, with the reason for every line.</div>
+  <ol class="steps">
+    <li>$\mathbb V(X)=\mathbb E\big[(X-\mathbb E(X))^2\big]$ — the definition.</li>
+    <li>$\phantom{\mathbb V(X)}=\mathbb E\big[X^2+\mathbb E(X)^2-2\,\mathbb E(X)\,X\big]$ — expand the square $(a-b)^2=a^2+b^2-2ab$.</li>
+    <li>$\phantom{\mathbb V(X)}=\mathbb E(X^2)+\mathbb E(X)^2-2\,\mathbb E(X)\,\mathbb E(X)$ — linearity. The key remark in the notes: <b>$\mathbb E(X)$ is a number, not random</b>, so $\mathbb E(X)^2$ is a constant (its expectation is itself) and $2\mathbb E(X)$ is a constant that comes out of the expectation.</li>
+    <li>$\phantom{\mathbb V(X)}=\mathbb E(X^2)-\mathbb E(X)^2$. $\square$</li>
+  </ol>
+  <p><b>Check on the lecture's example</b> (heads in two flips): $\mathbb E(X^2)=0^2\cdot\tfrac14+1^2\cdot\tfrac12+2^2\cdot\tfrac14=\tfrac32$, so $\mathbb V(X)=\tfrac32-1^2=\tfrac12$ — the same as the definition gives, $(0-1)^2\tfrac14+(1-1)^2\tfrac12+(2-1)^2\tfrac14=\tfrac12$.</p>
+  <p class="muted">Also from the notes: $\sigma=\sqrt{\mathbb V(X)}$ is in the <b>same unit as $X$</b>; the variance is in squared units.</p>
+  </div>
+  <div>
+  <div class="note tip" style="margin-top:0"><div class="t">Properties: use them, don't derive them</div>The notes: "math derivation not needed for exam" for
+  $$\mathbb V(X+b)=\mathbb V(X),\quad\mathbb V(aX)=a^2\mathbb V(X),\quad\mathbb V(a+bX)=b^2\mathbb V(X).$$
+  The reason to remember: <b>"variance is indifferent to a translation of the distribution — it shifts, but the shape is the same."</b></div>
+  <figure>
+  <svg viewBox="0 0 360 120">
+    <line x1="10" y1="92" x2="350" y2="92" stroke="var(--border2)"/>
+    <g fill="var(--dim)" opacity="0.6"><rect x="40" y="72" width="16" height="20"/><rect x="70" y="52" width="16" height="40"/><rect x="100" y="72" width="16" height="20"/></g>
+    <g fill="var(--green)" opacity="0.6"><rect x="220" y="72" width="16" height="20"/><rect x="250" y="52" width="16" height="40"/><rect x="280" y="72" width="16" height="20"/></g>
+    <path d="M 120 40 C 160 22 200 22 240 40" fill="none" stroke="var(--amber)" stroke-width="1.5"/><path d="M 240 40 l -9 -2 l 5 -6 Z" fill="var(--amber)"/>
+    <text x="180" y="18" class="svgtxt a" text-anchor="middle">+ b</text>
+    <line x1="48" y1="104" x2="108" y2="104" stroke="var(--dim)" stroke-width="2"/><line x1="228" y1="104" x2="288" y2="104" stroke="var(--green)" stroke-width="2"/>
+    <text x="78" y="118" class="svgtxt" text-anchor="middle" font-size="10">X: spread</text>
+    <text x="258" y="118" class="svgtxt g" text-anchor="middle" font-size="10">X+b: same spread</text>
+  </svg>
+  <figcaption>Adding $b$ slides every bar by the same amount: the mean moves, the distances from the mean do not — so the variance cannot change. Multiplying by $a$ stretches every distance by $|a|$, hence $a^2$ for squared distances.</figcaption>
+  </figure>
+  <h3>The notes' warning on $\mathbb V(X-Y)$</h3>
+  <p>With $X,Y$ independent (the $U,V,W$ example below):</p>
+  $$\mathbb V(X-Y)=\mathbb V\big(X+(-1)Y\big)=\mathbb V(X)+(-1)^2\,\mathbb V(Y)=3+4=7\ \neq\ \mathbb V(X)-\mathbb V(Y).$$
+  <p>"We square the constant ($-1$), so it becomes $+$. Also, a variance can't be negative" — and $\mathbb V(X)-\mathbb V(Y)=3-4$ would be.</p>
+  <p><b>Coefficient of variation</b> $CV(X)=\sigma/|\mu|$ is <b>unit-free</b> (unit of $X$ over unit of $X$): "useful to compare random variables in different orders of magnitude" — a stock at 10 CHF with $\sigma=2$ ($CV=0.2$) is relatively riskier than an index at 5000 with $\sigma=50$ ($CV=0.01$).</p>
+  <p class="muted">Last result of the lecture: the variance is the <b>2nd central moment</b> $\mathbb E[(X-\mu)^2]$, and the 1st central moment is always 0: $\mathbb E(X-\mu)=\mathbb E(X)-\mu=0$.</p>
   </div>
   </div>
   </div>
@@ -123,7 +166,7 @@
   </div>
 </div>
 <div class="ex">
-  <div class="bar">EXAMPLE (slide 32) · heads in two fair flips, two ways</div>
+  <div class="bar">LECTURE 3 · notes p.2 · slide 32 · heads in two fair flips, two ways</div>
   <div class="body">
   <p>A fair coin is flipped $n=2$ times. Let $X$ be the number of heads. Find $\mathbb{V}(X)$.</p>
   <p>From modules 15–16: $f(0)=\frac14$, $f(1)=\frac12$, $f(2)=\frac14$ and $\mathbb{E}(X)=1$.</p>
@@ -266,7 +309,7 @@
 </div>
 
 <div class="ex">
-  <div class="bar">EXAMPLE (slide 34) · expectations and variances of $U$, $V$, $W$</div>
+  <div class="bar">LECTURE 3 · notes p.3 · slide 34 · expectations and variances of $U$, $V$, $W$</div>
   <div class="body">
   <p>Let $X$ and $Y$ be two independent random variables with $\mathbb{E}(X)=0$, $\mathbb{E}(Y)=1$, $\mathbb{V}(X)=3$ and $\mathbb{V}(Y)=4$. Define $U=2X+3$, $V=2X+Y$ and $W=X-Y$. Find the expectation and the variance of $U$, $V$ and $W$.</p>
   <div class="grid2">
@@ -376,7 +419,7 @@
 
 <div class="grid2">
 <div class="ex">
-  <div class="bar">EXAMPLE (slide 36) · the first central moment is zero</div>
+  <div class="bar">LECTURE 3 · notes p.3 · slide 36 · the first central moment is zero</div>
   <div class="body">
   <p>A fair coin is flipped $n=2$ times. Let $X$ be the number of heads. Prove that the first central moment of $X$ is zero.</p>
   <ol class="steps">

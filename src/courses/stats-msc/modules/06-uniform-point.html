@@ -10,7 +10,7 @@
     <li>every <b>single point</b> gets probability <b>0</b> — $P(\{0.5\})=0$;</li>
     <li><b>intervals</b> carry the probability, and it is <b>proportional to their length</b> — $P((u,v))=v-u$.</li>
   </ul>
-  <p>This is the first continuous model of the course, and it is the prototype for everything in modules 21–25 (densities, the uniform, the normal). It is also the "raw material" of simulation: module 14 turns this random point into an exponential random variable.</p>
+  <p>This is the first continuous model of the course, and it is the prototype for everything in modules 22–26 (densities, the uniform, the normal). It is also the "raw material" of simulation: module 14 turns this random point into an exponential random variable.</p>
   </div>
 </div>
 
@@ -73,7 +73,7 @@
     <label>$v$ <input type="range" id="un_v" min="0" max="1" step="any" value="0.7"><span class="val" id="un_v_v">0.70</span></label>
     <span class="btns"><button onclick="unSet(0,0.5)">(0, 0.5)</button><button onclick="unSet(0.5,1)">(0.5, 1)</button><button onclick="unSet(0.2,0.7)">(0.2, 0.7)</button><button onclick="unSet(0.5,0.5)">a single point</button></span>
   </div>
-  <figure style="margin:0"><svg id="unsvg" viewBox="0 0 360 172"></svg><figcaption>Height 1 × width $v-u$ = probability $v-u$. This "height" is the first density of the course: module 21 generalises it to shapes that are not flat.</figcaption></figure>
+  <figure style="margin:0"><svg id="unsvg" viewBox="0 0 360 172"></svg><figcaption>Height 1 × width $v-u$ = probability $v-u$. This "height" is the first density of the course: module 22 generalises it to shapes that are not flat.</figcaption></figure>
   <div class="readout" id="unread"></div>
   </div>
 </div>
@@ -98,7 +98,7 @@
     <text x="147" y="33" class="svgtxt w" text-anchor="middle">0.375</text><text x="274" y="33" class="svgtxt w" text-anchor="middle">0.25</text>
   </svg>
   </figure>
-  <div class="note"><div class="t">Insight</div>Only lengths relative to the whole interval matter: this is why the "height" of the flat block is $\frac1{b-a}=\frac14$ here — module 23 calls it the Uniform$(a,b)$ density.</div>
+  <div class="note"><div class="t">Insight</div>Only lengths relative to the whole interval matter: this is why the "height" of the flat block is $\frac1{b-a}=\frac14$ here — module 24 calls it the Uniform$(a,b)$ density.</div>
   </div>
 </div>
 <div class="panel">

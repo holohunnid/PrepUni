@@ -1,17 +1,17 @@
-<!-- ============ 25 CHI-SQUARED, STUDENT-T & PERCENTILES ============ -->
-<section id="s25">
-<div class="sec-head"><span class="num">25</span><h2>χ², Student-t &amp; percentiles</h2><span class="sub">slides: Special Continuous RVs 20–28, 31 · ahead of the lecture notes</span></div>
+<!-- ============ 26 CHI-SQUARED, STUDENT-T & PERCENTILES ============ -->
+<section id="s26">
+<div class="sec-head"><span class="num">26</span><h2>χ², Student-t &amp; percentiles</h2><span class="sub">slides: Special Continuous RVs 20–28, 31 · ahead of the lecture notes</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> Distributions built out of normals, and how to read them backwards<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>Module 24 gave you the normal. This module builds two new distributions <b>from</b> normals, because they are exactly what you get when you compute statistics from normal data:</p>
+  <p>Module 25 gave you the normal. This module builds two new distributions <b>from</b> normals, because they are exactly what you get when you compute statistics from normal data:</p>
   <table class="formula-table">
     <tr><td>$\chi^2(k)$</td><td>a sum of $k$ squared independent standard normals</td><td>describes sample <b>variances</b></td></tr>
     <tr><td>Student-t$(\nu)$</td><td>a standard normal divided by $\sqrt{\chi^2(\nu)/\nu}$</td><td>describes the standardised <b>mean when $\sigma$ is unknown</b></td></tr>
   </table>
   <p>Then the deck turns the question around: instead of "what is the probability below $x$?" it asks "<b>which $x$ has probability $p$ below it?</b>" That value is a <b>percentile</b>, and percentiles of $N(0,1)$, $t$ and $\chi^2$ are the "critical values" of every confidence interval and test in the inference part of the course.</p>
-  <p>Tools reused: the cdf method (module 14) for $W=Z^2$; $\Phi$ and its symmetry (module 24); $\mathbb{E}$, $\mathbb{V}$ and their rules (module 22); the exponential of module 23 reappears twice.</p>
+  <p>Tools reused: the cdf method (module 14) for $W=Z^2$; $\Phi$ and its symmetry (module 25); $\mathbb{E}$, $\mathbb{V}$ and their rules (module 23); the exponential of module 24 reappears twice.</p>
   <div class="note tip"><div class="t">What you really need for the exam</div>Recognise the definitions ($\chi^2$ = sum of squared normals; $t=Z/\sqrt{V/\nu}$), know the moments ($k$ and $2k$; $0$ and $\nu/(\nu-2)$), know the shapes (χ² skewed right; t symmetric with heavier tails than the normal, tending to it as $\nu\to\infty$), and compute percentiles — with $\Phi$ by hand, or with <code>qnorm</code>, <code>qt</code>, <code>qchisq</code>, <code>qexp</code> in R. Nobody computes the $\chi^2$ or $t$ cdf by hand.</div>
   </div>
 </div>
@@ -80,7 +80,7 @@
   <h3>Two checks that tie it to what you know</h3>
   <ul>
     <li><b>$k=1$:</b> with $\Gamma(\tfrac12)=\sqrt\pi$, the constant is $\frac{1}{2^{1/2}\sqrt\pi}=\frac{1}{\sqrt{2\pi}}$ and the power is $x^{-1/2}$, so $f(x)=\frac{1}{\sqrt{2\pi x}}e^{-x/2}$ — exactly slide 20 ✓.</li>
-    <li><b>$k=2$:</b> $\Gamma(1)=1$ and $x^0=1$, so $f(x)=\frac12e^{-x/2}$: the <b>exponential with $\lambda=\tfrac12$</b> of module 23 (mean 2).</li>
+    <li><b>$k=2$:</b> $\Gamma(1)=1$ and $x^0=1$, so $f(x)=\frac12e^{-x/2}$: the <b>exponential with $\lambda=\tfrac12$</b> of module 24 (mean 2).</li>
   </ul>
   </div>
 </div>
@@ -99,7 +99,7 @@
     <li>So $\Gamma(2)=1$, $\Gamma(3)=2\cdot1$, $\Gamma(4)=3\cdot2\cdot1$, …, $\Gamma(n)=(n-1)!$ for positive integers $n$. The Gamma function is the factorial extended to non-integers ("otherwise" on the slide).</li>
   </ol>
   <h3>$\Gamma(\tfrac12)=\sqrt\pi$</h3>
-  <p>Substitute $t=u^2/2$ ($dt=u\,du$, $t^{-1/2}=\sqrt2/u$): $\Gamma(\tfrac12)=\int_0^\infty\frac{\sqrt2}{u}e^{-u^2/2}u\,du=\sqrt2\int_0^\infty e^{-u^2/2}du=\sqrt2\cdot\frac{\sqrt{2\pi}}{2}=\sqrt\pi$, using the Gaussian integral of module 24.</p>
+  <p>Substitute $t=u^2/2$ ($dt=u\,du$, $t^{-1/2}=\sqrt2/u$): $\Gamma(\tfrac12)=\int_0^\infty\frac{\sqrt2}{u}e^{-u^2/2}u\,du=\sqrt2\int_0^\infty e^{-u^2/2}du=\sqrt2\cdot\frac{\sqrt{2\pi}}{2}=\sqrt\pi$, using the Gaussian integral of module 25.</p>
   <table class="formula-table">
     <tr><th>$z$</th><td class="c">$\tfrac12$</td><td class="c">1</td><td class="c">$\tfrac32$</td><td class="c">2</td><td class="c">$\tfrac52$</td><td class="c">3</td><td class="c">4</td></tr>
     <tr><th>$\Gamma(z)$</th><td class="c">$\sqrt\pi\approx1.772$</td><td class="c">1</td><td class="c">$\tfrac{\sqrt\pi}{2}\approx0.886$</td><td class="c">1</td><td class="c">$\tfrac{3\sqrt\pi}{4}\approx1.329$</td><td class="c">2</td><td class="c">6</td></tr>
@@ -165,7 +165,7 @@
   $$\boxed{\,\mathbb{E}(W)=k\,}\qquad\boxed{\,\mathbb{V}(W)=2k\,}$$
   <p>The slide states the results; here is why they hold, one squared normal at a time.</p>
   <ol class="steps">
-    <li><b>Mean of one square.</b> $\mathbb{E}(Z^2)=\mathbb{V}(Z)+\big(\mathbb{E}(Z)\big)^2=1+0=1$ (module 24).</li>
+    <li><b>Mean of one square.</b> $\mathbb{E}(Z^2)=\mathbb{V}(Z)+\big(\mathbb{E}(Z)\big)^2=1+0=1$ (module 25).</li>
     <li><b>Fourth moment.</b> Parts with $u=x^3$, $dv=xf_Z(x)dx$, $v=-f_Z(x)$:
     $$\mathbb{E}(Z^4)=\big[-x^3f_Z(x)\big]_{-\infty}^{\infty}+3\int x^2f_Z(x)\,dx=0+3\,\mathbb{E}(Z^2)=3.$$</li>
     <li><b>Variance of one square.</b> $\mathbb{V}(Z^2)=\mathbb{E}(Z^4)-\big(\mathbb{E}(Z^2)\big)^2=3-1=2$.</li>
@@ -392,8 +392,8 @@
     $$1-e^{-\lambda m}=\tfrac12\ \Longrightarrow\ e^{-\lambda m}=\tfrac12\ \Longrightarrow\ -\lambda m=\ln\tfrac12=-\ln2\ \Longrightarrow\ \boxed{\,m=\frac{\ln2}{\lambda}\,}$$
     In general $\pi_p=-\ln(1-p)/\lambda$. For Exponential(1): $q_1=\ln\frac43=0.288$, $m=\ln2=0.693$, $q_3=\ln4=1.386$ — the figure above. The median $0.693/\lambda$ is below the mean $1/\lambda$: right skew.</li>
     <li><b>$N(0,1)$: the quartiles.</b> $q_3$ solves $\Phi(q_3)=0.75$; the table (or <code>qnorm(0.75)</code>) gives $q_3=0.674$. By symmetry $\Phi(-q_3)=1-0.75=0.25$, so $q_1=-0.674$, and the median is 0. In general $\pi_{1-p}=-\pi_p$ for any symmetric distribution.</li>
-    <li><b>$N(0,1)$: $z_{0.975}=1.960$.</b> $\Phi(1.96)=0.975$, so the 97.5th percentile is 1.960 and, by symmetry, the 2.5th is $-1.960$: the central 95% of $N(0,1)$ lies in $\pm1.96$ (the "±1.96" preset of module 23's figure).</li>
-    <li><b>Any normal.</b> $F(\pi_p)=\Phi\big((\pi_p-\mu)/\sigma\big)=p$ gives $\pi_p=\mu+\sigma z_p$. For the earnings $N(5,4)$ of module 24: $q_3=5+2(0.674)=6.349$ and $\pi_{0.975}=5+2(1.96)=8.92$.</li>
+    <li><b>$N(0,1)$: $z_{0.975}=1.960$.</b> $\Phi(1.96)=0.975$, so the 97.5th percentile is 1.960 and, by symmetry, the 2.5th is $-1.960$: the central 95% of $N(0,1)$ lies in $\pm1.96$ (the "±1.96" preset of module 24's figure).</li>
+    <li><b>Any normal.</b> $F(\pi_p)=\Phi\big((\pi_p-\mu)/\sigma\big)=p$ gives $\pi_p=\mu+\sigma z_p$. For the earnings $N(5,4)$ of module 25: $q_3=5+2(0.674)=6.349$ and $\pi_{0.975}=5+2(1.96)=8.92$.</li>
   </ol>
   <div class="note"><div class="t">Insight</div>Percentiles transform like the variable: if $Y=\mu+\sigma Z$ then $\pi_p(Y)=\mu+\sigma\,\pi_p(Z)$. That is why one table of $z_p$ serves every normal — standardisation once more.</div>
   </div>

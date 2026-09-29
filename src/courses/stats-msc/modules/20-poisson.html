@@ -1,12 +1,12 @@
-<!-- ============ 19 POISSON ============ -->
-<section id="s19">
-<div class="sec-head"><span class="num">19</span><h2>Poisson</h2><span class="sub">slides: Special Discrete Distributions 23–30 · ahead of the lecture notes</span></div>
+<!-- ============ 20 POISSON ============ -->
+<section id="s20">
+<div class="sec-head"><span class="num">20</span><h2>Poisson</h2><span class="sub">lecture 3, notes p.7 · slides: Special Discrete Distributions 23–30</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
   <p><b>Events happen at random, at a known average rate, independently of one another. How many will fall in a given window of time or space?</b></p>
-  <p>Examples: calls reaching a desk per hour, trades in a stock per minute, defaults per year in a large loan book, insurance claims per month, sudden price jumps per week, typos per page. In each case there is no fixed "number of trials" as in module 18. Events can in principle happen any number of times, and we only know how many happen <b>on average</b>. That average is the single parameter $\lambda$ of the <b>Poisson distribution</b>, and it fixes everything: the probabilities, the mean and the variance.</p>
+  <p>Examples: calls reaching a desk per hour, trades in a stock per minute, defaults per year in a large loan book, insurance claims per month, sudden price jumps per week, typos per page. In each case there is no fixed "number of trials" as in module 19. Events can in principle happen any number of times, and we only know how many happen <b>on average</b>. That average is the single parameter $\lambda$ of the <b>Poisson distribution</b>, and it fixes everything: the probabilities, the mean and the variance.</p>
   <p>There are two ways to meet the Poisson, and the slides use both:</p>
   <ol class="steps">
     <li><b>As a model for counts</b>: the number of events in a fixed interval, when events arrive independently at average rate $\lambda$ per interval.</li>
@@ -14,6 +14,35 @@
   </ol>
   <p>The plan: definition and a check that it is a valid pmf; the binomial-to-Poisson limit, derived; the shapes for $\lambda=1,2,5,10$; the tail $P(X&gt;x)$ (a blank slide in the deck, filled in here); $\mathbb{E}=\mathbb{V}=\lambda$ with proof; and two worked examples, defective items and a coffee break.</p>
   <div class="note tip"><div class="t">The two words to look for</div>"<b>Number of … per</b> hour / day / page / km", with <b>no upper limit</b> stated, means Poisson. "Number of successes <b>out of $n$</b>" means binomial. If a question gives you a <b>rate</b> and a <b>window</b>, your first job is to turn them into $\lambda$ = expected count in that window.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 3</span> What the lecturer said (notes p.7)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>What it is for</h3>
+  <p>The notes: the Poisson is <b>"useful to count events in a fixed interval (time interval, space interval) when the event can happen at any moment with equal probability"</b>. Calls to a desk, insurance claims, defaults in a loan book, typos on a page, trades in a minute.</p>
+  <p>The contrast with the binomial is written in the margin: in a binomial <b>the maximum $n$ is known</b> (10 rolls can't give 11 sixes). A Poisson count has <b>no natural maximum</b> — you only know the average.</p>
+  <h3>The link with the binomial</h3>
+  <p>If $Y\sim\text{Bin}(n,p)$ with $n$ <b>big</b> and $p$ <b>small</b>, then approximately $Y\sim\text{Pois}(\lambda)$ with</p>
+  $$\lambda=np\qquad\text{(the "intensity" parameter)}.$$
+  <p>Why the lecture bothers: "when $n$ is big it is hard to do the binomial, because of $n!$" — $\binom nk$ involves enormous numbers. The Poisson avoids the binomial coefficient entirely.</p>
+  </div>
+  <div>
+  <h3>The formula and its two moments</h3>
+  $$f(k)=P(Y=k)=e^{-\lambda}\frac{\lambda^k}{k!},\quad k=0,1,2,\dots\qquad\mathbb E(Y)=\lambda=\mathbb V(Y)$$
+  <h3>The lecture's example: the call operator</h3>
+  <ol class="steps">
+    <li>5 calls per hour on average; a 10-minute break. $X$ = number of calls in the 10-minute interval.</li>
+    <li><b>Why $\lambda=\tfrac56$</b> (the notes insist on understanding this): an hour holds six 10-minute intervals, so each gets $5/6$ of a call on average. $X\sim\text{Pois}(\tfrac56)$.</li>
+    <li>$P(X\ge1)=1-P(X=0)=1-f(0)=1-\frac{\lambda^0e^{-\lambda}}{0!}=1-e^{-\lambda}=1-e^{-5/6}\approx0.5654$ — the probability of receiving a call during the break.</li>
+    <li>In R: <code>1 - dpois(0, 5/6)</code> (pmf at the point 0, parameter $\lambda$).</li>
+  </ol>
+  <p class="muted">The simulation after the coffee-break example below plays this out: calls land at random moments of an hour, and you count those falling in the break.</p>
+  </div>
+  </div>
   </div>
 </div>
 
@@ -307,7 +336,7 @@
     <li><b>Location.</b> The mass moves right with $\lambda$, and the peak sits at $\lfloor\lambda\rfloor$ with a tie at $\lambda-1$ (the recursion above). Heights at the peak: 0.368, 0.271, 0.175, 0.125.</li>
     <li><b>Skew.</b> For small $\lambda$ the pmf is squashed against 0, since counts cannot be negative, and has a long right tail. As $\lambda$ grows it becomes more and more symmetric.</li>
     <li><b>Spread.</b> The standard deviation is $\sqrt\lambda$ (proved below), so it grows, but only like a square root: from 1 to about 3.2 while the mean goes from 1 to 10. Because the total must stay 1, a wider pmf is a flatter one.</li>
-    <li><b>Bell shape.</b> Poisson(10) already looks like a slightly lopsided bell. For large $\lambda$ the Poisson, like the binomial of module 18, is approximately normal (module 24).</li>
+    <li><b>Bell shape.</b> Poisson(10) already looks like a slightly lopsided bell. For large $\lambda$ the Poisson, like the binomial of module 19, is approximately normal (module 25).</li>
   </ul>
   <p>The slides draw each panel on its own axes (up to $k=6$, 12, 30 and 60). Beyond about $\lambda+4\sqrt\lambda$ the bars are invisible, even though they are never exactly zero.</p>
   </div>
@@ -323,7 +352,7 @@
   <div>
   <p>The Poisson has <b>no closed-form cdf</b>. $F(x)$ is a finite partial sum of the pmf, and the tail is its complement:</p>
   $$F(x)=P(X\le x)=\sum_{k=0}^{\lfloor x\rfloor}e^{-\lambda}\frac{\lambda^k}{k!},\qquad\boxed{\;P(X&gt;x)=1-\sum_{k=0}^{\lfloor x\rfloor}e^{-\lambda}\frac{\lambda^k}{k!}\;}$$
-  <p>Always go through the complement. The tail itself is an <b>infinite</b> sum, $\sum_{k&gt;x}$, while the complement needs only the $\lfloor x\rfloor+1$ terms from 0 to $x$. The floor is there for the same reason as in module 18: $X$ is integer-valued.</p>
+  <p>Always go through the complement. The tail itself is an <b>infinite</b> sum, $\sum_{k&gt;x}$, while the complement needs only the $\lfloor x\rfloor+1$ terms from 0 to $x$. The floor is there for the same reason as in module 19: $X$ is integer-valued.</p>
   <p><b>Example</b> ($\lambda=2$, $x=3$). Factor out $e^{-2}$:</p>
   $$F(3)=e^{-2}\left(1+2+\frac{2^2}{2!}+\frac{2^3}{3!}\right)=e^{-2}\left(1+2+2+\tfrac43\right)=\tfrac{19}{3}e^{-2}=0.8571$$
   $$P(X&gt;3)=1-0.8571=\mathbf{0.1429}$$
@@ -504,7 +533,7 @@
 </div>
 
 <div class="ex">
-  <div class="bar">EXAMPLE (slide 29) · will the coffee break be interrupted?</div>
+  <div class="bar">LECTURE 3 · notes p.7 · slide 29 · will the coffee break be interrupted?</div>
   <div class="body">
   <p>An operator knows that she receives about 5 calls per hour on average. She takes a 10-minute coffee break. What is the chance that somebody calls during her break?</p>
   <div class="grid2" style="align-items:start">
@@ -570,7 +599,32 @@
   </div>
   <div class="note"><div class="t">Insight</div>The expected number of calls in the break is below 1 ($\lambda=0.83$), yet an interruption is more likely than not. "Expected count below 1" does not mean "probably nothing happens": $P(X=0)=e^{-\lambda}$ falls below $\tfrac12$ as soon as $\lambda&gt;\ln2\approx0.69$.</div>
   <div class="note warn"><div class="t">TRAP: forgetting to rescale</div>Using $\lambda=5$ gives $1-e^{-5}=0.9933$. That is the probability of at least one call in an <b>hour</b>, not in the break. Always convert the rate to the window first. A 15-minute break would have $\lambda=1.25$ and $P(X\ge1)=1-e^{-1.25}=0.7135$.</div>
-  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div><code>1 - dpois(0, 5/6)</code> → <code>0.5654018</code>, the same as <code>ppois(0, 5/6, lower.tail = FALSE)</code>. The explorer in module 18 has a <b>coffee break</b> preset: choose $k=0$ and read $P(X&gt;0)$.</div>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div><code>1 - dpois(0, 5/6)</code> → <code>0.5654018</code>, the same as <code>ppois(0, 5/6, lower.tail = FALSE)</code>. The explorer in module 19 has a <b>coffee break</b> preset: choose $k=0$ and read $P(X&gt;0)$.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">TRY IT</span> Calls arriving at random moments — watch the Poisson appear<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>This is the story behind the formula. Calls arrive at random moments of the hour, independently, at an average rate. Nobody tells the calls how many to be — yet if you count the ones that fall inside the break, hour after hour, the counts follow $\text{Pois}(\lambda)$ with $\lambda$ = rate × break length.</p>
+  <div class="ctrl">
+    <label>calls per hour <input type="range" id="ar_l" min="1" max="15" step="any" value="5"><span class="val" id="ar_l_v">5.0</span></label>
+    <label>break (minutes) <input type="range" id="ar_w" min="1" max="60" step="1" value="10"><span class="val" id="ar_w_v">10</span></label>
+    <span class="btns"><button onclick="arRun(1)">simulate one hour</button><button onclick="arRun(1000)">simulate 1000 hours</button><button onclick="arReset()">reset</button><button onclick="arSet(5,10)">lecture: 5/hour, 10 min</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="arsvg" viewBox="0 0 380 290"></svg></figure>
+    <div>
+      <div class="readout" id="arread" style="flex-direction:column;gap:5px"></div>
+      <div class="note tip" style="margin-top:10px"><div class="t">What to look for</div>
+      <ol class="steps">
+        <li>One hour: the red ticks are the calls inside the break. Some hours have none, some have two or three.</li>
+        <li>1000 hours: the share of hours with at least one call settles near $1-e^{-5/6}=0.5654$ — the lecture's answer, found by brute force.</li>
+        <li>The average count <b>and</b> the variance of the counts both settle near $\lambda$: the Poisson's fingerprint $\mathbb E=\mathbb V=\lambda$.</li>
+        <li>Stretch the break to 60 minutes: now $\lambda=5$, the whole hour.</li>
+      </ol></div>
+    </div>
+  </div>
   </div>
 </div>
 

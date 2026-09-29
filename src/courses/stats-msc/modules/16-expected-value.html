@@ -1,6 +1,6 @@
 <!-- ============ 16 EXPECTED VALUE ============ -->
 <section id="s16">
-<div class="sec-head"><span class="num">16</span><h2>Expected value</h2><span class="sub">slides: Distribution Functions 23–29 · ahead of the lecture notes</span></div>
+<div class="sec-head"><span class="num">16</span><h2>Expected value</h2><span class="sub">lecture 3, notes p.1–2 · slides: Distribution Functions 23–29</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
@@ -16,8 +16,43 @@
   </div>
 </div>
 
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 3</span> What the lecturer stressed (notes p.1–2)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="note warn" style="margin-top:0"><div class="t">Exam flag</div>The notes open lecture 3 with: <b>"Expectation — know very well for exam."</b> Be able to (1) compute $\mathbb E(X)$ from a pmf, (2) compute $\mathbb E[g(X)]$ directly, (3) use linearity. All three are below, with the lecture's own examples.</div>
+  <div class="grid2">
+  <div>
+  <h3>The definition, the way the notes read it</h3>
+  $$\mu=\mathbb E(X)=\sum_{i}x_i\,f(x_i)$$
+  <ul>
+    <li>"the pmf weights each $x_i$ by its probability" — a <b>weighted average</b> of the possible values;</li>
+    <li>$\mathbb E(X)$ has the <b>same unit</b> as $X$ (dollars in, dollars out);</li>
+    <li>$\mu$ is just another name for it.</li>
+  </ul>
+  <p>The lecture's examples are the two coming next: the biased-coin game ($\mathbb E(X)=\$0.19$) and heads in two fair flips ($\mathbb E(X)=0\cdot\tfrac14+1\cdot\tfrac12+2\cdot\tfrac14=1$).</p>
+  <h3>Vocabulary from the notes</h3>
+  <p>$g(x)=x^2$ gives $\mathbb E(X^2)$, the <b>2nd moment</b> ("non-central": nothing is subtracted); $g(x)=x^k$ gives the <b>$k$-th moment</b> $\mathbb E(X^k)=\sum x_i^k f(x_i)$. Module 17 needs $\mathbb E(X^2)$ for the variance.</p>
+  </div>
+  <div>
+  <h3>$\mathbb E[g(X)]$: keep the pmf of $X$</h3>
+  $$\mathbb E[g(X)]=\sum_i g(x_i)\,f(x_i)$$
+  <p>The note next to this formula says to use the pmf <b>of the original $X$</b>: the weights $f(x_i)$ stay exactly as they were, only the values $x_i$ are replaced by $g(x_i)$. You do <i>not</i> need the pmf of $g(X)$ first (module 14's route also works, it is just longer). The lecture's example, $g(x)=\max\{x-1,0\}$ for heads in two flips:</p>
+  <table class="formula-table">
+    <tr><td>$x_i$</td><td>$f(x_i)$</td><td>$g(x_i)=\max\{x_i-1,0\}$</td><td>$g(x_i)f(x_i)$</td></tr>
+    <tr><td>0</td><td>1/4</td><td>0</td><td>0</td></tr>
+    <tr><td>1</td><td>1/2</td><td>0</td><td>0</td></tr>
+    <tr><td>2</td><td>1/4</td><td>1</td><td>1/4</td></tr>
+    <tr><td></td><td></td><td class="g">$\mathbb E[g(X)]=$</td><td class="g">1/4</td></tr>
+  </table>
+  <h3>Linearity</h3>
+  <p>$\mathbb E(a+bX)=a+b\,\mathbb E(X)$ for <b>constants</b> $a,b$: shifting all values by $a$ shifts the average by $a$; scaling them by $b$ scales it by $b$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
 <div class="ex">
-  <div class="bar">EXAMPLE (slide 23) · a game with a biased coin</div>
+  <div class="bar">LECTURE 3 · notes p.1 · slide 23 · a game with a biased coin</div>
   <div class="body">
   <p>You flip a biased coin twice, with $P(\{H\})=\frac1{10}$. If you get two heads you win $\$1$. If you get one head and one tail you win $\$10$. If you get two tails you lose $\$2$. Let $X$ be the number of dollars you win. How much do you win per game, on average?</p>
   <div class="grid2">
@@ -208,7 +243,7 @@
   $$\sum_{k=1}^{\infty}k\,q^{k-1}=\frac{1}{(1-q)^2}$$
   <p>With $q=\frac45$:</p>
   $$\mathbb{E}(X)=\frac15\sum_{k=1}^{\infty}k\left(\frac45\right)^{k-1}=\frac15\cdot\frac{1}{(1/5)^2}=\frac15\cdot25=5$$
-  <p>So it exists and equals $5$. If each attempt succeeds with probability $\frac15$, the first success comes on attempt 5 on average (module 20).</p>
+  <p>So it exists and equals $5$. If each attempt succeeds with probability $\frac15$, the first success comes on attempt 5 on average (module 21).</p>
   </div></details>
   </div>
   </div>
@@ -217,7 +252,7 @@
 
 <div class="grid2">
 <div class="ex">
-  <div class="bar">EXAMPLE (slide 25) · heads in two fair flips</div>
+  <div class="bar">LECTURE 3 · notes p.1 · slide 25 · heads in two fair flips</div>
   <div class="body">
   <p>A fair coin is flipped $n=2$ times. Let $X$ be the number of heads. Find $\mathbb{E}(X)$.</p>
   <ol class="steps">
@@ -245,7 +280,7 @@
     $$\mathbb{E}(X)=0\cdot\tfrac18+1\cdot\tfrac38+2\cdot\tfrac38+3\cdot\tfrac18=\frac{0+3+6+3}{8}=\frac{12}{8}=1.5$$
     The number of <i>tails</i> in three flips (module 12) has the same pmf, so its mean is also $1.5$.</li>
   </ol>
-  <div class="note"><div class="t">Insight</div>A pattern is showing: $n$ fair flips give $n/2$ heads on average. Module 18 proves the general rule $\mathbb{E}(X)=np$ for the binomial.</div>
+  <div class="note"><div class="t">Insight</div>A pattern is showing: $n$ fair flips give $n/2$ heads on average. Module 19 proves the general rule $\mathbb{E}(X)=np$ for the binomial.</div>
   </div>
 </div>
 </div>
@@ -316,7 +351,7 @@
   </div>
 </div>
 <div class="ex">
-  <div class="bar">EXAMPLE (slide 28) · $\mathbb{E}\big((X-1)^+\big)$, a call option in disguise</div>
+  <div class="bar">LECTURE 3 · notes p.2 · slide 28 · $\mathbb{E}\big((X-1)^+\big)$, a call option in disguise</div>
   <div class="body">
   <p>A fair coin is flipped $n=2$ times. Let $X$ be the number of heads, and define $Y:=(X-1)^+=\max\{X-1,0\}$. Find $\mathbb{E}(Y)$.</p>
   <ol class="steps">
@@ -406,7 +441,7 @@
   <p>$\mathbb{E}(g(X))$: transform the values, keep <code>f</code>:<br>
   <code>x &lt;- 0:2; f &lt;- c(1/4, 1/2, 1/4)</code><br>
   <code>sum(x^2 * f)</code> gives <code>[1] 1.5</code>, and <code>sum(pmax(x - 1, 0) * f)</code> gives <code>[1] 0.25</code>.</p>
-  <p>The same pmf also comes from <code>dbinom(0:2, 2, 0.5)</code>, which prints <code>[1] 0.25 0.50 0.25</code> (module 18). Similarly, <code>sum(0:3 * dbinom(0:3, 3, 0.5))</code> gives <code>[1] 1.5</code>.</p>
+  <p>The same pmf also comes from <code>dbinom(0:2, 2, 0.5)</code>, which prints <code>[1] 0.25 0.50 0.25</code> (module 19). Similarly, <code>sum(0:3 * dbinom(0:3, 3, 0.5))</code> gives <code>[1] 1.5</code>.</p>
   <p><b>R trap:</b> <code>max(x - 1, 0)</code> returns a <b>single</b> number, the largest entry overall (here 1). So <code>sum(max(x - 1, 0) * f)</code> returns 1, not 0.25. For an element-by-element maximum use <code>pmax</code>.</p>
   </div>
   <h3>Summary</h3>

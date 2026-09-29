@@ -1,0 +1,385 @@
+<!-- ============ 18 THE DISCRETE FAMILY: A MAP ============ -->
+<section id="s18">
+<div class="sec-head"><span class="num">18</span><h2>The discrete family: a map</h2><span class="sub">lecture 3, notes p.4–8 · read this before modules 19–21</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What happened in the second half of lecture 3<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Until now, every random variable was built <b>by hand</b>: write $\Omega$, work out which outcomes give which value, add up their probabilities (modules 12–15). That works, but it is slow — and the same situations keep coming back: <i>count the heads in $n$ flips</i>, <i>count the calls in an hour</i>, <i>wait for the first success</i>.</p>
+  <p>The second half of lecture 3 is a <b>catalogue of those recurring situations</b>. For each one, the pmf has been worked out once and for all, as a formula with one or two <b>knobs</b> — the <b>parameters</b>. Such a ready-made pmf is called a <b>special</b> (or named) <b>distribution</b>. In an exercise you no longer list $\Omega$: you <b>recognise the story</b>, pick the distribution, plug in the parameters.</p>
+  <div class="grid2" style="margin-top:8px">
+  <div>
+  <h3>The notation you will see everywhere</h3>
+  $$X\sim\text{Bin}(n,p)$$
+  <p>reads "<b>$X$ is distributed as</b> a binomial with parameters $n$ and $p$". The symbol $\sim$ means "has the distribution". Change the parameters and you get a different member of the same family: $\text{Bin}(10,\tfrac16)$ and $\text{Bin}(3,\tfrac12)$ are both binomials, with different pmfs.</p>
+  </div>
+  <div>
+  <h3>The lecture's list</h3>
+  <table class="formula-table">
+    <tr><td>Bernoulli</td><td>one yes/no trial</td></tr>
+    <tr><td>Binomial</td><td>number of yeses in $n$ trials</td></tr>
+    <tr><td>Poisson</td><td>number of events in a time window</td></tr>
+    <tr><td>Discrete uniform</td><td>equally likely integers</td></tr>
+    <tr><td>Geometric</td><td>waiting time until the first yes</td></tr>
+  </table>
+  </div>
+  </div>
+  <div class="note tip"><div class="t">How to read this module</div>1. The <b>family tree</b>: how the five are related — they are not five unrelated formulas. 2. A <b>simulation</b>: four of them come out of the <i>same</i> coin flips, just by asking different questions. 3. One <b>card</b> per distribution, in plain words. 4. <b>How to recognise</b> which one an exercise wants, and a drill. Then modules 19–21 go through each one in full detail with the lecture's examples.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">WORDS</span> Four words the lecture uses without stopping<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <ul>
+    <li><b>Trial</b> (Bernoulli trial): one repetition of an experiment with two outcomes — flip a coin, roll a die and ask "six or not?", check whether a loan defaults.</li>
+    <li><b>Success / failure</b>: just labels for the two outcomes. "Success" is <b>the outcome you are counting</b> — it can be a default or a crash. Coded 1 (success) and 0 (failure).</li>
+  </ul>
+  </div>
+  <div>
+  <ul>
+    <li><b>Parameter</b>: a fixed number that picks one member of the family — $p$ (success probability), $n$ (number of trials), $\lambda$ (average count). Parameters are <i>not</i> random; $X$ is.</li>
+    <li><b>Independent trials</b> (module 09): the outcome of one trial tells you nothing about the others. Binomial and geometric both need it, and it is what lets us <b>multiply</b> probabilities along a sequence.</li>
+  </ul>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill b">MAP</span> The family tree<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 420 300">
+    <rect x="145" y="10" width="130" height="56" rx="5" fill="var(--bluebg)" stroke="var(--blue)" stroke-width="1.5"/>
+    <text x="210" y="28" class="svgtxt b" text-anchor="middle">Bernoulli(p)</text>
+    <text x="210" y="43" class="svgtxt" text-anchor="middle" font-size="10">one yes/no trial</text>
+    <text x="210" y="58" class="svgtxt" text-anchor="middle" font-size="10">X ∈ {0, 1}</text>
+    <line x1="170" y1="66" x2="98" y2="120" stroke="var(--green)" stroke-width="1.5"/><path d="M 98 120 l 2 -9 l 6 5 Z" fill="var(--green)"/>
+    <line x1="250" y1="66" x2="322" y2="120" stroke="var(--amber)" stroke-width="1.5"/><path d="M 322 120 l -8 -4 l 6 -5 Z" fill="var(--amber)"/>
+    <text x="12" y="86" class="svgtxt g" font-size="10">repeat n times,</text>
+    <text x="12" y="99" class="svgtxt g" font-size="10">count the yeses</text>
+    <text x="318" y="86" class="svgtxt a" font-size="10">repeat until</text>
+    <text x="318" y="99" class="svgtxt a" font-size="10">the first yes</text>
+    <rect x="20" y="122" width="140" height="56" rx="5" fill="var(--greenbg)" stroke="var(--green)" stroke-width="1.5"/>
+    <text x="90" y="140" class="svgtxt g" text-anchor="middle">Binomial(n, p)</text>
+    <text x="90" y="155" class="svgtxt" text-anchor="middle" font-size="10">count yeses in n</text>
+    <text x="90" y="170" class="svgtxt" text-anchor="middle" font-size="10">X ∈ {0, 1, …, n}</text>
+    <rect x="260" y="122" width="140" height="56" rx="5" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="1.5"/>
+    <text x="330" y="140" class="svgtxt a" text-anchor="middle">Geometric(p)</text>
+    <text x="330" y="155" class="svgtxt" text-anchor="middle" font-size="10">wait for 1st yes</text>
+    <text x="330" y="170" class="svgtxt" text-anchor="middle" font-size="10">X ∈ {1, 2, 3, …}</text>
+    <line x1="90" y1="178" x2="90" y2="232" stroke="var(--red)" stroke-width="1.5"/><path d="M 90 234 l -4 -8 l 8 0 Z" fill="var(--red)"/>
+    <text x="100" y="200" class="svgtxt r" font-size="10">n huge, p tiny,</text>
+    <text x="100" y="213" class="svgtxt r" font-size="10">λ = np fixed</text>
+    <rect x="20" y="236" width="140" height="56" rx="5" fill="var(--redbg)" stroke="var(--red)" stroke-width="1.5"/>
+    <text x="90" y="254" class="svgtxt r" text-anchor="middle">Poisson(λ)</text>
+    <text x="90" y="269" class="svgtxt" text-anchor="middle" font-size="10">count events in time</text>
+    <text x="90" y="284" class="svgtxt" text-anchor="middle" font-size="10">X ∈ {0, 1, 2, …}</text>
+    <rect x="260" y="236" width="140" height="56" rx="5" fill="var(--panel2)" stroke="var(--border2)" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <text x="330" y="254" class="svgtxt w" text-anchor="middle">DUniform(a, b)</text>
+    <text x="330" y="269" class="svgtxt" text-anchor="middle" font-size="10">all equally likely</text>
+    <text x="330" y="284" class="svgtxt" text-anchor="middle" font-size="10">X ∈ {a, …, b}</text>
+    <text x="330" y="224" class="svgtxt" text-anchor="middle" font-size="10">no trials: the odd one out</text>
+  </svg>
+  <figcaption>Everything except the discrete uniform grows out of a single yes/no trial. Repeat it a <b>fixed</b> number of times and count → binomial. Repeat it <b>until</b> the first success → geometric. Let the binomial have very many, very unlikely trials → Poisson.</figcaption>
+  </figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill a">KEY IDEA</span> Same coin, different questions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Take one long stream of independent flips of a coin with $P(\text{success})=p$, for example</p>
+  <p style="text-align:center;font-size:15px;letter-spacing:3px"><span class="r">F</span> <span class="r">F</span> <span class="g">S</span> <span class="r">F</span> <span class="g">S</span> <span class="g">S</span> <span class="r">F</span> <span class="r">F</span> <span class="r">F</span> <span class="g">S</span> …</p>
+  <p>Now ask different questions about the <b>same</b> stream:</p>
+  <table class="formula-table">
+    <tr><td><b>question</b></td><td><b>answer here</b></td><td><b>distribution</b></td></tr>
+    <tr><td>was the first flip a success?</td><td>no → 0</td><td>Bernoulli$(p)$</td></tr>
+    <tr><td>how many successes in the first 10?</td><td>4</td><td>Binomial$(10,p)$</td></tr>
+    <tr><td>on which flip came the first success?</td><td>the 3rd</td><td>Geometric I$(p)$</td></tr>
+    <tr><td>how many failures before it?</td><td>2</td><td>Geometric II$(p)$</td></tr>
+  </table>
+  <p>That is the whole secret of the discrete catalogue: <b>the randomness is always the same kind of coin; what changes is what you count</b>. The simulation below lets you watch it happen and shows that, over many streams, the counts really follow those pmfs.</p>
+  <div class="note"><div class="t">What's fixed, what's random</div>In the binomial the <b>number of trials is fixed</b> ($n$) and the <b>number of successes is random</b>. In the geometric it is the other way round: the <b>number of successes is fixed</b> (one) and the <b>number of trials is random</b>. Keep that sentence and you will never mix them up.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">TRY IT</span> One stream of trials, four distributions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$p$ (success prob.) <input type="range" id="st_p" min="0.05" max="0.9" step="any" value="0.3"><span class="val" id="st_p_v">0.30</span></label>
+    <label>$n$ (binomial window) <input type="range" id="st_n" min="1" max="20" step="1" value="10"><span class="val" id="st_n_v">10</span></label>
+    <span class="btns"><button onclick="stRun(1)">flip a new stream</button><button onclick="stRun(1000)">repeat 1000 times</button><button onclick="stReset()">reset</button></span>
+  </div>
+  <div class="grid2" style="align-items:start">
+    <figure style="margin:0"><svg id="stsvg" viewBox="0 0 380 330"></svg></figure>
+    <div>
+      <div class="readout" id="stread" style="flex-direction:column;gap:5px"></div>
+      <div class="note tip" style="margin-top:10px"><div class="t">What to try</div>
+      <ol class="steps">
+        <li>Press <b>flip a new stream</b> a few times and read the four answers off the picture: the blue box is the Bernoulli, the green bracket the binomial count, the amber box the first success (geometric).</li>
+        <li>Press <b>repeat 1000 times</b>. The bars are what happened, the dots are the pmf formulas of modules 19 and 21. They match — the formulas really describe these counts.</li>
+        <li>Lower $p$ to 0.1: successes get rare, the binomial piles up near 0 and the geometric wait gets long (average $1/p=10$ flips).</li>
+      </ol></div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">CARDS</span> Each distribution in plain words<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>One card per distribution. Every card answers the same questions, so you can compare them line by line: <b>what is the story, what does $X$ count, what do the parameters mean, which values can $X$ take, the pmf, its picture, mean and variance, the lecture's example, and the R command</b>. Modules 19–21 derive everything on these cards.</p>
+
+  <div class="grid2">
+  <div class="panel">
+    <div class="bar"><span class="pill b">1</span> Bernoulli$(p)$ — one yes/no trial<span class="ctl">— ⊡ ✕</span></div>
+    <div class="body">
+    <p><b>Story.</b> A single trial that succeeds with probability $p$.</p>
+    <p><b>X is</b> 1 if it succeeds, 0 if it fails. <b>Parameter</b> $p\in[0,1]$: the success probability. <b>Values</b> $\{0,1\}$.</p>
+    <div class="grid2" style="align-items:center">
+    <div>$$f(x)=p^x(1-p)^{1-x}$$
+    <p class="muted" style="font-size:12px">the notes' one-line form: $x=1$ gives $p$, $x=0$ gives $1-p$</p></div>
+    <figure style="margin:0"><svg viewBox="0 0 170 84">
+      <line x1="10" y1="66" x2="160" y2="66" stroke="var(--border2)"/>
+      <rect x="45" y="31" width="18" height="35" fill="var(--blue)" opacity="0.55" stroke="var(--blue)"/>
+      <rect x="105" y="51" width="18" height="15" fill="var(--blue)" opacity="0.55" stroke="var(--blue)"/>
+      <text x="54" y="80" class="svgtxt" text-anchor="middle">0</text><text x="114" y="80" class="svgtxt" text-anchor="middle">1</text>
+      <text x="54" y="25" class="svgtxt" text-anchor="middle" font-size="10">0.7</text><text x="114" y="45" class="svgtxt" text-anchor="middle" font-size="10">0.3</text>
+      <text x="165" y="12" class="svgtxt" text-anchor="end" font-size="10">p = 0.3</text>
+    </svg></figure>
+    </div>
+    <p>$\mathbb E(X)=p$, $\ \mathbb V(X)=p(1-p)$. <b>Example:</b> one coin flip; "does tomorrow's loss exceed the VaR?" <b>R:</b> <code>dbinom(x, 1, p)</code> (a binomial with $n=1$).</p>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="bar"><span class="pill g">2</span> Binomial$(n,p)$ — successes in $n$ trials<span class="ctl">— ⊡ ✕</span></div>
+    <div class="body">
+    <p><b>Story.</b> $n$ independent trials, each with the same success probability $p$.</p>
+    <p><b>X counts</b> the successes. <b>Parameters</b> $n$ = number of trials (fixed in advance), $p$ = success probability. <b>Values</b> $\{0,1,\dots,n\}$.</p>
+    <div class="grid2" style="align-items:center">
+    <div>$$f(k)=\binom nk p^k(1-p)^{n-k}$$
+    <p class="muted" style="font-size:12px">$p^k(1-p)^{n-k}$: one particular order with $k$ successes; $\binom nk$: how many such orders</p></div>
+    <figure style="margin:0"><svg viewBox="0 0 170 84">
+      <line x1="8" y1="66" x2="162" y2="66" stroke="var(--border2)"/>
+      <g fill="var(--green)" opacity="0.6">
+        <rect x="10" y="41" width="10" height="25"/><rect x="23.6" y="16" width="10" height="50"/><rect x="37.2" y="21" width="10" height="45"/><rect x="50.8" y="42" width="10" height="24"/><rect x="64.4" y="57.6" width="10" height="8.4"/><rect x="78" y="64" width="10" height="2"/><rect x="91.6" y="65.5" width="10" height="0.5"/>
+      </g>
+      <text x="15" y="80" class="svgtxt" text-anchor="middle" font-size="10">0</text><text x="83" y="80" class="svgtxt" text-anchor="middle" font-size="10">5</text><text x="151" y="80" class="svgtxt" text-anchor="middle" font-size="10">10</text>
+      <text x="165" y="12" class="svgtxt" text-anchor="end" font-size="10">n=10, p=1/6</text>
+    </svg></figure>
+    </div>
+    <p>$\mathbb E(X)=np$, $\ \mathbb V(X)=np(1-p)$. <b>Example:</b> sixes in 10 rolls of a die, $P(X=5)=0.013$. <b>R:</b> <code>dbinom(k, n, p)</code>, <code>pbinom(k, n, p)</code>.</p>
+    </div>
+  </div>
+  </div>
+
+  <div class="grid2" style="margin-top:14px">
+  <div class="panel">
+    <div class="bar"><span class="pill r">3</span> Poisson$(\lambda)$ — events in a window of time<span class="ctl">— ⊡ ✕</span></div>
+    <div class="body">
+    <p><b>Story.</b> Events that can happen at <b>any moment</b> (calls, claims, defaults, accidents), independently, at a steady average rate. Count them over a fixed window of time (or space).</p>
+    <p><b>X counts</b> the events in the window. <b>Parameter</b> $\lambda&gt;0$: the <b>average number</b> of events in <i>that</i> window (the "intensity"). <b>Values</b> $\{0,1,2,\dots\}$ — no upper limit.</p>
+    <div class="grid2" style="align-items:center">
+    <div>$$f(k)=e^{-\lambda}\frac{\lambda^k}{k!}$$
+    <p class="muted" style="font-size:12px">no $n$, no $p$: only the average $\lambda$ is needed</p></div>
+    <figure style="margin:0"><svg viewBox="0 0 170 84">
+      <line x1="8" y1="66" x2="162" y2="66" stroke="var(--border2)"/>
+      <g fill="var(--red)" opacity="0.55">
+        <rect x="10" y="41" width="11" height="25"/><rect x="26.7" y="16" width="11" height="50"/><rect x="43.4" y="16" width="11" height="50"/><rect x="60.1" y="32.7" width="11" height="33.3"/><rect x="76.8" y="49.3" width="11" height="16.7"/><rect x="93.5" y="59.3" width="11" height="6.7"/><rect x="110.2" y="63.8" width="11" height="2.2"/><rect x="126.9" y="65.4" width="11" height="0.6"/>
+      </g>
+      <text x="15.5" y="80" class="svgtxt" text-anchor="middle" font-size="10">0</text><text x="82.3" y="80" class="svgtxt" text-anchor="middle" font-size="10">4</text><text x="150" y="70" class="svgtxt" font-size="10">…</text>
+      <text x="165" y="12" class="svgtxt" text-anchor="end" font-size="10">λ = 2</text>
+    </svg></figure>
+    </div>
+    <p>$\mathbb E(X)=\lambda=\mathbb V(X)$. <b>Example:</b> 5 calls/hour ⇒ $\lambda=\tfrac56$ in a 10-minute break; $P(\text{at least one call})=1-e^{-5/6}=0.5654$. <b>R:</b> <code>dpois(k, lambda)</code>, <code>ppois(k, lambda)</code>.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="bar"><span class="pill a">4</span> Discrete uniform$(a,b)$ — all equally likely<span class="ctl">— ⊡ ✕</span></div>
+    <div class="body">
+    <p><b>Story.</b> Pick an integer from $a$ to $b$ with no favourites: a fair die, a random digit, a lottery ball.</p>
+    <p><b>X is</b> the number picked. <b>Parameters</b> $a\le b$: the smallest and largest value. <b>Values</b> $\{a,a+1,\dots,b\}$ — there are $b-a+1$ of them.</p>
+    <div class="grid2" style="align-items:center">
+    <div>$$f(k)=\frac{1}{b-a+1}$$
+    <p class="muted" style="font-size:12px">the same for every $k$: it does not depend on $k$</p></div>
+    <figure style="margin:0"><svg viewBox="0 0 170 84">
+      <line x1="8" y1="66" x2="162" y2="66" stroke="var(--border2)"/>
+      <g fill="var(--amber)" opacity="0.6">
+        <rect x="14" y="30" width="16" height="36"/><rect x="38" y="30" width="16" height="36"/><rect x="62" y="30" width="16" height="36"/><rect x="86" y="30" width="16" height="36"/><rect x="110" y="30" width="16" height="36"/><rect x="134" y="30" width="16" height="36"/>
+      </g>
+      <text x="22" y="80" class="svgtxt" text-anchor="middle" font-size="10">1</text><text x="142" y="80" class="svgtxt" text-anchor="middle" font-size="10">6</text>
+      <text x="82" y="24" class="svgtxt" text-anchor="middle" font-size="10">each 1/6</text>
+    </svg></figure>
+    </div>
+    <p>$\mathbb E(X)=\frac{a+b}{2}$ (the midpoint), $\ \mathbb V(X)=\frac{(b-a+1)^2-1}{12}$. <b>Example:</b> a fair die, DUnif$(1,6)$: $\mathbb E=3.5$, $\mathbb V=\tfrac{35}{12}$. <b>R:</b> no d-function needed — $f$ is just <code>1/(b-a+1)</code>; simulate with <code>sample(a:b, 1)</code>.</p>
+    </div>
+  </div>
+  </div>
+
+  <div class="grid2" style="margin-top:14px">
+  <div class="panel">
+    <div class="bar"><span class="pill a">5</span> Geometric$(p)$, version I — trials until the first success<span class="ctl">— ⊡ ✕</span></div>
+    <div class="body">
+    <p><b>Story.</b> Repeat independent trials (success prob. $p$) until the first success, then stop. The number of trials is <b>not fixed</b> — it is the random thing.</p>
+    <p><b>X counts</b> the trials needed, <b>including</b> the successful one. <b>Parameter</b> $p$. <b>Values</b> $\{1,2,3,\dots\}$.</p>
+    <div class="grid2" style="align-items:center">
+    <div>$$f(k)=(1-p)^{k-1}\,p$$
+    <p class="muted" style="font-size:12px">$k-1$ failures in a row, then a success</p></div>
+    <figure style="margin:0"><svg viewBox="0 0 170 84">
+      <line x1="8" y1="66" x2="162" y2="66" stroke="var(--border2)"/>
+      <g fill="var(--amber)" opacity="0.6">
+        <rect x="10" y="16" width="9" height="50"/><rect x="22" y="24.3" width="9" height="41.7"/><rect x="34" y="31.3" width="9" height="34.7"/><rect x="46" y="37.1" width="9" height="28.9"/><rect x="58" y="41.9" width="9" height="24.1"/><rect x="70" y="45.9" width="9" height="20.1"/><rect x="82" y="49.3" width="9" height="16.7"/><rect x="94" y="52" width="9" height="14"/><rect x="106" y="54.4" width="9" height="11.6"/><rect x="118" y="56.3" width="9" height="9.7"/><rect x="130" y="57.9" width="9" height="8.1"/><rect x="142" y="59.3" width="9" height="6.7"/>
+      </g>
+      <text x="14.5" y="80" class="svgtxt" text-anchor="middle" font-size="10">1</text><text x="74.5" y="80" class="svgtxt" text-anchor="middle" font-size="10">6</text><text x="155" y="80" class="svgtxt" font-size="10">…</text>
+      <text x="165" y="12" class="svgtxt" text-anchor="end" font-size="10">p = 1/6</text>
+    </svg></figure>
+    </div>
+    <p>$\mathbb E(X)=\frac1p$ — the higher $p$, the fewer trials you need (a six takes 6 rolls on average); $\ \mathbb V(X)=\frac{1-p}{p^2}$. <b>Example:</b> module 15's $f(k)=\tfrac15(\tfrac45)^{k-1}$ is Geometric I with $p=\tfrac15$. <b>R:</b> <code>dgeom(k - 1, p)</code> — note the $-1$.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="bar"><span class="pill a">6</span> Geometric$(p)$, version II — failures before the first success<span class="ctl">— ⊡ ✕</span></div>
+    <div class="body">
+    <p><b>Story.</b> The same waiting game, but you <b>do not count the successful trial</b> — only the failures before it.</p>
+    <p><b>X counts</b> the failures before the first success. <b>Parameter</b> $p$. <b>Values</b> $\{0,1,2,\dots\}$ — zero if the very first trial succeeds.</p>
+    <div class="grid2" style="align-items:center">
+    <div>$$f(k)=(1-p)^{k}\,p$$
+    <p class="muted" style="font-size:12px">$k$ failures, then a success</p></div>
+    <figure style="margin:0"><svg viewBox="0 0 170 84">
+      <line x1="8" y1="66" x2="162" y2="66" stroke="var(--border2)"/>
+      <g fill="var(--amber)" opacity="0.4" stroke="var(--amber)" stroke-width="0.8">
+        <rect x="10" y="16" width="9" height="50"/><rect x="22" y="24.3" width="9" height="41.7"/><rect x="34" y="31.3" width="9" height="34.7"/><rect x="46" y="37.1" width="9" height="28.9"/><rect x="58" y="41.9" width="9" height="24.1"/><rect x="70" y="45.9" width="9" height="20.1"/><rect x="82" y="49.3" width="9" height="16.7"/><rect x="94" y="52" width="9" height="14"/><rect x="106" y="54.4" width="9" height="11.6"/><rect x="118" y="56.3" width="9" height="9.7"/><rect x="130" y="57.9" width="9" height="8.1"/><rect x="142" y="59.3" width="9" height="6.7"/>
+      </g>
+      <text x="14.5" y="80" class="svgtxt" text-anchor="middle" font-size="10">0</text><text x="74.5" y="80" class="svgtxt" text-anchor="middle" font-size="10">5</text><text x="155" y="80" class="svgtxt" font-size="10">…</text>
+      <text x="165" y="12" class="svgtxt" text-anchor="end" font-size="10">p = 1/6</text>
+    </svg></figure>
+    </div>
+    <p>Same shape, shifted one step left: $X_{II}=X_{I}-1$. So $\mathbb E(X)=\frac{1-p}{p}=\frac1p-1$ and $\ \mathbb V(X)=\frac{1-p}{p^2}$ (a shift does not change the variance — module 17). <b>Example:</b> draws before the first ace, $P(X=2)=0.0655$. <b>R:</b> <code>dgeom(k, p)</code> — R uses this version.</p>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">GUIDE</span> Which distribution is it? Ask these questions in order<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0">
+  <svg viewBox="0 0 420 346">
+    <g font-size="10">
+    <rect x="6" y="8" width="252" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="16" y="27" class="svgtxt w" font-size="10">Just one trial: X is 1 or 0?</text>
+    <text x="16" y="42" class="svgtxt" font-size="10">(success / failure)</text>
+    <rect x="6" y="74" width="252" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="16" y="93" class="svgtxt w" font-size="10">A fixed number n of independent</text>
+    <text x="16" y="108" class="svgtxt w" font-size="10">trials, X = number of successes?</text>
+    <rect x="6" y="140" width="252" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="16" y="159" class="svgtxt w" font-size="10">Repeating until the first success,</text>
+    <text x="16" y="174" class="svgtxt w" font-size="10">X = how long it takes?</text>
+    <rect x="6" y="206" width="252" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="16" y="225" class="svgtxt w" font-size="10">Counting events in a time window,</text>
+    <text x="16" y="240" class="svgtxt w" font-size="10">only the average rate is known?</text>
+    <rect x="6" y="272" width="252" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="16" y="291" class="svgtxt w" font-size="10">A range of integers, every value</text>
+    <text x="16" y="306" class="svgtxt w" font-size="10">equally likely?</text>
+    </g>
+    <g stroke="var(--border2)">
+      <line x1="40" y1="54" x2="40" y2="72"/><line x1="40" y1="120" x2="40" y2="138"/><line x1="40" y1="186" x2="40" y2="204"/><line x1="40" y1="252" x2="40" y2="270"/><line x1="40" y1="318" x2="40" y2="330"/>
+    </g>
+    <text x="46" y="67" class="svgtxt" font-size="9.5">no</text><text x="46" y="133" class="svgtxt" font-size="9.5">no</text><text x="46" y="199" class="svgtxt" font-size="9.5">no</text><text x="46" y="265" class="svgtxt" font-size="9.5">no</text>
+    <text x="46" y="340" class="svgtxt" font-size="9.5">no → build the pmf by hand (module 15)</text>
+    <g stroke-width="1.5">
+      <line x1="258" y1="31" x2="290" y2="31" stroke="var(--blue)"/><line x1="258" y1="97" x2="290" y2="97" stroke="var(--green)"/><line x1="258" y1="163" x2="290" y2="163" stroke="var(--amber)"/><line x1="258" y1="229" x2="290" y2="229" stroke="var(--red)"/><line x1="258" y1="295" x2="290" y2="295" stroke="var(--dim)"/>
+    </g>
+    <text x="262" y="26" class="svgtxt" font-size="9.5">yes</text><text x="262" y="92" class="svgtxt" font-size="9.5">yes</text><text x="262" y="158" class="svgtxt" font-size="9.5">yes</text><text x="262" y="224" class="svgtxt" font-size="9.5">yes</text><text x="262" y="290" class="svgtxt" font-size="9.5">yes</text>
+    <rect x="292" y="8" width="122" height="46" rx="4" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <text x="353" y="35" class="svgtxt b" text-anchor="middle">Bernoulli(p)</text>
+    <rect x="292" y="74" width="122" height="46" rx="4" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="353" y="101" class="svgtxt g" text-anchor="middle">Binomial(n, p)</text>
+    <rect x="292" y="140" width="122" height="46" rx="4" fill="var(--amberbg)" stroke="var(--amber)"/>
+    <text x="353" y="159" class="svgtxt a" text-anchor="middle">Geometric(p)</text>
+    <text x="353" y="175" class="svgtxt" text-anchor="middle" font-size="9.5">version I or II</text>
+    <rect x="292" y="206" width="122" height="46" rx="4" fill="var(--redbg)" stroke="var(--red)"/>
+    <text x="353" y="225" class="svgtxt r" text-anchor="middle">Poisson(λ)</text>
+    <text x="353" y="241" class="svgtxt" text-anchor="middle" font-size="9.5">λ = rate × window</text>
+    <rect x="292" y="272" width="122" height="46" rx="4" fill="var(--panel2)" stroke="var(--border2)" stroke-dasharray="4 3"/>
+    <text x="353" y="299" class="svgtxt w" text-anchor="middle">DUniform(a, b)</text>
+  </svg>
+  </figure>
+  <div>
+  <h3>The checks that trip people up</h3>
+  <ul>
+    <li><b>Binomial needs all three:</b> a fixed $n$, the same $p$ on every trial, and independence. Drawing cards <i>without</i> replacement breaks it — $p$ changes after each draw.</li>
+    <li><b>Binomial vs geometric:</b> is the number of trials given in the question? Then binomial. Is it what you are asked about? Then geometric.</li>
+    <li><b>Binomial vs Poisson:</b> is there a maximum possible count $n$? Binomial. Is there no natural maximum and only an average rate? Poisson. (With huge $n$ and tiny $p$ both work — module 20.)</li>
+    <li><b>Poisson's $\lambda$ must match the window.</b> "5 calls per hour" and a 10-minute window give $\lambda=5\cdot\tfrac{10}{60}=\tfrac56$, not 5.</li>
+    <li><b>Geometric I or II?</b> Read whether the successful trial is counted. "How many rolls until the first six" (I) vs "how many failures before" (II).</li>
+  </ul>
+  <div class="note warn"><div class="t">Three classic slips</div>1. Writing $\mathbb E(X)=p$ for a binomial: it is $np$ — $p$ is the mean of <i>one</i> trial. 2. Confusing $k$ (the value asked about) with $n$ (the number of trials). 3. Using R's <code>dgeom(k, p)</code> for version I — it computes version II.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">DRILL</span> Name that distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Recognising the story is most of the work in an exam question. Click an answer; the first click counts (the score is shown in module 27).</p>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">D1</span>A trader makes 20 independent trades; each is profitable with probability 0.55. $X$ = number of profitable trades.</div>
+    <div class="opts"><button>Geometric(0.55)</button><button>Binomial(20, 0.55)</button><button>Poisson(0.55)</button><button>Bernoulli(0.55)</button></div>
+    <div class="why">Fixed number of independent trials (20), same $p$, counting successes: binomial. $\mathbb E(X)=20\cdot0.55=11$.</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">D2</span>E-mails arrive at 12 per hour on average. $X$ = number of e-mails in the next 15 minutes.</div>
+    <div class="opts"><button>Poisson(12)</button><button>Binomial(15, 12/60)</button><button>Poisson(3)</button><button>DUniform(0, 12)</button></div>
+    <div class="why">Events in a time window with only an average rate: Poisson, with $\lambda$ for <i>that</i> window: $12\cdot\tfrac{15}{60}=3$.</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">D3</span>A player shoots until she scores; each shot scores with probability 0.4. $X$ = number of shots taken.</div>
+    <div class="opts"><button>Geometric I(0.4), mean 2.5</button><button>Geometric II(0.4), mean 1.5</button><button>Binomial(2.5, 0.4)</button><button>Poisson(0.4)</button></div>
+    <div class="why">Waiting for the first success, counting all shots including the scoring one: version I, $\mathbb E=1/0.4=2.5$.</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">D4</span>$X=1$ if tomorrow's return is positive, $X=0$ otherwise.</div>
+    <div class="opts"><button>Binomial(n, p) with n unknown</button><button>DUniform(0, 1)</button><button>Poisson(1)</button><button>Bernoulli(p)</button></div>
+    <div class="why">One yes/no trial. (It would be DUniform(0,1) only if $p=\tfrac12$ exactly — Bernoulli is the general answer.)</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">D5</span>A fair coin is tossed until the first head. $X$ = number of tails before that head. $P(X=0)$ is</div>
+    <div class="opts"><button>0</button><button>1/2</button><button>1/4</button><button>1</button></div>
+    <div class="why">Geometric II with $p=\tfrac12$: $f(0)=(1-p)^0p=\tfrac12$ — zero tails means the first toss is already a head.</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">D6</span>1,000 loans, each defaulting independently with probability 0.002. $X$ = number of defaults. The easiest accurate model is</div>
+    <div class="opts"><button>Geometric(0.002)</button><button>DUniform(0, 1000)</button><button>Poisson(2)</button><button>Bernoulli(0.002)</button></div>
+    <div class="why">Exactly it is Binomial(1000, 0.002) — but $n$ is huge and $p$ tiny, so Poisson with $\lambda=np=2$ is almost identical and much easier (module 20).</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">D7</span>5 cards are drawn <b>without replacement</b> from a deck; $X$ = number of aces. Is $X$ binomial with $n=5$, $p=\tfrac4{52}$?</div>
+    <div class="opts"><button>Yes</button><button>Yes, but only for the first card</button><button>No, it is Poisson</button><button>No: the draws are not independent</button></div>
+    <div class="why">After an ace is drawn, the chance of another ace drops ($\tfrac3{51}$): same-$p$ and independence both fail. (The correct model, the hypergeometric, is not on this course's list.)</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">D8</span>$X\sim\text{Bin}(10,\tfrac16)$. Which statement is true?</div>
+    <div class="opts"><button>$\mathbb E(X)=\tfrac{10}6$ and $X$ can take 11 values</button><button>$\mathbb E(X)=\tfrac16$ and $X\in\{1,\dots,10\}$</button><button>$\mathbb V(X)=\mathbb E(X)$</button><button>$X$ can be larger than 10</button></div>
+    <div class="why">$\mathbb E=np=\tfrac{10}6\approx1.67$; the values are $0,1,\dots,10$ — eleven of them. $\mathbb V=np(1-p)\neq np$ (equal mean and variance is the Poisson's fingerprint).</div>
+  </div>
+  </div>
+</div>
+</section>

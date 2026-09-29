@@ -1,6 +1,6 @@
-<!-- ============ 20 DISCRETE UNIFORM AND GEOMETRIC ============ -->
-<section id="s20">
-<div class="sec-head"><span class="num">20</span><h2>Discrete uniform &amp; geometric</h2><span class="sub">slides: Special Discrete Distributions 31–38 · ahead of the lecture notes</span></div>
+<!-- ============ 21 DISCRETE UNIFORM AND GEOMETRIC ============ -->
+<section id="s21">
+<div class="sec-head"><span class="num">21</span><h2>Discrete uniform &amp; geometric</h2><span class="sub">lecture 3, notes p.8 · slides: Special Discrete Distributions 31–38</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> The questions this module answers<span class="ctl">— ⊡ ✕</span></div>
@@ -8,11 +8,55 @@
   <p>The last two named discrete distributions of the deck answer two very different questions:</p>
   <ol class="steps">
     <li><b>Discrete uniform.</b> "Every whole number from $a$ to $b$ is equally likely. What are the probabilities, the mean and the spread?" A fair die, a random digit, a ticket drawn from a numbered hat. The distribution of <b>complete ignorance</b> over a range of integers.</li>
-    <li><b>Geometric.</b> "I repeat a yes/no trial until the <b>first success</b>. How long do I wait?" The first default in a loan book, the first day a VaR limit is breached, the first ace in a shuffled deck. The binomial (module 18) fixes the number of trials and counts successes. The geometric fixes the number of successes at one and counts the <b>trials</b>.</li>
+    <li><b>Geometric.</b> "I repeat a yes/no trial until the <b>first success</b>. How long do I wait?" The first default in a loan book, the first day a VaR limit is breached, the first ace in a shuffled deck. The binomial (module 19) fixes the number of trials and counts successes. The geometric fixes the number of successes at one and counts the <b>trials</b>.</li>
   </ol>
   <p>You have met a geometric already. In module 15 we checked that $f(k)=\tfrac15\left(\tfrac45\right)^{k-1}$, $k=1,2,\dots$ sums to 1. That pmf is exactly the <b>Geometric distribution with $p=\tfrac15$</b> (version I below). This module gives it a name, a mean and a variance.</p>
   <p>At the end: the <b>complete summary table</b> of all six discrete distributions in the deck, and a short guide to <b>recognising which one a problem is about</b>. That recognition is where most exam marks are won or lost.</p>
   <div class="note warn"><div class="t">The classic confusion, flagged up front</div>The slides give <b>two</b> geometric distributions under the same name: one counts the <b>trials</b> up to and including the first success (support $1,2,3,\dots$), the other counts the <b>failures</b> before it (support $0,1,2,\dots$). They differ by exactly 1. R's <code>dgeom</code> uses the second. Always check which one a question or a formula means.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 3</span> What the lecturer said (notes p.8)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2">
+  <div>
+  <h3>Discrete uniform: "equal probability"</h3>
+  <p>For integers $a&lt;b$: $X\sim\text{DUnif}(a,b)$ if</p>
+  $$f(k)=P(X=k)=\frac1{b-a+1},\qquad k=a,\dots,b$$
+  <p>— a formula that <b>does not depend on $k$</b>: every value gets the same bar. The two moments, with the notes' reading of each:</p>
+  $$\mathbb E(X)=\frac{a+b}2,\qquad \mathbb V(X)=\frac{(b-a+1)^2-1}{12}$$
+  <ul>
+    <li>$\frac{a+b}{2}$ is the <b>midpoint</b> between $a$ and $b$ — the balance point, because the support points are regularly spaced and equally weighted;</li>
+    <li>$b-a+1$ is the <b>range</b> of the distribution: the number of possible values. More values ⇒ more spread.</li>
+  </ul>
+  <p><b>The die</b> (the notes' example): $X\sim\text{DUnif}(1,6)$, $f(k)=\frac1{6-1+1}=\frac16$, $\mathbb E(X)=\frac{1+6}2=3.5$, $\mathbb V(X)=\frac{(6-1+1)^2-1}{12}=\frac{35}{12}$.</p>
+  </div>
+  <div>
+  <h3>Geometric: "n is not fixed"</h3>
+  <p>Bernoulli trials with success probability $p$, but — unlike the binomial — the number of trials is <b>not fixed</b>. The question is: <b>how many trials until the first success?</b></p>
+  $$X\sim\text{Geo}(p):\quad f(k)=(1-p)^{k-1}\,p,\ \ k=1,2,3,\dots\qquad \mathbb E(X)=\frac1p,\quad \mathbb V(X)=\frac{1-p}{p^2}$$
+  <p>The last factor $p$ is the success on the last trial. On $\mathbb E(X)=1/p$ the notes write: <b>higher success probability ⇒ fewer trials needed</b>.</p>
+  <p><b>Alternative version:</b> $X$ = number of trials <i>before</i> a success = number of failures up to the success — "not counting the last trial, when you have the success":</p>
+  $$f(k)=(1-p)^k\,p,\ \ k=0,1,2,\dots\qquad \mathbb E(X)=\frac{1-p}p=\frac1p-1,\quad \mathbb V(X)=\frac{1-p}{p^2}$$
+  <figure>
+  <svg viewBox="0 0 340 104">
+    <g>
+      <rect x="20" y="16" width="34" height="26" rx="3" fill="var(--panel2)" stroke="var(--border2)"/><text x="37" y="34" class="svgtxt" text-anchor="middle">F</text>
+      <rect x="60" y="16" width="34" height="26" rx="3" fill="var(--panel2)" stroke="var(--border2)"/><text x="77" y="34" class="svgtxt" text-anchor="middle">F</text>
+      <rect x="100" y="16" width="34" height="26" rx="3" fill="var(--panel2)" stroke="var(--border2)"/><text x="117" y="34" class="svgtxt" text-anchor="middle">F</text>
+      <rect x="140" y="16" width="34" height="26" rx="3" fill="var(--greenbg)" stroke="var(--green)" stroke-width="1.8"/><text x="157" y="34" class="svgtxt g" text-anchor="middle">S</text>
+    </g>
+    <path d="M 20 52 L 20 58 L 174 58 L 174 52" fill="none" stroke="var(--amber)" stroke-width="1.5"/>
+    <text x="186" y="62" class="svgtxt a">I: X = 4 trials</text>
+    <path d="M 20 76 L 20 82 L 134 82 L 134 76" fill="none" stroke="var(--blue)" stroke-width="1.5"/>
+    <text x="186" y="86" class="svgtxt b">II: X = 3 failures</text>
+    <text x="186" y="34" class="svgtxt">stop at the 1st S</text>
+  </svg>
+  <figcaption>The same wait, counted two ways. Version II is always exactly one less: $X_{II}=X_I-1$. That is why its mean is $\frac1p-1$ (linearity) while its variance is unchanged (a shift, module 17).</figcaption>
+  </figure>
+  </div>
+  </div>
   </div>
 </div>
 
@@ -30,7 +74,7 @@
   </div>
 </div>
 <div class="ex">
-  <div class="bar">EXAMPLE (slide 32) · a fair die</div>
+  <div class="bar">LECTURE 3 · notes p.8 · slide 32 · a fair die</div>
   <div class="body">
   <p>We toss a fair die. Let $X$ be the observed number. How is $X$ distributed? Find its mean and variance.</p>
   <ol class="steps">
@@ -90,13 +134,13 @@
   <figcaption>DUniform(1, 6): six equal bars of height $\tfrac16$. The mean sits at 3.5, between two bars, and the amber bar spans one standard deviation either side.</figcaption>
   </figure>
   <div>
-  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>Base R has no <code>dunif</code> for the <i>discrete</i> uniform. <code>dunif(x, min, max)</code> is the <b>continuous</b> uniform density of module 23. Work with the values directly:<br>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>Base R has no <code>dunif</code> for the <i>discrete</i> uniform. <code>dunif(x, min, max)</code> is the <b>continuous</b> uniform density of module 24. Work with the values directly:<br>
   <code>x &lt;- 1:6</code><br>
   <code>mean(x)</code> → <code>3.5</code><br>
   <code>mean(x^2) - mean(x)^2</code> → <code>2.916667</code> (= 35/12)<br>
   <code>sample(1:6, 10, replace = TRUE)</code> simulates ten rolls.</div>
   <div class="note warn"><div class="t">TRAP: <code>var(1:6)</code> is not 35/12</div><code>var(1:6)</code> returns <code>3.5</code>, not 2.9167. R's <code>var</code> is the <b>sample</b> variance: it divides the sum of squared deviations ($17.5$) by $n-1=5$ instead of $n=6$. For the variance of a distribution whose values are all equally likely, divide by $n$: $17.5/6=35/12$. This $n$ versus $n-1$ difference is a favourite R multiple-choice question.</div>
-  <p class="muted">Explorer (module 18): the <b>fair die</b> preset shows the six flat bars and reads out $\mathbb{E}=3.5$, $\mathbb{V}=2.917$.</p>
+  <p class="muted">Explorer (module 19): the <b>fair die</b> preset shows the six flat bars and reads out $\mathbb{E}=3.5$, $\mathbb{V}=2.917$.</p>
   </div>
   </div>
   </div>
@@ -363,7 +407,7 @@
   </figure>
   <div class="note"><div class="t">Insight</div>The pmf is <b>largest at $k=0$</b>: the single most likely outcome is an ace on the very first draw (probability $1/13\approx0.077$). Yet the distribution is so spread out that there is a 45% chance of 10 or more non-aces first. The mean is 12 and the standard deviation $\sqrt{156}\approx12.5$ is as large as the mean. Waiting times for rare events are long and very unpredictable.</div>
   <div class="note warn"><div class="t">TRAP: the wrong version gives a different answer</div>With version I (draws up to and <i>including</i> the ace), $X=2$ would mean "the ace comes on the 2nd draw": $pq=\frac{12}{169}=0.0710$. That answers a different question. The slide's answer $pq^2$ is version II. When a question is ambiguous, say which convention you use.</div>
-  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div><code>dgeom(2, 1/13)</code> → <code>0.06554392</code> (version II, as the slide)<br><code>1 - pgeom(9, 1/13)</code> → <code>0.4491371</code>, since $P(X\ge10)=1-P(X\le9)$. The same as <code>pgeom(9, 1/13, lower.tail = FALSE)</code>.<br>In the explorer (module 18) the <b>aces</b> presets load this example. For $P(X\ge10)$ the slider stops at $k=9$ and you read $P(X&gt;9)$.</div>
+  <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div><code>dgeom(2, 1/13)</code> → <code>0.06554392</code> (version II, as the slide)<br><code>1 - pgeom(9, 1/13)</code> → <code>0.4491371</code>, since $P(X\ge10)=1-P(X\le9)$. The same as <code>pgeom(9, 1/13, lower.tail = FALSE)</code>.<br>In the explorer (module 19) the <b>aces</b> presets load this example. For $P(X\ge10)$ the slider stops at $k=9$ and you read $P(X&gt;9)$.</div>
   </div>
   </div>
   </div>
@@ -375,7 +419,7 @@
   <p>Suppose you have already drawn 10 non-aces. Is an ace now "due"? Compute, with $X$ version II and the tail formula $P(X\ge k)=q^k$:</p>
   $$P(X\ge10+5\mid X\ge10)=\frac{P(X\ge15)}{P(X\ge10)}=\frac{q^{15}}{q^{10}}=q^{5}=P(X\ge5)$$
   <p>(Conditional probability, module 07. The event $\{X\ge15\}$ is contained in $\{X\ge10\}$, so their intersection is $\{X\ge15\}$.) Having already waited 10 draws, the chance of waiting at least 5 more is <b>exactly the same</b> as it was at the very start. The past failures are forgotten: this is the <b>memoryless property</b>, and it follows directly from independence. The belief that an ace (or a market reversal, or a red number at roulette) becomes more likely after a long drought is the <b>gambler's fallacy</b>.</p>
-  <p class="muted">Module 23 meets the continuous version: the exponential distribution, the waiting time of a Poisson process, is the only continuous distribution with this property.</p>
+  <p class="muted">Module 24 meets the continuous version: the exponential distribution, the waiting time of a Poisson process, is the only continuous distribution with this property.</p>
   </div>
 </div>
 

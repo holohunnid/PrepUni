@@ -1,6 +1,6 @@
-<!-- ============ 18 BERNOULLI AND BINOMIAL ============ -->
-<section id="s18">
-<div class="sec-head"><span class="num">18</span><h2>Bernoulli &amp; binomial</h2><span class="sub">slides: Special Discrete Distributions 5–22 · ahead of the lecture notes</span></div>
+<!-- ============ 19 BERNOULLI AND BINOMIAL ============ -->
+<section id="s19">
+<div class="sec-head"><span class="num">19</span><h2>Bernoulli &amp; binomial</h2><span class="sub">lecture 3, notes p.4–6 · slides: Special Discrete Distributions 5–22</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
@@ -16,6 +16,52 @@
   </ol>
   <p>The slides open (slides 3–4) with a recap of the pmf, $\mathbb{E}$, $\mathbb{V}$ and their rules. All of that is in modules 15–17. The one rule this module leans on hard is $\mathbb{V}(aX+bY+c)=a^2\,\mathbb{V}(X)+b^2\,\mathbb{V}(Y)$, <b>valid only if $X$ and $Y$ are independent</b>.</p>
   <div class="note tip"><div class="t">The three conditions behind every binomial</div>Before you write "Binomial", check: (i) a <b>fixed number $n$</b> of trials; (ii) each trial has <b>two outcomes</b>, with the <b>same</b> success probability $p$ every time; (iii) the trials are <b>independent</b>. If any one fails, the formulas of this module do not apply.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 3</span> What the lecturer did and stressed (notes p.4–6)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p class="muted">New to all of this? Read module 18 first — it shows where Bernoulli and binomial sit in the family, and a simulation builds the binomial from coin flips.</p>
+  <div class="grid2">
+  <div>
+  <h3>Bernoulli in one line</h3>
+  <p>The notes write the two cases $P(X=1)=p$ ("success probability", the <b>parameter</b>) and $P(X=0)=1-p$ ("failure probability") as a single formula:</p>
+  $$\boxed{f(x)=p^x(1-p)^{1-x},\qquad x\in\{0,1\}}$$
+  <p>Check it: $x=1$ gives $p^1(1-p)^0=p$; $x=0$ gives $p^0(1-p)^1=1-p$. The exponents just switch the right factor on. You will meet this exact form again in <b>point estimation</b>, when the likelihood of a 0/1 sample is written down — worth getting used to now.</p>
+  <h3>The lecture counts heads</h3>
+  <p>(The slides count tails — same thing.) $n=3$ fair flips, $|\Omega|=2^3=8$ outcomes, each $\tfrac18$:</p>
+  $$P(X=0)=P(\{TTT\})=\tfrac18,\quad P(X=1)=P(\{TTH\}\cup\{THT\}\cup\{HTT\})=3\cdot\tfrac18,$$
+  $$P(X=2)=3\cdot\tfrac18,\quad P(X=3)=\tfrac18\ \Rightarrow\ P(X=k)=\binom3k\Big(\tfrac12\Big)^3.$$
+  <p>The <b>binomial coefficient</b> $\binom3k=\frac{3!}{k!\,(3-k)!}$ is, in the notes' words, the <b>number of ways to place the $k$ successes among the $n$ trials</b>. With a biased coin, $P(H)=\tfrac13$, each such arrangement has probability $(\tfrac13)^k(\tfrac23)^{3-k}$, so $P(X=k)=\binom3k(\tfrac13)^k(\tfrac23)^{3-k}$: that is $\tfrac8{27},\tfrac{12}{27},\tfrac6{27},\tfrac1{27}$ for $k=0,1,2,3$.</p>
+  </div>
+  <div>
+  <div class="note warn" style="margin-top:0"><div class="t">Exam flag: no proof — remember the link</div>The notes: <b>"Exam: No proof!! Just remember link: sum of Bernoullis are binomial."</b> If $Y_1,\dots,Y_n$ are independent Bernoulli$(p)$ with the same $p$, then $X=Y_1+\dots+Y_n\sim\text{Bin}(n,p)$. Special case: $\text{Bin}(1,p)=\text{Bernoulli}(p)$.</div>
+  <p>What you <b>do</b> compute, as in the notes:</p>
+  $$\mathbb E(Y_i)=0\cdot(1-p)+1\cdot p=p,\qquad \mathbb E(Y_i^2)=0^2(1-p)+1^2p=p$$
+  $$\mathbb V(Y_i)=\mathbb E(Y_i^2)-\mathbb E(Y_i)^2=p-p^2=p(1-p)$$
+  <p>and then, adding up the $n$ trials (independence is needed for the variance, module 17):</p>
+  $$\mathbb E(X)=\sum_{i=1}^n\mathbb E(Y_i)=np,\qquad \mathbb V(X)=\sum_{i=1}^n\mathbb V(Y_i)=np(1-p).$$
+  <h3>Reading R, as annotated in the notes</h3>
+  <figure>
+  <svg viewBox="0 0 360 122">
+    <text x="12" y="28" class="svgtxt w" font-size="13"><tspan fill="var(--red)">d</tspan>binom(<tspan fill="var(--amber)">5</tspan>, <tspan fill="var(--green)">10</tspan>, <tspan fill="var(--blue)">1/6</tspan>)</text>
+    <text x="12" y="46" class="svgtxt" font-size="10">= 0.0130</text>
+    <text x="178" y="18" class="svgtxt r" font-size="10">d → pmf: P(X = k)</text>
+    <text x="178" y="32" class="svgtxt a" font-size="10">5 → the point k</text>
+    <text x="178" y="46" class="svgtxt g" font-size="10">10 → n</text>
+    <text x="236" y="46" class="svgtxt b" font-size="10">1/6 → p</text>
+    <line x1="10" y1="60" x2="350" y2="60" stroke="var(--border)" stroke-dasharray="2 3"/>
+    <text x="12" y="86" class="svgtxt w" font-size="13"><tspan fill="var(--red)">p</tspan>binom(<tspan fill="var(--amber)">1</tspan>, <tspan fill="var(--green)">10</tspan>, <tspan fill="var(--blue)">1/6</tspan>)</text>
+    <text x="12" y="104" class="svgtxt" font-size="10">= 0.4845</text>
+    <text x="178" y="80" class="svgtxt r" font-size="10">p → CDF: P(X ≤ k)</text>
+    <text x="178" y="94" class="svgtxt" font-size="10">= P(X=0) + P(X=1)</text>
+  </svg>
+  <figcaption>The die example of the notes (sixes in 10 rolls, $p=\tfrac16$): the first letter picks pmf or CDF, the first argument is the value where you evaluate, then the parameters.</figcaption>
+  </figure>
+  <div class="note tip"><div class="t">"Being discrete, included or not changes P"</div>The notes' last line: $P(X&lt;1)=P(X=0)$ — <i>not</i> $P(X\le1)$. In R, <code>dbinom(0, 10, 1/6)</code> and <code>pbinom(0, 10, 1/6)</code> both give <code>0.1615</code>. For a discrete $X$, "&lt;" drops the endpoint's whole probability (module 13).</div>
+  </div>
+  </div>
   </div>
 </div>
 
@@ -213,7 +259,7 @@
 
 <div class="grid2">
 <div class="ex">
-  <div class="bar">EXAMPLE 1 (slide 10) · a fair coin flipped 3 times</div>
+  <div class="bar">LECTURE 3 · notes p.4 · slide 10 · a fair coin flipped 3 times</div>
   <div class="body">
   <p>Repeat a Bernoulli trial $n$ times, independently, and let $X$ be the number of successes. Then $X$ can be anything from 0 to $n$, i.e. its support is $\{0,1,2,\dots,n\}$. First a small case: flip a <b>fair</b> coin $n=3$ times, and let $X$ = number of tails ("success" = tails).</p>
   <ol class="steps">
@@ -237,7 +283,7 @@
   </div>
 </div>
 <div class="ex">
-  <div class="bar">EXAMPLE 2 (slide 11) · a biased coin, $P(\{T\})=\tfrac13$</div>
+  <div class="bar">LECTURE 3 · notes p.5 · slide 11 · a biased coin, $P(\{T\})=\tfrac13$</div>
   <div class="body">
   <p>Same experiment, $n=3$ flips, $X$ = number of tails, but now $P(T)=\tfrac13$ and $P(H)=\tfrac23$.</p>
   <ol class="steps">
@@ -629,15 +675,15 @@
   <ul>
     <li><b>Skew.</b> For $p&lt;\tfrac12$ the pmf is right-skewed, for $p=\tfrac12$ symmetric, for $p&gt;\tfrac12$ left-skewed. Binomial$(n,p)$ and Binomial$(n,1-p)$ are mirror images, because "$k$ successes" for one is "$k$ failures", i.e. $n-k$ successes, for the other: $P(X=k)=P(Y=n-k)$ with $Y\sim\text{Binomial}(n,1-p)$.</li>
     <li><b>Location and spread.</b> The peak sits near the mean $np$. The spread grows like $\sqrt n$, so relative to $n$ the distribution gets <b>narrower</b>: the <i>fraction</i> of successes concentrates around $p$ (the law of large numbers in miniature).</li>
-    <li><b>The cdf plots</b> on the slides are staircases whose steepest part is near $np$. For $n=50$ the steps are so small that the cdf looks like a smooth S-curve. That bell-and-S shape is the <b>normal distribution</b> of module 24 appearing inside the binomial.</li>
+    <li><b>The cdf plots</b> on the slides are staircases whose steepest part is near $np$. For $n=50$ the steps are so small that the cdf looks like a smooth S-curve. That bell-and-S shape is the <b>normal distribution</b> of module 25 appearing inside the binomial.</li>
   </ul>
   </div>
 </div>
 
 <div class="panel">
-  <div class="bar"><span class="pill b">EXPLORE</span> Discrete-distribution explorer (used in modules 18–20)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="bar"><span class="pill b">EXPLORE</span> Discrete-distribution explorer (used in modules 19–21)<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>This one explorer serves this module and the next two. The <b>family</b> menu holds every distribution of the "Special Discrete Distributions" deck: Bernoulli, binomial, Poisson (module 19), both versions of the geometric and the discrete uniform (module 20). The sliders relabel themselves for each family. The $k$ slider picks the value whose probabilities are read out.</p>
+  <p>This one explorer serves this module and the next two. The <b>family</b> menu holds every distribution of the "Special Discrete Distributions" deck: Bernoulli, binomial, Poisson (module 20), both versions of the geometric and the discrete uniform (module 21). The sliders relabel themselves for each family. The $k$ slider picks the value whose probabilities are read out.</p>
 <div class="ctrl">
   <label>family <select id="dd_fam">
     <option value="bern">Bernoulli(p)</option>
@@ -671,7 +717,7 @@
     <li>Load <b>Binomial(50, 0.5)</b> and drag $p$ from 0.05 to 0.95: the bell slides from left to right and is most spread out at $p=0.5$, just like the Bernoulli variance $pq$.</li>
     <li>Choose <b>Bernoulli(0.6)</b>: only two bars, and the readout shows $\mathbb{E}=0.6$, $\mathbb{V}=0.24$.</li>
   </ul>
-  <p class="muted">The <b>coffee break</b>, <b>aces</b> and <b>fair die</b> presets belong to modules 19 and 20, which send you back here.</p>
+  <p class="muted">The <b>coffee break</b>, <b>aces</b> and <b>fair die</b> presets belong to modules 20 and 21, which send you back here.</p>
   </div>
 </div>
 
@@ -790,7 +836,7 @@
 </div>
 
 <div class="ex">
-  <div class="bar">EXAMPLE (slides 19–21) · ten tosses of a die, counting sixes</div>
+  <div class="bar">LECTURE 3 · notes p.6 · slides 19–21 · ten tosses of a die, counting sixes</div>
   <div class="body">
   <p>We toss a die $n=10$ times. Let $X$ be the number of times we observe a 6. How is $X$ distributed? Give its pmf. Find $P(X=5)$, $P(X\le1)$, $P(X&lt;3)$ and $P(X&gt;8)$.</p>
   <div class="grid2" style="align-items:start">
@@ -880,7 +926,7 @@
   <code>1 - pbinom(8, size = 10, prob = 1/6)</code> → <code>8.434468e-07</code> (same as <code>pbinom(8, 10, 1/6, lower.tail = FALSE)</code>)<br>
   <code>choose(10, 5)</code> → <code>252</code>; <code>sum(dbinom(0:10, 10, 1/6))</code> → <code>1</code>.<br>
   A Bernoulli is <code>dbinom(k, 1, p)</code>; <code>rbinom(20, 1, 0.3)</code> simulates 20 Bernoulli(0.3) trials, and <code>rbinom(5, 10, 1/6)</code> simulates five repetitions of the whole ten-toss experiment.</div>
-  <div class="note warn"><div class="t">TRAP: strict versus non-strict inequalities</div><code>pbinom(k, …)</code> always means $P(X\le k)$. So $P(X&lt;3)$ is <code>pbinom(2, …)</code>, <b>not</b> <code>pbinom(3, …)</code>, which would add $f(3)=0.1550$ and give 0.9303. Likewise $P(X&gt;8)=1-P(X\le8)$ and $P(X\ge8)=1-P(X\le7)$. For a discrete variable, $&lt;$ versus $\le$ changes the answer. Only for continuous variables (module 21) does it stop mattering.</div>
+  <div class="note warn"><div class="t">TRAP: strict versus non-strict inequalities</div><code>pbinom(k, …)</code> always means $P(X\le k)$. So $P(X&lt;3)$ is <code>pbinom(2, …)</code>, <b>not</b> <code>pbinom(3, …)</code>, which would add $f(3)=0.1550$ and give 0.9303. Likewise $P(X&gt;8)=1-P(X\le8)$ and $P(X\ge8)=1-P(X\le7)$. For a discrete variable, $&lt;$ versus $\le$ changes the answer. Only for continuous variables (module 22) does it stop mattering.</div>
   </div>
 </div>
 
@@ -892,7 +938,7 @@
     <tr><td>Bernoulli$(p)$</td><td>$p\in[0,1]$</td><td>$\{0,1\}$</td><td>$f(0)=q,\ f(1)=p$</td><td>$p$</td><td>$pq$</td></tr>
     <tr><td>Binomial$(n,p)$</td><td>$n\in\mathbb{N},\ p\in[0,1]$</td><td>$\{0,1,\dots,n\}$</td><td>$f(k)=\dfrac{n!}{k!(n-k)!}\,p^kq^{n-k}$</td><td>$np$</td><td>$npq$</td></tr>
   </table>
-  <p class="muted">Module 19 adds the Poisson row. Module 20 adds the discrete uniform and the two geometric rows, and completes the table.</p>
+  <p class="muted">Module 20 adds the Poisson row. Module 21 adds the discrete uniform and the two geometric rows, and completes the table.</p>
   </div>
 </div>
 
@@ -914,7 +960,7 @@
 <details><summary>Answer</summary><div class="sol">
 <ol class="steps">
 <li>(a) <b>Yes</b>: $\text{Binomial}(20,\,0.5)$, with $\mathbb{E}=10$ and $\mathbb{V}=5$.</li>
-<li>(b) <b>No</b>: the number of trials is not fixed, it <i>is</i> the random quantity. This is the geometric distribution of module 20.</li>
+<li>(b) <b>No</b>: the number of trials is not fixed, it <i>is</i> the random quantity. This is the geometric distribution of module 21.</li>
 <li>(c) <b>No</b>: cards are dealt without replacement, so after an ace the chance of the next ace drops ($p$ is not constant and the trials are dependent). With replacement it would be $\text{Binomial}(5,\,1/13)$.</li>
 <li>(d) <b>Only as a rough first model</b>: firms in one industry tend to default together, which breaks independence. The count is then more spread out than $\text{Binomial}(100,p)$ predicts. This is the reason credit models add correlation.</li>
 </ol></div></details>

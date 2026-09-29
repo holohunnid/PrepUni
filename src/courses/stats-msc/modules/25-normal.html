@@ -1,6 +1,6 @@
-<!-- ============ 24 THE NORMAL DISTRIBUTION ============ -->
-<section id="s24">
-<div class="sec-head"><span class="num">24</span><h2>The normal distribution</h2><span class="sub">slides: Special Continuous RVs 13–19, 29–30 · ahead of the lecture notes</span></div>
+<!-- ============ 25 THE NORMAL DISTRIBUTION ============ -->
+<section id="s25">
+<div class="sec-head"><span class="num">25</span><h2>The normal distribution</h2><span class="sub">slides: Special Continuous RVs 13–19, 29–30 · ahead of the lecture notes</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> One bell, one table, every normal question<span class="ctl">— ⊡ ✕</span></div>
@@ -12,7 +12,7 @@
     <tr><td>2. standardisation</td><td>every normal is $Y=\mu+\sigma Z$, so $F_Y(x)=\Phi\!\left(\frac{x-\mu}{\sigma}\right)$ — one table serves all normals</td></tr>
     <tr><td>3. symmetry</td><td>$\Phi(-x)=1-\Phi(x)$ — the table only needs $x\ge0$</td></tr>
   </table>
-  <p>You already have every ingredient: the cdf method for $Y=\mu+\sigma Z$ is module 14, $f=F'$ is module 21, and $\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)$, $\mathbb{V}(a+bX)=b^2\,\mathbb{V}(X)$ are module 22.</p>
+  <p>You already have every ingredient: the cdf method for $Y=\mu+\sigma Z$ is module 14, $f=F'$ is module 22, and $\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)$, $\mathbb{V}(a+bX)=b^2\,\mathbb{V}(X)$ are module 23.</p>
   <div class="note tip"><div class="t">The recipe you will apply in every exercise</div><b>(i)</b> Read off $\mu$ and $\sigma$ — careful, $N(\mu,\sigma^2)$ gives the <b>variance</b>. <b>(ii)</b> Convert each boundary to a z-score $z=(x-\mu)/\sigma$. <b>(iii)</b> Write the probability with $\Phi$, using $1-\Phi$ for "greater than" and symmetry for negative $z$. <b>(iv)</b> Look up the numbers.</div>
   </div>
 </div>
@@ -156,11 +156,11 @@
   <h3>The cdf in one line (the cdf method of module 14)</h3>
   $$F_Y(x)=P(\mu+\sigma Z\le x)=P\!\left(Z\le\frac{x-\mu}{\sigma}\right)=\boxed{\,\Phi\!\left(\frac{x-\mu}{\sigma}\right)\,}\qquad-\infty&lt;x&lt;\infty$$
   <p>(subtract $\mu$, divide by $\sigma$ — dividing by a <b>positive</b> number keeps the direction of $\le$).</p>
-  <h3>The density, by differentiating (module 21)</h3>
+  <h3>The density, by differentiating (module 22)</h3>
   <p>Chain rule, with inner derivative $\frac{d}{dx}\frac{x-\mu}{\sigma}=\frac1\sigma$:</p>
   $$f_Y(x)=\frac{1}{\sigma}\,f_Z\!\left(\frac{x-\mu}{\sigma}\right)=\frac{1}{\sigma\sqrt{2\pi}}\,e^{-\frac{(x-\mu)^2}{2\sigma^2}}=\boxed{\,\frac{1}{\sqrt{2\pi\sigma^2}}\,e^{-\frac{(x-\mu)^2}{2\sigma^2}}\,}$$
   <h3>What the parameters are</h3>
-  <p>By module 22, $\mathbb{E}(Y)=\mu+\sigma\,\mathbb{E}(Z)$ and $\mathbb{V}(Y)=\sigma^2\,\mathbb{V}(Z)$. With $\mathbb{E}(Z)=0$, $\mathbb{V}(Z)=1$ (proved below): $\mathbb{E}(Y)=\mu$, $\mathbb{V}(Y)=\sigma^2$. The parameters <b>are</b> the mean and the variance.</p>
+  <p>By module 23, $\mathbb{E}(Y)=\mu+\sigma\,\mathbb{E}(Z)$ and $\mathbb{V}(Y)=\sigma^2\,\mathbb{V}(Z)$. With $\mathbb{E}(Z)=0$, $\mathbb{V}(Z)=1$ (proved below): $\mathbb{E}(Y)=\mu$, $\mathbb{V}(Y)=\sigma^2$. The parameters <b>are</b> the mean and the variance.</p>
   <div class="note warn"><div class="t">TRAP · the second parameter is the variance</div>$N(5,4)$ means $\sigma^2=4$, so $\sigma=2$. The standardisation divides by $\sigma=2$, never by 4.</div>
   </div>
 </div>
@@ -218,7 +218,7 @@
   <circle cx="152.7" cy="234" r="3" fill="var(--amber)"/>
   <circle cx="283.1" cy="234" r="3" fill="var(--amber)"/>
   <text x="159.7" y="246" class="svgtxt a" style="font-size:10px">F(μ) = 0.5</text>
-  <text x="370" y="314" class="svgtxt" text-anchor="end">x</text>
+  <text x="378" y="300" class="svgtxt" text-anchor="end">x</text>
   </svg><figcaption>The slide's four curves, recomputed. Top: $\mu$ <b>slides</b> the bell (red → green, same shape); $\sigma$ <b>widens</b> it (green → blue). The peak height is $1/(\sigma\sqrt{2\pi})$: 0.399, 0.133, 0.133, 0.080 — wider means lower, so the area stays 1. Bottom: every cdf crosses $\tfrac12$ at its own $\mu$; smaller $\sigma$ means a steeper S.</figcaption></figure>
   <p>The same picture as formulas: slide 14 draws $f_Z(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$ and $\Phi(x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^xe^{-u^2/2}du$ next to the plots, and every other curve is one of them after the change of variable $z=(x-\mu)/\sigma$.</p>
   </div>
@@ -430,9 +430,9 @@
   <h3>$\mathbb{V}(Z)=1$ (not on the slides)</h3>
   <p>Since $\mathbb{E}(Z)=0$, $\mathbb{V}(Z)=\mathbb{E}(Z^2)=\int x\cdot x f_Z(x)\,dx$. Parts with $u=x$ and $dv=x f_Z(x)\,dx$, $v=-f_Z(x)$ (because $f_Z'(x)=-xf_Z(x)$):</p>
   $$\mathbb{E}(Z^2)=\big[-x\,f_Z(x)\big]_{-\infty}^{\infty}+\int_{-\infty}^{\infty}f_Z(x)\,dx=0+1=1.$$
-  <p><b>Generally</b>, for $X\sim N(\mu,\sigma^2)$, i.e. $X=\mu+\sigma Z$, module 22 gives</p>
+  <p><b>Generally</b>, for $X\sim N(\mu,\sigma^2)$, i.e. $X=\mu+\sigma Z$, module 23 gives</p>
   $$\boxed{\,\mathbb{E}(X)=\mu\,}\qquad\boxed{\,\mathbb{V}(X)=\sigma^2\,}$$
-  <div class="note warn"><div class="t">Symmetry needs a finite integral</div>"Symmetric, so the mean is the centre" works only if $\int|x|f(x)dx&lt;\infty$. Here $\int_0^\infty xe^{-x^2/2}dx=1$ is finite, so all is well. The Student-t with $\nu=1$ (module 25) is symmetric too, yet has <b>no</b> mean.</div>
+  <div class="note warn"><div class="t">Symmetry needs a finite integral</div>"Symmetric, so the mean is the centre" works only if $\int|x|f(x)dx&lt;\infty$. Here $\int_0^\infty xe^{-x^2/2}dx=1$ is finite, so all is well. The Student-t with $\nu=1$ (module 26) is symmetric too, yet has <b>no</b> mean.</div>
   </div>
 </div>
 <div class="panel">
@@ -441,12 +441,12 @@
   <p><b>The basic idea (slide 29).</b> Modify a random variable $X$ so that the new random variable</p>
   $$Y\equiv\frac{X-\mathbb{E}(X)}{\sqrt{\mathbb{V}(X)}}$$
   <p>i.e. subtract the mean and rescale by dividing by the standard deviation. (Some random variables have no finite mean or variance; we will not deal with such cases.)</p>
-  <p><b>For a normal (slide 30).</b> Let $X\sim N(\mu,\sigma^2)$ and $Y\equiv\frac{X-\mu}{\sigma}$. Then, by linearity (module 22):</p>
+  <p><b>For a normal (slide 30).</b> Let $X\sim N(\mu,\sigma^2)$ and $Y\equiv\frac{X-\mu}{\sigma}$. Then, by linearity (module 23):</p>
   $$\mathbb{E}(Y)=\mathbb{E}\!\left(\frac{X-\mu}{\sigma}\right)=\frac{\mathbb{E}(X-\mu)}{\sigma}=\frac{\mathbb{E}(X)-\mu}{\sigma}=\frac{\mu-\mu}{\sigma}=0,$$
   $$\mathbb{V}(Y)=\mathbb{V}\!\left(\frac{X-\mu}{\sigma}\right)=\frac{\mathbb{V}(X-\mu)}{\sigma^2}=\frac{\mathbb{V}(X)}{\sigma^2}=\frac{\sigma^2}{\sigma^2}=1.$$
   <p>Hence $Y\sim N(0,1)$ is a standard normal. (Mean 0 and variance 1 come from the algebra; <b>normality</b> comes from the fact that $Y$ just undoes $X=\mu+\sigma Z$, so $Y=Z$.)</p>
   <p><b>Reading a z-score.</b> $z=(x-\mu)/\sigma$ counts how many standard deviations $x$ lies from the mean. Earnings of 7 under $N(5,4)$: $z=1$. A 290-day pregnancy: $z=2$.</p>
-  <div class="note warn"><div class="t">TRAP · standardised is not the same as normal</div>Standardising <b>any</b> variable gives mean 0 and variance 1, but it keeps the shape. If $X\sim$ exponential$(1)$ (mean 1, sd 1, module 23), then $Y=X-1$ has $\mathbb{E}(Y)=0$ and $\mathbb{V}(Y)=1$, yet it lives on $(-1,\infty)$ and is skewed — nothing like $N(0,1)$. You may use $\Phi$ on a z-score only when $X$ itself is normal.</div>
+  <div class="note warn"><div class="t">TRAP · standardised is not the same as normal</div>Standardising <b>any</b> variable gives mean 0 and variance 1, but it keeps the shape. If $X\sim$ exponential$(1)$ (mean 1, sd 1, module 24), then $Y=X-1$ has $\mathbb{E}(Y)=0$ and $\mathbb{V}(Y)=1$, yet it lives on $(-1,\infty)$ and is skewed — nothing like $N(0,1)$. You may use $\Phi$ on a z-score only when $X$ itself is normal.</div>
   </div>
 </div>
 </div>
@@ -464,7 +464,7 @@
     <tr><td>$\mu\pm2\sigma$</td><td>$0.9545$</td><td>about 1 in 22</td></tr>
     <tr><td>$\mu\pm3\sigma$</td><td>$0.9973$</td><td>about 1 in 370</td></tr>
   </table>
-  <div class="note fin"><div class="t">Finance reading</div>If a stock's daily return were normal with $\sigma=1\%$, a move of more than 3% either way would happen on about 1 day in 370 — roughly once every year and a half of trading. Real markets produce such days far more often: returns have <b>fat tails</b>. The Student-t of module 25 is the standard fix.</div>
+  <div class="note fin"><div class="t">Finance reading</div>If a stock's daily return were normal with $\sigma=1\%$, a move of more than 3% either way would happen on about 1 day in 370 — roughly once every year and a half of trading. Real markets produce such days far more often: returns have <b>fat tails</b>. The Student-t of module 26 is the standard fix.</div>
   </div>
   <figure><svg viewBox="0 0 380 206">
   <path d="M 20 18 V 140 H 360 M 20 140 v 3 M 62.5 140 v 3 M 105 140 v 3 M 147.5 140 v 3 M 190 140 v 3 M 232.5 140 v 3 M 275 140 v 3 M 317.5 140 v 3 M 360 140 v 3" fill="none" stroke="var(--border2)"/>
@@ -504,7 +504,7 @@
 <div class="grid2">
 <div>
 <div class="note fin"><div class="t">R corner (standard R, not on the slides)</div>
-<code>dnorm(x, mean, sd)</code> density · <code>pnorm(q, mean, sd)</code> cdf · <code>qnorm(p, mean, sd)</code> percentile (module 25) · <code>rnorm(n, mean, sd)</code> simulation. Defaults are <code>mean = 0, sd = 1</code>.<br>
+<code>dnorm(x, mean, sd)</code> density · <code>pnorm(q, mean, sd)</code> cdf · <code>qnorm(p, mean, sd)</code> percentile (module 26) · <code>rnorm(n, mean, sd)</code> simulation. Defaults are <code>mean = 0, sd = 1</code>.<br>
 <code>dnorm(0)</code> → <code>0.3989423</code> · <code>pnorm(1)</code> → <code>0.8413447</code> · <code>pnorm(-1)</code> → <code>0.1586553</code> · <code>pnorm(1) - pnorm(-1)</code> → <code>0.6826895</code>.<br>
 Upper tails directly: <code>pnorm(2.5, lower.tail = FALSE)</code> → <code>0.006209665</code>.<br>
 All normals are standard normals: <code>pnorm(7, 5, 2)</code> and <code>pnorm((7 - 5) / 2)</code> both give <code>0.8413447</code>.</div>
@@ -524,7 +524,7 @@ All normals are standard normals: <code>pnorm(7, 5, 2)</code> and <code>pnorm((7
 <div class="wx">
 <div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Backwards: a value from a probability</div>
 <div class="prob">For the earnings $Y\sim N(5,4)$, which value $y$ has $P(Y&lt;y)=0.975$? (Use $\Phi(1.96)=0.975$.)</div>
-<details><summary>Answer</summary><div class="sol">We need $\Phi\big((y-5)/2\big)=0.975$, so $(y-5)/2=1.96$ and $y=5+2(1.96)=8.92$. This is a <b>percentile</b> — the subject of module 25. R: <code>qnorm(0.975, 5, 2)</code> → <code>8.919928</code>.</div></details>
+<details><summary>Answer</summary><div class="sol">We need $\Phi\big((y-5)/2\big)=0.975$, so $(y-5)/2=1.96$ and $y=5+2(1.96)=8.92$. This is a <b>percentile</b> — the subject of module 26. R: <code>qnorm(0.975, 5, 2)</code> → <code>8.919928</code>.</div></details>
 </div>
 </div>
 </div>

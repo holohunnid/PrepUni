@@ -817,7 +817,7 @@ function geSet(p, K) { setS([['ge_p', p, 2], ['ge_K', K, 0]]); geDraw(); }
 window.geSet = geSet;
 
 // =====================================================================
-// special functions for modules 16–25
+// special functions for modules 16–26
 // =====================================================================
 function normPdf(x, mu = 0, sd = 1) { const z = (x - mu) / sd; return Math.exp(-0.5 * z * z) / (sd * Math.sqrt(2 * Math.PI)); }
 // Zelen & Severo rational approximation, |error| < 7.5e-8
@@ -1036,7 +1036,7 @@ function vrSet(a, b) { setS([['vr_a', a, 2], ['vr_b', b, 2]]); vrDraw(); }
 window.vrSet = vrSet;
 
 // =====================================================================
-// 18 · explorer for the named discrete distributions (modules 18–20)
+// 18 · explorer for the named discrete distributions (modules 19–21)
 // =====================================================================
 const DD = {
   bern: { labs: ['p', null], r: [[0, 1, 'any']], def: [0.6], pmf: (k, [p]) => (k === 0 ? 1 - p : k === 1 ? p : 0), sup: () => [0, 1], E: ([p]) => p, V: ([p]) => p * (1 - p), name: ([p]) => `Bernoulli(${fmt(p, 3)})` },
@@ -1261,7 +1261,7 @@ function pcSet(fam, t) {
 window.pcSet = pcSet;
 
 // =====================================================================
-// 23 · explorer for the named continuous distributions (modules 23–25)
+// 23 · explorer for the named continuous distributions (modules 24–26)
 // =====================================================================
 const CC = {
   unif: { labs: ['a', 'b'], r: [[-5, 30, 'any'], [-4, 40, 'any']], pdf: (x, [a, b]) => (x > a && x < b ? 1 / (b - a) : 0), cdf: (x, [a, b]) => (x <= a ? 0 : x >= b ? 1 : (x - a) / (b - a)), range: ([a, b]) => [a - 0.2 * (b - a), b + 0.2 * (b - a)], E: ([a, b]) => (a + b) / 2, V: ([a, b]) => ((b - a) ** 2) / 12, name: ([a, b]) => `Uniform(${tickLabel(+a.toFixed(2))}, ${tickLabel(+b.toFixed(2))})` },
@@ -1525,6 +1525,144 @@ function mcqInit() {
 }
 
 // =====================================================================
+// 18 · one stream of Bernoulli trials read four ways
+// =====================================================================
+let st = { last: null, N: 0, bern: 0, bin: [], geo: [], sumBin: 0, sumGeo: 0 };
+function stReset() { st = { last: null, N: 0, bern: 0, bin: [], geo: [], sumBin: 0, sumGeo: 0 }; stRun(1); }
+function stRun(m) {
+  const p = val('st_p'), n = Math.round(val('st_n'));
+  for (let r = 0; r < m; r++) {
+    const flips = [];
+    let first = 0;
+    // keep flipping until we have both the first n flips and the first success
+    while ((flips.length < n || !first) && flips.length < 5000) {
+      const s = Math.random() < p;
+      flips.push(s);
+      if (s && !first) first = flips.length;
+    }
+    const k = flips.slice(0, n).filter(Boolean).length;
+    st.N++; st.bern += flips[0] ? 1 : 0;
+    st.bin[k] = (st.bin[k] || 0) + 1; st.sumBin += k;
+    st.geo[first] = (st.geo[first] || 0) + 1; st.sumGeo += first;
+    st.last = { flips, first, k };
+  }
+  stDraw();
+}
+function stDraw() {
+  const svg = document.getElementById('stsvg');
+  if (!svg || !st.last) return;
+  svg.innerHTML = '';
+  const p = val('st_p'), n = Math.round(val('st_n'));
+  const { flips, first, k } = st.last;
+  const V = 24, x0 = 10, step = 15, bw = 13.5, by = 28;
+  // binomial bracket over the first n flips
+  const bx1 = x0 + Math.min(n, V) * step - 1.5;
+  el('path', { d: `M ${x0} ${by - 3} L ${x0} ${by - 8} L ${bx1} ${by - 8} L ${bx1} ${by - 3}`, fill: 'none', stroke: cv_('--green'), 'stroke-width': 1.5 }, svg);
+  txt(x0, by - 12, `first n = ${n} flips → Binomial: ${k} success${k === 1 ? '' : 'es'}`, cv_('--green'), svg, 'start', 10);
+  for (let i = 0; i < V; i++) {
+    const s = flips[i], x = x0 + i * step;
+    const isFirst = i + 1 === first;
+    el('rect', { x, y: by, width: bw, height: 18, rx: 2, fill: s ? rgba(cv_('--green'), 0.55) : cv_('--panel2'), stroke: isFirst ? cv_('--amber') : i === 0 ? cv_('--blue') : cv_('--border2'), 'stroke-width': isFirst || i === 0 ? 2.2 : 0.8 }, svg);
+    txt(x + bw / 2, by + 13, s ? 'S' : 'F', s ? cv_('--text') : cv_('--dim'), svg, 'middle', 9);
+  }
+  txt(x0, by + 34, `▲ Bernoulli: 1st flip = ${flips[0] ? 1 : 0}`, cv_('--blue'), svg, 'start', 10);
+  if (first <= V) {
+    const fx = x0 + (first - 1) * step + bw / 2;
+    el('path', { d: `M ${fx} ${by + 20} l -4 7 l 8 0 Z`, fill: cv_('--amber') }, svg);
+    txt(Math.min(fx, 235), by + 49, `Geometric I = ${first} (flip of 1st S) · II = ${first - 1}`, cv_('--amber'), svg, fx > 235 ? 'end' : 'start', 10);
+  } else {
+    txt(370, by + 49, `1st S at flip ${first} (off screen): I = ${first}, II = ${first - 1}`, cv_('--amber'), svg, 'end', 10);
+  }
+  // two histograms: observed frequencies (bars) against the pmf formulas (dots)
+  const panel = (px0, px1, title, ks, obs, theo, colVar) => {
+    const yb = 300, yt = 132;
+    const mx = Math.max(...ks.map((kk) => Math.max(theo(kk), st.N ? (obs[kk] || 0) / st.N : 0)), 1e-9) * 1.12;
+    const W = (px1 - px0) / ks.length, Y = (v) => yb - (v / mx) * (yb - yt);
+    el('line', { x1: px0, y1: yb, x2: px1, y2: yb, stroke: cv_('--border2') }, svg);
+    txt(px0, yt - 12, title, cv_(colVar), svg, 'start', 10);
+    const every = Math.max(1, Math.ceil(ks.length / 8));
+    ks.forEach((kk, i) => {
+      const x = px0 + i * W;
+      if (st.N) { const f = (obs[kk] || 0) / st.N; el('rect', { x: x + W * 0.15, y: Y(f), width: W * 0.7, height: yb - Y(f), fill: rgba(cv_(colVar), 0.45), stroke: cv_(colVar), 'stroke-width': 0.6 }, svg); }
+      el('circle', { cx: x + W / 2, cy: Y(theo(kk)), r: 2.6, fill: cv_('--text') }, svg);
+      if (i % every === 0) txt(x + W / 2, yb + 13, String(kk), cv_('--dim'), svg, 'middle', 9);
+    });
+  };
+  const binKs = []; for (let kk = 0; kk <= n; kk++) binKs.push(kk);
+  const geoKs = []; for (let kk = 1; kk <= 15; kk++) geoKs.push(kk);
+  panel(10, 182, `Binomial(${n}, ${fmt(p, 2)})`, binKs, st.bin, (kk) => binomPmf(kk, n, p), '--green');
+  panel(198, 370, `Geometric I(${fmt(p, 2)}), 1–15`, geoKs, st.geo, (kk) => p * Math.pow(1 - p, kk - 1), '--amber');
+  txt(190, 326, st.N > 1 ? `bars: ${st.N} simulated streams · dots: the pmf formula` : 'dots: the pmf formula · repeat to grow the bars', cv_('--muted'), svg, 'middle', 9.5);
+  const r = document.getElementById('stread');
+  if (r) r.innerHTML =
+    `<span>this stream: Bernoulli <b>${flips[0] ? 1 : 0}</b> · Binomial <b>${k}</b> · Geometric I <b>${first}</b> · Geometric II <b>${first - 1}</b></span>` +
+    `<span>streams so far: <b>${st.N}</b></span>` +
+    `<span>share with 1st flip = S: <b>${fmt(st.bern / st.N, 3)}</b> (Bernoulli mean p = ${fmt(p, 3)})</span>` +
+    `<span>average binomial count: <b>${fmt(st.sumBin / st.N, 3)}</b> (np = ${fmt(n * p, 3)})</span>` +
+    `<span>average wait for 1st S: <b>${fmt(st.sumGeo / st.N, 3)}</b> flips (1/p = ${fmt(1 / p, 3)})</span>`;
+}
+window.stRun = stRun; window.stReset = stReset;
+
+// =====================================================================
+// 20 · Poisson: calls arriving at random moments, counted in a break
+// =====================================================================
+let ar = { N: 0, counts: [], sum: 0, sum2: 0, atLeast1: 0, last: null };
+function arWindow() { const w = Math.round(val('ar_w')); const a = (60 - w) / 2; return [a, a + w]; }
+function arReset() { ar = { N: 0, counts: [], sum: 0, sum2: 0, atLeast1: 0, last: null }; arRun(1); }
+function arRun(m) {
+  const lh = val('ar_l'), [a, b] = arWindow();
+  for (let r = 0; r < m; r++) {
+    // arrivals over one hour: exponential gaps with mean 60/λ minutes
+    const times = [];
+    let t = -Math.log(1 - Math.random()) * (60 / lh);
+    while (t < 60) { times.push(t); t += -Math.log(1 - Math.random()) * (60 / lh); }
+    const k = times.filter((x) => x >= a && x < b).length;
+    ar.N++; ar.counts[k] = (ar.counts[k] || 0) + 1; ar.sum += k; ar.sum2 += k * k; if (k >= 1) ar.atLeast1++;
+    ar.last = { times, k };
+  }
+  arDraw();
+}
+function arDraw() {
+  const svg = document.getElementById('arsvg');
+  if (!svg || !ar.last) return;
+  svg.innerHTML = '';
+  const lh = val('ar_l'), w = Math.round(val('ar_w')), [a, b] = arWindow();
+  const lam = (lh * w) / 60;
+  const x0 = 20, x1 = 360, X = (t) => x0 + (t / 60) * (x1 - x0), ly = 62;
+  el('rect', { x: X(a), y: ly - 30, width: X(b) - X(a), height: 40, fill: rgba(cv_('--amber'), 0.22), stroke: cv_('--amber') }, svg);
+  txt((X(a) + X(b)) / 2, ly - 34, `break: ${w} min`, cv_('--amber'), svg, 'middle', 10);
+  el('line', { x1: x0, y1: ly, x2: x1, y2: ly, stroke: cv_('--border2'), 'stroke-width': 1.5 }, svg);
+  for (let t = 0; t <= 60; t += 10) { el('line', { x1: X(t), y1: ly, x2: X(t), y2: ly + 5, stroke: cv_('--border2') }, svg); txt(X(t), ly + 17, t + "'", cv_('--dim'), svg, 'middle', 9); }
+  for (const t of ar.last.times) {
+    const inW = t >= a && t < b;
+    el('line', { x1: X(t), y1: ly - 16, x2: X(t), y2: ly, stroke: inW ? cv_('--red') : cv_('--dim'), 'stroke-width': inW ? 2.2 : 1.4 }, svg);
+    el('circle', { cx: X(t), cy: ly - 18, r: 3, fill: inW ? cv_('--red') : cv_('--dim') }, svg);
+  }
+  txt(x0, 14, `this hour: ${ar.last.times.length} calls in total, ${ar.last.k} during the break`, cv_('--text'), svg, 'start', 10);
+  // histogram of the break counts against Poisson(λ)
+  const K = Math.max(6, Math.ceil(lam + 4 * Math.sqrt(lam) + 1));
+  const yb = 270, yt = 118, px0 = 30, px1 = 360;
+  const mx = Math.max(...Array.from({ length: K + 1 }, (_, k) => Math.max(poisPmf(k, lam), ar.N ? (ar.counts[k] || 0) / ar.N : 0))) * 1.12;
+  const W = (px1 - px0) / (K + 1), Y = (v) => yb - (v / mx) * (yb - yt);
+  el('line', { x1: px0, y1: yb, x2: px1, y2: yb, stroke: cv_('--border2') }, svg);
+  txt(px0, yt - 10, `calls in the break, ${ar.N} hours · dots: Pois(${fmt(lam, 3)})`, cv_('--muted'), svg, 'start', 9.5);
+  const every = Math.max(1, Math.ceil((K + 1) / 12));
+  for (let k = 0; k <= K; k++) {
+    const x = px0 + k * W, f = ar.N ? (ar.counts[k] || 0) / ar.N : 0;
+    el('rect', { x: x + W * 0.15, y: Y(f), width: W * 0.7, height: yb - Y(f), fill: rgba(cv_('--red'), 0.4), stroke: cv_('--red'), 'stroke-width': 0.6 }, svg);
+    el('circle', { cx: x + W / 2, cy: Y(poisPmf(k, lam)), r: 2.8, fill: cv_('--text') }, svg);
+    if (k % every === 0) txt(x + W / 2, yb + 13, String(k), cv_('--dim'), svg, 'middle', 9);
+  }
+  const mean = ar.sum / ar.N, vr = ar.sum2 / ar.N - mean * mean;
+  const r = document.getElementById('arread');
+  if (r) r.innerHTML = `<span>λ for the break = ${fmt(lh, 1)} × ${w}/60 = <b>${fmt(lam, 4)}</b></span>` +
+    `<span>hours with ≥ 1 call in the break: <b>${fmt(ar.atLeast1 / ar.N, 3)}</b> (theory 1 − e^(−λ) = ${fmt(1 - Math.exp(-lam), 4)})</span>` +
+    `<span>average count: <b>${fmt(mean, 3)}</b> · variance: <b>${fmt(vr, 3)}</b> (both should be ≈ λ)</span>`;
+}
+function arSet(l, w) { setS([['ar_l', l, 1], ['ar_w', w, 0]]); arReset(); }
+window.arRun = arRun; window.arReset = arReset; window.arSet = arSet;
+
+// =====================================================================
 // wiring
 // =====================================================================
 bindS('un_u', 2, unDraw); bindS('un_v', 2, unDraw);
@@ -1559,6 +1697,8 @@ bindS('ml_l', 2, mlDraw); bindS('ml_a', 2, mlDraw); bindS('ml_x', 2, mlDraw);
 document.getElementById('tq_mode')?.addEventListener('change', () => { const m = tqMode(); tqSet(m, m === 't' ? 5 : 4, m === 't' ? 0.975 : 0.95); });
 document.getElementById('tq_1')?.addEventListener('input', tqDraw);
 bindS('tq_p', 3, tqDraw);
+bindS('st_p', 2, stReset); bindS('st_n', 0, stReset);
+bindS('ar_l', 1, arReset); bindS('ar_w', 0, arReset);
 
 // A full-width panel would blow a 360-unit figure up to ~2.5x, text included.
 // Cap every figure at ~1.45x its viewBox width (figures in half-width columns
@@ -1573,8 +1713,10 @@ document.querySelectorAll('figure svg text.svgtxt[font-size]').forEach((t) => { 
 
 function drawAll() {
   soDraw(); ieDraw(); unDraw(); clDraw(); trDraw(); coDraw(); maDraw(); dzDraw(); byDraw(); mhDraw(); mhSimDraw(); cdDraw(); lnDraw(); geDraw();
-  evDraw(); vrDraw(); ddDraw(); paDraw(); pcDraw(); ccDraw(); mlDraw(); nzDraw(); tqDraw();
+  evDraw(); vrDraw(); ddDraw(); paDraw(); pcDraw(); ccDraw(); mlDraw(); nzDraw(); tqDraw(); stDraw(); arDraw();
 }
+if (document.getElementById('stsvg')) stReset();
+if (document.getElementById('arsvg')) arReset();
 if (document.getElementById('dz_p')) dzSet(0.001, 0.99, 0.05);
 if (document.getElementById('bysvg')) window.bySetFactories();
 if (document.getElementById('cd_kind')) cdSet('lin', -2, 0.5);

@@ -1,11 +1,11 @@
-<!-- ============ 22 E AND V OF CONTINUOUS RVs ============ -->
-<section id="s22">
-<div class="sec-head"><span class="num">22</span><h2>E and V of continuous RVs</h2><span class="sub">slides: Continuous Random Variables 12–19 · ahead of the lecture notes</span></div>
+<!-- ============ 23 E AND V OF CONTINUOUS RVs ============ -->
+<section id="s23">
+<div class="sec-head"><span class="num">23</span><h2>E and V of continuous RVs</h2><span class="sub">slides: Continuous Random Variables 12–19 · ahead of the lecture notes</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> The question this module answers<span class="ctl">— ⊡ ✕</span></div>
   <div class="body">
-  <p>Module 21 described a continuous random variable by its density $f$. This module asks the next two questions: <b>where is the centre of that density, and how spread out is it?</b></p>
+  <p>Module 22 described a continuous random variable by its density $f$. This module asks the next two questions: <b>where is the centre of that density, and how spread out is it?</b></p>
   <p>You already know the answers for discrete variables (modules 16–17): $\mathbb{E}(X)=\sum_x x\,f(x)$ and $\mathbb{V}(X)=\sum_x(x-\mu)^2f(x)$. For a continuous variable <b>the meaning is identical</b>: a long-run average, a balance point, an average squared distance from the mean. <b>Only the machinery changes: the sum becomes an integral and the pmf becomes the pdf.</b> Every rule you learned carries over unchanged: linearity, the shortcut $\mathbb{E}(X^2)-[\mathbb{E}(X)]^2$, and $\mathbb{V}(a+bX)=b^2\mathbb{V}(X)$.</p>
   <table class="formula-table">
     <tr><td><b>what we compute</b></td><td><b>answer</b></td><td><b>where</b></td></tr>
@@ -26,7 +26,7 @@
   <div class="grid2" style="align-items:start">
   <div>
   <h3>Why an integral: the continuous twin of $\sum x\,f(x)$</h3>
-  <p>Chop the line into thin slices of width $\Delta x$. The slice at $x_i$ has probability $\approx f(x_i)\,\Delta x$ (module 21). Treat each slice as one discrete value $x_i$ with that probability. The discrete formula of module 16 then gives</p>
+  <p>Chop the line into thin slices of width $\Delta x$. The slice at $x_i$ has probability $\approx f(x_i)\,\Delta x$ (module 22). Treat each slice as one discrete value $x_i$ with that probability. The discrete formula of module 16 then gives</p>
   $$\mathbb{E}(X)\approx\sum_i x_i\,f(x_i)\,\Delta x\ \xrightarrow{\ \Delta x\to0\ }\ \int x\,f(x)\,dx.$$
   <p>The figure does this for the density $3x^2$ of slide 13. With 5 slices the slice probabilities are $0.008,\,0.056,\,0.152,\,0.296,\,0.488$, from $F(t)=t^3$. The discrete mean is</p>
   $$0.1(0.008)+0.3(0.056)+0.5(0.152)+0.7(0.296)+0.9(0.488)=0.74.$$
@@ -96,7 +96,7 @@
     <li><b>Evaluate.</b>
     $$\frac12x^2\Big|_{x=0}^{x=1}=\frac12\cdot1^2-\frac12\cdot0^2=\frac12.$$</li>
   </ol>
-  <div class="note"><div class="t">Insight</div>The density is symmetric about $\tfrac12$, so the mean <b>must</b> be $\tfrac12$. This is a free check on the integral. In general, if $f$ is symmetric about a point $c$ and the mean exists, then $\mathbb{E}(X)=c$. The standard normal of module 24 has mean 0 for the same reason.</div>
+  <div class="note"><div class="t">Insight</div>The density is symmetric about $\tfrac12$, so the mean <b>must</b> be $\tfrac12$. This is a free check on the integral. In general, if $f$ is symmetric about a point $c$ and the mean exists, then $\mathbb{E}(X)=c$. The standard normal of module 25 has mean 0 for the same reason.</div>
   </div>
 </div>
 <div class="ex">
@@ -106,7 +106,7 @@
   $$f(x)=\begin{cases}3x^2 & x\in(0,1)\\ 0 & \text{otherwise}\end{cases}$$
   Compute $\mathbb{E}(X)$.</p>
   <ol class="steps">
-    <li><b>Is it a density?</b> $3x^2\ge0$ ✓ and $\int_0^13x^2\,dx=x^3\big|_0^1=1$ ✓. (This is the "find the constant" check-yourself of module 21.)</li>
+    <li><b>Is it a density?</b> $3x^2\ge0$ ✓ and $\int_0^13x^2\,dx=x^3\big|_0^1=1$ ✓. (This is the "find the constant" check-yourself of module 22.)</li>
     <li><b>Definition on the support.</b>
     $$\mathbb{E}(X)=\int_{-\infty}^{+\infty}x\,f(x)\,dx=\int_0^1x\cdot3x^2\,dx=\int_0^13x^3\,dx.$$</li>
     <li><b>Antiderivative.</b> $\int3x^3\,dx=\frac34x^4$.</li>
@@ -153,7 +153,7 @@
   <p><b>What it saves you.</b> $h(X)$ is a new random variable with its own density. The theorem says you do <b>not</b> need that density: keep the weights $f(x)$ of $X$ and average the values $h(x)$. It is the continuous twin of module 16's $\mathbb{E}[h(X)]=\sum_x h(x)f(x)$, and the slicing argument above explains it. On the slice near $x$, which has probability $f(x)\Delta x$, the value of $h(X)$ is about $h(x)$.</p>
   <p><b>Expected value of a linear transformation.</b> Setting $h(x)=a+bx$, with $a$ and $b$ fixed real numbers:</p>
   $$\boxed{\;\mathbb{E}(a+bX)=a+b\,\mathbb{E}(X)\;}$$
-  <p><i>Proof (the slide states it without one).</i> Split the integral and use the normalization rule of module 21:
+  <p><i>Proof (the slide states it without one).</i> Split the integral and use the normalization rule of module 22:
   $$\int(a+bx)f(x)\,dx=a\underbrace{\int f(x)\,dx}_{=1}+b\underbrace{\int x\,f(x)\,dx}_{=\mathbb{E}(X)}=a+b\,\mathbb{E}(X).\qquad\square$$</p>
   <p><b>Moments of $X$.</b> Taking $h(x)=x^2$ and $h(x)=x^3$:</p>
   $$\begin{aligned}\mathbb{E}\left(X^2\right)&amp;=\int_{-\infty}^{+\infty}x^2\ f(x)\ dx\qquad\text{2nd moment of }X\\ \mathbb{E}\left(X^3\right)&amp;=\int_{-\infty}^{+\infty}x^3\ f(x)\ dx\qquad\text{3rd moment of }X\end{aligned}$$
@@ -216,7 +216,7 @@
   </svg><figcaption>Both blocks are drawn to the same scale. The map $y=2+5x$ stretches $(0,1)$ onto $(2,7)$, and the height drops from 1 to 0.2 so that the area stays 1.</figcaption></figure>
   <p><b>The proof, with the cdf method of module 14.</b> For $2&lt;y&lt;7$:
   $$G(y)=P(Y\le y)=P(2+5X\le y)=P\!\left(X\le\frac{y-2}{5}\right)=\frac{y-2}{5},$$
-  because $\frac{y-2}{5}\in(0,1)$ and $P(X\le t)=t$ there. Also $G(y)=0$ for $y\le2$ and $G(y)=1$ for $y\ge7$. Differentiating (module 21, $g=G'$) gives $g(y)=\frac15=0.2$ on $(2,7)$. $\square$</p>
+  because $\frac{y-2}{5}\in(0,1)$ and $P(X\le t)=t$ there. Also $G(y)=0$ for $y\le2$ and $G(y)=1$ for $y\ge7$. Differentiating (module 22, $g=G'$) gives $g(y)=\frac15=0.2$ on $(2,7)$. $\square$</p>
   </div>
 </div>
 <div class="ex">
@@ -316,7 +316,7 @@
     $$\mathbb{V}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2=\frac13-\left(\frac12\right)^2=\frac13-\frac14=\frac1{12}\ \checkmark$$</li>
     <li><b>Standard deviation.</b> $\sigma_X=\sqrt{1/12}=\dfrac{1}{2\sqrt3}\approx0.289$.</li>
   </ol>
-  <div class="note"><div class="t">Insight</div>The shortcut is two lines because the moments were already known. That is the usual situation, and the reason to compute $\mathbb{E}(X)$ and $\mathbb{E}(X^2)$ first. The value $\frac1{12}$ is the seed of the general uniform formula $\mathbb{V}=\frac{(b-a)^2}{12}$ (module 23).</div>
+  <div class="note"><div class="t">Insight</div>The shortcut is two lines because the moments were already known. That is the usual situation, and the reason to compute $\mathbb{E}(X)$ and $\mathbb{E}(X^2)$ first. The value $\frac1{12}$ is the seed of the general uniform formula $\mathbb{V}=\frac{(b-a)^2}{12}$ (module 24).</div>
   </div>
 </div>
 <div class="ex">
@@ -434,7 +434,7 @@
 
 <div class="wx">
 <div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Mean and variance of U(1,5)</div>
-<div class="prob">For the uniform on $(1,5)$ of module 21 ($f=0.25$ there), compute $\mathbb{E}(X)$, $\mathbb{E}(X^2)$ and $\mathbb{V}(X)$.</div>
+<div class="prob">For the uniform on $(1,5)$ of module 22 ($f=0.25$ there), compute $\mathbb{E}(X)$, $\mathbb{E}(X^2)$ and $\mathbb{V}(X)$.</div>
 <details><summary>Answer</summary><div class="sol">$\mathbb{E}(X)=\int_1^5x\cdot0.25\,dx=0.25\cdot\frac{25-1}{2}=3$, the midpoint. $\mathbb{E}(X^2)=\int_1^5x^2\cdot0.25\,dx=0.25\cdot\frac{125-1}{3}=\frac{31}{3}$. $\mathbb{V}(X)=\frac{31}{3}-9=\frac43$. Check: width 4, and $\frac{4^2}{12}=\frac43$ ✓.</div></details>
 </div>
 
@@ -446,10 +446,10 @@
 
 <div class="wx">
 <div class="bar"><span class="n">?</span><span class="tag">check yourself</span>The mean of $5e^{-5x}$</div>
-<div class="prob">Compute $\mathbb{E}(X)$ for the density $f(x)=5e^{-5x}$, $x\ge0$, of module 21. (Hint: integration by parts.)</div>
+<div class="prob">Compute $\mathbb{E}(X)$ for the density $f(x)=5e^{-5x}$, $x\ge0$, of module 22. (Hint: integration by parts.)</div>
 <details><summary>Answer</summary><div class="sol">$\mathbb{E}(X)=\int_0^{\infty}x\cdot5e^{-5x}\,dx$. Take $u=x$, $dv=5e^{-5x}dx$, so $v=-e^{-5x}$:
 $$\left[-xe^{-5x}\right]_0^{\infty}+\int_0^{\infty}e^{-5x}\,dx=0+\left[-\tfrac15e^{-5x}\right]_0^{\infty}=\frac15=0.2.$$
-In R: <code>integrate(function(x) x * dexp(x, rate = 5), 0, Inf)$value</code> → <code>0.2</code>. Module 23 shows that the exponential with rate $\lambda$ has mean $1/\lambda$.</div></details>
+In R: <code>integrate(function(x) x * dexp(x, rate = 5), 0, Inf)$value</code> → <code>0.2</code>. Module 24 shows that the exponential with rate $\lambda$ has mean $1/\lambda$.</div></details>
 </div>
 
 <div class="wx">
