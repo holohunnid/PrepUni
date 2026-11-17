@@ -545,6 +545,7 @@ function mhDecide(sw) {
 }
 function mhDraw() {
   const svg = document.getElementById('mhsvg');
+  if (!svg) return;
   if (!svg || !mh) return;
   svg.innerHTML = '';
   for (let i = 0; i < 3; i++) {
@@ -1550,6 +1551,7 @@ function stRun(m) {
 }
 function stDraw() {
   const svg = document.getElementById('stsvg');
+  if (!svg) return;
   if (!svg || !st.last) return;
   svg.innerHTML = '';
   const p = val('st_p'), n = Math.round(val('st_n'));
@@ -1624,6 +1626,7 @@ function arRun(m) {
 }
 function arDraw() {
   const svg = document.getElementById('arsvg');
+  if (!svg) return;
   if (!svg || !ar.last) return;
   svg.innerHTML = '';
   const lh = val('ar_l'), w = Math.round(val('ar_w')), [a, b] = arWindow();

@@ -16,8 +16,8 @@ function bindS(id, dec, fn) {
   if (!s) return;
   s.addEventListener('input', () => { document.getElementById(id + '_v').textContent = fmt(s.value, dec); fn(); });
 }
-function setS(pairs) { for (const [id, v, dec] of pairs) { document.getElementById(id).value = v; document.getElementById(id + '_v').textContent = fmt(v, dec); } }
-function val(id) { return parseFloat(document.getElementById(id).value); }
+function setS(pairs) { for (const [id, v, dec] of pairs) { const s = document.getElementById(id); if (!s) continue; s.value = v; document.getElementById(id + '_v').textContent = fmt(v, dec); } }
+function val(id) { const s = document.getElementById(id); return s ? parseFloat(s.value) : 0; }
 
 // standard normal pdf / cdf (Abramowitz–Stegun 7.1.26 for erf)
 function ndpdf(x) { return Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI); }

@@ -13,7 +13,7 @@ function bindS(id, dec, fn) {
   s.addEventListener('input', () => { document.getElementById(id + '_v').textContent = fmt(s.value, dec); fn(); });
 }
 function setS(pairs) { for (const [id, v, dec] of pairs) { const s = document.getElementById(id); if (!s) continue; s.value = v; document.getElementById(id + '_v').textContent = fmt(v, dec); } }
-function val(id) { return parseFloat(document.getElementById(id).value); }
+function val(id) { const s = document.getElementById(id); return s ? parseFloat(s.value) : 0; }
 
 // ---------- 03 · pmf explorer: mean as balance point, variance as spread ----------
 // Values are 10, 20 and x3; the two outer probabilities are the sliders and the

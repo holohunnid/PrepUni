@@ -8,12 +8,12 @@ function axes(svg,scale){const c=160;svg.innerHTML='';
   el('line',{x1:0,y1:c,x2:320,y2:c,stroke:cv('--border2')},svg);el('line',{x1:c,y1:0,x2:c,y2:320,stroke:cv('--border2')},svg);
   return (x,y)=>[c+x*scale,c-y*scale];}
 function fmt(x){return (Math.round(x*100)/100).toFixed(2);}
-function bindSliders(ids,fn){ids.forEach(id=>{const s=document.getElementById(id);s.addEventListener('input',()=>{document.getElementById(id+'_v').textContent=parseFloat(s.value).toFixed(1);fn();});});}
-function setSliders(ids,vals){ids.forEach((id,i)=>{document.getElementById(id).value=vals[i];document.getElementById(id+'_v').textContent=vals[i].toFixed(1);});}
+function bindSliders(ids,fn){ids.forEach(id=>{const s=document.getElementById(id);if(!s)return;s.addEventListener('input',()=>{document.getElementById(id+'_v').textContent=parseFloat(s.value).toFixed(1);fn();});});}
+function setSliders(ids,vals){ids.forEach((id,i)=>{const s=document.getElementById(id);if(!s)return;s.value=vals[i];document.getElementById(id+'_v').textContent=vals[i].toFixed(1);});}
 
 // ---------- determinant ----------
 const dIds=['d_a','d_b','d_c','d_d'];
-function detDraw(){const [a,b,c,d]=dIds.map(i=>parseFloat(document.getElementById(i).value));
+function detDraw(){if(!document.getElementById('detsvg'))return;const [a,b,c,d]=dIds.map(i=>parseFloat(document.getElementById(i).value));
   const svg=document.getElementById('detsvg');const P=axes(svg,40);const det=a*d-b*c;
   const u=P(1,0),v=P(0,1),uv=P(1,1),o=P(0,0);
   el('polygon',{points:`${o} ${u} ${uv} ${v}`,fill:cv('--panel2'),stroke:cv('--dim'),'stroke-dasharray':'3 3'},svg);
@@ -29,7 +29,7 @@ bindSliders(dIds,detDraw);detDraw();
 
 // ---------- eigen ----------
 const eIds=['e_a','e_b','e_c','e_d'];
-function eigDraw(){const [a,b,c,d]=eIds.map(i=>parseFloat(document.getElementById(i).value));
+function eigDraw(){if(!document.getElementById('eigsvg'))return;const [a,b,c,d]=eIds.map(i=>parseFloat(document.getElementById(i).value));
   const svg=document.getElementById('eigsvg');const P=axes(svg,40);const o=P(0,0);
   const tr=a+d,det=a*d-b*c,disc=tr*tr-4*det;
   let read=`<span>tr = <b>${fmt(tr)}</b></span><span>det = <b>${fmt(det)}</b></span><span>λ² − ${fmt(tr)}λ + ${fmt(det)} = 0</span>`;
@@ -54,7 +54,7 @@ bindSliders(eIds,eigDraw);eigDraw();
 
 // ---------- quadratic form ----------
 const qIds=['q_a','q_b','q_c'];
-function qDraw(){const [a,b,c]=qIds.map(i=>parseFloat(document.getElementById(i).value));
+function qDraw(){if(!document.getElementById('qsvg'))return;const [a,b,c]=qIds.map(i=>parseFloat(document.getElementById(i).value));
   const svg=document.getElementById('qsvg');svg.innerHTML='';const N=24,cell=320/N;
   let vals=[],mx=0;for(let i=0;i<N;i++){for(let j=0;j<N;j++){const x=-2+(i+.5)*4/N,y=2-(j+.5)*4/N;const v=a*x*x+2*b*x*y+c*y*y;vals.push(v);mx=Math.max(mx,Math.abs(v));}}
   let k=0;for(let i=0;i<N;i++){for(let j=0;j<N;j++){const v=vals[k++];const t=mx?Math.abs(v)/mx:0;const col=v>=0?rgba(cv('--green'),0.08+0.85*t):rgba(cv('--red'),0.08+0.85*t);el('rect',{x:i*cell,y:j*cell,width:cell+.5,height:cell+.5,fill:col},svg);}}

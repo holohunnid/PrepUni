@@ -1,68 +1,60 @@
-// Shared behavior for every course page: KaTeX rendering, sidebar toggle,
-// theme cycling (persisted in localStorage), and sidebar nav highlighting.
-import renderMathInElement from 'katex/contrib/auto-render';
+// Behaviour shared by every course page: sidebar toggle, print, worked-example
+// expand/collapse, prev/next topic keys, sidebar highlight of the module in view, and
+// loading the course's interactive figures. Math is already rendered at build
+// time (src/lib/math.js), so nothing here touches KaTeX.
+const main = document.querySelector('.main');
 
-renderMathInElement(document.body, {
-  delimiters: [
-    { left: '$$', right: '$$', display: true },
-    { left: '$', right: '$', display: false },
-  ],
-  throwOnError: false,
-});
+// ---------- interactive figures: one lazily loaded chunk per course ----------
+const figureScripts = import.meta.glob('../courses/*/interactive.js');
+const load = figureScripts[`../courses/${main?.dataset.course}/interactive.js`];
+// overview pages have no figures (beyond static ones in the intro) — skip the download there
+if (load && main.dataset.view !== 'overview') load();
 
-// ---------- worked-example expand/collapse (module 12 buttons use window.toggleAll) ----------
-function toggleAll(o) {
-  document.querySelectorAll('.wx details').forEach((d) => (d.open = o));
+// ---------- worked-example expand/collapse (buttons call window.toggleAll) ----------
+function toggleAll(open) {
+  document.querySelectorAll('.wx details').forEach((d) => (d.open = open));
 }
 window.toggleAll = toggleAll;
 window.addEventListener('beforeprint', () => toggleAll(true));
+document.getElementById('printbtn')?.addEventListener('click', () => window.print());
 
 // ---------- sidebar ----------
 const layout = document.querySelector('.layout');
-if (layout && localStorage.getItem('prepusi-sidebar') === 'collapsed') {
-  layout.classList.add('collapsed');
-}
+const store = {
+  get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
+};
+if (layout && store.get('prepusi-sidebar') === 'collapsed') layout.classList.add('collapsed');
 document.getElementById('sidebtn')?.addEventListener('click', () => {
   layout.classList.toggle('collapsed');
-  localStorage.setItem('prepusi-sidebar', layout.classList.contains('collapsed') ? 'collapsed' : 'open');
+  store.set('prepusi-sidebar', layout.classList.contains('collapsed') ? 'collapsed' : 'open');
+});
+// keep the current topic visible in a long sidebar
+const cur = document.querySelector('.side a.current');
+if (cur) cur.parentElement.scrollTop = cur.offsetTop - 40;
+
+// ---------- ← / → move between topics ----------
+document.addEventListener('keydown', (e) => {
+  if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  if (e.target.closest?.('input, select, textarea, [contenteditable]')) return;
+  const rel = e.key === 'ArrowLeft' ? 'prev' : e.key === 'ArrowRight' ? 'next' : null;
+  const link = rel && document.querySelector(`.pager a[rel="${rel}"]`);
+  if (link) location.href = link.href;
 });
 
-// ---------- themes ----------
-const themes = ['dark', 'light', 'solar'];
-const names = { dark: 'dark', light: 'light', solar: 'solarized' };
-let ti = Math.max(0, themes.indexOf(localStorage.getItem('prepusi-theme') || 'dark'));
-const themebtn = document.getElementById('themebtn');
-
-function applyTheme() {
-  document.body.classList.remove('light', 'solar');
-  if (themes[ti] !== 'dark') document.body.classList.add(themes[ti]);
-  if (themebtn) themebtn.textContent = '◐ theme: ' + names[themes[ti]];
-  // interactive figures listen for this and redraw with the new palette
-  window.dispatchEvent(new Event('themechange'));
-}
-applyTheme();
-
-themebtn?.addEventListener('click', () => {
-  ti = (ti + 1) % themes.length;
-  localStorage.setItem('prepusi-theme', themes[ti]);
-  applyTheme();
-});
-
-document.getElementById('printbtn')?.addEventListener('click', () => window.print());
-
-// ---------- nav highlight ----------
-const secs = [...document.querySelectorAll('section')];
-const links = [...document.querySelectorAll('.side a')];
-if (secs.length && links.length) {
+// ---------- highlight the module in view (modules on this page link to #anchors) ----------
+const hashLinks = [...document.querySelectorAll('.side a[href^="#"]:not(.lbl)')];
+if (hashLinks.length) {
+  const byId = new Map(hashLinks.map((l) => [l.getAttribute('href').slice(1), l]));
   const io = new IntersectionObserver(
-    (es) => {
-      es.forEach((e) => {
-        if (e.isIntersecting) {
-          links.forEach((l) => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
-        }
-      });
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        hashLinks.forEach((l) => l.classList.remove('active'));
+        byId.get(e.target.id)?.classList.add('active');
+      }
     },
     { rootMargin: '-40% 0px -55% 0px' }
   );
-  secs.forEach((s) => io.observe(s));
+  document.querySelectorAll('main section[id]').forEach((s) => io.observe(s));
 }

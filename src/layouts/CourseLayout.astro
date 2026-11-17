@@ -1,31 +1,47 @@
 ---
+// Shell for every course page: top bar, sidebar, footer.
+//   view = 'overview' | 'topic' | 'all'
+// The sidebar lists topics (group labels, linking to the topic page) and their
+// modules. A module on the current page links to its anchor; any other module
+// links to its topic page + anchor.
 import Base from './Base.astro';
-const { course } = Astro.props;
+
+const { course, view, topic, title } = Astro.props;
+const isAll = view === 'all';
+const here = (m) => isAll || m.topic === topic;
+const linkFor = (m) => (here(m) ? '#' + m.anchor : m.href);
+const topicLink = (t) => (isAll ? '#' + t.modules[0].anchor : t.href);
 ---
-<Base title={course.title}>
+<Base title={title ?? course.title} description={`${course.title} — ${course.stats}`}>
 
 <div class="topbar">
-  <button class="tog" id="sidebtn" title="toggle sidebar">≡</button><span class="brand">{course.brand}</span>
+  <button class="tog" id="sidebtn" title="toggle sidebar" aria-label="toggle sidebar">≡</button>
+  <a class="brand" href={course.base + '/'}>{course.brand}</a>
   <span class="tag">{course.tag}</span>
   <span>{course.stats}</span>
   <div class="right">
     <a href={course.home ?? '/'} title="back to the course list">⌂ {course.homeLabel ?? 'courses'}</a>
+    {isAll
+      ? <a href={course.base + '/'} title="read one topic at a time">▤ by topic</a>
+      : <a class="allbtn" href={course.allHref} title="every module on one page — for Ctrl+F and printing" data-astro-prefetch="false">≣ one page</a>}
     <button id="themebtn">◐ theme: dark</button>
-    <button id="printbtn">⎙ print / PDF</button>
+    <button id="printbtn" title={isAll ? 'print the whole course' : 'print this page — use “one page” to print the whole course'}>⎙ print / PDF</button>
   </div>
 </div>
 
 <div class="layout">
-<nav class="side">
-  <div class="lbl">Modules</div>
-  {course.modules.map((m) => (
+<nav class="side" aria-label="modules">
+  <a href={isAll ? '#top' : course.base + '/'} class:list={['ov', { active: view === 'overview' }]}>⌂ overview</a>
+  {course.topics.map((t) => (
     <>
-      {m.part && <div class="lbl part">{m.part}</div>}
-      <a href={'#' + m.anchor}><span class="n">{m.num}</span>{m.title}</a>
+      <a href={topicLink(t)} class:list={['lbl part', { current: t === topic }]}>{t.name}</a>
+      {t.modules.map((m) => (
+        <a href={linkFor(m)}><span class="n">{m.num}</span>{m.title}</a>
+      ))}
     </>
   ))}
   <div class="lbl" style="margin-top:14px">Legend</div>
-  <div style="padding:0 14px;font-size:11.5px;color:var(--muted);line-height:1.9">
+  <div class="legend">
     <span class="pill g">DEF</span> definition<br />
     <span class="pill b">EX</span> worked example<br />
     <span class="pill a">TIP</span> exam shortcut<br />
@@ -33,9 +49,9 @@ const { course } = Astro.props;
   </div>
 </nav>
 
-<main class="main">
+<main class="main" id="top" data-course={course.id} data-view={view}>
 <slot />
-<p class="muted" style="font-size:11.5px;border-top:1px solid var(--border);padding-top:10px">{course.footer}</p>
+<p class="muted foot">{course.footer}</p>
 </main>
 </div>
 

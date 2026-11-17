@@ -1,0 +1,83 @@
+---
+// Every course page on the site comes from this one route. See src/lib/courses.js.
+import CourseLayout from '../layouts/CourseLayout.astro';
+import { getCourses } from '../lib/courses.js';
+
+export function getStaticPaths() {
+  return getCourses().flatMap((course) => {
+    const root = course.base.slice(1);
+    return [
+      { params: { path: root }, props: { course, view: 'overview' } },
+      { params: { path: `${root}/all` }, props: { course, view: 'all' } },
+      ...course.topics.map((t) => ({ params: { path: `${root}/${t.slug}` }, props: { course, view: 'topic', topic: t } })),
+    ];
+  });
+}
+
+const { course, view, topic } = Astro.props;
+const title = view === 'topic' ? `${topic.name} · ${course.title}` : view === 'all' ? `${course.title} · all modules` : course.title;
+const many = course.topics.length > 1;
+
+// old links pointed at /course#s12 — send them to the topic page that holds module 12
+const legacy = Object.fromEntries(course.modules.map((m) => [m.anchor, m.href]));
+---
+<CourseLayout course={course} view={view} topic={topic} title={title}>
+
+{view === 'overview' && (
+  <>
+    <script is:inline define:vars={{ legacy }}>
+      var to = legacy[location.hash.slice(1)];
+      if (to) location.replace(to);
+    </script>
+    <Fragment set:html={course.heroHtml} />
+    <div class="panel">
+      <div class="bar"><span class="pill g">INDEX</span> {many ? `${course.topics.length} topics · ` : ''}{course.modules.length} modules — or <a href={course.allHref} data-astro-prefetch="false">read everything on one page</a><span class="ctl">— ⊡ ✕</span></div>
+      <div class="body index">
+        {course.topics.map((t) => (
+          <div class="index-part">
+            <a class="index-head" href={t.href}>{many && <span class="tn">{t.index + 1}</span>}{t.name} →</a>
+            <ol>
+              {t.modules.map((m) => (
+                <li><a href={m.href}><span class="n">{m.num}</span>{m.title}</a></li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+    </div>
+    <nav class="pager"><span></span><a rel="next" href={course.topics[0].href}>start: {course.topics[0].name} →</a></nav>
+  </>
+)}
+
+{view === 'topic' && (
+  <>
+    {many && (
+      <div class="topic-head">
+        <div class="tt"><span class="tn">topic {topic.index + 1} / {course.topics.length}</span><h1>{topic.name}</h1></div>
+        <ol class="chips">
+          {topic.modules.map((m) => <li><a href={'#' + m.anchor}><span class="n">{m.num}</span>{m.title}</a></li>)}
+        </ol>
+      </div>
+    )}
+    <div class="topic">
+      {topic.modules.map((m) => <Fragment set:html={m.html} />)}
+    </div>
+    <nav class="pager" aria-label="topic navigation">
+      {topic.prev
+        ? <a rel="prev" href={topic.prev.href}><small>← previous topic</small>{topic.prev.name}</a>
+        : <a rel="prev" href={course.base + '/'}><small>←</small>overview</a>}
+      {topic.next
+        ? <a rel="next" href={topic.next.href}><small>next topic →</small>{topic.next.name}</a>
+        : <a href={course.base + '/'}><small>end of the course</small>back to overview ↑</a>}
+    </nav>
+  </>
+)}
+
+{view === 'all' && (
+  <div class="topic">
+    <Fragment set:html={course.heroHtml} />
+    {course.modules.map((m) => <Fragment set:html={m.html} />)}
+  </div>
+)}
+
+</CourseLayout>
