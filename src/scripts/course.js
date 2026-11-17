@@ -33,6 +33,16 @@ document.getElementById('sidebtn')?.addEventListener('click', () => {
 const cur = document.querySelector('.side a.current');
 if (cur) cur.parentElement.scrollTop = cur.offsetTop - 40;
 
+// ---------- arriving at page#module ----------
+// Topic pages are long and stream in, so the browser's own jump to the #anchor
+// can happen before the target exists or before layout settles. Redo it once
+// everything has loaded (instant, not smooth, so it cannot be interrupted).
+if (location.hash.length > 1) {
+  const jump = () => document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView({ behavior: 'instant', block: 'start' });
+  if (document.readyState === 'complete') jump();
+  else window.addEventListener('load', jump, { once: true });
+}
+
 // ---------- ← / → move between topics ----------
 document.addEventListener('keydown', (e) => {
   if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
