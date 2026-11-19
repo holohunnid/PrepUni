@@ -1,0 +1,206 @@
+<!-- ============ 37 CONFIDENCE INTERVALS: IDEA, PIVOTAL QUANTITY, NORMAL MEAN WITH KNOWN VARIANCE ============ -->
+<section id="s37">
+<div class="sec-head"><span class="num">37</span><h2>Confidence intervals: σ known</h2><span class="sub">lecture 8 pp.5–7 · lecture 9 pp.1–7 · Confidence Intervals deck</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> From one number to a range, with a guarantee attached<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>We move from <b>point estimation</b> to <b>interval estimation</b>. A point estimate is a single value "reasonably" assigned to $\theta$. Example: the unknown $p$ = % of people voting for a political party, say $\hat p=0.4$. An interval estimate gives a <b>range of reasonable values</b> for $\theta$, e.g. $p\in(0.35,\,0.45)$, and so it also provides a <b>quantification of the uncertainty</b>.</p>
+  <p>The interval always comes with a number called the <b>confidence level</b>, which expresses how confident we are that the interval contains the true $\theta$. Typical levels: 90%, 95%, 99%. This module builds the first and most important interval, for the mean of a normal population with known $\sigma$:</p>
+  $$\text{CI}_{1-\alpha}(\mu)=\Big[\bar X\mp z_{\alpha/2}\frac{\sigma}{\sqrt n}\Big]=\big[\text{point estimator}\mp\text{margin of error}\big].$$
+  <div class="note tip"><div class="t">What you need for the exam</div>The definition $P(L_1&lt;\theta&lt;L_2)=1-\alpha$, and the <b>correct interpretation</b> (a favourite MCQ). The derivation from the pivotal quantity. Computing $z_{\alpha/2}$ with <code>qnorm(1-α/2)</code>. The width $2z_{\alpha/2}\sigma/\sqrt n$ and how it reacts to $n$, $\sigma$ and the level. The sample-size calculation.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 8</span> Confidence level: meaning and first intuitions (lecture 8, pp.5–7)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Interpretation of the confidence level.</b> Say 90% means that if we collect a high number of samples (from the same population) and compute a confidence interval in each of the samples, <b>90% of them will include the true $\theta$</b>.</p>
+  <p><b>In practice</b> we have a unique sample, and we don't know if we have one of those 90% of cases where the interval includes the true $\theta$.</p>
+  <p>Notation: confidence level $1-\alpha\ \Rightarrow\ \text{CI}_{1-\alpha}(\theta)$. Level 90% ⇒ $\alpha=0.10$; level 95% ⇒ $\alpha=0.05$; level 99% ⇒ $\alpha=0.01$.</p>
+  </div>
+  <div>
+  <p><b>Some intuitions on CIs.</b> $X\sim\text{Bern}(p)$, $\hat p=0.4$:</p>
+  $$\text{CI}_{95\%}(p)=[0.38,\,0.42]\quad\text{or}\quad\text{CI}_{99\%}(p)=[0.36,\,0.44]$$
+  <p>We are more confident that the 99% CI contains $p$, since it is wider, at the cost of less precision. ⇒ <b>At a given $1-\alpha$, a tighter CI is better</b> (more informative).</p>
+  <ul>
+    <li>if $(1-\alpha)\uparrow$ ⇒ more confident ⇒ <b>wider</b> CI;</li>
+    <li>if $n\uparrow$ ⇒ more data ⇒ more info ⇒ more informative CI ⇒ <b>smaller</b> CI;</li>
+    <li>if $\sigma^2\uparrow$ ⇒ more uncertainty ⇒ <b>wider</b> CI.</li>
+  </ul>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Confidence interval (lecture 9, p.1 · deck)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$\underline X=(X_1,\dots,X_n)$ i.i.d. sample, $X_i\sim\text{Population}(\theta)$. We estimate $\theta$ with the interval $[L_1,L_2]$ (lower bound, upper bound), with <b>confidence level $1-\alpha$</b>, if</p>
+  $$\boxed{\;P(L_1&lt;\theta&lt;L_2)=1-\alpha\qquad\forall\theta\in\Theta\;}$$
+  <p>$L_1=L_1(X_1,\dots,X_n)$ and $L_2$ are <b>functions of the sample</b>, so they are <b>random variables</b>. The probability is about the random interval catching the fixed $\theta$. $A=L_2-L_1$ is the <b>width</b> (or size) of the interval.</p>
+  </div>
+  <div class="note warn"><div class="t">TRAP · the interpretation (CI deck)</div>A 95% CI for mean weekly consumption is $[150,200]$. Can we say $P(150&lt;\mu&lt;200)=0.95$? <b>No.</b> Once computed, $[150,200]$ has fixed endpoints and $\mu$ is a fixed number: the statement "$\mu$ is inside" is either true or false, with probability 1 or 0. <b>A priori</b> (before drawing the sample) the probability of drawing a sample whose interval includes $\mu$ is $1-\alpha$. <b>A posteriori</b> we are <i>confident</i> that we drew one of those samples. That is why we say "with confidence level 95%", never "with probability 95%".</div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 9 · pp.1–4 · deck · the product-weight machine: X ~ N(μ, σ²), σ = 2.5 known</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$X$ = product weight (a cup of margarine, in the deck). $\mu$ unknown; $\sigma=2.5$ g is known from history. The machine should be calibrated on 250 g: is it? We will observe deviations from 250 g either because of a <b>wrong calibration</b> or because of <b>sample variability</b> with the right calibration. We collect $n=25$ products: $\bar x=250.2$ g.</p>
+  <ol class="steps">
+    <li><b>Start from the pivot.</b> $\bar X\sim N\big(\mu,\frac{2.5^2}n\big)$, i.e. $\frac{\sigma^2}n$, so $Z=\frac{\bar X-\mu}{\sigma/\sqrt n}\sim N(0,1)$.</li>
+    <li><b>Put $1-\alpha=95\%$ in the middle of $N(0,1)$:</b> find $z_1&lt;z_2$ with $P(z_1&lt;Z&lt;z_2)=1-\alpha$, with $\alpha/2=2.5\%$ in each tail.</li>
+    <li><b>Invert to reach the form $P(L_1&lt;\theta&lt;L_2)=1-\alpha$:</b>
+    $$\begin{aligned}&amp;P\Big(z_1&lt;\frac{\bar X-\mu}{\sigma/\sqrt n}&lt;z_2\Big)=1-\alpha\\
+    \Leftrightarrow\ &amp;P\Big(z_1\frac\sigma{\sqrt n}&lt;\bar X-\mu&lt;z_2\frac\sigma{\sqrt n}\Big)=1-\alpha\\
+    \Leftrightarrow\ &amp;P\Big(-\bar X+z_1\frac\sigma{\sqrt n}&lt;-\mu&lt;-\bar X+z_2\frac\sigma{\sqrt n}\Big)=1-\alpha\\
+    \Leftrightarrow\ &amp;P\Big(\underbrace{\bar X-z_2\frac\sigma{\sqrt n}}_{L_1}&lt;\mu&lt;\underbrace{\bar X-z_1\frac\sigma{\sqrt n}}_{L_2}\Big)=1-\alpha\end{aligned}$$
+    (multiplying by $-1$ flips the inequalities).</li>
+  </ol>
+  </div>
+  <div>
+  <ol class="steps" start="4">
+    <li><b>Lower bound.</b> $z_2$ is the quantile of $N(0,1)$ with $\frac\alpha2$ probability on its <b>right</b>, denoted $z_{\alpha/2}=$ <code>qnorm(1-α/2)</code> (R wants the probability on the <b>left</b>). At 95%: $z_{0.025}=$ <code>qnorm(1-0.025)</code> $=+1.96$. So $L_1=\bar X-1.96\frac\sigma{\sqrt n}$.</li>
+    <li><b>Upper bound.</b> $z_1$ has $1-\frac\alpha2$ on its right: $z_{1-\alpha/2}=$ <code>qnorm(α/2)</code> $=$ <code>qnorm(1-0.975)</code> $=-1.96$. So $L_2=\bar X-(-1.96)\frac\sigma{\sqrt n}=\bar X+1.96\frac\sigma{\sqrt n}$.</li>
+    <li><b>Overall</b>, exploiting the symmetry $-z_{\alpha/2}=z_{1-\alpha/2}$:
+    $$\boxed{\text{CI}_{95\%}(\mu)=\Big[\bar X\mp1.96\frac\sigma{\sqrt n}\Big],\quad X\sim N(\mu,\sigma^2),\ \sigma^2\text{ known}}$$</li>
+    <li><b>Realised value.</b> $\big[250.2\mp1.96\cdot\frac{2.5}{\sqrt{25}}\big]=[250.2\mp0.98]=\mathbf{[249.22,\ 251.18]}$.</li>
+    <li><b>Conclusion.</b> The CI is the set of "reasonable" values for $\mu$. 250 g belongs to it, so 250 g is among the reasonable values: the deviation of the observed 250.2 g from 250 g is due to <b>sample variability</b>, not to a wrong calibration.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">FORMULA</span> General level, and the width (lecture 9, pp.4–5)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$\boxed{\;\text{CI}_{1-\alpha}(\mu)=\Big[\bar X\mp z_{\alpha/2}\frac\sigma{\sqrt n}\Big],\qquad X\sim N(\mu,\sigma^2),\ \sigma^2\text{ known}\;}$$
+  <table class="formula-table">
+    <tr><th>level $1-\alpha$</th><td class="c">90%</td><td class="c">95%</td><td class="c">99%</td></tr>
+    <tr><th>$\alpha/2$</th><td class="c">0.05</td><td class="c">0.025</td><td class="c">0.005</td></tr>
+    <tr><th>$z_{\alpha/2}$</th><td class="c">1.645</td><td class="c">1.96</td><td class="c">2.576</td></tr>
+    <tr><th>R</th><td class="c"><code>qnorm(0.95)</code></td><td class="c"><code>qnorm(0.975)</code></td><td class="c"><code>qnorm(0.995)</code></td></tr>
+  </table>
+  <p><b>Width</b>: $A=L_2-L_1=\Big(\bar X+z_{\alpha/2}\frac\sigma{\sqrt n}\Big)-\Big(\bar X-z_{\alpha/2}\frac\sigma{\sqrt n}\Big)=\boxed{2z_{\alpha/2}\frac\sigma{\sqrt n}}$</p>
+  </div>
+  <div>
+  <ul>
+    <li>if $n\uparrow$ ⇒ $A\downarrow$, smaller CI (<i>sometimes feasible</i>: collect more data);</li>
+    <li>if $\sigma^2\uparrow$ ⇒ $A\uparrow$, wider CI (<i>not under control</i>);</li>
+    <li>if the level $\uparrow$ ⇒ $(1-\alpha)\uparrow$ ⇒ $\alpha\downarrow$ ⇒ $z_{\alpha/2}\uparrow$ ⇒ $A\uparrow$, wider CI (<i>free to modify</i>).</li>
+  </ul>
+  <p>Note that $A$ here does not depend on the data at all: it is fixed before sampling. That changes when $\sigma$ is unknown (module 38).</p>
+  <p class="muted"><b>Deck:</b> a <i>non-central</i> interval $[\bar X-z_1\frac\sigma{\sqrt n},\bar X+z_2\frac\sigma{\sqrt n}]$ with unequal tails also has level $1-\alpha$, but it is wider. That is why we split $\alpha$ equally, $\alpha/2$ per tail.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Fifty samples, fifty intervals: what "95%" means<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>level <select id="ci_lv"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></label>
+    <label>sample size $n$ <input type="range" id="ci_n" min="3" max="100" step="1" value="25"> <span class="val" id="ci_n_v">25</span></label>
+    <label><input type="checkbox" id="ci_t"> σ unknown: use $S$ and $t_{n-1}$ (module 38)</label>
+  </div>
+  <div class="ctrl"><span class="btns">
+    <button onclick="ciDraw50()">draw 50 new samples</button>
+    <button onclick="ciMany()">tally 10,000 samples</button>
+    <button onclick="ciWrong()">σ unknown but z used, n = 5</button>
+  </span></div>
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0"><svg id="cisvg" viewBox="0 0 360 240"></svg><figcaption>The machine example: $\mu=250$, $\sigma=2.5$. Each vertical bar is the CI from one sample of size $n$. Blue bars catch $\mu$ (dashed line), red ones miss. In the long run the share of blue bars is the confidence level, as in the lecture's sketch of the 1st, 2nd and 3rd sample.</figcaption></figure>
+  <div>
+  <div class="readout" id="ciread"></div>
+  <p style="margin-top:10px"><b>Try this.</b> At 95% about 2–3 of 50 bars are red. Switch to 99%: fewer red bars, all bars longer. Raise $n$: the bars shrink like $1/\sqrt n$ but the share of red stays the same. The level is about coverage, not about width. Finally, "σ unknown but z used, n = 5" plugs $S$ into the <i>normal</i> formula: coverage drops to about 88%, well below the advertised 95%. That is why module 38 needs the Student-t.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">METHOD</span> The pivotal quantity (lecture 9, pp.5–6 · deck)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>The way we build CIs is based on the <b>method of the pivotal quantity (PQ)</b>. In the example the PQ was $Z=\frac{\bar X-\mu}{\sigma/\sqrt n}$. A PQ is:</p>
+  <ol class="steps">
+    <li>a <b>function of $\underline X$ and of the $\theta$ we want to learn</b> (in the example: of $\underline X$ through $\bar X$ and $n$, and of $\mu$);</li>
+    <li>with a distribution that <b>does not depend on $\theta$</b> (in the example $Z\sim N(0,1)$, which does not depend on $\mu$);</li>
+    <li><b>invertible with respect to $\theta$</b> (in the example, $Z$ was inverted to find $\mu$).</li>
+  </ol>
+  <p>The PQ for a <b>location parameter</b> has the form</p>
+  $$\boxed{\;PQ=\frac{\hat\theta-\theta}{\hat\sigma_{\hat\theta}}=\frac{\text{point estimator}-\text{parameter}}{\text{(estimated) st. dev. of the point estimator}}\;}$$
+  <p>In the example, $PQ=\frac{\bar X-\mu}{\sigma/\sqrt n}$. Module 36's asymptotic normality of the MLE, $\frac{\hat\theta-\theta}{\sqrt{1/I(\hat\theta)}}\approx N(0,1)$, is a PQ of exactly this form.</p>
+  </div>
+  <div>
+  <p><b>Remark: CIs for functions of θ.</b> If we have $[L_1,L_2]$ for $\theta$ at level $1-\alpha$, then we have a CI for $g(\theta)$ for any <b>monotone</b> $g$:</p>
+  <ul>
+    <li>$g$ increasing: $[g(L_1),g(L_2)]$;</li>
+    <li>$g$ decreasing: $[g(L_2),g(L_1)]$, with the bounds swapped.</li>
+  </ul>
+  <p>Example: $\text{CI}_{1-\alpha}(\sigma^2)=[L_1,L_2]$ gives</p>
+  $$\text{CI}_{1-\alpha}(\sigma)=\big[\sqrt{L_1},\sqrt{L_2}\big]$$
+  <p>since $g(\sigma^2)=\sqrt{\sigma^2}$, a CI for the <b>standard deviation</b>, and</p>
+  $$\text{CI}_{1-\alpha}(1/\sigma^2)=\big[1/L_2,\ 1/L_1\big]$$
+  <p>since $g(\sigma^2)=1/\sigma^2$, a CI for the <b>precision parameter</b> (decreasing, so swapped).</p>
+  <p class="muted">Why it works: $L_1&lt;\sigma^2&lt;L_2\Leftrightarrow\sqrt{L_1}&lt;\sigma&lt;\sqrt{L_2}$, the same event, so the same probability $1-\alpha$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">LECTURE 9 · pp.6–7 · deck · how many observations for a CI of a given width?</div>
+  <div class="body">
+  <p>Monthly IT expenditure of firms, $X\sim N(\mu,\sigma^2)$, $\sigma^2=400$. What is the minimum $n$ to have a $\text{CI}_{95\%}(\mu)$ of width below 10?</p>
+  <ol class="steps">
+    <li>$1-\alpha=0.95\Rightarrow\alpha=0.05$, $z_{0.025}=$ <code>qnorm(1-0.025)</code> $=1.96$.</li>
+    <li>$A=2z_{\alpha/2}\frac\sigma{\sqrt n}&lt;10\Rightarrow2z_{\alpha/2}\frac\sigma{10}&lt;\sqrt n\Rightarrow n&gt;\Big(\frac{2z_{\alpha/2}\sigma}{10}\Big)^2$.</li>
+    <li>$=\Big(\frac{2\cdot1.96\cdot\sqrt{400}}{10}\Big)^2=7.84^2=61.46$.</li>
+    <li><b>Round up</b>: we need to collect at least $n=\mathbf{62}$ observations. (Rounding down to 61 would give a width just above 10.)</li>
+  </ol>
+  <p><b>Now</b> we collect $n=64$ with $\sum x_i=768$. $\bar x=768/64=12$:</p>
+  $$\text{CI}_{95\%}(\mu)=\Big[12\mp1.96\frac{\sqrt{400}}{\sqrt{64}}\Big]=[12\mp4.9]=\mathbf{[7.1,\ 16.9]}$$
+  <p>$A=16.9-7.1=9.8&lt;10$, as expected since $n&gt;62$.</p>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">CI DECK · follow-ups and one more</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>Same data at 99%.</b> $z_{0.005}=$ <code>qnorm(0.995)</code> $=2.576$: $[12\mp2.576\cdot2.5]=[5.56,\ 18.44]$, width $12.88$. Higher level ⇒ wider.</li>
+    <li><b>σ = 10 instead of 20, at 95%.</b> $[12\mp1.96\cdot\frac{10}8]=[9.55,\ 14.45]$, width 4.9: halving $\sigma$ halves the width. (The deck's numbers $(8.79,15.21)$ for this question use $z=2.57$, so they are the 99% interval.)</li>
+    <li><b>90% CI, σ = 6, n = 16, $\bar x=25$.</b> $z_{0.05}=1.645$: $\big[25\mp1.645\cdot\frac64\big]=[25\mp2.4675]=\mathbf{[22.53,\ 27.47]}$.</li>
+  </ol>
+  <div class="note fin"><div class="t">R corner</div><code>xbar &lt;- 250.2; s &lt;- 2.5; n &lt;- 25; a &lt;- 0.05</code><br><code>xbar + c(-1, 1) * qnorm(1 - a/2) * s / sqrt(n)</code> → <code>249.22 251.18</code><br>Sample size: <code>ceiling((2 * qnorm(0.975) * 20 / 10)^2)</code> → <code>62</code>.</div>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Halve the width</div>
+<div class="prob">A 95% CI with known $\sigma$ from $n=25$ has width 2. What $n$ gives width 1? And what level would width 2 have with $n=25$ if $z$ were 2.576?</div>
+<details><summary>Answer</summary><div class="sol">Width $\propto1/\sqrt n$: halving it needs $4n=100$. With $z=2.576$ the width scales by $2.576/1.96$, to $2.63$, at level 99%. Width 2 with $n=25$ is only possible at 95%.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Which statement is right?</div>
+<div class="prob">A 95% CI for $\mu$ is $[3.1, 4.7]$. (a) $P(3.1&lt;\mu&lt;4.7)=0.95$. (b) 95% of the data lie in $[3.1,4.7]$. (c) The procedure catches $\mu$ in 95% of samples. (d) $\bar x$ lies in the interval with probability 0.95.</div>
+<details><summary>Answer</summary><div class="sol">(c). (a) treats the fixed $\mu$ as random. (b) confuses the CI for the mean with the spread of the data. (d) $\bar x$ is the centre of the interval, so it is always inside.</div></details>
+</div>
+</div>
+</section>

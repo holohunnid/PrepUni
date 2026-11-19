@@ -1,0 +1,174 @@
+<!-- ============ 33 MAXIMUM LIKELIHOOD: THE IDEA AND THE RECIPE ============ -->
+<section id="s33">
+<div class="sec-head"><span class="num">33</span><h2>Maximum likelihood: idea &amp; recipe</h2><span class="sub">lecture 7, notes pp.48–50 · Point Estimation deck §5.2–5.3</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Choose the $\theta$ under which your data were most probable<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 27 computed $f(\underline x;\theta)=\prod f(x_i;\theta)$, the probability of the observed sample under a <b>given</b> $\theta$. Now <b>freeze the data and let $\theta$ move</b>. Each candidate $\theta$ gets a score, "how probable would my data have been if this were the truth?" Pick the $\theta$ with the highest score. That is the <b>maximum likelihood estimator (MLE)</b>.</p>
+  <p>The computation is an ordinary one-variable maximisation: take logs, differentiate, set to zero, check the second derivative, check the boundaries. The MLE is the most widely used estimator because of its properties (modules 34 and 36).</p>
+  <div class="note warn"><div class="t">EXAM (lecturer, notes pp.50 and 52)</div><b>"Find the MLE" is the open question of the exam.</b> Expect <b>one parameter</b> to be found. For multi-parameter models expect only theory questions, no exercises. Every step of the recipe below earns marks: the log-likelihood, the first-order condition, the second-order check, and the boundaries.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 7</span> Intuition (notes p.48)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Find the value of $\theta$ at which the probability of the observed data is maximised.</b></p>
+  <p>Example: we observe $\underline x=(0.001,\ 0.0013,\ -0.003)$. Two candidate models:</p>
+  <ul>
+    <li>$N(\mu=0,\ \sigma^2=1)$: the data sit right at the centre of the bell, so this one is <b>more coherent</b> with $\underline x$;</li>
+    <li>$N(\mu=10,\ \sigma^2=1)$: the data would be 10 standard deviations below the mean, so it is <b>less coherent</b> with $\underline x$.</li>
+  </ul>
+  <p>Formally $f(\underline x;\mu=0,\sigma^2=1)&gt;f(\underline x;\mu=10,\sigma^2=1)$: the observed $\underline x$ is more likely to be observed under $N(0,1)$, so $\mu=0$ should be preferred over $\mu=10$.</p>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 330 140">
+    <line x1="10" y1="110" x2="320" y2="110" stroke="var(--border2)"/>
+    <path d="M 20 109 L 40 106 L 55 98 L 70 82 L 80 70 L 90 62 L 100 59 L 110 62 L 120 70 L 130 82 L 145 98 L 160 106 L 180 109" fill="none" stroke="var(--green)" stroke-width="2"/>
+    <path d="M 150 109 L 170 106 L 185 98 L 200 82 L 210 70 L 220 62 L 230 59 L 240 62 L 250 70 L 260 82 L 275 98 L 290 106 L 310 109" fill="none" stroke="var(--red)" stroke-width="2"/>
+    <circle cx="99" cy="110" r="3" fill="var(--blue)"/><circle cx="101" cy="110" r="3" fill="var(--blue)"/><circle cx="97" cy="110" r="3" fill="var(--blue)"/>
+    <text x="100" y="126" class="svgtxt b" text-anchor="middle">observed data</text>
+    <text x="100" y="50" class="svgtxt g" text-anchor="middle">μ = 0</text>
+    <text x="230" y="50" class="svgtxt r" text-anchor="middle">μ = 10</text>
+    <line x1="230" y1="110" x2="230" y2="114" stroke="var(--border2)"/><text x="230" y="126" class="svgtxt" text-anchor="middle">10</text>
+    <text x="165" y="16" class="svgtxt w" text-anchor="middle">which model makes the dots probable?</text>
+  </svg><figcaption>The data sit where the green curve is high and the red curve is essentially zero. Likelihood turns this picture into a number.</figcaption></figure>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The likelihood function and the MLE (notes p.48 · deck p.33)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>We define the <b>likelihood function</b> as</p>
+  $$\boxed{\;L(\theta;\underline x)=\prod_{i=1}^nf(x_i;\theta)\;}$$
+  <p>It is the <b>joint pmf/pdf of $\underline X$</b> evaluated at the data. The difference is that it is read as a <b>function of $\theta$, not of $\underline x$</b>. If $L(\theta_1;\underline x)&gt;L(\theta_2;\underline x)$ then we prefer $\theta_1$ to $\theta_2$: there is more evidence in the data for $\theta_1$.</p>
+  $$\boxed{\;\hat\theta=\arg\max_{\theta\in\Theta}L(\theta;\underline x)\;}$$
+  <p>Search over all $\theta$ in the <b>parameter space</b> $\Theta$: $\hat\theta$ is the point where $L$ is maximum.</p>
+  <table class="formula-table">
+    <tr><th>Max. likelihood <b>estimator</b></th><td>$\hat\theta(\underline X)$, with capital $\underline X$: random</td></tr>
+    <tr><th>Max. likelihood <b>estimate</b></th><td>$\hat\theta(\underline x)$, with small $\underline x$: a number</td></tr>
+  </table>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 300 170">
+    <line x1="30" y1="140" x2="290" y2="140" stroke="var(--border2)"/>
+    <line x1="30" y1="140" x2="30" y2="14" stroke="var(--border2)"/>
+    <text x="22" y="22" class="svgtxt" text-anchor="end">L</text>
+    <text x="288" y="156" class="svgtxt">θ</text>
+    <path d="M 40 132 C 70 120, 90 90, 110 92 C 130 94, 140 70, 160 42 C 175 26, 190 38, 205 70 C 220 100, 240 118, 280 128" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <line x1="30" y1="34" x2="168" y2="34" stroke="var(--amber)" stroke-dasharray="4 3"/>
+    <text x="34" y="30" class="svgtxt a" font-size="9.5">max value</text>
+    <line x1="168" y1="34" x2="168" y2="140" stroke="var(--amber)" stroke-dasharray="4 3"/>
+    <text x="168" y="155" class="svgtxt a" text-anchor="middle">θ̂</text>
+  </svg><figcaption>The notes' sketch: $L$ as a function of $\theta$, maximised at $\hat\theta$.</figcaption></figure>
+  </div>
+  <div class="note warn"><div class="t">TRAP · the likelihood is not a density in $\theta$</div>$L(\theta)$ does not integrate to 1 over $\theta$, and $L(\hat\theta)$ is not "the probability that $\theta=\hat\theta$". It is a probability of the <b>data</b> (or a density), indexed by $\theta$. Only comparisons $L(\theta_1)$ vs $L(\theta_2)$ have a meaning.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RECIPE</span> In practice: maximise the log-likelihood (notes p.49 · deck §5.3)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>It is simpler to maximise the <b>log-likelihood</b>:</p>
+  $$\boxed{\;\ell(\theta;\underline x)=\ln L(\theta;\underline x)=\ln\prod_{i=1}^nf(x_i;\theta)=\sum_{i=1}^n\ln f(x_i;\theta)\;}$$
+  <ul>
+    <li><b>Analytically easier:</b> the log turns the product into a sum, and sums are easy to differentiate.</li>
+    <li><b>Avoids computational problems:</b> a product of 1000 numbers below 1 underflows to 0 on a computer; a sum of logs does not.</li>
+  </ul>
+  <p>$L$ or $\ell$ will give the <b>same $\hat\theta$</b>, since $\ln$ is a monotone (increasing) transformation: whatever maximises $L$ maximises $\ln L$.</p>
+  </div>
+  <div>
+  <ol class="steps">
+    <li><b>FOC.</b> Find $\hat\theta$ by setting $\dfrac{\partial}{\partial\theta}\ell(\theta;\underline x)=0$ and solving for $\theta$.</li>
+    <li><b>SOC.</b> Check $\dfrac{\partial^2}{\partial\theta^2}\ell(\theta;\underline x)\Big|_{\theta=\hat\theta}&lt;0$, so that it is a <b>maximum</b>.</li>
+    <li><b>Boundaries.</b> Finally check the values of $\ell(\theta;\underline x)$ at the boundaries of $\Theta$. A local maximum is only global if the function is lower at the edges. Typically $\ell\to-\infty$ there.</li>
+  </ol>
+  <div class="note tip"><div class="t">Two routes to $\ell$ (notes p.49)</div><b>Route 1:</b> $f(x_i;\theta)\to L(\theta;\underline x)\to\ell(\theta;\underline x)$: build the product, then take the log.<br><b>Route 2 (faster if you are looking for $\ell$):</b> $f(x_i;\theta)\to\ln f(x_i;\theta)\to\ell=\sum_i\ln f(x_i;\theta)$: take the log of one density, then sum. If the question asks for capital $L$, use route 1.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 7 · notes pp.49–50 · deck pp.41–42 · MLE of p for a Bernoulli sample</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$X\sim\text{Bern}(p)$, $p\in[0,1]$, $f(x;p)=p^x(1-p)^{1-x}$, $x\in\{0,1\}$. $\underline X=(X_1,\dots,X_n)$ i.i.d.</p>
+  <ol class="steps">
+    <li><b>Likelihood (route 1).</b>
+    $$L(p;\underline x)=\prod_{i=1}^np^{x_i}(1-p)^{1-x_i}=p^{\sum x_i}(1-p)^{\sum(1-x_i)}=p^{\sum x_i}(1-p)^{n-\sum x_i}$$</li>
+    <li><b>Log-likelihood.</b>
+    $$\ell(p;\underline x)=\ln p^{\sum x_i}+\ln(1-p)^{n-\sum x_i}=\sum x_i\ln p+\Big(n-\sum x_i\Big)\ln(1-p)$$
+    Route 2 gives the same: $\ln f(x;p)=x\ln p+(1-x)\ln(1-p)$, and $\sum_i$ of it is the line above.</li>
+    <li><b>FOC.</b>
+    $$\frac{\partial\ell}{\partial p}=\frac{\sum x_i}p+\frac{n-\sum x_i}{1-p}\cdot(-1)=\frac{\sum x_i}p-\frac{n-\sum x_i}{1-p}\overset{\text{fix}}=0$$
+    With $\sum x_i=n\bar x$ and dividing by $n$: $\frac{\bar x}{\hat p}-\frac{1-\bar x}{1-\hat p}=0$. Common denominator: $\frac{\bar x-\bar x\hat p-\hat p+\bar x\hat p}{\hat p(1-\hat p)}=0\Rightarrow\bar x-\hat p=0\Rightarrow\boxed{\hat p=\bar x}$</li>
+  </ol>
+  </div>
+  <div>
+  <ol class="steps" start="4">
+    <li><b>SOC.</b>
+    $$\frac{\partial^2\ell}{\partial p^2}=\frac{\partial}{\partial p}\Big(\frac{\sum x_i}p-\frac{n-\sum x_i}{1-p}\Big)=-\frac{\sum x_i}{p^2}-\frac{n-\sum x_i}{(1-p)^2}&lt;0$$
+    Both terms are $\le0$ for every $p$, so $\bar x$ is a maximum point.</li>
+    <li><b>Boundaries</b>, $\Theta=[0,1]$ (when $0&lt;\sum x_i&lt;n$):
+    $$\lim_{p\to0}\ell=\lim\Big[\sum x_i\underbrace{\ln p}_{\to-\infty}+\big(n-\textstyle\sum x_i\big)\underbrace{\ln(1-p)}_{\to0}\Big]=-\infty$$
+    and in the same way $\lim_{p\to1}\ell=-\infty$ (now $\ln(1-p)\to-\infty$). So the interior maximum is global.</li>
+    <li><b>Conclusion.</b> The MLE is the <b>sample proportion</b>, $\hat p=\bar X$. It is also the MME and the analogy estimator.</li>
+  </ol>
+  <div class="note warn"><div class="t">TRAP · all zeros or all ones (deck pp.34–36)</div>If $\underline x=(1,1,1)$ then $L(p)=p^3$, which is increasing on $[0,1]$, so $\hat p=1$, <b>on the boundary</b>. Setting $\frac{dL}{dp}=3p^2=0$ gives $p=0$, the wrong answer: there the derivative is zero but the likelihood is at its <i>minimum</i>. Likewise $(0,0,0)$ gives $L=(1-p)^3$, so $\hat p=0$. The formula $\hat p=\bar x$ still gives the right answers (1 and 0). The FOC route simply can't find them, which is why step 5 of the recipe exists.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Move $\theta$, watch $L$ and $\ell$: same maximiser, different shapes<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>model <select id="lk_mod">
+      <option value="bern">Bernoulli(p)</option>
+      <option value="norm">Normal(μ, 1)</option>
+      <option value="pois">Poisson(λ)</option>
+      <option value="exp">Exponential(λ)</option>
+    </select></label>
+    <label>data <input type="text" id="lk_x" value="1, 0, 1" size="26"></label>
+    <label>θ <input type="range" id="lk_t" min="0" max="1" step="any" value="0.5"> <span class="val" id="lk_t_v">0.50</span></label>
+  </div>
+  <div class="ctrl"><span class="btns">
+    <button onclick="lkSet('bern','1, 0, 1',0.5)">deck: Bernoulli (1,0,1)</button>
+    <button onclick="lkSet('bern','1, 1, 1',0.5)">deck: (1,1,1) boundary</button>
+    <button onclick="lkSet('norm','1.9, 1.2, 1.8, 0.5',2)">deck: N(μ,1), 4 obs</button>
+    <button onclick="lkSet('pois','2, 4, 3, 3',3.5)">Poisson (2,4,3,3)</button>
+    <button onclick="lkSet('exp','0.5, 1.2, 0.3, 2.0',1)">exponential</button>
+    <button onclick="lkJump()">jump to θ̂</button>
+  </span></div>
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0"><svg id="lksvg" viewBox="0 0 360 260"></svg><figcaption>Top: the likelihood $L(\theta)$. Bottom: the log-likelihood $\ell(\theta)$. The amber line is your $\theta$, the green line the MLE. Both curves peak at the same place, because $\ln$ is increasing.</figcaption></figure>
+  <div>
+  <div class="readout" id="lkread"></div>
+  <p style="margin-top:10px"><b>Try this.</b> Bernoulli $(1,0,1)$: the peak is at $\hat p=2/3$, where $\ell'(p)=\frac2p-\frac1{1-p}=0$ (the deck's computation). Switch to $(1,1,1)$: the curve rises all the way to $p=1$ and the slope there is not zero. The normal preset reproduces the deck's plot, with its maximum at $\hat\mu=1.35$ and $L(1)&gt;L(2)$. Poisson $(2,4,3,3)$: compare $L(3.5)=0.00163$ (module 27) with the larger $L(3)$. The score readout is $\ell'(\theta)$; it is zero only at the green line.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>The deck's (1, 0, 1)</div>
+<div class="prob">Bernoulli sample $(1,0,1)$. Write $L(p)$, $\ell(p)$, and find $\hat p$ with the FOC.</div>
+<details><summary>Answer</summary><div class="sol">$L=p\cdot(1-p)\cdot p=p^2(1-p)$; $\ell=2\ln p+\ln(1-p)$; $\ell'=\frac2p-\frac1{1-p}=0\Rightarrow2(1-p)=p\Rightarrow\hat p=\frac23$. The interior maximum, $=\bar x$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Why the log is allowed</div>
+<div class="prob">Could we maximise $L^2$, or $\sqrt L$, or $-L$ instead of $L$?</div>
+<details><summary>Answer</summary><div class="sol">$L^2$ and $\sqrt L$: yes. Since $L\ge0$, both are increasing transformations of $L$ and keep the same maximiser. $-L$: no, that is decreasing, so maximising $-L$ <i>minimises</i> $L$. The log is chosen because it turns products into sums.</div></details>
+</div>
+</div>
+</section>

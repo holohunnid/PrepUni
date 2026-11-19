@@ -1,0 +1,192 @@
+<!-- ============ 27 POPULATIONS, SAMPLES AND STATISTICAL MODELS ============ -->
+<section id="s27">
+<div class="sec-head"><span class="num">27</span><h2>Populations, samples &amp; models</h2><span class="sub">lecture 5, notes pp.36–38 · Point Estimation deck §1–2</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The turn from probability to statistics<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Modules 01–26 all ran in one direction. <b>The distribution was given</b> (a fair die, a Poisson with $\lambda=3.5$, an $N(5,4)$) and we computed probabilities of data. From this module on the direction flips:</p>
+  <table class="formula-table">
+    <tr><th>Probability (modules 01–26)</th><td>model known → what data will we see?</td><td>"$X\sim\text{Pois}(3.5)$. What is $P(X=2)$?"</td></tr>
+    <tr><th>Statistics (from here)</th><td>data seen → which model produced it?</td><td>"We counted $2,4,3,3$. What is $\lambda$?"</td></tr>
+  </table>
+  <p>This module sets up the vocabulary the rest of the course uses: <b>population</b>, <b>sample</b>, <b>statistical model</b> $\{f(x;\theta),\ \theta\in\Theta\}$, <b>parameter space</b>, <b>i.i.d. random sample</b>, and the difference between the random sample $\underline X$ and the observed sample $\underline x$. The one formula to take away is the joint pmf/pdf of an i.i.d. sample, the <b>product of the marginals</b>. Module 33 renames that product the <b>likelihood</b>.</p>
+  <div class="note tip"><div class="t">What you need for the exam</div>Write the model and its parameter space for a given story. Know that i.i.d. means "independent" and "identically distributed". Compute $f(\underline x;\theta)=\prod_i f(x_i;\theta)$ for a small observed sample. Most exam questions in the estimation block start with exactly this setup.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 5</span> What the lecturer said (notes p.36)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Statistical inference</b>: the process of coming to some conclusion about a <b>population</b>, based on data collected from a <b>sample</b>.</p>
+  <ul>
+    <li><b>Population</b>: the set of all statistical units. It can be
+      <ul>
+        <li><b>finite</b>, e.g. the population of human beings, or of the companies in a country;</li>
+        <li><b>infinite</b>, e.g. the set of outcomes of a physical experiment (you can always repeat it once more).</li>
+      </ul>
+      The course works with <b>infinite populations</b>, which are also a good approximation of large finite ones.</li>
+    <li><b>Sample</b>: the subset of the population that we actually observe. In practice it is a <b>dataset</b>: one row per statistical unit ($1,\dots,n$, with $n$ the <b>sample size</b>; the population size $N$ is different, and for us $N=+\infty$), one column per feature.</li>
+  </ul>
+  <p>Each column is treated as $n$ repetitions of a random variable, and is described by a pmf or pdf. But we <b>don't know the specific form</b> of that distribution. For example we want an exponential model, but we don't know $\lambda$. So we assume the distribution belongs to a <b>family</b>, a <b>statistical model indexed by a parameter $\theta$</b>:</p>
+  $$\boxed{\;\{f(x;\theta),\ \theta\in\Theta\}\;}$$
+  <p>$\theta$ is the <b>parameter</b>. $\Theta$ is the <b>parameter space</b>, the set of all possible parameter values. <b>Making inference</b> means learning the most reasonable value for $\theta$ from the sample.</p>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 330 210">
+    <text x="165" y="14" class="svgtxt w" text-anchor="middle">a dataset = a sample of n statistical units</text>
+    <text x="96" y="36" class="svgtxt" text-anchor="middle" font-size="9.5">feature 1</text>
+    <text x="176" y="36" class="svgtxt" text-anchor="middle" font-size="9.5">feature 2</text>
+    <text x="256" y="36" class="svgtxt" text-anchor="middle" font-size="9.5">feature m</text>
+    <rect x="72" y="42" width="48" height="128" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="40" y="60" class="svgtxt" text-anchor="middle" font-size="9.5">unit 1</text>
+    <text x="40" y="84" class="svgtxt" text-anchor="middle" font-size="9.5">unit 2</text>
+    <text x="40" y="112" class="svgtxt" text-anchor="middle" font-size="9.5">⋮</text>
+    <text x="40" y="160" class="svgtxt r" text-anchor="middle" font-size="9.5">unit n</text>
+    <text x="96" y="60" class="svgtxt g" text-anchor="middle">X₁</text>
+    <text x="96" y="84" class="svgtxt g" text-anchor="middle">X₂</text>
+    <text x="96" y="112" class="svgtxt g" text-anchor="middle">⋮</text>
+    <text x="96" y="160" class="svgtxt g" text-anchor="middle">Xₙ</text>
+    <text x="176" y="60" class="svgtxt" text-anchor="middle">Y₁</text>
+    <text x="176" y="84" class="svgtxt" text-anchor="middle">Y₂</text>
+    <text x="176" y="112" class="svgtxt" text-anchor="middle">⋮</text>
+    <text x="176" y="160" class="svgtxt" text-anchor="middle">Yₙ</text>
+    <text x="216" y="112" class="svgtxt" text-anchor="middle">…</text>
+    <text x="256" y="60" class="svgtxt" text-anchor="middle">Z₁</text>
+    <text x="256" y="84" class="svgtxt" text-anchor="middle">Z₂</text>
+    <text x="256" y="112" class="svgtxt" text-anchor="middle">⋮</text>
+    <text x="256" y="160" class="svgtxt" text-anchor="middle">Zₙ</text>
+    <text x="96" y="188" class="svgtxt g" text-anchor="middle" font-size="9.5">n repetitions of one RV X</text>
+    <text x="40" y="202" class="svgtxt r" text-anchor="middle" font-size="9.5">n = sample size</text>
+  </svg><figcaption>The notes' picture of a dataset. Statistics treats each column as $n$ draws of one random variable with an unknown pmf/pdf from a known family.</figcaption></figure>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">LECTURE 5 · notes p.37 · deck p.3 · Ex 1: employees per company</div>
+  <div class="body">
+  <p>$X$ = number of employees in a company (the company is the statistical unit). Assume $X\sim\text{Pois}(\lambda)$ with $\lambda$ <b>unknown</b>.</p>
+  <ol class="steps">
+    <li><b>Model.</b> $\{f(x;\lambda)=\frac{\lambda^xe^{-\lambda}}{x!},\ \lambda\in\Theta\}$.</li>
+    <li><b>Parameter space.</b> A Poisson mean must be positive: $\lambda&gt;0\Rightarrow\Theta=(0,+\infty)$.</li>
+    <li><b>Data.</b> We collect $(x_1,\dots,x_n)$, say $n=100$ companies, and learn $\lambda$. The deck already hints at the answer: estimate $\lambda$ by the <b>average</b> number of employees of the 100 companies (since $\mathbb E(X)=\lambda$, module 20). Modules 32 and 34 prove that this is what both estimation methods give.</li>
+  </ol>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">LECTURE 5 · notes p.37 · deck p.4 · Ex 2: length of a metal bar</div>
+  <div class="body">
+  <p>$X$ = length of a metal bar produced by an industrial process. $X\sim N(\mu,\sigma^2)$ with <b>both</b> parameters unknown.</p>
+  <ol class="steps">
+    <li><b>Parameter.</b> A vector this time: $\theta=(\mu,\sigma^2)$.</li>
+    <li><b>Parameter space.</b> $\Theta=\{(\mu,\sigma^2):\ -\infty&lt;\mu&lt;+\infty,\ \sigma^2&gt;0\}$, a half-plane.</li>
+    <li><b>Data.</b> Measure $n=50$ bars, learn $\theta$. Natural guesses: the mean and the variance of the 50 lengths.</li>
+    <li><b>Using what we know.</b> A length can't be negative: $P(X&lt;0)=0$ for every unit. So we may restrict to $\Theta'=\{(\mu,\sigma^2):\ \mu&gt;0\}$. (Strictly, a normal always puts some mass below 0. The restriction just says that "$\mu$ negative" is not a sensible model for lengths.)</li>
+  </ol>
+  <div class="note"><div class="t">Insight</div>The parameter space carries real information. Module 33 shows that the maximum of the likelihood must be searched <b>inside $\Theta$</b>, boundaries included, and exercise set 3 has a case ($\mu\ge0$) where that changes the answer.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Random sample: extraction, i.i.d., and $\underline X$ versus $\underline x$ (notes p.37 · deck §2)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>We collect a <b>random sample</b>: a subset of the population whose statistical units are <b>extracted</b> at random,</p>
+  <ul>
+    <li><b>with replacement</b>: a unit extracted for the sample can be extracted again;</li>
+    <li><b>without replacement</b>: once extracted, a unit is removed.</li>
+  </ul>
+  <p>In big populations ($N$ large) the distinction is <b>irrelevant</b>, and for an infinite population (a repeatable experiment) it does not even arise. The deck adds: in a <i>finite</i> population, you need replacement for the units to be independent.</p>
+  <p>So a <b>random sample of size $n$</b> is $\{X_1,X_2,\dots,X_n\}$ where the $X_i$ are assumed <b>i.i.d.</b>:</p>
+  <ul>
+    <li><b>independent</b>: $X_i$ does not affect $X_j$ for $j\neq i$ (module 09);</li>
+    <li><b>identically distributed</b>: every $X_i$ has the same pmf/pdf, the population's $f(x;\theta)$.</li>
+  </ul>
+  </div>
+  <div>
+  <p>We have to distinguish two objects with the same letters:</p>
+  <table class="formula-table">
+    <tr><th>$\underline X=(X_1,\dots,X_n)$</th><td><b>random sample</b>: $n$ random variables, before we look. Capital letters.</td></tr>
+    <tr><th>$\underline x=(x_1,\dots,x_n)$</th><td><b>observed sample</b>: the realised values of the random sample, plain numbers. Small letters.</td></tr>
+  </table>
+  <p>The <b>sample space</b> $\mathcal X$ is the set of all possible samples: $\text{Supp}(X)^n$.</p>
+  <div class="note warn"><div class="t">TRAP · capital or small letter</div>The same distinction comes back in every later module: an <b>estimator</b> $T(\underline X)$ is random and has a distribution, a mean and a variance; an <b>estimate</b> $T(\underline x)$ is a number. Writing $\mathbb E(\bar x)$ for an observed $\bar x=3.2$ is meaningless, because the expectation of a number is the number itself. The lecturer is strict about the capital letters.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> The joint pmf/pdf of an i.i.d. sample is the product of the marginals (notes p.38)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>To recover the pmf/pdf of the whole sample $\underline X$, exploit the i.i.d. assumption. Independence turns the joint probability into a product (module 09). Identical distribution makes every factor the same function $f(\cdot;\theta)$:</p>
+  $$\boxed{\;f(\underline x;\theta)=f(x_1;\theta)\,f(x_2;\theta)\cdots f(x_n;\theta)=\prod_{i=1}^{n}f(x_i;\theta)\;}$$
+  <p>Read it as: <b>the probability of observing exactly this sample</b> (for discrete $X$), or its density (for continuous $X$), under the parameter value $\theta$.</p>
+  <p class="muted"><b>From the deck (not lectured):</b> if $f$ is in the exponential family, $f(x;\theta)=h(x)c(\theta)\exp\{\sum_jw_j(\theta)t_j(x)\}$, then so is the joint distribution of the sample, with $t_j(\underline x)=\sum_it_j(x_i)$ and $d(\theta)=c(\theta)^n$. This is why sums such as $\sum x_i$ keep appearing in the estimators of modules 32–34.</p>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">LECTURE 5 · notes p.38 · deck pp.5–6 · cars owned by a manager, n = 2</div>
+  <div class="body">
+  <p>$X$ = number of cars owned by a manager, with pmf $f(0)=0.1$, $f(1)=0.3$, $f(2)=0.5$, $f(3)=0.1$. Take a random sample of size $n=2$.</p>
+  <ol class="steps">
+    <li><b>Sample space.</b> $\mathcal X$ is the set of possible samples $(x_1,x_2)$. $X_1$ has 4 possible values and $X_2$ has 4, so $|\mathcal X|=4\cdot4=16$.</li>
+    <li><b>Probabilities.</b> Multiply the marginals: $f(x_1,x_2)=f(x_1)f(x_2)$.</li>
+  </ol>
+  <table class="formula-table">
+    <tr><th>$x_1\backslash x_2$</th><td class="c">0</td><td class="c">1</td><td class="c">2</td><td class="c">3</td></tr>
+    <tr><th>0</th><td class="c">0.01</td><td class="c">0.03</td><td class="c">0.05</td><td class="c">0.01</td></tr>
+    <tr><th>1</th><td class="c">0.03</td><td class="c">0.09</td><td class="c">0.15</td><td class="c">0.03</td></tr>
+    <tr><th>2</th><td class="c">0.05</td><td class="c">0.15</td><td class="c">0.25</td><td class="c">0.05</td></tr>
+    <tr><th>3</th><td class="c">0.01</td><td class="c">0.03</td><td class="c">0.05</td><td class="c">0.01</td></tr>
+  </table>
+  <p>For instance $P(\underline X=(0,0))=0.1\cdot0.1=0.01$ and $P(\underline X=(0,1))=0.1\cdot0.3=0.03$. The 16 cells add up to 1. Module 29 uses this same table to build the distribution of $\bar X$ and $S^2$.</p>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">LECTURE 5 · notes p.38 · deck pp.6–7 · a Poisson sample (2, 4, 3, 3)</div>
+  <div class="body">
+  <p>$X\sim\text{Pois}(\lambda)$ with $\lambda=3.5$, so $f(x;\lambda)=\frac{\lambda^xe^{-\lambda}}{x!}$, $x=0,1,\dots$ We observe $\underline x=(2,4,3,3)$. How probable was that?</p>
+  <ol class="steps">
+    <li><b>Spaces.</b> $\text{Supp}(X)=\{0,1,2,\dots\}=\mathbb N_0$, infinite and countable, so $\mathcal X=\mathbb N_0^4$, all 4-tuples of non-negative integers.</li>
+    <li><b>Product of the marginals.</b>
+    $$f(\underline x;\lambda)=\prod_{i=1}^4f(x_i;\lambda)=\frac{3.5^2e^{-3.5}}{2!}\cdot\frac{3.5^4e^{-3.5}}{4!}\cdot\frac{3.5^3e^{-3.5}}{3!}\cdot\frac{3.5^3e^{-3.5}}{3!}$$</li>
+    <li><b>Numbers.</b> $0.1850\cdot0.1888\cdot0.2158\cdot0.2158=\mathbf{0.00163}$.</li>
+    <li><b>Compactly.</b> $f(\underline x;\lambda)=\dfrac{\lambda^{\sum x_i}e^{-n\lambda}}{\prod x_i!}=\dfrac{3.5^{12}e^{-14}}{2!\,4!\,3!\,3!}$. The data enter only through $\sum x_i=12$ (and through the constant $\prod x_i!$).</li>
+  </ol>
+  <div class="note fin"><div class="t">R corner</div><code>prod(dpois(c(2,4,3,3), lambda = 3.5))</code> → <code>0.00162611</code>. Change <code>3.5</code> to <code>3</code>: <code>0.00189</code>, larger. So $\lambda=3$ "explains" this sample better than $3.5$. Turning that comparison into a method is exactly maximum likelihood (module 33), and the winner will be $\bar x=12/4=3$.</div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> Three slips with samples<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ul>
+    <li><b>Multiplying is only allowed for independent units.</b> $f(\underline x)=\prod f(x_i)$ needs independence. Daily returns of one stock over consecutive days, or draws without replacement from a small urn, may not satisfy it.</li>
+    <li><b>Order matters in $\mathcal X$.</b> $(0,1)$ and $(1,0)$ are different samples, each with probability $0.03$. The event "one manager with 0 cars and one with 1" has probability $0.06$.</li>
+    <li><b>$n$ is not $N$.</b> $n$ is how many units we observed; $N$ is the population size (for us infinite). Formulas such as $\mathbb V(\bar X)=\sigma^2/n$ (module 29) use the sample size $n$.</li>
+  </ul>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Write the model</div>
+<div class="prob">For each story give the model and $\Theta$: (a) whether each of 200 loans defaults; (b) the waiting time between two trades, assumed memoryless; (c) daily returns assumed Gaussian with known variance 0.04.</div>
+<details><summary>Answer</summary><div class="sol">(a) $\text{Bern}(p)$, $\Theta=[0,1]$. (b) $\text{Exp}(\lambda)$, $\Theta=(0,\infty)$ (module 24: memoryless). (c) $N(\mu,0.04)$, $\theta=\mu$, $\Theta=\mathbb R$. Only $\mu$ is unknown, so it is a one-parameter model.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Probability of a sample</div>
+<div class="prob">$X\sim\text{Bern}(p)$ with $p=0.3$. Compute $f(\underline x;p)$ for $\underline x=(1,0,0,1,0)$. Then say for which $p$ the same formula is largest.</div>
+<details><summary>Answer</summary><div class="sol">$f=p^2(1-p)^3=0.09\cdot0.343=0.03087$. As a function of $p$, $p^2(1-p)^3$ is maximised at $p=2/5$, the proportion of ones. Module 33 derives this in general: $\hat p=\bar x$.</div></details>
+</div>
+</div>
+</section>

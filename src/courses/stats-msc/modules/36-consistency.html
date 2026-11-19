@@ -1,0 +1,182 @@
+<!-- ============ 36 CONSISTENCY AND ASYMPTOTIC PROPERTIES OF THE MLE ============ -->
+<section id="s36">
+<div class="sec-head"><span class="num">36</span><h2>Consistency &amp; MLE asymptotics</h2><span class="sub">lecture 8, pp.1–5 of the lecture notes · Point Estimation deck §8–9</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What happens when the sample grows without limit<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 35 judged estimators at a <b>fixed</b> sample size ("finite-sample performance"). Sometimes estimators are compared by pretending that $n\to+\infty$: properties that hold "<b>asymptotically</b>". The minimum we should ask of any estimator: <b>with more and more data, it should home in on the truth</b>. That is <b>consistency</b>.</p>
+  <p>We no longer look at one estimator but at a <b>sequence</b> $\{T_n=t_n(X_1,\dots,X_n)\}$: the same recipe applied to samples of size $1,2,3,\dots$ The lecture defines three properties, then states the four big asymptotic properties of the MLE. Those explain why the MLE is the default estimator in practice, and they lead straight into confidence intervals (modules 37–38).</p>
+  <div class="note tip"><div class="t">What you need for the exam</div>The three definitions and how they relate (strong ⇒ weak; strong ⇔ bias → 0 and variance → 0). Checking strong consistency by letting $n\to\infty$ in an MSE formula. The four MLE properties, and $\hat\theta\approx N\big(\theta,I(\theta)^{-1}\big)$.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 8</span> Three asymptotic properties (lecture 8, p.1)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>1) Weak consistency.</b> $\{T_n\}$ is (weakly) consistent if, $\forall\theta\in\Theta$,</p>
+  $$\boxed{\;\lim_{n\to+\infty}P\big(|T_n-\theta|&lt;\varepsilon\big)=1\quad\forall\varepsilon&gt;0\;}$$
+  <p>As we collect more data, $T_n$ and $\theta$ get closer and closer. Also known as <b>consistency in probability</b>. Equivalently $P(|T_n-\theta|\ge\varepsilon)\to0$.</p>
+  <p><b>2) Asymptotic unbiasedness.</b> $\{T_n\}$ is asymptotically unbiased if, $\forall\theta\in\Theta$,</p>
+  $$\boxed{\;\lim_{n\to+\infty}B_\theta(T_n)=0\;},\qquad B_\theta(T_n)=\mathbb E(T_n)-\theta.$$
+  <p>With $n$ sufficiently high, there is no distortion.</p>
+  <p><b>3) Strong consistency</b> (consistency in MSE). $\{T_n\}$ is strongly consistent for $\theta$ if, $\forall\theta\in\Theta$,</p>
+  $$\boxed{\;\lim_{n\to+\infty}\text{MSE}_\theta(T_n)=0\;}$$
+  </div>
+  <div>
+  <p><b>Note 1:</b> strong consistency ⇒ weak consistency.</p>
+  <p><b>Note 2:</b> thanks to $\text{MSE}_\theta(T_n)=\mathbb V(T_n)+B_\theta(T_n)^2$ (module 35), and since both terms are $\ge0$, strong consistency is equivalent to</p>
+  $$\begin{cases}\lim_{n\to\infty}B_\theta(T_n)=0&amp;\text{(asymptotically unbiased)}\\ \lim_{n\to\infty}\mathbb V(T_n)=0&amp;\text{(vanishing variance)}\end{cases}$$
+  <p><b>Often</b> it is more convenient to check strong consistency (MSE → 0, a limit of an ordinary formula) than weak consistency (a limit of probabilities). Strong then implies weak.</p>
+  <figure style="margin:0"><svg viewBox="0 0 330 110">
+    <rect x="8" y="10" width="140" height="40" rx="5" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="78" y="28" class="svgtxt g" text-anchor="middle">strong (MSE → 0)</text>
+    <text x="78" y="42" class="svgtxt" text-anchor="middle" font-size="9.5">⇔ bias → 0 and V → 0</text>
+    <rect x="186" y="10" width="136" height="40" rx="5" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <text x="254" y="28" class="svgtxt b" text-anchor="middle">weak (in probability)</text>
+    <text x="254" y="42" class="svgtxt" text-anchor="middle" font-size="9.5">P(|Tₙ−θ| &lt; ε) → 1</text>
+    <path d="M 150 30 L 182 30" stroke="var(--text)" stroke-width="1.5" marker-end="url(#arr36)"/>
+    <defs><marker id="arr36" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--text)"/></marker></defs>
+    <rect x="8" y="64" width="140" height="34" rx="5" fill="var(--amberbg)" stroke="var(--amber)"/>
+    <text x="78" y="85" class="svgtxt a" text-anchor="middle">asympt. unbiased</text>
+    <path d="M 78 52 L 78 62" stroke="var(--text)" stroke-width="1.5" marker-end="url(#arr36)"/>
+    <text x="250" y="84" class="svgtxt" text-anchor="middle" font-size="9.5">strong ⇒ asympt. unbiased, not conversely</text>
+  </svg></figure>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">LECTURE 8 · p.2 · deck p.58 · $\bar X_n$ is weakly consistent for μ when X ~ N(μ, 1)</div>
+  <div class="body">
+  <p>$\bar X_n=\frac1n\sum X_i\sim N\big(\mu,\frac1n\big)$ (module 30).</p>
+  <ol class="steps">
+    <li>$P(|\bar X_n-\mu|&lt;\varepsilon)=P(-\varepsilon&lt;\bar X_n-\mu&lt;\varepsilon)=P(\bar X_n-\mu&lt;\varepsilon)-P(\bar X_n-\mu&lt;-\varepsilon)$.</li>
+    <li>Standardise, dividing by $\sqrt{1/n}$: $\frac{\bar X_n-\mu}{\sqrt{1/n}}\sim N(0,1)$, so
+    $$=\Phi\Big(\frac\varepsilon{\sqrt{1/n}}\Big)-\Phi\Big(-\frac\varepsilon{\sqrt{1/n}}\Big)$$
+    ($\Phi$ = cdf of $N(0,1)$, <code>pnorm</code> in R).</li>
+    <li>Symmetry, $\Phi(-a)=1-\Phi(a)$: $=2\Phi\big(\frac\varepsilon{\sqrt{1/n}}\big)-1=2\Phi(\varepsilon\sqrt n)-1$.</li>
+    <li>$n\to+\infty$: $\varepsilon\sqrt n\to+\infty$, $\Phi(+\infty)=1$, so the limit is $2\cdot1-1=1$.</li>
+  </ol>
+  <p>⇒ $\bar X_n$ is weakly consistent for $\mu$ when $X\sim N(\mu,1)$.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">PICTURE</span> $P(|\bar X_n-\mu|&lt;\varepsilon)=2\Phi(\varepsilon\sqrt n)-1$ climbing to 1<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure style="margin:0"><svg viewBox="0 0 340 180">
+    <line x1="40" y1="150" x2="325" y2="150" stroke="var(--border2)"/>
+    <line x1="40" y1="150" x2="40" y2="22" stroke="var(--border2)"/>
+    <line x1="40" y1="30" x2="325" y2="30" stroke="var(--border)" stroke-dasharray="3 3"/>
+    <text x="35" y="33" class="svgtxt" text-anchor="end" font-size="9.5">1</text>
+    <text x="35" y="93" class="svgtxt" text-anchor="end" font-size="9.5">0.5</text>
+    <text x="35" y="153" class="svgtxt" text-anchor="end" font-size="9.5">0</text>
+    <text x="40" y="164" class="svgtxt" text-anchor="middle" font-size="9.5">0</text>
+    <text x="180" y="164" class="svgtxt" text-anchor="middle" font-size="9.5">500</text>
+    <text x="320" y="164" class="svgtxt" text-anchor="middle" font-size="9.5">1000</text>
+    <text x="180" y="177" class="svgtxt" text-anchor="middle" font-size="9.5">sample size n</text>
+    <path d="M 40.3 131.0 L 41.4 108.6 L 45.6 74.5 L 49.8 58.4 L 54.0 48.9 L 58.2 42.8 L 62.4 38.8 L 66.6 36.2 L 70.8 34.3 L 75.0 33.0 L 79.2 32.2 L 83.4 31.5 L 91.8 30.8 L 100.2 30.4 L 112.8 30.2 L 130 30.0 L 318.6 30.0" fill="none" stroke="var(--green)" stroke-width="2"/>
+    <path d="M 40.3 140.4 L 41.4 128.8 L 45.6 108.6 L 49.8 96.5 L 54.0 87.5 L 58.2 80.4 L 62.4 74.5 L 66.6 69.6 L 70.8 65.3 L 75.0 61.6 L 79.2 58.4 L 83.4 55.6 L 87.6 53.1 L 91.8 50.9 L 96.0 48.9 L 100.2 47.1 L 108.6 44.1 L 117.0 41.7 L 125.4 39.7 L 133.8 38.1 L 142.2 36.7 L 150.6 35.6 L 159.0 34.7 L 171.6 33.6 L 184.2 32.8 L 201.0 32.0 L 222.0 31.3 L 247.2 30.8 L 276.6 30.4 L 318.6 30.2" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <path d="M 40.3 145.2 L 41.4 139.3 L 45.6 128.8 L 49.8 122.1 L 54.0 116.8 L 62.4 108.6 L 70.8 102.0 L 79.2 96.5 L 87.6 91.7 L 96.0 87.5 L 104.4 83.8 L 112.8 80.4 L 121.2 77.3 L 133.8 73.2 L 146.4 69.6 L 159.0 66.3 L 171.6 63.4 L 184.2 60.8 L 196.8 58.4 L 213.6 55.6 L 230.4 53.1 L 247.2 50.9 L 264.0 48.9 L 280.8 47.1 L 301.8 45.2 L 318.6 43.8" fill="none" stroke="var(--amber)" stroke-width="2"/>
+    <text x="140" y="24" class="svgtxt g" font-size="9.5">ε = 0.2</text>
+    <text x="230" y="44" class="svgtxt b" font-size="9.5">ε = 0.1</text>
+    <text x="230" y="70" class="svgtxt a" font-size="9.5">ε = 0.05</text>
+  </svg><figcaption>For any tolerance $\varepsilon$ the probability of landing within $\varepsilon$ of $\mu$ tends to 1. A smaller $\varepsilon$ just needs a larger $n$.</figcaption></figure>
+  <table class="formula-table">
+    <tr><th>$n$</th><td class="c">10</td><td class="c">100</td><td class="c">1000</td></tr>
+    <tr><th>$\varepsilon=0.1$</th><td class="c">0.248</td><td class="c">0.683</td><td class="c">0.998</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 8 · p.3 · deck p.59 · $\hat\sigma^2$ is biased, yet strongly consistent</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$X\sim N(\mu,\sigma^2)$, $\hat\sigma^2=\frac1n\sum(X_i-\bar X)^2$. From previous examples (module 35):</p>
+  $$B_{\sigma^2}(\hat\sigma^2)=-\frac1n\sigma^2,\qquad\text{MSE}_{\sigma^2}(\hat\sigma^2)=\frac{2n-1}{n^2}\sigma^4.$$
+  <ol class="steps">
+    <li>$\hat\sigma^2$ is <b>biased downwards</b>, but <b>asymptotically unbiased</b>, since $-\frac1n\sigma^2\xrightarrow{n\to\infty}0$.</li>
+    <li>Also $\frac{2n-1}{n^2}\sigma^4\xrightarrow{n\to\infty}0$ (the denominator grows like $n^2$, the numerator like $n$).</li>
+    <li>⇒ $\hat\sigma^2$ is <b>strongly consistent</b> for $\sigma^2$, and then also weakly consistent.</li>
+  </ol>
+  </div>
+  <div>
+  <p class="muted">The same check for the others: $\text{MSE}(S^2)=\frac{2\sigma^4}{n-1}\to0$, and $\text{MSE}(\bar X)=\frac{\sigma^2}n\to0$, so both are strongly consistent. The constant $T_2=40$ of module 35 is <b>not</b> consistent: its MSE $(\sigma^2-40)^2$ does not depend on $n$ at all. Exercise set 2, Q2(e) asked the asymptotic-unbiasedness question for $\hat\sigma^2$ (module 31).</p>
+  <div class="note warn"><div class="t">TRAP · unbiased is not consistent, consistent is not unbiased</div>$\hat\sigma^2$ is biased and consistent. The estimator "$X_1$" (use only the first observation) is unbiased for $\mu$ but <b>not</b> consistent: its variance stays $\sigma^2$ whatever $n$ is. The two properties are about different things.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Asymptotic properties of the MLE (lecture 8, pp.3–4 · deck §9)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>If $\hat\theta$ is the MLE of $\theta$ then (under regularity conditions):</p>
+  <ol class="steps">
+    <li>$\{\hat\theta_n\}$ is <b>strongly consistent</b> for $\theta$;</li>
+    <li>$\{\hat\theta_n\}$ is <b>asymptotically unbiased</b>, though we may have a finite-sample bias ($\hat\sigma^2$!);</li>
+    <li>$\{\hat\theta_n\}$ is <b>asymptotically efficient</b>, with minimum variance equal to $I(\theta)^{-1}$, the inverse of the expected Fisher information:
+    $$\lim_{n\to\infty}\frac{\mathbb V(\hat\theta_n)}{1/I(\theta)}=1;$$</li>
+    <li>$\{\hat\theta_n\}$ <b>converges to a normal</b> RV:
+    $$\lim_{n\to\infty}P\Big(\frac{\hat\theta_n-\theta}{\sqrt{1/I(\theta)}}\le z\Big)=\Phi(z),\quad\text{i.e.}\quad\boxed{\hat\theta_n\ \overset{\text{approx.}}\sim\ N\big(\theta,\ I(\theta)^{-1}\big)}$$</li>
+  </ol>
+  <p>Here $I(\theta)=-\mathbb E\Big[\dfrac{\partial^2}{\partial\theta^2}\ell(\theta;\underline X)\Big]$: the expected curvature of the log-likelihood. A sharply peaked $\ell$ means a lot of information, so a small variance.</p>
+  </div>
+  <div>
+  <div class="note"><div class="t">Why "efficient" (deck)</div>The <b>Cramér–Rao inequality</b> says no unbiased estimator can have variance below $1/I(\theta)$. The MLE reaches that floor as $n\to\infty$, so for large samples nothing beats it. For large samples its standard error can be approximated by $\sqrt{1/I(\hat\theta)}$.</div>
+  <div class="note fin"><div class="t">Why it matters next</div>Point 4 is a ready-made pivotal quantity: $\frac{\hat\theta-\theta}{\sqrt{1/I(\hat\theta)}}\approx N(0,1)$. Module 37 builds confidence intervals from exactly this kind of statement: estimator minus parameter, over its standard deviation.</div>
+  <p class="muted">Multi-parameter version (deck): $\hat\theta-\theta$ is approximately multivariate normal with mean $\mathbf 0$ and variance–covariance matrix $I(\hat\theta)^{-1}$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 8 · pp.4–5 · deck pp.60–61 · the Fisher information for σ², and the approximate distribution of $\hat\sigma^2$</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$X\sim N(\mu,\sigma^2)$, $\{\hat\sigma^2_n\}$ the MLE. Find $I(\sigma^2)=-\mathbb E\Big[\frac{\partial^2}{\partial(\sigma^2)^2}\ell(\theta;\underline X)\Big]$.</p>
+  <ol class="steps">
+    <li>$\ln f(x;\mu,\sigma^2)=-\frac12\ln(2\pi\sigma^2)-\frac1{2\sigma^2}(x-\mu)^2$.</li>
+    <li>$\ell(\sigma^2;\underline x)=-\frac n2\ln(2\pi\sigma^2)-\frac1{2\sigma^2}\sum(x_i-\mu)^2$. To keep the derivatives readable, write $\eta:=\sigma^2$:
+    $$\ell(\eta)=-\frac n2\ln(2\pi\eta)-\frac1{2\eta}\sum(x_i-\mu)^2$$</li>
+    <li>$\frac{\partial\ell}{\partial\eta}=-\frac n{2\eta}+\frac1{2\eta^2}\sum(x_i-\mu)^2$.</li>
+    <li>$\frac{\partial^2\ell}{\partial\eta^2}=+\frac n{2\eta^2}-\frac1{\eta^3}\sum(x_i-\mu)^2$.</li>
+  </ol>
+  </div>
+  <div>
+  <ol class="steps" start="5">
+    <li><b>Expectation</b>, using $\mathbb E[(X_i-\mu)^2]=\eta$:
+    $$\mathbb E\Big[\frac{\partial^2\ell}{\partial\eta^2}\Big]=\frac n{2\eta^2}-\frac1{\eta^3}\sum_{i=1}^n\underbrace{\mathbb E[(X_i-\mu)^2]}_{\eta}=\frac n{2\eta^2}-\frac{n\eta}{\eta^3}=\frac n{2\eta^2}-\frac n{\eta^2}=-\frac n{2\eta^2}$$</li>
+    <li>$I(\sigma^2)=-\mathbb E[\dots]=\boxed{\dfrac n{2\sigma^4}}$, so $\mathbb V(\hat\sigma^2)\approx I(\sigma^2)^{-1}=\dfrac{2\sigma^4}n$.</li>
+    <li>Then $\boxed{\hat\sigma^2\ \overset{\text{approx.}}\sim\ N\Big(\sigma^2,\ \frac{2\sigma^4}n\Big)}$, further approximated by $N\big(\sigma^2,\frac{2\hat\sigma^4}n\big)$, plugging in the estimate since $\sigma^4$ is unknown.</li>
+  </ol>
+  <p class="muted">Check against the exact variance $\mathbb V(\hat\sigma^2)=\frac{2(n-1)}{n^2}\sigma^4$ (module 35): $\frac{2(n-1)\sigma^4/n^2}{2\sigma^4/n}=\frac{n-1}n\to1$. Asymptotically efficient ✓.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Which are consistent?</div>
+<div class="prob">For $\mu$: (a) $\bar X_n$; (b) $\frac{X_1+X_n}2$; (c) $\frac1{n+1}\sum X_i$; (d) $\bar X_n+\frac5n$.</div>
+<details><summary>Answer</summary><div class="sol">(a) yes. (b) no: variance $\frac{\sigma^2}2$ for every $n$. (c) yes: bias $-\frac\mu{n+1}\to0$, variance $\frac{n\sigma^2}{(n+1)^2}\to0$. (d) yes: bias $\frac5n\to0$, variance $\frac{\sigma^2}n\to0$. (c) and (d) are biased but consistent.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Fisher information, Poisson</div>
+<div class="prob">$X\sim\text{Pois}(\lambda)$. Find $I(\lambda)$ and the approximate distribution of $\hat\lambda=\bar X$.</div>
+<details><summary>Answer</summary><div class="sol">$\ell''(\lambda)=-\frac{\sum X_i}{\lambda^2}$, so $I(\lambda)=\frac{\mathbb E\sum X_i}{\lambda^2}=\frac{n\lambda}{\lambda^2}=\frac n\lambda$. Hence $\hat\lambda\approx N\big(\lambda,\frac\lambda n\big)$. Here the variance $\frac\lambda n$ is exact (module 29: $\sigma^2/n$ with $\sigma^2=\lambda$).</div></details>
+</div>
+</div>
+</section>

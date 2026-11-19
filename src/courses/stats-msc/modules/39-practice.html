@@ -1,12 +1,12 @@
-<!-- ============ 27 EXAM PRACTICE AND INDEX ============ -->
-<section id="s27">
-<div class="sec-head"><span class="num">27</span><h2>Exam practice & index</h2><span class="sub">multiple choice on theory and on R · open questions · every example with its answer</span></div>
+<!-- ============ 39 EXAM PRACTICE AND INDEX ============ -->
+<section id="s39">
+<div class="sec-head"><span class="num">39</span><h2>Exam practice & index</h2><span class="sub">multiple choice on theory and on R · open questions · every example with its answer</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">HOW TO USE</span> Practise in the exam's own format<span class="ctl"><span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span></span></div>
   <div class="body">
-  <p>The exam is 1.5 hours, closed book: <b>one open question</b> (5 points), <b>five multiple-choice questions on theory</b> (5 points) and <b>five multiple-choice questions on R</b> (5 points). This module mirrors that: click an option — the first click counts — and the explanation appears. The last panel indexes every example of modules 01–26 with its answer and where it is solved.</p>
-  <p class="muted">These questions are written for practice from the course material; they are not past exam questions. The R questions use standard R functions (the R corners in modules 15–26 introduce them).</p>
+  <p>The exam is 1.5 hours, closed book: <b>one open question</b> (5 points), <b>five multiple-choice questions on theory</b> (5 points) and <b>five multiple-choice questions on R</b> (5 points). This module mirrors that: click an option — the first click counts — and the explanation appears. Part A and Part B now cover the whole course so far, probability <b>and</b> estimation and confidence intervals (A17–A30, R13–R24). Part C adds an MLE question in the format of the exam's open question (O4). The last panel indexes every example of modules 01–38 with its answer and where it is solved.</p>
+  <p class="muted">These questions are written for practice from the course material; they are not past exam questions. The R questions use standard R functions (the R corners in modules 15–38 introduce them). R13–R20 are taken from the three R question sheets.</p>
   <div class="readout" id="mcqscore" style="margin-top:8px"></div>
   <div class="ctrl" style="margin-top:8px"><span class="btns"><button id="mcqreset">reset all answers</button></span></div>
   </div>
@@ -111,6 +111,92 @@
     <div class="opts"><button>becomes a χ² distribution</button><button>gets heavier tails</button><button>approaches the standard normal</button><button>loses its symmetry</button></div>
     <div class="why">$t_\nu\to N(0,1)$ as $\nu\to\infty$; small $\nu$ means heavier tails (module 26).</div>
   </div>
+
+  <h3 style="margin-top:14px">Estimation and confidence intervals (modules 27–38)</h3>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A17</span>$X_1,\dots,X_n$ i.i.d. with mean $\mu$ and variance $\sigma^2$. $\mathbb V(\bar X)$ equals</div>
+    <div class="opts"><button>$\sigma^2$</button><button>$\sigma^2/n$</button><button>$\sigma/\sqrt n$</button><button>$\sigma^2/(n-1)$</button></div>
+    <div class="why">$\mathbb V(\frac1n\sum X_i)=\frac1{n^2}\cdot n\sigma^2$, using independence. $\sigma/\sqrt n$ is the standard <i>deviation</i> of $\bar X$ (module 29).</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">A18</span>Which of these is <b>not</b> a sample statistic?</div>
+    <div class="opts"><button>$\bar X$</button><button>$\max\{X_1,\dots,X_n\}$</button><button>$\frac1n\sum(X_i-\mu)^2$ with $\mu$ unknown</button><button>$S^2$</button></div>
+    <div class="why">A statistic may use only the data. With $\mu$ unknown the third expression cannot be computed (notes p.40, module 29).</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A19</span>$\hat\sigma^2=\frac1n\sum(X_i-\bar X)^2$. Then $\mathbb E(\hat\sigma^2)$ equals</div>
+    <div class="opts"><button>$\sigma^2$</button><button>$\frac{n-1}n\sigma^2$</button><button>$\frac n{n-1}\sigma^2$</button><button>$\frac{\sigma^2}n$</button></div>
+    <div class="why">$\hat\sigma^2=\frac{n-1}nS^2$ and $\mathbb E(S^2)=\sigma^2$. Bias $-\sigma^2/n$: it underestimates (modules 31, 35; exercise set 2, Q2c).</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">A20</span>$X\sim N(\mu,\sigma^2)$, sample of size $n$. The distribution of $(n-1)S^2/\sigma^2$ is</div>
+    <div class="opts"><button>$N(0,1)$</button><button>$\chi^2_n$</button><button>$\chi^2_{n-1}$</button><button>$t_{n-1}$</button></div>
+    <div class="why">A sum of squared standardised deviations from $\bar X$. One degree of freedom is lost to $\bar X$ (module 30).</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">A21</span>$f(x;\theta)=\frac12(1+\theta x)$ on $[-1,1]$. The method-of-moments estimator of $\theta$ is</div>
+    <div class="opts"><button>$\bar X/3$</button><button>$\bar X$</button><button>$2\bar X$</button><button>$3\bar X$</button></div>
+    <div class="why">$\mathbb E(X)=\theta/3$; equate to $\bar X$ and solve (exercise set 2, Q3; module 32).</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">A22</span>$X\sim\text{Pois}(\lambda)$, $\hat\lambda=\bar X$. The MLE of $P(X=0)$ is</div>
+    <div class="opts"><button>the proportion of zeros in the sample</button><button>$1-e^{-\bar X}$</button><button>$e^{-\bar X}$</button><button>$\bar Xe^{-\bar X}$</button></div>
+    <div class="why">$P(X=0)=e^{-\lambda}$; by the invariance property the MLE is $e^{-\hat\lambda}=e^{-\bar X}$ (notes p.54, module 34). The proportion of zeros is the analogy estimator, not the MLE.</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A23</span>Estimator $T_1$ is preferred to $T_2$ because it has</div>
+    <div class="opts"><button>a lower bias</button><button>a lower MSE</button><button>a higher MSE</button><button>a lower variance</button></div>
+    <div class="why">The lecture's exam warning: compare overall MSE, which includes both variability and bias. A biased estimator can win, e.g. $\hat\sigma^2$ vs $S^2$ (module 35).</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A24</span>The mean squared error of an estimator $T$ of $\theta$ decomposes as</div>
+    <div class="opts"><button>$\mathbb V(T)+B_\theta(T)$</button><button>$\mathbb V(T)+B_\theta(T)^2$</button><button>$\mathbb V(T)-B_\theta(T)^2$</button><button>$\mathbb E(T)^2-\theta^2$</button></div>
+    <div class="why">The cross term vanishes because $\mathbb E(T-\mathbb E T)=0$ (notes p.55, module 35).</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">A25</span>For normal data, $\hat\sigma^2=\frac1n\sum(X_i-\bar X)^2$ is</div>
+    <div class="opts"><button>unbiased and consistent</button><button>biased and not consistent</button><button>biased, but strongly consistent</button><button>unbiased, but not consistent</button></div>
+    <div class="why">Bias $-\sigma^2/n\to0$ and MSE $\frac{2n-1}{n^2}\sigma^4\to0$ (lecture 8, module 36).</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">A26</span>A 95% confidence interval for $\mu$ is $[249.22,\,251.18]$. Which statement is correct?</div>
+    <div class="opts"><button>$P(249.22&lt;\mu&lt;251.18)=0.95$</button><button>95% of the products weigh between 249.22 and 251.18</button><button>$\bar x$ falls in the interval with probability 0.95</button><button>95% of intervals built this way, over repeated samples, contain $\mu$</button></div>
+    <div class="why">The level is a property of the procedure. A computed interval either contains $\mu$ or not (module 37, CI deck).</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">A27</span>$X\sim N(\mu,\sigma^2)$ with $\sigma$ unknown, $n=10$. The 95% CI for $\mu$ uses the quantile</div>
+    <div class="opts"><button><code>qnorm(0.975)</code></button><button><code>qt(0.975, 10)</code></button><button><code>qt(0.975, 9)</code></button><button><code>qt(0.95, 9)</code></button></div>
+    <div class="why">Pivot $\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}$, and $\alpha/2=0.025$ in each tail (lecture 9, module 38).</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">A28</span>$\sigma$ known. Doubling the sample size multiplies the width of the CI for $\mu$ by</div>
+    <div class="opts"><button>$1/2$</button><button>$1/\sqrt2$</button><button>$\sqrt2$</button><button>1 (no change)</button></div>
+    <div class="why">$A=2z_{\alpha/2}\sigma/\sqrt n$. To halve the width you need $4n$ (module 37).</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">A29</span>For large $n$, the MLE $\hat\theta$ is approximately distributed as</div>
+    <div class="opts"><button>$N\big(\theta,\ I(\theta)^{-1}\big)$</button><button>$N\big(\theta,\ I(\theta)\big)$</button><button>$t_{n-1}$</button><button>$\chi^2_{n-1}$</button></div>
+    <div class="why">Asymptotic normality and efficiency of the MLE: the variance is the inverse Fisher information (lecture 8, module 36).</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">A30</span>$X\sim U(0,\theta)$. The maximum likelihood estimator of $\theta$ is</div>
+    <div class="opts"><button>$\max\{X_i\}$</button><button>$2\bar X$</button><button>$\bar X$</button><button>the root of $\ell'(\theta)=0$</button></div>
+    <div class="why">$L(\theta)=\theta^{-n}$ for $\theta\ge\max x_i$ and 0 below, so it is maximised at the jump. $2\bar X$ is the MME. $\ell'=-n/\theta$ never vanishes (module 34).</div>
+  </div>
   </div>
 </div>
 
@@ -189,6 +275,80 @@
     <div class="opts"><button>$P(X\le1)$ for $f(x)=3x^2$</button><button>$\mathbb V(X)$ for $f(x)=3x^2$</button><button>the median of $f(x)=3x^2$</button><button>$\mathbb E(X)$ for $f(x)=3x^2$</button></div>
     <div class="why">$\int_0^1x\cdot3x^2\,dx=\tfrac34$ — the slides' example (module 23).</div>
   </div>
+
+  <h3 style="margin-top:14px">From the R question sheets, and R for estimation (modules 27–38)</h3>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">R13</span>Which code reproduces $(1,2,\dots,20,19,18,\dots,1)$? <span class="muted">(R Questions 1)</span></div>
+    <div class="opts"><button><code>a=seq(1,20,1); b=seq(20,1); c(a,b[-1])</code></button><button><code>tmp=c(1,20,1); rep(tmp,10)</code></button><button><code>c(rep(1,20),rep(20,1))</code></button><button><code>c(seq(1,20),seq(20,1))</code></button></div>
+    <div class="why"><code>b[-1]</code> drops the first element (the second 20), so 20 appears once. The last option repeats 20 twice.</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">R14</span><code>x</code> has length 10. Which removes its first and last elements? <span class="muted">(R Questions 1)</span></div>
+    <div class="opts"><button><code>x[c(1,10)]</code></button><button><code>x[c(-1,-10)]</code></button><button><code>x[x&gt;1]</code></button><button><code>x[1:10]</code></button></div>
+    <div class="why">Negative indices drop elements. <code>x[c(1,10)]</code> <i>selects</i> the first and last; <code>x[x&gt;1]</code> filters by value.</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">R15</span>Which pair of commands and outputs is consistent? <span class="muted">(R Questions 1)</span></div>
+    <div class="opts"><button><code>qnorm(0.3)</code> = −0.5244 and <code>pnorm(-0.5244)</code> = 0.3</button><button><code>qnorm(-0.5244)</code> = 0.3 and <code>pnorm(0.3)</code> = −0.5244</button><button><code>qnorm(2.4756, 3)</code> = 0.3</button><button><code>pnorm(0.3, 3)</code> = −0.5244</button></div>
+    <div class="why"><code>qnorm</code> takes a probability and returns a quantile; <code>pnorm</code> is its inverse and always returns a number in $[0,1]$. A negative "probability" is impossible.</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">R16</span><code>k &lt;- 0:100; pdf &lt;- exp(-lam)*lam^k/factorial(k); sum(k*pdf)</code> returns approximately <span class="muted">(R Questions 1)</span></div>
+    <div class="opts"><button>the inverse of <code>lam</code></button><button>the value stored in <code>lam</code></button><button>1, the total mass</button><button>the moment generating function at 0</button></div>
+    <div class="why"><code>pdf</code> is the Poisson pmf, and $\sum k\,f(k)=\mathbb E(X)=\lambda$ (module 20). <code>sum(pdf)</code> would be the total mass, 1.</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">R17</span><code>X &lt;- rbinom(T, n, 0.2); sd(X)</code> is approximately <span class="muted">(R Questions 1)</span></div>
+    <div class="opts"><button>$\sqrt T\cdot0.2$ if $n$ is high</button><button>$\sqrt T\cdot0.4$ regardless of $n$</button><button>$\sqrt n\cdot0.4$ if $T$ is high</button><button>$\sqrt n\cdot0.2$ regardless of $T$</button></div>
+    <div class="why">$T$ draws of $\text{Bin}(n,0.2)$: sd $=\sqrt{n\cdot0.2\cdot0.8}=0.4\sqrt n$, and the sample sd is close to it only when there are many draws ($T$ high).</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">R18</span>$X\sim N(\mu=2,\ \sigma^2=0.0625)$. The pdf $f_X(0.5)$ in R is <span class="muted">(R Questions 2)</span></div>
+    <div class="opts"><button><code>dnorm(0.5, 2, 0.25)</code></button><button><code>dnorm(0.5, 2, 0.0625)</code></button><button><code>dnorm((0.5-2)/0.25)</code></button><button><code>pnorm(0.5, 2, 0.25)</code></button></div>
+    <div class="why">R wants the sd, $\sqrt{0.0625}=0.25$. The standardised version needs the Jacobian: <code>dnorm((0.5-2)/0.25)/0.25</code> is also right, while the third option forgets the division.</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">R19</span><code>L &lt;- price &gt; th; D[L,]</code> does what? <span class="muted">(R Questions 3)</span></div>
+    <div class="opts"><button>restricts <code>D</code> to random variables with price above <code>th</code></button><button>restricts <code>D</code> to statistical units with price above <code>th</code></button><button>restricts <code>D</code> to units with price between <code>L</code> and <code>th</code></button><button>gives an error</button></div>
+    <div class="why">Rows of a data frame are statistical units, columns are variables (module 27). <code>L</code> is a logical vector selecting rows.</div>
+  </div>
+
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">R20</span><code>sum(abs(returns) &gt; th)</code> returns <span class="muted">(R Questions 3)</span></div>
+    <div class="opts"><button>the sum of the returns with absolute value above <code>th</code></button><button>an error, <code>&gt;</code> is used improperly</button><button>the number of returns with absolute value above <code>th</code></button><button>the share of such returns</button></div>
+    <div class="why"><code>abs(returns) &gt; th</code> is TRUE/FALSE; <code>sum</code> counts the TRUEs. <code>mean</code> would give the share.</div>
+  </div>
+
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">R21</span>$X\sim N(10,20)$, $n=25$. What does <code>1 - pchisq(12, 24)</code> compute?</div>
+    <div class="opts"><button>$P(S^2&gt;10)$</button><button>$P(S^2&lt;10)$</button><button>$P(\bar X&gt;12)$</button><button>the 95% cut-off of $S^2$</button></div>
+    <div class="why">$1.2S^2\sim\chi^2_{24}$ and $S^2&gt;10\Leftrightarrow1.2S^2&gt;12$ (notes p.43, module 30). The cut-off would be <code>qchisq(0.95,24)/1.2</code>.</div>
+  </div>
+
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">R22</span><code>mean(x) + c(-1,1) * qt(0.975, length(x)-1) * sd(x) / sqrt(length(x))</code> is</div>
+    <div class="opts"><button>a 97.5% confidence interval for $\mu$</button><button>a 95% interval for a new observation</button><button>a 95% CI for $\mu$ with known $\sigma$</button><button>a 95% CI for $\mu$ with $\sigma$ unknown, normal data</button></div>
+    <div class="why">$\bar x\mp t_{0.025,n-1}\,s/\sqrt n$, the same as <code>t.test(x)$conf.int</code> (module 38). 0.975 is $1-\alpha/2$ for $\alpha=0.05$.</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">R23</span><code>optim</code> <b>minimises</b> a function. To get the MLE from a log-likelihood <code>ll(th, x)</code>, pass</div>
+    <div class="opts"><button><code>function(th) ll(th, x)</code></button><button><code>function(th) -ll(th, x)</code></button><button><code>function(th) exp(ll(th, x))</code></button><button><code>function(th) 1/ll(th, x)</code></button></div>
+    <div class="why">Maximising $\ell$ is minimising $-\ell$. Run it from several starting values, as the lecture recommends (module 34).</div>
+  </div>
+
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">R24</span><code>var(replicate(10000, mean(rpois(50, 3))))</code> prints a number close to</div>
+    <div class="opts"><button>3</button><button>0.06</button><button>0.6</button><button>1/3</button></div>
+    <div class="why">10,000 sample means of size 50 from Pois(3): $\mathbb V(\bar X)=\sigma^2/n=3/50=0.06$ (module 29).</div>
+  </div>
   </div>
 </div>
 
@@ -231,6 +391,44 @@
     <li><b>(b)</b> $P(X\ge2)=0.3+0.4=0.7$.</li>
     <li><b>(c)</b> $\mathbb E(X)=0(0.1)+1(0.2)+2(0.3)+3(0.4)=2$. $\mathbb E(X^2)=0+0.2+1.2+3.6=5$, so $\mathbb V(X)=5-2^2=1$.</li>
     <li><b>(d)</b> $\mathbb E(2X-1)=2\cdot2-1=3$; $\mathbb V(2X-1)=2^2\cdot1=4$.</li>
+  </ol>
+  </div></details>
+  </div>
+
+  <div class="wx">
+  <div class="bar"><span class="n">O4</span><span class="pill r">●●●</span><span class="tag">modules 33–36 · the exam's open question</span>A full MLE exercise</div>
+  <div class="prob">$X_1,\dots,X_n$ i.i.d. with pdf $f(x;\theta)=\dfrac x\theta\,e^{-x^2/(2\theta)}$, $x&gt;0$, $\theta&gt;0$. You may use $\mathbb E(X^2)=2\theta$.<br>(a) Write the log-likelihood. (b) Find the MLE of $\theta$, checking the second-order condition and the boundaries. (c) Is it unbiased? (d) Find the MLE of $\sqrt\theta$. (e) Is $\hat\theta$ consistent, given $\mathbb V(X^2)=4\theta^2$?</div>
+  <details><summary>Solution</summary><div class="sol">
+  <ol class="steps">
+    <li><b>(a)</b> $\ln f(x;\theta)=\ln x-\ln\theta-\frac{x^2}{2\theta}$, so $\ell(\theta)=\sum\ln x_i-n\ln\theta-\frac{\sum x_i^2}{2\theta}$.</li>
+    <li><b>(b) FOC.</b> $\ell'(\theta)=-\frac n\theta+\frac{\sum x_i^2}{2\theta^2}=0\Rightarrow\hat\theta=\frac{\sum x_i^2}{2n}$.<br><b>SOC.</b> $\ell''(\theta)=\frac n{\theta^2}-\frac{\sum x_i^2}{\theta^3}$; at $\hat\theta$, $\sum x_i^2=2n\hat\theta$, so $\ell''(\hat\theta)=\frac n{\hat\theta^2}-\frac{2n}{\hat\theta^2}=-\frac n{\hat\theta^2}&lt;0$ ✓.<br><b>Boundaries.</b> $\theta\to0^+$: $-\frac{\sum x_i^2}{2\theta}\to-\infty$ faster than $-n\ln\theta\to+\infty$, so $\ell\to-\infty$. $\theta\to\infty$: $-n\ln\theta\to-\infty$ and the last term $\to0$, so $\ell\to-\infty$. Global maximum.</li>
+    <li><b>(c)</b> $\mathbb E(\hat\theta)=\frac{n\,\mathbb E(X^2)}{2n}=\frac{2\theta}2=\theta$: unbiased.</li>
+    <li><b>(d)</b> Invariance: $\widehat{\sqrt\theta}=\sqrt{\hat\theta}=\sqrt{\sum x_i^2/(2n)}$.</li>
+    <li><b>(e)</b> $\mathbb V(\hat\theta)=\frac{n\cdot4\theta^2}{4n^2}=\frac{\theta^2}n\to0$ and the bias is 0, so the MSE $\to0$: strongly, hence weakly, consistent.</li>
+  </ol>
+  </div></details>
+  </div>
+
+  <div class="wx">
+  <div class="bar"><span class="n">O5</span><span class="pill a">●●</span><span class="tag">modules 32, 34, 35</span>Moments versus likelihood for U(0, θ)</div>
+  <div class="prob">$X\sim U(0,\theta)$. (a) Find the MME $\tilde\theta$. (b) Show it is unbiased and compute its MSE. (c) For the sample $(1,2,9)$ compute $\tilde\theta$ and the MLE $\hat\theta$, and comment.</div>
+  <details><summary>Solution</summary><div class="sol">
+  <ol class="steps">
+    <li><b>(a)</b> $\mathbb E(X)=\theta/2=\bar X\Rightarrow\tilde\theta=2\bar X$.</li>
+    <li><b>(b)</b> $\mathbb E(2\bar X)=2\cdot\frac\theta2=\theta$. $\mathbb V(2\bar X)=4\cdot\frac{\theta^2/12}n=\frac{\theta^2}{3n}$. Unbiased, so $\text{MSE}=\frac{\theta^2}{3n}$.</li>
+    <li><b>(c)</b> $\tilde\theta=2\cdot4=8$, but $\hat\theta=\max x_i=9$. The MME contradicts the data: an observation of 9 is impossible if $\theta=8$. The MLE always respects the support.</li>
+  </ol>
+  </div></details>
+  </div>
+
+  <div class="wx">
+  <div class="bar"><span class="n">O6</span><span class="pill a">●●</span><span class="tag">modules 37–38</span>Two intervals and a sample size</div>
+  <div class="prob">16 normal observations give $\bar x=102$ and $s=8$.<br>(a) 95% CI for $\mu$. (b) The same if $\sigma=8$ were known. (c) With $\sigma=8$ known, how many observations for a 95% CI narrower than 4?</div>
+  <details><summary>Solution</summary><div class="sol">
+  <ol class="steps">
+    <li><b>(a)</b> $t_{0.025,15}=2.131$: $102\mp2.131\cdot\frac8{4}=102\mp4.26=[97.74,\ 106.26]$.</li>
+    <li><b>(b)</b> $102\mp1.96\cdot2=[98.08,\ 105.92]$: narrower, because $z_{0.025}&lt;t_{0.025,15}$.</li>
+    <li><b>(c)</b> $2\cdot1.96\cdot\frac8{\sqrt n}&lt;4\Rightarrow n&gt;\big(\frac{2\cdot1.96\cdot8}4\big)^2=61.47$, so $n=62$.</li>
   </ol>
   </div></details>
   </div>
@@ -304,6 +502,36 @@
     <tr><td>Cont.2 21–24</td><td>$\chi^2(k)$</td><td>$\mathbb E=k$, $\mathbb V=2k$</td><td>26</td></tr>
     <tr><td>Cont.2 25–28</td><td>Student-t$(\nu)$</td><td>$\mathbb E=0$ ($\nu&gt;1$); $\mathbb V=\frac\nu{\nu-2}$ ($\nu&gt;2$); $\to N(0,1)$</td><td>26</td></tr>
     <tr><td>Cont.2 31</td><td>Percentiles</td><td>$z_{0.975}=1.960$; $t_{5;0.975}=2.571$; $\chi^2_{1;0.95}=3.841$; Exp median $\frac{\ln2}\lambda$</td><td>26</td></tr>
+    <tr><td>L5 p.34</td><td>VaR as a quantile; box plot</td><td>10% VaR of $-0.8\%$ = 10% quantile of the return; IQR $=\pi_{0.75}-\pi_{0.25}$</td><td>26</td></tr>
+    <tr><td>L5 pp.34–35</td><td>DUnif$(a,b)$ as $(a-1)+$DUnif$(1,b-a+1)$</td><td>same support and pmf; $\mathbb V=\frac{(b-a+1)^2-1}{12}$</td><td>26</td></tr>
+    <tr><td>L5 p.37 · PE 3–4</td><td>Employees (Poisson); metal bars (normal)</td><td>$\Theta=(0,\infty)$; $\Theta=\{(\mu,\sigma^2):\sigma^2&gt;0\}$</td><td>27</td></tr>
+    <tr><td>L5 p.38 · PE 5–6</td><td>Cars owned, $n=2$</td><td>16 samples; e.g. $f(0,0)=0.01$, $f(2,2)=0.25$</td><td>27</td></tr>
+    <tr><td>L5 p.38 · PE 6–7</td><td>Poisson(3.5), $\underline x=(2,4,3,3)$</td><td>$f(\underline x)=0.00163$</td><td>27</td></tr>
+    <tr><td>Ex. 1 Q4</td><td>Swiss / British employees</td><td>$\bar x=3$, $s^2=7$; $\bar y=4$, $s^2=8$; pooled $100/13$</td><td>28</td></tr>
+    <tr><td>Ex. 2 Q2</td><td>Salaries, men / women</td><td>median 19; $\hat\sigma^2=9.04$; $\mathbb E(\hat\sigma^2)=\frac{n-1}n\sigma^2$, biased, asymptotically unbiased</td><td>28, 31</td></tr>
+    <tr><td>Ex. 1 Q3</td><td>A bad week of returns</td><td>$\bar x=-0.042$, $\hat\sigma^2=0.001376$; $P(\bar X\le-0.042)=0.3015$; $1-F_{\chi^2_4}(0.1376)$</td><td>28, 30</td></tr>
+    <tr><td>PE 9–14</td><td>Families ($N=8$), cars, credit cards</td><td>$\mathbb E(\bar X)=\mu$, $\mathbb V(\bar X)=\sigma^2/2$, $\mathbb E(S^2)=\sigma^2$ checked by enumeration</td><td>29</td></tr>
+    <tr><td>Ex. 2 Q1</td><td>Kurtosis of $U(0,1)$</td><td>$9/5$</td><td>29</td></tr>
+    <tr><td>L6 p.42 · PE 16</td><td>Bernoulli(0.3), $n=5$</td><td>$P(\bar X=0)=0.168$, $P(\bar X=0.2)=0.360$</td><td>30</td></tr>
+    <tr><td>L6 pp.43–44 · PE 20–21</td><td>$N(10,20)$, $n=25$</td><td>$\bar X\sim N(10,0.8)$; $P(S^2&gt;10)=0.98$; cut-off 30.35; $t_{24}$ 1.711 vs 1.645</td><td>30</td></tr>
+    <tr><td>L6 p.46 · PE 31</td><td>MME for $N(\mu,\sigma^2)$</td><td>$\tilde\mu=\bar X$, $\tilde\sigma^2=\frac1n\sum(X_i-\bar X)^2$</td><td>32</td></tr>
+    <tr><td>L7 p.47 · PE 32–33</td><td>MME for Bin$(N,p)$, $\underline x=(1,5,7,1)$</td><td>$\tilde N=-3.77$, $\tilde p=-0.93$: inadmissible</td><td>32</td></tr>
+    <tr><td>Ex. 2 Q3–4</td><td>$\frac12(1+\theta x)$; Laplace</td><td>$\tilde\theta=3\bar X$, unbiased; $\tilde b=\sqrt{\sum X_i^2/2n}$, $\hat b=\frac1n\sum|X_i|$</td><td>32</td></tr>
+    <tr><td>L7 pp.49–50 · PE 34–42</td><td>MLE Bernoulli; (1,0,1); (1,1,1)</td><td>$\hat p=\bar X$; $\frac23$; 1 (boundary)</td><td>33</td></tr>
+    <tr><td>L7 pp.51–52</td><td>MLE Poisson, exponential, $N(\mu,1)$</td><td>$\bar X$; $1/\bar X$; $\bar X$ (deck sample: 1.35)</td><td>34</td></tr>
+    <tr><td>L7 p.53 · PE 47–48</td><td>MLE $N(\mu,\sigma^2)$</td><td>$\hat\mu=\bar X$, $\hat\sigma^2=\frac{n-1}nS^2$</td><td>34</td></tr>
+    <tr><td>L7 p.54</td><td>Invariance</td><td>$\hat\sigma=\sqrt{\frac{n-1}n}S$; $\widehat{\mu^2}=\bar X^2$; $\widehat{P(X=0)}=e^{-\bar X}$</td><td>34</td></tr>
+    <tr><td>Ex. 2 Q5, Ex. 3 Q1–3</td><td>MLE exercises</td><td>$\log_2\frac{\bar X}{\bar X-1}$; $\hat\beta=\bar X/\alpha$; $-n/\sum\ln X_i$; $\max(0,\bar X)$</td><td>34</td></tr>
+    <tr><td>L7 p.56 · PE 53–55</td><td>$S^2$ vs $\hat\sigma^2$</td><td>MSE $\frac{2\sigma^4}{n-1}$ vs $\frac{2n-1}{n^2}\sigma^4$: $\hat\sigma^2$ better</td><td>35</td></tr>
+    <tr><td>L7 p.57 · PE 55–56</td><td>$T_1=S^2$ vs $T_2=40$</td><td>neither uniformly better ⇒ UMVUE among unbiased</td><td>35</td></tr>
+    <tr><td>L8 p.2</td><td>$\bar X_n$ weakly consistent</td><td>$2\Phi(\varepsilon\sqrt n)-1\to1$</td><td>36</td></tr>
+    <tr><td>L8 pp.3–5</td><td>$\hat\sigma^2$ consistent; Fisher information</td><td>strongly consistent; $I(\sigma^2)=\frac n{2\sigma^4}$; $\hat\sigma^2\approx N(\sigma^2,\frac{2\sigma^4}n)$</td><td>36</td></tr>
+    <tr><td>L9 pp.1–4</td><td>Product weight, $\sigma=2.5$, $n=25$</td><td>$[249.22,\ 251.18]$: 250 g plausible</td><td>37</td></tr>
+    <tr><td>L9 pp.6–7</td><td>Sample size for width &lt; 10; $n=64$</td><td>$n=62$; $[7.1,\ 16.9]$</td><td>37</td></tr>
+    <tr><td>CI deck</td><td>$\sigma=6$, $n=16$, 90%</td><td>$[22.53,\ 27.47]$</td><td>37</td></tr>
+    <tr><td>L9 p.9</td><td>Mergers, $t_{16}$</td><td>$[-0.121,\ 0.331]$</td><td>38</td></tr>
+    <tr><td>L9 pp.10–11</td><td>Job security, $n=172$, 99%</td><td>$[4.24,\ 4.52]$</td><td>38</td></tr>
+    <tr><td>CI deck</td><td>Sales volumes; proportions; bread; Lega</td><td>$[35.26,70.99]$; $[0.203,0.279]$, $[0.122,0.278]$, $[0.023,0.177]$; $[-0.477,-0.123]$; $[0.17,0.53]$</td><td>38</td></tr>
   </table>
   </div>
 </div>

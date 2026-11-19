@@ -1,0 +1,174 @@
+<!-- ============ 38 CONFIDENCE INTERVALS: UNKNOWN VARIANCE, LARGE SAMPLES, PROPORTIONS, TWO SAMPLES ============ -->
+<section id="s38">
+<div class="sec-head"><span class="num">38</span><h2>CIs: σ unknown, large n &amp; proportions</h2><span class="sub">lecture 9, pp.7–11 · Confidence Intervals deck</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Same recipe, different pivot<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 37 assumed $\sigma$ known, which is rarely true. Every interval in this module follows the same three steps: <b>(1)</b> pick the pivotal quantity "estimator minus parameter, over its (estimated) standard deviation"; <b>(2)</b> read its quantile; <b>(3)</b> invert. Only the pivot and its distribution change:</p>
+  <table class="formula-table">
+    <tr><th>situation</th><th>pivot</th><th>CI for the mean</th></tr>
+    <tr><td>$X\sim N(\mu,\sigma^2)$, $\sigma^2$ known</td><td>$\frac{\bar X-\mu}{\sigma/\sqrt n}\sim N(0,1)$</td><td>$\bar X\mp z_{\alpha/2}\frac\sigma{\sqrt n}$ (module 37)</td></tr>
+    <tr><td>$X\sim N(\mu,\sigma^2)$, $\sigma^2$ unknown</td><td>$\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}$</td><td>$\bar X\mp t_{\alpha/2}\frac S{\sqrt n}$</td></tr>
+    <tr><td>$X$ unknown, $n$ large</td><td>$\frac{\bar X-\mu}{S/\sqrt n}\approx N(0,1)$ (CLT)</td><td>$\bar X\mp z_{\alpha/2}\frac S{\sqrt n}$</td></tr>
+    <tr><td>$X\sim\text{Bern}(p)$, $n$ large</td><td>$\frac{\bar X-p}{\sqrt{\bar X(1-\bar X)/n}}\approx N(0,1)$</td><td>$\bar X\mp z_{\alpha/2}\sqrt{\frac{\bar X(1-\bar X)}n}$</td></tr>
+  </table>
+  <div class="note tip"><div class="t">What you need for the exam</div>Choose the right row from the story: is the population normal? is $\sigma$ given? is $n$ large? Then compute, with <code>qt(1-α/2, n-1)</code> or <code>qnorm(1-α/2)</code>. Know why the t-interval is wider, and that its width is now random.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 9</span> $\text{CI}_{1-\alpha}(\mu)$, $X\sim N(\mu,\sigma^2)$, $\sigma^2$ unknown (pp.7–9)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$Z=\frac{\bar X-\mu}{\sigma/\sqrt n}$ can't be used anymore, since its denominator can't be computed. ⇒ <b>Replace $\sigma$ with $S$</b>. The PQ is now</p>
+  $$T=\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1},$$
+  <p>Student-t with $n-1$ degrees of freedom (module 30). Same steps as before, with $t_1=-t_{\alpha/2}$ and $t_2=t_{\alpha/2}=$ <code>qt(1-α/2, n-1)</code>:</p>
+  $$\begin{aligned}&amp;P\Big(-t_{\alpha/2}&lt;\frac{\bar X-\mu}{S/\sqrt n}&lt;+t_{\alpha/2}\Big)=1-\alpha\\
+  \Leftrightarrow\ &amp;P\Big(-t_{\alpha/2}\frac S{\sqrt n}&lt;\bar X-\mu&lt;t_{\alpha/2}\frac S{\sqrt n}\Big)=1-\alpha\\
+  \Leftrightarrow\ &amp;P\Big(\underbrace{\bar X-t_{\alpha/2}\frac S{\sqrt n}}_{L_1}&lt;\mu&lt;\underbrace{\bar X+t_{\alpha/2}\frac S{\sqrt n}}_{L_2}\Big)=1-\alpha\end{aligned}$$
+  $$\boxed{\;\text{CI}_{1-\alpha}(\mu)=\Big[\bar X\mp t_{\alpha/2}\frac S{\sqrt n}\Big],\quad X\sim N(\mu,\sigma^2),\ \sigma^2\text{ unknown}\;}$$
+  <p>$t_{\alpha/2}\frac S{\sqrt n}$ is the <b>margin of error</b>.</p>
+  </div>
+  <div>
+  <p><b>Width</b> $A=L_2-L_1=2t_{\alpha/2}\frac S{\sqrt n}$.</p>
+  <ul>
+    <li>if $\sigma\uparrow$ ⇒ wider CI <b>in expectation</b> (not for sure, as it was with known $\sigma$);</li>
+    <li>if $n\uparrow$ ⇒ smaller CI <b>in expectation</b>;</li>
+    <li>if $(1-\alpha)\uparrow$ ⇒ wider CI (not only in expectation: $t_{\alpha/2}$ is a fixed number).</li>
+  </ul>
+  <p><b>Compared with known $\sigma^2$.</b> The problem is more difficult since we have fewer info. ⇒ We expect the CI to be <b>wider</b> than before, because of the t-Student quantile: $t_{\alpha/2}&gt;z_{\alpha/2}$, since the t has heavier tails. We have a higher margin of error (in expectation).</p>
+  <p><b>A second difference.</b> $A=2t_{\alpha/2}\frac S{\sqrt n}$ now <b>depends on $\underline X$</b>, so it is <b>random</b> (before, $2z_{\alpha/2}\frac\sigma{\sqrt n}$ was not). ⇒ We can't be sure anymore that a certain $n$ guarantees a margin of error below a given threshold: in $n&gt;\big(2t_{\alpha/2}\frac S{10}\big)^2$ the right side is <b>unknown in advance</b>.</p>
+  <table class="formula-table">
+    <tr><th>95%, $n$</th><td class="c">5</td><td class="c">10</td><td class="c">17</td><td class="c">25</td><td class="c">101</td><td class="c">∞</td></tr>
+    <tr><th>$t_{0.025,\,n-1}$</th><td class="c">2.776</td><td class="c">2.262</td><td class="c">2.120</td><td class="c">2.064</td><td class="c">1.984</td><td class="c">1.960</td></tr>
+  </table>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">LECTURE 9 · pp.9–10 · deck · effect of mergers on revenues</div>
+  <div class="body">
+  <p>$X$ = difference post- minus pre-merger revenue growth. $n=17$, $\bar x=0.105$, $s=0.44$. Find $\text{CI}_{95\%}(\mu)$ assuming $X\sim N(\mu,\sigma^2)$.</p>
+  <ol class="steps">
+    <li>$\sigma$ unknown, normal population ⇒ t-interval with $n-1=16$ df.</li>
+    <li>$1-\alpha=0.95$, $\alpha/2=0.025$: $t_{0.025,16}=$ <code>qt(1-0.025, 16)</code> $=2.12$.</li>
+    <li>$\Big[0.105\mp2.12\cdot\frac{0.44}{\sqrt{17}}\Big]=[0.105\mp0.226]=\mathbf{[-0.121,\ +0.331]}$.</li>
+    <li><b>Conclusion.</b> We see no evidence of better or worse revenues, since both positive and negative values belong to the CI.</li>
+  </ol>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">CI DECK · monthly sales volumes, n = 8</div>
+  <div class="body">
+  <p>Sales $(40,35,80,20,60,70,75,45)$, $X\sim N(\mu,\sigma^2)$. (a) Unbiased estimates of $\mu$, $\sigma^2$. (b) 95% CI for $\mu$.</p>
+  <ol class="steps">
+    <li><b>(a)</b> $\bar x=53.125$; $s^2=456.7$ (unbiased: divide by $n-1$, module 28).</li>
+    <li><b>(b)</b> $t_{0.025,7}=$ <code>qt(0.975, 7)</code> $=2.365$; margin $2.365\cdot\frac{\sqrt{456.7}}{\sqrt8}=17.87$: $\mathbf{[35.26,\ 70.99]}$.</li>
+    <li>With only $n=5$ (same $\bar x$, $s^2$): $t_{0.025,4}=2.776$ and $\sqrt5$ in the denominator give $[26.6,\ 79.7]$, much wider.</li>
+  </ol>
+  <div class="note fin"><div class="t">R corner</div><code>x &lt;- c(40, 35, 80, 20, 60, 70, 75, 45)</code><br><code>t.test(x)$conf.int</code> → <code>35.26 70.99</code><br><code>t.test(x, conf.level = 0.99)$conf.int</code><br>By hand: <code>mean(x) + c(-1,1) * qt(0.975, length(x)-1) * sd(x) / sqrt(length(x))</code></div>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">SUMMARY</span> Normal population (lecture 9, p.10)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$X\sim N(\mu,\sigma^2)\ \begin{cases}\sigma^2\text{ known}&amp;\to\ \text{CI}_{1-\alpha}(\mu)=\Big[\bar X\mp z_{\alpha/2}\dfrac\sigma{\sqrt n}\Big]\\[10pt]\sigma^2\text{ unknown}&amp;\to\ \text{CI}_{1-\alpha}(\mu)=\Big[\bar X\mp t_{\alpha/2}\dfrac S{\sqrt n}\Big]\end{cases}$$
+  <p class="muted">The interactive figure of module 37 has a "σ unknown" switch: with it on, the bars have random lengths, but the coverage stays at the nominal level, for any $n$.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 9</span> $\text{CI}_{1-\alpha}(\mu)$, $X\sim$ unknown, $n$ large (pp.10–11)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>"Large" means $n\ge30$ if $\sigma$ is known, $n\ge50$ if $\sigma$ is unknown. The PQ is</p>
+  $$Z=\frac{\bar X-\mu}{S/\sqrt n}\approx N(0,1),$$
+  <p><b>approximately</b> true thanks to the central limit theorem (module 30). Same steps:</p>
+  $$P\Big(-z_{\alpha/2}&lt;Z&lt;+z_{\alpha/2}\Big)\approx1-\alpha\ \Rightarrow\ P\Big(\bar X-z_{\alpha/2}\frac S{\sqrt n}&lt;\mu&lt;\bar X+z_{\alpha/2}\frac S{\sqrt n}\Big)\approx1-\alpha$$
+  $$\boxed{\;\text{CI}_{1-\alpha}(\mu)\approx\Big[\bar X\mp z_{\alpha/2}\frac S{\sqrt n}\Big],\quad X\sim\text{unknown},\ n\text{ large}\;}$$
+  <p>with $z_{\alpha/2}=$ <code>qnorm(1-α/2)</code>. If $\sigma$ is known, use it instead of $S$.</p>
+  </div>
+  <div class="ex" style="margin:0">
+  <div class="bar">LECTURE 9 · pp.10–11 · deck · "job security" questionnaire</div>
+  <div class="body">
+  <p>$X$ = answer on a scale $\text{Supp}(X)=\{1,2,\dots,5\}$ (1 = not important, 5 = very important). $n=172$, $\bar x=4.38$, $s=0.7$. Find $\text{CI}_{99\%}(\mu)$.</p>
+  <ol class="steps">
+    <li>$X$ takes 5 integer values, so it is <b>certainly not normal</b>. But $n=172$ is large: CLT.</li>
+    <li>$1-\alpha=0.99$, $\alpha=0.01$, $\alpha/2=0.005$: $z_{0.005}=$ <code>qnorm(0.995)</code> $=2.575$.</li>
+    <li>$\Big[4.38\mp2.575\cdot\frac{0.7}{\sqrt{172}}\Big]=[4.38\mp0.137]=\mathbf{[4.24,\ 4.52]}$.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DECK</span> Proportions: Bernoulli population, large n<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$X\sim\text{Bern}(p)$: $\bar X=\hat p$ is the sample proportion, with $\mathbb V(\bar X)=\frac{p(1-p)}n$. Estimate the unknown $p$ in the standard error by $\bar X$:</p>
+  $$P\Bigg(-z_{\alpha/2}&lt;\frac{\bar X-p}{\sqrt{\bar X(1-\bar X)/n}}&lt;z_{\alpha/2}\Bigg)\approx1-\alpha$$
+  $$\boxed{\;\text{CI}_{1-\alpha}(p)\approx\Big[\hat p\mp z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}n}\Big]\;}$$
+  <p>It is the large-$n$ interval with $S$ replaced by the Bernoulli standard deviation $\sqrt{\hat p(1-\hat p)}$.</p>
+  </div>
+  <div>
+  <ol class="steps">
+    <li><b>Gifts from vendors</b>: 83 of 344 buyers refuse gifts, so $\hat p=0.241$. 90%: $z_{0.05}=1.645$, $\sqrt{\frac{0.241\cdot0.759}{344}}=0.0231$: $\mathbf{[0.203,\ 0.279]}$.</li>
+    <li><b>University reform</b>: 20 of 100 students satisfied, $\hat p=0.2$, $\sqrt{0.2\cdot0.8/100}=0.04$. 95%: $[0.2\mp1.96\cdot0.04]=\mathbf{[0.1216,\ 0.2784]}$.</li>
+    <li><b>Insurance product</b> (module 35): $\hat p=0.10$, $n=100$, standard error $0.03$. 99%: $[0.1\mp2.576\cdot0.03]=\mathbf{[0.0227,\ 0.1773]}$.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DECK</span> Two populations: CI for a difference (beyond lecture 9)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Independent samples of sizes $n_1,n_2$, with $\mathbb V(\bar X-\bar Y)=\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}$ (module 30). Same recipe, estimator $\bar X-\bar Y$:</p>
+  <table class="formula-table">
+    <tr><th>normal, $\sigma_1^2,\sigma_2^2$ known</th><td>$\bar X-\bar Y\mp z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$</td></tr>
+    <tr><th>normal, $\sigma_1^2=\sigma_2^2$ unknown</th><td>$\bar X-\bar Y\mp t^{(n_1+n_2-2)}_{\alpha/2}\,S_c\sqrt{\frac1{n_1}+\frac1{n_2}}$, pooled $S_c^2=\frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}$</td></tr>
+    <tr><th>normal, unequal unknown</th><td>$\bar X-\bar Y\mp t^{(\nu)}_{\alpha/2}\sqrt{\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2}}$, $\nu$ from Welch–Satterthwaite</td></tr>
+    <tr><th>any, large $n_1,n_2$</th><td>$\bar X-\bar Y\mp z_{\alpha/2}\sqrt{\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2}}$</td></tr>
+    <tr><th>proportions, large</th><td>$\hat p_1-\hat p_2\mp z_{\alpha/2}\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+\frac{\hat p_2(1-\hat p_2)}{n_2}}$</td></tr>
+  </table>
+  </div>
+  <div>
+  <ol class="steps">
+    <li><b>Bread prices, Milano vs Modena.</b> $n_1=25$, $\bar x=3.5$, $\sum(x_i-\bar x)^2=2.7$; $n_2=22$, $\bar y=3.8$, $\sum(y_i-\bar y)^2=1.35$. Assume normal, equal variances. $S_c^2=\frac{2.7+1.35}{45}=0.09$, $S_c=0.3$, $t^{(45)}_{0.025}=2.014$:
+    $$-0.3\mp2.014\cdot0.3\sqrt{\tfrac1{25}+\tfrac1{22}}=\mathbf{[-0.477,\ -0.123]}$$
+    Entirely negative: with 95% confidence bread costs more on average in Modena. (Variability: coefficients of variation $s/\bar x$ are 0.096 in Milano and 0.067 in Modena.)</li>
+    <li><b>Lega voters, Varese vs Rome.</b> $\hat p_1=0.4$ ($n_1=30$), $\hat p_2=0.05$ ($n_2=100$). $0.35\mp1.96\sqrt{\frac{0.4\cdot0.6}{30}+\frac{0.05\cdot0.95}{100}}=\mathbf{[0.17,\ 0.53]}$. Entirely positive, so the proportion is higher in Varese.</li>
+  </ol>
+  <div class="note warn"><div class="t">TRAP · a difference CI that contains 0</div>The decision rule in all these examples: if the interval contains 0 (mergers), the data show <b>no evidence</b> of a difference. If it lies entirely on one side, the sign is supported at that confidence level. This is the bridge to hypothesis testing.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Pick the interval</div>
+<div class="prob">For each, which formula? (a) 12 normal measurements, $s$ computed; (b) 400 daily returns, distribution unknown; (c) 9 normal measurements with $\sigma$ given by the manufacturer; (d) 250 yes/no answers.</div>
+<details><summary>Answer</summary><div class="sol">(a) $t_{11}$ with $S$. (b) large-$n$ $z$ with $S$ (CLT). (c) $z$ with $\sigma$, exact since the population is normal. (d) proportion: $\hat p\mp z\sqrt{\hat p(1-\hat p)/n}$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Compute it</div>
+<div class="prob">$n=10$ normal observations, $\bar x=20$, $s=3$. Give the 95% CI for $\mu$ (use $t_{0.025,9}=2.262$). Then explain why using $z=1.96$ instead would be wrong.</div>
+<details><summary>Answer</summary><div class="sol">$20\mp2.262\cdot\frac3{\sqrt{10}}=20\mp2.146=[17.85,\ 22.15]$. With 1.96 the interval would be $[18.14,\ 21.86]$: too narrow. It ignores the extra uncertainty from estimating $\sigma$, so its real coverage would be below 95%.</div></details>
+</div>
+</div>
+</section>

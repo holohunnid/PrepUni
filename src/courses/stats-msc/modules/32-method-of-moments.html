@@ -1,0 +1,151 @@
+<!-- ============ 32 METHOD OF MOMENTS ============ -->
+<section id="s32">
+<div class="sec-head"><span class="num">32</span><h2>Method of moments</h2><span class="sub">lectures 6–7, notes pp.45–47 · Point Estimation deck §5.1 · exercise sets 2–3</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Match the model's moments to the data's moments<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The model gives the population moments $\mathbb E(X),\mathbb E(X^2),\dots$ as <b>formulas in $\theta$</b>. The data give the sample moments $M_1=\bar X,\ M_2=\frac1n\sum X_i^2,\dots$ as <b>numbers</b>. With enough data the two should be close, so <b>set them equal and solve for $\theta$</b>. One equation per unknown parameter.</p>
+  <p>It is the oldest general estimation recipe (K. Pearson, late 1800s). It always produces an answer quickly, and sometimes the answer is absurd (a negative number of trials, below), which is a good reason to also learn maximum likelihood.</p>
+  <div class="note warn"><div class="t">EXAM (lecturer, notes p.47)</div>"Method of moments estimator of the parameter!!": this <b>could be part of the open question or a multiple-choice question</b>. The skill: write $\mathbb E_\theta(X)$ (and $\mathbb E_\theta(X^2)$ if there are two parameters), equate to $\bar X$ (and $\bar X_2$), solve.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 6</span> The method (notes pp.45–46 · deck p.30)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Intuition:</b> sample moments should be close to population moments if we have enough data. So we equate</p>
+  <table class="formula-table">
+    <tr><th>population moments</th><td>$\mathbb E_\theta(X),\ \mathbb E_\theta(X^2),\ \mathbb E_\theta(X^3),\dots$</td></tr>
+    <tr><th>sample moments</th><td>$\bar X=\frac1n\sum X_i,\ \ \bar X_2=\frac1n\sum X_i^2,\ \ \bar X_3=\frac1n\sum X_i^3,\dots$</td></tr>
+  </table>
+  $$\begin{cases}\mathbb E_\theta(X)=\bar X\\ \mathbb E_\theta(X^2)=\bar X_2\\ \quad\vdots\\ \mathbb E_\theta(X^p)=\bar X_p\end{cases}$$
+  <p><b>How many equations?</b> It depends on the dimension of $\theta$: as many equations as unknown parameters. Solve the system for $\theta$: the solution $\tilde\theta$ is the <b>MME</b> (method-of-moments estimator) of $\theta$.</p>
+  </div>
+  <div>
+  <ul>
+    <li>$X\sim\text{Exp}(\lambda)$: <b>1 equation</b> to learn 1 parameter. $\mathbb E(X)=\bar X$, solve for $\lambda$.</li>
+    <li>$X\sim N(\mu,\sigma^2)$: <b>2 equations</b> for 2 parameters. $\mathbb E(X)=\bar X$ and $\mathbb E(X^2)=\bar X_2$, solve for $\mu$ and $\sigma^2$.</li>
+  </ul>
+  <div class="note"><div class="t">Note: it is a semi-parametric method (notes p.46)</div>We don't need to know the whole distribution of $X$, as long as we know enough moments. The MME of a mean is $\bar X$ whatever the family. Maximum likelihood, by contrast, uses the full pmf/pdf.</div>
+  <div class="note warn"><div class="t">TRAP · the deck writes $m_r$ and $\mu_r$</div>The notes write $\bar X_r$ for the sample moment, the deck writes $m_r=\frac1n\sum X_i^r$ and $\mu_r=\mathbb E(X^r)$. Same objects. Careful: here $\mu_r$ is a <b>raw</b> moment, not the mean $\mu$.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">LECTURE 6 · notes p.45 · X ~ Exp(λ): one equation</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>Population moment.</b> $\mathbb E_\lambda(X)=\frac1\lambda$ (module 24).</li>
+    <li><b>Equate.</b> $\frac1{\tilde\lambda}=\bar X$.</li>
+    <li><b>Solve.</b> $\boxed{\tilde\lambda=\frac1{\bar X}}$. Average waiting time 4 minutes ⇒ estimated rate $0.25$ per minute.</li>
+  </ol>
+  <p class="muted">Same idea for $\text{Pois}(\lambda)$: $\mathbb E(X)=\lambda$, so $\tilde\lambda=\bar X$. For $\text{Bern}(p)$: $\tilde p=\bar X$. For $\text{Geo}(p)$ (version I): $\frac1p=\bar X$, so $\tilde p=1/\bar X$.</p>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">LECTURE 6 · notes p.46 · deck pp.31–32 · X ~ N(μ, σ²), both unknown</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>Two parameters, two equations.</b> $\theta=(\mu,\sigma^2)$. $\mathbb E(X)=\mu$; and from $\mathbb V(X)=\mathbb E(X^2)-\mathbb E(X)^2$, $\ \mathbb E(X^2)=\mathbb V(X)+\mathbb E(X)^2=\sigma^2+\mu^2$.</li>
+    <li><b>Equate.</b> $\begin{cases}\tilde\mu=\bar X\\ \tilde\sigma^2+\tilde\mu^2=\bar X_2\end{cases}$</li>
+    <li><b>Solve.</b> $\boxed{\tilde\mu=\bar X,\quad\tilde\sigma^2=\bar X_2-\bar X^2}$</li>
+  </ol>
+  <p>So the MM estimator of $\mu$ is $\bar X$, and of $\sigma^2$ is $\bar X_2-\bar X^2$. Which familiar statistic is that? See the next panel.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DERIVATION</span> $\bar X_2-\bar X^2$ is the analogy estimator $\hat\sigma^2$ (notes p.46)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Add and subtract $\bar X$ inside the square:</p>
+  $$\begin{aligned}\tilde\sigma^2&amp;=\frac1n\sum_{i=1}^nX_i^2-\bar X^2=\frac1n\sum_{i=1}^n\big((X_i-\bar X)+\bar X\big)^2-\bar X^2\\
+  &amp;=\frac1n\sum\Big[(X_i-\bar X)^2+\bar X^2+2\bar X(X_i-\bar X)\Big]-\bar X^2\\
+  &amp;=\frac1n\sum(X_i-\bar X)^2+\underbrace{\frac1n\sum\bar X^2}_{=\bar X^2}+2\bar X\underbrace{\frac1n\sum(X_i-\bar X)}_{=0}-\bar X^2\\
+  &amp;=\boxed{\frac1n\sum_{i=1}^n(X_i-\bar X)^2}\end{aligned}$$
+  </div>
+  <div>
+  <p><b>Why the middle term vanishes:</b> $\sum(X_i-\bar X)=\sum X_i-n\bar X=n\bar X-n\bar X=0$. Deviations from the mean always sum to zero.</p>
+  <p>So for the normal, the <b>MME of $\sigma^2$ corresponds to the analogy estimator</b> $\hat\sigma^2$ of module 31, with the same bias $-\sigma^2/n$. The notes add "(not always)": in general the two methods give different estimators. The deck writes the result as $\tilde\sigma^2=\frac{n-1}nS^2$.</p>
+  <div class="note fin"><div class="t">R corner</div><code>x &lt;- c(1.9, 1.2, 1.8, 0.5)</code><br><code>mean(x^2) - mean(x)^2</code> → <code>0.3125</code><br><code>mean((x - mean(x))^2)</code> → <code>0.3125</code>, the same number.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 7</span> When the method fails: Binomial with N and p both unknown (notes p.47 · deck pp.32–33)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$X\sim\text{Bin}(N,p)$ with <b>both</b> $N$ and $p$ unknown; $(X_1,\dots,X_n)$ i.i.d. We need two equations.</p>
+  <ol class="steps">
+    <li><b>Moments.</b> $\mathbb E(X)=Np$; $\ \mathbb E(X^2)=\mathbb V(X)+\mathbb E(X)^2=Np(1-p)+(Np)^2$.</li>
+    <li><b>Equate.</b> $\begin{cases}\tilde N\tilde p=\bar X\\ \tilde N\tilde p(1-\tilde p)+(\tilde N\tilde p)^2=\bar X_2\end{cases}$</li>
+    <li><b>Solve.</b> Substitute $\tilde N\tilde p=\bar X$ into the second: $\bar X(1-\tilde p)+\bar X^2=\bar X_2$, so $1-\tilde p=\frac{\bar X_2-\bar X^2}{\bar X}$. Then
+    $$\boxed{\tilde p=\frac{\bar X}{\tilde N},\qquad\tilde N=\frac{\bar X^2}{\bar X-(\bar X_2-\bar X^2)}}$$</li>
+    <li><b>Data</b> $\underline x=(1,5,7,1)$, $n=4$: $\bar x=3.5$, $\bar x_2=\frac{1+25+49+1}4=19$, $\bar x_2-\bar x^2=6.75$. Then $\tilde N=\frac{12.25}{3.5-6.75}=\mathbf{-3.77}$ and $\tilde p=\frac{3.5}{-3.77}=\mathbf{-0.929}$.</li>
+  </ol>
+  <div class="note warn"><div class="t">Both estimates are impossible</div>$N$ must be a positive integer and $p\in[0,1]$. MM estimates need not respect the parameter space. Here the sample variance (6.75) exceeds the sample mean (3.5), but a binomial always has variance $Np(1-p)&lt;Np$ = mean. The data look "over-dispersed" for a binomial, and the moment equations have no admissible solution.</div>
+  </div>
+  <div>
+  <p>The notes copy a plot from the lecture: MM estimates of $N$ against the sample size, wild for small samples and settling down only with thousands of observations. Reproduce it below.</p>
+  <div class="ctrl">
+    <label>true $N$ <input type="range" id="mm_N" min="2" max="40" step="1" value="10"> <span class="val" id="mm_N_v">10</span></label>
+    <label>true $p$ <input type="range" id="mm_p" min="0.05" max="0.95" step="0.05" value="0.3"> <span class="val" id="mm_p_v">0.30</span></label>
+  </div>
+  <div class="ctrl"><span class="btns"><button onclick="mmRun()">simulate again</button></span></div>
+  <figure style="margin:0"><svg id="mmsvg" viewBox="0 0 360 220"></svg><figcaption>Each dot is $\tilde N$ from one simulated sample of size $n$ (log scale), clipped to $\pm200$. Red dots are inadmissible ($\tilde N&lt;0$). The dashed line is the true $N$.</figcaption></figure>
+  <div class="readout" id="mmread"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXERCISE SET 2 · Q3 · $f(x)=\frac12(1+\theta x)$ on $[-1,1]$</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>(a) Mean.</b> $\mathbb E(X)=\int_{-1}^1x\,\frac12(1+\theta x)dx=\Big[\frac{x^2}4+\frac{\theta x^3}6\Big]_{-1}^1=\frac\theta6+\frac\theta6=\frac\theta3$.</li>
+    <li><b>(b) Variance.</b> $\mathbb E(X^2)=\Big[\frac{x^3}6+\frac{\theta x^4}8\Big]_{-1}^1=\frac13$, so $\mathbb V(X)=\frac13-\frac{\theta^2}9=\frac{3-\theta^2}9$.</li>
+    <li><b>(c) MME.</b> $\frac{\tilde\theta}3=\bar X\Rightarrow\boxed{\tilde\theta=3\bar X}$ (answer D).</li>
+    <li><b>(d) Unbiased?</b> $\mathbb E(3\bar X)=3\mathbb E(\bar X)=3\cdot\frac\theta3=\theta$. Bias 0: <b>unbiased</b>.</li>
+  </ol>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE SET 2 · Q4 · Laplace(b): when the first moment is useless</div>
+  <div class="body">
+  <p>$f(x;b)=\frac1{2b}e^{-|x|/b}$, $b&gt;0$. Symmetric around 0, so $\mathbb E(X)=0$ and $\mathbb V(X)=\mathbb E(X^2)=2b^2$ (answer B).</p>
+  <ol class="steps">
+    <li><b>First moment fails.</b> $\mathbb E(X)=0=\bar X$ contains no $b$: no equation for $b$.</li>
+    <li><b>Use the second.</b> $2\tilde b^2=\frac1n\sum X_i^2\Rightarrow\boxed{\tilde b=\sqrt{\tfrac1{2n}\textstyle\sum X_i^2}}$ (answer D).</li>
+    <li><b>Alternative moment.</b> $\mathbb E(|X|)=\int|x|f(x)dx=\int_0^\infty\frac xbe^{-x/b}dx=b$. Equating to $\frac1n\sum|X_i|$ gives $\hat b=\frac1n\sum|X_i|$ (answer C).</li>
+  </ol>
+  <p class="muted">Lesson: "moment" can be any expectation that involves the parameter. Pick the one that makes the equation solvable.</p>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Exercise set 3, Q2(c): Beta(θ, 1)</div>
+<div class="prob">$f(x;\theta)=\theta x^{\theta-1}$ on $[0,1]$, $\theta&gt;0$. Find the MME of $\theta$.</div>
+<details><summary>Answer</summary><div class="sol">$\mathbb E(X)=\int_0^1\theta x^\theta dx=\frac\theta{\theta+1}$. Set $\frac{\tilde\theta}{\tilde\theta+1}=\bar X$: $\tilde\theta=\bar X\tilde\theta+\bar X$, so $\tilde\theta=\frac{\bar X}{1-\bar X}$. Module 34 finds the MLE $\hat\theta=-\frac n{\sum\ln X_i}$: a different estimator.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Uniform(0, θ)</div>
+<div class="prob">$X\sim U(0,\theta)$. Find the MME of $\theta$. Is it always admissible for the observed sample $(1,2,9)$?</div>
+<details><summary>Answer</summary><div class="sol">$\mathbb E(X)=\theta/2\Rightarrow\tilde\theta=2\bar X$. For $(1,2,9)$: $\tilde\theta=2\cdot4=8$. But we observed a 9, so $\theta\ge9$ for sure: the estimate contradicts the data. The MLE (module 34) is $\max X_i=9$ and never has this problem.</div></details>
+</div>
+</div>
+</section>

@@ -1,0 +1,168 @@
+<!-- ============ 28 SAMPLE STATISTICS ============ -->
+<section id="s28">
+<div class="sec-head"><span class="num">28</span><h2>Sample statistics</h2><span class="sub">lecture 6, notes p.39 · Point Estimation deck §3 · exercise sets 1–2</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Summarising a dataset with a few numbers<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A dataset is <b>not easy to communicate in its raw form</b>: nobody reads 10,000 returns. We summarise it with a handful of <b>sample statistics</b>, such as the average, the spread and the middle value.</p>
+  <p>The key definition: a <b>sample statistic is a function of the random sample</b>, $Y=t(X_1,\dots,X_n)$, that uses the data and nothing else (no unknown parameter). Because $\underline X$ is random, every statistic is a <b>random variable</b> with its own distribution. That is the subject of modules 29–30.</p>
+  <p>This module lists the statistics the course uses: <b>sample mean, sample variance, sample standard deviation, sample moments (raw and central), order statistics, sample median</b>. It also gives the shortcut formula for $S^2$ that the exercise sets rely on.</p>
+  <div class="note tip"><div class="t">What you need for the exam</div>Compute all of them by hand for a small sample. Remember that $S^2$ divides by $n-1$, not $n$. Recognise them in R code: a third of the exam is R multiple choice, and "which formula does this function compute?" is a standard question.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 6</span> The most common statistics (notes p.39)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <table class="formula-table">
+    <tr><th>Sample mean</th><td>$\displaystyle\bar X=\frac1n\sum_{i=1}^nX_i$</td></tr>
+    <tr><th>Sample variance</th><td>$\displaystyle S^2=\frac1{n-1}\sum_{i=1}^n(X_i-\bar X)^2$</td></tr>
+    <tr><th>Sample st. deviation</th><td>$S=\sqrt{S^2}$</td></tr>
+    <tr><th>(Non-central) sample moment of order $r$</th><td>$\displaystyle M_r=\frac1n\sum_{i=1}^nX_i^r$ <span class="muted">($M_1=\bar X$)</span></td></tr>
+    <tr><th>(Central) sample moment of order $r$</th><td>$\displaystyle \bar M_r=\frac1n\sum_{i=1}^n(X_i-\bar X)^r$</td></tr>
+    <tr><th>Order statistics</th><td>$Y_1\le Y_2\le\dots\le Y_n$: the data sorted. $Y_1=\min\{X_i\}$, $Y_n=\max\{X_i\}$</td></tr>
+    <tr><th>Sample median</th><td>$M_e=\begin{cases}Y_{\frac{n+1}2}&amp;n\text{ odd}\\[4pt]\dfrac{Y_{\frac n2}+Y_{\frac n2+1}}2&amp;n\text{ even}\end{cases}$</td></tr>
+  </table>
+  <p class="muted">The notes draw an arrow from $M_r$ at $r=1$ back to $\bar X$: the sample mean <i>is</i> the first raw sample moment. Module 32 (method of moments) is built on these $M_r$.</p>
+  </div>
+  <div>
+  <figure style="margin:0"><svg viewBox="0 0 330 170">
+    <text x="165" y="14" class="svgtxt w" text-anchor="middle">the sample median</text>
+    <text x="10" y="44" class="svgtxt a">n = 5 (odd)</text>
+    <g font-size="11">
+      <text x="40" y="70" class="svgtxt">Y₁ ≤ Y₂ ≤</text>
+      <rect x="112" y="56" width="30" height="20" fill="var(--greenbg)" stroke="var(--green)"/>
+      <text x="127" y="70" class="svgtxt g" text-anchor="middle">Y₃</text>
+      <text x="148" y="70" class="svgtxt">≤ Y₄ ≤ Y₅</text>
+    </g>
+    <text x="68" y="90" class="svgtxt" text-anchor="middle" font-size="9.5">2 obs below</text>
+    <text x="182" y="90" class="svgtxt" text-anchor="middle" font-size="9.5">2 obs above</text>
+    <text x="250" y="70" class="svgtxt g">Me = Y₃</text>
+    <text x="10" y="118" class="svgtxt a">n = 4 (even)</text>
+    <text x="40" y="144" class="svgtxt">Y₁ ≤</text>
+    <rect x="74" y="130" width="76" height="20" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="112" y="144" class="svgtxt g" text-anchor="middle">Y₂ ≤ Y₃</text>
+    <text x="156" y="144" class="svgtxt">≤ Y₄</text>
+    <text x="54" y="164" class="svgtxt" text-anchor="middle" font-size="9.5">1 obs below</text>
+    <text x="170" y="164" class="svgtxt" text-anchor="middle" font-size="9.5">1 obs above</text>
+    <text x="230" y="144" class="svgtxt g">Me = (Y₂+Y₃)/2</text>
+  </svg><figcaption>The notes' two examples. Odd $n$: the median is the middle order statistic, $Y_{(5+1)/2}=Y_3$. Even $n$: the average of the two middle ones, $(Y_{n/2}+Y_{n/2+1})/2=(Y_2+Y_3)/2$. (The notes call the even example "$n=6$" but draw four values; the formula is the same.)</figcaption></figure>
+  <div class="note warn"><div class="t">TRAP · two "variances" with two denominators</div>$S^2$ divides by $n-1$. The <b>second central sample moment</b> $\bar M_2=\frac1n\sum(X_i-\bar X)^2$ divides by $n$. Module 31 calls $\bar M_2$ the <b>analogy</b> estimator $\hat\sigma^2$, and shows it is biased while $S^2$ is not. R's <code>var()</code> and <code>sd()</code> use $n-1$.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">FORMULA</span> The shortcut for $S^2$ (exercise set 1, Q4)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Expanding the square gives a formula that needs only $\sum x_i$ and $\sum x_i^2$:</p>
+  $$\begin{aligned}\sum_{i=1}^n(x_i-\bar x)^2&amp;=\sum x_i^2+n\bar x^2-2\bar x\sum x_i\\&amp;=\sum x_i^2+n\bar x^2-2n\bar x^2=\sum x_i^2-n\bar x^2\end{aligned}$$
+  $$\boxed{\;s^2=\frac1{n-1}\Big(\sum_{i=1}^nx_i^2-n\bar x^2\Big)\;}$$
+  <p>The same identity divided by $n$ is $\bar M_2=M_2-\bar X^2$: the sample version of $\mathbb V(X)=\mathbb E(X^2)-\mathbb E(X)^2$. Module 32 uses it.</p>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE SET 1 · Q4 · employees of Swiss and British companies</div>
+  <div class="body">
+  <p>Swiss sample: $n_X=5$, $\sum x_i=15$, $\sum x_i^2=73$. British sample: $n_Y=10$, $\sum y_i=40$, $\sum y_i^2=232$. Find the means and the sample variances, then the pooled variance $s_c^2=\frac{(n_X-1)s_X^2+(n_Y-1)s_Y^2}{n_X+n_Y-2}$.</p>
+  <ol class="steps">
+    <li>$\bar x=15/5=3$, and $s_X^2=\frac1{4}(73-5\cdot3^2)=\frac{28}4=\mathbf 7$.</li>
+    <li>$\bar y=40/10=4$, and $s_Y^2=\frac19(232-10\cdot4^2)=\frac{72}9=\mathbf 8$.</li>
+    <li>$s_c^2=\frac{4\cdot7+9\cdot8}{13}=\frac{100}{13}\approx\mathbf{7.69}$. A weighted average of the two variances, with weights $n-1$. It comes back in module 38 for the CI of a difference of means.</li>
+  </ol>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Type a sample, get every statistic<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>data <input type="text" id="ss_x" value="25, 19, 16, 17, 23" size="40"></label>
+    <span class="muted" style="font-size:11px">numbers separated by commas or spaces</span>
+  </div>
+  <div class="ctrl"><span class="btns">
+    <button onclick="ssSet('25, 19, 16, 17, 23')">male salaries</button>
+    <button onclick="ssSet('15, 18, 21, 20, 24')">female salaries</button>
+    <button onclick="ssSet('-0.06, -0.10, 0.01, -0.02, -0.04')">bad week of returns</button>
+    <button onclick="ssSet('2, 4, 3, 3')">Poisson sample</button>
+    <button onclick="ssSet('40, 35, 80, 20, 60, 70, 75, 45')">sales volumes</button>
+  </span></div>
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0"><svg id="sssvg" viewBox="0 0 360 150"></svg><figcaption>The sorted sample (order statistics) on a line. Green: the median. Amber: the mean, with $\pm s$ as a bar. The two can be far apart when the data are skewed.</figcaption></figure>
+  <div class="readout" id="ssread"></div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">EXERCISE SET 2 · Q2 · salaries of 5 men and 5 women (in 1000 EUR)</div>
+  <div class="body">
+  <p>Men: $25,19,16,17,23$. Women: $15,18,21,20,24$. (a) Sample median of the men. (b) $\hat\sigma^2=\frac1n\sum(y_i-\bar y)^2$ for the women.</p>
+  <ol class="steps">
+    <li><b>(a)</b> Order statistics $16,17,19,23,25$. $n=5$ is odd, so $M_e=Y_{3}=\mathbf{19}$.</li>
+    <li><b>(b)</b> $\bar y=98/5=19.6$. Deviations: $-4.6,-1.6,1.4,0.4,4.4$; squares $21.16+2.56+1.96+0.16+19.36=45.2$. So $\hat\sigma^2=45.2/5=\mathbf{9.04}$, while $s^2=45.2/4=11.3$.</li>
+  </ol>
+  <p class="muted">The exercise sheet continues with $\mathbb E(\hat\sigma^2)$ and the bias of $\hat\sigma^2$. That is module 31.</p>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">EXERCISE SET 1 · Q3(a) · a bad week for a stock</div>
+  <div class="body">
+  <p>Daily returns of one week: $-0.06,-0.10,0.01,-0.02,-0.04$. Find $\bar x$ and $\hat\sigma^2=\frac1n\sum(x_i-\bar x)^2$.</p>
+  <ol class="steps">
+    <li>$\bar x=\frac{-0.06-0.10+0.01-0.02-0.04}5=\frac{-0.21}5=\mathbf{-0.042}$.</li>
+    <li>Deviations $-0.018,-0.058,0.052,0.022,0.002$. Squares sum to $0.00688$, so $\hat\sigma^2=0.00688/5=\mathbf{0.001376}$.</li>
+  </ol>
+  <p>Answer B. Option A ($0.0408$) is a typical slip: forgetting to square or dividing in the wrong place. Parts (b) and (c) of this exercise use the sampling distributions of module 30.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">R</span> Sample statistics in R, and the functions the R questions ask about<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <table class="formula-table">
+    <tr><th><code>mean(x)</code></th><td>$\bar x$</td></tr>
+    <tr><th><code>var(x)</code>, <code>sd(x)</code></th><td>$s^2$ and $s$, denominator $n-1$</td></tr>
+    <tr><th><code>mean((x-mean(x))^2)</code></th><td>$\hat\sigma^2=\bar M_2$, denominator $n$</td></tr>
+    <tr><th><code>mean(x^r)</code></th><td>$M_r$, raw moment of order $r$</td></tr>
+    <tr><th><code>sort(x)</code>, <code>min</code>, <code>max</code></th><td>order statistics $Y_1,\dots,Y_n$</td></tr>
+    <tr><th><code>median(x)</code></th><td>$M_e$</td></tr>
+    <tr><th><code>quantile(x, p)</code>, <code>summary(x)</code></th><td>sample quantiles; 5-number summary + mean</td></tr>
+  </table>
+  </div>
+  <div>
+  <p><b>R Questions 2</b> showed three user-written functions and asked which formula each one computes:</p>
+  <ul>
+    <li><code>xbar&lt;-mean(x); y&lt;-mean(abs(x-xbar))</code> is $\frac1n\sum|x_i-\bar x|$, the average absolute deviation. Careful: the option on the sheet writes $\frac1{n-1}$, which does not match <code>mean()</code>.</li>
+    <li><code>mean((x-xbar)^3)/mean((x-xbar)^2)^(3/2)</code> is the <b>skewness</b> $\bar M_3/\bar M_2^{3/2}$.</li>
+    <li><code>n/(n-1)^2*sum((x-xbar)^4)/var(x)^2</code>: since <code>var(x)</code>$=\frac{n}{n-1}\bar M_2$, this simplifies to $\frac{\frac1n\sum(x_i-\bar x)^4}{\bar M_2^2}$, the <b>kurtosis</b> $\bar M_4/\bar M_2^2$.</li>
+  </ul>
+  <div class="note"><div class="t">Kurtosis versus excess kurtosis</div>Kurtosis $\mu_4/\sigma^4$ equals 3 for every normal. <b>Excess</b> kurtosis $\beta_2=\mu_4/\sigma^4-3$ is 0 for the normal. Exercise set 1, Q2: for $X\sim N(1,4)$ the true statement is "the excess kurtosis is 0" (B), not "the kurtosis is 0". It matters again in module 29 for $\mathbb V(S^2)$.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Median of an even sample</div>
+<div class="prob">Find the median, $\bar x$, $s^2$ and $\bar M_2$ of $\underline x=(40,35,80,20,60,70,75,45)$.</div>
+<details><summary>Answer</summary><div class="sol">Sorted: $20,35,40,45,60,70,75,80$; $n=8$ even, $M_e=(Y_4+Y_5)/2=(45+60)/2=52.5$. $\bar x=425/8=53.125$. $\sum(x_i-\bar x)^2=3196.875$, so $s^2=3196.875/7\approx456.7$ and $\bar M_2=3196.875/8\approx399.6$. (These are the sales volumes of module 38.)</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Is it a statistic?</div>
+<div class="prob">Which of these are sample statistics? (a) $\frac1n\sum(X_i-\mu)^2$ with $\mu$ unknown; (b) $\max\{X_i\}-\min\{X_i\}$; (c) $\bar X/S$; (d) $\bar X-\mu$.</div>
+<details><summary>Answer</summary><div class="sol">(b) and (c) only. (a) and (d) contain the unknown $\mu$, so we cannot compute their values even after observing the data. The notes make exactly this point about (a) at the start of module 29.</div></details>
+</div>
+</div>
+</section>

@@ -1,0 +1,139 @@
+<!-- ============ 31 ESTIMATORS AND THE ANALOGY METHOD ============ -->
+<section id="s31">
+<div class="sec-head"><span class="num">31</span><h2>Estimators &amp; the analogy method</h2><span class="sub">lecture 6, notes pp.44–45 · Point Estimation deck §5 · exercise set 2</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Point estimation: one number for the unknown $\theta$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>We have a model $\{f(x;\theta),\ \theta\in\Theta\}$ and data. Since the model is fixed, <b>learning the best $f$ reduces to learning the best $\theta$</b>. Point estimation assigns to $\theta$ a single "reasonable" value computed from the data.</p>
+  <p>The rest of the estimation block has two halves, exactly as the notes announce:</p>
+  <table class="formula-table">
+    <tr><th>Methods to <b>find</b> estimators</th><td>analogy (this module) · method of moments (32) · maximum likelihood (33–34) · Bayesian methods (not covered)</td></tr>
+    <tr><th>Methods to <b>evaluate</b> and compare them</th><td>bias, MSE, efficiency, UMVUE (35) · consistency, asymptotics (36)</td></tr>
+  </table>
+  <p>The analogy method is the simplest idea of all: <b>estimate a population quantity with the same quantity computed on the sample</b>. It often works, and it shows the first example of a <b>biased</b> estimator.</p>
+  <div class="note tip"><div class="t">What you need for the exam</div>The estimator / estimate distinction (capital / small letter). Analogy estimates of a mean, median, proportion and variance, computed by hand. The bias of $\hat\sigma^2=\frac1n\sum(X_i-\bar X)^2$, which is $-\sigma^2/n$. Exercise set 2, Q2 is the model question.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 6</span> Point estimation methods: the vocabulary (notes p.44)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Basic assumption:</b> we have a <b>parametric statistical model</b> $\{f(x;\theta);\ \theta\in\Theta\}$. $\theta$ is unknown, so, looking at the data, we assign to $\theta$ a "reasonable" value: the <b>point estimate</b> of $\theta$.</p>
+  <table class="formula-table">
+    <tr><th>Estimator of $\theta$</th><td>any statistic $T=t(X_1,\dots,X_n)$ we use to estimate $\theta$. A function of the <b>random</b> sample, so <b>the estimator is random</b>.</td></tr>
+    <tr><th>Estimate of $\theta$</th><td>the realised value $t(x_1,\dots,x_n)$ of the estimator. A number, <b>not random</b>.</td></tr>
+  </table>
+  <p>Notation used from here on: $\hat\theta$ or $\tilde\theta$ for an estimator. The course writes $\tilde\theta$ for method-of-moments and analogy estimators and $\hat\theta$ for maximum likelihood, though the exercise sheets are not always consistent.</p>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 330 160">
+    <rect x="10" y="20" width="130" height="50" rx="5" fill="var(--bluebg)" stroke="var(--blue)"/>
+    <text x="75" y="40" class="svgtxt b" text-anchor="middle">estimator</text>
+    <text x="75" y="58" class="svgtxt" text-anchor="middle">T = t(X₁,…,Xₙ)</text>
+    <rect x="190" y="20" width="130" height="50" rx="5" fill="var(--greenbg)" stroke="var(--green)"/>
+    <text x="255" y="40" class="svgtxt g" text-anchor="middle">estimate</text>
+    <text x="255" y="58" class="svgtxt" text-anchor="middle">t(x₁,…,xₙ) = 3.2</text>
+    <path d="M 140 45 L 186 45" stroke="var(--amber)" stroke-width="1.6" marker-end="url(#arr31)"/>
+    <defs><marker id="arr31" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--amber)"/></marker></defs>
+    <text x="163" y="38" class="svgtxt a" text-anchor="middle" font-size="9.5">observe</text>
+    <text x="75" y="92" class="svgtxt" text-anchor="middle" font-size="9.5">random: has a distribution,</text>
+    <text x="75" y="106" class="svgtxt" text-anchor="middle" font-size="9.5">a mean, a variance, a bias</text>
+    <text x="255" y="92" class="svgtxt" text-anchor="middle" font-size="9.5">a number: no distribution,</text>
+    <text x="255" y="106" class="svgtxt" text-anchor="middle" font-size="9.5">no bias, no variance</text>
+    <text x="165" y="140" class="svgtxt w" text-anchor="middle">a recipe before the data, its output after</text>
+  </svg><figcaption>We judge a recipe (the estimator) by how it behaves over all possible samples. A single estimate can't be judged.</figcaption></figure>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">METHOD</span> Analogy estimation (notes p.45)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Intuition:</b> estimate a population quantity with the analogous quantity computed on the sample.</p>
+  <table class="formula-table">
+    <tr><th>population</th><th>sample (analogy estimator)</th></tr>
+    <tr><td>mean $\mu=\mathbb E(X)$</td><td>sample mean $\bar X$</td></tr>
+    <tr><td>median $m$</td><td>sample median $M_e$</td></tr>
+    <tr><td>proportion $p$</td><td>sample proportion $\bar X$ (of 0/1 data)</td></tr>
+    <tr><td>variance $\sigma^2=\mathbb E[(X-\mu)^2]$</td><td>$\hat\sigma^2=\frac1n\sum(X_i-\bar X)^2$</td></tr>
+    <tr><td>quantile $\pi_p$</td><td>sample quantile</td></tr>
+  </table>
+  <p><b>The variance needs care.</b> The literal analogue of $\mathbb E[(X-\mu)^2]$ would be $\frac1n\sum(X_i-\mu)^2$, but that contains the unknown $\mu$. It is <b>not a statistic</b> (module 29), and therefore not an estimator. So $\mu$ is itself replaced by its analogue $\bar X$.</p>
+  </div>
+  <div>
+  <p><b>Is $\hat\sigma^2$ centred on $\sigma^2$?</b> Multiply and divide by $n-1$ to make $S^2$ appear (notes p.45):</p>
+  $$\begin{aligned}\mathbb E(\hat\sigma^2)&amp;=\mathbb E\Big[\frac{n-1}{n-1}\cdot\frac1n\sum(X_i-\bar X)^2\Big]=\mathbb E\Big[\frac{n-1}n\underbrace{\frac1{n-1}\sum(X_i-\bar X)^2}_{S^2}\Big]\\&amp;=\frac{n-1}n\,\mathbb E(S^2)=\boxed{\frac{n-1}n\,\sigma^2}\end{aligned}$$
+  <p>On average $\hat\sigma^2$ falls short of $\sigma^2$ by $\frac{\sigma^2}n$: it <b>underestimates</b> the variance. Its bias (module 35) is $\mathbb E(\hat\sigma^2)-\sigma^2=-\frac{\sigma^2}n&lt;0$. The bias vanishes as $n\to\infty$; module 36 calls that "asymptotically unbiased".</p>
+  <div class="note warn"><div class="t">Limitations (notes p.45)</div>
+  <b>1.</b> There are no guarantees that analogy estimators work well: $\hat\sigma^2$ is already biased.<br>
+  <b>2.</b> Sometimes parameters have no clear interpretation. What is "the sample analogue" of the $\alpha$ in $f(x)=\alpha x^{\alpha-1}$, or of the shape of a Gamma? We need a general recipe. The method of moments (module 32) and maximum likelihood (module 33) are two such recipes.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE SET 2 (homework 21/11) · Q2 · salaries of 5 men and 5 women</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Men $X$: $25,19,16,17,23$. Women $Y$: $15,18,21,20,24$ (thousand EUR).</p>
+  <ol class="steps">
+    <li><b>(a) Analogy estimate of the median of male salary.</b> The analogy estimator of the population median is the sample median: sorted $16,17,19,23,25$, $n=5$ odd, $M_e=Y_3=\mathbf{19}$ (answer B).</li>
+    <li><b>(b) Analogy estimate of the variance of female salary.</b> $\bar y=19.6$, $\hat\sigma^2=\frac15\sum(y_i-19.6)^2=\frac{45.2}5=\mathbf{9.04}$. (On the sheet the closest option is 9; the exact value is 9.04.)</li>
+  </ol>
+  </div>
+  <div>
+  <ol class="steps" start="3">
+    <li><b>(c) Expected value of that estimator.</b> $\mathbb E(\hat\sigma^2)=\frac{n-1}n\sigma^2$ (answer C).</li>
+    <li><b>(d) Unbiased?</b> $B_{\sigma^2}(\hat\sigma^2)=\frac{n-1}n\sigma^2-\sigma^2=-\frac1n\sigma^2&lt;0$: <b>biased</b>, it <b>underestimates</b> the population variance.</li>
+    <li><b>(e) Asymptotically unbiased?</b> $\lim_{n\to\infty}\big(-\frac1n\sigma^2\big)=0$: <b>yes</b>, the bias vanishes as the sample grows.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill a">R</span> Analogy estimates in R<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><code>y &lt;- c(15, 18, 21, 20, 24)</code><br>
+  <code>mean(y)</code> → <code>19.6</code><br>
+  <code>median(c(25,19,16,17,23))</code> → <code>19</code><br>
+  <code>mean((y - mean(y))^2)</code> → <code>9.04</code> (analogy $\hat\sigma^2$)<br>
+  <code>var(y)</code> → <code>11.3</code> (that is $S^2$: $9.04\cdot\frac54$)<br>
+  <code>var(y) * (length(y) - 1) / length(y)</code> → <code>9.04</code></p>
+  <div class="note warn"><div class="t">TRAP</div>There is no built-in R function for $\hat\sigma^2$. If an R question writes <code>var(x)</code>, it means $S^2$.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> "Biased" is not "bad", and "unbiased" is not "good"<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>It is tempting to throw $\hat\sigma^2$ away now. Don't:</p>
+  <ul>
+    <li>Module 32 shows that $\hat\sigma^2$ is also the <b>method-of-moments</b> estimator of $\sigma^2$ for normal data.</li>
+    <li>Module 34 shows it is the <b>maximum likelihood</b> estimator too.</li>
+    <li>Module 35 shows that for normal data it has a <b>smaller mean squared error</b> than the unbiased $S^2$. The lecturer's exam warning there is literally "choose an estimator because of lower bias? No."</li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Estimator or estimate?</div>
+<div class="prob">Classify: (a) $\bar X$; (b) $\bar x=0.42$; (c) $\mathbb E(\bar X)$; (d) $\frac1n\sum(X_i-\mu)^2$ with $\mu$ unknown.</div>
+<details><summary>Answer</summary><div class="sol">(a) estimator (random). (b) estimate (a number). (c) neither: a property of the estimator, here equal to $\mu$. (d) not even a statistic, since it contains the unknown $\mu$, so it can't be an estimator.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Fixing the bias</div>
+<div class="prob">Which multiple $c\,\hat\sigma^2$ is unbiased for $\sigma^2$? And what is the analogy estimate of $P(X&gt;20)$ for the female salaries?</div>
+<details><summary>Answer</summary><div class="sol">$c=\frac n{n-1}$, since $\frac n{n-1}\hat\sigma^2=S^2$. For $P(X&gt;20)$, use the sample proportion of salaries above 20: $\{21,24\}$, so $2/5=0.4$.</div></details>
+</div>
+</div>
+</section>

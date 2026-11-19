@@ -1703,6 +1703,339 @@ bindS('tq_p', 3, tqDraw);
 bindS('st_p', 2, stReset); bindS('st_n', 0, stReset);
 bindS('ar_l', 1, arReset); bindS('ar_w', 0, arReset);
 
+// =====================================================================
+// helpers for modules 27–38
+// =====================================================================
+function randn() { let u = 0; while (u === 0) u = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random()); }
+function parseNums(id) { const e = document.getElementById(id); if (!e) return []; return e.value.split(/[\s,;]+/).filter((t) => t.length).map(Number).filter((v) => isFinite(v)); }
+function meanOf(a) { return a.reduce((s, v) => s + v, 0) / a.length; }
+function sciOrFix(x, d = 4) { if (x === 0) return '0'; if (Math.abs(x) < 1e-3 || Math.abs(x) >= 1e5) return x.toExponential(3).replace('e', '·10^'); return fmt(x, d); }
+
+// =====================================================================
+// 28 · type a sample, get every statistic
+// =====================================================================
+function ssDraw() {
+  const svg = document.getElementById('sssvg');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const x = parseNums('ss_x'), r = document.getElementById('ssread');
+  if (x.length < 2) { txt(180, 75, 'type at least two numbers', cv_('--muted'), svg, 'middle', 11); if (r) r.innerHTML = ''; return; }
+  const n = x.length, y = [...x].sort((a, b) => a - b), m = meanOf(x);
+  const ss = x.reduce((s, v) => s + (v - m) ** 2, 0), s2 = ss / (n - 1), sh2 = ss / n, s = Math.sqrt(s2);
+  const med = n % 2 ? y[(n - 1) / 2] : (y[n / 2 - 1] + y[n / 2]) / 2;
+  const m3 = x.reduce((a, v) => a + (v - m) ** 3, 0) / n, m4 = x.reduce((a, v) => a + (v - m) ** 4, 0) / n;
+  let lo = Math.min(y[0], m - s), hi = Math.max(y[n - 1], m + s);
+  const pad = (hi - lo) * 0.08 || 1; lo -= pad; hi += pad;
+  const x0 = 20, x1 = 340, yb = 104, X = (v) => x0 + ((v - lo) / (hi - lo)) * (x1 - x0);
+  el('line', { x1: x0, y1: yb, x2: x1, y2: yb, stroke: cv_('--border2') }, svg);
+  for (const t of niceTicks(lo, hi, 7)) { el('line', { x1: X(t), y1: yb, x2: X(t), y2: yb + 4, stroke: cv_('--border2') }, svg); txt(X(t), yb + 15, tickLabel(t), cv_('--dim'), svg, 'middle', 9); }
+  const seen = {};
+  y.forEach((v, i) => {
+    const k = v.toFixed(10); seen[k] = (seen[k] || 0) + 1;
+    const cy = yb - 8 - (seen[k] - 1) * 11;
+    el('circle', { cx: X(v), cy, r: 4.2, fill: rgba(cv_('--blue'), 0.5), stroke: cv_('--blue') }, svg);
+    if (n <= 12) txt(X(v), cy - 8, `Y${i + 1}`, cv_('--dim'), svg, 'middle', 8.5);
+  });
+  el('line', { x1: X(med), y1: 28, x2: X(med), y2: yb, stroke: cv_('--green'), 'stroke-width': 1.6, 'stroke-dasharray': '4 3' }, svg);
+  txt(X(med), 22, `median ${fmt(med, 3)}`, cv_('--green'), svg, 'middle', 9.5);
+  el('line', { x1: X(m - s), y1: 132, x2: X(m + s), y2: 132, stroke: cv_('--amber'), 'stroke-width': 2 }, svg);
+  el('path', { d: `M ${X(m)} 126 l -6 10 l 12 0 Z`, fill: cv_('--amber') }, svg);
+  txt(X(m), 147, `x̄ = ${fmt(m, 4)} ± s`, cv_('--amber'), svg, 'middle', 9.5);
+  if (r) r.innerHTML = `<span>n = <b>${n}</b></span><span>sorted: <b>${y.map((v) => +v.toFixed(6)).join(', ')}</b></span>` +
+    `<span>x̄ = <b>${fmt(m, 5)}</b></span><span>median Me = <b>${fmt(med, 5)}</b></span>` +
+    `<span>S² (÷(n−1)) = <b>${sciOrFix(s2, 5)}</b></span><span>σ̂² = M̄₂ (÷n) = <b>${sciOrFix(sh2, 5)}</b></span><span>S = <b>${sciOrFix(s, 5)}</b></span>` +
+    `<span>M₂ = (1/n)Σx² = <b>${sciOrFix(x.reduce((a, v) => a + v * v, 0) / n, 5)}</b></span><span>min Y₁ = <b>${y[0]}</b>, max Yₙ = <b>${y[n - 1]}</b></span>` +
+    `<span>skewness M̄₃/M̄₂^1.5 = <b>${sh2 > 0 ? fmt(m3 / sh2 ** 1.5, 3) : '—'}</b></span><span>kurtosis M̄₄/M̄₂² = <b>${sh2 > 0 ? fmt(m4 / (sh2 * sh2), 3) : '—'}</b></span>`;
+}
+function ssSet(s) { const e = document.getElementById('ss_x'); if (e) e.value = s; ssDraw(); }
+window.ssSet = ssSet;
+
+// =====================================================================
+// 30 · the sampling distribution of X̄ builds up; the CLT
+// =====================================================================
+const SD_POP = {
+  bern: { mu: 0.3, v: 0.21, lo: 0, hi: 1, pts: [[0, 0.7], [1, 0.3]], draw: () => (Math.random() < 0.3 ? 1 : 0) },
+  exp: { mu: 1, v: 1, lo: 0, hi: 5, pdf: (x) => (x < 0 ? 0 : Math.exp(-x)), draw: () => -Math.log(1 - Math.random()) },
+  unif: { mu: 0.5, v: 1 / 12, lo: -0.1, hi: 1.1, pdf: (x) => (x >= 0 && x <= 1 ? 1 : 0), draw: () => Math.random() },
+  norm: { mu: 10, v: 20, lo: 10 - 4 * Math.sqrt(20), hi: 10 + 4 * Math.sqrt(20), pdf: (x) => normPdf(x, 10, Math.sqrt(20)), draw: () => 10 + Math.sqrt(20) * randn() },
+  cars: { mu: 1.6, v: 0.64, lo: 0, hi: 3, pts: [[0, 0.1], [1, 0.3], [2, 0.5], [3, 0.1]], draw: () => { const u = Math.random(); return u < 0.1 ? 0 : u < 0.4 ? 1 : u < 0.9 ? 2 : 3; } },
+};
+let sdVals = [];
+function sdPopKey() { const e = document.getElementById('sd_pop'); return e ? e.value : 'bern'; }
+function sdDraw() {
+  const svg = document.getElementById('sdsvg');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const P = SD_POP[sdPopKey()], n = Math.round(val('sd_n')), se = Math.sqrt(P.v / n);
+  const x0 = 30, x1 = 350;
+  // top panel: the population
+  const ty = 62, tt = 18;
+  txt(x0, 12, 'population', cv_('--muted'), svg, 'start', 9.5);
+  el('line', { x1: x0, y1: ty, x2: x1, y2: ty, stroke: cv_('--border2') }, svg);
+  const XT = (x) => x0 + ((x - P.lo) / (P.hi - P.lo)) * (x1 - x0);
+  if (P.pts) {
+    const pm = Math.max(...P.pts.map((q) => q[1]));
+    for (const [x, q] of P.pts) { el('rect', { x: XT(x) - 5, y: ty - (q / pm) * (ty - tt), width: 10, height: (q / pm) * (ty - tt), fill: rgba(cv_('--blue'), 0.5), stroke: cv_('--blue') }, svg); txt(XT(x), ty + 11, String(x), cv_('--dim'), svg, 'middle', 8.5); }
+  } else {
+    let pm = 0; for (let i = 0; i <= 200; i++) pm = Math.max(pm, P.pdf(P.lo + ((P.hi - P.lo) * i) / 200));
+    el('path', { d: curvePath(P.pdf, P.lo, P.hi, XT, (y) => ty - (y / pm) * (ty - tt), 200), fill: 'none', stroke: cv_('--blue'), 'stroke-width': 1.8 }, svg);
+    for (const t of niceTicks(P.lo, P.hi, 6)) txt(XT(t), ty + 11, tickLabel(t), cv_('--dim'), svg, 'middle', 8.5);
+  }
+  el('line', { x1: XT(P.mu), y1: tt - 4, x2: XT(P.mu), y2: ty, stroke: cv_('--amber'), 'stroke-dasharray': '3 3' }, svg);
+  // bottom panel: histogram of x̄
+  const yb = 206, yt = 92;
+  let lo = Math.max(P.mu - 4.2 * se, P.pts ? P.lo - 0.5 / n : P.lo), hi = Math.min(P.mu + 4.2 * se, P.pts ? P.hi + 0.5 / n : P.hi);
+  if (hi - lo < 1e-9) { lo -= 0.5; hi += 0.5; }
+  const X = (x) => x0 + ((x - lo) / (hi - lo)) * (x1 - x0);
+  el('line', { x1: x0, y1: yb, x2: x1, y2: yb, stroke: cv_('--border2') }, svg);
+  for (const t of niceTicks(lo, hi, 7)) { el('line', { x1: X(t), y1: yb, x2: X(t), y2: yb + 4, stroke: cv_('--border2') }, svg); txt(X(t), yb + 14, tickLabel(t), cv_('--dim'), svg, 'middle', 8.5); }
+  const N = sdVals.length;
+  txt(x0, yt - 8, N ? `histogram of ${N} sample means x̄ (n = ${n})` : `sample means x̄ (n = ${n}) — press "draw"`, cv_('--muted'), svg, 'start', 9.5);
+  let edges;
+  const grid = P.pts && n <= 40;
+  if (grid) { edges = []; for (let k = 0; k <= n * (P.hi - P.lo) + 1; k++) edges.push(P.lo + (k - 0.5) / n); }
+  else { edges = []; const B = 36; for (let k = 0; k <= B; k++) edges.push(lo + ((hi - lo) * k) / B); }
+  const cnt = new Array(edges.length - 1).fill(0);
+  for (const v of sdVals) { for (let k = 0; k < cnt.length; k++) if (v >= edges[k] && v < edges[k + 1]) { cnt[k]++; break; } }
+  const dens = cnt.map((c, k) => (N ? c / (N * (edges[k + 1] - edges[k])) : 0));
+  const curveMax = normPdf(P.mu, P.mu, se);
+  const ym = Math.max(curveMax, ...dens) * 1.1 || 1;
+  const Y = (d) => yb - (d / ym) * (yb - yt);
+  dens.forEach((d, k) => { if (!d) return; const a = Math.max(lo, edges[k]), b = Math.min(hi, edges[k + 1]); if (b <= a) return; el('rect', { x: X(a), y: Y(d), width: Math.max(1, X(b) - X(a) - (grid ? 2 : 0.5)), height: yb - Y(d), fill: rgba(cv_('--blue'), 0.45), stroke: cv_('--blue'), 'stroke-width': 0.6 }, svg); });
+  if (!grid) el('path', { d: curvePath((x) => normPdf(x, P.mu, se), lo, hi, X, Y, 200), fill: 'none', stroke: cv_('--amber'), 'stroke-width': 2 }, svg);
+  else for (let k = 0; k < cnt.length; k++) { const c = P.lo + k / n; if (c < lo || c > hi) continue; const d = normPdf(c, P.mu, se); el('circle', { cx: X(c), cy: Y(d), r: 2.4, fill: cv_('--amber') }, svg); }
+  const r = document.getElementById('sdread');
+  if (r) {
+    const m = N ? meanOf(sdVals) : NaN, vv = N > 1 ? sdVals.reduce((s, v) => s + (v - m) ** 2, 0) / (N - 1) : NaN;
+    r.innerHTML = `<span>population: μ = <b>${fmt(P.mu, 3)}</b>, σ² = <b>${fmt(P.v, 4)}</b></span><span>theory: E(X̄) = μ = <b>${fmt(P.mu, 3)}</b>, V(X̄) = σ²/n = <b>${fmt(P.v / n, 5)}</b></span>` +
+      (N ? `<span>simulated (${N} samples): mean of x̄ = <b>${fmt(m, 4)}</b>, variance of x̄ = <b>${N > 1 ? fmt(vv, 5) : '—'}</b></span>` : '') +
+      (grid ? '<span class="muted">amber dots: the N(μ, σ²/n) density at each grid point, for comparison</span>' : '<span class="muted">amber curve: N(μ, σ²/n)</span>');
+  }
+}
+function sdSim(k) { const P = SD_POP[sdPopKey()], n = Math.round(val('sd_n')); for (let j = 0; j < k && sdVals.length < 20000; j++) { let s = 0; for (let i = 0; i < n; i++) s += P.draw(); sdVals.push(s / n); } sdDraw(); }
+function sdReset() { sdVals = []; sdDraw(); }
+function sdPreset(pop, n) { const e = document.getElementById('sd_pop'); if (e) e.value = pop; setS([['sd_n', n, 0]]); sdVals = []; sdSim(2000); }
+window.sdSim = sdSim; window.sdReset = sdReset; window.sdPreset = sdPreset;
+
+// =====================================================================
+// 32 · method of moments for Bin(N, p): wild for small n
+// =====================================================================
+let mmPts = [];
+function mmRun() {
+  const N = Math.round(val('mm_N')), p = val('mm_p');
+  mmPts = [];
+  for (let i = 0; i < 160; i++) {
+    const n = Math.max(4, Math.round(Math.exp(Math.log(4) + (Math.log(6000) - Math.log(4)) * Math.random())));
+    let s1 = 0, s2 = 0;
+    for (let j = 0; j < n; j++) { let x = 0; for (let t = 0; t < N; t++) if (Math.random() < p) x++; s1 += x; s2 += x * x; }
+    const m1 = s1 / n, m2 = s2 / n, den = m1 - (m2 - m1 * m1);
+    mmPts.push([n, den !== 0 ? (m1 * m1) / den : Infinity]);
+  }
+  mmDraw();
+}
+function mmDraw() {
+  const svg = document.getElementById('mmsvg');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const N = Math.round(val('mm_N')), p = val('mm_p');
+  const lim = Math.max(50, 5 * N), x0 = 40, x1 = 350, yt = 14, yb = 196;
+  const X = (n) => x0 + ((Math.log10(n) - Math.log10(4)) / (Math.log10(6000) - Math.log10(4))) * (x1 - x0), Y = (v) => yt + ((lim - v) / (2 * lim)) * (yb - yt);
+  el('line', { x1: x0, y1: yb, x2: x1, y2: yb, stroke: cv_('--border2') }, svg);
+  el('line', { x1: x0, y1: yt, x2: x0, y2: yb, stroke: cv_('--border2') }, svg);
+  el('line', { x1: x0, y1: Y(0), x2: x1, y2: Y(0), stroke: cv_('--border') }, svg);
+  for (const v of [-lim, -lim / 2, 0, lim / 2, lim]) txt(x0 - 4, Y(v) + 3, String(Math.round(v)), cv_('--dim'), svg, 'end', 8.5);
+  for (const n of [5, 10, 50, 100, 500, 1000, 5000]) { el('line', { x1: X(n), y1: yb, x2: X(n), y2: yb + 4, stroke: cv_('--border2') }, svg); txt(X(n), yb + 14, String(n), cv_('--dim'), svg, 'middle', 8.5); }
+  el('line', { x1: x0, y1: Y(N), x2: x1, y2: Y(N), stroke: cv_('--green'), 'stroke-dasharray': '5 3', 'stroke-width': 1.4 }, svg);
+  txt(x1, Y(N) - 4, `true N = ${N}`, cv_('--green'), svg, 'end', 9);
+  let bad = 0, badS = 0, nS = 0, badL = 0, nL = 0;
+  for (const [n, v] of mmPts) {
+    const ok = v > 0 && isFinite(v);
+    if (!ok) bad++;
+    if (n < 50) { nS++; if (!ok) badS++; } else if (n >= 1000) { nL++; if (!ok) badL++; }
+    const vc = Math.max(-lim, Math.min(lim, isFinite(v) ? v : lim));
+    el('circle', { cx: X(n), cy: Y(vc), r: 2.3, fill: ok ? rgba(cv_('--blue'), 0.7) : cv_('--red') }, svg);
+  }
+  const r = document.getElementById('mmread');
+  if (r) r.innerHTML = `<span>Bin(${N}, ${fmt(p, 2)}): mean <b>${fmt(N * p, 2)}</b> &gt; variance <b>${fmt(N * p * (1 - p), 2)}</b></span>` +
+    (mmPts.length ? `<span>inadmissible Ñ ≤ 0: <b>${bad}</b> of ${mmPts.length}</span><span>n &lt; 50: <b>${badS}/${nS}</b> inadmissible · n ≥ 1000: <b>${badL}/${nL}</b></span>` : '');
+}
+window.mmRun = mmRun;
+
+// =====================================================================
+// 33 · likelihood and log-likelihood explorer
+// =====================================================================
+function lkMod() { const e = document.getElementById('lk_mod'); return e ? e.value : 'bern'; }
+function lkModel(mod, x) {
+  const n = x.length, S = x.reduce((a, v) => a + v, 0), xb = S / n;
+  if (mod === 'bern') {
+    if (!x.every((v) => v === 0 || v === 1)) return { err: 'Bernoulli data must be 0s and 1s' };
+    return { lo: 0.001, hi: 0.999, hat: xb, name: 'p', ll: (p) => (S ? S * Math.log(p) : 0) + (n - S ? (n - S) * Math.log(1 - p) : 0), sc: (p) => S / p - (n - S) / (1 - p) };
+  }
+  if (mod === 'norm') {
+    const a = Math.min(...x) - 1.5, b = Math.max(...x) + 1.5;
+    return { lo: a, hi: b, hat: xb, name: 'μ', ll: (m) => -0.5 * n * Math.log(2 * Math.PI) - 0.5 * x.reduce((s, v) => s + (v - m) ** 2, 0), sc: (m) => S - n * m };
+  }
+  if (mod === 'pois') {
+    if (!x.every((v) => v >= 0 && Number.isInteger(v))) return { err: 'Poisson data must be non-negative integers' };
+    const lf = x.reduce((s, v) => s + lgamma(v + 1), 0);
+    return { lo: 0.05, hi: Math.max(2, 2.2 * xb + 1), hat: xb, name: 'λ', ll: (l) => S * Math.log(l) - n * l - lf, sc: (l) => S / l - n };
+  }
+  if (!x.every((v) => v > 0)) return { err: 'exponential data must be positive' };
+  return { lo: 0.02, hi: 3.5 / xb, hat: 1 / xb, name: 'λ', ll: (l) => n * Math.log(l) - l * S, sc: (l) => n / l - S };
+}
+function lkDraw() {
+  const svg = document.getElementById('lksvg');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const x = parseNums('lk_x'), r = document.getElementById('lkread');
+  if (!x.length) { txt(180, 120, 'type some data', cv_('--muted'), svg, 'middle', 11); if (r) r.innerHTML = ''; return; }
+  const M = lkModel(lkMod(), x);
+  if (M.err) { txt(180, 120, M.err, cv_('--red'), svg, 'middle', 11); if (r) r.innerHTML = ''; return; }
+  const th = Math.max(M.lo, Math.min(M.hi, val('lk_t'))), hat = Math.max(M.lo, Math.min(M.hi, M.hat));
+  const x0 = 46, x1 = 350, X = (t) => x0 + ((t - M.lo) / (M.hi - M.lo)) * (x1 - x0);
+  const llMax = M.ll(hat), Lmax = Math.exp(llMax);
+  // top: L
+  const ab = 112, at = 20;
+  el('line', { x1: x0, y1: ab, x2: x1, y2: ab, stroke: cv_('--border2') }, svg);
+  el('line', { x1: x0, y1: at, x2: x0, y2: ab, stroke: cv_('--border2') }, svg);
+  txt(x0, 12, `likelihood L(${M.name})`, cv_('--muted'), svg, 'start', 9.5);
+  txt(x0 - 4, at + 4, sciOrFix(Lmax, 3), cv_('--dim'), svg, 'end', 8);
+  const YL = (t) => ab - (Math.exp(M.ll(t) - llMax)) * (ab - at);
+  el('path', { d: curvePath((t) => t, M.lo, M.hi, X, YL, 300), fill: 'none', stroke: cv_('--blue'), 'stroke-width': 2 }, svg);
+  // bottom: ℓ
+  const bb = 236, bt = 140, depth = Math.max(6, Math.abs(llMax) * 0.6 + 4), lmin = llMax - depth;
+  el('line', { x1: x0, y1: bb, x2: x1, y2: bb, stroke: cv_('--border2') }, svg);
+  el('line', { x1: x0, y1: bt, x2: x0, y2: bb, stroke: cv_('--border2') }, svg);
+  txt(x0, bt - 6, `log-likelihood ℓ(${M.name})`, cv_('--muted'), svg, 'start', 9.5);
+  const Yl = (v) => bt + ((llMax + depth * 0.06 - v) / (depth * 1.06)) * (bb - bt);
+  txt(x0 - 4, Yl(llMax) + 3, fmt(llMax, 1), cv_('--dim'), svg, 'end', 8);
+  txt(x0 - 4, Yl(lmin) + 3, fmt(lmin, 1), cv_('--dim'), svg, 'end', 8);
+  el('path', { d: curvePath((t) => Math.max(lmin, M.ll(t)), M.lo, M.hi, X, Yl, 300), fill: 'none', stroke: cv_('--blue'), 'stroke-width': 2 }, svg);
+  for (const t of niceTicks(M.lo, M.hi, 7)) { el('line', { x1: X(t), y1: bb, x2: X(t), y2: bb + 4, stroke: cv_('--border2') }, svg); txt(X(t), bb + 14, tickLabel(t), cv_('--dim'), svg, 'middle', 8.5); }
+  if (lkMod() === 'norm') for (const v of x) el('circle', { cx: X(v), cy: ab, r: 3, fill: 'none', stroke: cv_('--red') }, svg);
+  for (const [t, col, w] of [[hat, '--green', 1.5], [th, '--amber', 1.8]]) {
+    el('line', { x1: X(t), y1: at, x2: X(t), y2: ab, stroke: cv_(col), 'stroke-width': w, 'stroke-dasharray': col === '--green' ? '4 3' : '' }, svg);
+    el('line', { x1: X(t), y1: bt, x2: X(t), y2: bb, stroke: cv_(col), 'stroke-width': w, 'stroke-dasharray': col === '--green' ? '4 3' : '' }, svg);
+  }
+  el('circle', { cx: X(th), cy: YL(th), r: 3.5, fill: cv_('--amber') }, svg);
+  el('circle', { cx: X(th), cy: Yl(Math.max(lmin, M.ll(th))), r: 3.5, fill: cv_('--amber') }, svg);
+  const sc = M.sc(th);
+  if (r) r.innerHTML = `<span>${M.name} = <b>${fmt(th, 4)}</b></span><span>L(${M.name}) = <b>${sciOrFix(Math.exp(M.ll(th)), 5)}</b></span><span>ℓ(${M.name}) = <b>${fmt(M.ll(th), 4)}</b></span>` +
+    `<span>score ℓ′(${M.name}) = <b>${isFinite(sc) ? fmt(sc, 4) : '—'}</b></span><span>MLE ${M.name}̂ = <b>${fmt(M.hat, 4)}</b>, L(${M.name}̂) = <b>${sciOrFix(Lmax, 5)}</b></span>` +
+    (M.hat <= M.lo || M.hat >= M.hi ? '<span class="muted">the maximum sits on the boundary of Θ: ℓ′ is not zero there</span>' : '');
+}
+function lkRerange() { const x = parseNums('lk_x'); if (!x.length) return; const M = lkModel(lkMod(), x); if (M.err) return; setRange('lk_t', M.lo, M.hi); }
+function lkSet(mod, data, t) {
+  const m = document.getElementById('lk_mod'), d = document.getElementById('lk_x');
+  if (m) m.value = mod; if (d) d.value = data;
+  lkRerange(); setS([['lk_t', t, 2]]); lkDraw();
+}
+function lkJump() { const x = parseNums('lk_x'); if (!x.length) return; const M = lkModel(lkMod(), x); if (M.err) return; setS([['lk_t', Math.max(M.lo, Math.min(M.hi, M.hat)), 3]]); lkDraw(); }
+window.lkSet = lkSet; window.lkJump = lkJump;
+
+// =====================================================================
+// 35 · MSE of S², σ̂² and the constant T₂ = c, as functions of σ²
+// =====================================================================
+function msDraw() {
+  const svg = document.getElementById('mssvg');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const n = Math.round(val('ms_n')), c = Math.round(val('ms_c')), s = val('ms_s');
+  const fS = (v) => (2 * v * v) / (n - 1), fH = (v) => ((2 * n - 1) / (n * n)) * v * v, fT = (v) => (v - c) ** 2;
+  const f = frame(svg, 360, 230, { l: 44, r: 12, t: 16, b: 30 });
+  const ym = Math.max(fS(100), 400) * 1.08;
+  const X = (v) => f.x0 + (v / 100) * (f.x1 - f.x0), Y = (m) => f.yb - (m / ym) * (f.yb - f.yt);
+  // band where T₂ beats S²
+  let a = null;
+  for (let i = 0; i <= 400; i++) {
+    const v = (100 * i) / 400, win = fT(v) < fS(v);
+    if (win && a === null) a = v;
+    if ((!win || i === 400) && a !== null) { const b = win ? 100 : v; el('rect', { x: X(a), y: f.yt, width: Math.max(1, X(b) - X(a)), height: f.yb - f.yt, fill: rgba(cv_('--red'), 0.1) }, svg); a = null; }
+  }
+  for (const t of niceTicks(0, 100, 5)) { el('line', { x1: X(t), y1: f.yb, x2: X(t), y2: f.yb + 4, stroke: cv_('--border2') }, svg); txt(X(t), f.yb + 14, String(t), cv_('--dim'), svg, 'middle', 9); }
+  for (const t of niceTicks(0, ym, 5)) txt(f.x0 - 4, Y(t) + 3, tickLabel(t), cv_('--dim'), svg, 'end', 8.5);
+  txt(f.x1, f.yb + 26, 'σ²', cv_('--dim'), svg, 'end', 9.5);
+  txt(f.x0 + 4, f.yt + 8, 'MSE', cv_('--dim'), svg, 'start', 9.5);
+  const cp = el('clipPath', { id: 'msclip' }, el('defs', {}, svg));
+  el('rect', { x: f.x0, y: f.yt, width: f.x1 - f.x0, height: f.yb - f.yt }, cp);
+  el('path', { d: curvePath(fT, 0, 100, X, Y, 300), fill: 'none', stroke: cv_('--red'), 'stroke-width': 2, 'clip-path': 'url(#msclip)' }, svg);
+  el('path', { d: curvePath(fS, 0, 100, X, Y, 200), fill: 'none', stroke: cv_('--blue'), 'stroke-width': 2.2, 'clip-path': 'url(#msclip)' }, svg);
+  el('path', { d: curvePath(fH, 0, 100, X, Y, 200), fill: 'none', stroke: cv_('--green'), 'stroke-width': 2, 'clip-path': 'url(#msclip)' }, svg);
+  el('line', { x1: X(s), y1: f.yt, x2: X(s), y2: f.yb, stroke: cv_('--amber'), 'stroke-dasharray': '4 3' }, svg);
+  const vals = [['S²', fS(s), '--blue'], ['σ̂²', fH(s), '--green'], [`T₂=${c}`, fT(s), '--red']];
+  for (const [, m, col] of vals) if (Y(m) >= f.yt) el('circle', { cx: X(s), cy: Y(m), r: 3.2, fill: cv_(col) }, svg);
+  const best = vals.reduce((b, q) => (q[1] < b[1] ? q : b));
+  const r = document.getElementById('msread');
+  if (r) r.innerHTML = `<span>at σ² = <b>${fmt(s, 1)}</b>, n = <b>${n}</b></span><span>MSE(S²) = 2σ⁴/(n−1) = <b>${fmt(fS(s), 2)}</b></span>` +
+    `<span>MSE(σ̂²) = (2n−1)σ⁴/n² = <b>${fmt(fH(s), 2)}</b></span><span>MSE(T₂) = (σ²−${c})² = <b>${fmt(fT(s), 2)}</b></span>` +
+    `<span>ratio MSE(σ̂²)/MSE(S²) = <b>${fmt(fH(s) / fS(s), 4)}</b> (always &lt; 1)</span><span>lowest here: <b>${best[0]}</b></span>`;
+}
+function msSet(n, c, s) { setS([['ms_n', n, 0], ['ms_c', c, 0], ['ms_s', s, 1]]); msDraw(); }
+window.msSet = msSet;
+
+// =====================================================================
+// 37 · fifty confidence intervals; coverage
+// =====================================================================
+const CI_MU = 250, CI_SIG = 2.5;
+let ciBars = [], ciMode = null, ciTot = 0, ciHit = 0;
+function ciLevel() { const e = document.getElementById('ci_lv'); return e ? parseFloat(e.value) : 0.95; }
+function ciCurMode() { return ciMode || (chk('ci_t') ? 't' : 'z'); }
+function ciQuant(mode, n, lv) { const p = 1 - (1 - lv) / 2; return mode === 't' ? invCdf((x) => tCdf(x, n - 1), p, -200, 200) : invCdf(normCdf, p, -10, 10); }
+function ciOne(mode, n, q) {
+  let s1 = 0, s2 = 0;
+  for (let i = 0; i < n; i++) { const v = CI_MU + CI_SIG * randn(); s1 += v; s2 += v * v; }
+  const m = s1 / n, s = Math.sqrt(Math.max(0, (s2 - n * m * m) / (n - 1)));
+  const h = q * (mode === 'z' ? CI_SIG : s) / Math.sqrt(n);
+  return [m - h, m + h];
+}
+function ciDraw50() { const n = Math.round(val('ci_n')), mode = ciCurMode(), q = ciQuant(mode, n, ciLevel()); ciBars = []; for (let k = 0; k < 50; k++) { const b = ciOne(mode, n, q); ciBars.push(b); ciTot++; if (b[0] < CI_MU && CI_MU < b[1]) ciHit++; } ciDraw(); }
+function ciMany() { const n = Math.round(val('ci_n')), mode = ciCurMode(), q = ciQuant(mode, n, ciLevel()); for (let k = 0; k < 10000; k++) { const b = ciOne(mode, n, q); ciTot++; if (b[0] < CI_MU && CI_MU < b[1]) ciHit++; } ciDraw(); }
+function ciReset() { ciTot = 0; ciHit = 0; ciDraw50(); }
+function ciWrong() { setS([['ci_n', 5, 0]]); const c = document.getElementById('ci_t'); if (c) c.checked = false; const l = document.getElementById('ci_lv'); if (l) l.value = '0.95'; ciMode = 'wrong'; ciReset(); }
+function ciControl() { ciMode = null; ciReset(); }
+function ciDraw() {
+  const svg = document.getElementById('cisvg');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const n = Math.round(val('ci_n')), lv = ciLevel(), mode = ciCurMode();
+  const f = frame(svg, 360, 240, { l: 46, r: 10, t: 14, b: 22 });
+  const span = 4.2 * CI_SIG / Math.sqrt(n), lo = CI_MU - span, hi = CI_MU + span;
+  const Y = (v) => f.yb - ((Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo)) * (f.yb - f.yt);
+  for (const t of niceTicks(lo, hi, 6)) { el('line', { x1: f.x0 - 3, y1: Y(t), x2: f.x0, y2: Y(t), stroke: cv_('--border2') }, svg); txt(f.x0 - 5, Y(t) + 3, tickLabel(t), cv_('--dim'), svg, 'end', 8.5); }
+  el('line', { x1: f.x0, y1: Y(CI_MU), x2: f.x1, y2: Y(CI_MU), stroke: cv_('--text'), 'stroke-dasharray': '5 3' }, svg);
+  txt(f.x1, Y(CI_MU) - 4, 'μ = 250', cv_('--muted'), svg, 'end', 9);
+  const w = (f.x1 - f.x0) / 50;
+  let hit = 0;
+  ciBars.forEach(([a, b], k) => {
+    const ok = a < CI_MU && CI_MU < b; if (ok) hit++;
+    const cx = f.x0 + w * (k + 0.5), col = ok ? cv_('--blue') : cv_('--red');
+    el('line', { x1: cx, y1: Y(a), x2: cx, y2: Y(b), stroke: col, 'stroke-width': 2 }, svg);
+    if (a > lo) el('line', { x1: cx - 2, y1: Y(a), x2: cx + 2, y2: Y(a), stroke: col }, svg);
+    if (b < hi) el('line', { x1: cx - 2, y1: Y(b), x2: cx + 2, y2: Y(b), stroke: col }, svg);
+  });
+  txt(f.x0, f.yb + 15, 'sample 1 → 50', cv_('--dim'), svg, 'start', 8.5);
+  const q = ciQuant(mode, n, lv);
+  const formula = mode === 'z' ? `x̄ ∓ ${fmt(q, 3)}·σ/√n (σ known)` : mode === 't' ? `x̄ ∓ ${fmt(q, 3)}·S/√n (t, ${n - 1} df)` : `x̄ ∓ ${fmt(q, 3)}·S/√n (WRONG: z with S)`;
+  const r = document.getElementById('ciread');
+  if (r) r.innerHTML = `<span>level <b>${Math.round(lv * 100)}%</b>, n = <b>${n}</b></span><span>interval: <b>${formula}</b></span>` +
+    `<span>these 50: <b>${hit}/${ciBars.length}</b> contain μ</span><span>all samples so far: <b>${ciTot ? fmt((100 * ciHit) / ciTot, 1) : '—'}%</b> of ${ciTot.toLocaleString('en-US')}</span>` +
+    (mode === 'z' ? `<span>width (fixed) = 2·z·σ/√n = <b>${fmt((2 * q * CI_SIG) / Math.sqrt(n), 3)}</b></span>` : '<span>width is random: it depends on S</span>');
+}
+window.ciDraw50 = ciDraw50; window.ciMany = ciMany; window.ciWrong = ciWrong;
+
+// modules 27–38
+document.getElementById('ss_x')?.addEventListener('input', ssDraw);
+document.getElementById('sd_pop')?.addEventListener('change', sdReset);
+bindS('sd_n', 0, sdReset);
+bindS('mm_N', 0, mmRun); bindS('mm_p', 2, mmRun);
+document.getElementById('lk_mod')?.addEventListener('change', () => { lkRerange(); lkJump(); });
+document.getElementById('lk_x')?.addEventListener('input', () => { lkRerange(); lkDraw(); });
+bindS('lk_t', 3, lkDraw);
+bindS('ms_n', 0, msDraw); bindS('ms_c', 0, msDraw); bindS('ms_s', 1, msDraw);
+document.getElementById('ci_lv')?.addEventListener('change', ciControl);
+document.getElementById('ci_t')?.addEventListener('change', ciControl);
+bindS('ci_n', 0, ciControl);
+
 // A full-width panel would blow a 360-unit figure up to ~2.5x, text included.
 // Cap every figure at ~1.45x its viewBox width (figures in half-width columns
 // are narrower than that anyway) and centre it.
@@ -1717,6 +2050,7 @@ document.querySelectorAll('figure svg text.svgtxt[font-size]').forEach((t) => { 
 function drawAll() {
   soDraw(); ieDraw(); unDraw(); clDraw(); trDraw(); coDraw(); maDraw(); dzDraw(); byDraw(); mhDraw(); mhSimDraw(); cdDraw(); lnDraw(); geDraw();
   evDraw(); vrDraw(); ddDraw(); paDraw(); pcDraw(); ccDraw(); mlDraw(); nzDraw(); tqDraw(); stDraw(); arDraw();
+  ssDraw(); sdDraw(); mmDraw(); lkDraw(); msDraw(); ciDraw();
 }
 if (document.getElementById('stsvg')) stReset();
 if (document.getElementById('arsvg')) arReset();
@@ -1729,6 +2063,10 @@ if (document.getElementById('dd_fam')) ddSet('binom', [10, 1 / 6], 1);
 if (document.getElementById('pc_fam')) pcSet('u15', 3);
 if (document.getElementById('cc_fam')) ccSet('unif', [0, 30], 10, 15);
 if (document.getElementById('tq_mode')) tqSet('t', 5, 0.975);
+if (document.getElementById('sdsvg')) sdPreset('bern', 5);
+if (document.getElementById('mmsvg')) mmRun();
+if (document.getElementById('lk_mod')) lkSet('bern', '1, 0, 1', 0.5);
+if (document.getElementById('cisvg')) ciReset();
 mcqInit();
 drawAll();
 window.addEventListener('themechange', drawAll);

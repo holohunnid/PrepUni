@@ -1,0 +1,227 @@
+<!-- ============ 30 DISTRIBUTION OF X-BAR AND S^2: BERNOULLI AND NORMAL POPULATIONS ============ -->
+<section id="s30">
+<div class="sec-head"><span class="num">30</span><h2>$\bar X$ and $S^2$ for Bernoulli &amp; normal data</h2><span class="sub">lecture 6, notes pp.42–44 · Point Estimation deck §4 · exercise set 1</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> When we know the whole sampling distribution, not just its moments<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Module 29 gave the mean and variance of $\bar X$ for any population. For <b>two populations</b> we get the entire distribution, and with it any probability we like:</p>
+  <table class="formula-table">
+    <tr><th>Bernoulli$(p)$ population</th><td>$n\bar X=\sum X_i\sim\text{Bin}(n,p)$, so $\bar X$ is a rescaled binomial on $\{0,\tfrac1n,\dots,1\}$</td></tr>
+    <tr><th>Normal $N(\mu,\sigma^2)$ population</th><td>$\bar X\sim N(\mu,\tfrac{\sigma^2}n)$ exactly, $\ \frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}$, $\ \frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}$</td></tr>
+    <tr><th>Any population, $n$ large</th><td>$\bar X\approx N(\mu,\tfrac{\sigma^2}n)$, by the Central Limit Theorem</td></tr>
+  </table>
+  <p>This is where the χ² and Student-t of module 26 pay off. They are <b>exactly</b> the distributions of the sample variance and of the standardised mean with $\sigma$ estimated. Confidence intervals (modules 37–38) are built directly on these lines.</p>
+  <div class="note tip"><div class="t">What you need for the exam</div>Compute $P(\bar X=\bar x)$ with <code>dbinom</code> for a Bernoulli sample. Compute $P(\bar X&lt;c)$ for normal data. Compute $P(S^2&gt;c)$ with the χ² result, and the reverse: a cut-off for $S^2$ with <code>qchisq</code>. Know the degrees of freedom: $n-1$, not $n$.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 6</span> Bernoulli population (notes p.42 · deck §4.1)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$X\sim\text{Bern}(p)$ $\Rightarrow$ the number of successes $\sum_{i=1}^nX_i\sim\text{Bin}(n,p)$ (module 19). We want $P(\bar X=\bar x)$. Since $\bar X=\frac1n\sum X_i$, the event $\{\bar X=\bar x\}$ is the event $\{n\bar X=n\bar x\}=\{\sum X_i=n\bar x\}$:</p>
+  $$P\Big(\sum_{i=1}^nX_i=t\Big)=\binom nt p^t(1-p)^{n-t},\quad t=0,1,\dots,n$$
+  $$\boxed{\;P(\bar X=\bar x)=P\Big(\sum X_i=n\bar x\Big)=\binom{n}{n\bar x}p^{n\bar x}(1-p)^{n-n\bar x}\;}$$
+  <p><b>Support.</b> $\text{Supp}(\sum X_i)=\{0,1,\dots,n\}$, so</p>
+  $$\text{Supp}(\bar X)=\Big\{\frac0n,\frac1n,\dots,\frac nn\Big\}=\Big\{0,\frac1n,\frac2n,\dots,1\Big\}.$$
+  </div>
+  <div class="ex" style="margin:0">
+  <div class="bar">LECTURE 6 · notes p.42 · deck p.16 · p = 0.3, n = 5</div>
+  <div class="body">
+  <ol class="steps">
+    <li>$P(\bar X=0)=P(5\bar X=0)=P(\sum X_i=0)=P(\text{Bin}(5,0.3)=0)$
+    $=\binom50 0.3^0\,0.7^5=$ <code>dbinom(0,5,0.3)</code> $=\mathbf{0.168}$.</li>
+    <li>$P(\bar X=\tfrac15=0.2)=P(\sum X_i=5\cdot\tfrac15=1)=\binom51 0.3^1\,0.7^4=$ <code>dbinom(1,5,0.3)</code> $\approx\mathbf{0.360}$.</li>
+    <li>The whole distribution ("see PDF notes"):</li>
+  </ol>
+  <table class="formula-table">
+    <tr><th>$\bar x$</th><td class="c">0</td><td class="c">0.2</td><td class="c">0.4</td><td class="c">0.6</td><td class="c">0.8</td><td class="c">1</td></tr>
+    <tr><th>$n\bar x$</th><td class="c">0</td><td class="c">1</td><td class="c">2</td><td class="c">3</td><td class="c">4</td><td class="c">5</td></tr>
+    <tr><th>$f$</th><td class="c">0.168</td><td class="c">0.360</td><td class="c">0.309</td><td class="c">0.132</td><td class="c">0.028</td><td class="c">0.002</td></tr>
+  </table>
+  <p class="muted">R in one line: <code>dbinom(0:5, 5, 0.3)</code>. The sample proportion $\bar X$ is the natural estimate of $p$; module 33 shows it is the MLE.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 6</span> Normal population: $\bar X$ is exactly normal (notes p.43 · deck §4.2)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>The result used: if $X_i\sim N(\mu_i,\sigma_i^2)$ are <b>independent</b> and $a_i$ are known constants, then</p>
+  $$\boxed{\;\sum_{i=1}^na_iX_i\ \sim\ N\Big(\sum_{i=1}^na_i\mu_i,\ \sum_{i=1}^na_i^2\sigma_i^2\Big)\;}$$
+  <p>A linear combination of independent normals is normal. Mean and variance follow the usual rules; the new fact is that the <b>shape stays normal</b>.</p>
+  <p>Consider $\bar X$ as a linear combination with $\mu_i=\mu$, $\sigma_i^2=\sigma^2$, $a_i=\frac1n$:</p>
+  $$\sum\tfrac1nX_i\sim N\Big(\underbrace{\textstyle\sum\frac1n\mu}_{\mu},\ \underbrace{\textstyle\sum\frac1{n^2}\sigma^2}_{\frac1{n^2}n\sigma^2=\frac{\sigma^2}n}\Big)\quad\Rightarrow\quad\boxed{\bar X\sim N\Big(\mu,\frac{\sigma^2}n\Big)}$$
+  </div>
+  <div>
+  <p><b>Note</b> (notes p.43): when the distribution of $X$ is unknown but $n$ is "large", the result is still valid <b>approximately</b>, thanks to the <b>Central Limit Theorem</b>:</p>
+  $$\bar X\ \approx\ N\Big(\mu,\frac{\sigma^2}n\Big)\qquad\text{when $n$ is large,}$$
+  <p>for any population with finite mean and variance. Rules of thumb from the CI deck: $n\ge30$ if $\sigma$ is known, $n\ge50$ if it is estimated.</p>
+  <p>Consequence: the <b>standardised sample mean</b> is standard normal (exactly for normal data, approximately otherwise):</p>
+  $$Z=\frac{\bar X-\mu}{\sqrt{\sigma^2/n}}=\frac{\bar X-\mu}{\sigma/\sqrt n}\sim N(0,1).$$
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Watch the sampling distribution of $\bar X$ form, and the CLT kick in<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>population <select id="sd_pop">
+      <option value="bern">Bernoulli(0.3)</option>
+      <option value="exp">Exponential(1), skewed</option>
+      <option value="unif">Uniform(0, 1)</option>
+      <option value="norm">Normal N(10, 20)</option>
+      <option value="cars">cars pmf 0.1/0.3/0.5/0.1</option>
+    </select></label>
+    <label>sample size $n$ <input type="range" id="sd_n" min="1" max="100" step="1" value="5"> <span class="val" id="sd_n_v">5</span></label>
+  </div>
+  <div class="ctrl"><span class="btns">
+    <button onclick="sdSim(1)">draw 1 sample</button>
+    <button onclick="sdSim(100)">draw 100</button>
+    <button onclick="sdSim(2000)">draw 2000</button>
+    <button onclick="sdReset()">clear</button>
+    <button onclick="sdPreset('bern',5)">lecture: Bern(0.3), n = 5</button>
+    <button onclick="sdPreset('norm',25)">deck: N(10, 20), n = 25</button>
+    <button onclick="sdPreset('exp',2)">CLT: exponential, n = 2 → try 50</button>
+  </span></div>
+  <div class="grid2" style="align-items:start">
+  <figure style="margin:0"><svg id="sdsvg" viewBox="0 0 360 230"></svg><figcaption>Top: the population. Bottom: the histogram of the simulated $\bar x$ values (density scale), with the curve $N(\mu,\sigma^2/n)$ in amber. For a Bernoulli population the bars sit on the grid $\{0,\frac1n,\dots,1\}$, exactly as in the table above.</figcaption></figure>
+  <div>
+  <div class="readout" id="sdread"></div>
+  <p style="margin-top:10px"><b>Try this.</b> Pick the exponential and set $n=2$: the histogram of $\bar x$ is clearly skewed. Push $n$ to 30, then 100, and redraw: it becomes a bell, even though every single observation still comes from the skewed exponential. That is the CLT. With the normal population the bell is there from $n=1$. In all cases the simulated mean sits at $\mu$ and the simulated variance tracks $\sigma^2/n$ (module 29).</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Normal population: $(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$ (notes p.43 · deck p.17)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>When $X\sim N(\mu,\sigma^2)$ we can also recover the distribution of a function of $S^2$:</p>
+  $$\boxed{\;(n-1)\frac{S^2}{\sigma^2}\sim\chi^2_{n-1}\;}$$
+  <p><b>Why a χ².</b> $(n-1)\frac{S^2}{\sigma^2}=\frac{n-1}{\sigma^2}\cdot\frac1{n-1}\sum(X_i-\bar X)^2=\sum_{i=1}^n\Big(\frac{X_i-\bar X}\sigma\Big)^2$: a <b>sum of squared normals</b>, which is how module 26 defined the χ². It has $n-1$ degrees of freedom, not $n$, because the $n$ deviations satisfy one constraint, $\sum(X_i-\bar X)=0$.</p>
+  <p><b>Why it is useful.</b> It turns any question about $S^2$ into a χ² question:</p>
+  $$P(S^2&gt;t)=P\Big((n-1)\frac{S^2}{\sigma^2}&gt;(n-1)\frac t{\sigma^2}\Big)=1-\texttt{pchisq}\Big((n-1)\frac t{\sigma^2},\,n-1\Big).$$
+  <p class="muted"><b>Deck, also:</b> for normal data $\bar X$ and $S^2$ are <b>independent</b>. This is a special property of the normal, and it is what makes the Student-t result below work.</p>
+  </div>
+  <div class="ex" style="margin:0">
+  <div class="bar">LECTURE 6 · notes pp.43–44 · deck pp.20–21 · X ~ N(10, 20), n = 25</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>The mean.</b> $\bar X\sim N\big(10,\frac{20}{25}\big)=N(10,0.8)$.</li>
+    <li><b>The variance.</b> $(n-1)\frac{S^2}{\sigma^2}=\frac{24}{20}S^2=1.2\,S^2\sim\chi^2_{24}$.</li>
+    <li><b>$P(S^2&gt;10)$.</b> Multiply both sides by 1.2: $P(1.2S^2&gt;12)=1-$<code>pchisq(12, 24)</code>$\approx\mathbf{0.98}$. With $\sigma^2=20$, a sample variance above 10 is almost certain.</li>
+    <li><b>A cut-off.</b> Find $x$ with $P(1.2S^2&gt;x)=0.05$: $x=$<code>qchisq(0.95, 24)</code>$=\mathbf{36.42}$. Corresponding cut-off for $S^2$: $36.42/1.2=\mathbf{30.35}$. Only 5% of samples of 25 give $S^2$ above 30.35.</li>
+  </ol>
+  <figure style="margin:6px 0 0"><svg viewBox="0 0 300 120">
+    <line x1="14" y1="100" x2="290" y2="100" stroke="var(--border2)"/>
+    <path d="M 14 100 L 40 99.6 L 60 97 L 80 88 L 100 70 L 120 48 L 135 36 L 150 31 L 165 33 L 180 42 L 200 58 L 220 74 L 240 86 L 260 93 L 290 98" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <path d="M 233 100 L 233 82 L 240 86 L 260 93 L 290 98 L 290 100 Z" fill="var(--redbg)" stroke="var(--red)"/>
+    <text x="233" y="114" class="svgtxt r" text-anchor="middle">36.42</text>
+    <text x="268" y="80" class="svgtxt r">5%</text>
+    <text x="140" y="70" class="svgtxt b" text-anchor="middle">95%</text>
+    <text x="150" y="16" class="svgtxt" text-anchor="middle">1.2 S² ~ χ²₂₄</text>
+  </svg></figure>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> Normal population, $\sigma$ unknown: $\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}$ (deck §4.3)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Usually $\sigma^2$ is unknown, so $Z=\frac{\bar X-\mu}{\sigma/\sqrt n}$ cannot be computed. Replace $\sigma$ by $S$:</p>
+  $$\boxed{\;T=\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}\;}$$
+  <p><b>Why a Student-t.</b> Module 26: $t_\nu=\frac{Z}{\sqrt{V/\nu}}$ with $Z\sim N(0,1)$ independent of $V\sim\chi^2_\nu$. Here $Z=\frac{\bar X-\mu}{\sigma/\sqrt n}$, $V=\frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}$ (independent of $\bar X$), and $\frac{Z}{\sqrt{V/(n-1)}}=\frac{\bar X-\mu}{\sigma/\sqrt n}\cdot\frac{\sigma}{S}=T$. The unknown $\sigma$ cancels.</p>
+  <p>Estimating $\sigma$ adds uncertainty, so the t has <b>heavier tails</b> than $N(0,1)$ and larger cut-offs. As $n\to\infty$ it tends to $N(0,1)$.</p>
+  </div>
+  <div class="ex" style="margin:0">
+  <div class="bar">DECK pp.24–25 · cut-offs for X ~ N(10, 20)</div>
+  <div class="body">
+  <ol class="steps">
+    <li>$n=25$: $T=\frac{\bar X-10}{\sqrt{S^2/25}}\sim t_{24}$. The 5% cut-off $P(T&gt;t)=0.05$: <code>qt(1-0.05, df=24)</code> $=\mathbf{1.711}$.</li>
+    <li>Normal for comparison: <code>qnorm(1-0.05)</code> $=$ <code>qnorm(0.05, lower.tail=F)</code> $=\mathbf{1.645}$.</li>
+    <li>$n=101$: $t_{100}$ cut-off <code>qt(0.95, df=100)</code> $=\mathbf{1.660}$, much closer to 1.645. For large samples the t cut-offs can be replaced by the normal ones.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">FORMULA</span> Two samples: the difference of two sample means (deck pp.26–28)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Two independent samples $(X_1,\dots,X_{n_1})$ and $(Y_1,\dots,Y_{n_2})$, e.g. household incomes in two regions. In general, regardless of the distribution:</p>
+  $$\mathbb E(\bar X-\bar Y)=\mu_X-\mu_Y,\qquad\mathbb V(\bar X-\bar Y)=\frac{\sigma_X^2}{n_1}+\frac{\sigma_Y^2}{n_2}.$$
+  <p>Variances <b>add</b>, even for a difference: $\mathbb V(-\bar Y)=(-1)^2\mathbb V(\bar Y)$.</p>
+  <ul>
+    <li><b>Normal populations:</b> $\bar X-\bar Y\sim N\big(\mu_X-\mu_Y,\ \frac{\sigma_X^2}{n_1}+\frac{\sigma_Y^2}{n_2}\big)$.</li>
+    <li><b>Bernoulli populations, large $n_1,n_2$:</b> $\bar X-\bar Y\approx N\big(p_1-p_2,\ \frac{p_1(1-p_1)}{n_1}+\frac{p_2(1-p_2)}{n_2}\big)$.</li>
+    <li><b>Normal, equal unknown variance:</b> $\dfrac{(\bar X-\bar Y)-(\mu_1-\mu_2)}{\sqrt{S_c^2\big(\frac1{n_1}+\frac1{n_2}\big)}}\sim t_{n_1+n_2-2}$, with the <b>pooled</b> variance $S_c^2=\frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}$ (module 28).</li>
+  </ul>
+  </div>
+  <div class="ex" style="margin:0">
+  <div class="bar">EXERCISE SET 1 · Q4(d), Q5</div>
+  <div class="body">
+  <p><b>Q4(d)</b> Both normal: $\bar X+\bar Y\sim N\big(\mu_X+\mu_Y,\ \frac{\sigma_X^2}{n_X}+\frac{\sigma_Y^2}{n_Y}\big)$, answer C. Each mean has its own $n$, and the variances add for a sum too.</p>
+  <p><b>Q5</b> $X_i\sim N(\mu_X,\sigma^2)$, $Y_j\sim N(\mu_Y,\sigma^2)$, independent samples of sizes $n,m$.</p>
+  <ol class="steps">
+    <li>$\bar X-\bar Y\sim N\big(\mu_X-\mu_Y,\ \sigma^2(\frac1n+\frac1m)\big)$.</li>
+    <li>$\frac{(n-1)S_X^2}{\sigma^2}\sim\chi^2_{n-1}$ and $\frac{(m-1)S_Y^2}{\sigma^2}\sim\chi^2_{m-1}$ are independent, and independent χ²'s add their degrees of freedom (a sum of $n-1$ plus $m-1$ squared normals):
+    $$\frac{(n-1)S_X^2+(m-1)S_Y^2}{\sigma^2}\sim\chi^2_{n+m-2}.$$</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE SET 1 · Q3(b)–(c) · the bad week, continued</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Daily returns i.i.d. $N(0.01,\,0.05)$; this week (n = 5) gave $\bar x=-0.042$ and $\hat\sigma^2=0.001376$ (module 28). <b>(b)</b> Probability that next week's average is even lower?</p>
+  <ol class="steps">
+    <li>$\bar X\sim N\big(0.01,\frac{0.05}5\big)=N(0.01,0.01)$, so $\sigma_{\bar X}=0.1$.</li>
+    <li>$P(\bar X\le-0.042)=\Phi\Big(\frac{-0.042-0.01}{0.1}\Big)=\Phi(-0.52)=\mathbf{0.3015}$. Answer C.</li>
+  </ol>
+  </div>
+  <div>
+  <p><b>(c)</b> Probability that next week's variance is higher? Write $\hat\sigma^2=\frac{n-1}nS^2$, so $\frac{n\hat\sigma^2}{\sigma^2}=\frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}=\chi^2_4$:</p>
+  $$P(\hat\sigma^2\ge0.001376)=P\Big(\frac{5\hat\sigma^2}{0.05}\ge\frac{5\cdot0.001376}{0.05}\Big)=1-F_{\chi^2_4}(0.1376)\approx0.998.$$
+  <div class="note warn"><div class="t">TRAP · degrees of freedom</div>The solution sheet arrives at $\chi^2_4$: $n-1$ degrees of freedom. The options on the sheet use $\chi^2_5$ and $\chi^2_{10}$, so read them carefully. A χ² with $n$ degrees of freedom would be right only if $\mu$ were known and the deviations were taken from $\mu$ instead of $\bar X$.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A Bernoulli sample mean</div>
+<div class="prob">$X\sim\text{Bern}(0.3)$, $n=5$. Find $P(\bar X\ge0.6)$.</div>
+<details><summary>Answer</summary><div class="sol">$P(\sum X_i\ge3)=0.132+0.028+0.002=0.162$; in R <code>1 - pbinom(2, 5, 0.3)</code> → <code>0.16308</code> (the table rounds).</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>A cut-off for $S^2$</div>
+<div class="prob">$X\sim N(\mu,4)$, $n=11$. Find $c$ with $P(S^2&gt;c)=0.05$, as an R expression.</div>
+<details><summary>Answer</summary><div class="sol">$\frac{10S^2}4\sim\chi^2_{10}$, so $P\big(2.5S^2&gt;\texttt{qchisq(0.95,10)}\big)=0.05$ and $c=\texttt{qchisq(0.95,10)}/2.5=18.31/2.5\approx7.32$.</div></details>
+</div>
+</div>
+</section>

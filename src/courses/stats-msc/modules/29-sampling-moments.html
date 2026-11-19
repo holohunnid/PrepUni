@@ -1,0 +1,175 @@
+<!-- ============ 29 SAMPLING DISTRIBUTIONS: MEAN AND VARIANCE OF X-BAR AND S^2 ============ -->
+<section id="s29">
+<div class="sec-head"><span class="num">29</span><h2>Mean &amp; variance of $\bar X$ and $S^2$</h2><span class="sub">lecture 6, notes pp.40–41 · Point Estimation deck §3.1 · exercise set 1</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> A statistic is a random variable, so it has a distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Draw a sample, compute $\bar x$. Draw <b>another</b> sample from the same population, and you get a different $\bar x$. Repeat forever and the values of $\bar x$ form a distribution, the <b>sampling distribution</b> of $\bar X$. Every statistic has one.</p>
+  <p>Finding the full sampling distribution is often impossible. But its <b>mean and variance</b> are easy for the two statistics we care most about, and they hold <b>whatever the population</b>:</p>
+  $$\mathbb E(\bar X)=\mu,\qquad \mathbb V(\bar X)=\frac{\sigma^2}n,\qquad \mathbb E(S^2)=\sigma^2.$$
+  <p>These three lines drive the whole estimation block. $\bar X$ is centred on the right value; its spread shrinks like $1/n$, so more data means a less variable $\bar X$; and dividing by $n-1$ is exactly what makes $S^2$ centred on $\sigma^2$.</p>
+  <div class="note tip"><div class="t">What you need for the exam</div>The three boxed results and the two-line proofs for $\bar X$ (linearity, then independence). Know that $\mathbb E(S)\le\sigma$ (Jensen) and the formula for $\mathbb V(S^2)$, which simplifies to $\frac{2\sigma^4}{n-1}$ for normal data. The last one is used for MSE in module 35.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 6</span> What the lecturer said (notes p.40)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Note 1: sample statistics are RVs.</b></p>
+  <p><b>Note 2:</b> $\frac1n\sum_{i=1}^n(X_i-\mu)^2$ is <b>not a statistic</b>, since it depends on the unknown $\mu$: we don't know its realised value even after we observe $\underline x$.</p>
+  <p>The distribution of a sample statistic is called a <b>sampling distribution</b>:</p>
+  $$Y=t(X_1,\dots,X_n)\ \Rightarrow\ F_Y(y)=P(Y\le y)=P\big(t(X_1,\dots,X_n)\le y\big).$$
+  <p>Often it is not possible to derive $F_Y$, but there are some exceptions (module 30). The moments, however, we can always get.</p>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 330 190">
+    <text x="165" y="14" class="svgtxt w" text-anchor="middle">one population, many samples, many x̄'s</text>
+    <rect x="12" y="26" width="86" height="40" rx="4" fill="var(--panel2)" stroke="var(--border2)"/>
+    <text x="55" y="44" class="svgtxt" text-anchor="middle">population</text>
+    <text x="55" y="58" class="svgtxt" text-anchor="middle" font-size="9.5">mean μ, var σ²</text>
+    <path d="M 98 40 L 150 30 M 98 46 L 150 60 M 98 52 L 150 90" stroke="var(--border2)" fill="none"/>
+    <text x="156" y="34" class="svgtxt">sample 1 → x̄ = 3.4</text>
+    <text x="156" y="64" class="svgtxt">sample 2 → x̄ = 2.9</text>
+    <text x="156" y="94" class="svgtxt">sample 3 → x̄ = 3.7  …</text>
+    <line x1="40" y1="170" x2="300" y2="170" stroke="var(--border2)"/>
+    <path d="M 60 169 L 90 165 L 115 150 L 135 126 L 150 112 L 165 106 L 180 112 L 195 126 L 215 150 L 240 165 L 270 169" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <line x1="165" y1="106" x2="165" y2="176" stroke="var(--amber)" stroke-dasharray="3 3"/>
+    <text x="165" y="186" class="svgtxt a" text-anchor="middle">E(X̄) = μ</text>
+    <text x="250" y="140" class="svgtxt b">spread² = σ²/n</text>
+    <text x="40" y="124" class="svgtxt b" font-size="9.5">sampling distribution of X̄</text>
+  </svg><figcaption>Each sample gives one $\bar x$. Their histogram is the sampling distribution of $\bar X$: centred at $\mu$, with variance $\sigma^2/n$.</figcaption></figure>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> $\mathbb E(\bar X)=\mu$, regardless of the distribution of $X$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\mathbb E(\bar X)=\mathbb E\Big(\frac1n\sum_{i=1}^nX_i\Big)\overset{\text{linearity}}=\frac1n\sum_{i=1}^n\mathbb E(X_i)\overset{\text{i.d.}}=\frac1n\sum_{i=1}^n\mu=\frac1n\,n\mu=\boxed{\mu}$$
+  <p>Two ingredients: <b>linearity</b> of $\mathbb E$ (module 16), and that every $X_i$ has the same mean $\mu$. Independence is <b>not</b> needed for this one.</p>
+  <div class="note warn"><div class="t">Exercise set 1, Q1</div>$X_1,\dots,X_n$ have means $\mu_1,\dots,\mu_n$. When is $\mathbb E(\bar X)=\mu_1$? Answer <b>B</b>: when $\mu_i=\mu_1$ for all $i$. "It exists one $j$ with $\mu_j=\mu_1$" is not enough, and independence (D) is irrelevant for a mean.</div>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> $\mathbb V(\bar X)=\sigma^2/n$, regardless of the distribution of $X$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\mathbb V(\bar X)=\mathbb V\Big(\frac1n\sum X_i\Big)=\frac1{n^2}\mathbb V\Big(\sum X_i\Big)\overset{\text{indep.}}=\frac1{n^2}\sum_{i=1}^n\mathbb V(X_i)\overset{\text{i.d.}}=\frac1{n^2}\,n\sigma^2=\boxed{\frac{\sigma^2}n}$$
+  <p>Here $\sigma^2$ is the <b>population</b> variance. The constant comes out <b>squared</b> (module 17). <b>Independence</b> is what lets the variance of the sum split into the sum of the variances.</p>
+  <p><b>More data ⇒ less variable $\bar X$</b>: quadruple $n$ and the standard deviation $\sigma/\sqrt n$ of $\bar X$ halves. This $\sigma/\sqrt n$ is called the <b>standard error</b> of the mean, and it reappears in every confidence interval (modules 37–38).</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> $\mathbb E(S^2)=\sigma^2$, and what it does <i>not</i> say about $S$ (notes pp.40–41)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>The notes skip the steps; here they are. Start from the shortcut of module 28, $\sum(X_i-\bar X)^2=\sum X_i^2-n\bar X^2$, so</p>
+  $$S^2=\frac1{n-1}\Big(\sum_{i=1}^nX_i^2-n\bar X^2\Big).$$
+  <p>Now use $\mathbb E(Y^2)=\mathbb V(Y)+\mathbb E(Y)^2$ twice: $\mathbb E(X_i^2)=\sigma^2+\mu^2$ and $\mathbb E(\bar X^2)=\frac{\sigma^2}n+\mu^2$. Then</p>
+  $$\mathbb E(S^2)=\frac1{n-1}\Big[n(\sigma^2+\mu^2)-n\Big(\frac{\sigma^2}n+\mu^2\Big)\Big]=\frac{(n-1)\sigma^2}{n-1}=\boxed{\sigma^2}$$
+  <p><b>Why $n-1$.</b> The deviations are measured from $\bar X$, which is itself fitted to the data, so they come out slightly too small on average. Exactly one "$\sigma^2$" worth is lost, which leaves $n-1$.</p>
+  </div>
+  <div>
+  <p><b>But $\mathbb E(S)\le\sigma$.</b> The square root of an unbiased estimator is not unbiased. This is a consequence of <b>Jensen's inequality</b>: for a <b>convex</b> function $\varphi$,</p>
+  $$\varphi\big(\mathbb E(X)\big)\le\mathbb E\big(\varphi(X)\big).$$
+  <p>Take $\varphi(s)=s^2$ (convex) and $X=S$:</p>
+  $$\big(\mathbb E(S)\big)^2\le\mathbb E(S^2)=\sigma^2\ \Rightarrow\ \sqrt{\mathbb E(S)^2}\le\sqrt{\sigma^2}\ \Rightarrow\ \boxed{\mathbb E(S)\le\sigma}$$
+  <p class="muted">Jensen is the same fact as $\mathbb V(S)=\mathbb E(S^2)-\mathbb E(S)^2\ge0$. The inequality is strict unless $S$ is constant.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEOREM</span> The variance of $S^2$, and kurtosis (notes p.41 · deck p.9)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$\boxed{\;\mathbb V(S^2)=\frac{\sigma^4}n\Big(\beta_2+\frac{2n}{n-1}\Big)\;},\qquad\beta_2=\frac{\mu_4}{\sigma^4}-3$$
+  <p>with $\mu_4=\mathbb E[(X-\mu)^4]$ the fourth central moment. $\frac{\mu_4}{\sigma^4}$ is the <b>kurtosis</b>, and $\beta_2$ the <b>excess kurtosis</b>: the "intensity of the tails" compared with a normal. Heavy tails make $S^2$ jumpy, because one extreme observation moves it a lot.</p>
+  <p><b>Special case $X\sim N(\mu,\sigma^2)$:</b> the normal has $\beta_2=0$, so</p>
+  $$\mathbb V(S^2)=\frac{\sigma^4}n\cdot\frac{2n}{n-1}=\boxed{\frac{2\sigma^4}{n-1}}$$
+  <p>This is the number module 35 plugs into the MSE of $S^2$.</p>
+  </div>
+  <div>
+  <table class="formula-table">
+    <tr><th>excess kurtosis $\beta_2$</th><th>name (deck)</th><th>examples</th></tr>
+    <tr><td class="c">$=0$</td><td>mesokurtic</td><td>every normal</td></tr>
+    <tr><td class="c">$&gt;0$</td><td>leptokurtic: fatter tails</td><td>Student-t, exponential, Poisson, Laplace, logistic</td></tr>
+    <tr><td class="c">$&lt;0$</td><td>platykurtic: thinner tails</td><td>uniform (continuous and discrete); Bernoulli($\frac12$) has the minimum, $\beta_2=-2$</td></tr>
+  </table>
+  <div class="note"><div class="t">Homework 21/11, Q1</div>The kurtosis of $U(0,1)$: $\mu_4=\int_0^1(x-\tfrac12)^4dx=\frac1{80}$ and $\sigma^2=\frac1{12}$, so $\frac{\mu_4}{\sigma^4}=\frac{1/80}{1/144}=\frac95$ (answer C). Excess kurtosis $\frac95-3=-1.2&lt;0$: platykurtic, as the table says.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">DECK pp.11–12 · the cars example: the whole distribution of $\bar X$ and $S^2$ for n = 2</div>
+  <div class="body">
+  <p>Population of module 27: $f(0)=0.1$, $f(1)=0.3$, $f(2)=0.5$, $f(3)=0.1$. Then $\mu=1.6$ and $\sigma^2=3.2-1.6^2=0.64$. For each of the 16 samples of size 2, compute $\bar x$ and $s^2$ and collect the probabilities:</p>
+  <table class="formula-table">
+    <tr><th>$\bar x$</th><td class="c">0</td><td class="c">0.5</td><td class="c">1</td><td class="c">1.5</td><td class="c">2</td><td class="c">2.5</td><td class="c">3</td></tr>
+    <tr><th>$f$</th><td class="c">0.01</td><td class="c">0.06</td><td class="c">0.19</td><td class="c">0.32</td><td class="c">0.31</td><td class="c">0.10</td><td class="c">0.01</td></tr>
+  </table>
+  <table class="formula-table">
+    <tr><th>$s^2$</th><td class="c">0</td><td class="c">0.5</td><td class="c">2</td><td class="c">4.5</td></tr>
+    <tr><th>$f$</th><td class="c">0.36</td><td class="c">0.46</td><td class="c">0.16</td><td class="c">0.02</td></tr>
+  </table>
+  <ol class="steps">
+    <li>$\mathbb E(\bar X)=0.01\cdot0+0.06\cdot0.5+\dots+0.01\cdot3=1.6=\mu$ ✓</li>
+    <li>$\mathbb V(\bar X)=\sum f\,(\bar x-1.6)^2=0.32=\frac{0.64}2=\frac{\sigma^2}n$ ✓</li>
+    <li>$\mathbb E(S^2)=0.46\cdot0.5+0.16\cdot2+0.02\cdot4.5=0.23+0.32+0.09=0.64=\sigma^2$ ✓</li>
+  </ol>
+  <p class="muted">For a sample of two, $s^2=\frac{(x_1-x_2)^2}2$. So $(0,3)$ gives $4.5$ and $(1,2)$ gives $0.5$.</p>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">DECK pp.9–10 · families of a small community, N = 8, n = 2</div>
+  <div class="body">
+  <p>Family sizes $2,5,4,3,3,4,4,4$. So $X$ takes $2,3,4,5$ with probabilities $\frac18,\frac28,\frac48,\frac18$, with $\mathbb E(X)=3.625$ and $\mathbb V(X)=0.734$. Draw two families <b>with replacement</b>: 64 equally likely pairs.</p>
+  <table class="formula-table">
+    <tr><th>$\bar x$</th><td class="c">2</td><td class="c">2.5</td><td class="c">3</td><td class="c">3.5</td><td class="c">4</td><td class="c">4.5</td><td class="c">5</td></tr>
+    <tr><th>$64\,f$</th><td class="c">1</td><td class="c">4</td><td class="c">12</td><td class="c">18</td><td class="c">20</td><td class="c">8</td><td class="c">1</td></tr>
+  </table>
+  <ol class="steps">
+    <li>$\mathbb E(\bar X)=\frac{2\cdot1+2.5\cdot4+\dots+5\cdot1}{64}=3.625=\mathbb E(X)$ ✓</li>
+    <li>$\mathbb V(\bar X)=\frac{2^2\cdot1+\dots+5^2\cdot1}{64}-3.625^2=0.3672=\frac{0.734}2$ ✓</li>
+  </ol>
+  <p>Notice how the $\bar x$ table piles up in the middle even though the population is lopsided: the first hint of the CLT (module 30).</p>
+  <p class="muted">The deck has a third example in the same style (credit cards of 6 subjects, $\mathbb E=4/3$, $\mathbb V=8/9$, $\mathbb V(\bar X)=4/9$).</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAP</span> What the three results do and do not say<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ul>
+    <li><b>$\mathbb E(\bar X)=\mu$ is about the random $\bar X$, averaged over all samples.</b> Your one observed $\bar x$ is almost never exactly $\mu$.</li>
+    <li><b>$\mathbb V(\bar X)=\sigma^2/n$ uses the population $\sigma^2$, not $S^2$.</b> In practice $\sigma^2$ is unknown and gets replaced by $S^2$. That substitution is what turns $N(0,1)$ into Student-t in modules 30 and 38.</li>
+    <li><b>Nothing here says $\bar X$ is normal.</b> Mean and variance are distribution-free; the shape is not. Normality of $\bar X$ needs normal data, or a large $n$ via the CLT (module 30).</li>
+    <li><b>$S$ is biased even though $S^2$ is not.</b> Unbiasedness does not survive non-linear functions. Invariance does survive them for MLEs, which is one reason module 34 likes MLEs.</li>
+  </ul>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Precision on demand</div>
+<div class="prob">Daily returns have $\sigma=2\%$. How many days are needed for the standard error of $\bar X$ to be $0.25\%$?</div>
+<details><summary>Answer</summary><div class="sol">$\sigma/\sqrt n=0.25\Rightarrow\sqrt n=2/0.25=8\Rightarrow n=64$ days. Halving it to $0.125\%$ needs $n=256$: four times the data for twice the precision.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Variance of $S^2$</div>
+<div class="prob">$X\sim N(\mu,9)$ and $n=10$. Give $\mathbb E(S^2)$, $\mathbb V(S^2)$ and $\mathbb V(\bar X)$.</div>
+<details><summary>Answer</summary><div class="sol">$\mathbb E(S^2)=9$. $\mathbb V(S^2)=\frac{2\cdot81}{9}=18$. $\mathbb V(\bar X)=\frac9{10}=0.9$.</div></details>
+</div>
+</div>
+</section>

@@ -1,6 +1,6 @@
 <!-- ============ 26 CHI-SQUARED, STUDENT-T & PERCENTILES ============ -->
 <section id="s26">
-<div class="sec-head"><span class="num">26</span><h2>χ², Student-t &amp; percentiles</h2><span class="sub">slides: Special Continuous RVs 20–28, 31 · ahead of the lecture notes</span></div>
+<div class="sec-head"><span class="num">26</span><h2>χ², Student-t &amp; percentiles</h2><span class="sub">lectures 4–5, notes pp.31–34 · slides: Special Continuous RVs 20–28, 31</span></div>
 
 <div class="panel">
   <div class="bar"><span class="pill a">READ FIRST</span> Distributions built out of normals, and how to read them backwards<span class="ctl">— ⊡ ✕</span></div>
@@ -353,6 +353,79 @@
   </svg><figcaption>Quartiles cut the area into four equal pieces. For the symmetric normal they sit symmetrically, $\pm0.674$ around the median 0. For the skewed exponential the pieces have very different widths: the last quarter stretches from 1.386 to infinity.</figcaption></figure>
   </div>
   <div class="note warn"><div class="t">Where the deck stops</div>The PDF ends after this first "Percentiles" slide: the navigation bar shows six more frames in the section that are not in the file. The worked percentiles below are computed here, not transcribed.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 5</span> Quantiles in the notes: the box plot, the IQR and Value at Risk (notes p.34)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>The lecture writes the same definition with a strict inequality: $\pi_p$ is the <b>$p$-th quantile</b>, $0&lt;p&lt;1$, if</p>
+  $$P(X&lt;\pi_p)=p$$
+  <p>(for a continuous $X$, $&lt;$ and $\le$ give the same number). "Quantile" and "percentile" are the same object: $\pi_{0.25}$ is the 25th percentile. The <b>median</b> is $\pi_{0.5}$: 50% of the probability on each side.</p>
+  <h3>The 5-number summary and the box plot</h3>
+  <p>Five quantiles summarise a whole distribution (or a dataset): <b>min, $\pi_{0.25}$, median $\pi_{0.5}$, $\pi_{0.75}$, max</b>. Drawn as a box plot:</p>
+  <ul>
+    <li>the <b>box</b> runs from $\pi_{0.25}$ to $\pi_{0.75}$ and holds the middle 50% of the data; the line inside is the median;</li>
+    <li>25% of the data lies below the box and 25% above it;</li>
+    <li>the <b>inter-quartile range</b> $\text{IQR}=\pi_{0.75}-\pi_{0.25}$ is the length of the box, a measure of spread that ignores the tails;</li>
+    <li>points further than $1.5\cdot\text{IQR}$ from the box are drawn one by one as <b>outliers</b>. The notes write the rule around the median; R's <code>boxplot</code> measures from the box edges: below $\pi_{0.25}-1.5\,\text{IQR}$ or above $\pi_{0.75}+1.5\,\text{IQR}$.</li>
+  </ul>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 340 200">
+    <line x1="60" y1="20" x2="60" y2="180" stroke="var(--border2)"/>
+    <circle cx="60" cy="26" r="3" fill="none" stroke="var(--red)"/>
+    <circle cx="60" cy="34" r="3" fill="none" stroke="var(--red)"/>
+    <line x1="60" y1="46" x2="60" y2="70" stroke="var(--text)"/>
+    <line x1="48" y1="46" x2="72" y2="46" stroke="var(--text)"/>
+    <rect x="36" y="70" width="48" height="60" fill="var(--bluebg)" stroke="var(--blue)" stroke-width="1.5"/>
+    <line x1="36" y1="96" x2="84" y2="96" stroke="var(--amber)" stroke-width="2.2"/>
+    <line x1="60" y1="130" x2="60" y2="158" stroke="var(--text)"/>
+    <line x1="48" y1="158" x2="72" y2="158" stroke="var(--text)"/>
+    <circle cx="60" cy="172" r="3" fill="none" stroke="var(--red)"/>
+    <text x="96" y="33" class="svgtxt r">outliers: beyond 1.5·IQR</text>
+    <text x="96" y="50" class="svgtxt">max (end of the whisker)</text>
+    <text x="96" y="74" class="svgtxt b">π0.75 · 25% of data above</text>
+    <text x="96" y="100" class="svgtxt a">median π0.5</text>
+    <text x="96" y="132" class="svgtxt b">π0.25 · 25% of data below</text>
+    <text x="96" y="162" class="svgtxt">min (end of the whisker)</text>
+    <path d="M 28 70 L 22 70 L 22 130 L 28 130" fill="none" stroke="var(--green)"/>
+    <text x="16" y="104" class="svgtxt g" text-anchor="middle" transform="rotate(-90 16 100)">IQR</text>
+  </svg><figcaption>The box plot of the lecture: the box is the middle half of the data, its length is the IQR, and the median splits it.</figcaption></figure>
+  </div>
+  <div class="grid2" style="align-items:start;margin-top:10px">
+  <div>
+  <h3>Value at Risk is a quantile</h3>
+  <p>Let $X$ be the return of a portfolio over a day. The <b>10% VaR</b> is the 10% quantile of $X$: the return $\pi_{0.10}$ with $P(X&lt;\pi_{0.10})=0.10$. The notes' example: a 10% VaR of $-0.8\%$ means a <b>10% probability that the portfolio loses more than 0.8%</b>. That is the shaded left tail in the figure.</p>
+  <p>If the return is normal, $X\sim N(\mu,\sigma^2)$, the quantile is $\pi_p=\mu+\sigma z_p$, with $z_p=\Phi^{-1}(p)$ (module 25). For $p=0.10$, $z_{0.10}=-1.2816$. So a daily return $N(0.05\%,\,0.66\%^2)$ has 10% VaR $0.05-1.2816\cdot0.66\approx-0.80\%$.</p>
+  <div class="note fin"><div class="t">R corner</div><code>qnorm(0.10, mean = 0.05, sd = 0.66)</code> → <code>-0.7958</code>. On data: <code>quantile(x, 0.10)</code>, <code>summary(x)</code> (gives the 5-number summary and the mean), <code>IQR(x)</code>, <code>boxplot(x)</code>.</div>
+  </div>
+  <figure style="margin:0"><svg viewBox="0 0 340 150">
+    <line x1="20" y1="120" x2="330" y2="120" stroke="var(--border2)"/>
+    <path d="M 20 119.6 L 40 118.7 L 60 116.5 L 80 111.6 L 100 102.4 L 120 87.4 L 140 66.6 L 160 43.8 L 175 30.6 L 185 26.0 L 195 30.6 L 210 43.8 L 230 66.6 L 250 87.4 L 270 102.4 L 290 111.6 L 310 116.5 L 330 118.7" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <path d="M 20 120 L 20 119.6 L 40 118.7 L 60 116.5 L 80 111.6 L 100 102.4 L 117 90 L 117 120 Z" fill="var(--redbg)" stroke="var(--red)"/>
+    <line x1="117" y1="120" x2="117" y2="128" stroke="var(--red)"/>
+    <text x="117" y="141" class="svgtxt r" text-anchor="middle">−0.8% = π0.10</text>
+    <text x="64" y="96" class="svgtxt r" text-anchor="middle">10%</text>
+    <text x="185" y="16" class="svgtxt" text-anchor="middle">pdf of the portfolio return X</text>
+    <line x1="185" y1="120" x2="185" y2="126" stroke="var(--border2)"/>
+    <text x="185" y="138" class="svgtxt" text-anchor="middle">0</text>
+  </svg><figcaption>VaR as a quantile: the area to the left of the VaR is the probability of a worse loss.</figcaption></figure>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">LECTURE 5</span> Homework from the notes: the discrete uniform as a shifted DUnif(1, m) (notes pp.34–35)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$X\sim\text{DUnif}(a,b)$ and $Y\sim\text{DUnif}(1,\,b-a+1)$. Let $Z=(a-1)+Y$. <b>Prove $X\overset{d}{=}Z$</b> (same distribution), then use it to get $\mathbb V(X)$.</p>
+  <ol class="steps">
+    <li><b>Supports.</b> $\text{Supp}(X)=\{a,a+1,\dots,b\}$ with $f_X(x)=\frac1{b-a+1}$. $\text{Supp}(Y)=\{1,2,\dots,b-a+1\}$, so $\text{Supp}(Z)=\{(a-1)+1,\dots,(a-1)+(b-a+1)\}=\{a,\dots,b\}$. Same support.</li>
+    <li><b>Probabilities.</b> $f_Z(z)=P\big((a-1)+Y=z\big)=P(Y=z-a+1)=\frac1{b-a+1}$. Same pmf, so $X\overset d=Z$.</li>
+    <li><b>Variance.</b> Since $X\overset d=Z$ and $a-1$ is a constant, $\mathbb V(X)=\mathbb V(Z)=\mathbb V\big((a-1)+Y\big)=\mathbb V(Y)$. $Y$ starts at 1, so the sums $\sum_{i=1}^m i=\frac{m(m+1)}2$ and $\sum_{i=1}^m i^2=\frac{m(m+1)(2m+1)}6$ apply directly with $m=b-a+1$. This gives $\mathbb V(Y)=\frac{(b-a+1)^2-1}{12}$, worked out in module 21.</li>
+  </ol>
+  <p class="muted">The notes mark the algebra of step 3 as "not so important". The idea that matters is the shift: a constant moves the distribution but not its spread.</p>
   </div>
 </div>
 

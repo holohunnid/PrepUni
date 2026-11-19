@@ -1,0 +1,243 @@
+<!-- ============ 34 MLE: THE STANDARD MODELS, MULTI-PARAMETER, NUMERICAL, INVARIANCE ============ -->
+<section id="s34">
+<div class="sec-head"><span class="num">34</span><h2>MLE: Poisson, exponential, normal &amp; more</h2><span class="sub">lecture 7, notes pp.51–54 · Point Estimation deck §5.3–5.7 · exercise sets 2–3</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The recipe of module 33, applied until it is automatic<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Every MLE exercise has the same five lines: $\ln f(x;\theta)$ → $\ell(\theta)=\sum\ln f(x_i;\theta)$ → $\ell'(\theta)=0$ → $\ell''(\hat\theta)&lt;0$ → limits at the boundaries of $\Theta$. This module runs them for the models of the lectures, then covers what happens beyond:</p>
+  <table class="formula-table">
+    <tr><th>model</th><th>MLE</th><th>where</th></tr>
+    <tr><td>$\text{Bern}(p)$</td><td>$\hat p=\bar X$</td><td>module 33</td></tr>
+    <tr><td>$\text{Pois}(\lambda)$</td><td>$\hat\lambda=\bar X$</td><td>below</td></tr>
+    <tr><td>$\text{Exp}(\lambda)$</td><td>$\hat\lambda=1/\bar X$</td><td>below</td></tr>
+    <tr><td>$N(\mu,1)$</td><td>$\hat\mu=\bar X$</td><td>below</td></tr>
+    <tr><td>$N(\mu,\sigma^2)$</td><td>$\hat\mu=\bar X$, $\ \hat\sigma^2=\frac1n\sum(X_i-\bar X)^2=\frac{n-1}nS^2$</td><td>multi-parameter</td></tr>
+    <tr><td>$U(0,\theta)$</td><td>$\hat\theta=\max X_i$</td><td>support depends on $\theta$</td></tr>
+  </table>
+  <p>Then <b>numerical algorithms</b> for when no formula exists, and the <b>invariance property</b>: the MLE of any function $\tau(\theta)$ is $\tau(\hat\theta)$.</p>
+  <div class="note warn"><div class="t">EXAM (lecturer, notes pp.52–54)</div>"Expect <b>one parameter</b> to be found for MLE" (open question). Multi-parameter: <b>theory questions only, no exercises</b>. "<b>Apply this property of invariance</b>." That third one is a favourite MCQ: "what is the MLE of $P(X=0)$?"</div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="ex">
+  <div class="bar">LECTURE 7 · notes p.51 · deck pp.42–43 · X ~ Pois(λ)</div>
+  <div class="body">
+  <p>$f(x;\lambda)=\frac{\lambda^xe^{-\lambda}}{x!}$, $x=0,1,2,\dots$, $\Theta=(0,\infty)$.</p>
+  <ol class="steps">
+    <li><b>Log of one pmf.</b> $\ln f=\ln\lambda^x+\ln e^{-\lambda}+\ln(x!)^{-1}=x\ln\lambda-\lambda-\ln x!$.<br>The last term does not contain $\lambda$: it is <b>useless for finding $\hat\lambda$</b>. Drop it and write "$\propto$" (proportional to, having removed the irrelevant terms): $\ln f\propto x\ln\lambda-\lambda$.</li>
+    <li><b>Log-likelihood.</b> $\ell(\lambda)\propto\sum(x_i\ln\lambda-\lambda)=\sum x_i\ln\lambda-n\lambda$.</li>
+    <li><b>FOC.</b> $\ell'(\lambda)=\frac{\sum x_i}\lambda-n\overset{\text{fix}}=0\Rightarrow\frac{n\bar x}{\hat\lambda}=n\Rightarrow\boxed{\hat\lambda=\bar x}$, the MLE of $\lambda$ for the Poisson model.</li>
+    <li><b>SOC.</b> $\ell''(\lambda)=-\frac{\sum x_i}{\lambda^2}&lt;0$ ⇒ $\hat\lambda$ is a max point (when $\sum x_i&gt;0$).</li>
+    <li><b>Boundaries.</b> $\lambda\to0$: $\sum x_i\ln\lambda\to-\infty$ and $n\lambda\to0$, so $\ell\to-\infty$. $\lambda\to\infty$: $\ell=\lambda\big[\sum x_i\frac{\ln\lambda}\lambda-n\big]$, and $\frac{\ln\lambda}\lambda\to0$, so the bracket tends to $-n$ and $\ell\to-\infty$.</li>
+  </ol>
+  <p class="muted">For $(2,4,3,3)$: $\hat\lambda=3$, and indeed $L(3)=0.00189&gt;L(3.5)=0.00163$ (module 27).</p>
+  </div>
+</div>
+<div class="ex">
+  <div class="bar">LECTURE 7 · notes pp.51–52 · deck pp.43–44 · X ~ Exp(λ)</div>
+  <div class="body">
+  <p>$f(x;\lambda)=\lambda e^{-\lambda x}$, $x&gt;0$, $\Theta=(0,\infty)$.</p>
+  <ol class="steps">
+    <li>$\ln f(x;\lambda)=\ln\lambda-\lambda x$.</li>
+    <li>$\ell(\lambda)=\sum(\ln\lambda-\lambda x_i)=n\ln\lambda-\lambda\sum x_i$.</li>
+    <li><b>FOC.</b> $\ell'(\lambda)=\frac n\lambda-\sum x_i\overset{\text{fix}}=0\Rightarrow\frac n{\hat\lambda}=\sum x_i\Rightarrow\boxed{\hat\lambda=\frac n{\sum x_i}=\bar X^{-1}}$</li>
+    <li><b>SOC.</b> $\ell''(\lambda)=-\frac n{\lambda^2}&lt;0$ ⇒ max point.</li>
+    <li><b>Boundaries.</b> $\lambda\to0$: $n\ln\lambda\to-\infty$, $\lambda\sum x_i\to0$, so $\ell\to-\infty$. $\lambda\to\infty$: $\ell=\lambda\big[n\frac{\ln\lambda}\lambda-\sum x_i\big]$; the bracket tends to the negative constant $-\sum x_i$, so $\ell\to-\infty$.</li>
+  </ol>
+  <p>Same answer as the method of moments (module 32): $1/\bar X$.</p>
+  </div>
+</div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 7 · notes p.52 · deck pp.44–46 · "a last example on MLE": X ~ N(μ, 1)</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$f(x;\mu)=\frac1{\sqrt{2\pi}}\exp\{-\frac12(x-\mu)^2\}$, $\Theta=\mathbb R$.</p>
+  <ol class="steps">
+    <li>$\ln f(x;\mu)=\ln\frac1{\sqrt{2\pi}}+\ln\exp\{-\tfrac12(x-\mu)^2\}\propto-\frac12(x-\mu)^2$.</li>
+    <li>$\ell(\mu)\propto\sum-\frac12(x_i-\mu)^2=-\frac12\sum(x_i-\mu)^2$.</li>
+    <li><b>FOC.</b> $\ell'(\mu)=-\frac12\sum\frac{\partial}{\partial\mu}(x_i-\mu)^2=-\frac12\sum2(x_i-\mu)(-1)=\sum(x_i-\mu)\overset{\text{fix}}=0$.<br>$\sum(x_i-\hat\mu)=0\Rightarrow\sum x_i-n\hat\mu=0\Rightarrow\boxed{\hat\mu=\bar x}$</li>
+    <li><b>SOC.</b> $\ell''(\mu)=\frac\partial{\partial\mu}\big(\sum x_i-n\mu\big)=-n&lt;0$.</li>
+    <li><b>Boundaries.</b> $\lim_{\mu\to\pm\infty}\big[-\frac12\sum(x_i-\mu)^2\big]=-\infty$. ⇒ $\bar X$ is the MLE of $\mu$ when $X\sim N(\mu,1)$.</li>
+  </ol>
+  </div>
+  <div>
+  <p><b>Deck, with numbers:</b> $\underline x=(1.9,1.2,1.8,0.5)$ gives $\hat\mu=\frac{5.4}4=\mathbf{1.35}$. The plot of $L(\mu)$ shows $L(1)&gt;L(2)$: more evidence for $\mu=1$ than for $\mu=2$, and the peak is at 1.35. The interactive figure of module 33 reproduces it.</p>
+  <p><b>Second proof without calculus</b> (deck p.46). Maximising $\ell$ means minimising $g(\mu)=\sum(x_i-\mu)^2$. Add and subtract $\bar x$:</p>
+  $$g(\mu)=\sum(x_i-\bar x)^2+n(\bar x-\mu)^2+2(\bar x-\mu)\underbrace{\textstyle\sum(x_i-\bar x)}_{0}$$
+  <p>The first term does not depend on $\mu$, and the second is $\ge0$ and zero exactly at $\mu=\bar x$. So $\hat\mu=\bar x$, the <b>least-squares</b> point.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEORY</span> Multi-parameter extension (notes pp.52–53 · deck §5.4)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$\theta=(\theta_1,\theta_2,\dots,\theta_k)$, $k&gt;1$. Then</p>
+  <ol class="steps">
+    <li>set every partial derivative to zero: $\dfrac{\partial}{\partial\theta_j}\ell(\theta;\underline x)\overset{\text{fix}}=0$, $j=1,\dots,k$ ($k$ equations, $k$ unknowns);</li>
+    <li>check that the matrix of second derivatives, the <b>Hessian</b>, is <b>negative definite</b> at the solution:
+    $$H=\Big(\frac{\partial^2}{\partial\theta_i\,\partial\theta_j}\ell(\theta;\underline x)\Big)_{i,j}$$
+    (all eigenvalues negative; for a diagonal $H$, all diagonal entries negative);</li>
+    <li>check the limits of $\ell(\theta;\underline x)$ at the boundaries of each $\theta_j$.</li>
+  </ol>
+  <div class="note warn"><div class="t">EXAM</div>Multi-parameter MLE: <b>theory questions</b>, no exercises to solve. Know the three steps and the result for $N(\mu,\sigma^2)$.</div>
+  </div>
+  <div>
+  <p><b>Example: $X\sim N(\mu,\sigma^2)$, $\theta=(\mu,\sigma^2)$, $k=2$</b> (steps omitted in the lecture; here from the deck):</p>
+  $$\ell(\mu,\sigma^2)=-\frac n2\ln(2\pi\sigma^2)-\frac1{2\sigma^2}\sum(x_i-\mu)^2$$
+  $$\begin{cases}\dfrac{\partial\ell}{\partial\mu}=\dfrac1{\sigma^2}\sum(x_i-\mu)=0\\[8pt]\dfrac{\partial\ell}{\partial\sigma^2}=-\dfrac n{2\sigma^2}+\dfrac1{2\sigma^4}\sum(x_i-\mu)^2=0\end{cases}$$
+  $$\Rightarrow\ \boxed{\hat\mu=\bar x,\qquad\hat\sigma^2=\frac1n\sum(x_i-\bar x)^2=\frac{n-1}nS^2}$$
+  <p>At the solution the Hessian is diagonal, $H=\text{diag}\big(-\frac n{\hat\sigma^2},\,-\frac n{2\hat\sigma^4}\big)$, so it is negative definite ✓. Note that $\hat\sigma^2$ is the same estimator as analogy (31) and moments (32): three methods, one answer, and module 35 asks whether it is any good.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">THEORY</span> When there is no formula: numerical maximisation (notes p.53 · deck §5.5)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Many times it is <b>not possible to find an analytical solution</b> to the MLE. Then we use numerical procedures to maximise $\ell(\theta;\underline x)$, starting at a guess $\theta^{(0)}$ and updating:</p>
+  <p><b>Newton–Raphson</b></p>
+  $$\theta^{(t+1)}=\theta^{(t)}+J\big(\theta^{(t)}\big)^{-1}s\big(\theta^{(t)}\big)$$
+  <ul>
+    <li>$s(\theta)$ = <b>score function</b>: the vector of first derivatives of $\ell(\theta;\underline x)$;</li>
+    <li>$J(\theta)$ = <b>observed information matrix</b>: the matrix of second derivatives of $\ell$, multiplied by $-1$.</li>
+  </ul>
+  <p><b>Fisher scoring</b></p>
+  $$\theta^{(t+1)}=\theta^{(t)}+I\big(\theta^{(t)}\big)^{-1}s\big(\theta^{(t)}\big),\qquad I(\theta)=\mathbb E\big[J(\theta)\big]$$
+  <p>$I(\theta)$ is the <b>expected information matrix</b> (the <b>Fisher information</b>). Module 36 uses it for the variance of the MLE.</p>
+  </div>
+  <div>
+  <figure style="margin:0"><svg viewBox="0 0 320 160">
+    <line x1="24" y1="134" x2="310" y2="134" stroke="var(--border2)"/>
+    <line x1="24" y1="134" x2="24" y2="12" stroke="var(--border2)"/>
+    <text x="30" y="20" class="svgtxt">ℓ(θ; x)</text>
+    <text x="304" y="150" class="svgtxt">θ</text>
+    <path d="M 30 120 C 50 100, 60 70, 80 80 C 95 88, 100 60, 115 58 C 130 56, 135 95, 150 98 C 170 100, 185 40, 205 24 C 222 14, 235 60, 250 85 C 265 108, 285 112, 305 118" fill="none" stroke="var(--blue)" stroke-width="2"/>
+    <circle cx="115" cy="58" r="4" fill="var(--amber)"/>
+    <text x="115" y="48" class="svgtxt a" text-anchor="middle">local max</text>
+    <line x1="100" y1="134" x2="100" y2="140" stroke="var(--red)"/><text x="100" y="152" class="svgtxt r" text-anchor="middle">θ⁽⁰⁾</text>
+    <line x1="207" y1="24" x2="207" y2="134" stroke="var(--green)" stroke-dasharray="4 3"/><text x="207" y="152" class="svgtxt g" text-anchor="middle">θ̂</text>
+  </svg><figcaption>The limitation, from the lecture: started at $\theta^{(0)}$, the algorithm climbs to the nearest hill and can get stuck at a local maximum.</figcaption></figure>
+  <div class="note warn"><div class="t">Limitation (notes p.53)</div>There is <b>no guarantee that we reach a global max</b>: the algorithm can get stuck at local max points. To avoid it, <b>run it more times with different starting points</b>. If all runs give the same max point, that is further evidence of a global max.</div>
+  <div class="note fin"><div class="t">R corner (standard R, not lecture material)</div><code>optim(par = start, fn = function(th) -loglik(th, x))</code> minimises, so pass $-\ell$. Rerun with several <code>par</code> values, as the lecture recommends. One-parameter case: <code>optimize(loglik, c(lo, hi), maximum = TRUE, x = x)</code>.</div>
+  <p class="muted">Lecture 8 also wrote on the board the two-parameter density $f(x;\alpha,\beta)=\alpha\beta x^{\alpha-1}(1-x^\alpha)^{\beta-1}$ on $[0,1]$, $\alpha,\beta&gt;0$, which reduces to $U(0,1)$ when $\alpha=\beta=1$. Its likelihood equations have no closed form, so this is a case for the numerical route.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="panel">
+  <div class="bar"><span class="pill g">THEORY</span> When the support depends on θ: $U(0,\theta)$ (deck §5.6)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$f(x;\theta)=\frac1\theta$ on $[0,\theta]$. The derivative recipe fails here: $L$ is not differentiable at its maximum. Look at $L$ directly:</p>
+  $$L(\theta)=\prod_{i=1}^n\frac1\theta\,\mathbb 1\{x_i\le\theta\}=\begin{cases}\theta^{-n}&amp;\theta\ge x_{(n)}=\max x_i\\0&amp;\theta&lt;x_{(n)}\end{cases}$$
+  <p>If $\theta$ is below the largest observation, that observation was impossible, so $L=0$. Above it, $\theta^{-n}$ is decreasing. The maximum is at the jump: $\boxed{\hat\theta=X_{(n)}=\max\{X_1,\dots,X_n\}}$.</p>
+  <figure style="margin:0"><svg viewBox="0 0 300 120">
+    <line x1="20" y1="100" x2="290" y2="100" stroke="var(--border2)"/>
+    <line x1="20" y1="100" x2="20" y2="10" stroke="var(--border2)"/>
+    <line x1="20" y1="100" x2="110" y2="100" stroke="var(--blue)" stroke-width="2.4"/>
+    <path d="M 110 22 C 140 60, 180 80, 285 92" fill="none" stroke="var(--blue)" stroke-width="2.4"/>
+    <circle cx="110" cy="22" r="3.5" fill="var(--blue)"/>
+    <line x1="110" y1="22" x2="110" y2="100" stroke="var(--green)" stroke-dasharray="3 3"/>
+    <text x="110" y="114" class="svgtxt g" text-anchor="middle">x₍ₙ₎ = θ̂</text>
+    <text x="200" y="60" class="svgtxt b">L(θ) = θ⁻ⁿ</text>
+    <text x="284" y="114" class="svgtxt">θ</text>
+  </svg></figure>
+  </div>
+</div>
+<div class="panel">
+  <div class="bar"><span class="pill g">PROPERTY</span> Invariance of the MLE (notes p.54 · deck §5.7)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A nice property of the MLE: the MLE of $\tau(\theta)$, for <b>any</b> function $\tau$, is $\tau(\hat\theta)$:</p>
+  $$\boxed{\;\widehat{\tau(\theta)}=\tau(\hat\theta)\;}$$
+  <p>Useful in practice, since we can use $\hat\theta$ <b>without redoing the optimisation</b> to estimate $\tau(\theta)$. It holds even when $\tau$ is not one-to-one. Compare module 29: unbiasedness does <i>not</i> survive $\tau$ ($S^2$ is unbiased, $S$ is not).</p>
+  <ol class="steps">
+    <li><b>Ex 1.</b> $X\sim N(\mu,\sigma^2)$, with $\hat\mu=\bar X$ and $\hat\sigma^2=\frac{n-1}nS^2$. MLE of $\sigma$: $\hat\sigma=\sqrt{\hat\sigma^2}=\sqrt{\frac{n-1}n}\,S$. MLE of $\mu^2$: $\bar X^2$.</li>
+    <li><b>Ex 2.</b> $X\sim\text{Pois}(\lambda)$, $\hat\lambda=\bar X$. What is the MLE of $P(X=0)$? First $P(X=0)=f(0;\lambda)=\frac{\lambda^0e^{-\lambda}}{0!}=e^{-\lambda}$, a function of $\lambda$. By invariance $\widehat{P(X=0)}=f(0;\hat\lambda)=\boxed{e^{-\bar X}}$.</li>
+  </ol>
+  <p class="muted"><b>Deck, also:</b> the MLE depends on the sample only through a <b>sufficient statistic</b> (factorisation theorem): $\sum x_i$ for Bernoulli/Poisson/exponential, $(\bar X,S^2)$ for the normal. Two samples with the same $\sum x_i$ give the same Poisson MLE.</p>
+  </div>
+</div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EXERCISES</span> From the exercise sheets (sets 2 and 3)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div class="ex" style="margin:0">
+  <div class="bar">SET 3 · Q1 · Gamma(α, β), α known: MLE of the scale β</div>
+  <div class="body">
+  <p>$f(x;\alpha,\beta)=\frac1{\Gamma(\alpha)\beta^\alpha}x^{\alpha-1}e^{-x/\beta}$, $\mathbb E(X)=\alpha\beta$.</p>
+  <ol class="steps">
+    <li>$\ln f\propto-\alpha\ln\beta-\frac x\beta$ (terms without $\beta$ dropped).</li>
+    <li>$\ell(\beta)\propto-n\alpha\ln\beta-\frac{\sum x_i}\beta$.</li>
+    <li>$\ell'(\beta)=-\frac{n\alpha}\beta+\frac{\sum x_i}{\beta^2}=0\Rightarrow\boxed{\hat\beta=\frac{\bar X}\alpha}$ (answer A).</li>
+    <li>SOC at $\hat\beta$: $\ell''=\frac{n\alpha}{\beta^2}-\frac{2\sum x_i}{\beta^3}=\frac{n\alpha}{\hat\beta^2}-\frac{2n\alpha}{\hat\beta^2}=-\frac{n\alpha}{\hat\beta^2}&lt;0$ ✓.</li>
+    <li><b>(b) Unbiased:</b> $\mathbb E(\hat\beta)=\frac{\mathbb E(\bar X)}\alpha=\frac{\alpha\beta}\alpha=\beta$ ✓.</li>
+  </ol>
+  </div>
+  </div>
+  <div class="ex" style="margin:0">
+  <div class="bar">SET 3 · Q2 · Beta(θ, 1): log-likelihood and MLE</div>
+  <div class="body">
+  <p>$f(x;\theta)=\theta x^{\theta-1}$, $x\in[0,1]$, $\theta&gt;0$.</p>
+  <ol class="steps">
+    <li><b>(a)</b> $\ell(\theta)=\sum[\ln\theta+(\theta-1)\ln x_i]=n\ln\theta+(\theta-1)\sum\ln x_i$.</li>
+    <li><b>(b)</b> $\ell'(\theta)=\frac n\theta+\sum\ln x_i=0\Rightarrow\boxed{\hat\theta=-\frac n{\sum\ln X_i}}$. Positive, because every $\ln x_i&lt;0$. SOC: $-\frac n{\theta^2}&lt;0$ ✓.</li>
+    <li><b>(c)</b> MME (module 32): $\tilde\theta=\frac{\bar X}{1-\bar X}$, a different estimator.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+  <div class="grid2" style="align-items:start;margin-top:10px">
+  <div class="ex" style="margin:0">
+  <div class="bar">SET 3 · Q3 · N(μ, 1) with μ ≥ 0: the boundary matters</div>
+  <div class="body">
+  <p>Without the constraint $\hat\mu=\bar x$. With $\Theta=[0,\infty)$: $\ell(\mu)\propto-\frac n2(\bar x-\mu)^2$ is a parabola peaked at $\bar x$.</p>
+  <ol class="steps">
+    <li><b>(a)</b> $\underline x=(-0.5,3,5,1,-1)$: $\bar x=7.5/5=1.5\ge0$, inside $\Theta$, so $\hat\mu=\mathbf{1.5}$.</li>
+    <li><b>(b)</b> $\underline x=(-3,0,1,-2,-1)$: $\bar x=-1&lt;0$, outside $\Theta$. On $[0,\infty)$ the parabola is decreasing, so the maximum is at the boundary: $\hat\mu=\mathbf 0$.</li>
+    <li><b>(c)</b> In general $\boxed{\hat\mu=\max(0,\bar X)}$.</li>
+  </ol>
+  </div>
+  </div>
+  <div class="ex" style="margin:0">
+  <div class="bar">SET 2 · Q5 · $f(k;\alpha)=c\,(1/2)^{\alpha k}$, $k=1,2,\dots$</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>(a) Constant.</b> $\sum_{k\ge1}(2^{-\alpha})^k=\frac{2^{-\alpha}}{1-2^{-\alpha}}=\frac1{2^\alpha-1}$, so $c=2^\alpha-1$.</li>
+    <li><b>(b) MLE.</b> $\ell(\alpha)=n\ln(2^\alpha-1)-\alpha\ln2\sum x_i$. Using $\frac{d}{d\alpha}2^\alpha=\ln2\cdot2^\alpha$:
+    $$\ell'=\frac{n\ln2\cdot2^\alpha}{2^\alpha-1}-\ln2\sum x_i=0\Rightarrow\frac{2^{\hat\alpha}}{2^{\hat\alpha}-1}=\bar x\Rightarrow2^{\hat\alpha}=\frac{\bar x}{\bar x-1}$$
+    $$\boxed{\hat\alpha=\log_2\frac{\bar X}{\bar X-1}}\ \text{(answer A).}$$ Since $\bar X&gt;1$, $\hat\alpha&gt;0$ ✓.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Invariance, exponential</div>
+<div class="prob">$X\sim\text{Exp}(\lambda)$ with observed $\bar x=4$. MLE of the mean $\mathbb E(X)$, of the median $\frac{\ln2}\lambda$, and of $P(X&gt;10)$?</div>
+<details><summary>Answer</summary><div class="sol">$\hat\lambda=1/4$. Mean $1/\hat\lambda=4$. Median $4\ln2\approx2.77$. $P(X&gt;10)=e^{-10\lambda}$, so its MLE is $e^{-10/4}=e^{-2.5}\approx0.082$.</div></details>
+</div>
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="tag">check yourself</span>Geometric</div>
+<div class="prob">$f(x;p)=(1-p)^{x-1}p$, $x=1,2,\dots$. Find the MLE of $p$.</div>
+<details><summary>Answer</summary><div class="sol">$\ell=\sum[(x_i-1)\ln(1-p)+\ln p]=(n\bar x-n)\ln(1-p)+n\ln p$. $\ell'=-\frac{n(\bar x-1)}{1-p}+\frac np=0\Rightarrow1-p=p(\bar x-1)\Rightarrow\hat p=1/\bar X$. The same as the MME.</div></details>
+</div>
+</div>
+</section>
