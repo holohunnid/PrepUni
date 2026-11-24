@@ -1,0 +1,133 @@
+<!-- ============ 28 CONDITIONAL VS UNCONDITIONAL, AND FORECASTING ============ -->
+<section id="s28">
+<div class="sec-head"><span class="num">28</span><h2>Conditional vs unconditional, and forecasting</h2><span class="sub">time series deck, slides 7–9</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Do you know today's value, or not?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>Unconditional</b>: you know the process but nothing about where it is now. <b>Conditional</b>: you stand at time $t$ and know $y_t$. Forecasting is conditional. The distinction is the exam favourite of this deck.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> Side by side<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th></th><th>unconditional</th><th>conditional on $Y_{t-1}=y_{t-1}$</th></tr>
+    <tr><td>mean</td><td>$\dfrac{\phi_0}{1-\phi_1}$</td><td>$\phi_0+\phi_1y_{t-1}$</td></tr>
+    <tr><td>variance</td><td>$\dfrac{\sigma_\varepsilon^2}{1-\phi_1^2}$</td><td>$\sigma_\varepsilon^2$</td></tr>
+    <tr><td>distribution</td><td>$N\Big(\frac{\phi_0}{1-\phi_1},\frac{\sigma_\varepsilon^2}{1-\phi_1^2}\Big)$</td><td>$N(\phi_0+\phi_1y_{t-1},\ \sigma_\varepsilon^2)$</td></tr>
+    <tr><td>question it answers</td><td>"what is a typical value?"</td><td>"what will the next value be, given today?"</td></tr>
+    <tr><td>depends on time?</td><td>no (if $\lvert\phi_1\rvert&lt;1$)</td><td>through $y_{t-1}$</td></tr>
+  </table>
+  <p>Conditional variance ≤ unconditional variance: knowing yesterday reduces uncertainty (strictly, unless $\phi_1=0$). Check with the law of total variance: $\mathbb V[Y_t]=\mathbb E[\sigma_\varepsilon^2]+\mathbb V[\phi_0+\phi_1Y_{t-1}]=\sigma_\varepsilon^2+\phi_1^2\mathbb V[Y_t]$ ✓.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">FORECAST</span> $h$ steps ahead<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$\mathbb E[Y_{t+1}\mid Y_t=y_t]=\phi_0+\phi_1y_t$$
+  $$\mathbb E[Y_{t+2}\mid y_t]=\phi_0+\phi_1(\phi_0+\phi_1y_t)=\phi_0(1+\phi_1)+\phi_1^2y_t$$
+  $$\mathbb E[Y_{t+3}\mid y_t]=\phi_0(1+\phi_1+\phi_1^2)+\phi_1^3y_t$$
+  <p>General rule:</p>
+  $$\boxed{\mathbb E[Y_{t+h}\mid y_t]=\phi_0\frac{1-\phi_1^h}{1-\phi_1}+\phi_1^hy_t=\mu+\phi_1^h(y_t-\mu)}$$
+  </div>
+  <div>
+  <p>The last form is the one to remember: <b>long-run mean plus a fading share of today's deviation from it.</b></p>
+  $$\lim_{h\to\infty}\mathbb E[Y_{t+h}\mid y_t]=\frac{\phi_0}{1-\phi_1}=\mu$$
+  <p><b>Slide question: what's special?</b> The limit <b>does not depend on today's value</b> $y_t$, and equals the unconditional mean. Far enough ahead, knowing today is worthless: <b>mean reversion</b>.</p>
+  <p><b>Forecast error variance</b> (beyond the slide, same logic):</p>
+  $$\mathbb V[Y_{t+h}\mid y_t]=\sigma_\varepsilon^2(1+\phi_1^2+\dots+\phi_1^{2(h-1)})=\sigma_\varepsilon^2\frac{1-\phi_1^{2h}}{1-\phi_1^2}\ \to\ \mathbb V[Y_t]$$
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Forecast at work (slide 9: $\phi_0=0,\ \phi_1=0.5$)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\phi_1$ <input type="range" id="fo_1" min="-0.9" max="1" step="0.05" value="0.50"> <span class="val" id="fo_1_v">0.50</span></label>
+    <label>$\phi_0$ <input type="range" id="fo_0" min="-1" max="1" step="0.1" value="0.0"> <span class="val" id="fo_0_v">0.0</span></label>
+    <label>today's value $y_t$ <input type="range" id="fo_y" min="-4" max="5" step="0.1" value="1.7"> <span class="val" id="fo_y_v">1.7</span></label>
+    <span class="btns">
+      <button data-do="foSlide">slide 9</button>
+      <button data-do="foNew">new future paths</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="fosvg" viewBox="0 0 420 250"></svg><figcaption>Blue: the past. Red dots: $\mathbb E[Y_{t+h}\mid y_t]$. Shaded: 95% forecast band. Grey: a few possible futures. Dashed: unconditional mean.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="foread" aria-live="polite"></div>
+  <p><b>Try this.</b> On the slide $y_{25}\approx1.7$ and the forecasts are $0.85, 0.43, 0.21, 0.11,\dots$: halved at each step. Raise $\phi_1$ to 0.95: the forecast comes back slowly. Set it to 1: the forecast is flat at $y_t$ for ever and the band keeps growing with no limit. The actual future zig-zags; the forecast is its <b>mean</b>, so it is smooth.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Forecast three steps</div>
+<div class="prob">
+  <p>$Y_t=2+0.6Y_{t-1}+\varepsilon_t$, $\sigma_\varepsilon^2=4$, $y_t=10$. Forecast $h=1,2,3$ and $h=\infty$. Give the variance for $h=1,2$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\mu=5$. $5+0.6\cdot5=8$; $5+0.36\cdot5=6.8$; $5+0.216\cdot5=6.08$; limit 5. Variances: $4$; $4(1+0.36)=5.44$ (limit 6.25).</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>An interest-rate model</div>
+<div class="prob">
+  <p>Monthly short rate: $r_t=0.1+0.95r_{t-1}+\varepsilon_t$ (percent). Today $r=1\%$. Expected rate in 12 months? Long-run rate? Half-life of a deviation?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\mu=0.1/0.05=2$. $2+0.95^{12}(1-2)=2-0.540=1.46\%$. Long run 2%. Half-life $\ln0.5/\ln0.95=13.5$ months.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Probability statement</div>
+<div class="prob">
+  <p>With $Y_t=2+0.6Y_{t-1}+\varepsilon_t$, $\sigma_\varepsilon^2=4$: find $P(Y_{t+1}&gt;9\mid y_t=10)$ and $P(Y_{t+1}&gt;9)$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Conditional: $N(8,4)$: $P(Z&gt;0.5)=0.309$. Unconditional: $N(5,6.25)$: $P(Z&gt;1.6)=0.055$. Today's high value makes a high tomorrow far more likely.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s28">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Forecasting<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>$\mathbb E[Y_{t+2}\mid y_t]$ for an AR(1) is</div>
+    <div class="opts"><button>$\phi_0+\phi_1^2y_t$</button><button>$\phi_0(1+\phi_1)+\phi_1^2y_t$</button><button>$2\phi_0+2\phi_1y_t$</button><button>$\phi_0+\phi_1y_{t+1}$</button></div>
+    <div class="why">Iterate once. The first option forgets $\phi_0\phi_1$.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">2</span>The conditional variance $\mathbb V[Y_{t+1}\mid y_t]$ is</div>
+    <div class="opts"><button>$\sigma_\varepsilon^2/(1-\phi_1^2)$</button><button>$\phi_1^2\sigma_\varepsilon^2$</button><button>larger when $y_t$ is large</button><button>$\sigma_\varepsilon^2$, constant</button></div>
+    <div class="why">The AR(1) has constant conditional variance. GARCH changes exactly this.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>The long-horizon forecast of a stationary AR(1)</div>
+    <div class="opts"><button>equals the unconditional mean, whatever $y_t$</button><button>equals $y_t$</button><button>equals $\phi_0$</button><button>does not exist</button></div>
+    <div class="why">Mean reversion.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">4</span>$\mu=5$, $\phi_1=0.8$, $y_t=0$. $\mathbb E[Y_{t+2}\mid y_t]$ is</div>
+    <div class="opts"><button>0</button><button>4</button><button>1.8</button><button>3.2</button></div>
+    <div class="why">$5+0.64(0-5)=1.8$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

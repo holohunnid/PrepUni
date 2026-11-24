@@ -2,7 +2,7 @@
 
 Study site for the MSc Finance assessment. Astro static site, one course per folder, deployable to Vercel.
 
-**Courses:** Prep Exam Review · MSc Statistics · Refresher (Linear Algebra, Probability) · Linear Algebra · Probability · Calculus · Optimization
+**Courses:** Prep Exam Review · MSc Statistics · Financial Econometrics · Refresher (Linear Algebra, Probability) · Linear Algebra · Probability · Calculus · Optimization
 
 ## Commands
 

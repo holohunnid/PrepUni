@@ -1,0 +1,119 @@
+<!-- ============ 04 VECTOR DIFFERENTIATION ============ -->
+<section id="s4">
+<div class="sec-head"><span class="num">04</span><h2>Vector differentiation</h2><span class="sub">Homework 2, ex. 1 · the two rules behind OLS</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Two derivatives and you can derive OLS<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Minimising the sum of squared errors needs the derivative of a scalar with respect to a vector. Only two rules matter: the derivative of a <b>linear</b> form $a'b$ and of a <b>quadratic</b> form $b'Ab$.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RULES</span> The two rules<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$f(b)$ is a scalar, $b$ is $K\times1$. The gradient stacks the partial derivatives, so it is $K\times1$ too:</p>
+  $$\frac{\partial f}{\partial b}=\begin{bmatrix}\partial f/\partial b_1\\\vdots\\\partial f/\partial b_K\end{bmatrix}$$
+  $$\boxed{\frac{\partial\,a'b}{\partial b}=a\qquad\frac{\partial\,b'Ab}{\partial b}=(A+A')b}$$
+  <p>If $A$ is <b>symmetric</b>: $\dfrac{\partial\,b'Ab}{\partial b}=2Ab$. Compare with $\frac{d}{db}ab^2=2ab$.</p>
+  </div>
+  <div>
+  <p><b>Why.</b> $a'b=\sum_ka_kb_k$, so $\partial/\partial b_k=a_k$. For the quadratic form, $b'Ab=\sum_j\sum_kA_{jk}b_jb_k$. The variable $b_k$ appears once as "row" and once as "column", so</p>
+  $$\frac{\partial}{\partial b_k}=\sum_jA_{kj}b_j+\sum_jA_{jk}b_j=[Ab]_k+[A'b]_k .$$
+  <div class="note tip"><div class="t">Used in lecture 2</div>
+  <p>$SSE=y'y-2y'Xb+b'X'Xb$. Linear part: $a'=-2y'X$, so $a=-2X'y$. Quadratic part: $A=X'X$ is symmetric, so $2X'Xb$. Together $\frac{\partial SSE}{\partial b}=-2X'y+2X'Xb$.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">HOMEWORK 2 · EX 1.2 · part b) with a non-symmetric A</div>
+  <div class="body">
+  <p>$A=\begin{bmatrix}2&1\\3&2\end{bmatrix}$, $b=\begin{bmatrix}b_1\\b_2\end{bmatrix}$, $f(b)=b'Ab$. Compute $\frac{df}{db}$.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Way 1: expand.</b></p>
+  $$f=\begin{bmatrix}b_1&b_2\end{bmatrix}\begin{bmatrix}2b_1+b_2\\3b_1+2b_2\end{bmatrix}=2b_1^2+b_1b_2+3b_1b_2+2b_2^2=2b_1^2+4b_1b_2+2b_2^2$$
+  $$\frac{df}{db}=\begin{bmatrix}4b_1+4b_2\\4b_1+4b_2\end{bmatrix}=4\begin{bmatrix}1&1\\1&1\end{bmatrix}\begin{bmatrix}b_1\\b_2\end{bmatrix}$$
+  </div>
+  <div>
+  <p><b>Way 2: the rule.</b></p>
+  $$(A+A')b=\left(\begin{bmatrix}2&1\\3&2\end{bmatrix}+\begin{bmatrix}2&3\\1&2\end{bmatrix}\right)b=\begin{bmatrix}4&4\\4&4\end{bmatrix}b=4\begin{bmatrix}1&1\\1&1\end{bmatrix}b\ ✓$$
+  <div class="note warn"><div class="t">TRAP</div>
+  <p>Using $2Ab$ here gives $\begin{bmatrix}4b_1+2b_2\\6b_1+4b_2\end{bmatrix}$, which is wrong. $2Ab$ needs a symmetric $A$.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> A quadratic form and its gradient<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$b_1$ <input type="range" id="qf_1" min="-2" max="2" step="0.05" value="1.00"> <span class="val" id="qf_1_v">1.00</span></label>
+    <label>$b_2$ <input type="range" id="qf_2" min="-2" max="2" step="0.05" value="0.50"> <span class="val" id="qf_2_v">0.50</span></label>
+    <label>A <select id="qf_k"><option value="xx">positive definite (an X′X)</option><option value="hw">Homework 2 (singular)</option><option value="ind">indefinite (a saddle)</option></select></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="qfsvg" viewBox="0 0 320 300"></svg><figcaption>Contours of $f(b)=b'Ab$; darker green is higher. The amber arrow is the gradient $(A+A')b$, scaled down.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="qfread" aria-live="polite"></div>
+  <p>The gradient always crosses the contour at a right angle, uphill. At a minimum it vanishes: that is the F.O.C. With a <b>positive definite</b> $A$ the contours are ellipses around a unique minimum, as for $SSE$ when $\text{rank}(X)=K$. With the <b>singular</b> matrix of Homework 2, $f=2(b_1+b_2)^2$ is a valley: a whole line of minima. A regression with perfectly collinear regressors looks like this: infinitely many $b$ fit equally well. With an <b>indefinite</b> matrix the F.O.C. finds a saddle, not a minimum. That is why lecture 2 also checks the S.O.C.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Linear form</div>
+<div class="prob">
+  <p>$a=(3,-1,2)'$. Find $\partial(a'b)/\partial b$ and $\partial(b'a)/\partial b$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Both equal $a=(3,-1,2)'$, since $a'b=b'a$ is the same scalar.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>A full OLS objective</div>
+<div class="prob">
+  <p>$y=(1,3)'$, $X=(1,2)'$ (one regressor, no constant). Write $SSE(b)$, its derivative, and the minimiser.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$SSE=(1-b)^2+(3-2b)^2=10-14b+5b^2$. Matrix check: $y'y=10$, $X'y=7$, $X'X=5$ ✓. $SSE'=-14+10b=0\Rightarrow b=1.4=7/5=(X'X)^{-1}X'y$. $SSE''=10=2X'X&gt;0$: minimum.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s4">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Vector calculus<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>$\partial(b'Ab)/\partial b$ for a general square $A$ is</div>
+    <div class="opts"><button>$2Ab$</button><button>$(A+A')b$</button><button>$A'b$</button><button>$b'A$</button></div>
+    <div class="why">Only for symmetric $A$ does it become $2Ab$.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>$\partial(y'Xb)/\partial b$ equals</div>
+    <div class="opts"><button>$y'X$</button><button>$Xy$</button><button>$X'y$</button><button>$X'$</button></div>
+    <div class="why">$y'Xb=a'b$ with $a'=y'X$, so the gradient is $a=X'y$, a $K\times1$ column.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>The second derivative $\frac{\partial^2SSE}{\partial b\,\partial b'}$ is</div>
+    <div class="opts"><button>$2X'X$, a $K\times K$ matrix</button><button>$2X'X$, a scalar</button><button>$-2X'y$</button><button>$2XX'$, an $n\times n$ matrix</button></div>
+    <div class="why">Differentiate $-2X'y+2X'Xb$ once more.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,200 @@
+<!-- ============ 32 ARCH AND GARCH ============ -->
+<section id="s32">
+<div class="sec-head"><span class="num">32</span><h2>ARCH and GARCH</h2><span class="sub">GARCH deck, slides 11–13</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Give the variance a memory<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>ARCH/GARCH models keep the mean of returns at zero and make the <b>conditional variance</b> depend on the past. In ARCH it depends on yesterday's squared return. In GARCH it also depends on yesterday's variance, which makes it smooth and persistent with only three parameters. Engle (1982), Bollerslev (1986).</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The two models<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>ARCH(1)</b> ("for teaching purposes")</p>
+  $$r_t=\sigma_tz_t,\quad z_t\ \text{i.i.d. }D(0,1)$$
+  $$\boxed{\sigma_t^2=\alpha_0+\alpha_1r_{t-1}^2}$$
+  <p>$\sigma_t^2=\mathbb V[r_t\mid\mathcal F_{t-1}]$ is the conditional variance. Positive if $\alpha_0&gt;0,\alpha_1\ge0$; stationary if $\alpha_1&lt;1$.</p>
+  </div>
+  <div>
+  <p><b>GARCH(1,1)</b> ("largely used in practice")</p>
+  $$r_t=\sigma_tz_t,\quad z_t\ \text{i.i.d. }D(0,1)$$
+  $$\boxed{\sigma_t^2=\beta_0+\beta_1\sigma_{t-1}^2+\beta_2r_{t-1}^2}$$
+  <p>Positive if $\beta_0&gt;0,\beta_1,\beta_2\ge0$; stationary if $\beta_1+\beta_2&lt;1$. Typically $\beta_1\approx0.9$.</p>
+  </div>
+  </div>
+  <div class="note warn"><div class="t">TRAP · the order of the betas</div>
+  <p>In this deck $\beta_1$ multiplies the <b>lagged variance</b> and $\beta_2$ the <b>lagged squared return</b>. Textbooks and software usually write $\sigma_t^2=\omega+\alpha r_{t-1}^2+\beta\sigma_{t-1}^2$: $\omega=\beta_0$, $\alpha=\beta_2$, $\beta=\beta_1$. And these betas have nothing to do with regression betas.</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> Four properties to be able to derive<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>1. $\mathbb E[r_t]=0$.</b> $\mathbb E[r_t\mid\mathcal F_{t-1}]=\sigma_t\mathbb E[z_t\mid\mathcal F_{t-1}]=0$ ($\sigma_t$ is known at $t-1$, $z_t$ independent of the past). Then the tower property.</p>
+  <p><b>2. $\mathbb V[r_t\mid\mathcal F_{t-1}]=\sigma_t^2$.</b> $\sigma_t^2\,\mathbb E[z_t^2]=\sigma_t^2\cdot1$.</p>
+  <p><b>3. No autocorrelation.</b> $\mathbb E[r_tr_{t-h}]=\mathbb E\big[r_{t-h}\,\mathbb E[r_t\mid\mathcal F_{t-1}]\big]=0$.</p>
+  </div>
+  <div>
+  <p><b>4. Unconditional variance.</b> Let $\bar\sigma^2=\mathbb E[\sigma_t^2]$. Since $\mathbb E[r_{t-1}^2]=\mathbb E[\sigma_{t-1}^2]=\bar\sigma^2$:</p>
+  $$\bar\sigma^2=\beta_0+\beta_1\bar\sigma^2+\beta_2\bar\sigma^2\ \Rightarrow\ \boxed{\bar\sigma^2=\frac{\beta_0}{1-\beta_1-\beta_2}}$$
+  <p>ARCH(1): $\dfrac{\alpha_0}{1-\alpha_1}$. Same trick as the AR(1) mean.</p>
+  <p>$\beta_1+\beta_2$ is the <b>persistence</b> of variance, the analogue of $\phi_1$.</p>
+  </div>
+  </div>
+  <div class="note "><div class="t">"$\sigma_t$ is known at time $t-1$"</div>
+  <p>$\mathcal F_{t-1}$ is the information set at $t-1$: all returns up to then. $\sigma_t^2$ is a function of $r_{t-1},\sigma_{t-1}$, so at $t-1$ it is a number. At time $t-1$ the only thing unknown about $r_t$ is $z_t$. At time $t$, $\sigma_{t+1}$ is already known: that is what makes VaR easy (module 34).</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Simulate GARCH(1,1)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\beta_1$ (variance) <input type="range" id="ga_1" min="0" max="0.99" step="0.01" value="0.90"> <span class="val" id="ga_1_v">0.90</span></label>
+    <label>$\beta_2$ (squared return) <input type="range" id="ga_2" min="0" max="0.5" step="0.01" value="0.08"> <span class="val" id="ga_2_v">0.08</span></label>
+    <label>long-run vol (% per day) <input type="range" id="ga_v" min="0.3" max="3" step="0.1" value="1.0"> <span class="val" id="ga_v_v">1.0</span></label>
+    <span class="btns">
+      <button data-do="gaNew">new shocks</button>
+      <button data-do="gaArch">ARCH(1): β₁ = 0, β₂ = 0.5</button>
+      <button data-do="gaTyp">typical GARCH</button>
+      <button data-do="gaCrash">put a −8% crash on day 300</button>
+      <button data-do="gaIid">i.i.d.</button>
+    </span>
+  </div>
+  <figure><svg id="gasvg" viewBox="0 0 720 280"></svg><figcaption>Top: returns $r_t=\sigma_tz_t$ (the shocks $z_t$ are kept fixed when you move the sliders). Bottom: conditional volatility $\sigma_t$, with the long-run level dashed. $\beta_0$ is set so that the long-run variance is what you chose.</figcaption></figure>
+  <div class="readout" id="garead" aria-live="polite"></div>
+  <p><b>Try this.</b> i.i.d.: flat volatility. ARCH(1) with 0.5: volatility spikes for one day and forgets. Typical GARCH: spikes decay slowly, because $\beta_1\approx0.9$ carries the variance forward. Add the crash: volatility jumps the next day and takes weeks to return. The half-life is $\ln0.5/\ln(\beta_1+\beta_2)$. With $\beta_1+\beta_2\to1$ it hardly ever returns.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">LINK</span> GARCH is a smoothed average of past squared returns<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Substitute backwards, as for the Wold form:</p>
+  $$\sigma_t^2=\frac{\beta_0}{1-\beta_1}+\beta_2\sum_{j=0}^\infty\beta_1^j\,r_{t-1-j}^2$$
+  <p>So GARCH(1,1) is an ARCH($\infty$) with geometrically declining weights: three parameters instead of many. ARCH(1) uses only $r_{t-1}^2$.</p>
+  </div>
+  <div>
+  <p><b>Forecast of variance.</b> As for an AR(1), with persistence $\beta_1+\beta_2$:</p>
+  $$\mathbb E[\sigma_{t+h}^2\mid\mathcal F_t]=\bar\sigma^2+(\beta_1+\beta_2)^{h-1}\big(\sigma_{t+1}^2-\bar\sigma^2\big)$$
+  <p>For $h=1$ it is $\sigma_{t+1}^2$ itself (known); for $h\to\infty$ it is $\bar\sigma^2$: <b>volatility mean-reverts</b>.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> Which stylized facts does GARCH reproduce?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>fact</th><th>ARCH/GARCH</th><th>why</th></tr>
+    <tr><td>stochastic volatility</td><td>✓</td><td>$\sigma_t^2$ is driven by the random $r_{t-1}^2$</td></tr>
+    <tr><td>clustering, persistence</td><td>✓ (GARCH well, ARCH(1) weakly)</td><td>$\sigma_t^2$ depends on $\sigma_{t-1}^2$</td></tr>
+    <tr><td>returns uncorrelated</td><td>✓</td><td>property 3</td></tr>
+    <tr><td>heavy tails</td><td>✓ qualitatively, even with normal $z$</td><td>a mixture of normals with different variances; better with non-normal $z$</td></tr>
+    <tr><td>leverage effect</td><td>✗</td><td>$r_{t-1}^2$ ignores the sign ⇒ asymmetric GARCH</td></tr>
+    <tr><td>jumps</td><td>✗</td><td>volatility reacts <i>after</i> the jump</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE · one step of GARCH by hand</div>
+  <div class="body">
+  <p>$\beta_0=0.02,\ \beta_1=0.90,\ \beta_2=0.08$ (returns in percent). Long-run variance $\frac{0.02}{1-0.98}=1$, so 1% per day.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li>Today $\sigma_t^2=1$ and the market falls 3%: $r_t=-3$.</li>
+    <li>$\sigma_{t+1}^2=0.02+0.90\cdot1+0.08\cdot9=1.64$, $\sigma_{t+1}=1.28\%$.</li>
+    <li>Expected variance in two days: $1+0.98(1.64-1)=1.627$; in 20 days ($h=20$): $1+0.98^{19}\cdot0.64=1.436$.</li>
+  </ol>
+  </div>
+  <div>
+  <ol class="steps" style="counter-reset:s 3">
+    <li>Had the return been $+3\%$, the result would be <b>identical</b>: GARCH ignores signs.</li>
+    <li>Had it been 0: $\sigma_{t+1}^2=0.92$: volatility falls a little.</li>
+    <li>Half-life: $\ln0.5/\ln0.98=34$ trading days.</li>
+    <li>Implied $z_t=r_t/\sigma_t=-3$.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Moments</div>
+<div class="prob">
+  <p>$\sigma_t^2=0.1+0.85\sigma_{t-1}^2+0.10r_{t-1}^2$. Long-run variance, persistence, half-life. $\sigma_{t}^2=3$, $r_t=1$: $\sigma_{t+1}^2$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$0.1/0.05=2$; persistence $0.95$; half-life 13.5 days. $0.1+2.55+0.1=2.75$: variance falls although it is above the mean, because the return was small.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>ARCH(1)</div>
+<div class="prob">
+  <p>$\sigma_t^2=0.5+0.5r_{t-1}^2$, $r_{t-1}=2$, $z_t\sim N(0,1)$. Find $\mathbb V[r_t\mid\mathcal F_{t-1}]$, $\mathbb V[r_t]$, and $P(r_t\lt-3\mid\mathcal F_{t-1})$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Conditional variance $0.5+2=2.5$; unconditional $0.5/0.5=1$. $P(Z\lt-3/1.581)=P(Z\lt-1.897)=0.029$. Unconditionally such a day is far rarer.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">practice</span>Why tails get fat</div>
+<div class="prob">
+  <p>$r=\sigma z$, $z\sim N(0,1)$ independent of $\sigma$, $\sigma$ random. Show that the kurtosis $\mathbb E[r^4]/\mathbb E[r^2]^2\ge3$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\mathbb E[r^4]=\mathbb E[\sigma^4]\cdot3$, $\mathbb E[r^2]=\mathbb E[\sigma^2]$. Ratio $=3\,\mathbb E[\sigma^4]/\mathbb E[\sigma^2]^2\ge3$, since $\mathbb E[\sigma^4]-\mathbb E[\sigma^2]^2=\mathbb V[\sigma^2]\ge0$. Equality only if $\sigma$ is constant. Mixing calm and turbulent days creates heavy tails.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s32">
+  <div class="bar"><span class="pill g">QUICK TEST</span> ARCH and GARCH<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>In $\sigma_t^2=\beta_0+\beta_1\sigma_{t-1}^2+\beta_2r_{t-1}^2$ the unconditional variance is</div>
+    <div class="opts"><button>$\beta_0/(1-\beta_1)$</button><button>$\beta_0/(1-\beta_1-\beta_2)$</button><button>$\beta_0$</button><button>$\sigma_t^2$</button></div>
+    <div class="why">Take expectations on both sides.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">2</span>At time $t-1$ the only random element of $r_t=\sigma_tz_t$ is</div>
+    <div class="opts"><button>$\sigma_t$</button><button>both</button><button>neither</button><button>$z_t$</button></div>
+    <div class="why">$\sigma_t\in\mathcal F_{t-1}$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>GARCH returns are</div>
+    <div class="opts"><button>uncorrelated but not independent</button><button>independent</button><button>correlated</button><button>i.i.d. normal</button></div>
+    <div class="why">Squares are correlated.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">4</span>$\beta_0=0.05,\beta_1=0.9,\beta_2=0.05$, $\sigma_t^2=1$, $r_t=2$. $\sigma_{t+1}^2$ is</div>
+    <div class="opts"><button>1</button><button>1.05</button><button>1.15</button><button>0.95</button></div>
+    <div class="why">$0.05+0.9+0.05\cdot4=1.15$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>Symmetric GARCH cannot reproduce</div>
+    <div class="opts"><button>volatility clustering</button><button>the leverage effect</button><button>heavy tails</button><button>uncorrelated returns</button></div>
+    <div class="why">$r_{t-1}^2$ is the same for $\pm$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -14,6 +14,7 @@ import { renderMath } from './math.js';
 export const COURSES = [
   { id: 'exam-review', base: '/exam-review' },
   { id: 'stats-msc', base: '/statistics/msc' },
+  { id: 'fin-econometrics', base: '/financial-econometrics' },
   { id: 'refresher-linear-algebra', base: '/refresher/linear-algebra' },
   { id: 'refresher-probability', base: '/refresher/probability' },
   { id: 'linear-algebra', base: '/linear-algebra' },

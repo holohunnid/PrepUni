@@ -1,0 +1,174 @@
+<!-- ============ 07 THE ASSUMPTIONS A1, A2, A3 ============ -->
+<section id="s7">
+<div class="sec-head"><span class="num">07</span><h2>The assumptions A1, A2, A3</h2><span class="sub">lecture 1, slides 7–10</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Which assumptions are essential, and which are convenience<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A model is an equation <b>plus</b> assumptions about (A1) $X$, (A2) $\varepsilon$, (A3) how they relate. The lecture keeps saying which ones "cannot be relaxed" and which "can easily be relaxed". Learn the list that way.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The list<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>label</th><th>statement</th><th>what it buys</th><th>can it be relaxed?</th></tr>
+    <tr><td><b>A1a</b></td><td>$X$ may contain constants and random variables; everything is <b>conditional on $X$</b></td><td>we can treat $X$ as fixed in every calculation</td><td>—</td></tr>
+    <tr><td><b>A1b</b></td><td>$\text{rank}(X)=K$ (full column rank; often $n\gg K$)</td><td>$X'X$ positive definite, invertible; the effect of each regressor is <b>identified</b></td><td><b>No</b></td></tr>
+    <tr><td><b>A2a</b></td><td>$\mathbb E[\varepsilon\mid X]=0$</td><td>$\mathbb E[y\mid X]=X\beta$: it gives $\beta$ its meaning, and makes OLS unbiased</td><td><b>No</b></td></tr>
+    <tr><td><b>A2b</b></td><td>$\mathbb V[\varepsilon\mid X]=\mathbb E[\varepsilon\varepsilon'\mid X]=\sigma^2I_n$ (homoskedastic, "spherical")</td><td>simple formula $\mathbb V[b\mid X]=\sigma^2(X'X)^{-1}$; Gauss–Markov</td><td><b>Yes</b>, easily; often violated in real data</td></tr>
+    <tr><td><b>A3</b></td><td>exogeneity: $X\Rightarrow y$ and not $y\Rightarrow X$; given $X$, what moves $y$ is only $\varepsilon$</td><td>causal reading of $\beta$; intuitively $X$ and $\varepsilon$ "uncorrelated"</td><td><b>No</b> for a causal reading</td></tr>
+    <tr><td>(later)</td><td>$\varepsilon\mid X\sim N(0,\sigma^2I_n)$</td><td>exact $t$ and $F$ distributions. <b>First used in lecture 5</b></td><td>yes; not needed for OLS, unbiasedness or BLUE</td></tr>
+  </table>
+  <div class="note tip"><div class="t">The sentence that earns the marks</div>
+  $$\mathbb E[\varepsilon\mid X]=0\ \Rightarrow\ \mathbb E[y\mid X]=\mathbb E[X\beta+\varepsilon\mid X]=X\beta+\mathbb E[\varepsilon\mid X]=X\beta$$
+  <p>"So $\beta$ determines the conditional expectation of $y$ given $X$."</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> What A2b looks like, entry by entry<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$\mathbb E[\varepsilon\varepsilon'\mid X]=\begin{bmatrix}\mathbb E[\varepsilon_1^2]&\mathbb E[\varepsilon_1\varepsilon_2]&\cdots\\\mathbb E[\varepsilon_2\varepsilon_1]&\mathbb E[\varepsilon_2^2]&\\\vdots&&\ddots\end{bmatrix}=\begin{bmatrix}\sigma^2&0&\cdots\\0&\sigma^2&\\\vdots&&\ddots\end{bmatrix}$$
+  <p><b>Diagonal equal:</b> every error has the same variance (homoskedasticity).</p>
+  <p><b>Off-diagonal zero:</b> errors of different individuals are uncorrelated.</p>
+  </div>
+  <div>
+  <p><b>Violations you will meet</b></p>
+  <ul>
+    <li><b>Volatility clustering</b>: variance of returns changes over time (GARCH, module 32). The diagonal is not constant.</li>
+    <li><b>Autocorrelation</b>: today's error is related to yesterday's (time series). The off-diagonal is not zero.</li>
+  </ul>
+  <p>With another covariance matrix $\sigma^2\Omega$, OLS is still linear and unbiased (that uses only A2a), but $\sigma^2(X'X)^{-1}$ is no longer its variance and it is no longer "best".</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> Slide question · what is the problem with stringent assumptions?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The more you assume, the less general the model. Stringent assumptions make the maths easy and the conclusions strong, but if they fail in the data the conclusions fail with them. Economists therefore keep the assumptions that give the parameters meaning (A1b, A2a) and treat the rest as convenience.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> What breaks when an assumption fails<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>violate <select id="ex_k"><option value="none">nothing (A1–A3 hold)</option><option value="endog">A2a/A3: x correlated with ε</option><option value="het">A2b: variance grows with x</option><option value="col">A1b nearly fails (x₂ ≈ x₃)</option></select></label>
+    <label>strength <input type="range" id="ex_r" min="0" max="0.95" step="0.05" value="0.60"> <span class="val" id="ex_r_v">0.60</span></label>
+    <label>$n$ <input type="range" id="ex_n" min="10" max="200" step="10" value="50"> <span class="val" id="ex_n_v">50</span></label>
+    <span class="btns">
+      <button data-do="exRun">run 500 samples</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="exsvg" viewBox="0 0 360 240"></svg><figcaption>Distribution of the OLS slope $b_2$ over 500 samples from a model with true $\beta_2=1$ (dashed red).</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="exread" aria-live="polite"></div>
+  <p><b>Try this.</b> "Nothing": centred at 1. <b>Endogeneity</b>: the histogram moves away from 1, and raising $n$ makes it <i>more concentrated around the wrong number</i>. More data does not cure endogeneity. <b>Heteroskedasticity</b>: still centred at 1 (unbiased), but the textbook standard error is wrong. <b>Near-collinearity</b>: centred at 1 and the formula is right, but the spread explodes: the data cannot tell $x_2$ from $x_3$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">EXAMPLES</span> How A3 fails in finance<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ul>
+    <li><b>Reverse causality.</b> Regress a fund's return on its inflows. Good returns attract inflows, so $y\Rightarrow X$ as well.</li>
+    <li><b>Omitted variable.</b> Wage on education, with ability in $\varepsilon$: ability drives both.</li>
+    <li><b>Measurement error.</b> The regressor is observed with noise; the noise ends up in $\varepsilon$ and in $x$.</li>
+  </ul>
+  </div>
+  <div>
+  <p><b>One omitted variable, quickly.</b> Truth: $y=X\beta+\gamma z+u$, but you leave $z$ out, so $\varepsilon=\gamma z+u$. Then</p>
+  $$\mathbb E[b\mid X,z]=\beta+(X'X)^{-1}X'z\,\gamma.$$
+  <p>Bias = (coefficient of $z$) × (what you get regressing $z$ on $X$). No bias if $\gamma=0$ or $X'z=0$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">W3 · EX 3 (from Greene) · errors with a non-zero mean</div>
+  <div class="body">
+  <p>$y_i=\alpha+\beta x_i+\varepsilon_i$, $x_i$ fixed and not all equal, density $f(\varepsilon_i)=\frac1\lambda e^{-\varepsilon_i/\lambda}$ for $\varepsilon_i\ge0$, so $\mathbb E[\varepsilon_i\mid x_i]=\lambda$ and $\mathbb V[\varepsilon_i\mid x_i]=\lambda^2$. Show that the OLS slope is unbiased and the intercept is biased.</p>
+  <ol class="steps">
+    <li><b>A2a fails:</b> the errors have mean $\lambda&gt;0$, not 0.</li>
+    <li><b>Move the mean into the intercept:</b> $y_i=(\alpha+\lambda)+\beta x_i+(\varepsilon_i-\lambda)=\alpha^*+\beta x_i+\varepsilon_i^*$.</li>
+    <li><b>The new error is well behaved:</b> $\mathbb E[\varepsilon_i^*\mid x_i]=0$, $\mathbb V[\varepsilon_i^*\mid x_i]=\lambda^2$. All assumptions hold for the starred model.</li>
+    <li><b>So OLS is unbiased for $(\alpha^*,\beta)$:</b> $\mathbb E[b_2]=\beta$ ✓ and $\mathbb E[b_1]=\alpha^*=\alpha+\lambda\neq\alpha$.</li>
+    <li><b>Conclusion.</b> Slope unbiased; intercept biased by $\lambda$. A <b>constant</b> non-zero mean of the error is absorbed by the intercept. That is one reason a constant term is so useful.</li>
+  </ol>
+  <div class="note "><div class="t">Why "not all equal"?</div>
+  <p>If all $x_i$ were equal, the column $x$ would be a multiple of the column of ones, A1b would fail, and there would be no unique OLS estimator.</p>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">YES / NO with a reason</span>True or false?</div>
+<div class="prob">
+  <p>(a) OLS needs normal errors to be unbiased. (b) If $\mathbb V[\varepsilon\mid X]=\sigma^2\Omega\neq\sigma^2I$, OLS is biased. (c) A1b can be relaxed if $n$ is large. (d) $\mathbb E[\varepsilon\mid X]=0$ implies $\mathbb E[\varepsilon]=0$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) <b>False</b>: unbiasedness uses only A1b and A2a. (b) <b>False</b>: the variance matrix plays no role in $\mathbb E[b\mid X]=\beta$. (c) <b>False</b>: perfect collinearity is not cured by more rows. (d) <b>True</b> by the tower property: $\mathbb E[\varepsilon]=\mathbb E[\mathbb E[\varepsilon\mid X]]=0$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Identify the violation</div>
+<div class="prob">
+  <p>(i) Daily returns with calm and turbulent periods. (ii) Regressing house prices on size in m² and size in square feet. (iii) Regressing police numbers on crime to learn the effect of crime on police, where police also reduce crime.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(i) A2b: the variance is not constant. (ii) A1b: the two columns are proportional, $\text{rank}(X)\lt K$. (iii) A3: $y$ affects $X$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s7">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Assumptions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>Which assumption gives $\beta$ its interpretation as the conditional expectation?</div>
+    <div class="opts"><button>$\text{rank}(X)=K$</button><button>$\mathbb V[\varepsilon\mid X]=\sigma^2I_n$</button><button>$\mathbb E[\varepsilon\mid X]=0$</button><button>normality</button></div>
+    <div class="why">$\mathbb E[y\mid X]=X\beta+\mathbb E[\varepsilon\mid X]$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>Which assumption did the lecture say can easily be relaxed?</div>
+    <div class="opts"><button>A1b</button><button>A2b</button><button>A2a</button><button>none</button></div>
+    <div class="why">Spherical errors simplify the algebra. A1b and A2a are identification assumptions.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>$\mathbb E[\varepsilon\varepsilon'\mid X]=\sigma^2I_n$ implies</div>
+    <div class="opts"><button>errors are normal</button><button>errors are independent of $X$</button><button>$\varepsilon'\varepsilon=\sigma^2$</button><button>errors are uncorrelated with each other and have equal variance</button></div>
+    <div class="why">Zero off-diagonal, constant diagonal. Nothing about normality.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">4</span>With $x$ positively correlated with $\varepsilon$, the OLS slope in large samples is</div>
+    <div class="opts"><button>above $\beta_2$, and more data does not help</button><button>above $\beta_2$, but converges to it as $n$ grows</button><button>equal to $\beta_2$ but with a larger variance</button><button>below $\beta_2$</button></div>
+    <div class="why">OLS attributes to $x$ the part of $\varepsilon$ that moves with it. The figure shows the histogram tightening around the wrong value.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">5</span>In the W3 exponential-errors exercise the intercept estimator has expectation</div>
+    <div class="opts"><button>$\alpha$</button><button>$\lambda$</button><button>$\alpha+\lambda$</button><button>$\alpha-\lambda$</button></div>
+    <div class="why">$\alpha^*=\alpha+\lambda$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,200 @@
+<!-- ============ 17 THE RESIDUAL MAKER AND S² ============ -->
+<section id="s17">
+<div class="sec-head"><span class="num">17</span><h2>The residual maker and s²</h2><span class="sub">lecture 4, slides 10–17</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why divide by n − K<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$\mathbb V[b\mid X]=\sigma^2(X'X)^{-1}$ needs $\sigma^2$, which is unknown. We estimate it from the residuals. The obvious estimator $\frac1n\sum e_i^2$ is <i>almost</i> right but too small on average, because OLS chose $b$ precisely to make the residuals small. The correction is $n-K$ in place of $n$, and the matrix $M$ shows why.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">INTUITION</span> Three steps to the estimator<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ol class="steps">
+    <li>If the errors were observed, use their sample variance: $\frac1n\sum\varepsilon_i^2$ (remember $\mathbb E[\varepsilon_i]=0$). Its mean is exactly $\sigma^2$.</li>
+    <li>They are not. Replace $\varepsilon_i$ with $e_i=y_i-x_i'b$: $\frac1n\sum e_i^2$. (With a constant, residuals have mean zero: $0=e'\mathbf 1=\sum e_i$.)</li>
+    <li>But $\sum e_i^2\le\sum\varepsilon_i^2$ in <b>every</b> sample, since $b$ minimises the sum of squares and $\beta$ does not. So $\frac1n\sum e_i^2$ is too small on average. <b>By how much? Exactly the factor $\frac{n-K}n$.</b></li>
+  </ol>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The residual maker matrix<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$e=y-X(X'X)^{-1}X'y=My,\qquad\boxed{M=I_n-X(X'X)^{-1}X'}\ (n\times n)$$
+  <ol class="steps">
+    <li><b>Symmetric:</b> $M'=M$ (transpose each piece).</li>
+    <li><b>$MX=0$:</b> $X-X(X'X)^{-1}X'X=X-X=0$. Also $X'M=0$.</li>
+    <li><b>Idempotent:</b> $MM=M(I-P)=M-MX(X'X)^{-1}X'=M$.</li>
+    <li><b>$\text{rank}(M)=\text{trace}(M)=n-K$</b> (A4 and the cyclic trace):</li>
+  </ol>
+  $$\text{tr}(M)=\text{tr}(I_n)-\text{tr}\big(X(X'X)^{-1}X'\big)=n-\text{tr}\big(X'X(X'X)^{-1}\big)=n-K$$
+  </div>
+  <div>
+  <p><b>Consequences</b></p>
+  $$e=My=M(X\beta+\varepsilon)=M\varepsilon$$
+  $$e'e=\varepsilon'M'M\varepsilon=\varepsilon'MM\varepsilon=\varepsilon'M\varepsilon$$
+  <p>an <i>idempotent quadratic form</i> (S3 in the Memorandum).</p>
+<div class="ex">
+  <div class="bar">RUNNING EXAMPLE · M in full</div>
+  <div class="body">
+  $$M=\begin{bmatrix}0.4&-0.4&-0.2&0&0.2\\-0.4&0.7&-0.2&-0.1&0\\-0.2&-0.2&0.8&-0.2&-0.2\\0&-0.1&-0.2&0.7&-0.4\\0.2&0&-0.2&-0.4&0.4\end{bmatrix}$$
+  <p>Trace $=0.4+0.7+0.8+0.7+0.4=3=5-2$ ✓. Each row sums to 0 ($M\mathbf1=0$) ✓. Row 1 times $y$: $0.8-1.2-1.0+0+1.2=-0.2=e_1$ ✓.</p>
+  </div>
+</div>
+
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PROOF</span> $\mathbb E[e'e\mid X]=\sigma^2(n-K)$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li>$\mathbb E[e'e\mid X]=\mathbb E[\varepsilon'M\varepsilon\mid X]$</li>
+    <li>$=\mathbb E[\text{tr}(\varepsilon'M\varepsilon)\mid X]$ — a scalar equals its trace (the slide's "why?")</li>
+    <li>$=\mathbb E[\text{tr}(\varepsilon\varepsilon'M)\mid X]$ — cyclic property</li>
+    <li>$=\text{tr}\big(\mathbb E[\varepsilon\varepsilon'\mid X]M\big)$ — trace is linear, $M$ is a function of $X$</li>
+    <li>$=\text{tr}(\sigma^2I_nM)=\sigma^2\text{tr}(M)=\sigma^2(n-K)$ $\blacksquare$</li>
+  </ol>
+  </div>
+  <div>
+  <p>Dimension of $e'e$: $1\times1$. By the tower property $\mathbb E[e'e]=\sigma^2(n-K)$. So the unbiased estimator is</p>
+  $$\boxed{\;s^2=\frac{e'e}{n-K},\qquad\mathbb E[s^2]=\sigma^2\;}$$
+  <p><b>Degrees of freedom.</b> $n$ data points, but $K$ of them are "used up" estimating $\beta$ before $e$ can be computed. The residual vector lives in an $(n-K)$-dimensional space: once $n-K$ residuals are known, $X'e=0$ determines the other $K$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> The bias of e′e/n<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$n$ <input type="range" id="s2_n" min="4" max="60" step="1" value="10"> <span class="val" id="s2_n_v">10</span></label>
+    <label>$K$ <input type="range" id="s2_k" min="1" max="20" step="1" value="4"> <span class="val" id="s2_k_v">4</span></label>
+    <span class="btns">
+      <button data-do="s2Run">simulate 3000 samples</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="s2svg" viewBox="0 0 380 240"></svg><figcaption>Distribution across samples of $e'e/n$ (amber) and $s^2=e'e/(n-K)$ (blue); true $\sigma^2=1$ (red). The diamonds are averages.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="s2read" aria-live="polite"></div>
+  <p><b>Try this.</b> With $n=10$, $K=4$ the naive estimator is 40% too small on average. Let $K$ approach $n$: it goes to 0 (perfect fit by overfitting). With $n$ much larger than $K$ the two are the same. Note that $s^2$ is right <b>on average</b> but it is itself random, quite widely for small $n-K$. That randomness is why the $t$ distribution replaces the normal in lecture 7.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RECIPE</span> Everything you need after a regression (slide 17)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ol class="steps">
+    <li>$b=(X'X)^{-1}X'y$</li>
+    <li>$e=y-Xb$</li>
+    <li>$s^2=e'e/(n-K)$</li>
+    <li>$\hat{\mathbb V}[b\mid X]=s^2(X'X)^{-1}$, unbiased since $\mathbb E[s^2(X'X)^{-1}\mid X]=\sigma^2(X'X)^{-1}$</li>
+    <li>Standard error of $b_k$: $\sqrt{s^2(X'X)^{-1}_{k,k}}$. Covariance of $b_i,b_j$: $s^2(X'X)^{-1}_{i,j}$.</li>
+  </ol>
+  <div class="note warn"><div class="t">TRAP · order of operations</div>
+  <p>First compute $X'X$, <b>then invert the whole matrix</b>, then read the element. $(X'X)^{-1}_{k,k}$ is <b>not</b> $1/(X'X)_{k,k}$. In the running example $(X'X)_{2,2}=55$ but $(X'X)^{-1}_{2,2}=0.1$, not $1/55=0.018$.</p>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">RUNNING EXAMPLE · the full output</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$e'e=1.90$, $n-K=3$, $s^2=0.6333$.</p>
+  $$\hat{\mathbb V}[b\mid X]=0.6333\begin{bmatrix}1.1&-0.3\\-0.3&0.1\end{bmatrix}=\begin{bmatrix}0.6967&-0.19\\-0.19&0.0633\end{bmatrix}$$
+  </div>
+  <div>
+  <table>
+    <tr><th></th><th>estimate</th><th>std. error</th></tr>
+    <tr><td>$b_1$</td><td>1.3</td><td>$\sqrt{0.6967}=0.835$</td></tr>
+    <tr><td>$b_2$</td><td>0.9</td><td>$\sqrt{0.0633}=0.252$</td></tr>
+  </table>
+  <p>$\widehat{\text{Cov}}[b_1,b_2\mid X]=-0.19$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Standard errors</div>
+<div class="prob">
+  <p>$n=29$, $K=3$, $e'e=520$ and $(X'X)^{-1}=\frac1{3900}\begin{bmatrix}3900/29&0&0\\0&80&-10\\0&-10&50\end{bmatrix}$. Find $s^2$ and the standard error of each slope.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$s^2=520/26=20$. $\text{se}(b_2)=\sqrt{20\cdot80/3900}=\sqrt{0.4103}=0.6405$. $\text{se}(b_3)=\sqrt{20\cdot50/3900}=\sqrt{0.2564}=0.5064$. (Data of the ES_Testing sheet, continued in module 25.)</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>M for the simplest model</div>
+<div class="prob">
+  <p>$X=\mathbf1$ ($K=1$). Write $M$, $My$ and $s^2$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$M=I-\frac1n\mathbf1\mathbf1'$; $My=y-\bar y$ (de-meaning); $s^2=\frac{\sum(y_i-\bar y)^2}{n-1}$: the sample variance with its familiar $n-1$. So $n-1$ is a special case of $n-K$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">practice</span>Cov of two residuals</div>
+<div class="prob">
+  <p>Show $\mathbb V[e\mid X]=\sigma^2M$. In the running example, which residual has the largest variance, and why?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$e=M\varepsilon$, so $\mathbb V[e\mid X]=M\sigma^2IM'=\sigma^2MM=\sigma^2M$. Diagonal: $0.4,0.7,0.8,0.7,0.4$ (times $\sigma^2$). The middle observation has the largest residual variance because it has no leverage on the slope; the extremes pull the line towards themselves, so their residuals are small.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s17">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Residual maker and s²<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>$Me$ equals</div>
+    <div class="opts"><button>0</button><button>$e$</button><button>$y$</button><button>$\hat y$</button></div>
+    <div class="why">$e=My$ and $MMy=My$: residuals of residuals are themselves.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">2</span>$\mathbb E[\frac1n\sum e_i^2\mid X]$ equals</div>
+    <div class="opts"><button>$\sigma^2$</button><button>$\sigma^2\frac n{n-K}$</button><button>$\sigma^2(n-K)$</button><button>$\sigma^2\frac{n-K}n$</button></div>
+    <div class="why">$\mathbb E[e'e\mid X]=\sigma^2(n-K)$, divided by $n$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>The rank of the $n\times n$ matrix $M$ is</div>
+    <div class="opts"><button>$n-K$</button><button>$n$</button><button>$K$</button><button>1</button></div>
+    <div class="why">$\text{rank}=\text{trace}=n-K$.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">4</span>$\sum e_i^2\le\sum\varepsilon_i^2$ holds</div>
+    <div class="opts"><button>on average only</button><button>if errors are normal</button><button>in every sample</button><button>if $n&gt;30$</button></div>
+    <div class="why">$b$ minimises the sum of squares; at $b=\beta$ the sum equals $\varepsilon'\varepsilon$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>Standard error of $b_k$:</div>
+    <div class="opts"><button>$s^2(X'X)^{-1}_{k,k}$</button><button>$\sqrt{s^2(X'X)^{-1}_{k,k}}$</button><button>$\sqrt{s^2/(X'X)_{k,k}}$</button><button>$s/\sqrt n$</button></div>
+    <div class="why">Invert first, then read the diagonal element, then take the root.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,179 @@
+<!-- ============ 20 THE FIRST TEST: ONE PARAMETER, Σ² KNOWN ============ -->
+<section id="s20">
+<div class="sec-head"><span class="num">20</span><h2>The first test: one parameter, σ² known</h2><span class="sub">lecture 6 · lecture 7, slides 2–5</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Standardize, then look at where you land<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>With one restriction, $m$ is a number and we can skip the quadratic form: divide $m$ by its standard deviation and compare with $N(0,1)$. A value like 0.1 is perfectly ordinary for a standard normal; a value like 4 is almost impossible. So 4 is evidence against $H_0$.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The statistic<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$H_0:\beta_1=0$. $R=[1\ 0\cdots0]$, $q=0$, $m=Rb-q=b_1$.</p>
+  <p>In general $b_1\mid X\sim N\big(\beta_1,\ \sigma^2R(X'X)^{-1}R'\big)$, where $\sigma^2R(X'X)^{-1}R'$ is just the $[1,1]$ element of $\sigma^2(X'X)^{-1}$: $\mathbb V[b_1\mid X]$.</p>
+  $$\boxed{z=\frac{b_1}{\sqrt{\sigma^2R(X'X)^{-1}R'}}\ \overset{H_0}{\sim}\ N(0,1)}$$
+  <p>For a general single restriction: $z=\dfrac{Rb-q}{\sqrt{\sigma^2R(X'X)^{-1}R'}}$.</p>
+  </div>
+  <div>
+  <p>We assume $\sigma^2$ <b>known</b> for now, so that $z$ can be computed. Lecture 7 replaces it by $s^2$.</p>
+  <table>
+    <tr><th>observed</th><th>plausible under $N(0,1)$?</th><th>conclusion (lecture 6)</th></tr>
+    <tr><td>$z=4$</td><td>no: $P(Z&gt;4)=0.00003$</td><td>reject $H_0$ in favour of $H_A:\beta_1&gt;0$</td></tr>
+    <tr><td>$z=0.1$</td><td>yes: $P(\lvert Z\rvert&gt;0.1)=0.92$</td><td>do not reject $H_0$</td></tr>
+    <tr><td>$z=1.9$</td><td>borderline</td><td><b>depends on the alternative and the size</b></td></tr>
+  </table>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> Size, critical values, and the slide's open question z = 1.9<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Choose the <b>size</b> (also called significance level) of the test, e.g. 5%: the probability of rejecting a true $H_0$. It fixes the critical values:</p>
+  <table>
+    <tr><th>alternative</th><th>reject if</th><th>10%</th><th>5%</th><th>1%</th></tr>
+    <tr><td>$H_A:\beta_1\neq0$ (two-sided)</td><td>$\lvert z\rvert&gt;c$</td><td>1.645</td><td><b>1.96</b></td><td>2.576</td></tr>
+    <tr><td>$H_A:\beta_1&gt;0$ (one-sided)</td><td>$z&gt;c$</td><td>1.282</td><td><b>1.645</b></td><td>2.326</td></tr>
+    <tr><td>$H_A:\beta_1\lt0$ (one-sided)</td><td>$z\lt-c$</td><td>1.282</td><td>1.645</td><td>2.326</td></tr>
+  </table>
+  </div>
+  <div>
+  <p><b>$z=1.9$, size 5%.</b></p>
+  <ul>
+    <li>Against $H_A:\beta_1&gt;0$ (lecture 6's alternative): $1.9&gt;1.645$ ⇒ <b>reject</b>.</li>
+    <li>Against $H_A:\beta_1\neq0$ (lecture 7's alternative): $1.9&lt;1.96$ ⇒ <b>do not reject</b>.</li>
+    <li>At 1%: do not reject in either case.</li>
+  </ul>
+  <p>The same data, two answers. That is why $H_A$ and the size are stated <b>before</b> looking at the data.</p>
+  <div class="note warn"><div class="t">Vocabulary</div>
+  <p>The slides call 5% the "confidence level or size". Elsewhere (and in your statistics course) the <b>confidence level</b> is $1-\alpha=95\%$ and 5% is the <b>size</b> or significance level. If an exam question says "5% confidence level" it means a 5% rejection area, as in W8.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Reject or not?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>observed statistic <input type="range" id="zt_z" min="-5" max="5" step="0.05" value="1.90"> <span class="val" id="zt_z_v">1.90</span></label>
+    <label>size (%) <input type="range" id="zt_a" min="0.5" max="20" step="0.5" value="5"> <span class="val" id="zt_a_v">5</span></label>
+    <label>H_A <select id="zt_h"><option value="two">≠ (two-sided)</option><option value="right">> (right tail)</option><option value="left">&lt; (left tail)</option></select></label>
+    <label>distribution <select id="zt_d"><option value="1e9">N(0,1) — σ² known</option><option value="3">t with 3 d.f.</option><option value="10">t with 10 d.f.</option><option value="50">t with 50 d.f.</option></select></label>
+    <span class="btns">
+      <button data-do="ztSet">z = 4</button>
+      <button data-do="ztSet2">z = 0.1</button>
+      <button data-do="ztSet3">z = 1.9</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="ztsvg" viewBox="0 0 400 240"></svg><figcaption>Distribution of the statistic under $H_0$. Red area = size of the test. Amber line = your statistic.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="ztread" aria-live="polite"></div>
+  <p><b>p-value</b> = probability, under $H_0$, of a statistic at least as extreme as the one observed (in the direction(s) of $H_A$). Reject when the p-value is below the size. <b>Try this:</b> set $z=1.9$ and switch between two-sided and right tail. Then pick "t with 3 d.f.": the critical value moves to 3.18.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">W10 TUTORIAL · EX 1 · "test if the slope is 3"</div>
+  <div class="body">
+  <p>Regression of $y$ on a constant and $x_1$: $\hat y=1+0.5x_1$, $n=100$, $\sigma^2=2$ known, $X'X=\begin{bmatrix}3&2\\1&4\end{bmatrix}$, $\alpha=5\%$. Would the result change if $\sigma^2=20$?</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li><b>Hypotheses.</b> $H_0:\beta_2=3$ vs $H_A:\beta_2\neq3$.</li>
+    <li><b>Statistic.</b> $J=1$ and $\sigma^2$ known ⇒ $\dfrac{Rb-q}{\sqrt{\sigma^2R(X'X)^{-1}R'}}\sim N(0,1)$ under $H_0$.</li>
+    <li><b>$R=[0\ 1]$, $q=3$.</b> Numerator: $0.5-3=-2.5$.</li>
+    <li><b>Denominator.</b> $\det=12-2=10$, $(X'X)^{-1}=\begin{bmatrix}0.4&-0.2\\-0.1&0.3\end{bmatrix}$, $R(X'X)^{-1}R'=0.3$, so $\sqrt{2\cdot0.3}=\sqrt{0.6}=0.775$.</li>
+    <li><b>Value:</b> $-2.5/0.775=\mathbf{-3.23}$. $\lvert-3.23\rvert&gt;1.96$ ⇒ <b>reject</b>.</li>
+  </ol>
+  </div>
+  <div>
+  <p><b>With $\sigma^2=20$:</b> $-2.5/\sqrt{20\cdot0.3}=-2.5/2.449=\mathbf{-1.02}$. $1.02&lt;1.96$ ⇒ <b>do not reject</b>. More noise: the same distance from 3 is no longer surprising.</p>
+  <div class="note warn"><div class="t">Two remarks on the sheet</div>
+  <p>(1) The notes call the numerator "$b_1$"; it is $Rb-q=b_2-3$. (2) The given $X'X$ is not symmetric and its $(1,1)$ element is not $n=100$, so no real data produced it. Use it for the mechanics only.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>One-sided alpha test</div>
+<div class="prob">
+  <p>$\hat\alpha=0.05$, $\mathbb V[\hat\alpha\mid X]=0.0009$ known. Test $H_0:\alpha=0$ vs $H_A:\alpha&gt;0$ at 5% and 1%.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$z=0.05/0.03=1.667$. At 5%: $1.667&gt;1.645$ ⇒ reject (barely). At 1%: $1.667&lt;2.326$ ⇒ do not reject. p-value $=P(Z&gt;1.667)=0.048$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Beta equal to one?</div>
+<div class="prob">
+  <p>$\hat\beta=0.74$, $\text{sd}=0.12$ known. Test $H_0:\beta=1$ two-sided at 5%. And $H_0:\beta=0$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$z=(0.74-1)/0.12=-2.17$: $\lvert z\rvert&gt;1.96$ ⇒ reject $\beta=1$. For $\beta=0$: $z=6.17$ ⇒ reject. Forgetting to subtract $q$ is a classic mistake: software prints the test of zero.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>From z to a confidence interval</div>
+<div class="prob">
+  <p>Find all values $q$ for which $H_0:\beta_2=q$ is <b>not</b> rejected at 5% two-sided, given $b_2=0.74$, sd $0.12$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\lvert0.74-q\rvert\le1.96\cdot0.12=0.235$: $q\in[0.505,\ 0.975]$. That set is the 95% confidence interval. So "0 is outside the CI" and "reject $\beta_2=0$ at 5%" are the same statement.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s20">
+  <div class="bar"><span class="pill g">QUICK TEST</span> First test<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>$z=1.9$ at size 5%, $H_A:\beta_1\neq0$:</div>
+    <div class="opts"><button>reject</button><button>do not reject</button><button>cannot be decided</button><button>accept $H_A$</button></div>
+    <div class="why">$1.9&lt;1.96$. Against $H_A:\beta_1&gt;0$ it would be a rejection.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>The denominator of $z$ for $H_0:\beta_2=0$ is</div>
+    <div class="opts"><button>$\sigma^2(X'X)^{-1}_{2,2}$</button><button>$\sigma/\sqrt n$</button><button>$\sqrt{\sigma^2(X'X)^{-1}_{2,2}}$</button><button>$\sqrt{\sigma^2(X'X)_{2,2}}$</button></div>
+    <div class="why">$R=[0\ 1\ 0\dots]$ picks the $(2,2)$ element of the inverse.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>If $\sigma^2$ increases (same $b$, $X$), $\lvert z\rvert$</div>
+    <div class="opts"><button>falls</button><button>rises</button><button>stays the same</button><button>changes sign</button></div>
+    <div class="why">Larger denominator: less evidence against $H_0$.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>A p-value of 0.03 means</div>
+    <div class="opts"><button>$H_0$ is true with probability 3%</button><button>$H_0$ is false with probability 97%</button><button>reject at 1%</button><button>under $H_0$ a statistic this extreme or more has probability 3%</button></div>
+    <div class="why">It is computed assuming $H_0$. Reject at 5%, not at 1%.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>$b_2=0.74$, sd $=0.12$. The statistic for $H_0:\beta_2=1$ is</div>
+    <div class="opts"><button>6.17</button><button>−2.17</button><button>2.17</button><button>−0.26</button></div>
+    <div class="why">$(0.74-1)/0.12$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,142 @@
+<!-- ============ 05 RANDOM VECTORS & CONDITIONING ============ -->
+<section id="s5">
+<div class="sec-head"><span class="num">05</span><h2>Random vectors & conditioning</h2><span class="sub">expectation and variance of vectors · tower property · multivariate normal · χ², t, F preview</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Four rules that do almost all the probability in this course<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$\varepsilon$, $y$, $b$, $e$, $m$ are all random <b>vectors</b>. To find their mean and variance you need two rules for linear functions, the tower property, and one fact about the normal.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RULES</span> Means and variances of vectors<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>For a random vector $Z$ ($n\times1$) and constant matrix $A$, vector $c$:</p>
+  $$\boxed{\mathbb E[AZ+c]=A\,\mathbb E[Z]+c\qquad\mathbb V[AZ+c]=A\,\mathbb V[Z]\,A'}$$
+  $$\mathbb V[Z]=\mathbb E\big[(Z-\mathbb E Z)(Z-\mathbb E Z)'\big]\quad(n\times n)$$
+  <p>The diagonal of $\mathbb V[Z]$ holds variances, the off-diagonal covariances. It is symmetric and non-negative definite. If $\mathbb E[Z]=0$, then $\mathbb V[Z]=\mathbb E[ZZ']$.</p>
+  $$\text{Cov}[Z,W]=\mathbb E\big[(Z-\mathbb EZ)(W-\mathbb EW)'\big],\qquad\text{Cov}[AZ,BW]=A\,\text{Cov}[Z,W]\,B'$$
+  </div>
+  <div>
+  <div class="note warn"><div class="t">TRAP · $ZZ'$ and $Z'Z$</div>
+  <p>$ZZ'$ is an $n\times n$ matrix. $Z'Z=\sum Z_i^2$ is a number. $\mathbb E[\varepsilon\varepsilon']=\sigma^2I_n$ (matrix) while $\mathbb E[\varepsilon'\varepsilon]=n\sigma^2$ (number). They are linked by the trace: $\varepsilon'\varepsilon=\text{tr}(\varepsilon\varepsilon')$.</p>
+  </div>
+  <div class="note tip"><div class="t">The scalar version you know</div>
+  <p>$\mathbb V[aZ+c]=a^2\mathbb V[Z]$ is the $1\times1$ case of $A\mathbb V[Z]A'$. And for two entries, $\mathbb V[c_1Z_1+c_2Z_2]=c_1^2\mathbb V_1+c_2^2\mathbb V_2+2c_1c_2\text{Cov}_{12}$ is $[c_1\ c_2]\,\mathbb V[Z]\,[c_1\ c_2]'$.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> Conditioning and the tower property<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>"Conditional on $X$" means: treat $X$ as known numbers ("freeze $X$"). Any function of $X$ comes out of the expectation:</p>
+  $$\mathbb E[g(X)Z\mid X]=g(X)\,\mathbb E[Z\mid X].$$
+  <p><b>Tower property (law of iterated expectations):</b></p>
+  $$\boxed{\mathbb E[Z]=\mathbb E\big[\mathbb E[Z\mid X]\big]}$$
+  <p>If the inner expectation does not depend on $X$ (as in $\mathbb E[b\mid X]=\beta$), the outer one changes nothing: $\mathbb E[b]=\beta$.</p>
+  </div>
+  <div>
+  <p><b>Where it is used</b></p>
+  <ul>
+    <li>L1: $\mathbb E[y\mid X]=X\beta$.</li>
+    <li>L4: $\mathbb E[b]=\mathbb E[\mathbb E[b\mid X]]=\beta$ and $\mathbb E[e'e]=\sigma^2(n-K)$.</li>
+    <li>TS: $\mathbb E[Y_{t+1}Y_t]=\mathbb E[\mathbb E[Y_{t+1}Y_t\mid Y_t]]$.</li>
+    <li>GARCH: $\mathbb E[r_t]=\mathbb E[\mathbb E[\sigma_tz_t\mid\mathcal F_{t-1}]]=\mathbb E[\sigma_t\cdot0]=0$.</li>
+  </ul>
+  <p><b>Law of total variance:</b> $\mathbb V[Z]=\mathbb E[\mathbb V[Z\mid X]]+\mathbb V[\mathbb E[Z\mid X]]$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> The normal, and the three distributions built from it<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>fact</th><th>statement</th><th>used for</th></tr>
+    <tr><td>linear map</td><td>$Z\sim N(\mu,\Sigma)\Rightarrow AZ+c\sim N(A\mu+c,\ A\Sigma A')$</td><td>$y$, $b$, $m$ are normal because $\varepsilon$ is</td></tr>
+    <tr><td>$\chi^2_k$</td><td>$Z_1,\dots,Z_k$ i.i.d. $N(0,1)\Rightarrow\sum Z_i^2\sim\chi^2_k$; mean $k$, variance $2k$</td><td>$e'e/\sigma^2$; test with $\sigma^2$ known</td></tr>
+    <tr><td>quadratic form</td><td>$m\sim N(0,V)$, $V$ $J\times J$ invertible $\Rightarrow m'V^{-1}m\sim\chi^2_J$</td><td>joint test</td></tr>
+    <tr><td>$t_k$</td><td>$\dfrac{N(0,1)}{\sqrt{\chi^2_k/k}}$, independent</td><td>one restriction, $\sigma^2$ unknown</td></tr>
+    <tr><td>$F_{J,k}$</td><td>$\dfrac{\chi^2_J/J}{\chi^2_k/k}$, independent</td><td>$J$ restrictions, $\sigma^2$ unknown</td></tr>
+    <tr><td>jointly normal</td><td>zero covariance $\Rightarrow$ independent (<b>only</b> for normals)</td><td>$b$ and $s^2$ independent</td></tr>
+  </table>
+  <p><b>Why $m'V^{-1}m$ is $\chi^2_J$:</b> $V^{-1/2}m\sim N(0,V^{-1/2}VV^{-1/2})=N(0,I_J)$, and its squared length is a sum of $J$ squared standard normals. In the scalar case it is just $(m/\sqrt V)^2$.</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Variance of a linear combination</div>
+<div class="prob">
+  <p>$\mathbb V[Z]=\begin{bmatrix}4&1\\1&9\end{bmatrix}$. Find $\mathbb V[Z_1-2Z_2]$ with matrices and with the scalar formula.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$A=[1\ -2]$: $AV=[4-2,\ 1-18]=[2,-17]$, then $AVA'=2+34=36$. Scalar: $4+4\cdot9+2\cdot1\cdot(-2)\cdot1=36$ ✓.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Conditional, then unconditional</div>
+<div class="prob">
+  <p>$\mathbb E[Z\mid X]=2X$, $\mathbb V[Z\mid X]=X^2$, with $\mathbb E[X]=1$, $\mathbb V[X]=3$. Find $\mathbb E[Z]$ and $\mathbb V[Z]$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\mathbb E[Z]=\mathbb E[2X]=2$. $\mathbb E[X^2]=3+1=4$. $\mathbb V[Z]=\mathbb E[X^2]+\mathbb V[2X]=4+12=16$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">practice · Additional Exercises W3, Ex. 2</span>Combining two unbiased estimators</div>
+<div class="prob">
+  <p>$\hat\theta_1,\hat\theta_2$ are independent unbiased estimators of $\theta$ with different, finite, positive variances $v_1,v_2$. Which $\hat\theta=c_1\hat\theta_1+c_2\hat\theta_2$ has minimum variance among all unbiased linear combinations?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <ol class="steps">
+    <li><b>Unbiased:</b> $\mathbb E[\hat\theta]=(c_1+c_2)\theta=\theta$ for every $\theta$ requires $c_1+c_2=1$, so $c_2=1-c_1$.</li>
+    <li><b>Variance</b> (independence removes the covariance): $\mathbb V[\hat\theta]=c_1^2v_1+(1-c_1)^2v_2$.</li>
+    <li><b>F.O.C.:</b> $2c_1v_1-2(1-c_1)v_2=0\Rightarrow c_1=\dfrac{v_2}{v_1+v_2}$. <b>S.O.C.:</b> $2v_1+2v_2&gt;0$ ✓.</li>
+    <li><b>Nicer form:</b> divide by $v_1v_2$: $c_1=\dfrac{1/v_1}{1/v_1+1/v_2}$ and $c_2=\dfrac{1/v_2}{1/v_1+1/v_2}$. <b>Weights are proportional to inverse variances</b>: the more accurate estimator gets the larger weight.</li>
+    <li><b>Minimum variance:</b> $\dfrac{v_1v_2}{v_1+v_2}$, smaller than both $v_1$ and $v_2$. It pays to use even the worse estimator a little. This is the same logic as Gauss–Markov and as portfolio diversification.</li>
+  </ol>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s5">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Random vectors<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>$\mathbb V[AZ]$ equals</div>
+    <div class="opts"><button>$A^2\mathbb V[Z]$</button><button>$A\mathbb V[Z]A'$</button><button>$A'\mathbb V[Z]A$</button><button>$A\mathbb V[Z]$</button></div>
+    <div class="why">Check dimensions: $A$ is $J\times n$, $\mathbb V[Z]$ is $n\times n$, so $A\mathbb V[Z]A'$ is $J\times J$.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>$\mathbb E[\varepsilon'\varepsilon\mid X]$ with $\mathbb V[\varepsilon\mid X]=\sigma^2I_n$ is</div>
+    <div class="opts"><button>$\sigma^2I_n$</button><button>$\sigma^2$</button><button>$n\sigma^2$</button><button>$(n-K)\sigma^2$</button></div>
+    <div class="why">A sum of $n$ terms with mean $\sigma^2$. $(n-K)\sigma^2$ is $\mathbb E[e'e]$, for residuals.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>Two uncorrelated variables are independent if</div>
+    <div class="opts"><button>they are jointly normal</button><button>they have the same variance</button><button>both have mean zero</button><button>always</button></div>
+    <div class="why">Zero covariance rules out only linear dependence, except for jointly normal variables (module 22).</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>The ratio of two independent "average" chi-squares, $(\chi^2_J/J)/(\chi^2_k/k)$, is</div>
+    <div class="opts"><button>$\chi^2_{J/k}$</button><button>$t_k$</button><button>$N(0,1)$</button><button>$F_{J,k}$</button></div>
+    <div class="why">That is the definition of the F distribution.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,123 @@
+<!-- ============ 10 OUTLIERS & THE MISSING INTERCEPT ============ -->
+<section id="s10">
+<div class="sec-head"><span class="num">10</span><h2>Outliers & the missing intercept</h2><span class="sub">lecture 2, slides 10–11 · the two slide questions</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Two ways to ruin a regression line<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>OLS squares the misses. A miss of 10 counts 100 times more than a miss of 1, so one wild point can drag the line a long way. And if you leave out the constant, you force the line through the origin whether the data like it or not.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Move one point, drop the constant<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>last point $y_5$ <input type="range" id="ro_y" min="-6" max="8" step="0.1" value="6.0"> <span class="val" id="ro_y_v">6.0</span></label>
+    <label><input type="checkbox" id="ro_nc"> no intercept</label>
+    <span class="btns">
+      <button data-do="roOut">slide 10: far below</button>
+      <button data-do="roNo">slide 11: omit intercept</button>
+      <button data-do="roReset">reset</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="rosvg" viewBox="0 0 360 270"></svg><figcaption>Grey dashed: the original OLS line. Blue: OLS with your changes.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="roread" aria-live="polite"></div>
+  <p><b>Slide 10's question: what happens to the OLS line?</b> It tilts towards the outlier. With $y_5=0$ instead of 6 the slope goes from $0.9$ to $-0.3$: one observation out of five flips the sign of the effect.</p>
+  <p><b>Slide 11's question: where does the line go without the constant?</b> Through the origin. The slope becomes $\frac{\sum x_iy_i}{\sum x_i^2}=\frac{69}{55}=1.25$ instead of $0.9$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">WHY</span> Why outliers pull so hard<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$b_2$ is a weighted sum of the $y_i$:</p>
+  $$b_2=\sum_{i=1}^n w_iy_i,\qquad w_i=\frac{x_i-\bar x}{\sum_j(x_j-\bar x)^2}$$
+  <p>Two things make point $i$ influential: $y_i$ far from the others, <b>and</b> $x_i$ far from $\bar x$ (a large weight, "leverage"). In the running example the weights are $(-0.2,-0.1,0,0.1,0.2)$, so moving $y_5$ by $-6$ moves $b_2$ by $-6\cdot0.2=-1.2$ ✓.</p>
+  </div>
+  <div>
+  <p>The middle point $x_3=\bar x$ has weight 0: move it as far as you like and the slope does not change (only the intercept and $s^2$ do).</p>
+  <div class="note fin"><div class="t">In finance</div>
+  <p>The 1987 crash day is a log-return of −0.23, about 20 standard deviations (module 31). Whether such a day is in the sample can change an estimated beta visibly. OLS is BLUE under the assumptions, but it is <b>not robust</b>.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">WHY</span> Why dropping the intercept hurts<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Suppose the truth is $y_i=\beta_1+\beta_2x_i+\varepsilon_i$ with $\beta_1\neq0$ and you fit $y_i=\tilde b_2x_i+\text{residual}$. Then</p>
+  $$\mathbb E[\tilde b_2\mid X]=\frac{\sum x_i\,\mathbb E[y_i\mid X]}{\sum x_i^2}=\beta_2+\beta_1\frac{\sum x_i}{\sum x_i^2}$$
+  <p><b>Biased</b>, unless $\beta_1=0$ or $\bar x=0$. It is an omitted-variable bias: the omitted regressor is the column of ones.</p>
+  </div>
+  <div>
+  <p><b>You also lose:</b></p>
+  <ul>
+    <li>$\sum e_i=0$ (no column of ones to enforce it): in the example the residuals sum to $1.18$;</li>
+    <li>the usual $R^2$, which can become negative when computed as $1-e'e/\sum(y_i-\bar y)^2$;</li>
+    <li>$\alpha$ itself. In the CAPM the intercept <b>is</b> what you want to know.</li>
+  </ul>
+  <p><b>Rule:</b> keep the constant. If it is truly zero, the cost of including it is small (a little variance). If it is not zero, the cost of omitting it is bias.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Leverage</div>
+<div class="prob">
+  <p>$x=(1,2,3,4,10)$. Which observation has the largest weight in $b_2$? By how much does $b_2$ move if its $y$ rises by 1?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\bar x=4$, deviations $(-3,-2,-1,0,6)$, $S_{xx}=9+4+1+0+36=50$. Weights $(-0.06,-0.04,-0.02,0,0.12)$. The last has the largest: $b_2$ rises by $0.12$. The fourth point has no effect on the slope.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Bias through the origin</div>
+<div class="prob">
+  <p>True model $y_i=2+0.5x_i+\varepsilon_i$ with $x=(1,2,3)$. What is $\mathbb E$ of the no-intercept slope?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$0.5+2\cdot\frac{6}{14}=0.5+0.857=1.357$. It is nearly three times the truth.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s10">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Robustness<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>An observation with $x_i=\bar x$ and a huge $y_i$ affects</div>
+    <div class="opts"><button>the slope only</button><button>the intercept and $s^2$, not the slope</button><button>neither</button><button>everything equally</button></div>
+    <div class="why">Its weight in $b_2$ is $(x_i-\bar x)/S_{xx}=0$.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>Omitting the constant leaves the slope unbiased if</div>
+    <div class="opts"><button>$\beta_2=0$</button><button>$n$ is large</button><button>$\beta_1=0$ or $\bar x=0$</button><button>the errors are normal</button></div>
+    <div class="why">Bias $=\beta_1\sum x_i/\sum x_i^2$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>OLS is sensitive to outliers because</div>
+    <div class="opts"><button>distances are squared</button><button>it uses the median</button><button>it requires normality</button><button>it minimises perpendicular distances</button></div>
+    <div class="why">Squaring gives large misses a disproportionate weight.</div>
+  </div>
+  </div>
+</div>
+
+</section>

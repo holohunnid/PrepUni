@@ -1,0 +1,177 @@
+<!-- ============ 08 DERIVING OLS ============ -->
+<section id="s8">
+<div class="sec-head"><span class="num">08</span><h2>Deriving OLS</h2><span class="sub">lecture 2, slides 2–9 · the derivation you must be able to write from memory</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Fit the line that makes the squared vertical misses smallest<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>We want a line through the cloud that passes "as close as possible" to the points. OLS measures closeness by the <b>sum of squared vertical distances</b> and picks $b$ to make it as small as possible. Thanks to matrix algebra the solution is one formula. The matrix algebra is only a tool: "nothing conceptual", the slide says.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">STEP 1</span> The criterion<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Univariate:</p>
+  $$\min_{\{b_1,b_2\}}\sum_{i=1}^n\big(\underbrace{y_i-(b_1+b_2x_{i2})}_{\text{vertical distance}}\big)^2$$
+  <p>Matrix form, for any $K$:</p>
+  $$\min_b\ SSE=(y-Xb)'(y-Xb)=y'y-2y'Xb+b'X'Xb$$
+  </div>
+  <div>
+  <p><b>How the product expands.</b> $(y'-b'X')(y-Xb)=y'y-y'Xb-b'X'y+b'X'Xb$. The two middle terms are scalars and transposes of each other, hence equal: $b'X'y=(y'Xb)'=y'Xb$. So they add to $-2y'Xb$.</p>
+  <div class="note "><div class="t">Slide question · dimensions</div>
+  <p>$SSE$ is $1\times1$. $(y-Xb)'$ is $1\times n$. Check: $(1\times n)(n\times1)=1\times1$ ✓.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">STEP 2</span> F.O.C., normal equations, estimator, S.O.C.<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>F.O.C.</b> Differentiate with the two rules of module 04 and set to zero: $\dfrac{\partial SSE}{\partial b}=0-2X'y+2X'Xb=0$.</li>
+    <li><b>Normal equations</b> ($K$ equations in $K$ unknowns): $X'Xb=X'y$.</li>
+    <li><b>Solve</b>, using A1b (so $(X'X)^{-1}$ exists):
+    $$\boxed{\;b=(X'X)^{-1}X'y\;}$$</li>
+    <li><b>S.O.C.</b> $\dfrac{\partial^2SSE}{\partial b\,\partial b'}=\dfrac{\partial}{\partial b}(-2X'y+2X'Xb)=2X'X$, positive definite by A1b. So it is a <b>minimum</b> (and the only one, since $SSE$ is a quadratic bowl).</li>
+    <li><b>Scalar case</b> $K=1$: $\dfrac{\partial^2SSE}{\partial b^2}=2\sum x_i^2&gt;0$, the familiar condition.</li>
+  </ol>
+  <div class="note tip"><div class="t">The normal equations say $X'e=0$</div>
+  <p>$X'y-X'Xb=0\Leftrightarrow X'(y-Xb)=0\Leftrightarrow X'e=0$. This one line gives: residuals orthogonal to every regressor; with a constant, residuals sum to zero; and the whole geometry of lecture 3.</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Find the minimum yourself<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$b_1$ <input type="range" id="ol_1" min="-2" max="5" step="0.05" value="3.00"> <span class="val" id="ol_1_v">3.00</span></label>
+    <label>$b_2$ <input type="range" id="ol_2" min="-1" max="2.5" step="0.02" value="0.20"> <span class="val" id="ol_2_v">0.20</span></label>
+    <label><input type="checkbox" id="ol_sq" checked> draw the squares</label>
+    <span class="btns">
+      <button data-do="olSnap">snap to OLS</button>
+      <button data-do="olStep">one gradient step</button>
+      <button data-do="olReset">reset</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="olsvg" viewBox="0 0 360 270"></svg><figcaption>The running example. Red dashes are the vertical distances; the squares have the area that enters $SSE$.</figcaption></figure>
+  </div>
+  <div>
+  <figure><svg id="ctsvg" viewBox="0 0 360 270"></svg><figcaption>$SSE(b_1,b_2)$ seen from above: ellipses of equal $SSE$. Green dot: the OLS solution. Amber: you.</figcaption></figure>
+  </div>
+  </div>
+  <div class="readout" id="olread" aria-live="polite"></div>
+  <p><b>Try this.</b> Move the line by hand and watch the total red area. Try to beat $SSE=1.90$: you can't. "One gradient step" moves downhill along $-\partial SSE/\partial b$; the closed form jumps to the bottom in one go. The valley is long and tilted because $\bar x\neq0$: raising the slope and lowering the intercept almost cancel out. That is the negative covariance between $b_1$ and $b_2$ that you will see in module 17.</p>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">RUNNING EXAMPLE · OLS by hand in four lines</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li>$X'X=\begin{bmatrix}5&15\\15&55\end{bmatrix}$, $X'y=\begin{bmatrix}2+3+5+4+6\\1\cdot2+2\cdot3+3\cdot5+4\cdot4+5\cdot6\end{bmatrix}=\begin{bmatrix}20\\69\end{bmatrix}$</li>
+    <li>$\det=275-225=50$, $(X'X)^{-1}=\begin{bmatrix}1.1&-0.3\\-0.3&0.1\end{bmatrix}$</li>
+  </ol>
+  </div>
+  <div>
+  <ol class="steps" style="counter-reset:s 2">
+    <li>$b=\begin{bmatrix}1.1\cdot20-0.3\cdot69\\-0.3\cdot20+0.1\cdot69\end{bmatrix}=\begin{bmatrix}22-20.7\\-6+6.9\end{bmatrix}=\begin{bmatrix}1.3\\0.9\end{bmatrix}$</li>
+    <li>Check the normal equations: $X'Xb=\begin{bmatrix}6.5+13.5\\19.5+49.5\end{bmatrix}=\begin{bmatrix}20\\69\end{bmatrix}=X'y$ ✓</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">W3 · EX 1 (from Greene) · OLS beats any other c, exactly by how much</div>
+  <div class="body">
+  <p>For any $K\times1$ vector $c$, prove $(y-Xc)'(y-Xc)-(y-Xb)'(y-Xb)=(c-b)'X'X(c-b)\ge0$.</p>
+  <ol class="steps">
+    <li>Write $c=b+(c-b)$. Then $y-Xc=(y-Xb)-X(c-b)=e-X(c-b)$.</li>
+    <li>Expand: $(y-Xc)'(y-Xc)=e'e-2(c-b)'X'e+(c-b)'X'X(c-b)$.</li>
+    <li>The middle term is zero because $X'e=0$ (normal equations).</li>
+    <li>Therefore $(y-Xc)'(y-Xc)-e'e=(c-b)'X'X(c-b)=d'd=\sum d_i^2\ge0$ with $d=X(c-b)$.</li>
+    <li>It is <b>zero only if</b> $X(c-b)=0$, which under A1b means $c=b$. So $b$ is the <b>unique</b> minimiser. No calculus was needed.</li>
+  </ol>
+  <div class="note warn"><div class="t">A slip in the solution sheet</div>
+  <p>The last displayed equation of the TA's typed solution drops the term $-(y-Xb)'(y-Xb)$ on the left. The statement above is the correct one. With the running example: $c=(0,1)'$ gives $c-b=(-1.3,0.1)'$ and $(c-b)'X'X(c-b)=5.1$; directly, $SSE(c)=1+1+4+0+1=7=1.9+5.1$ ✓.</p>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Solve a 2×2 system</div>
+<div class="prob">
+  <p>A regression with constant and one regressor has $n=10$, $\sum x=20$, $\sum x^2=60$, $\sum y=50$, $\sum xy=130$. Find $b$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$X'X=\begin{bmatrix}10&20\\20&60\end{bmatrix}$, $\det=200$, $(X'X)^{-1}=\frac1{200}\begin{bmatrix}60&-20\\-20&10\end{bmatrix}$. $b=\frac1{200}\begin{bmatrix}3000-2600\\-1000+1300\end{bmatrix}=\begin{bmatrix}2\\1.5\end{bmatrix}$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Change of units</div>
+<div class="prob">
+  <p>You multiply regressor $x_2$ by 100 (decimals to percent). What happens to $b_2$, $\hat y$, $e$ and $R^2$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$b_2$ is divided by 100; $\hat y$, $e$ and $R^2$ don't change. The column space of $X$ is the same, so the projection is the same; only the weight on the rescaled column adjusts. In general, replacing $X$ by $XA$ with $A$ invertible gives $A^{-1}b$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>The smallest regressions</div>
+<div class="prob">
+  <p>(a) Regress $y$ on a constant only. (b) Regress $y$ on one regressor $x$ without a constant.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) $X=\mathbf 1$: $X'X=n$, $X'y=\sum y_i$, so $b=\bar y$. (b) $b=\frac{\sum x_iy_i}{\sum x_i^2}$. Two formulas worth knowing by heart.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s8">
+  <div class="bar"><span class="pill g">QUICK TEST</span> OLS<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>The F.O.C. of the OLS problem is</div>
+    <div class="opts"><button>$X'Xb=0$</button><button>$X'(y-Xb)=0$</button><button>$y-Xb=0$</button><button>$X'y=0$</button></div>
+    <div class="why">The normal equations $X'Xb=X'y$ rearranged. $y-Xb=0$ would be a perfect fit.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">2</span>The S.O.C. holds because</div>
+    <div class="opts"><button>$n&gt;K$</button><button>$\mathbb E[\varepsilon\mid X]=0$</button><button>errors are normal</button><button>$X'X$ is positive definite</button></div>
+    <div class="why">$2X'X$ is positive definite if $\text{rank}(X)=K$. Nothing about $\varepsilon$ is involved.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>To derive $b=(X'X)^{-1}X'y$ you need</div>
+    <div class="opts"><button>only A1b</button><button>A1b and A2a</button><button>A1b, A2a, A2b</button><button>all assumptions plus normality</button></div>
+    <div class="why">OLS is just geometry on the sample. Assumptions on $\varepsilon$ are needed for its <i>properties</i>.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">4</span>OLS minimises</div>
+    <div class="opts"><button>the sum of residuals</button><button>the sum of absolute vertical distances</button><button>the sum of squared vertical distances</button><button>the sum of squared perpendicular distances to the line</button></div>
+    <div class="why">Vertical, and squared.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>A regression on a constant only gives $b$ equal to</div>
+    <div class="opts"><button>0</button><button>$\bar y$</button><button>the median of $y$</button><button>$\sum y_i$</button></div>
+    <div class="why">$(n)^{-1}\sum y_i$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

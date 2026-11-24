@@ -1,0 +1,160 @@
+<!-- ============ 09 OLS WITH ONE REGRESSOR, BY HAND ============ -->
+<section id="s9">
+<div class="sec-head"><span class="num">09</span><h2>OLS with one regressor, by hand</h2><span class="sub">lecture 3, slide 6 exercise · W6 tutorial, ex. 1 and 2</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Slope = covariance over variance<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>With a constant and one regressor the matrix formula collapses into two formulas you should be able to derive and use without matrices:</p>
+  $$\boxed{b_2=\frac{\widehat{\text{Cov}}[y_i,x_{i2}]}{\hat{\mathbb V}[x_{i2}]}\qquad b_1=\bar y-b_2\bar x}$$
+  <p>This is an explicit exercise on slide 6 of lecture 3 and was solved in the W6 tutorial.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The sample moments<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$\bar y=\frac1n\sum y_i,\quad\bar x=\frac1n\sum x_{i2},\quad\widehat{\text{Cov}}[y_i,x_{i2}]=\frac1n\sum(y_i-\bar y)(x_{i2}-\bar x)$$
+  <p>and $\hat{\mathbb V}[x_{i2}]=\widehat{\text{Cov}}[x_{i2},x_{i2}]$. Dividing by $n$ or $n-1$ does not matter for $b_2$: it cancels.</p>
+  </div>
+  <div>
+  <p><b>The shortcut used in the proof</b> (expand the product):</p>
+  $$\frac1n\sum(y_i-\bar y)(x_{i2}-\bar x)=\frac1n\sum x_{i2}y_i-\bar x\bar y$$
+  <p>because $\sum x_{i2}=n\bar x$ and $\sum y_i=n\bar y$: the four terms give $\frac1n(\sum x_{i2}y_i-n\bar x\bar y-n\bar x\bar y+n\bar x\bar y)$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 3, SLIDE 6 · W6 EX 2 · the proof</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Write out $X'y-X'Xb=0$:</b></p>
+  $$\begin{bmatrix}\sum y_i\\\sum x_{i2}y_i\end{bmatrix}-\begin{bmatrix}nb_1+b_2\sum x_{i2}\\b_1\sum x_{i2}+b_2\sum x_{i2}^2\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}$$
+  <p><b>Row 1.</b> $n\bar y-nb_1-b_2n\bar x=0$. Divide by $n$:</p>
+  $$b_1=\bar y-b_2\bar x$$
+  </div>
+  <div>
+  <p><b>Row 2.</b> Substitute $b_1$:</p>
+  $$\sum x_{i2}y_i-(\bar y-b_2\bar x)\sum x_{i2}-b_2\sum x_{i2}^2=0$$
+  <p>Divide by $n$, with $\frac1n\sum x_{i2}=\bar x$, and collect $b_2$:</p>
+  $$\frac1n\sum x_{i2}y_i-\bar y\bar x=b_2\Big(\frac1n\sum x_{i2}^2-\bar x^2\Big)$$
+  $$b_2=\frac{\frac1n\sum x_{i2}y_i-\bar x\bar y}{\frac1n\sum x_{i2}^2-\bar x^2}=\frac{\widehat{\text{Cov}}[x_{i2},y_i]}{\hat{\mathbb V}[x_{i2}]}\quad\blacksquare$$
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">W6 EX 1 (from Greene) · same result from the residuals, $y=a+bx+e$</div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>a) $\sum e_i=0$ and $\sum x_ie_i=0$.</b> $X'e=\begin{bmatrix}1&\cdots&1\\x_1&\cdots&x_n\end{bmatrix}\begin{bmatrix}e_1\\\vdots\\e_n\end{bmatrix}=\begin{bmatrix}\sum e_i\\\sum x_ie_i\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix}$. Row 1 comes from the constant, row 2 from $x$.</li>
+    <li><b>b) $a=\bar y-b\bar x$.</b> Each row says $y_i-bx_i=a+e_i$. Average over $i$: $\bar y-b\bar x=a+\frac1n\sum e_i=a+0$.</li>
+    <li><b>c) $b=\sum(x_i-\bar x)(y_i-\bar y)/\sum(x_i-\bar x)^2$.</b> Subtract the averages: $y_i-\bar y=b(x_i-\bar x)+e_i$. Multiply by $(x_i-\bar x)$ and sum: $\sum(x_i-\bar x)(y_i-\bar y)=b\sum(x_i-\bar x)^2+\underbrace{\sum x_ie_i}_{0}-\bar x\underbrace{\sum e_i}_{0}$. Divide. $\blacksquare$</li>
+  </ol>
+  <div class="note warn"><div class="t">Reading the handwritten sheet</div>
+  <p>Part c) of the W6 notes writes a sum inside the bracket, $\sum(x_i-\bar x)\big[\sum b(x_i-\bar x)-\sum(y_i-\bar y)\big]$, which is not the same expression. The argument works term by term, as above. The notes also write $\varepsilon$ where the sample quantity $e$ is meant: $X'e=0$ is true by construction, $X'\varepsilon=0$ is not.</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> What the formulas tell you<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ul>
+    <li><b>The line passes through $(\bar x,\bar y)$</b>: plug $x=\bar x$ into $b_1+b_2x$ to get $\bar y$.</li>
+    <li><b>Sign of slope = sign of covariance.</b></li>
+    <li><b>Slope vs correlation:</b> $b_2=\hat\rho_{xy}\,\dfrac{\hat\sigma_y}{\hat\sigma_x}$. They are equal only if $x$ and $y$ have the same standard deviation.</li>
+    <li><b>Need variation in $x$:</b> if all $x_i$ are equal, $\hat{\mathbb V}[x]=0$ and $b_2$ is undefined (A1b fails).</li>
+  </ul>
+  </div>
+  <div>
+<div class="ex">
+  <div class="bar">RUNNING EXAMPLE · table method</div>
+  <div class="body">
+  <table>
+    <tr><th>$x$</th><th>$y$</th><th>$x-\bar x$</th><th>$y-\bar y$</th><th>product</th><th>$(x-\bar x)^2$</th></tr>
+    <tr><td>1</td><td>2</td><td>−2</td><td>−2</td><td>4</td><td>4</td></tr>
+    <tr><td>2</td><td>3</td><td>−1</td><td>−1</td><td>1</td><td>1</td></tr>
+    <tr><td>3</td><td>5</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+    <tr><td>4</td><td>4</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr><td>5</td><td>6</td><td>2</td><td>2</td><td>4</td><td>4</td></tr>
+    <tr><td>$\bar x=3$</td><td>$\bar y=4$</td><td></td><td></td><td><b>9</b></td><td><b>10</b></td></tr>
+  </table>
+  <p>$b_2=9/10=0.9$, $b_1=4-0.9\cdot3=1.3$ ✓ as in module 08.</p>
+  </div>
+</div>
+
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>By hand</div>
+<div class="prob">
+  <p>$x=(0,1,2,3)$, $y=(1,3,2,6)$. Find $b_1$, $b_2$, residuals, and check $\sum e_i=0$ and $\sum x_ie_i=0$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\bar x=1.5$, $\bar y=3$. $S_{xy}=(-1.5)(-2)+(-0.5)(0)+(0.5)(-1)+(1.5)(3)=3+0-0.5+4.5=7$. $S_{xx}=2.25+0.25+0.25+2.25=5$. $b_2=1.4$, $b_1=3-2.1=0.9$. $\hat y=(0.9,2.3,3.7,5.1)$, $e=(0.1,0.7,-1.7,0.9)$. Sum $=0$ ✓; $\sum xe=0.7-3.4+2.7=0$ ✓.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>From summary statistics to beta</div>
+<div class="prob">
+  <p>Monthly data: $\hat\sigma_{IBM}=6\%$, $\hat\sigma_m=4\%$, correlation $0.5$, $\bar r_{IBM}=0.9\%$, $\bar r_m=0.6\%$ (excess returns). Compute $\hat\beta$ and $\hat\alpha$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\hat\beta=0.5\cdot6/4=0.75$. $\hat\alpha=0.9-0.75\cdot0.6=0.45\%$ per month.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">practice</span>Swap the roles</div>
+<div class="prob">
+  <p>You regress $y$ on $x$ (slope $b$) and then $x$ on $y$ (slope $d$). Show $b\cdot d=\hat\rho^2$, and that in general $d\neq1/b$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$b=\frac{\text{Cov}}{\mathbb V[x]}$, $d=\frac{\text{Cov}}{\mathbb V[y]}$, so $bd=\frac{\text{Cov}^2}{\mathbb V[x]\mathbb V[y]}=\hat\rho^2\le1$. It equals 1 (so $d=1/b$) only with a perfect fit. Vertical and horizontal distances are different criteria, so the direction $X\Rightarrow y$ matters even numerically. In module 14: $\hat\rho^2=R^2$.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s9">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Univariate OLS<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">1</span>The OLS line with a constant always passes through</div>
+    <div class="opts"><button>$(\bar x,\bar y)$</button><button>the origin</button><button>at least two data points</button><button>the median point</button></div>
+    <div class="why">From $b_1=\bar y-b_2\bar x$.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>$\widehat{\text{Cov}}[x,y]=6$, $\hat{\mathbb V}[x]=4$, $\hat{\mathbb V}[y]=25$, $\bar x=2$, $\bar y=10$. Then $(b_1,b_2)$ is</div>
+    <div class="opts"><button>$(9.52,\ 0.24)$</button><button>$(4,\ 3)$</button><button>$(7,\ 1.5)$</button><button>$(10,\ 1.5)$</button></div>
+    <div class="why">$b_2=6/4=1.5$, $b_1=10-1.5\cdot2=7$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">3</span>$\sum e_i=0$ holds</div>
+    <div class="opts"><button>always</button><button>when the regression includes a constant</button><button>only if errors are normal</button><button>only if $\bar x=0$</button></div>
+    <div class="why">It is the first row of $X'e=0$, which exists because of the column of ones.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>Adding 10 to every $y_i$ changes</div>
+    <div class="opts"><button>$b_2$ only</button><button>both coefficients</button><button>neither</button><button>$b_1$ only</button></div>
+    <div class="why">Covariances ignore shifts. $b_1=\bar y-b_2\bar x$ rises by 10.</div>
+  </div>
+  </div>
+</div>
+
+</section>

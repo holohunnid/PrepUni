@@ -1,0 +1,144 @@
+<!-- ============ 33 ESTIMATING GARCH BY MAXIMUM LIKELIHOOD, AND CHECKING IT ============ -->
+<section id="s33">
+<div class="sec-head"><span class="num">33</span><h2>Estimating GARCH by maximum likelihood, and checking it</h2><span class="sub">GARCH deck, slides 14–17</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> No closed form: search for the parameters that make the data most likely<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$\sigma_t^2$ is not observed, so there is no regression to run. But given parameters, we can compute $\sigma_t^2$ recursively for every day and ask how likely the observed returns are. Maximum likelihood picks the parameters with the highest likelihood, by numerical search.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DERIVATION</span> The log-likelihood<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li><b>Factorise</b> the joint density into one-step conditionals: $f(r_1,\dots,r_T)=\prod_{t=1}^Tf(r_t\mid\mathcal F_{t-1})$.</li>
+    <li><b>Take logs:</b> $\log f(r_1,\dots,r_T)=\sum_{t=1}^T\log f(r_t\mid\mathcal F_{t-1})$.</li>
+    <li><b>Assume</b> $r_t\mid\mathcal F_{t-1}\sim N(0,\sigma_t^2)$: $f(r_t\mid\mathcal F_{t-1})=\frac1{\sqrt{2\pi\sigma_t^2}}\exp\big(-\frac{r_t^2}{2\sigma_t^2}\big)$.</li>
+    <li><b>Insert:</b>
+    $$\boxed{\log L(\beta_0,\beta_1,\beta_2)=-\frac12\sum_{t=1}^T\Big(\log(2\pi)+\log\sigma_t^2+\frac{r_t^2}{\sigma_t^2}\Big)}$$</li>
+  </ol>
+  </div>
+  <div>
+  <p><b>Where are the parameters?</b> Inside $\sigma_t^2=\beta_0+\beta_1\sigma_{t-1}^2+\beta_2r_{t-1}^2$.</p>
+  <p><b>Maximise numerically</b>: no closed-form $\hat\beta_0,\hat\beta_1,\hat\beta_2$ in general.</p>
+  <p><b>Recursion needs a start</b>: $\sigma_1^2$ (and $r_1^2$), e.g. the sample variance of the log-returns.</p>
+  <p><b>Trade-off inside each term:</b> $\log\sigma_t^2$ penalises a variance that is too high; $r_t^2/\sigma_t^2$ penalises one that is too low. For one day, the best is $\sigma_t^2=r_t^2$. The model must do it for all days with three numbers.</p>
+  </div>
+  </div>
+  <div class="note "><div class="t">Why factorise instead of assuming independence?</div>
+  <p>Returns are <b>not</b> independent, so the joint density is not the product of marginals. It <b>is</b> always the product of conditionals: $f(r_1,r_2)=f(r_2\mid r_1)f(r_1)$.</p>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE · a three-day likelihood by hand</div>
+  <div class="body">
+  <p>$\beta=(0.1,0.8,0.1)$, start $\sigma_1^2=1$, returns $r=(1,-2,0.5)$ percent.</p>
+  <table>
+    <tr><th>$t$</th><th>$r_t$</th><th>$\sigma_t^2$</th><th>$\log\sigma_t^2$</th><th>$r_t^2/\sigma_t^2$</th><th>$\log2\pi+\log\sigma_t^2+r_t^2/\sigma_t^2$</th></tr>
+    <tr><td>1</td><td>1</td><td>1 (start)</td><td>0</td><td>1</td><td>2.838</td></tr>
+    <tr><td>2</td><td>−2</td><td>$0.1+0.8\cdot1+0.1\cdot1=1.0$</td><td>0</td><td>4</td><td>5.838</td></tr>
+    <tr><td>3</td><td>0.5</td><td>$0.1+0.8\cdot1+0.1\cdot4=1.3$</td><td>0.262</td><td>0.192</td><td>2.293</td></tr>
+    <tr><td></td><td></td><td></td><td></td><td>sum</td><td>10.968</td></tr>
+  </table>
+  <p>$\log L=-\frac12\cdot10.968=\mathbf{-5.484}$. A computer repeats this for many values of $\beta$ and keeps the largest.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Climb the likelihood<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\beta_1$ <input type="range" id="ll_1" min="0" max="0.99" step="0.01" value="0.50"> <span class="val" id="ll_1_v">0.50</span></label>
+    <label>$\beta_2$ <input type="range" id="ll_2" min="0" max="0.4" step="0.01" value="0.30"> <span class="val" id="ll_2_v">0.30</span></label>
+    <label>long-run vol <input type="range" id="ll_v" min="0.4" max="2.5" step="0.05" value="1.50"> <span class="val" id="ll_v_v">1.50</span></label>
+    <span class="btns">
+      <button data-do="llFit">search for the maximum</button>
+      <button data-do="llTrue">show the truth</button>
+      <button data-do="llNew">new data</button>
+    </span>
+  </div>
+  <figure><svg id="llsvg" viewBox="0 0 720 220"></svg><figcaption>$\lvert r_t\rvert$ (grey bars) for 1000 simulated days, with the filtered $\sigma_t$ implied by your parameters (blue).</figcaption></figure>
+  <div class="readout" id="llread" aria-live="polite"></div>
+  <p><b>Try this.</b> Try to beat the search by hand. With $\beta_2$ too high the blue line is nervous; with both near 0 it is flat. The search usually lands close to the truth, not on it: estimates are random variables here too.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DIAGNOSTICS</span> Did the model work? Look at $\hat z_t=r_t/\hat\sigma_t$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>If the model is right, the <b>GARCH innovations</b> $\hat z_t=r_t/\hat\sigma_t$ should be i.i.d. with mean 0 and variance 1. So:</p>
+  <ul>
+    <li>plot of $\hat z_t$: no more volatility clusters (slide 16);</li>
+    <li>ACF of $\hat z_t^2$: flat, while the ACF of $r_t^2$ is strongly positive (slide 17);</li>
+    <li>mean about 0, variance about 1.</li>
+  </ul>
+  </div>
+  <div>
+  <p><b>What the deck finds (S&P 500, 1980–2020).</b> GARCH volatility tracks the market's variability: peaks in 1987, 2008, 2020 (annualized, often above 50%). Innovations show much less clustering than returns. But some $\hat z_t$ are as low as $-10$: <b>non-normal</b>, with a heavy left tail. The empirical 1% quantile of $\hat z$ is $-2.6$, not $-2.33$.</p>
+  <div class="note "><div class="t">"GARCH filter"</div>
+  <p>Dividing by $\hat\sigma_t$ "devolatilizes" the returns. It is the time-series version of standardizing residuals.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>MLE when variance is constant</div>
+<div class="prob">
+  <p>Set $\beta_1=\beta_2=0$. Show that the MLE of $\sigma^2=\beta_0$ is $\frac1T\sum r_t^2$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\log L=-\frac12(T\log2\pi+T\log\sigma^2+\sum r_t^2/\sigma^2)$. F.O.C.: $\frac T{\sigma^2}=\frac{\sum r_t^2}{\sigma^4}\Rightarrow\hat\sigma^2=\frac1T\sum r_t^2$: the sample variance with mean 0. GARCH lets that number move over time.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Filter three days</div>
+<div class="prob">
+  <p>$\beta=(0.05,0.9,0.05)$, $\sigma_1^2=2$, $r=(0,3,-1)$. Compute $\sigma_2^2,\sigma_3^2,\sigma_4^2$ and $z_3$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\sigma_2^2=0.05+1.8+0=1.85$. $\sigma_3^2=0.05+1.665+0.45=2.165$. $\sigma_4^2=0.05+1.9485+0.05=2.0485$. $z_3=-1/\sqrt{2.165}=-0.68$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s33">
+  <div class="bar"><span class="pill g">QUICK TEST</span> MLE and diagnostics<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>GARCH parameters are estimated by MLE and not by OLS because</div>
+    <div class="opts"><button>returns are normal</button><button>MLE is BLUE</button><button>the conditional variance is not observed</button><button>$T$ is large</button></div>
+    <div class="why">There is no observed dependent variable for a variance regression.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>The joint density of returns is written as a product of</div>
+    <div class="opts"><button>marginal densities, by independence</button><button>conditional densities $f(r_t\mid\mathcal F_{t-1})$</button><button>normal densities with the same variance</button><button>$t$ densities</button></div>
+    <div class="why">Always valid, no independence needed.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>If the GARCH model is adequate, the ACF of $\hat z_t^2$ should be</div>
+    <div class="opts"><button>equal to the ACF of $r_t^2$</button><button>slowly decaying</button><button>negative</button><button>close to zero at all lags</button></div>
+    <div class="why">All volatility clustering has been removed.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">4</span>The starting value $\sigma_1^2$ is often set to</div>
+    <div class="opts"><button>the sample variance of the returns</button><button>0</button><button>$\beta_0$</button><button>$r_T^2$</button></div>
+    <div class="why">As on slide 14.</div>
+  </div>
+  </div>
+</div>
+
+</section>

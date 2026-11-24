@@ -1,0 +1,160 @@
+<!-- ============ 25 WHICH TEST? THE DECISION MAP ============ -->
+<section id="s25">
+<div class="sec-head"><span class="num">25</span><h2>Which test? The decision map</h2><span class="sub">all of testing on one page · step-by-step template</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Two questions decide everything<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>(1) How many restrictions, $J$? (2) Is $\sigma^2$ known? Answer these and the statistic and its distribution follow. Then one more: is the alternative one-sided?</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">MAP</span> The 2 × 2 of hypothesis testing<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 700 250">
+    <defs><marker id="wma" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 z" fill="var(--muted)"/></marker></defs>
+    <rect x="255" y="8" width="190" height="34" fill="var(--panel2)" stroke="var(--border2)"/><text x="350" y="30" class="svgtxt w" text-anchor="middle">H₀: Rβ = q. How many rows?</text>
+    <g stroke="var(--muted)" marker-end="url(#wma)" fill="none"><path d="M300 42 L180 78"/><path d="M400 42 L520 78"/><path d="M150 112 L90 148"/><path d="M210 112 L260 148"/><path d="M490 112 L440 148"/><path d="M550 112 L610 148"/></g>
+    <rect x="90" y="80" width="180" height="32" fill="var(--panel2)" stroke="var(--border2)"/><text x="180" y="100" class="svgtxt w" text-anchor="middle">J = 1 · σ² known?</text>
+    <rect x="430" y="80" width="180" height="32" fill="var(--panel2)" stroke="var(--border2)"/><text x="520" y="100" class="svgtxt w" text-anchor="middle">J ≥ 2 · σ² known?</text>
+    <rect x="10" y="150" width="160" height="60" fill="var(--greenbg)" stroke="var(--green)"/><text x="90" y="172" class="svgtxt g" text-anchor="middle">yes → N(0,1)</text><text x="90" y="192" class="svgtxt" text-anchor="middle">z, two tails ±1.96</text>
+    <rect x="184" y="150" width="156" height="60" fill="var(--bluebg)" stroke="var(--blue)"/><text x="262" y="172" class="svgtxt b" text-anchor="middle">no → t, n−K d.f.</text><text x="262" y="192" class="svgtxt" text-anchor="middle">(or F = t²)</text>
+    <rect x="358" y="150" width="156" height="60" fill="var(--amberbg)" stroke="var(--amber)"/><text x="436" y="172" class="svgtxt a" text-anchor="middle">yes → χ², J d.f.</text><text x="436" y="192" class="svgtxt" text-anchor="middle">right tail only</text>
+    <rect x="530" y="150" width="160" height="60" fill="var(--redbg)" stroke="var(--red)"/><text x="610" y="172" class="svgtxt r" text-anchor="middle">no → F with J, n−K</text><text x="610" y="192" class="svgtxt" text-anchor="middle">right tail, divide by J</text>
+    <text x="350" y="238" class="svgtxt" text-anchor="middle">as n−K → ∞: t → N(0,1) and J·F → χ² with J d.f. (s² → σ²)</text>
+  </svg>
+  </figure>
+  <table>
+    <tr><th></th><th>$J=1$</th><th>$J\ge2$</th></tr>
+    <tr><td>$\sigma^2$ <b>known</b></td><td>$\dfrac{Rb-q}{\sqrt{\sigma^2R(X'X)^{-1}R'}}\sim N(0,1)$</td><td>$(Rb-q)'\big(\sigma^2R(X'X)^{-1}R'\big)^{-1}(Rb-q)\sim\chi^2_J$</td></tr>
+    <tr><td>$\sigma^2$ <b>unknown</b></td><td>$\dfrac{Rb-q}{\sqrt{s^2R(X'X)^{-1}R'}}\sim t_{n-K}$</td><td>$\dfrac{(Rb-q)'\big(s^2R(X'X)^{-1}R'\big)^{-1}(Rb-q)}J\sim F_{J,n-K}$</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">TEMPLATE</span> The W10 tutorial's steps, completed<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>Hypotheses.</b> Write $H_0$ and $H_A$. One- or two-sided?</li>
+    <li><b>Statistic.</b> Count $J$; check if $\sigma^2$ is given. Name the statistic <b>and</b> its distribution <i>under $H_0$</i>, with d.f.</li>
+    <li><b>$R$ and $q$</b>, with dimensions.</li>
+    <li><b>Compute:</b> $m=Rb-q$; $s^2=e'e/(n-K)$ if needed; $(X'X)^{-1}$; $R(X'X)^{-1}R'$; the statistic.</li>
+    <li><b>Critical value</b> for the stated size (and side).</li>
+    <li><b>Decision and one sentence of economics.</b> "We reject / do not reject $H_0$ at 5%: the data are / are not compatible with…"</li>
+  </ol>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">CALCULATOR</span> Check your hand computations (J = 1)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$Rb$ <input type="range" id="tc_b" min="-5" max="5" step="0.01" value="1.30"> <span class="val" id="tc_b_v">1.30</span></label>
+    <label>$q$ <input type="range" id="tc_q" min="-5" max="5" step="0.01" value="1.00"> <span class="val" id="tc_q_v">1.00</span></label>
+    <label>$R(X'X)^{-1}R'$ <input type="range" id="tc_v" min="0.001" max="1" step="0.0001" value="0.0282"> <span class="val" id="tc_v_v">0.0282</span></label>
+    <label>$\sigma^2$ or $s^2$ <input type="range" id="tc_s" min="0.1" max="40" step="0.1" value="20"> <span class="val" id="tc_s_v">20</span></label>
+    <label>$n-K$ <input type="range" id="tc_d" min="1" max="300" step="1" value="26"> <span class="val" id="tc_d_v">26</span></label>
+    <label>σ² <select id="tc_k"><option value="un">unknown (t)</option><option value="kn">known (z)</option></select></label>
+    <span class="btns">
+      <button data-do="tcEs">ES_Testing</button>
+      <button data-do="tcW10">W10, σ² = 2</button>
+      <button data-do="tcW20">W10, σ² = 20</button>
+      <button data-do="tcRun">running ex.: β₂ = 0</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="tcsvg" viewBox="0 0 400 210"></svg><figcaption>The null distribution with 5% two-sided rejection regions.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="tcread" aria-live="polite"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">CRITICAL VALUES</span> Numbers worth remembering<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <table>
+    <tr><th>$N(0,1)$</th><th>10%</th><th>5%</th><th>1%</th></tr>
+    <tr><td>two-sided</td><td>1.645</td><td>1.96</td><td>2.576</td></tr>
+    <tr><td>one-sided</td><td>1.282</td><td>1.645</td><td>2.326</td></tr>
+  </table>
+  <table>
+    <tr><th>$\chi^2_J$, 5%</th><th>$J=1$</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+    <tr><td></td><td>3.84</td><td>5.99</td><td>7.81</td><td>9.49</td><td>11.07</td></tr>
+  </table>
+  </div>
+  <div>
+  <table>
+    <tr><th>$F_{J,n-K}$, 5%</th><th>$J=1$</th><th>2</th><th>3</th></tr>
+    <tr><td>$n-K=26$</td><td>4.23</td><td>3.37</td><td>2.98</td></tr>
+    <tr><td>$n-K=100$</td><td>3.94</td><td>3.09</td><td>2.70</td></tr>
+    <tr><td>$n-K=\infty$</td><td>3.84</td><td>3.00</td><td>2.60</td></tr>
+  </table>
+  <p>Links: $1.96^2=3.84$; $\chi^2_J/J$ is the last row of $F$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">mixed drill</span>Name the statistic and distribution</div>
+<div class="prob">
+  <p>(a) $n=40$, $K=3$, $\sigma^2$ unknown, $\beta_2+2\beta_3=0$. (b) $\sigma^2=5$, $\beta_1=\beta_2=0$. (c) $n=200$, $K=5$, unknown $\sigma^2$, $\beta_2=\beta_3=\beta_4$. (d) $\sigma^2=1$, $\beta_3=2$, $H_A:\beta_3&gt;2$. (e) $n=30$, $K=3$, unknown, all slopes zero.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) $t_{37}$. (b) $\chi^2_2$. (c) $J=2$: $F_{2,195}$. (d) $N(0,1)$, reject in the right tail only (1.645). (e) $J=2$: $F_{2,27}$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">exam level</span>A complete problem</div>
+<div class="prob">
+  <p>$y_i=\beta_1+\beta_2x_{i2}+\beta_3x_{i3}+\varepsilon_i$, $n=53$, $b=(2,\,0.5,\,-0.3)'$, $e'e=100$, $(X'X)^{-1}=\begin{bmatrix}0.10&0&0\\0&0.02&0.01\\0&0.01&0.03\end{bmatrix}$. At 5%: (i) test $\beta_2=0$; (ii) test $\beta_2+\beta_3=0$; (iii) test $\beta_2=\beta_3=0$; (iv) redo (iii) if $\sigma^2=2$ is known.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <ol class="steps">
+    <li>$n-K=50$, $s^2=2$. Critical: $t_{50}=2.009$; $\bar F_{2,50}=3.18$.</li>
+    <li><b>(i)</b> $\text{se}=\sqrt{2\cdot0.02}=0.2$; $t=2.5&gt;2.009$ ⇒ reject.</li>
+    <li><b>(ii)</b> $R=[0\ 1\ 1]$, $m=0.2$; $R(X'X)^{-1}R'=0.02+0.03+0.02=0.07$; $\text{se}=\sqrt{0.14}=0.374$; $t=0.535$ ⇒ do not reject.</li>
+    <li><b>(iii)</b> Block $\begin{bmatrix}0.02&0.01\\0.01&0.03\end{bmatrix}$, $\det=0.0005$, inverse $\begin{bmatrix}60&-20\\-20&40\end{bmatrix}$. $m=(0.5,-0.3)'$: $[0.5\ {-0.3}]\begin{bmatrix}36\\-22\end{bmatrix}=18+6.6=24.6$. $F=\frac{24.6}{2\cdot2}=6.15&gt;3.18$ ⇒ reject.</li>
+    <li><b>(iv)</b> $\chi^2$ statistic $=24.6/2=12.3&gt;5.99$ ⇒ reject. (No division by $J$.)</li>
+  </ol>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s25">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Which test<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">1</span>$J=3$, $\sigma^2$ unknown, $n=100$, $K=4$:</div>
+    <div class="opts"><button>$\chi^2_3$</button><button>$t_{96}$</button><button>$F_{96,3}$</button><button>$F_{3,96}$</button></div>
+    <div class="why">$F_{J,n-K}$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>$J=1$, $\sigma^2$ known:</div>
+    <div class="opts"><button>$t_{n-K}$</button><button>$N(0,1)$</button><button>$F_{1,n-K}$</button><button>$\chi^2_{n-K}$</button></div>
+    <div class="why">(Its square would be $\chi^2_1$.)</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>For a one-sided alternative with $J=1$ and unknown $\sigma^2$ you should use</div>
+    <div class="opts"><button>the $t$-statistic</button><button>the $F$-statistic</button><button>$\chi^2$</button><button>$R^2$</button></div>
+    <div class="why">$F=t^2$ loses the sign.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">4</span>$\chi^2$ statistic for $J=2$ equals 7.2. At 5%:</div>
+    <div class="opts"><button>do not reject, $7.2&lt;9.49$</button><button>reject, $7.2&gt;3.84$</button><button>reject, $7.2&gt;5.99$</button><button>do not reject, $7.2&lt;11.07$</button></div>
+    <div class="why">$\chi^2_{2,0.95}=5.99$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,175 @@
+<!-- ============ 11 THE CAPM: BETA OF IBM AND THE MARKET-NEUTRAL TRADE ============ -->
+<section id="s11">
+<div class="sec-head"><span class="num">11</span><h2>The CAPM: beta of IBM and the market-neutral trade</h2><span class="sub">lecture 2, slides 12–19</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> From a regression to a trading strategy<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The CAPM regression is the course's main application. It is the linear model with excess returns. Its slope $\beta$ is the quantity of market risk, its intercept $\alpha$ the part of the return the market does not explain. If you have a view on $\alpha$, the estimated $\beta$ tells you how much market to short.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The CAPM as a linear regression<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Daily simple return: $r_t=\dfrac{P_t-P_{t-1}}{P_{t-1}}$. The CAPM postulates</p>
+  $$r_t-r_t^f=\alpha^{IBM}+\beta^{IBM}(r_t^m-r_t^f)+\varepsilon_t^{IBM},\qquad t=1,\dots,T$$
+  <p>Take expectations:</p>
+  $$\mathbb E[r_t-r_t^f]=\alpha^{IBM}+\beta^{IBM}\,\mathbb E[r_t^m-r_t^f]$$
+  <table>
+    <tr><th>piece</th><th>name</th><th>specific to IBM?</th></tr>
+    <tr><td>$\beta^{IBM}$</td><td>quantity of risk</td><td>yes</td></tr>
+    <tr><td>$\mathbb E[r_t^m-r_t^f]&gt;0$</td><td>price of risk</td><td>no, same for all assets</td></tr>
+    <tr><td>$\varepsilon_t^{IBM}$</td><td>idiosyncratic shock</td><td>yes</td></tr>
+    <tr><td>$\alpha^{IBM}$</td><td>risk-adjusted performance</td><td>yes</td></tr>
+  </table>
+  </div>
+  <div>
+  <p><b>Write it as $y=X\beta+\varepsilon$</b> with $r_t^{ex}=r_t-r_t^f$ and $r_t^{m,ex}=r_t^m-r_t^f$:</p>
+  $$\underbrace{\begin{bmatrix}r_1^{ex}\\\vdots\\r_T^{ex}\end{bmatrix}}_{y\ (T\times1)}=\underbrace{\begin{bmatrix}1&r_1^{m,ex}\\\vdots&\vdots\\1&r_T^{m,ex}\end{bmatrix}}_{X\ (T\times2)}\underbrace{\begin{bmatrix}\alpha^{IBM}\\\beta^{IBM}\end{bmatrix}}_{\beta\ (2\times1)}+\underbrace{\begin{bmatrix}\varepsilon_1^{IBM}\\\vdots\\\varepsilon_T^{IBM}\end{bmatrix}}_{\varepsilon\ (T\times1)}$$
+  <p>Then $b=(X'X)^{-1}X'y=\begin{bmatrix}\hat\alpha^{IBM}\\\hat\beta^{IBM}\end{bmatrix}=\begin{bmatrix}0.05\\0.74\end{bmatrix}$ on the course's daily data.</p>
+  <div class="note warn"><div class="t">Key remark of slide 16</div>
+  <p>$\alpha^{IBM},\beta^{IBM}$ are unobserved true values. $\hat\alpha^{IBM},\hat\beta^{IBM}$ are estimates computed from a sample. Another sample gives other estimates.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">READ THE NUMBERS</span> What $\hat\beta=0.74$ and $\hat\alpha=0.05$ mean<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>$\hat\beta=0.74$:</b> when the market's excess return is 1% higher, IBM's is 0.74% higher on average. IBM is <b>defensive</b> ($\beta\lt1$): it moves less than the market in both directions. $\beta&gt;1$ would be aggressive, $\beta=1$ like the market.</p>
+  <p><b>$\hat\alpha=0.05$:</b> average daily return not explained by the market, in the units of the data (percent per day if returns are in percent). Whether it is different from zero is a <b>test</b>, not something you can read off (module 23).</p>
+  </div>
+  <div>
+  <p><b>Alpha is what is left:</b> $\hat\alpha=\bar r^{ex}-\hat\beta\,\bar r^{m,ex}$ (module 09's $b_1=\bar y-b_2\bar x$).</p>
+  <p><b>Beta is covariance over variance:</b></p>
+  $$\hat\beta=\frac{\widehat{\text{Cov}}[r^{ex},r^{m,ex}]}{\hat{\mathbb V}[r^{m,ex}]}$$
+  <p>Portfolio beta is the weighted average: $\beta_p=\sum w_j\beta_j$, because covariance is linear.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">STRATEGY</span> Executing a view: the market-neutral portfolio<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p><b>The view:</b> IBM will do well <i>relative to the market</i>: if the market rises, IBM rises more than its beta suggests; if the market falls, IBM falls less. In the CAPM this is $\alpha^{IBM}&gt;0$.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li><b>Why not simply buy IBM?</b> With $r^f=0$: $r_t=\alpha^{IBM}+\beta^{IBM}r_t^m+\varepsilon_t^{IBM}$. If the market falls 10%, you lose about $7.4\%$, even if your view is right.</li>
+    <li><b>Hedge the market part.</b> Buy 1 of IBM and <b>sell short $\beta^{IBM}$</b> of the market (futures, ETFs).</li>
+    <li><b>What you hold:</b> $r_t-\beta^{IBM}r_t^m=\alpha^{IBM}+\varepsilon_t^{IBM}$.</li>
+    <li><b>Expected return</b> $\alpha^{IBM}&gt;0$; market risk gone. What remains is the idiosyncratic shock $\varepsilon_t^{IBM}$.</li>
+    <li><b>You need a good $\hat\beta$.</b> With $\hat\beta\neq\beta$ you keep exposure $(\beta-\hat\beta)r_t^m$.</li>
+  </ol>
+  </div>
+  <div>
+  <table>
+    <tr><th>holding</th><th>market risk</th><th>idiosyncratic risk</th><th>expected return</th></tr>
+    <tr><td>long IBM</td><td>$\beta^{IBM}$</td><td>yes</td><td>$\alpha+\beta\,\mathbb E[r^m]$</td></tr>
+    <tr><td>long IBM, short $\beta$ market</td><td><b>0</b></td><td>yes</td><td>$\alpha$</td></tr>
+    <tr><td>long IBM, short 1 market</td><td>$\beta-1$</td><td>yes</td><td>$\alpha+(\beta-1)\mathbb E[r^m]$</td></tr>
+  </table>
+  <div class="note fin"><div class="t">Dollars</div>
+  <p>Long 1,000,000 of IBM with $\hat\beta=0.74$: short 740,000 of an S&P 500 future. The trade is not free of risk. It is free of <i>market</i> risk, on average, if beta is right and stable.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Hedge it and see<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\alpha$ (% per day) <input type="range" id="cp_a" min="-0.1" max="0.1" step="0.01" value="0.05"> <span class="val" id="cp_a_v">0.05</span></label>
+    <label>true $\beta$ <input type="range" id="cp_b" min="0" max="2" step="0.02" value="0.74"> <span class="val" id="cp_b_v">0.74</span></label>
+    <label>idiosyncratic $\sigma$ (%) <input type="range" id="cp_s" min="0" max="2" step="0.1" value="0.8"> <span class="val" id="cp_s_v">0.8</span></label>
+    <label>hedge ratio <input type="range" id="cp_h" min="0" max="2" step="0.02" value="0.74"> <span class="val" id="cp_h_v">0.74</span></label>
+    <span class="btns">
+      <button data-do="cpNew">new 250 days</button>
+      <button data-do="cpCrash">crash market</button>
+      <button data-do="cpOls">hedge with OLS β̂</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="cpsvg" viewBox="0 0 340 250"></svg><figcaption>Daily excess returns of the stock against the market (simulated). Red: true line; blue: OLS line.</figcaption></figure>
+  </div>
+  <div>
+  <figure><svg id="cpwsvg" viewBox="0 0 360 250"></svg><figcaption>Value of 100 invested: market, stock, and stock minus hedge ratio × market.</figcaption></figure>
+  </div>
+  </div>
+  <div class="readout" id="cpread" aria-live="polite"></div>
+  <p><b>Try this.</b> Press "crash market": the stock falls with it, the hedged portfolio hardly notices. Set the hedge ratio to 0: the hedged line becomes the stock. Set $\alpha=0$: the hedged portfolio drifts nowhere. Raise the idiosyncratic $\sigma$: the hedge is still market-neutral but no longer calm, and $\hat\alpha$ becomes very hard to estimate. That is the motivation for lecture 5.</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Expected return</div>
+<div class="prob">
+  <p>$\hat\alpha=0$, $\hat\beta=1.2$, $r^f=2\%$, $\mathbb E[r^m]=8\%$ per year. Expected return of the stock?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$2+1.2\cdot(8-2)=9.2\%$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Hedge a portfolio</div>
+<div class="prob">
+  <p>You hold 600,000 of stock A ($\beta=1.1$) and 400,000 of stock B ($\beta=0.6$). How much market do you short to be neutral? After you short it, the market falls 5% and idiosyncratic returns are zero, $\alpha=0$, $r^f=0$. Your P&L?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Exposure: $600{,}000\cdot1.1+400{,}000\cdot0.6=900{,}000$. Short 900,000. Stocks lose $45{,}000$, the short gains $45{,}000$: P&L $=0$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>How wrong can the hedge be?</div>
+<div class="prob">
+  <p>True $\beta=0.9$, you hedge with $\hat\beta=0.74$. Market return $-10\%$, $\alpha=\varepsilon=0$. What is the return of the "neutral" portfolio?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$(0.9-0.74)\cdot(-10\%)=-1.6\%$. Residual market exposure is $\beta-\hat\beta$. "Better this estimate be accurate!" says slide 19. How accurate it is, is the subject of lecture 4.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s11">
+  <div class="bar"><span class="pill g">QUICK TEST</span> CAPM<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>The price of risk in the CAPM is</div>
+    <div class="opts"><button>$\beta^{IBM}$</button><button>$\alpha^{IBM}$</button><button>$\mathbb E[r_t^m-r_t^f]$</button><button>$\mathbb V[r_t^m]$</button></div>
+    <div class="why">It is the same for every asset. $\beta$ is the quantity of risk.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>To trade the view $\alpha^{IBM}&gt;0$ without market risk you</div>
+    <div class="opts"><button>buy IBM</button><button>buy IBM and short $\beta^{IBM}$ of the market</button><button>buy IBM and buy $\beta^{IBM}$ of the market</button><button>short IBM and buy the market</button></div>
+    <div class="why">$r_t-\beta r_t^m=\alpha+\varepsilon_t$.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>After a perfect hedge the remaining risk is</div>
+    <div class="opts"><button>market risk</button><button>interest-rate risk</button><button>zero</button><button>the idiosyncratic shock $\varepsilon_t$</button></div>
+    <div class="why">The regression error is what the market cannot explain, so it cannot be hedged with the market.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">4</span>A stock with $\hat\beta=0.74$ is</div>
+    <div class="opts"><button>defensive: it moves less than the market on average</button><button>uncorrelated with the market</button><button>guaranteed to fall less than the market each day</button><button>mispriced</button></div>
+    <div class="why">Beta describes the conditional mean, not each day.</div>
+  </div>
+  </div>
+</div>
+
+</section>

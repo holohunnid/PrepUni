@@ -1,0 +1,153 @@
+<!-- ============ 37 BLANK-PAGE PROOFS ============ -->
+<section id="s37">
+<div class="sec-head"><span class="num">37</span><h2>Blank-page proofs</h2><span class="sub">14 derivations · write each from memory, then open the solution</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> How to use<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Take a blank page. Write the statement, list the assumptions you will use, then derive. Open the solution only when stuck, close it, and start over. If you can do P1–P9 without help, the theory part is under control.</p>
+<span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span>
+  </div>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">P1 · lecture 2</span>Derive the OLS estimator, with F.O.C. and S.O.C.</div>
+<div class="prob">
+  <p>Start from $\min_b(y-Xb)'(y-Xb)$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$SSE=y'y-2y'Xb+b'X'Xb$. F.O.C. $-2X'y+2X'Xb=0\Rightarrow X'Xb=X'y$. A1b ⇒ $X'X$ invertible ⇒ $b=(X'X)^{-1}X'y$. S.O.C. $2X'X$ positive definite, since $z'X'Xz=\lVert Xz\rVert^2&gt;0$ for $z\neq0$. Minimum.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">P2 · lecture 3</span>Derive OLS as a projection</div>
+<div class="prob">
+  <p>Use $e\perp X$. Show also $\hat y'e=0$ and the decomposition of $y'y$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$X'e=0\Rightarrow X'(y-Xb)=0\Rightarrow b=(X'X)^{-1}X'y$. $\hat y'e=b'X'e=0$. $y'y=(\hat y+e)'(\hat y+e)=\hat y'\hat y+2\hat y'e+e'e=\hat y'\hat y+e'e$. So $R^2=\hat y'\hat y/y'y=1-e'e/y'y$ (de-meaned) lies in $[0,1]$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">P3 · lecture 3</span>Slope = covariance / variance</div>
+<div class="prob">
+  <p>One regressor and a constant.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Normal equations: $\sum e_i=0\Rightarrow b_1=\bar y-b_2\bar x$; $\sum x_ie_i=0\Rightarrow\sum x_iy_i-(\bar y-b_2\bar x)n\bar x-b_2\sum x_i^2=0$. Divide by $n$: $b_2=\frac{\frac1n\sum x_iy_i-\bar x\bar y}{\frac1n\sum x_i^2-\bar x^2}$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">P4 · lecture 4</span>Unbiasedness</div>
+<div class="prob">
+  <p>State the assumptions used.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$b=Ay$, $A=(X'X)^{-1}X'$. $\mathbb E[b\mid X]=A\,\mathbb E[y\mid X]=AX\beta=\beta$ (A1b, A2a). $\mathbb E[b]=\mathbb E[\mathbb E[b\mid X]]=\beta$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">P5 · lecture 4</span>Variance of b</div>
+<div class="prob">
+  <p>State the assumption used.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\mathbb V[b\mid X]=A\mathbb V[y\mid X]A'=A\sigma^2I_nA'=\sigma^2AA'=\sigma^2(X'X)^{-1}X'X(X'X)^{-1}=\sigma^2(X'X)^{-1}$ (A2b).</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">P6 · lecture 4</span>Gauss–Markov</div>
+<div class="prob">
+  <p>Full proof.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\tilde b=\tilde Ay$; unbiased ⇔ $\tilde AX=I_K$. $\tilde A=A+D$ ⇒ $DX=0$. $\mathbb V[\tilde b\mid X]=\sigma^2(A+D)(A+D)'=\sigma^2AA'+\sigma^2AD'+\sigma^2DA'+\sigma^2DD'$. $AD'=(X'X)^{-1}(DX)'=0$. So $\mathbb V[\tilde b\mid X]=\mathbb V[b\mid X]+\sigma^2DD'$ and $x'DD'x=\lVert D'x\rVert^2\ge0$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">P7 · lecture 4</span>Properties of M</div>
+<div class="prob">
+  <p>Symmetric, $MX=0$, idempotent, rank $n-K$; $e=M\varepsilon$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$M=I-X(X'X)^{-1}X'$. $M'=I-X[(X'X)^{-1}]'X'=M$. $MX=X-X=0$. $MM=M-MX(X'X)^{-1}X'=M$. rank = trace $=n-\text{tr}((X'X)^{-1}X'X)=n-K$. $e=My=MX\beta+M\varepsilon=M\varepsilon$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">P8 · lecture 4</span>s² is unbiased</div>
+<div class="prob">
+  <p>Show $\mathbb E[e'e\mid X]=\sigma^2(n-K)$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$e'e=\varepsilon'M\varepsilon$. $\mathbb E[\varepsilon'M\varepsilon\mid X]=\mathbb E[\text{tr}(\varepsilon\varepsilon'M)\mid X]=\text{tr}(\mathbb E[\varepsilon\varepsilon'\mid X]M)=\sigma^2\text{tr}(M)=\sigma^2(n-K)$. Hence $\mathbb E[e'e/(n-K)]=\sigma^2$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">P9 · lecture 5</span>Distribution of m under H₀</div>
+<div class="prob">
+  <p>With normal errors.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\varepsilon\mid X\sim N(0,\sigma^2I)\Rightarrow y\mid X\sim N(X\beta,\sigma^2I)\Rightarrow b\mid X\sim N(\beta,\sigma^2(X'X)^{-1})\Rightarrow m=Rb-q\mid X\sim N(R\beta-q,\sigma^2R(X'X)^{-1}R')$, and $R\beta-q=0$ under $H_0$. Quadratic form: $m'(\mathbb V[m\mid X])^{-1}m\sim\chi^2_J$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">P10 · lecture 7</span>Distribution of the t-statistic</div>
+<div class="prob">
+  <p>Three ingredients.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(1) $z=b_1/\sqrt{\sigma^2R(X'X)^{-1}R'}\sim N(0,1)$ under $H_0$. (2) $s^2/\sigma^2=\frac{(\varepsilon/\sigma)'M(\varepsilon/\sigma)}{n-K}\sim\chi^2_{n-K}/(n-K)$. (3) $\text{Cov}[b,e\mid X]=\sigma^2(X'X)^{-1}X'M=0$ and joint normality ⇒ $b$, $s^2$ independent. $t=z/\sqrt{s^2/\sigma^2}$ is the ratio defining $t_{n-K}$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">P11 · lecture 8</span>Distribution of the F-statistic</div>
+<div class="prob">
+  <p>From the $\chi^2_J$ statistic.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$F=\frac{m'(\sigma^2R(X'X)^{-1}R')^{-1}m/J}{(e'e/\sigma^2)/(n-K)}=\frac{\chi^2_J/J}{\chi^2_{n-K}/(n-K)}$, independent ⇒ $F_{J,n-K}$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">P12 · time series</span>AR(1): Wold form, mean, variance, ACF</div>
+<div class="prob">
+  <p>Assume $\lvert\phi_1\rvert&lt;1$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Back-substitute: $Y_t=\frac{\phi_0}{1-\phi_1}+\sum_j\phi_1^j\varepsilon_{t-j}$. $\mathbb E=\frac{\phi_0}{1-\phi_1}$. $\mathbb V=\sigma_\varepsilon^2\sum\phi_1^{2j}=\frac{\sigma_\varepsilon^2}{1-\phi_1^2}$. With $\phi_0=0$: $\text{Cov}[Y_{t+1},Y_t]=\mathbb E[\mathbb E[(\phi_1Y_t+\varepsilon_{t+1})Y_t\mid Y_t]]=\phi_1\mathbb V[Y_t]$, iterate: $\phi_1^h\mathbb V[Y_t]$, so $\rho(h)=\phi_1^h$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">P13 · GARCH</span>Unconditional variance of GARCH(1,1)</div>
+<div class="prob">
+  <p>And show $\mathbb E[r_t]=0$, $\text{Cov}[r_t,r_{t-1}]=0$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\bar\sigma^2=\beta_0+\beta_1\bar\sigma^2+\beta_2\bar\sigma^2\Rightarrow\bar\sigma^2=\beta_0/(1-\beta_1-\beta_2)$. $\mathbb E[r_t]=\mathbb E[\sigma_t\mathbb E[z_t\mid\mathcal F_{t-1}]]=0$. $\mathbb E[r_tr_{t-1}]=\mathbb E[r_{t-1}\sigma_t\mathbb E[z_t\mid\mathcal F_{t-1}]]=0$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">P14 · GARCH</span>VaR and ES in a model $r_{t+1}=\sigma_{t+1}z_{t+1}$</div>
+<div class="prob">
+  <p>Derive both formulas, and ES for a normal $z$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\alpha=P(\sigma_{t+1}z_{t+1}\lt-VaR\mid\mathcal F_t)=P(z\lt-VaR/\sigma_{t+1})\Rightarrow VaR=-\sigma_{t+1}z_\alpha$. $-ES=\mathbb E[r_{t+1}\mid r_{t+1}\lt-VaR,\mathcal F_t]=\sigma_{t+1}\mathbb E[z\mid z&lt;z_\alpha]$. Normal: $\frac1\alpha\int_{-\infty}^{z_\alpha}x\varphi(x)dx=-\varphi(z_\alpha)/\alpha$.</p>
+</div></details>
+</div>
+
+</section>

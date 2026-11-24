@@ -1,0 +1,181 @@
+<!-- ============ 23 THE T-STATISTIC AND THE T-TEST ============ -->
+<section id="s23">
+<div class="sec-head"><span class="num">23</span><h2>The t-statistic and the t-test</h2><span class="sub">lecture 7, slides 9–10, 17–18</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Replace σ² with s² and pay with fatter tails<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>In practice $\sigma^2$ is unknown. Put $s^2$ in its place. The statistic is no longer normal, because the denominator is now random too. It follows a Student-$t$ with $n-K$ degrees of freedom: like a normal, but with fatter tails to account for the uncertainty about $\sigma^2$.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The t-statistic<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$\boxed{t=\frac{b_k-q}{\sqrt{s^2(X'X)^{-1}_{k,k}}}=\frac{\text{estimate}-\text{hypothesised value}}{\text{standard error}}\ \overset{H_0}{\sim}\ t_{n-K}}$$
+  <p>General single restriction ($J=1$): $t=\dfrac{Rb-q}{\sqrt{s^2R(X'X)^{-1}R'}}\sim t_{n-K}$.</p>
+  </div>
+  <div>
+  <p>Reported by software for $q=0$:</p>
+  $$t=\frac{b_k}{\sqrt{\hat{\mathbb V}[b_k\mid X]}}=\frac{b_k}{\text{se}(b_k)}$$
+  <p>Reject $H_0:\beta_k=q$ against $\neq$ at 5% if $\lvert t\rvert&gt;t_{n-K,\,0.975}$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DERIVATION</span> Where the t comes from (slide 17)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$t=\frac{b_1}{\sqrt{s^2R(X'X)^{-1}R'}}=\frac{\dfrac{b_1}{\sqrt{\sigma^2R(X'X)^{-1}R'}}}{\sqrt{\dfrac{s^2}{\sigma^2}}}\ \overset D=\ \frac{N(0,1)}{\sqrt{\dfrac{\chi^2_{n-K}}{n-K}}}\ \overset D=\ t_{n-K}$$
+  <ol class="steps">
+    <li>Multiply and divide by $\sigma$: numerator becomes the $z$ of module 20, $N(0,1)$ under $H_0$.</li>
+    <li>Denominator: $s^2/\sigma^2$ is an average chi-square (module 22, step 1).</li>
+    <li>They are independent (module 22, step 2: $b$ and $s^2$ independent).</li>
+    <li>A standard normal over the square root of an independent average chi-square is, <b>by definition</b>, Student-$t$. $\blacksquare$</li>
+  </ol>
+  <div class="note tip"><div class="t">Notice what disappeared</div>
+  <p>$\sigma^2$ cancels: the distribution of $t$ depends on nothing unknown. That is why it can be used as a test statistic (it is a pivot).</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> t against N(0,1)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>degrees of freedom $n-K$ <input type="range" id="tt_d" min="1" max="100" step="1" value="3"> <span class="val" id="tt_d_v">3</span></label>
+    <label>size (%) <input type="range" id="tt_a" min="1" max="20" step="1" value="5"> <span class="val" id="tt_a_v">5</span></label>
+    <span class="btns">
+      <button data-do="ttSet3">3</button>
+      <button data-do="ttSet50">50 (slide)</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="ttsvg" viewBox="0 0 400 230"></svg><figcaption>Blue: $t_{n-K}$. Grey: $N(0,1)$. Red tails: the size.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="ttread" aria-live="polite"></div>
+  <table>
+    <tr><th>d.f.</th><th>3</th><th>10</th><th>26</th><th>50</th><th>100</th><th>$\infty$</th></tr>
+    <tr><td>$t_{0.975}$</td><td>3.182</td><td>2.228</td><td>2.056</td><td>2.009</td><td>1.984</td><td>1.960</td></tr>
+    <tr><td>$t_{0.995}$</td><td>5.841</td><td>3.169</td><td>2.779</td><td>2.678</td><td>2.626</td><td>2.576</td></tr>
+  </table>
+  <p>Slide 18 says "more peaked at zero and fatter tails". Compared with $N(0,1)$ its tails are fatter, and the peak is slightly <b>lower</b> ($t_3$: 0.368 against 0.399); it looks more peaked only when both are scaled to the same variance. As $n-K\to\infty$, $s^2\to\sigma^2$ and $t\to N(0,1)$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">RUNNING EXAMPLE · two t-tests (n − K = 3, critical value 3.182)</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>$H_0:\beta_2=0$ vs $\neq0$:</b> $t=\dfrac{0.9}{0.2517}=3.576&gt;3.182$ ⇒ <b>reject</b> at 5% (p-value 0.037). At 1% the critical value is 5.841: do not reject.</p>
+  <p><b>$H_0:\beta_1=0$:</b> $t=\dfrac{1.3}{0.8347}=1.557&lt;3.182$ ⇒ do not reject.</p>
+  </div>
+  <div>
+  <p><b>$H_0:\beta_2=1$:</b> $t=\dfrac{0.9-1}{0.2517}=-0.397$ ⇒ do not reject.</p>
+  <p>With the (wrong) normal critical value 1.96 the conclusions would be the same here, but a $t$ of 2.5 with 3 d.f. would be wrongly called significant.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">ES_TESTING SHEET · test whether the sum of the two slopes is 1</div>
+  <div class="body">
+  <p>$\hat y=4+0.4x_1+0.9x_2$, $N=29$, $e'e=520$, $(X'X)^{-1}=\frac1{3900}\begin{bmatrix}3900/29&0&0\\0&80&-10\\0&-10&50\end{bmatrix}$.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li><b>Hypotheses.</b> $H_0:\beta_2+\beta_3=1$ vs $H_A:\beta_2+\beta_3\neq1$. $R=[0\ 1\ 1]$, $q=1$, $J=1$.</li>
+    <li><b>Which statistic?</b> One restriction, $\sigma^2$ <b>unknown</b> ⇒ $t_{n-K}$ with $n-K=29-3=26$.</li>
+    <li><b>Numerator.</b> $Rb-q=0.4+0.9-1=0.3$.</li>
+    <li><b>$s^2=520/26=20$.</b></li>
+  </ol>
+  </div>
+  <div>
+  <ol class="steps" style="counter-reset:s 4">
+    <li><b>Denominator.</b> $R(X'X)^{-1}R'=\frac{80-10-10+50}{3900}=\frac{110}{3900}=0.02821$; times 20: $0.5641$; root: $0.7511$.</li>
+    <li><b>Statistic.</b> $t=0.3/0.7511=\mathbf{0.399}$.</li>
+    <li><b>Decision.</b> $t_{26,0.975}=2.056$. $0.399&lt;2.056$ ⇒ <b>do not reject</b>: the data are compatible with the slopes summing to one (p-value 0.69).</li>
+  </ol>
+  </div>
+  </div>
+  <div class="note warn"><div class="t">TRAP · the covariance</div>
+  <p>$\mathbb V[b_2+b_3]=\mathbb V[b_2]+\mathbb V[b_3]+2\text{Cov}$. The sum of <b>all four</b> entries of the block is $80-10-10+50=110$. Using $80+50=130$ forgets the covariance.</p>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>IBM alpha</div>
+<div class="prob">
+  <p>$T=250$, $\hat\alpha=0.05$, se $=0.06$; $\hat\beta=0.74$, se $=0.05$. Test $\alpha=0$ vs $\alpha&gt;0$, and $\beta=1$ vs $\neq1$, at 5%.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>d.f. 248, essentially normal. $t_\alpha=0.833&lt;1.65$ ⇒ do not reject. $t_\beta=(0.74-1)/0.05=-5.2$ ⇒ reject: IBM is defensive. Alpha is hard to estimate, beta is easy: typical of daily data.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Fill the gaps in the software output</div>
+<div class="prob">
+  <p>Coefficient 2.4, se ?, $t=3.0$; coefficient ?, se 0.5, $t=-1.2$; $n=45$, $K=5$. Fill the gaps and say which are significant at 5%.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>se $=2.4/3=0.8$. Coefficient $=-1.2\cdot0.5=-0.6$. d.f. 40, critical value about 2.02: first yes, second no.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">practice</span>Difference of two coefficients</div>
+<div class="prob">
+  <p>Using ES_Testing data, test $H_0:\beta_2=\beta_3$ at 5%.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$R=[0\ 1\ {-1}]$, $m=0.4-0.9=-0.5$. $R(X'X)^{-1}R'=\frac{80+10+10+50}{3900}=\frac{150}{3900}=0.03846$; $\times20=0.7692$; root $0.8771$. $t=-0.57$ ⇒ do not reject. (With a negative covariance, the variance of a <b>difference</b> is larger than that of the sum.)</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s23">
+  <div class="bar"><span class="pill g">QUICK TEST</span> t-test<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>$t\sim t_{n-K}$ rather than normal because</div>
+    <div class="opts"><button>$n$ is small</button><button>errors are not normal</button><button>$s^2$ is a random variable</button><button>$b$ is biased</button></div>
+    <div class="why">Replacing $\sigma^2$ by the random $s^2$ fattens the tails, for any $n$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>The independence of $b$ and $s^2$ is needed</div>
+    <div class="opts"><button>to compute $t$</button><button>to conclude that the ratio follows a $t$ distribution</button><button>for $\mathbb E[s^2]=\sigma^2$</button><button>for BLUE</button></div>
+    <div class="why">The definition of $t$ requires an independent chi-square in the denominator.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>$n=60$, $K=4$. The d.f. of the $t$-statistic are</div>
+    <div class="opts"><button>60</button><button>59</button><button>57</button><button>56</button></div>
+    <div class="why">$n-K$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">4</span>As $n-K\to\infty$ the $t$ distribution</div>
+    <div class="opts"><button>converges to $N(0,1)$</button><button>converges to $\chi^2$</button><button>gets fatter tails</button><button>has smaller variance than the normal</button></div>
+    <div class="why">$s^2\to\sigma^2$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>For the sum of two slopes with variances 4 and 9 and covariance −2, the standard error is</div>
+    <div class="opts"><button>$\sqrt{13}$</button><button>3</button><button>$\sqrt{17}$</button><button>9</button></div>
+    <div class="why">$4+9-4=9$, root 3.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,160 @@
+<!-- ============ 14 GOODNESS OF FIT: R² ============ -->
+<section id="s14">
+<div class="sec-head"><span class="num">14</span><h2>Goodness of fit: R²</h2><span class="sub">lecture 3, slides 12–15</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The share of the variance of y that X explains<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$R^2$ is one number between 0 and 1 that says how close $y$ is to the floor. Its main drawback is that it can only go up when you add regressors, even useless ones.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Definition and derivation<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Assume $y,X_1,\dots,X_K$ have mean zero (or de-mean them). Then $\frac1ny'y=\frac1n\sum y_i^2$ is the sample variance of $y$. From $y=\hat y+e$ and $\hat y'e=0$:</p>
+  $$\underbrace{\tfrac1ny'y}_{\text{variance of }y}=\underbrace{\tfrac1n\hat y'\hat y}_{\text{variance of fitted}}+\underbrace{\tfrac1ne'e}_{\text{variance of residuals}}$$
+  $$\boxed{R^2=\frac{\hat y'\hat y}{y'y}=1-\frac{e'e}{y'y}\qquad 0\le R^2\le1}$$
+  </div>
+  <div>
+  <p><b>Why between 0 and 1?</b> All three terms are sums of squares, so $0\le\hat y'\hat y\le y'y$.</p>
+  <p><b>If data are not de-meaned</b> but there is a constant, use deviations from the mean:</p>
+  $$R^2=1-\frac{e'e}{\sum(y_i-\bar y)^2}=\frac{\sum(\hat y_i-\bar y)^2}{\sum(y_i-\bar y)^2}$$
+  <div class="note tip"><div class="t">Angle interpretation</div>
+  <p>$R^2=\cos^2\theta$, with $\theta$ the angle between $y$ and the floor. Perfect fit: $\theta=0°$. Worst: $90°$. With one regressor plus constant, $R^2=\hat\rho_{xy}^2$.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> Reading $R^2$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th></th><th>$R^2\approx1$</th><th>$R^2\approx0$</th></tr>
+    <tr><td>picture</td><td>$y$ close to the column space</td><td>$y$ nearly orthogonal to it</td></tr>
+    <tr><td>variance of fitted values</td><td>≈ variance of $y$</td><td>≈ 0</td></tr>
+    <tr><td>variance of residuals</td><td>≈ 0</td><td>≈ variance of $y$</td></tr>
+    <tr><td>$e$</td><td>$\to0$ ("exact fitting")</td><td>$\to y$ ("worst fitting")</td></tr>
+  </table>
+  <p>Routine in any software: (1) estimate $b=(X'X)^{-1}X'y$; (2) compute $R^2$.</p>
+  <div class="note warn"><div class="t">TRAP · what a low R² does not mean</div>
+  <p>A low $R^2$ does <b>not</b> mean OLS is biased, nor that $\beta_2=0$. Daily single-stock CAPM regressions often have $R^2$ around 0.3 and a very precisely estimated beta. $R^2$ measures noise relative to signal, not whether the model is right. And a high $R^2$ does not prove causality.</p>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">RUNNING EXAMPLE</div>
+  <div class="body">
+  <p>$\bar y=4$: $\sum(y_i-\bar y)^2=4+1+1+0+4=10$. $e'e=1.90$. $R^2=1-0.19=\mathbf{0.81}$. Check: $\hat\rho=\dfrac{9}{\sqrt{10\cdot10}}=0.9$ and $0.9^2=0.81$ ✓. (Here $S_{xx}=S_{yy}=10$, which is why $b_2=\hat\rho$.)</p>
+  <p>Using $\frac{\hat y'\hat y}{y'y}=\frac{88.1}{90}=0.979$ <b>without</b> de-meaning would be wrong: it credits the model for explaining the mean.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">DRAWBACK</span> $R^2$ mechanically increases with more regressors<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Go from $K$ to $K+L$ columns: $[X_1\cdots X_K\ X_{K+1}\cdots X_{K+L}]$. The column space gets larger, so the closest point in it cannot be farther away:</p>
+  $$\min_{b\in\mathbb R^{K+L}}\lVert y-X_{new}b\rVert^2\ \le\ \min_{b\in\mathbb R^K}\lVert y-Xb\rVert^2$$
+  <p>because you can always set the extra coefficients to zero. So $e'e$ falls (weakly) and $R^2$ rises (weakly), <b>even if the new regressors have little to do with $y$</b>.</p>
+  </div>
+  <div>
+  <p>Extreme case: with $K=n$ independent columns, the column space is all of $\mathbb R^n$. Then $\hat y=y$, $e=0$, $R^2=1$ whatever the regressors are. The model has memorised the sample and $s^2=e'e/(n-K)$ is $0/0$.</p>
+  <div class="note "><div class="t">Beyond the slides · adjusted $R^2$</div>
+  <p>Software reports $\bar R^2=1-\dfrac{e'e/(n-K)}{\sum(y_i-\bar y)^2/(n-1)}$, which can fall when a useless regressor is added. Running example: $1-\frac{0.6333}{2.5}=0.747$.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Add useless regressors and watch R² rise<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$n$ <input type="range" id="r2_n" min="8" max="100" step="1" value="30"> <span class="val" id="r2_n_v">30</span></label>
+    <label>true $R^2$ of the real regressor <input type="range" id="r2_t" min="0" max="0.9" step="0.05" value="0.30"> <span class="val" id="r2_t_v">0.30</span></label>
+    <span class="btns">
+      <button data-do="r2New">new data</button>
+      <button data-do="r2Noise">n = 10, pure noise</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="r2svg" viewBox="0 0 380 250"></svg><figcaption>Regressor 1 is real; every one after that is pure noise drawn at random. Blue: $R^2$. Amber: adjusted $R^2$.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="r2read" aria-live="polite"></div>
+  <p><b>Try this.</b> The blue line never goes down, and it reaches 1 when $K=n$. With $n=10$ and pure noise you get a "good" $R^2$ after a handful of random columns. Larger $n$ makes the climb slower. The amber line does not reward noise on average.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Compute</div>
+<div class="prob">
+  <p>$y'y=200$ (de-meaned), $e'e=50$. $R^2$? $\hat y'\hat y$? The length of $\hat y$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$R^2=1-0.25=0.75$. $\hat y'\hat y=150$. $\lVert\hat y\rVert=\sqrt{150}=12.25$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Both at once</div>
+<div class="prob">
+  <p>Model A has $K=2$, $R^2=0.40$; model B adds 10 regressors, $R^2=0.45$, $n=60$. Does B explain $y$ better? What would you do?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>The rise alone proves nothing: it is mechanical. Test $H_0$: the 10 extra coefficients are zero, with an F-test (module 24): $F=\frac{(0.45-0.40)/10}{(1-0.45)/(60-12)}=\frac{0.005}{0.01146}=0.44$, far below the critical value of about 2.0. Do not reject: the extra regressors add nothing.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">lecture 5, slide 6 question</span>What is R² under the hypothesis β₂ = β₃ = β₄ = 0?</div>
+<div class="prob">
+  <p>In $y_i=\beta_1+\beta_2x_{i2}+\beta_3x_{i3}+\beta_4x_{i4}+\varepsilon_i$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Under the hypothesis the regressors explain nothing of the variation of $y$: the <b>population</b> $R^2$ is 0. The <b>sample</b> $R^2$ is close to 0 but positive, because $b$ is not exactly zero (and $R^2$ is mechanically non-negative). Its expected value under the null is about $(K-1)/(n-1)$.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s14">
+  <div class="bar"><span class="pill g">QUICK TEST</span> R²<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>$R^2=0.64$ in a regression on a constant and one regressor means the sample correlation is</div>
+    <div class="opts"><button>0.64</button><button>0.41</button><button>0.8 in absolute value</button><button>0.8, positive</button></div>
+    <div class="why">$R^2=\hat\rho^2$; the sign is that of the slope.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>Adding a regressor unrelated to $y$</div>
+    <div class="opts"><button>lowers $R^2$</button><button>never lowers $R^2$</button><button>leaves $R^2$ exactly unchanged</button><button>makes OLS biased</button></div>
+    <div class="why">The column space gets larger; $e'e$ cannot rise.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>With $n=K$ and independent columns</div>
+    <div class="opts"><button>OLS does not exist</button><button>$R^2=0$</button><button>$s^2$ is large</button><button>$R^2=1$</button></div>
+    <div class="why">The columns span $\mathbb R^n$, so $\hat y=y$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">4</span>The decomposition $y'y=\hat y'\hat y+e'e$ uses</div>
+    <div class="opts"><button>$\hat y'e=0$</button><button>normality</button><button>homoskedasticity</button><button>$\mathbb E[\varepsilon]=0$</button></div>
+    <div class="why">Orthogonality from the normal equations; nothing probabilistic.</div>
+  </div>
+  </div>
+</div>
+
+</section>

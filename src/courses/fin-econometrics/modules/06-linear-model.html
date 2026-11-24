@@ -1,0 +1,172 @@
+<!-- ============ 06 THE LINEAR REGRESSION MODEL ============ -->
+<section id="s6">
+<div class="sec-head"><span class="num">06</span><h2>The linear regression model</h2><span class="sub">lecture 1, slides 3–6, 11</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> A sentence about a conditional mean<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The linear model says: on average, given the regressors, $y$ is a linear function of them, and whatever is left over is noise with mean zero. The "workhorse" of the course is one line, $y_i=x_i'\beta+\varepsilon_i$. Reading it correctly is half of lecture 1.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The model, three ways<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>One observation, written out:</b> for $i=1,\dots,n$</p>
+  $$y_i=\beta_1x_{i1}+\beta_2x_{i2}+\dots+\beta_Kx_{iK}+\varepsilon_i$$
+  <p><b>One observation, compact:</b> with $x_i=(x_{i1},\dots,x_{iK})'$ and $\beta=(\beta_1,\dots,\beta_K)'$, both $K\times1$,</p>
+  $$y_i=x_i'\beta+\varepsilon_i$$
+  <p><b>All observations stacked:</b></p>
+  $$\underbrace{\begin{bmatrix}y_1\\\vdots\\y_n\end{bmatrix}}_{n\times1}=\underbrace{\begin{bmatrix}x_1'\\\vdots\\x_n'\end{bmatrix}}_{n\times K}\underbrace{\beta}_{K\times1}+\underbrace{\begin{bmatrix}\varepsilon_1\\\vdots\\\varepsilon_n\end{bmatrix}}_{n\times1}\quad\Longleftrightarrow\quad \boxed{y=X\beta+\varepsilon}$$
+  </div>
+  <div>
+  <table>
+    <tr><th>object</th><th>meaning</th><th>observed</th></tr>
+    <tr><td>$y_i$</td><td>dependent variable for "individual" $i$</td><td>yes</td></tr>
+    <tr><td>$x_{ik}$</td><td>regressor ("factor", explanatory variable) $k$ for $i$</td><td>yes</td></tr>
+    <tr><td>$\beta_k$</td><td>coefficient, a constant to be estimated</td><td>no</td></tr>
+    <tr><td>$\varepsilon_i$</td><td>error term: everything else that moves $y_i$</td><td>no</td></tr>
+  </table>
+  <p>"Individual" $i$ can be a person, a firm, or a month: in time series we write $t$ and $T$ instead.</p>
+  <p><b>Goal:</b> use $x$ to explain $y$. Direction of causality: $x\Rightarrow y$.</p>
+  <p><b>Constant term:</b> almost always $x_{i1}=1$ for all $i$, so the first column of $X$ is ones and $\beta_1$ is the intercept. Including it is "very useful and very important"; module 10 shows what goes wrong without it.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 1 · the CAPM example (risk-free rate = 0)</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$y_i$ = IBM return in month $i$; $x_{i1}=1$; $x_{i2}$ = S&P 500 return in month $i$:</p>
+  $$y_i=\beta_1+\beta_2x_{i2}+\varepsilon_i$$
+  <p><b>What are the values of $\beta_1,\beta_2$?</b> Unknown. We estimate them (lecture 2).</p>
+  <p><b>Is $\beta_2=0$? Why does it matter?</b> If $\beta_2=0$ the market has no effect on the expected IBM return: IBM carries no market risk and cannot be used as a hedge. We need a formal test (lectures 5–7), because an estimate is never exactly 0.</p>
+  <p><b>What if $y_i$ is our portfolio return and $\beta_2\gg0$?</b> Our portfolio is heavily exposed to the market. A market fall of 10% costs us about $10\beta_2\%$. If we don't want that risk, we must hedge it (module 11).</p>
+  </div>
+  <div>
+  <p><b>Slide 11.</b> Suppose the estimates are $\beta_1=0$, $\beta_2=0.5$, so $\mathbb E[y_i\mid X]=0.5\,x_{i2}$. If the market goes up by 2%, the expected IBM return is $0.5\cdot2\%=1\%$.</p>
+  <div class="note warn"><div class="t">Slide question · are we predicting next month's IBM return?</div>
+  <p><b>No.</b> $y_i$ and $x_{i2}$ are from the <b>same</b> month. The model says what IBM does on average <i>given</i> this month's market return. To predict next month you would need next month's market return, which you don't know, or a regressor known today (as in the AR(1) of module 27, where the regressor is $Y_{t-1}$).</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> The model behind the dots<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\beta_1$ <input type="range" id="dg_b1" min="-2" max="4" step="0.1" value="1.0"> <span class="val" id="dg_b1_v">1.0</span></label>
+    <label>$\beta_2$ <input type="range" id="dg_b2" min="-1" max="2" step="0.05" value="0.70"> <span class="val" id="dg_b2_v">0.70</span></label>
+    <label>$\sigma$ <input type="range" id="dg_s" min="0" max="3" step="0.1" value="1.0"> <span class="val" id="dg_s_v">1.0</span></label>
+    <label>$n$ <input type="range" id="dg_n" min="5" max="120" step="1" value="20"> <span class="val" id="dg_n_v">20</span></label>
+  </div>
+  <div class="ctrl">
+    <label><input type="checkbox" id="dg_tr" checked> show true line</label>
+    <label><input type="checkbox" id="dg_ol" checked> show OLS line</label>
+    <label><input type="checkbox" id="dg_er"> show errors $\varepsilon_i$</label>
+    <label><input type="checkbox" id="dg_re"> show residuals $e_i$</label>
+    <span class="btns">
+      <button data-do="dgNew">new sample</button>
+      <button data-do="dgFive">slides' 5 dots</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="dgsvg" viewBox="0 0 360 260"></svg><figcaption>Red: $\mathbb E[y_i\mid X]=\beta_1+\beta_2x_{i2}$, which in reality is never seen. Dots: the sample. Blue: the fitted line $b_1+b_2x_{i2}$.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="dgread" aria-live="polite"></div>
+  <p><b>Try this.</b> Hide the true line: this is all you ever observe. Draw new samples: the red line stays, the dots and the blue line move. Set $\sigma=0$: the dots fall on the red line and $b=\beta$ exactly. Raise $n$ to 120: blue hugs red. Show errors and residuals together: errors are distances to <b>red</b>, residuals are distances to <b>blue</b>.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> Reading the coefficients<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Under $\mathbb E[\varepsilon\mid X]=0$ (module 07), $\mathbb E[y_i\mid X]=x_i'\beta$, so</p>
+  $$\frac{\partial\,\mathbb E[y_i\mid X]}{\partial x_{ik}}=\beta_k .$$
+  <p>$\beta_k$ is the change in the <b>conditional mean</b> of $y_i$ when $x_{ik}$ rises by one unit, <b>holding the other regressors fixed</b>. $\beta_1$ is the conditional mean when all other regressors are zero.</p>
+  </div>
+  <div>
+  <p><b>"Linear" means linear in the parameters.</b> These are all linear models:</p>
+  <ul>
+    <li>$y_i=\beta_1+\beta_2x_i+\beta_3x_i^2+\varepsilon_i$ (define a regressor $x_i^2$);</li>
+    <li>$\log Y_j=\log c+\gamma\log K_j+\theta\log L_j+\varepsilon_j$ (Cobb–Douglas after logs, lecture 5).</li>
+  </ul>
+  <p>$y_i=\beta_1x_i^{\beta_2}+\varepsilon_i$ is not.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAM FORMAT · W8 Part 1, question 1 · write the model as y = Xβ + ε</div>
+  <div class="body">
+  <p>$C_t=\gamma_0+\gamma_1I_t+\gamma_2r_t+\varepsilon_t$, $t=1,\dots,T$. "Define the content and dimension of $y,X,\beta,\varepsilon$."</p>
+  $$\underbrace{\begin{bmatrix}C_1\\\vdots\\C_T\end{bmatrix}}_{y\ (T\times1)}=\underbrace{\begin{bmatrix}1&I_1&r_1\\\vdots&\vdots&\vdots\\1&I_T&r_T\end{bmatrix}}_{X\ (T\times3)}\underbrace{\begin{bmatrix}\gamma_0\\\gamma_1\\\gamma_2\end{bmatrix}}_{\beta\ (3\times1)}+\underbrace{\begin{bmatrix}\varepsilon_1\\\vdots\\\varepsilon_T\end{bmatrix}}_{\varepsilon\ (T\times1)}$$
+  <p>Say it in words too: $y$ stacks consumption, $X$ has a column of ones, income and the interest rate, $\beta$ the three unknown parameters, $\varepsilon$ the unobserved errors. Here $K=3$.</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Cobb–Douglas in matrix form</div>
+<div class="prob">
+  <p>$Y_j=cK_j^\gamma L_j^\theta$ for firms $j=1,\dots,n$, estimated in logs with an error. Write $y,X,\beta$ with dimensions.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$y=(\log Y_1,\dots,\log Y_n)'$ is $n\times1$. $X$ is $n\times3$ with rows $(1,\log K_j,\log L_j)$. $\beta=(\log c,\gamma,\theta)'$ is $3\times1$. $\gamma$ is the output elasticity of capital: a 1% rise in $K$ raises expected output by about $\gamma$%.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>What does the intercept mean?</div>
+<div class="prob">
+  <p>$r_t-r_t^f=\alpha+\beta(r_t^m-r_t^f)+\varepsilon_t$. Interpret $\alpha$. What would the intercept mean if you regressed raw returns on raw market returns with $r^f\neq0$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\alpha$ is the expected excess return when the market's excess return is zero: the risk-adjusted performance. With raw returns, $r_t=\alpha+(1-\beta)r_t^f+\beta r_t^m+\varepsilon_t$, so the intercept mixes $\alpha$ with $(1-\beta)r^f$. Use <b>excess</b> returns to read $\alpha$ directly.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s6">
+  <div class="bar"><span class="pill g">QUICK TEST</span> The linear model<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>In $y_i=\beta_1+\beta_2x_{i2}+\varepsilon_i$ the data points do not lie on the line because</div>
+    <div class="opts"><button>OLS is biased</button><button>of the error term $\varepsilon_i$</button><button>$X$ is not of full rank</button><button>$\beta$ changes across $i$</button></div>
+    <div class="why">The line is the conditional mean; $\varepsilon_i$ is the deviation from it.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>Which model is <b>not</b> linear in the parameters?</div>
+    <div class="opts"><button>$y_i=\beta_1+\beta_2x_i^3+\varepsilon_i$</button><button>$\log y_i=\beta_1+\beta_2\log x_i+\varepsilon_i$</button><button>$y_i=\beta_1+x_i^{\beta_2}+\varepsilon_i$</button><button>$y_i=\beta_1+\beta_2\sqrt{x_i}+\varepsilon_i$</button></div>
+    <div class="why">A parameter in the exponent cannot be written as $X\beta$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>The market model gives $\mathbb E[y_i\mid X]=0.2+0.8x_{i2}$ (percent). The market falls 5%. The expected stock return is</div>
+    <div class="opts"><button>−3.8%</button><button>−4.0%</button><button>−4.2%</button><button>+4.2%</button></div>
+    <div class="why">$0.2+0.8\cdot(-5)=-3.8$.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>Each row of $X$ contains</div>
+    <div class="opts"><button>one regressor for all individuals</button><button>the coefficients</button><button>the errors</button><button>all regressors for one individual</button></div>
+    <div class="why">Row $i$ is $x_i'$. Columns are regressors.</div>
+  </div>
+  </div>
+</div>
+
+</section>

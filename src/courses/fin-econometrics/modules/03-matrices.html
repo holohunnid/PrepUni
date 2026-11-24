@@ -1,0 +1,171 @@
+<!-- ============ 03 MATRICES YOU ACTUALLY NEED ============ -->
+<section id="s3">
+<div class="sec-head"><span class="num">03</span><h2>Matrices you actually need</h2><span class="sub">transpose · X′X · 2×2 inverse · rank · trace · definiteness · idempotent</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> A short list, used all semester<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The course uses a small set of matrix facts again and again. This module collects them with one-line proofs where they are short. The two facts called A4 and S3 in the lecturer's <i>Memorandum</i> (iCorsi) are stated here too, because lectures 4 and 7 quote them.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RULES</span> The rules<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <table class="formula-table">
+    <tr><td>transpose of a product</td><td>$(AB)'=B'A'$</td></tr>
+    <tr><td>inverse of a product</td><td>$(AB)^{-1}=B^{-1}A^{-1}$</td></tr>
+    <tr><td>inverse and transpose</td><td>$(A^{-1})'=(A')^{-1}$</td></tr>
+    <tr><td>scalar = its transpose</td><td>$a'b=b'a$ when both are $1\times1$</td></tr>
+    <tr><td>symmetric</td><td>$A'=A$. $X'X$ always is: $(X'X)'=X'X$</td></tr>
+    <tr><td>inverse of a symmetric matrix</td><td>is symmetric</td></tr>
+    <tr><td>trace</td><td>$\text{tr}(A)=\sum_iA_{ii}$</td></tr>
+    <tr><td>trace is linear</td><td>$\text{tr}(A+B)=\text{tr}(A)+\text{tr}(B)$</td></tr>
+    <tr><td><b>cyclic trace</b></td><td>$\text{tr}(AB)=\text{tr}(BA)$, $\text{tr}(ABC)=\text{tr}(CAB)$</td></tr>
+    <tr><td>scalar = its trace</td><td>$z'Az=\text{tr}(z'Az)=\text{tr}(Azz')$</td></tr>
+  </table>
+  </div>
+  <div>
+  <div class="note tip"><div class="t">The inverse of a 2×2, by heart</div>
+  $$\begin{bmatrix}a&b\\c&d\end{bmatrix}^{-1}=\frac1{ad-bc}\begin{bmatrix}d&-b\\-c&a\end{bmatrix}$$
+  <p>Swap the diagonal, change the sign of the off-diagonal, divide by the determinant.</p>
+  </div>
+  <div class="note tip"><div class="t">Block-diagonal matrices</div>
+  <p>If the first row and column are zero off the diagonal, invert the blocks separately. The ES_Testing matrix has this form: the constant is orthogonal to both regressors.</p>
+  </div>
+  <div class="note warn"><div class="t">TRAP · you cannot split the inverse</div>
+  <p>$(X'X)^{-1}=X^{-1}(X')^{-1}$ is <b>wrong</b> unless $X$ is square. $X$ is $n\times K$ and has no inverse. If you could split it, $X(X'X)^{-1}X'$ would equal $I$ and every regression would fit perfectly.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> The matrix $X'X$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Entry $(j,k)$ of $X'X$ is the inner product of columns $j$ and $k$: $\sum_ix_{ij}x_{ik}$. With a constant in the first column and one regressor:</p>
+  $$X'X=\begin{bmatrix}1&\cdots&1\\x_{12}&\cdots&x_{n2}\end{bmatrix}\begin{bmatrix}1&x_{12}\\\vdots&\vdots\\1&x_{n2}\end{bmatrix}=\begin{bmatrix}n&\sum x_{i2}\\\sum x_{i2}&\sum x_{i2}^2\end{bmatrix},\qquad X'y=\begin{bmatrix}\sum y_i\\\sum x_{i2}y_i\end{bmatrix}$$
+  <div class="grid2" style="align-items:start">
+  <div>
+  <div class="note "><div class="t">Three quick sanity checks</div>
+  <p>(1) $X'X$ is <b>symmetric</b>. (2) If the model has a constant, the top-left entry is <b>$n$</b>. (3) If regressor $k$ has mean zero, the entry pairing it with the constant is 0.</p>
+  </div>
+  </div>
+  <div>
+<div class="ex">
+  <div class="bar">RUNNING EXAMPLE · invert it</div>
+  <div class="body">
+  $$X'X=\begin{bmatrix}5&15\\15&55\end{bmatrix},\ \det=5\cdot55-15^2=50,\quad (X'X)^{-1}=\frac1{50}\begin{bmatrix}55&-15\\-15&5\end{bmatrix}=\begin{bmatrix}1.1&-0.3\\-0.3&0.1\end{bmatrix}$$
+  </div>
+</div>
+
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">RANK</span> Rank, positive definiteness and why they come together<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>Rank</b> = number of linearly independent columns (= rows). $\text{rank}(X)\le\min(n,K)$.</li>
+    <li><b>Positive definite</b>: $z'Az&gt;0$ for every $z\neq0$. <b>Non-negative definite</b>: $z'Az\ge0$.</li>
+    <li><b>$X'X$ is always non-negative definite:</b> $z'X'Xz=(Xz)'(Xz)=\lVert Xz\rVert^2\ge0$.</li>
+    <li><b>If $\text{rank}(X)=K$ it is positive definite:</b> $\lVert Xz\rVert^2=0$ only if $Xz=0$, which by independence forces $z=0$. So $X'X$ has rank $K$ and is invertible. This is slide 8 of lecture 1.</li>
+    <li>For a <b>scalar</b>, "positive definite" just means "positive". That is why $\frac{\partial^2SSE}{\partial b^2}=2X'X$ positive definite is the matrix version of $2\sum x_i^2&gt;0$.</li>
+  </ol>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Idempotent matrices (Memorandum A4 and S3)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$A$ is <b>idempotent</b> if $AA=A$: applying it twice changes nothing. Projections are idempotent, because once you are on the plane, projecting again leaves you where you are.</p>
+  <ul>
+    <li><b>A4.</b> For a symmetric idempotent matrix, $\text{rank}(A)=\text{tr}(A)$.</li>
+    <li><b>S3.</b> If $z\sim N(0,I_n)$ and $A$ is symmetric idempotent with rank $r$, then $z'Az\sim\chi^2_r$.</li>
+    <li>If $A$ is symmetric idempotent, so is $I-A$.</li>
+  </ul>
+  </div>
+  <div>
+  <p><b>Why A4 holds (optional).</b> If $Av=\lambda v$ then $AAv=\lambda^2v$. Idempotency gives $\lambda^2=\lambda$, so every eigenvalue is 0 or 1. The trace is the sum of eigenvalues and the rank is the number of non-zero ones: both count the ones.</p>
+  <p><b>Why S3 holds (optional).</b> Write $A=C\Lambda C'$ with $C$ orthogonal. $w=C'z\sim N(0,C'C)=N(0,I)$ and $z'Az=w'\Lambda w$, a sum of $r$ squared independent standard normals.</p>
+  </div>
+  </div>
+  <div class="note warn"><div class="t">Numbers don't have this</div>
+  <p>The lecture notes "idempotent is a property of matrices; there is no counterpart for real numbers". Strictly, the numbers 0 and 1 satisfy $a^2=a$, but nothing in between does. A matrix can be idempotent and far from both 0 and $I$.</p>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">check yourself</span>Inverse and determinant</div>
+<div class="prob">
+  <p>Invert $A=\begin{bmatrix}4&2\\2&3\end{bmatrix}$ and check $AA^{-1}=I$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\det=12-4=8$. $A^{-1}=\frac18\begin{bmatrix}3&-2\\-2&4\end{bmatrix}$. Check: first row of $A$ times first column: $(4\cdot3+2\cdot(-2))/8=1$; times second column: $(4\cdot(-2)+2\cdot4)/8=0$ ✓.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">check yourself</span>Trace trick</div>
+<div class="prob">
+  <p>Let $P=X(X'X)^{-1}X'$. Show $PP=P$ and find its trace.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$PP=X(X'X)^{-1}\underbrace{X'X(X'X)^{-1}}_{I_K}X'=P$. Trace, cycling: $\text{tr}(X(X'X)^{-1}X')=\text{tr}((X'X)^{-1}X'X)=\text{tr}(I_K)=K$. So $P$ is $n\times n$ with rank $K$, and $M=I-P$ has rank $n-K$ (module 17).</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">check yourself</span>Read a matrix like an econometrician</div>
+<div class="prob">
+  <p>Someone reports $X'X=\begin{bmatrix}3&2\\1&4\end{bmatrix}$ for a regression with a constant and $n=100$. What is wrong?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Two things. It is <b>not symmetric</b> ($2\neq1$), and the top-left entry should be $n=100$, not 3. It cannot be an $X'X$. (This is the matrix of the W10 tutorial exercise. The exercise is still good practice for the mechanics of the test, module 25, but the numbers were not produced by a real regression.)</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s3">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Matrices<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>$(X'X)^{-1}$ exists if and only if</div>
+    <div class="opts"><button>$n\ge K$</button><button>$X$ is square</button><button>$\text{rank}(X)=K$</button><button>the columns of $X$ are orthogonal</button></div>
+    <div class="why">Full column rank is exactly A1b. $n\ge K$ is necessary but not sufficient.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>$\text{tr}(X(X'X)^{-1}X')$ equals</div>
+    <div class="opts"><button>$n$</button><button>$K$</button><button>$n-K$</button><button>1</button></div>
+    <div class="why">Cyclic property: $\text{tr}((X'X)^{-1}X'X)=\text{tr}(I_K)=K$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>The $(2,3)$ element of $X'X$ is</div>
+    <div class="opts"><button>$\sum_ix_{i2}x_{i3}$</button><button>$\sum_ix_{2i}x_{3i}$</button><button>$x_{23}$</button><button>$\bar x_2\bar x_3$</button></div>
+    <div class="why">Row 2 of $X'$ is column 2 of $X$; multiply it by column 3 of $X$.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>If $A$ is symmetric and idempotent with trace 7, then</div>
+    <div class="opts"><button>$A=7I$</button><button>$\det(A)=7$</button><button>$A$ is $7\times7$</button><button>$\text{rank}(A)=7$</button></div>
+    <div class="why">Fact A4: rank equals trace.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>$X'X$ for a model with constant has top-left entry</div>
+    <div class="opts"><button>1</button><button>$n$</button><button>$K$</button><button>$\bar x$</button></div>
+    <div class="why">It is $\sum_i1\cdot1=n$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,181 @@
+<!-- ============ 24 THE F-TEST: J RESTRICTIONS AT ONCE ============ -->
+<section id="s24">
+<div class="sec-head"><span class="num">24</span><h2>The F-test: J restrictions at once</h2><span class="sub">lecture 8, slides 2–7</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> From one restriction to many<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>With $J$ restrictions, $m$ is a vector and we use the quadratic form. If $\sigma^2$ is known it is $\chi^2_J$. If it is unknown, put $s^2$ and divide by $J$: an $F_{J,n-K}$. Large values mean $m$ is far from zero, so we reject only in the <b>right tail</b>.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The statistic<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>σ² known:</b></p>
+  $$(Rb-q)'\big(\sigma^2R(X'X)^{-1}R'\big)^{-1}(Rb-q)\ \overset{H_0}{\sim}\ \chi^2_J$$
+  <p><b>σ² unknown:</b></p>
+  $$\boxed{F=\frac{(Rb-q)'\big(s^2R(X'X)^{-1}R'\big)^{-1}(Rb-q)}J\ \overset{H_0}{\sim}\ F_{J,\,n-K}}$$
+  <p>Reject $H_0:R\beta=q$ if $F&gt;\bar F$, the upper 5% quantile of $F_{J,n-K}$.</p>
+  </div>
+  <div>
+  <p><b>Why $F$:</b> divide numerator and denominator by $\sigma^2$:</p>
+  $$F=\frac{(Rb-q)'(\sigma^2R(X'X)^{-1}R')^{-1}(Rb-q)/J}{\dfrac{e'e}{\sigma^2}\Big/(n-K)}\overset D=\frac{\chi^2_J/J}{\chi^2_{n-K}/(n-K)}$$
+  <p>Numerator: function of $b$. Denominator: function of $s^2$. Independent (module 22). Ratio of independent average chi-squares = $F_{J,n-K}$. The unknown $\sigma^2$ cancels.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">LINK</span> $F$ and $t$: for $J=1$, $F=t^2$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>With one restriction, $F=\dfrac{(Rb-q)^2}{s^2R(X'X)^{-1}R'}=t^2$ and $F_{1,n-K}=(t_{n-K})^2$. The critical values match: $3.182^2=10.13=\bar F_{1,3}$. So a <b>two-sided</b> $t$-test and the $F$-test give the same answer. The $t$ keeps the sign, so use it for <b>one-sided</b> alternatives.</p>
+  </div>
+  <div>
+  <p><b>Why not $J$ separate t-tests?</b> (1) Each has size 5%, so the chance that at least one rejects a true joint null exceeds 5%. (2) They ignore the correlation among the $b_k$: with collinear regressors each $t$ can be small while $F$ is huge.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> The F distribution and its right tail<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$J$ <input type="range" id="ft_j" min="1" max="12" step="1" value="2"> <span class="val" id="ft_j_v">2</span></label>
+    <label>$n-K$ <input type="range" id="ft_d" min="2" max="200" step="1" value="26"> <span class="val" id="ft_d_v">26</span></label>
+    <label>size (%) <input type="range" id="ft_a" min="1" max="20" step="1" value="5"> <span class="val" id="ft_a_v">5</span></label>
+    <label>observed $F$ <input type="range" id="ft_f" min="0" max="12" step="0.05" value="2.00"> <span class="val" id="ft_f_v">2.00</span></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="ftsvg" viewBox="0 0 400 230"></svg><figcaption>pdf of $F_{J,n-K}$. Red: rejection region. Amber: the observed statistic.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="ftread" aria-live="polite"></div>
+  <p><b>Try this.</b> $F$ is never negative: a squared distance. Its mean is near 1 under $H_0$. As $n-K$ grows, $J\cdot F$ approaches $\chi^2_J$: e.g. $2\cdot\bar F_{2,\infty}=5.99$. With $J=1$ compare $\sqrt{\bar F}$ with the $t$ critical value.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">RUNNING EXAMPLE · joint test of β₁ = 0 and β₂ = 1</div>
+  <div class="body">
+  <p>$R=I_2$, $q=(0,1)'$, $m=(1.3,-0.1)'$, $J=2$, $n-K=3$, $s^2=0.6333$. $(R(X'X)^{-1}R')^{-1}=X'X$, so</p>
+  $$F=\frac{m'X'Xm}{J\,s^2}=\frac{5.1}{2\cdot0.6333}=\mathbf{4.03}&lt;\bar F_{2,3}=9.55\ \Rightarrow\ \textbf{do not reject.}$$
+  <p>(Module 19 computed $m'X'Xm=5.1$.)</p>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">ES_TESTING DATA · are both slopes zero?</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$R=\begin{bmatrix}0&1&0\\0&0&1\end{bmatrix}$, $q=0$, $m=(0.4,0.9)'$, $J=2$, $n-K=26$, $s^2=20$.</p>
+  <p>$R(X'X)^{-1}R'=\frac1{3900}\begin{bmatrix}80&-10\\-10&50\end{bmatrix}$. Its inverse is $\begin{bmatrix}50&10\\10&80\end{bmatrix}$ (determinant of the block $=80\cdot50-100=3900$; divide and the 3900s cancel).</p>
+  </div>
+  <div>
+  $$m'\begin{bmatrix}50&10\\10&80\end{bmatrix}m=[0.4\ 0.9]\begin{bmatrix}29\\76\end{bmatrix}=11.6+68.4=80$$
+  $$F=\frac{80}{2\cdot20}=\mathbf{2.00}&lt;\bar F_{2,26}=3.37\ \Rightarrow\ \text{do not reject.}$$
+  <p>Individual $t$'s: $0.4/0.6405=0.62$ and $0.9/0.5064=1.78$, also insignificant.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">USEFUL</span> Three special cases of $F$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>case</th><th>$R,q$</th><th>shortcut</th></tr>
+    <tr><td>one restriction</td><td>$J=1$</td><td>$F=t^2$</td></tr>
+    <tr><td><b>overall significance</b> $\beta_2=\dots=\beta_K=0$</td><td>$J=K-1$</td><td>$F=\dfrac{R^2/(K-1)}{(1-R^2)/(n-K)}$</td></tr>
+    <tr><td>excluding $L$ regressors</td><td>$J=L$</td><td>$F=\dfrac{(R^2_{big}-R^2_{small})/L}{(1-R^2_{big})/(n-K)}$</td></tr>
+  </table>
+  <p>The $R^2$ versions are beyond the slides; they give the same number as the slide formula. Running example: $\frac{0.81/1}{0.19/3}=12.79=3.576^2$ ✓.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">FIGURE</span> What to draw in the exam (W8 Part 2, question 3)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 560 210">
+    <line x1="40" y1="165" x2="530" y2="165" stroke="var(--border2)"/><line x1="40" y1="15" x2="40" y2="165" stroke="var(--border2)"/>
+    <path d="M40 30 C 80 45, 120 85, 190 118 C 250 142, 320 155, 520 163" fill="none" stroke="var(--text)" stroke-width="2"/>
+    <path d="M330 154 C 390 159, 450 161, 520 163 L520 165 L330 165 Z" fill="var(--red)" opacity=".55"/>
+    <line x1="330" y1="150" x2="330" y2="172" stroke="var(--red)" stroke-width="2"/>
+    <text x="330" y="188" class="svgtxt r" text-anchor="middle">5.99 = χ²₂ 95% quantile</text>
+    <text x="180" y="188" class="svgtxt g" text-anchor="middle">do not reject H₀</text><path d="M40 174 H326" stroke="var(--green)" stroke-width="2"/>
+    <text x="445" y="142" class="svgtxt r" text-anchor="middle">area 5% · reject H₀</text><path d="M334 174 H520" stroke="var(--red)" stroke-width="2"/>
+    <text x="150" y="60" class="svgtxt w">pdf of (Rb−q)′(σ²R(X′X)⁻¹R′)⁻¹(Rb−q) under H₀: χ² with J = 2</text>
+    <text x="34" y="180" class="svgtxt" text-anchor="end">0</text>
+  </svg>
+  <figcaption>For J = 2 the χ² density is exponential: it starts at ½ and falls. For J ≥ 3 it has a hump. Label: axis (the statistic), the distribution under H₀, the critical value, both regions, the 5% area, and that the rejection region is only on the right.</figcaption>
+  </figure>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Set up and decide</div>
+<div class="prob">
+  <p>$n=50$, $K=4$. $H_0:\beta_3=0,\beta_4=0$. $m=(0.6,-0.4)'$, $s^2R(X'X)^{-1}R'=\begin{bmatrix}0.10&0.02\\0.02&0.05\end{bmatrix}$. Test at 5% ($\bar F_{2,46}=3.20$).</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\det=0.005-0.0004=0.0046$; inverse $=\frac1{0.0046}\begin{bmatrix}0.05&-0.02\\-0.02&0.10\end{bmatrix}$. $m'(\cdot)m=\frac{0.05\cdot0.36+2\cdot0.02\cdot0.24+0.10\cdot0.16}{0.0046}=\frac{0.018+0.0096+0.016}{0.0046}=9.478$. $F=4.74&gt;3.20$ ⇒ reject.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>From R²</div>
+<div class="prob">
+  <p>$n=120$, $K=4$ (constant + 3), $R^2=0.09$. Test that all slopes are zero at 5% ($\bar F_{3,116}=2.68$).</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$F=\frac{0.09/3}{0.91/116}=\frac{0.03}{0.007845}=3.82&gt;2.68$ ⇒ reject. A small $R^2$ can still be significant when $n$ is large.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s24">
+  <div class="bar"><span class="pill g">QUICK TEST</span> F-test<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>Under $H_0$ with $\sigma^2$ unknown, the $F$-statistic for $J$ restrictions follows</div>
+    <div class="opts"><button>$F_{n-K,J}$</button><button>$F_{J,n-K}$</button><button>$\chi^2_J$</button><button>$t_{n-K}$</button></div>
+    <div class="why">Numerator d.f. first.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">2</span>We reject for</div>
+    <div class="opts"><button>small $F$</button><button>$\lvert F\rvert&gt;1.96$</button><button>both tails</button><button>large $F$ only</button></div>
+    <div class="why">$F$ measures squared distance from $H_0$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>W8 Part 2 ($\sigma^2$ known, two restrictions): the statistic is distributed as</div>
+    <div class="opts"><button>$\chi^2_2$</button><button>$F_{2,T-3}$</button><button>$N(0,1)$</button><button>$t_{T-3}$</button></div>
+    <div class="why">Known $\sigma^2$: no need for $s^2$, no $F$.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">4</span>$t=-2.5$ for a single restriction. The $F$-statistic is</div>
+    <div class="opts"><button>−2.5</button><button>2.5</button><button>6.25</button><button>5</button></div>
+    <div class="why">$F=t^2$ when $J=1$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>Two regressors are highly correlated: both $t$-stats are small but $F$ for their joint exclusion is large. This</div>
+    <div class="opts"><button>is impossible</button><button>is typical of collinearity</button><button>means OLS is biased</button><button>means a calculation error</button></div>
+    <div class="why">Together they matter; the data cannot say which one.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,152 @@
+<!-- ============ 22 Χ², INDEPENDENCE, AND THE DISTRIBUTION OF S² ============ -->
+<section id="s22">
+<div class="sec-head"><span class="num">22</span><h2>χ², independence, and the distribution of s²</h2><span class="sub">lecture 7, slides 11–16</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Two ingredients for the t distribution<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>To get the distribution of $t=b_1/\sqrt{s^2R(X'X)^{-1}R'}$ we need (1) the distribution of $s^2$, which is an "average chi-square", and (2) the fact that $b$ and $s^2$ are independent. Both follow from properties of $M$.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The chi-square in one panel<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$Z\sim N(0,1)\Rightarrow Z^2\sim\chi^2_1$. If $Z_1,\dots,Z_k$ are <b>i.i.d.</b> $N(0,1)$, then $Z'Z=\sum Z_i^2\sim\chi^2_k$.</p>
+  <p><b>Check</b> (slide 12): $\mathbb E[Z'Z]=k$ and $\mathbb V[Z'Z]=2k$.</p>
+  <ol class="steps">
+    <li>$\mathbb E[Z_i^2]=\mathbb V[Z_i]+0=1$, so $\mathbb E[Z'Z]=k$.</li>
+    <li>$\mathbb V[Z_i^2]=\mathbb E[Z_i^4]-1=3-1=2$, and independence gives $\mathbb V[Z'Z]=2k$.</li>
+  </ol>
+  <p>"Average chi-square" $\chi^2_k/k$: mean 1, variance $2/k\to0$.</p>
+  </div>
+  <div>
+  <div class="ctrl">
+    <label>$k$ <input type="range" id="ch_k" min="1" max="40" step="1" value="3"> <span class="val" id="ch_k_v">3</span></label>
+    <label><input type="checkbox" id="ch_av"> average: $\chi^2_k/k$</label>
+  </div>
+  <figure><svg id="chsvg" viewBox="0 0 360 200"></svg><figcaption>pdf of $\chi^2_k$ (thick) with $k=1,2,5,10$ in the background. The 5% right tail is red.</figcaption></figure>
+  <div class="readout" id="chread" aria-live="polite"></div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">STEP 1</span> $s^2/\sigma^2$ is an average chi-square<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li>$\dfrac{e'e}{\sigma^2}=\dfrac{\varepsilon'M\varepsilon}{\sigma^2}=\Big(\dfrac\varepsilon\sigma\Big)'M\Big(\dfrac\varepsilon\sigma\Big)$ with $\varepsilon/\sigma\sim N(0,I_n)$.</li>
+    <li>Without $M$: $(\varepsilon/\sigma)'(\varepsilon/\sigma)\sim\chi^2_n$.</li>
+    <li>With $M$, symmetric idempotent of rank $n-K$ (S3): $\dfrac{e'e}{\sigma^2}\sim\chi^2_{n-K}$.</li>
+    <li>Therefore
+    $$\boxed{\frac{s^2}{\sigma^2}=\frac{e'e}{\sigma^2(n-K)}\sim\frac{\chi^2_{n-K}}{n-K}}$$</li>
+  </ol>
+  </div>
+  <div>
+  <p><b>Intuition.</b> $M$ "contracts" the space: $\varepsilon/\sigma$ lives in $n$ dimensions, $M(\varepsilon/\sigma)$ in $n-K$. So only $n-K$ independent squared normals remain.</p>
+  <p><b>Sanity checks.</b> Mean: $\mathbb E[s^2]/\sigma^2=\frac{n-K}{n-K}=1$ ✓ unbiased. Variance: $\mathbb V[s^2\mid X]=\dfrac{2\sigma^4}{n-K}\to0$: $s^2$ concentrates on $\sigma^2$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">STEP 2</span> $b$ and $s^2$ are independent<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li>$\text{Cov}[b,e\mid X]=\mathbb E[(b-\beta)(M\varepsilon-0)'\mid X]$</li>
+    <li>$=\mathbb E[(X'X)^{-1}X'\varepsilon\varepsilon'M'\mid X]$ using $b-\beta=(X'X)^{-1}X'\varepsilon$</li>
+    <li>$=(X'X)^{-1}X'(\sigma^2I_n)M'=\sigma^2(X'X)^{-1}X'M=0$ because $X'M=0$</li>
+    <li>$b$ and $e$ are <b>jointly normal</b> (both linear in $\varepsilon$), so zero covariance ⇒ <b>independent</b></li>
+    <li>$s^2=e'e/(n-K)$ is a function of $e$ ⇒ $b$ and $s^2$ independent $\blacksquare$</li>
+  </ol>
+  </div>
+  <div>
+  <p><b>Dimension check:</b> $\text{Cov}[b,e\mid X]$ is $K\times n$.</p>
+  <p><b>Geometry:</b> $b$ depends on the part of $\varepsilon$ <i>on the floor</i>, $e$ on the part <i>perpendicular to it</i>. For a spherical normal, perpendicular parts are independent.</p>
+  <div class="note "><div class="t">Needed facts</div>
+  <p>Independence ⇒ zero covariance, always. Zero covariance ⇒ independence, <b>only for (jointly) normal</b> variables. If $Y_1,Y_2$ are independent so are $h(Y_1),g(Y_2)$ for any functions.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Zero covariance does not imply independence<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>points <input type="range" id="zc_n" min="50" max="800" step="50" value="300"> <span class="val" id="zc_n_v">300</span></label>
+    <span class="btns">
+      <button data-do="zcNew">new draw</button>
+    </span>
+  </div>
+  <figure><svg id="zcsvg" viewBox="0 0 720 200"></svg><figcaption>Four pairs with $\text{Cov}[Y_1,Y_2]=0$, as on slide 15: independent normals; $Y_2=Y_1^2$; $Y_2=-Y_1^2$; a wave in $Y_1$. Only the first pair is independent.</figcaption></figure>
+  <div class="readout" id="zcread" aria-live="polite"></div>
+  <p>Knowing $Y_1$ tells you $Y_2$ almost exactly in the last three, yet the covariance is zero: covariance sees only <b>linear</b> dependence. Proof for $Y_2=Y_1^2$ with $Y_1\sim N(0,1)$: $\text{Cov}=\mathbb E[Y_1^3]-\mathbb E[Y_1]\mathbb E[Y_1^2]=0-0=0$.</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Distribution of e′e</div>
+<div class="prob">
+  <p>$n=25$, $K=5$, $\sigma^2=4$. What are the distribution, mean and variance of $e'e$? Of $s^2$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$e'e/4\sim\chi^2_{20}$, so $e'e\sim4\chi^2_{20}$: mean 80, variance $16\cdot40=640$. $s^2=e'e/20$: mean 4, variance $640/400=1.6=2\sigma^4/(n-K)=32/20$ ✓.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Is it chi-square?</div>
+<div class="prob">
+  <p>$Z\sim N(0,I_3)$. Which are chi-square, with how many d.f.? (i) $Z_1^2+Z_2^2$; (ii) $(Z_1+Z_2)^2$; (iii) $(Z_1+Z_2)^2/2$; (iv) $\sum(Z_i-\bar Z)^2$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(i) $\chi^2_2$. (ii) No: $Z_1+Z_2\sim N(0,2)$, so it is $2\chi^2_1$. (iii) $\chi^2_1$. (iv) $Z'MZ$ with $M=I-\frac13\mathbf1\mathbf1'$, rank 2: $\chi^2_2$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s22">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Chi-square and independence<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>$e'e/\sigma^2$ under normal errors is</div>
+    <div class="opts"><button>$\chi^2_n$</button><button>$\chi^2_K$</button><button>$\chi^2_{n-K}$</button><button>$F_{K,n-K}$</button></div>
+    <div class="why">$\text{rank}(M)=n-K$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>$\text{Cov}[b,e\mid X]=0$ because</div>
+    <div class="opts"><button>errors are independent</button><button>$X'M=0$</button><button>$\mathbb E[e]=0$</button><button>$M$ is idempotent</button></div>
+    <div class="why">$\sigma^2(X'X)^{-1}X'M$.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>From zero covariance to independence of $b$ and $e$ we used</div>
+    <div class="opts"><button>large $n$</button><button>homoskedasticity only</button><button>$\text{rank}(X)=K$</button><button>joint normality</button></div>
+    <div class="why">For non-normal errors they would be uncorrelated but not necessarily independent.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">4</span>$Y_1\sim N(0,1)$ and $Y_2=Y_1^2$ are</div>
+    <div class="opts"><button>uncorrelated and dependent</button><button>correlated</button><button>independent</button><button>jointly normal</button></div>
+    <div class="why">$\mathbb E[Y_1^3]=0$, but $Y_2$ is a function of $Y_1$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>$\mathbb V[\chi^2_{10}]$ is</div>
+    <div class="opts"><button>10</button><button>20</button><button>100</button><button>1</button></div>
+    <div class="why">$2k$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

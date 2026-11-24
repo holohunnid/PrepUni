@@ -1,0 +1,105 @@
+<!-- ============ 36 EVERY SHEET AND EVERY SLIDE QUESTION, WITH ANSWERS ============ -->
+<section id="s36">
+<div class="sec-head"><span class="num">36</span><h2>Every sheet and every slide question, with answers</h2><span class="sub">Set 1 · HW2 · W3 · W6 · W8 · W10 · ES_Testing · slides</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Nothing from your files is left unsolved<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>This module indexes all exercises in the material and answers every open question on the slides, so you can revise by covering the right-hand column. W8 is written out in full as an exam answer.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">INDEX</span> Teaching-assistant sheets and tutorials<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>sheet</th><th>exercise</th><th>key result</th><th>solved in</th></tr>
+    <tr><td>Exercise Set 1</td><td>$x_1=(2,3)'$, $x_2=(-1,2)'$: independent? orthogonal? basis? solve for $b$</td><td>yes · no · yes · $b=(-\frac17,-\frac97)'$</td><td>02</td></tr>
+    <tr><td>Homework 2, 1.2 b</td><td>$\partial(b'Ab)/\partial b$, $A$ not symmetric</td><td>$(A+A')b=4\begin{bmatrix}1&1\\1&1\end{bmatrix}b$</td><td>04</td></tr>
+    <tr><td>W3 (Greene) 1</td><td>$SSE(c)-SSE(b)=(c-b)'X'X(c-b)\ge0$</td><td>add and subtract $b$; $X'e=0$</td><td>08</td></tr>
+    <tr><td>W3 (Greene) 2</td><td>combine two unbiased estimators</td><td>weights $\propto1/v_j$</td><td>05</td></tr>
+    <tr><td>W3 (Greene) 3</td><td>exponential errors</td><td>slope unbiased, $\mathbb E[b_1]=\alpha+\lambda$</td><td>07</td></tr>
+    <tr><td>W6 ex. 1</td><td>$\sum e_i=0$, $\sum x_ie_i=0$, $a=\bar y-b\bar x$, slope formula</td><td>normal equations</td><td>09</td></tr>
+    <tr><td>W6 ex. 2 (L3 slide 6)</td><td>$b_2=\widehat{\text{Cov}}/\hat{\mathbb V}$</td><td>write out $X'y-X'Xb=0$</td><td>09</td></tr>
+    <tr><td>W8</td><td>exam-level: linear model and joint test</td><td>below</td><td>36</td></tr>
+    <tr><td>W10 ex. 1</td><td>test slope $=3$, $\sigma^2=2$ / $20$</td><td>$-3.23$ reject / $-1.02$ do not</td><td>20</td></tr>
+    <tr><td>ES_Testing</td><td>test sum of slopes $=1$</td><td>$t=0.40$, $t_{26}$: do not reject</td><td>23</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">W8 PART 1 · LINEAR MODEL · complete answer</div>
+  <div class="body">
+  <p>$C_t=\gamma_0+\gamma_1I_t+\gamma_2r_t+\varepsilon_t$, $t=1,\dots,T$; $\varepsilon_t\sim\text{i.i.d.}(0,\sigma^2)$, distribution unknown, independent of $(I_t,r_t)'$.</p>
+  <ol class="steps">
+    <li><b>Matrix form.</b> $y=(C_1,\dots,C_T)'$ is $T\times1$; $X$ is $T\times3$ with rows $(1,I_t,r_t)$; $\beta=(\gamma_0,\gamma_1,\gamma_2)'$ is $3\times1$; $\varepsilon=(\varepsilon_1,\dots,\varepsilon_T)'$ is $T\times1$. Then $y=X\beta+\varepsilon$.</li>
+    <li><b>BLUE.</b> The OLS estimator $\hat\beta=(X'X)^{-1}X'y$. It is linear in $y$; unbiased since $\mathbb E[\varepsilon\mid X]=0$; and, since $\mathbb V[\varepsilon\mid X]=\sigma^2I_T$ and $\text{rank}(X)=3$, by the Gauss–Markov theorem no other linear unbiased estimator has a smaller covariance matrix (the difference is non-negative definite).</li>
+    <li><b>Normal errors: would the answer change? NO.</b> Gauss–Markov uses only the first two moments of $\varepsilon$ given $X$ and full rank. Normality is one special case.</li>
+    <li><b>$\mathbb E[e]$.</b> $\mathbb E[e\mid X]=\mathbb E[y\mid X]-X\mathbb E[\hat\beta\mid X]=X\beta-X\beta=0$, so $\mathbb E[e]=\mathbb E[\mathbb E[e\mid X]]=0_{T\times1}$. (Or $e=M\varepsilon$.)</li>
+  </ol>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">W8 PART 2 · HYPOTHESIS TESTING · complete answer</div>
+  <div class="body">
+  <p>$\varepsilon_t\sim\text{i.i.d. }N(0,\sigma^2)$, $\sigma^2$ <b>known</b>. Joint null: $\gamma_0=0$ and $\gamma_1=\gamma_2$.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li><b>$H_0:R\beta=q$:</b>
+    $$\underbrace{\begin{bmatrix}1&0&0\\0&1&-1\end{bmatrix}}_{R\ (2\times3)}\begin{bmatrix}\gamma_0\\\gamma_1\\\gamma_2\end{bmatrix}=\underbrace{\begin{bmatrix}0\\0\end{bmatrix}}_{q\ (2\times1)}$$
+    versus $H_A:R\beta\neq q$. $J=2$.</li>
+    <li><b>Statistic.</b> Let $b$ be OLS and $m=Rb-q$. Normality gives $b\mid X\sim N(\beta,\sigma^2(X'X)^{-1})$, so under $H_0$ $m\mid X\sim N(0,\sigma^2R(X'X)^{-1}R')$ and
+    $$(Rb-q)'\big(\sigma^2R(X'X)^{-1}R'\big)^{-1}(Rb-q)\sim\chi^2_2 .$$
+    It can be computed because $\sigma^2$ is known. (Otherwise: $F_{2,T-3}$ with $s^2$.)</li>
+  </ol>
+  </div>
+  <div>
+  <ol class="steps" style="counter-reset:s 2">
+    <li><b>Graph.</b> Draw the $\chi^2_2$ density: starts at $0.5$ at zero and decreases. Mark the critical value $5.99$ (95% quantile). To the left: "do not reject $H_0$". To the right, shade 5%: "reject $H_0$". See the figure in module 24.</li>
+    <li><b>Rule.</b> Reject if the statistic exceeds $5.99$. Only large values are evidence against $H_0$, because the statistic is a squared length.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">SLIDES</span> The open questions on the slides, answered<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>slide</th><th>question</th><th>answer</th></tr>
+    <tr><td>L1 p.4</td><td>Is $\beta_2=0$? Why relevant?</td><td>whether the market matters for IBM; needs a test (06)</td></tr>
+    <tr><td>L1 p.4</td><td>our portfolio has $\beta_2\gg0$?</td><td>large market exposure: hedge it (11)</td></tr>
+    <tr><td>L1 p.7</td><td>problem with stringent assumptions?</td><td>less general; conclusions fail if they fail (07)</td></tr>
+    <tr><td>L1 p.11</td><td>are we predicting next month's IBM return?</td><td>no: same-month regressor (06)</td></tr>
+    <tr><td>L2 p.3</td><td>where is the linear model?</td><td>behind the dots: it is $\mathbb E[y_i\mid X]$, unobserved (06)</td></tr>
+    <tr><td>L2 p.4</td><td>why do points deviate from the red line?</td><td>because of $\varepsilon_i$ (06)</td></tr>
+    <tr><td>L2 p.7</td><td>dimension of $SSE$, $(y-Xb)'$?</td><td>$1\times1$; $1\times n$ (08)</td></tr>
+    <tr><td>L2 p.10</td><td>last point far below?</td><td>the line tilts towards it (10)</td></tr>
+    <tr><td>L2 p.11</td><td>no intercept?</td><td>through the origin; $\beta_2$ estimated with bias unless $\beta_1=0$ or $\bar x=0$ (10)</td></tr>
+    <tr><td>L2 p.18</td><td>how to trade $\alpha^{IBM}&gt;0$?</td><td>long IBM, short $\beta^{IBM}$ market (11)</td></tr>
+    <tr><td>L3 p.10</td><td>show $\hat y'e=0$</td><td>$b'X'e=0$ (13)</td></tr>
+    <tr><td>L3 p.12</td><td>$e$ in exact / worst fitting?</td><td>$e=0$ / $e=y$ (13)</td></tr>
+    <tr><td>L4 p.15</td><td>dimension of $e'e$? why the trace?</td><td>$1\times1$; a scalar equals its trace, then cycle (17)</td></tr>
+    <tr><td>L5 p.6</td><td>$R^2$ under $\beta_2=\beta_3=\beta_4=0$?</td><td>0 in the population, near 0 in the sample (14)</td></tr>
+    <tr><td>L5 p.10</td><td>restrictions in d)?</td><td>3 (18)</td></tr>
+    <tr><td>L5 p.11–12</td><td>Cobb–Douglas; real rate</td><td>$R=[0\,1\,1],q=1$; $R=[0\,1\,1\,0],q=0$ (18)</td></tr>
+    <tr><td>L6 p.9</td><td>$1.9$: accept or reject?</td><td>one-sided 5%: reject; two-sided 5%: do not (20)</td></tr>
+    <tr><td>L7 p.7</td><td>size down: Type II?</td><td>goes up (21)</td></tr>
+    <tr><td>L7 p.12</td><td>check $\mathbb E[Z'Z]=k,\mathbb V[Z'Z]=2k$</td><td>(22)</td></tr>
+    <tr><td>L8 p.2</td><td>how many restrictions?</td><td>3; 2; $K-1$ (18)</td></tr>
+    <tr><td>L8 p.13</td><td>why invest in none?</td><td>10 expected by luck, 7 found (26)</td></tr>
+    <tr><td>TS p.6–7</td><td>distributions of $Y_t$?</td><td>$N\big(\frac{\phi_0}{1-\phi_1},\frac{\sigma_\varepsilon^2}{1-\phi_1^2}\big)$; $N(\phi_0+\phi_1y_{t-1},\sigma_\varepsilon^2)$ (27, 28)</td></tr>
+    <tr><td>TS p.8</td><td>what's special about the limit?</td><td>independent of $y_t$, equals the unconditional mean (28)</td></tr>
+    <tr><td>TS p.10</td><td>$\rho(0)$?</td><td>1 (29)</td></tr>
+    <tr><td>TS p.12</td><td>random walk: $\mathbb E,\mathbb V$?</td><td>from $Y_0$: $Y_0$ and $t\sigma_\varepsilon^2$; with infinite past not finite (29)</td></tr>
+    <tr><td>TS p.14</td><td>how to estimate AR(p)?</td><td>OLS on $p$ lags (30)</td></tr>
+    <tr><td>GARCH p.23</td><td>problem with VaR?</td><td>ignores how large losses beyond it are (35)</td></tr>
+  </table>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,136 @@
+<!-- ============ 02 VECTORS, INDEPENDENCE & SPAN ============ -->
+<section id="s2">
+<div class="sec-head"><span class="num">02</span><h2>Vectors, independence & span</h2><span class="sub">Exercise Set 1, fully solved</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Why a regression course starts with arrows<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>OLS answers the question: <b>which combination of the columns of $X$ comes closest to $y$?</b> "Combination of columns" is linear algebra. This module is Exercise Set 1: independence, orthogonality, basis, and solving $\hat y=x_1b_1+x_2b_2$ for the weights. In lecture 3 the same equation returns with $n$ rows in place of 2, and then it usually has no exact solution, which is why we project.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Four words you must be able to define<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>word</th><th>definition</th><th>how to check</th><th>why the course needs it</th></tr>
+    <tr><td><b>linear combination</b></td><td>$x_1b_1+\dots+x_Kb_K=Xb$</td><td>—</td><td>fitted values $\hat y=Xb$ are one</td></tr>
+    <tr><td><b>linearly independent</b></td><td>no column is a combination of the others: $Xb=0$ only for $b=0$</td><td>two vectors: neither is a multiple of the other; square matrix: $\det\neq0$; in general $\text{rank}(X)=K$</td><td>assumption A1b: otherwise $(X'X)^{-1}$ does not exist</td></tr>
+    <tr><td><b>orthogonal</b></td><td>$x_1'x_2=\sum_i x_{i1}x_{i2}=0$</td><td>compute the inner product</td><td>$e\perp X$ defines OLS</td></tr>
+    <tr><td><b>span / basis</b></td><td>span = all linear combinations. Basis of $\mathbb R^n$ = $n$ independent vectors</td><td>count them, then check independence</td><td>the column space of $X$ is what $\hat y$ lives in</td></tr>
+  </table>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <div class="note tip"><div class="t">Independent and orthogonal are not the same</div>
+  <p>Orthogonal non-zero vectors are always independent. Independent vectors need not be orthogonal: they only have to point in different directions. Orthogonality is a right angle, independence is any angle other than 0° or 180°.</p>
+  </div>
+  </div>
+  <div>
+  <div class="note "><div class="t">Inner product and length</div>
+  <p>$x'x=\sum x_i^2=\lVert x\rVert^2$ is the squared length. The angle satisfies $\cos\theta=\dfrac{x_1'x_2}{\lVert x_1\rVert\,\lVert x_2\rVert}$. If both vectors are de-meaned, $\cos\theta$ <b>is the sample correlation</b>.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXERCISE SET 1 · all five parts</div>
+  <div class="body">
+  <p>Consider $x_1=\begin{bmatrix}2\\3\end{bmatrix}$ and $x_2=\begin{bmatrix}-1\\2\end{bmatrix}$ in $\mathbb R^2$.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li><b>Draw them.</b> Arrows from $(0,0)$ to $(2,3)$ and from $(0,0)$ to $(-1,2)$ (figure below).</li>
+    <li><b>Independent?</b> Yes. Neither is a multiple of the other: $-1/2\neq2/3$. Equivalently $\det\begin{bmatrix}2&-1\\3&2\end{bmatrix}=2\cdot2-(-1)\cdot3=7\neq0$.</li>
+    <li><b>Orthogonal?</b> No: $x_1'x_2=2\cdot(-1)+3\cdot2=4\neq0$.</li>
+    <li><b>Basis of $\mathbb R^2$?</b> Yes: two independent vectors in a space of dimension 2.</li>
+  </ol>
+  </div>
+  <div>
+  <ol class="steps" style="counter-reset:s 4">
+    <li><b>Find $b$ with $\hat y=x_1b_1+x_2b_2$ for $\hat y=(1,-3)'$.</b> Write it as a system and invert:
+    $$\begin{bmatrix}1\\-3\end{bmatrix}=\begin{bmatrix}2&-1\\3&2\end{bmatrix}\begin{bmatrix}b_1\\b_2\end{bmatrix}\ \Rightarrow\ b=\frac17\begin{bmatrix}2&1\\-3&2\end{bmatrix}\begin{bmatrix}1\\-3\end{bmatrix}=\frac17\begin{bmatrix}-1\\-9\end{bmatrix}$$
+    so $b_1=-\frac17=-0.1429$, $b_2=-\frac97=-1.2857$.</li>
+    <li><b>Check.</b> $2(-0.1429)-(-1.2857)=1$ ✓ and $3(-0.1429)+2(-1.2857)=-3$ ✓.</li>
+  </ol>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Reach the target with two arrows<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$b_1$ <input type="range" id="vc_1" min="-2" max="2" step="0.01" value="1.00"> <span class="val" id="vc_1_v">1.00</span></label>
+    <label>$b_2$ <input type="range" id="vc_2" min="-2" max="2" step="0.01" value="0.50"> <span class="val" id="vc_2_v">0.50</span></label>
+    <label>vectors <select id="vc_k"><option value="set">Exercise Set 1</option><option value="orth">orthogonal pair</option><option value="dep">dependent pair</option></select></label>
+    <span class="btns">
+      <button data-do="vcSolve">solve for b</button>
+      <button data-do="vcReset">reset</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="vcsvg" viewBox="0 0 360 300"></svg><figcaption>Green and blue: the two columns. The dashed path adds $b_1x_1$ then $b_2x_2$. Amber: the result. Red cross: the target $(1,-3)'$.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="vcread" aria-live="polite"></div>
+  <p><b>Try this.</b> Move the sliders by hand to hit the target, then press "solve". Switch to the <b>dependent pair</b> $x_2=0.5\,x_1$: the result can only move along one line, so the target is out of reach and $\det=0$. That is exactly what breaks when assumption A1b fails. With the <b>orthogonal pair</b>, each weight can be found separately: $b_k=x_k'\hat y/x_k'x_k$. Remember that shortcut; it returns in module 09.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">check yourself</span>Independent or not?</div>
+<div class="prob">
+  <p>Are $(1,2,3)'$ and $(2,4,6)'$ independent? And $(1,1,1)'$ and $(1,2,3)'$? Do the last two form a basis of $\mathbb R^3$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>The first pair is dependent (the second is twice the first). The second pair is independent. It is <b>not</b> a basis of $\mathbb R^3$: two vectors span only a plane. In regression terms: with $n=3$ and $K=2$ the column space of $X$ is a plane inside $\mathbb R^3$, and $y$ is usually off it.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">check yourself</span>The dummy-variable trap</div>
+<div class="prob">
+  <p>$X$ has three columns: ones, a dummy for "January to June" and a dummy for "July to December". Is $\text{rank}(X)=3$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>No. The two dummies add up to the column of ones, so $X_1-X_2-X_3=0$ is a non-trivial combination equal to zero. $\text{rank}(X)=2$, $X'X$ is singular and OLS has no unique solution. Drop one dummy (or the constant).</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s2">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Vectors<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>$x_1=(1,2)'$ and $x_2=(2,-1)'$ are</div>
+    <div class="opts"><button>dependent and orthogonal</button><button>independent and orthogonal</button><button>independent, not orthogonal</button><button>dependent, not orthogonal</button></div>
+    <div class="why">$x_1'x_2=2-2=0$: orthogonal. Orthogonal non-zero vectors are independent.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">2</span>Which statement is equivalent to "the $K$ columns of $X$ are linearly independent"?</div>
+    <div class="opts"><button>$X'X=I_K$</button><button>all columns are orthogonal</button><button>$n&gt;K$</button><button>$Xc=0$ implies $c=0$</button></div>
+    <div class="why">Independence says only the zero combination gives zero. $n\ge K$ is necessary but not sufficient, and $X'X=I$ would be orthonormal columns.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">3</span>How many vectors can a linearly independent set in $\mathbb R^4$ contain at most?</div>
+    <div class="opts"><button>2</button><button>3</button><button>4</button><button>any number</button></div>
+    <div class="why">The dimension of the space bounds the number of independent vectors.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">4</span>If $x_1'x_2=0$, the coefficients in $\hat y=x_1b_1+x_2b_2$ satisfy</div>
+    <div class="opts"><button>$b_1=x_1'\hat y/x_1'x_1$</button><button>$b_1=b_2$</button><button>$b_1=x_2'\hat y$</button><button>$b_1=0$</button></div>
+    <div class="why">Premultiply by $x_1'$: $x_1'\hat y=x_1'x_1b_1+0$. Orthogonality separates the problem.</div>
+  </div>
+  </div>
+</div>
+
+</section>

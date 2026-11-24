@@ -1,0 +1,190 @@
+<!-- ============ 29 AUTOCORRELATION, STATIONARITY & THE RANDOM WALK ============ -->
+<section id="s29">
+<div class="sec-head"><span class="num">29</span><h2>Autocorrelation, stationarity & the random walk</h2><span class="sub">time series deck, slides 10–12 · GARCH deck, slide 8</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> How long does the series remember?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The <b>autocorrelation function</b> (ACF) measures the correlation between the series and its own past, lag by lag. For an AR(1) it decays geometrically, $\rho(h)=\phi_1^h$. <b>Stationarity</b> means the mean and variance do not change over time. It is what makes averaging over time meaningful, and the random walk is the standard example of it failing.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DERIVATION</span> The ACF of an AR(1)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Set $\phi_0=0$, so $\mathbb E[Y_t]=0$; $\lvert\phi_1\rvert&lt;1$.</p>
+  <ol class="steps">
+    <li>$\text{Cov}[Y_{t+1},Y_t]=\mathbb E[Y_{t+1}Y_t]$ (means are zero)</li>
+    <li>$=\mathbb E\big[\mathbb E[Y_{t+1}Y_t\mid Y_t]\big]$ (tower)</li>
+    <li>$=\mathbb E\big[\mathbb E[(\phi_1Y_t+\varepsilon_{t+1})Y_t\mid Y_t]\big]=\mathbb E[\phi_1Y_t^2+Y_t\cdot0]$</li>
+    <li>$=\phi_1\mathbb E[Y_t^2]=\phi_1\mathbb V[Y_t]$</li>
+    <li>After recursive substitutions $\text{Cov}[Y_{t+h},Y_t]=\phi_1^h\,\mathbb V[Y_t]$</li>
+  </ol>
+  $$\boxed{\rho(h)=\frac{\text{Cov}[Y_{t+h},Y_t]}{\sqrt{\mathbb V[Y_{t+h}]\mathbb V[Y_t]}}=\phi_1^h}$$
+  </div>
+  <div>
+  <p>The last step uses stationarity: $\mathbb V[Y_{t+h}]=\mathbb V[Y_t]$.</p>
+  <p><b>Slide question:</b> $\rho(0)=1$ (correlation with itself, $\phi_1^0$).</p>
+  <p><b>"Recursive substitutions", shown:</b> $Y_{t+h}=\phi_1^hY_t+\varepsilon_{t+h}+\phi_1\varepsilon_{t+h-1}+\dots+\phi_1^{h-1}\varepsilon_{t+1}$. All those shocks come after $t$ and are independent of $Y_t$, so only $\phi_1^hY_t$ covaries.</p>
+  <p><b>Sample version</b> (GARCH deck; mean 0, variance 1):</p>
+  $$ACF(\ell)=\frac1{T-\ell}\sum_{t=1}^{T-\ell}y_ty_{t+\ell}$$
+  <p>$ACF(0)$ is the sample variance, $ACF(1)$ the sample covariance between $y_t$ and $y_{t+1}$. Note the divisor: only $T-\ell$ pairs exist.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Theoretical and sample ACF<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\phi_1$ <input type="range" id="ac_1" min="-0.95" max="0.99" step="0.02" value="0.70"> <span class="val" id="ac_1_v">0.70</span></label>
+    <label>$T$ <input type="range" id="ac_t" min="30" max="2000" step="10" value="300"> <span class="val" id="ac_t_v">300</span></label>
+    <span class="btns">
+      <button data-do="acNew">new sample</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="acsvg" viewBox="0 0 420 220"></svg><figcaption>Bars: sample ACF. Dots: $\phi_1^h$. Dashed: $\pm1.96/\sqrt T$, the band for an i.i.d. series.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="acread" aria-live="polite"></div>
+  <p><b>Try this.</b> With $\phi_1=0$ the bars stay inside the band about 95% of the time: that is the picture of daily <i>returns</i>. With $\phi_1\lt0$ the signs alternate. Small $T$: the sample ACF is noisy and biased downwards for persistent series.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Weak stationarity<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>A process is <b>(weakly) stationary</b> if its unconditional mean and variance <b>do not depend on $t$</b> and exist. (The full textbook definition adds: $\text{Cov}[Y_{t+h},Y_t]$ depends only on $h$.)</p>
+  <p>The AR(1) with $\lvert\phi_1\rvert&lt;1$ is stationary:</p>
+  $$\mathbb E[Y_t]=\frac{\phi_0}{1-\phi_1},\qquad\mathbb V[Y_t]=\frac{\sigma_\varepsilon^2}{1-\phi_1^2}$$
+  </div>
+  <div>
+  <p><b>Why we care.</b></p>
+  <ul>
+    <li><b>Inference:</b> the Law of Large Numbers and Central Limit Theorem apply, so time averages estimate moments.</li>
+    <li><b>Forecasting:</b> the forecast converges to a stable mean.</li>
+    <li><b>Finance:</b> prices are close to random walks (non-stationary); returns are close to stationary. Model returns.</li>
+  </ul>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">RANDOM WALK</span> "AR(1)" with $\phi_1=1$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$Y_t=Y_{t-1}+\varepsilon_t=Y_{t-h}+\sum_{j=0}^{h-1}\varepsilon_{t-j}$$
+  <p><b>Forecast:</b> $\mathbb E[Y_{t+h}\mid Y_t=y_t]=y_t$ for <b>every</b> $h\ge1$. The best forecast at any horizon is today's value.</p>
+  <p><b>Conditional variance:</b> $\mathbb V[Y_{t+h}\mid y_t]=h\sigma_\varepsilon^2$: grows without bound, sd grows like $\sqrt h$.</p>
+  </div>
+  <div>
+  <p><b>Slide question: $\mathbb E[Y_t]$ and $\mathbb V[Y_t]$?</b> Starting from a fixed $Y_0$:</p>
+  $$\mathbb E[Y_t]=Y_0,\qquad\mathbb V[Y_t]=t\,\sigma_\varepsilon^2$$
+  <p>The variance <b>depends on $t$</b>: not stationary. With the infinite past of the slide, $Y_t=\sum_{j=0}^\infty\varepsilon_{t-j}$ has <b>infinite variance</b> and the unconditional mean is not well defined: the formulas $\frac{\phi_0}{1-\phi_1}$ and $\frac{\sigma_\varepsilon^2}{1-\phi_1^2}$ divide by zero.</p>
+  <p><b>Shocks never die:</b> all Wold weights are 1.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Stationary or not? Fifty paths from the same start<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\phi_1$ <input type="range" id="rw_1" min="0.5" max="1" step="0.01" value="1.00"> <span class="val" id="rw_1_v">1.00</span></label>
+    <label>drift $\phi_0$ <input type="range" id="rw_d" min="-0.3" max="0.3" step="0.05" value="0.00"> <span class="val" id="rw_d_v">0.00</span></label>
+    <span class="btns">
+      <button data-do="rwNew">new paths</button>
+      <button data-do="rwSet9">0.9</button>
+      <button data-do="rwSet1">random walk</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="rwsvg" viewBox="0 0 420 240"></svg><figcaption>50 paths from $Y_0=0$. Red: ±1.96 sd of $Y_t$ across paths, theory.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="rwread" aria-live="polite"></div>
+  <p>The fan of the random walk opens like $\sqrt t$ for ever. At $\phi_1=0.9$ it opens and then stops at $\sigma_\varepsilon/\sqrt{1-0.81}=2.29\,\sigma_\varepsilon$. At 0.99 it looks like a random walk for a long time: near-unit-root series are hard to tell apart from random walks in short samples.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>ACF values</div>
+<div class="prob">
+  <p>$\phi_1=0.8$: $\rho(1),\rho(2),\rho(5)$. First lag at which $\rho\lt0.1$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$0.8,\ 0.64,\ 0.328$. $0.8^h&lt;0.1\Rightarrow h&gt;\ln0.1/\ln0.8=10.3$: lag 11.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Stationary?</div>
+<div class="prob">
+  <p>(a) $Y_t=3+\varepsilon_t$. (b) $Y_t=0.2t+\varepsilon_t$. (c) $Y_t=0.5+Y_{t-1}+\varepsilon_t$. (d) $\Delta Y_t$ for the process in (c). (e) $Y_t=-0.9Y_{t-1}+\varepsilon_t$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) Yes. (b) No: mean depends on $t$. (c) No: random walk with drift, mean $Y_0+0.5t$, variance $t\sigma^2$. (d) Yes: $0.5+\varepsilon_t$ is i.i.d. (e) Yes: $\lvert-0.9\rvert&lt;1$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Small sample ACF by hand</div>
+<div class="prob">
+  <p>$y=(1,-1,2,0,-2)$, treat mean as 0. Compute $ACF(0)$ and $ACF(1)$ with the deck's formula, and the lag-1 autocorrelation.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$ACF(0)=\frac15(1+1+4+0+4)=2$. $ACF(1)=\frac14\big(1\cdot(-1)+(-1)\cdot2+2\cdot0+0\cdot(-2)\big)=-\frac34$. Since the variance is not 1, the autocorrelation is $-0.75/2=-0.375$.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s29">
+  <div class="bar"><span class="pill g">QUICK TEST</span> ACF and stationarity<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">1</span>For an AR(1) with $\phi_1=-0.5$, $\rho(3)$ is</div>
+    <div class="opts"><button>0.125</button><button>−0.5</button><button>−1.5</button><button>−0.125</button></div>
+    <div class="why">$(-0.5)^3$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>The random walk is not stationary because</div>
+    <div class="opts"><button>its mean grows</button><button>its variance depends on $t$</button><button>its shocks are not i.i.d.</button><button>it has no forecast</button></div>
+    <div class="why">Without drift the mean is constant, but $\mathbb V[Y_t]=t\sigma_\varepsilon^2$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>The forecast of a driftless random walk ten steps ahead is</div>
+    <div class="opts"><button>$y_t$</button><button>$10y_t$</button><button>0</button><button>the sample mean</button></div>
+    <div class="why">Best forecast at any horizon is today's value.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">4</span>Stationarity is useful for inference because</div>
+    <div class="opts"><button>it makes errors normal</button><button>it makes OLS unbiased</button><button>the LLN and CLT can be applied</button><button>it removes autocorrelation</button></div>
+    <div class="why">As the slide says. Stationary series may well be autocorrelated.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>For daily stock prices and returns, typically</div>
+    <div class="opts"><button>both stationary</button><button>prices close to a random walk, returns close to stationary</button><button>prices stationary, returns not</button><button>neither can be modelled</button></div>
+    <div class="why">That is why we model returns.</div>
+  </div>
+  </div>
+</div>
+
+</section>

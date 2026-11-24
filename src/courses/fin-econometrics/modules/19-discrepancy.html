@@ -1,0 +1,150 @@
+<!-- ============ 19 THE TESTING PROCEDURE AND THE DISCREPANCY VECTOR ============ -->
+<section id="s19">
+<div class="sec-head"><span class="num">19</span><h2>The testing procedure and the discrepancy vector</h2><span class="sub">lecture 5, slides 14–20</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Is m close to zero? Close compared with what?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>We can't see $R\beta-q$, so we estimate it by $m=Rb-q$. If $m$ is close to zero, fine; if far, reject. Two problems: $m$ is a <b>vector</b>, and $m$ is <b>random</b>. The solution is to measure its length in units of its own standard deviation, and to compare that length with the values it would typically take <b>if $H_0$ were true</b>.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">LOGIC</span> Two problems, one fix<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>problem</th><th>fix</th></tr>
+    <tr><td>1) $m$ is $J\times1$. What does "a vector is close to zero" mean?</td><td>take a <b>norm</b>: a single number. Use the standardized quadratic form $m'(\mathbb V[m\mid X])^{-1}m$, which is $1\times1$.</td></tr>
+    <tr><td>2) $m$ is random. What does "a random variable is close to zero" mean?</td><td>find its <b>distribution under $H_0$</b>. It tells us which values are plausible if $H_0$ is true.</td></tr>
+  </table>
+  <ol class="steps">
+    <li>Derive the distribution of $m=Rb-q$ under $H_0$ (before seeing data).</li>
+    <li>Measure it with $m'(\mathbb V[m\mid X])^{-1}m$, a scalar.</li>
+    <li>Derive the distribution of that scalar under $H_0$.</li>
+    <li>With the data $\{y,X\}$, compute $b$, then $m$, then the scalar.</li>
+    <li>Compare: a plausible value ⇒ do not reject; an implausible one ⇒ reject.</li>
+  </ol>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> The chain of distributions (assume $\varepsilon\mid X\sim N(0,\sigma^2I_n)$)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <figure>
+  <svg viewBox="0 0 740 130">
+    <defs><marker id="dca" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 z" fill="var(--muted)"/></marker></defs>
+    <g font-size="11">
+    <rect x="6" y="30" width="122" height="46" fill="var(--greenbg)" stroke="var(--green)"/><text x="67" y="48" class="svgtxt g" text-anchor="middle">ε|X</text><text x="67" y="66" class="svgtxt w" text-anchor="middle">N(0, σ²Iₙ)</text>
+    <rect x="152" y="30" width="122" height="46" fill="var(--greenbg)" stroke="var(--green)"/><text x="213" y="48" class="svgtxt g" text-anchor="middle">y = Xβ + ε</text><text x="213" y="66" class="svgtxt w" text-anchor="middle">N(Xβ, σ²Iₙ)</text>
+    <rect x="298" y="30" width="128" height="46" fill="var(--greenbg)" stroke="var(--green)"/><text x="362" y="48" class="svgtxt g" text-anchor="middle">b = Ay</text><text x="362" y="66" class="svgtxt w" text-anchor="middle">N(β, σ²(X′X)⁻¹)</text>
+    <rect x="450" y="30" width="148" height="46" fill="var(--greenbg)" stroke="var(--green)"/><text x="524" y="48" class="svgtxt g" text-anchor="middle">m = Rb − q, under H₀</text><text x="524" y="66" class="svgtxt w" text-anchor="middle">N(0, σ²R(X′X)⁻¹R′)</text>
+    <rect x="622" y="30" width="112" height="46" fill="var(--amberbg)" stroke="var(--amber)"/><text x="678" y="48" class="svgtxt a" text-anchor="middle">m′V⁻¹m</text><text x="678" y="66" class="svgtxt w" text-anchor="middle">χ² with J d.f.</text>
+    </g>
+    <g stroke="var(--muted)" marker-end="url(#dca)"><path d="M128 53 H150"/><path d="M274 53 H296"/><path d="M426 53 H448"/><path d="M598 53 H620"/></g>
+    <path d="M6 92 H598" stroke="var(--green)"/><text x="302" y="110" class="svgtxt g" text-anchor="middle">all linear maps: normal stays normal</text>
+    <path d="M622 92 H734" stroke="var(--amber)"/><text x="678" y="110" class="svgtxt a" text-anchor="middle">quadratic: χ²</text>
+  </svg>
+  </figure>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Mean of $m$:</b> $\mathbb E[m\mid X]=R\,\mathbb E[b\mid X]-q=R\beta-q\ \overset{H_0}{=}\ 0$</p>
+  <p><b>Variance of $m$:</b> $\mathbb V[m\mid X]=R\,\mathbb V[b\mid X]\,R'=\sigma^2R(X'X)^{-1}R'$</p>
+  $$\boxed{m\mid X\ \overset{H_0}{\sim}\ N\big(0,\ \sigma^2R(X'X)^{-1}R'\big)}$$
+  </div>
+  <div>
+  <div class="note warn"><div class="t">Two things decide the distribution of $m$</div>
+  <p>(1) The distribution of $\varepsilon$. (2) <b>Whether $H_0$ is true.</b> If it is false, $\mathbb E[m\mid X]=R\beta-q\neq0$ and $m$ tends to be far from zero. That contrast is what makes testing possible.</p>
+  </div>
+  <div class="note "><div class="t">First time we assume normality</div>
+  <p>Everything in lectures 1–4 (meaning of the model, OLS, unbiased, variance, BLUE, $s^2$) holds for any reasonable distribution of $\varepsilon$. From here on the normal is assumed, only to carry out tests.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Why plain length is not enough<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$m_1$ <input type="range" id="dv_1" min="-3" max="3" step="0.05" value="1.00"> <span class="val" id="dv_1_v">1.00</span></label>
+    <label>$m_2$ <input type="range" id="dv_2" min="-3" max="3" step="0.05" value="1.00"> <span class="val" id="dv_2_v">1.00</span></label>
+    <label>$\mathbb V[m_1]$ <input type="range" id="dv_v" min="0.2" max="3" step="0.05" value="1.50"> <span class="val" id="dv_v_v">1.50</span></label>
+    <label>$\mathbb V[m_2]$ <input type="range" id="dv_w" min="0.2" max="3" step="0.05" value="0.50"> <span class="val" id="dv_w_v">0.50</span></label>
+    <label>correlation <input type="range" id="dv_r" min="-0.95" max="0.95" step="0.05" value="-0.70"> <span class="val" id="dv_r_v">-0.70</span></label>
+    <span class="btns">
+      <button data-do="dvFlip">same length, two directions</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="dvsvg" viewBox="0 0 340 300"></svg><figcaption>Cloud: draws of $m$ under $H_0$. Ellipse: the 95% region, $m'V^{-1}m=5.99$. Amber: the observed $m$.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="dvread" aria-live="polite"></div>
+  <p><b>Try this.</b> Press the button repeatedly: $m$ flips between $(1,1)'$ and $(1,-1)'$. Both have Euclidean length 1.41, but one lies along the cloud and the other across it. Only the one across the cloud is surprising under $H_0$. $m'V^{-1}m$ knows the shape of the cloud; $m'm$ does not. In one dimension it reduces to $(m/\text{sd})^2$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">RUNNING EXAMPLE · m and its variance (σ² = 1 known, for illustration)</div>
+  <div class="body">
+  <p>$H_0:\beta_1=0,\ \beta_2=1$. $R=I_2$, $q=(0,1)'$, $m=(1.3,\,-0.1)'$, $V=\sigma^2(X'X)^{-1}=\begin{bmatrix}1.1&-0.3\\-0.3&0.1\end{bmatrix}$, $V^{-1}=X'X$.</p>
+  $$m'V^{-1}m=[1.3\ \ {-0.1}]\begin{bmatrix}5&15\\15&55\end{bmatrix}\begin{bmatrix}1.3\\-0.1\end{bmatrix}=[1.3\ \ {-0.1}]\begin{bmatrix}5\\14\end{bmatrix}=6.5-1.4=5.1$$
+  <p>Under $H_0$ this is a draw from $\chi^2_2$, whose 95% quantile is 5.99. $5.1&lt;5.99$: do not reject at 5%.</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Derive it yourself</div>
+<div class="prob">
+  <p>$H_0:\beta_2=\beta_3$. Write $m$ and $\mathbb V[m\mid X]$ in scalars.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$R=[0\ 1\ {-1}]$, $m=b_2-b_3$, $\mathbb V[m\mid X]=\mathbb V[b_2\mid X]+\mathbb V[b_3\mid X]-2\text{Cov}[b_2,b_3\mid X]=\sigma^2\big(v_{22}+v_{33}-2v_{23}\big)$ with $v=(X'X)^{-1}$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Under the alternative</div>
+<div class="prob">
+  <p>$H_0:\beta_2=0$ but truly $\beta_2=0.5$, with $\mathbb V[b_2\mid X]=0.04$. What is the distribution of $m$, and of $m/\text{sd}(m)$?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$m=b_2\sim N(0.5,0.04)$; $m/0.2\sim N(2.5,1)$. So the statistic is centred at 2.5, not 0: it usually exceeds 1.96 (module 21 calls that probability <i>power</i>).</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s19">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Discrepancy vector<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">1</span>Under $H_0$, $\mathbb E[m\mid X]$ equals</div>
+    <div class="opts"><button>0</button><button>$R\beta$</button><button>$q$</button><button>$Rb-q$</button></div>
+    <div class="why">$R\beta-q=0$ is what $H_0$ says.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>$\mathbb V[m\mid X]$ depends on</div>
+    <div class="opts"><button>$q$</button><button>whether $H_0$ is true</button><button>$\sigma^2$, $X$ and $R$</button><button>$\beta$</button></div>
+    <div class="why">$\sigma^2R(X'X)^{-1}R'$. The variance is the same under $H_0$ and $H_A$; only the mean differs.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>$m'(\mathbb V[m\mid X])^{-1}m$ is</div>
+    <div class="opts"><button>a $J\times J$ matrix</button><button>a $J\times1$ vector</button><button>normal under $H_0$</button><button>a scalar, $\chi^2_J$ under $H_0$ with normal errors</button></div>
+    <div class="why">Quadratic form in a $J$-dimensional normal.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">4</span>The normality of $\varepsilon$ was needed for</div>
+    <div class="opts"><button>unbiasedness of $b$</button><button>the distribution of $m$ used in testing</button><button>Gauss–Markov</button><button>$\mathbb E[s^2]=\sigma^2$</button></div>
+    <div class="why">First time in the course.</div>
+  </div>
+  </div>
+</div>
+
+</section>

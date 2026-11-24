@@ -1,0 +1,163 @@
+<!-- ============ 38 THREE MOCK EXAMS ============ -->
+<section id="s38">
+<div class="sec-head"><span class="num">38</span><h2>Three mock exams</h2><span class="sub">written for practice in the style of the W8 sheet · with full solutions and a marking guide</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Rules<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>These are <b>not</b> past exams: I wrote them from your material, in the style of W8 and the tutorials. Suggested time 75 minutes each, closed book, calculator allowed. Critical values are given. Mark yourself with the points in brackets.</p>
+<span class="btns"><button onclick="toggleAll(true)">expand all</button><button onclick="toggleAll(false)">collapse all</button></span>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">MOCK A</span> Asset pricing with two factors (30 points)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>For $t=1,\dots,60$ months: $r_t^{ex}=\beta_1+\beta_2f_{t}+\beta_3g_{t}+\varepsilon_t$, where $f_t,g_t$ are factor returns. $\varepsilon_t$ i.i.d. $(0,\sigma^2)$, independent of $(f_t,g_t)$. OLS gives $b=(0.2,\ 1.1,\ 0.4)'$, $e'e=114$ and</p>
+  $$(X'X)^{-1}=\begin{bmatrix}0.02&0&0\\0&0.010&-0.005\\0&-0.005&0.020\end{bmatrix}$$
+  </div>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">A1 · 4 points</span>Matrix form</div>
+<div class="prob">
+  <p>Write the model as $y=X\beta+\varepsilon$ with content and dimensions.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$y$: $60\times1$ excess returns; $X$: $60\times3$ with rows $(1,f_t,g_t)$; $\beta=(\beta_1,\beta_2,\beta_3)'$; $\varepsilon$: $60\times1$. [1 point each]</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">A2 · 6 points</span>Properties</div>
+<div class="prob">
+  <p>(a) Is $b$ unbiased? Prove it. (b) Would it still be unbiased if $\mathbb V[\varepsilon_t]$ were larger in crises? (c) Would it still be BLUE?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) [3] $\mathbb E[b\mid X]=(X'X)^{-1}X'\mathbb E[y\mid X]=\beta$ using $\mathbb E[\varepsilon\mid X]=0$; tower property. (b) [1.5] Yes: the proof uses only the mean. (c) [1.5] No: A2b fails, Gauss–Markov does not apply.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">A3 · 5 points</span>Estimate σ² and standard errors</div>
+<div class="prob">
+  <p>Compute $s^2$, se of each coefficient, and $\widehat{\text{Cov}}[b_2,b_3\mid X]$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$s^2=114/57=2$ [2]. se: $\sqrt{0.04}=0.2$; $\sqrt{0.02}=0.141$; $\sqrt{0.04}=0.2$ [2]. Cov $=2\cdot(-0.005)=-0.01$ [1].</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">A4 · 10 points</span>Tests at 5% (normal errors)</div>
+<div class="prob">
+  <p>$t_{57,0.975}=2.00$, $t_{57,0.95}=1.67$, $\bar F_{2,57}=3.16$. (a) $H_0:\beta_1=0$ vs $H_A:\beta_1&gt;0$. (b) $H_0:\beta_2=1$ vs $\neq$. (c) $H_0:\beta_2+\beta_3=1$ vs $\neq$. (d) $H_0:\beta_2=1,\beta_3=0$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) [2] $t=0.2/0.2=1.00&lt;1.67$ ⇒ do not reject: no significant alpha. (b) [2] $t=0.1/0.141=0.71$ ⇒ do not reject. (c) [3] $R=[0\,1\,1]$, $m=0.5$, $R(X'X)^{-1}R'=0.010+0.020-0.010=0.020$, se $=\sqrt{0.04}=0.2$, $t=2.5&gt;2.00$ ⇒ reject. (d) [3] $m=(0.1,0.4)'$, block inverse: $\det=0.0002-0.000025=0.000175$; inverse $=\frac1{0.000175}\begin{bmatrix}0.020&0.005\\0.005&0.010\end{bmatrix}$. $m'(\cdot)m=\frac{0.020\cdot0.01+2\cdot0.005\cdot0.04+0.010\cdot0.16}{0.000175}=\frac{0.0002+0.0004+0.0016}{0.000175}=12.57$. $F=\frac{12.57}{2\cdot2}=3.14&lt;3.16$ ⇒ do not reject (just).</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">A5 · 5 points</span>Discuss</div>
+<div class="prob">
+  <p>Your colleague adds 20 more factors and reports that $R^2$ rose from 0.55 to 0.70. Is the new model better? Give a test.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>[2] $R^2$ never falls when regressors are added. [3] F-test with $J=20$, $n-K=60-23=37$: $F=\frac{0.15/20}{0.30/37}=\frac{0.0075}{0.00811}=0.93$, below any usual critical value (about 1.9): the 20 factors are not jointly significant.</p>
+</div></details>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">MOCK B</span> Theory and time series (30 points)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  </div>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">B1 · 6 points</span>YES / NO with one sentence</div>
+<div class="prob">
+  <p>(a) $X'e=0$ shows that the regressors are exogenous. (b) If $n$ doubles and the spread of $x$ is unchanged, the standard error of the slope falls by about 29%. (c) A 5% test rejects a true null in 5% of samples. (d) OLS residuals are homoskedastic if errors are. (e) The $F$-test of $\beta_2=0$ can be used against $\beta_2&gt;0$. (f) $\text{Cov}=0$ implies independence for jointly normal variables.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) NO, it holds by construction. (b) YES, factor $1/\sqrt2=0.707$. (c) YES, definition of size. (d) NO, $\mathbb V[e\mid X]=\sigma^2M$. (e) NO, $F=t^2$ loses the sign. (f) YES.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">B2 · 8 points</span>A rival estimator</div>
+<div class="prob">
+  <p>In $y_i=\beta x_i+\varepsilon_i$ (A1–A2 hold) consider $\tilde b=\frac1n\sum\frac{y_i}{x_i}$, $x_i\neq0$. (a) Linear? (b) Unbiased? (c) Variance. (d) Compare with OLS for $x=(1,2)$. (e) Which theorem predicts the result?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) [1] Yes: weights $\frac1{nx_i}$. (b) [2] $\mathbb E=\frac1n\sum\frac{\beta x_i}{x_i}=\beta$. (c) [2] $\frac{\sigma^2}{n^2}\sum\frac1{x_i^2}$. (d) [2] $\frac{\sigma^2}4(1+\frac14)=0.3125\sigma^2$ vs OLS $\frac{\sigma^2}{5}=0.2\sigma^2$. (e) [1] Gauss–Markov.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">B3 · 10 points</span>AR(1)</div>
+<div class="prob">
+  <p>$Y_t=1+0.8Y_{t-1}+\varepsilon_t$, $\varepsilon_t\sim$ i.i.d. $N(0,0.36)$. (a) Stationary? Unconditional mean, variance, distribution. (b) $y_t=9$: conditional mean and variance of $Y_{t+1}$; $\mathbb E[Y_{t+3}\mid y_t]$; limit. (c) $\rho(1),\rho(4)$. (d) 95% interval for $Y_{t+1}$ given $y_t=9$. (e) Repeat (b)'s forecasts if $\phi_1=1,\phi_0=0$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) [3] Yes, $\lvert0.8\rvert&lt;1$. Mean 5, variance $0.36/0.36=1$, $N(5,1)$. (b) [3] $8.2$; $0.36$; $5+0.512\cdot4=7.048$; limit 5. (c) [1] $0.8$; $0.4096$. (d) [1.5] $8.2\pm1.96\cdot0.6=[7.02,9.38]$. (e) [1.5] 9 at every horizon; variance $0.36h$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">B4 · 6 points</span>Estimate it</div>
+<div class="prob">
+  <p>You observe $Y_1,\dots,Y_{121}$. (a) Write the AR(1) as $y=X\beta+\varepsilon$ with dimensions. (b) $\hat\phi_1=0.85$, se $0.05$. Test $\phi_1=1$ with the usual $t$ and say why the result should be taken with caution.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) [3] $y=(Y_2,\dots,Y_{121})'$: $120\times1$; $X$: $120\times2$, rows $(1,Y_{t-1})$; $\beta=(\phi_0,\phi_1)'$; $\varepsilon$: $120\times1$. (b) [3] $t=(0.85-1)/0.05=-3$: would reject with $t_{118}$. Caution: under $\phi_1=1$ the process is not stationary, LLN/CLT do not apply in the usual way and the statistic is not $t$-distributed; moreover $\hat\phi_1$ is biased downwards.</p>
+</div></details>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">MOCK C</span> Testing, GARCH and risk (30 points)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  </div>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">C1 · 8 points</span>Joint test, σ² known</div>
+<div class="prob">
+  <p>$y_i=\beta_1+\beta_2x_{i2}+\beta_3x_{i3}+\varepsilon_i$, $\varepsilon\mid X\sim N(0,4I)$. $b=(1,2,-1)'$, $(X'X)^{-1}=\begin{bmatrix}0.5&0&0\\0&0.25&0\\0&0&0.125\end{bmatrix}$. Test $H_0:\beta_1=0,\ \beta_2+\beta_3=0$ at 5%. State $R,q$, the statistic, its distribution, the value, the decision, and draw the pdf.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>[2] $R=\begin{bmatrix}1&0&0\\0&1&1\end{bmatrix}$, $q=(0,0)'$. [2] $\chi^2_2$ statistic, since $\sigma^2$ known and $J=2$. [3] $m=(1,1)'$; $R(X'X)^{-1}R'=\text{diag}(0.5,0.375)$; $\times4$: $\text{diag}(2,1.5)$; value $\frac12+\frac1{1.5}=1.167$. [1] $&lt;5.99$ ⇒ do not reject; density decreasing from 0.5, right tail 5% beyond 5.99.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">C2 · 7 points</span>Skill or luck</div>
+<div class="prob">
+  <p>A bank tests 400 traders for positive alpha at 1%. 9 are significant. (a) Expected number if nobody has skill? (b) Is 9 surprising? Use the normal approximation. (c) The bank wants to pay a bonus to the 9. Advise. (d) What happens to the number of rejections, and to Type II errors, at 0.1%?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) [1] 4. (b) [2] sd $\sqrt{3.96}=1.99$, $z=2.5$: more than luck alone, so there is probably some skill. (c) [2] About 4 of the 9 are probably lucky; you can't tell which. Use a longer sample or out-of-sample performance. (d) [2] Fewer rejections (0.4 expected under no skill); Type II errors rise: genuinely skilled traders are missed.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">C3 · 9 points</span>GARCH, VaR, ES</div>
+<div class="prob">
+  <p>$\sigma_t^2=0.04+0.88\sigma_{t-1}^2+0.08r_{t-1}^2$ (percent), $z\sim N(0,1)$. Today $\sigma_t^2=2$, $r_t=-4$. (a) Long-run variance, persistence. (b) $\sigma_{t+1}^2$. (c) 1% one-day VaR and ES in percent and for 2 million. (d) Expected variance at $t+2$. (e) Which stylized fact does the model miss, and how would you extend it?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) [2] $0.04/0.04=1$; $0.96$. (b) [1.5] $0.04+1.76+1.28=3.08$. (c) [3] $\sigma=1.755$. VaR $2.326\cdot1.755=4.08\%$ ⇒ 81,600; ES $2.665\cdot1.755=4.68\%$ ⇒ 93,500. (d) [1] $1+0.96(3.08-1)=2.997$. (e) [1.5] Leverage effect: add $\beta_3I_{t-1}r_{t-1}^2$ (GJR).</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">C4 · 6 points</span>Likelihood and diagnostics</div>
+<div class="prob">
+  <p>(a) Write the Gaussian log-likelihood of C3's model. (b) Why not OLS? (c) Name two checks on $\hat z_t$. (d) The 1% quantile of $\hat z$ is $-2.8$. What does it imply for (c) of C3?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) [2] $-\frac12\sum_t(\log2\pi+\log\sigma_t^2+r_t^2/\sigma_t^2)$. (b) [1] $\sigma_t^2$ is not observed. (c) [1.5] ACF of $\hat z_t^2$ flat; variance about 1 / no clusters / normality of tails. (d) [1.5] Tails heavier than normal: VaR should be $2.8\cdot1.755=4.91\%$, not 4.08%.</p>
+</div></details>
+</div>
+
+</section>

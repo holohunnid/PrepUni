@@ -1,0 +1,196 @@
+<!-- ============ 35 EXPECTED SHORTFALL AND GARCH EXTENSIONS ============ -->
+<section id="s35">
+<div class="sec-head"><span class="num">35</span><h2>Expected shortfall and GARCH extensions</h2><span class="sub">GARCH deck, slides 23–26</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> If it goes wrong, how wrong?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>VaR tells you the threshold of the worst 1% of days but not how bad those days are. <b>Expected shortfall</b> (ES, or conditional VaR) is their average. Then: three ways in which GARCH is extended to fit returns better.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Expected shortfall<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>The major problem with VaR</b> (slide 23's question): it ignores the <b>size</b> of losses beyond it. Two portfolios can have the same VaR and very different disasters.</p>
+  $$\begin{aligned}-ES_{t,t+1}&=\mathbb E[r_{t+1}\mid r_{t+1}&lt;-VaR_{t,t+1},\mathcal F_t]\\&=\mathbb E[\sigma_{t+1}z_{t+1}\mid\sigma_{t+1}z_{t+1}&lt;\sigma_{t+1}z_{0.01}]\\&=\sigma_{t+1}\,\mathbb E[z_{t+1}\mid z_{t+1}&lt;z_{0.01}]\end{aligned}$$
+  </div>
+  <div>
+  $$\boxed{ES_{t,t+1}=-\sigma_{t+1}\,\mathbb E[z\mid z&lt;z_{0.01}]}$$
+  <p>$\mathbb E[z\mid z&lt;z_{0.01}]$ is a number that depends only on the distribution of $z$. Estimate it by the <b>average of the $\hat z_t$ below the 1% quantile</b> (empirical counterpart), or from a model.</p>
+  <p><b>Normal $z$:</b> $\mathbb E[z\mid z&lt;z_\alpha]=-\dfrac{\varphi(z_\alpha)}\alpha$, e.g. $-\dfrac{0.02665}{0.01}=-2.665$.</p>
+  <p>Required by regulators (e.g. the Swiss Solvency Test). Holds for any $\sigma_{t+1}\in\mathcal F_t$.</p>
+  </div>
+  </div>
+  <table>
+    <tr><th>distribution of $z$</th><th>1% quantile</th><th>$\mathbb E[z\mid z&lt;z_{0.01}]$</th><th>ES / VaR</th></tr>
+    <tr><td>$N(0,1)$</td><td>−2.326</td><td>−2.665</td><td>1.15</td></tr>
+    <tr><td>Student $t_5$, variance 1</td><td>−2.606</td><td>−3.449</td><td>1.32</td></tr>
+    <tr><td>Student $t_4$, variance 1</td><td>−2.649</td><td>−3.692</td><td>1.39</td></tr>
+  </table>
+  <p>The quantiles differ by 12–14%, the ES by 29–39%: ES sees the tail. <b>ES ≥ VaR always</b>, at the same level: an average of values all worse than the threshold.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PROOF</span> Where $-\varphi(z_\alpha)/\alpha$ comes from<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\mathbb E[z\mid z&lt;z_\alpha]=\frac1{P(z&lt;z_\alpha)}\int_{-\infty}^{z_\alpha}x\varphi(x)\,dx=\frac1\alpha\big[-\varphi(x)\big]_{-\infty}^{z_\alpha}=-\frac{\varphi(z_\alpha)}\alpha$$
+  <p>using $\varphi'(x)=-x\varphi(x)$.</p>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE · same VaR, different ES (why VaR can mislead)</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Portfolio A</b> loses 5 or more with probability 1%, and when it does it loses 6 on average. <b>Portfolio B</b> has the same 1% threshold of 5, but loses 40 on average beyond it. VaR: both 5. ES: 6 versus 40.</p>
+  </div>
+  <div>
+  <p><b>VaR can punish diversification.</b> Two independent bonds, each loses 100 with probability 0.7%, else 0. Each alone has 1% VaR $=0$. Together $P(\text{loss}\ge100)=1-0.993^2=1.4\%$, so the portfolio's 1% VaR is $100&gt;0+0$. ES of each is $0.7\%\cdot100/1\%=70$, and the portfolio's ES is about 100.5, less than 140.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">EXTENSION 1</span> Non-normal innovations<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Keep the GARCH variance, change the distribution of $z_t$: e.g. Student-$t$ (Bollerslev 1987), semiparametric (Engle and Gonzalez-Rivera 1991). Motivated by the diagnostics: $\hat z_t$ has values near $-10$. Effect: larger 1% VaR and much larger ES.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">EXTENSION 2</span> Asymmetric GARCH (GJR, 1993): the leverage effect<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$\sigma_t^2=\beta_0+\beta_1\sigma_{t-1}^2+\beta_2r_{t-1}^2+\beta_3I_{t-1}r_{t-1}^2$$
+  <p>$I_{t-1}=1$ if $r_{t-1}\lt0$, and 0 otherwise.</p>
+  <table>
+    <tr><th>yesterday</th><th>effect of $r_{t-1}^2$</th></tr>
+    <tr><td>$r_{t-1}\ge0$</td><td>$\beta_2$</td></tr>
+    <tr><td>$r_{t-1}\lt0$</td><td>$\beta_2+\beta_3$</td></tr>
+  </table>
+  <p>With $\beta_3&gt;0$ a fall raises volatility more than an equal rise: matches slopes −2.25 vs 0.24 of slide 10. <b>Testing $\beta_3=0$ tests for the leverage effect.</b></p>
+  </div>
+  <div>
+  <p><b>Unconditional variance</b> for symmetric $z$ ($\mathbb E[I_{t-1}r_{t-1}^2]=\frac12\bar\sigma^2$):</p>
+  $$\bar\sigma^2=\frac{\beta_0}{1-\beta_1-\beta_2-\beta_3/2}$$
+  <p><b>Example:</b> $\beta=(0.02,0.90,0.02,0.12)$, $\sigma_{t-1}^2=1$. After $r=-2$: $0.02+0.9+0.08+0.48=1.48$. After $r=+2$: $0.02+0.9+0.08=1.00$. Same size, different sign, 48% higher variance.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> News impact curve<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\beta_1$ <input type="range" id="ni_1" min="0.5" max="0.98" step="0.01" value="0.90"> <span class="val" id="ni_1_v">0.90</span></label>
+    <label>$\beta_2$ <input type="range" id="ni_2" min="0" max="0.3" step="0.01" value="0.02"> <span class="val" id="ni_2_v">0.02</span></label>
+    <label>$\beta_3$ <input type="range" id="ni_3" min="0" max="0.4" step="0.01" value="0.12"> <span class="val" id="ni_3_v">0.12</span></label>
+    <label>$r_{t-1}$ (%) <input type="range" id="ni_r" min="-6" max="6" step="0.1" value="-2.0"> <span class="val" id="ni_r_v">-2.0</span></label>
+    <span class="btns">
+      <button data-do="niSym">symmetric GARCH</button>
+      <button data-do="niGjr">GJR example</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="nisvg" viewBox="0 0 420 230"></svg><figcaption>$\sigma_t^2$ as a function of yesterday's return, with $\sigma_{t-1}^2=1$, $\beta_0=0.02$. Blue: your model. Grey: the mirror image.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="niread" aria-live="polite"></div>
+  <p>Symmetric GARCH is a parabola centred at 0. With $\beta_3&gt;0$ the left branch is steeper. The kink at zero is smooth for $\sigma^2$ (the slope is 0 from both sides), but the curvature jumps.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">EXTENSION 3</span> Long-run and short-run components (Christoffersen et al. 2008)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$\sigma_t^2=q_t+\tilde\beta_1(\sigma_{t-1}^2-q_{t-1})+\tilde\beta_2\,\eta_{1,t-1}$$
+  $$q_t=\gamma_0+\gamma_1q_{t-1}+\gamma_2\,\eta_{2,t-1}$$
+  <p>$\eta_{1},\eta_2$ are zero-mean innovations.</p>
+  </div>
+  <div>
+  <p>In GARCH(1,1) volatility reverts to a <b>constant</b> $\bar\sigma^2$. Here it reverts to a <b>moving</b> level $q_t$ that itself follows an AR(1)-type process: $q_t$ is the slow, long-run component; $\sigma_t^2-q_t$ the fast one. It captures the fact that some decades are calm and others are not.</p>
+  <p><b>Today:</b> GARCH is widely used to estimate and forecast conditional variances, usually with non-normal innovations, for risk management and derivative pricing (Barone-Adesi, Engle and Mancini 2008).</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>VaR and ES</div>
+<div class="prob">
+  <p>$\sigma_{t+1}=1.5\%$, normal $z$, position 200,000. 1% VaR and ES.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>VaR $=2.326\cdot1.5\%=3.49\%$ ⇒ 6,979. ES $=2.665\cdot1.5\%=4.00\%$ ⇒ 7,996.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Empirical ES</div>
+<div class="prob">
+  <p>500 innovations; the five smallest are $-2.4,-2.6,-2.9,-3.3,-4.8$, and we take the 1% tail to be these five. Estimate $\mathbb E[z\mid z&lt;z_{0.01}]$ and the ES for $\sigma_{t+1}=2\%$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Average $=-16/5=-3.2$. ES $=3.2\cdot2\%=6.4\%$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>GJR by hand</div>
+<div class="prob">
+  <p>$\sigma_t^2=0.05+0.88\sigma_{t-1}^2+0.03r_{t-1}^2+0.10I_{t-1}r_{t-1}^2$. Long-run variance? $\sigma_{t-1}^2=1$: $\sigma_t^2$ after $-3$ and after $+3$? 1% normal VaR in both cases?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\bar\sigma^2=0.05/(1-0.88-0.03-0.05)=0.05/0.04=1.25$. After $-3$: $0.05+0.88+0.13\cdot9=2.10$; after $+3$: $0.05+0.88+0.27=1.20$. VaR: $2.326\sqrt{2.10}=3.37\%$ and $2.326\sqrt{1.20}=2.55\%$.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s35">
+  <div class="bar"><span class="pill g">QUICK TEST</span> ES and extensions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>The main problem with VaR is that</div>
+    <div class="opts"><button>it cannot be computed with GARCH</button><button>it needs normality</button><button>it says nothing about the size of losses beyond it</button><button>it is always too large</button></div>
+    <div class="why">ES answers that.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>For normal $z$, the ratio ES/VaR at 1% is about</div>
+    <div class="opts"><button>1</button><button>1.15</button><button>2</button><button>0.87</button></div>
+    <div class="why">$2.665/2.326$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>In the GJR model $\beta_3&gt;0$ means</div>
+    <div class="opts"><button>negative returns raise variance more than positive ones of the same size</button><button>positive returns raise variance more</button><button>variance is constant</button><button>returns are autocorrelated</button></div>
+    <div class="why">The indicator is 1 for negative returns.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>ES can be estimated as $-\sigma_{t+1}$ times</div>
+    <div class="opts"><button>the 1% quantile of $\hat z$</button><button>the sample mean of $\hat z$</button><button>the smallest $\hat z$</button><button>the average of the $\hat z_t$ below their 1% quantile</button></div>
+    <div class="why">The empirical counterpart of the conditional expectation.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>In the component GARCH, $q_t$ is</div>
+    <div class="opts"><button>the return</button><button>a time-varying long-run variance level</button><button>a constant</button><button>the VaR</button></div>
+    <div class="why">$\sigma_t^2$ reverts to $q_t$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

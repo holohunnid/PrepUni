@@ -1,0 +1,184 @@
+<!-- ============ 34 VALUE-AT-RISK AND BACKTESTING ============ -->
+<section id="s34">
+<div class="sec-head"><span class="num">34</span><h2>Value-at-Risk and backtesting</h2><span class="sub">GARCH deck, slides 18–22</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> How much can I lose on a bad day?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>VaR at 1% over one day is the loss that will be exceeded on only 1 day in 100. Regulators (Basel Committee, 1996) impose it and banks often compute it with GARCH, because then today's VaR depends on today's volatility. The formula is one line once you see that $\sigma_{t+1}$ is known today.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> VaR<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>VaR is (essentially) a <b>left-tail quantile</b> of the profit-and-loss distribution, for a given <b>level</b> and <b>time horizon</b>. At day $t$, level 1%, one day, $r_{t+1}=\log(S_{t+1}/S_t)$:</p>
+  $$\boxed{0.01=P(r_{t+1}&lt;-VaR_{t,t+1}\mid\mathcal F_t)}$$
+  <p>VaR is a <b>positive</b> number; minus VaR is the quantile. On slide 19: $0.01=P(r_{t+1}\lt-0.05\mid\mathcal F_t)$, so $VaR=0.05$: "with 99% probability I will not lose more than 5% tomorrow".</p>
+  </div>
+  <div>
+  <p><b>Derivation in any $r_{t+1}=\sigma_{t+1}z_{t+1}$ model:</b></p>
+  $$\begin{aligned}0.01&=P(r_{t+1}&lt;-VaR_{t,t+1}\mid\mathcal F_t)\\&=P(\sigma_{t+1}z_{t+1}&lt;-VaR_{t,t+1}\mid\mathcal F_t)\\&=P\Big(z_{t+1}&lt;-\frac{VaR_{t,t+1}}{\sigma_{t+1}}\,\Big|\,\mathcal F_t\Big)\end{aligned}$$
+  <p>so $-VaR_{t,t+1}/\sigma_{t+1}=z_{0.01}$, the 1% quantile of $z$:</p>
+  $$\boxed{VaR_{t,t+1}=-\sigma_{t+1}\,z_{0.01}}$$
+  <p>Dividing by $\sigma_{t+1}$ is allowed because $\sigma_{t+1}\in\mathcal F_t$: a known positive number.</p>
+  </div>
+  </div>
+  <table>
+    <tr><th>$z_{0.01}$</th><th>value</th><th>VaR for $\sigma_{t+1}=1\%$</th></tr>
+    <tr><td>standard normal (deck rounds to −2.3)</td><td>−2.326</td><td>2.33%</td></tr>
+    <tr><td>Student $t_5$ scaled to variance 1</td><td>−2.606</td><td>2.61%</td></tr>
+    <tr><td>empirical distribution of $\hat z$ (deck, S&P 500)</td><td>−2.6</td><td>2.6%</td></tr>
+  </table>
+  <p>"These calculations hold for <b>any</b> $\sigma_{t+1}\in\mathcal F_t$, not just GARCH models."</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> VaR and ES on the density<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$\sigma_{t+1}$ (%) <input type="range" id="va_s" min="0.3" max="8" step="0.1" value="2.1"> <span class="val" id="va_s_v">2.1</span></label>
+    <label>level (%) <input type="range" id="va_a" min="0.5" max="10" step="0.5" value="1"> <span class="val" id="va_a_v">1</span></label>
+    <label>distribution of z <select id="va_d"><option value="norm">N(0,1)</option><option value="t5">Student t₅ (var 1)</option><option value="t4">Student t₄ (var 1)</option></select></label>
+    <label>position (1000s) <input type="range" id="va_v" min="10" max="1000" step="10" value="100"> <span class="val" id="va_v_v">100</span></label>
+    <span class="btns">
+      <button data-do="vaSlide">slide 19: VaR = 5%</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="vasvg" viewBox="0 0 420 250"></svg><figcaption>Density of tomorrow's return given $\mathcal F_t$. Red: the worst outcomes. Solid line: −VaR. Dashed: −ES, the average of the red region.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="varead" aria-live="polite"></div>
+  <p><b>Try this.</b> VaR is proportional to $\sigma_{t+1}$: double the volatility, double the VaR. Compare normal and $t_4$ at 1% and at 10%: at 1% heavy tails give a <b>larger</b> VaR; at 10% the $t$ with the same variance gives a <b>smaller</b> one, because more mass sits in the centre.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE · from GARCH to VaR in francs</div>
+  <div class="body">
+  <p>$\beta=(0.02,0.90,0.08)$, today $\sigma_t^2=1$, $r_t=-3$ (percent), so $\sigma_{t+1}^2=1.64$, $\sigma_{t+1}=1.281\%$ (module 32). Portfolio 1,000,000.</p>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Normal $z$: $VaR=2.326\cdot1.281\%=2.98\%$, about <b>29,800</b>.</p>
+  <p>Empirical $z_{0.01}=-2.6$: $3.33\%$, about 33,300.</p>
+  </div>
+  <div>
+  <p>The day before, with $\sigma_t=1\%$: 23,300. One bad day raised the 1% VaR by 28%. A constant-volatility VaR would not have moved.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">BACKTEST</span> Does the VaR have the right number of violations?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>A <b>violation</b> on day $t+1$: $r_{t+1}\lt-VaR_{t,t+1}$. If VaR is right, violations occur 1% of the time (by definition of quantile) and are unpredictable.</p>
+  <table>
+    <tr><th>period</th><th>days</th><th>violations</th><th>rate</th><th>expected</th></tr>
+    <tr><td>1980–2020</td><td>10,303</td><td>94</td><td><b>0.9%</b></td><td>103</td></tr>
+    <tr><td>Nov 2019 – Nov 2020</td><td>258</td><td>5</td><td><b>1.9%</b></td><td>2.6</td></tr>
+  </table>
+  </div>
+  <div>
+  <p><b>Is it "close" to 1%?</b> The number of violations is Binomial$(N,0.01)$:</p>
+  <ul>
+    <li>10,303 days: mean 103, sd $\sqrt{N\cdot0.01\cdot0.99}=10.1$. $z=(94-103)/10.1=-0.9$: fine.</li>
+    <li>258 days: mean 2.58, sd 1.6. $z=1.5$, and $P(\ge5)=0.12$: not unusual even in the Covid year.</li>
+  </ul>
+  <p><b>A second check:</b> violations should not cluster. A VaR with constant $\sigma$ may have 1% violations overall, all in 2008 and 2020: it fails in crises.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Backtest GARCH VaR against constant VaR<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>quantile used $-z_{0.01}$ <input type="range" id="bt_z" min="1.8" max="3.2" step="0.05" value="2.35"> <span class="val" id="bt_z_v">2.35</span></label>
+    <label>true shocks <select id="bt_d"><option value="norm">normal</option><option value="t5">Student t₅</option></select></label>
+    <span class="btns">
+      <button data-do="btNew">new 1500 days</button>
+    </span>
+  </div>
+  <figure><svg id="btsvg" viewBox="0 0 720 230"></svg><figcaption>Returns (grey), −VaR from GARCH (blue line), −VaR from the overall standard deviation (amber line). Red circles: GARCH violations. Amber ticks at the bottom: violations of the constant VaR.</figcaption></figure>
+  <div class="readout" id="btread" aria-live="polite"></div>
+  <p><b>Try this.</b> Look where the amber ticks fall: in clusters, when volatility is high. The red circles are scattered. With $t_5$ shocks and the normal quantile 2.33, there are too many violations: move the quantile to 2.6, as the deck does.</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Compute</div>
+<div class="prob">
+  <p>$\sigma_{t+1}=0.8\%$, normal shocks, position 500,000. 1% and 5% one-day VaR.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>1%: $2.326\cdot0.8\%=1.861\%$ ⇒ 9,305. 5%: $1.645\cdot0.8\%=1.316\%$ ⇒ 6,580.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Backtest</div>
+<div class="prob">
+  <p>In 1000 days a 1% VaR had 21 violations. Test at 5% whether the violation probability is 1%, using the normal approximation.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Mean 10, sd $\sqrt{9.9}=3.15$, $z=11/3.15=3.5&gt;1.96$ ⇒ reject: the VaR is too small (risk underestimated).</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Non-zero mean</div>
+<div class="prob">
+  <p>$r_{t+1}=\mu+\sigma_{t+1}z_{t+1}$. Derive the VaR.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$0.01=P(\mu+\sigma_{t+1}z\lt-VaR)=P\big(z\lt\frac{-VaR-\mu}{\sigma_{t+1}}\big)\Rightarrow VaR=-\mu-\sigma_{t+1}z_{0.01}$. For daily returns $\mu$ is tiny compared with $\sigma$, which is why the deck sets it to zero.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s34">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Value-at-Risk<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>$VaR_{t,t+1}$ at 1% in a GARCH model with normal shocks is</div>
+    <div class="opts"><button>$2.33\,\sigma_t$</button><button>$2.33\,\sigma_{t+1}$</button><button>$2.33\,\bar\sigma$</button><button>$0.01\,\sigma_{t+1}$</button></div>
+    <div class="why">$\sigma_{t+1}$, known at $t$.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">2</span>The step $P(\sigma_{t+1}z_{t+1}\lt-VaR\mid\mathcal F_t)=P(z_{t+1}\lt-VaR/\sigma_{t+1}\mid\mathcal F_t)$ is valid because</div>
+    <div class="opts"><button>$z$ is normal</button><button>VaR is positive</button><button>returns have mean zero</button><button>$\sigma_{t+1}$ is known at $t$ and positive</button></div>
+    <div class="why">A known positive number can be divided out.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>A 1% VaR of 5% means</div>
+    <div class="opts"><button>with probability 1% tomorrow's return is below −5%</button><button>the maximum loss is 5%</button><button>the average loss on bad days is 5%</button><button>we lose 5% every 100 days</button></div>
+    <div class="why">It says nothing about how much worse it can get.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">4</span>A correct 1% VaR over 500 days produces on average</div>
+    <div class="opts"><button>0 violations</button><button>1 violation</button><button>5 violations</button><button>50 violations</button></div>
+    <div class="why">$500\cdot0.01$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>Using the empirical quantile −2.6 instead of −2.33 makes VaR</div>
+    <div class="opts"><button>smaller</button><button>larger</button><button>unchanged</button><button>negative</button></div>
+    <div class="why">$-\sigma z_{0.01}$ grows with $\lvert z_{0.01}\rvert$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

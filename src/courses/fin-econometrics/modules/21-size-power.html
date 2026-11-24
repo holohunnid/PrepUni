@@ -1,0 +1,129 @@
+<!-- ============ 21 SIZE, TYPE I AND II ERRORS, POWER ============ -->
+<section id="s21">
+<div class="sec-head"><span class="num">21</span><h2>Size, Type I and II errors, power</h2><span class="sub">lecture 7, slides 4–8 · lecture 8, slides 6–7</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Two ways to be wrong<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>You can reject a true $H_0$ (<b>Type I</b>) or fail to reject a false one (<b>Type II</b>). We choose the probability of the first: it is the size. For a given sample we then have no control over the second, and the two pull in opposite directions.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> The full picture<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <table>
+    <tr><th></th><th>$H_0$ true</th><th>$H_0$ false</th></tr>
+    <tr><td><b>"accept"</b> $H_0$</td><td>✓</td><td><b>Type II error</b></td></tr>
+    <tr><td><b>reject</b> $H_0$</td><td><b>Type I error</b></td><td>✓</td></tr>
+  </table>
+  <p>One, and only one, of the four cells occurs, and we never know which row of reality we are in.</p>
+  <table class="formula-table">
+    <tr><td>size</td><td>$P(\text{reject }H_0\mid H_0\text{ true})$ = P(Type I) — <b>chosen by us</b></td></tr>
+    <tr><td>P(Type II)</td><td>$P(\text{accept }H_0\mid H_0\text{ false})$ — not controlled</td></tr>
+    <tr><td>power</td><td>$P(\text{reject }H_0\mid H_0\text{ false})=1-P(\text{Type II})$</td></tr>
+  </table>
+  </div>
+  <div>
+  <p>For the two-sided test at 5%:</p>
+  $$0.05=P\left(\frac{b_1}{\sqrt{\sigma^2R(X'X)^{-1}R'}}&lt;-1.96\ \text{ or }\ \frac{b_1}{\sqrt{\sigma^2R(X'X)^{-1}R'}}&gt;1.96\ \Big|\ H_0\right)$$
+  <p>The size fixes the critical values and so the acceptance and rejection regions. Reducing it to 1% moves the cut-offs from $\pm1.96$ to $\pm2.6$ (precisely 2.576): <b>we reject less often</b>.</p>
+  <div class="note "><div class="t">Courtroom analogy</div>
+  <p>$H_0$ = innocent. Type I = convicting an innocent. Type II = acquitting a guilty person. Demanding more evidence (smaller size) reduces the first and increases the second.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> The trade-off<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  $$\downarrow P(\text{reject }H_0\mid H_0\text{ true})\ \Rightarrow\ \uparrow P(\text{accept }H_0\mid H_0\text{ false})\quad\text{and vice versa}$$
+  <p>Slide 7's question — <i>what happens to the Type II error when we reduce the size?</i> — <b>it goes up</b>: wider acceptance region, so a false $H_0$ is accepted more often too. Choosing the size is "expert judgment". The only way to reduce both is more information: larger $n$, smaller $\sigma^2$, more variation in $X$.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Two distributions, one cut-off<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>size (%) <input type="range" id="pw_a" min="0.5" max="20" step="0.5" value="5"> <span class="val" id="pw_a_v">5</span></label>
+    <label>true $\beta_2$ (under $H_A$) <input type="range" id="pw_b" min="0" max="1.5" step="0.05" value="0.60"> <span class="val" id="pw_b_v">0.60</span></label>
+    <label>$n$ <input type="range" id="pw_n" min="10" max="300" step="5" value="50"> <span class="val" id="pw_n_v">50</span></label>
+    <label>$\sigma$ <input type="range" id="pw_s" min="0.5" max="3" step="0.1" value="1.5"> <span class="val" id="pw_s_v">1.5</span></label>
+    <label>test <select id="pw_h"><option value="two">two-sided</option><option value="one">one-sided (>)</option></select></label>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="pwsvg" viewBox="0 0 420 250"></svg><figcaption>Grey curve: the statistic under $H_0$. Blue curve: under the true $\beta_2$. Red area: Type I. Amber area: Type II. Rest of the blue curve: power.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="pwread" aria-live="polite"></div>
+  <figure><svg id="pcsvg" viewBox="0 0 420 170"></svg><figcaption>Power as a function of the true $\beta_2$. At $\beta_2=0$ it equals the size.</figcaption></figure>
+  </div>
+  </div>
+  <p><b>Try this.</b> Lower the size: red shrinks, amber grows. Raise $n$: the blue curve walks away from the grey one and <b>both</b> problems shrink. Move the true $\beta_2$ close to 0: power falls towards the size. A test cannot tell 0 from 0.01 with little data. One-sided tests have more power in their direction.</p>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">NUMBERS · power by hand (two-sided, 5%)</div>
+  <div class="body">
+  <p>True $\beta_2=0.5$ and sd$(b_2)=0.25$, so $z\sim N(2,1)$. Power $=P(z&gt;1.96)+P(z\lt-1.96)=P(Z&gt;-0.04)+P(Z\lt-3.96)=0.516+0.000=\mathbf{0.516}$. Type II $=0.484$: a coin toss. At size 1%: $P(Z&gt;0.576)=0.282$, Type II $=0.718$. With four times the data the sd halves, $z\sim N(4,1)$ and power at 5% is $P(Z&gt;-2.04)=0.979$.</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">YES/NO with a reason</span>Five statements</div>
+<div class="prob">
+  <p>(a) The size depends on the data. (b) Power + size = 1. (c) With size 0 we never make a mistake. (d) If we reject at 1% we also reject at 5%. (e) A test that always rejects has power 1.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(a) No: we choose it beforehand. (b) No: power $=1-P(\text{Type II})$, computed under $H_A$; size is computed under $H_0$. (c) No: we never reject, so whenever $H_0$ is false we make a Type II error. (d) Yes: the 1% rejection region is inside the 5% one. (e) Yes, and size 1 too: useless.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Critical value from a size</div>
+<div class="prob">
+  <p>A one-sided $z$-test rejects when $z&gt;2.05$. What is its size? What is its power if $z\sim N(3,1)$ under the truth?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Size $=P(Z&gt;2.05)=0.020$. Power $=P(Z&gt;2.05-3)=P(Z&gt;-0.95)=0.829$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s21">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Size and power<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>Lowering the size from 5% to 1% (same data)</div>
+    <div class="opts"><button>lowers both errors</button><button>raises both errors</button><button>lowers Type I, raises Type II</button><button>raises Type I, lowers Type II</button></div>
+    <div class="why">The slide's trade-off.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>The size of the test is</div>
+    <div class="opts"><button>$P(\text{accept }H_0\mid H_0\text{ false})$</button><button>$P(\text{reject }H_0\mid H_0\text{ true})$</button><button>$P(H_0\text{ true}\mid\text{reject})$</button><button>$1-$ power</button></div>
+    <div class="why">Type I probability.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>Both error probabilities can be reduced by</div>
+    <div class="opts"><button>a smaller size</button><button>a larger size</button><button>a one-sided test</button><button>a larger sample</button></div>
+    <div class="why">More information moves the two distributions apart.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">4</span>If $H_0$ is true, the power</div>
+    <div class="opts"><button>is not the relevant quantity; the probability of rejecting is the size</button><button>is 1</button><button>is $1-$ size</button><button>is 0</button></div>
+    <div class="why">Power is defined under a false $H_0$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

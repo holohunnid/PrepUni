@@ -1,0 +1,143 @@
+<!-- ============ 26 MUTUAL FUNDS: SKILL OR LUCK? ============ -->
+<section id="s26">
+<div class="sec-head"><span class="num">26</span><h2>Mutual funds: skill or luck?</h2><span class="sub">lecture 8, slides 8–13</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> 1000 tests, some will reject by pure chance<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A fund of funds tests the alpha of 1000 mutual funds and wants to buy the ones with the best t-statistics. The course's punch line: the smart manager buys <b>none</b> of them. The reason is the meaning of the size of a test.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">SET-UP</span> One regression per fund<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>For each fund $i=1,\dots,1000$, daily data 2011–2012 ($T\approx500$):</p>
+  $$r^{ex}_{i,t}=\alpha_i+\beta_ir^{ex}_{m,t}+\varepsilon_{i,t}$$
+  <p>Test $H_0:\alpha_i=0$ vs $H_A:\alpha_i&gt;0$. Idea: invest if $\hat\alpha_i$ is "large and positive", i.e. $H_0$ is rejected. The $t$-statistics follow $t_{498}$ if $\alpha_i=0$; the 0.99 quantile is 2.33.</p>
+  </div>
+  <div>
+  <p><b>Why risk-adjust?</b> A fund can outperform just by having $\beta&gt;1$ in a rising market. On slide 9, MF1 doubles while MF2 and MF3 lag the S&P 500, but performance charts mix alpha, beta and luck.</p>
+  <p><b>Results:</b> <b>7</b> funds are "outstanding" ($t&gt;$ 0.99 quantile); <b>55</b> are "very bad" ($t&lt;$ 0.05 quantile).</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">ANSWER</span> Why would smart managers invest in none of them?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ol class="steps">
+    <li><b>What the size means.</b> At 1% size, the test rejects a <b>true</b> $H_0$ with probability 1%.</li>
+    <li><b>So if all 1000 alphas were exactly zero</b>, we would expect $1000\cdot1\%=\mathbf{10}$ funds above the 0.99 quantile, by luck alone.</li>
+    <li><b>We found 7</b>, even fewer than luck predicts. The 7 "outstanding" funds are what Type I errors look like. No evidence of skill.</li>
+    <li><b>The left tail says the same:</b> $1000\cdot5\%=50$ expected below the 0.05 quantile, 55 found. Nothing unusual either.</li>
+    <li><b>The whole histogram</b> of 1000 $t$-statistics lies on the $t_{498}$ density: exactly the picture of $\alpha_i=0$ for all $i$.</li>
+  </ol>
+  <div class="note fin"><div class="t">How unusual are 7 and 55?</div>
+  <p>If the funds were independent, the count is Binomial: mean 10, sd $\sqrt{1000\cdot0.01\cdot0.99}=3.1$; and mean 50, sd 6.9. So 7 and 55 are both within one standard deviation of what pure luck produces. (Funds share risks, so the true uncertainty is larger still.)</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Create 1000 funds and look for skill<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>number of funds <input type="range" id="mf_n" min="50" max="2000" step="50" value="1000"> <span class="val" id="mf_n_v">1000</span></label>
+    <label>share with true skill (%) <input type="range" id="mf_p" min="0" max="30" step="1" value="0"> <span class="val" id="mf_p_v">0</span></label>
+    <label>their true $t$ shift <input type="range" id="mf_a" min="0" max="6" step="0.2" value="3.0"> <span class="val" id="mf_a_v">3.0</span></label>
+    <label>rule <select id="mf_c"><option value="0.99">t > 0.99 quantile</option><option value="0.95">t > 0.95 quantile</option><option value="bonf">Bonferroni: 5% / number of funds</option></select></label>
+    <span class="btns">
+      <button data-do="mfNew">new funds</button>
+      <button data-do="mfNext">follow the winners</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="mfsvg" viewBox="0 0 420 250"></svg><figcaption>Histogram of the t-statistics of $\hat\alpha_i$ and the $t_{498}$ density. Red bars: funds that pass the rule.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="mfread" aria-live="polite"></div>
+  <p><b>Try this.</b> With 0% skill the histogram matches the density and about 10 funds still pass. Press <b>follow the winners</b>: their t-statistics in the <i>next</i> two years are again centred at zero, because they were lucky. Now set 10% skilled with shift 3: the right tail gets heavy and most winners are genuine. With Bonferroni, false discoveries almost disappear, at the price of missing many skilled funds (power!).</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">LESSON</span> The multiple-testing problem<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>If you run $N$ independent tests of true nulls at size $\alpha$:</p>
+  $$\mathbb E[\#\text{false rejections}]=N\alpha,\qquad P(\text{at least one})=1-(1-\alpha)^N$$
+  <table>
+    <tr><th>$N$</th><th>expected at 1%</th><th>$P(\ge1)$ at 1%</th><th>$P(\ge1)$ at 5%</th></tr>
+    <tr><td>1</td><td>0.01</td><td>0.010</td><td>0.050</td></tr>
+    <tr><td>10</td><td>0.1</td><td>0.096</td><td>0.401</td></tr>
+    <tr><td>100</td><td>1</td><td>0.634</td><td>0.994</td></tr>
+    <tr><td>1000</td><td>10</td><td>0.99996</td><td>1.000</td></tr>
+  </table>
+  </div>
+  <div>
+  <p>The same trap: testing 100 trading rules and publishing the best; trying 50 regressors and reporting the significant ones ("data snooping"). A single test's size is valid for <b>one</b> test fixed in advance.</p>
+  <p><b>Fixes (beyond the slides):</b> compare the number of rejections with $N\alpha$; use a stricter size, e.g. Bonferroni $\alpha/N$; check out of sample.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Is there skill here?</div>
+<div class="prob">
+  <p>Out of 2000 funds tested at 1% one-sided, 85 have $t&gt;2.33$. What do you conclude? Roughly how many of them are likely genuine?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Expected by luck: 20, sd $\sqrt{19.8}=4.4$. 85 is far above: some skill exists. Roughly $85-20=65$ genuine, but you can't tell <b>which</b>: about a quarter of the 85 are lucky.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Explain to an investor</div>
+<div class="prob">
+  <p>"This fund has a t-stat of 2.5, so there is only a 0.6% chance it is luck." Correct the statement.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>0.6% is $P(t&gt;2.5\mid\alpha=0)$ for <b>one fund chosen in advance</b>. This one was picked <b>because</b> it was the best of 1000: the maximum of 1000 $t$-statistics is above 2.5 almost surely even if all alphas are zero. And $P(\text{data}\mid\text{luck})$ is not $P(\text{luck}\mid\text{data})$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s26">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Mutual funds<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>With 1000 funds, all with $\alpha=0$, how many do you expect to reject at 1% (one-sided)?</div>
+    <div class="opts"><button>0</button><button>10</button><button>50</button><button>7</button></div>
+    <div class="why">$1000\cdot0.01$.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>Finding 7 rejections at 1% among 1000 funds suggests</div>
+    <div class="opts"><button>7 skilled managers</button><button>at least some skill</button><button>nothing beyond luck</button><button>the test is wrong</button></div>
+    <div class="why">Fewer than the 10 expected under the null of no skill.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>The regression on the market is used to</div>
+    <div class="opts"><button>remove the part of performance due to market exposure</button><button>increase $R^2$</button><button>predict next year's returns</button><button>make errors normal</button></div>
+    <div class="why">Otherwise a high-beta fund looks skilled in a rising market.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>If we pick the fund with the largest of 1000 $t$-stats, the usual 1% critical value</div>
+    <div class="opts"><button>is still valid</button><button>should be one-sided 1.645</button><button>is too large</button><button>is too small: the maximum exceeds it by chance almost surely</button></div>
+    <div class="why">$1-0.99^{1000}\approx1$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

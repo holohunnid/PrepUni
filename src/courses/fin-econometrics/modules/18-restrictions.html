@@ -1,0 +1,179 @@
+<!-- ============ 18 WHY TEST, AND HOW TO WRITE RΒ = Q ============ -->
+<section id="s18">
+<div class="sec-head"><span class="num">18</span><h2>Why test, and how to write Rβ = q</h2><span class="sub">lecture 5, slides 2–13 · lecture 8, slide 2</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Is 0.005 different from zero?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>A fund's estimated alpha is $\hat\alpha=0.005$. Is the true $\alpha$ zero? We can't tell from the number, because the estimator is random: even if $\alpha=0$, $\hat\alpha$ is never exactly 0. <b>Hypothesis testing</b> decides whether the evidence against a conjecture is strong enough. The first step of every test is to write the conjecture as $R\beta=q$.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">MOTIVATION</span> Mutual funds: skill or luck?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$r_t^{MF}-r_t^f=\alpha^{MF}+\beta^{MF}(r_t^m-r_t^f)+\varepsilon_t^{MF}$$
+  <p>A fund can earn high returns because (i) the manager has skill, (ii) the manager was lucky, or (iii) the fund simply holds risky stocks with large risk premia (high $\beta$). The CAPM strips out (iii). What is left is $\alpha^{MF}$, the <b>risk-adjusted performance</b>. Investors should pay fees only if $\alpha^{MF}&gt;0$ ("beating the market").</p>
+  </div>
+  <div>
+  <p><b>Testing is not estimating.</b> Estimation answers "what is $\beta$?". Testing answers "is there enough evidence in the data against this statement about $\beta$?".</p>
+  <p><b>Testing is subject to error.</b> We never conclude with certainty. If we could, we would know $\beta$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Null and alternative; the general form<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$H_0:R\beta-q=0\qquad\text{vs}\qquad H_A:R\beta-q\neq0$$
+  <table class="formula-table">
+    <tr><td>$R$</td><td>$J\times K$ — one row per restriction, one column per coefficient</td></tr>
+    <tr><td>$\beta$</td><td>$K\times1$</td></tr>
+    <tr><td>$q$</td><td>$J\times1$</td></tr>
+    <tr><td>$J$</td><td>number of restrictions = <b>number of equal signs</b></td></tr>
+  </table>
+  <p>Always state both hypotheses. Conclusions: "<b>do not reject</b> $H_0$" (the slides write "accept", in quotation marks) or "<b>reject</b> $H_0$ in favour of $H_A$".</p>
+  </div>
+  <div>
+  <div class="note tip"><div class="t">The recipe (slide 9's hint, extended)</div>
+  <p>(1) Write the column vector $\beta$ first. (2) Rewrite each restriction as "(coefficients) = number": $\beta_2=\beta_3$ becomes $\beta_2-\beta_3=0$. (3) Each becomes a row of $R$: the number in front of each $\beta_k$. (4) The right-hand sides form $q$. (5) Check dimensions and that the rows of $R$ are linearly independent.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 5 · the model yᵢ = β₁ + β₂xᵢ₂ + β₃xᵢ₃ + β₄xᵢ₄ + εᵢ (K = 4)</div>
+  <div class="body">
+  <table>
+    <tr><th>hypothesis</th><th>$J$</th><th>$R$</th><th>$q$</th></tr>
+    <tr><td>a) $\beta_1=0$</td><td>1</td><td>$[1\ 0\ 0\ 0]$</td><td>$0$</td></tr>
+    <tr><td>b) $\beta_2=0$ (<i>exercise</i>)</td><td>1</td><td>$[0\ 1\ 0\ 0]$</td><td>$0$</td></tr>
+    <tr><td>c) $\beta_2=0,\ \beta_3+\beta_4=1$</td><td>2</td><td>$\begin{bmatrix}0&1&0&0\\0&0&1&1\end{bmatrix}$</td><td>$\begin{bmatrix}0\\1\end{bmatrix}$</td></tr>
+    <tr><td>d) $\beta_2=\beta_3=\beta_4=0$ (<i>exercise</i>)</td><td><b>3</b></td><td>$\begin{bmatrix}0&1&0&0\\0&0&1&0\\0&0&0&1\end{bmatrix}$</td><td>$\begin{bmatrix}0\\0\\0\end{bmatrix}$</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 5 · the two economics exercises</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Cobb–Douglas</b> (slide 11): $\log Y_j=\log c+\gamma\log K_j+\theta\log L_j+\varepsilon_j$. Perfect competition: $\gamma+\theta=1$ (constant returns to scale).</p>
+  $$\underbrace{[0\ \ 1\ \ 1]}_{R\,(1\times3)}\underbrace{\begin{bmatrix}\log c\\\gamma\\\theta\end{bmatrix}}_{\beta\,(3\times1)}-\underbrace{1}_{q\,(1\times1)}=0$$
+  <p>Note $\log c$, not $c$, is the parameter.</p>
+  </div>
+  <div>
+  <p><b>Investment</b> (slide 12): $I_t=\beta_1+\beta_2r_t^{nom}+\beta_3\pi_t+\beta_4z_t+\varepsilon_t$. If investment responds to the <b>real</b> rate $r^{real}=r^{nom}-\pi$, then $\beta_3=-\beta_2$, i.e. $\beta_2+\beta_3=0$:</p>
+  $$[0\ \ 1\ \ 1\ \ 0]\begin{bmatrix}\beta_1\\\beta_2\\\beta_3\\\beta_4\end{bmatrix}-0=0$$
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">LECTURE 8, SLIDE 2 · how many restrictions, and R, q</div>
+  <div class="body">
+  <table>
+    <tr><th>example</th><th>$J$</th><th>$R\beta=q$</th></tr>
+    <tr><td>1. $\beta_2=1,\beta_3=4,\beta_4=0$ ($K=4$)</td><td>3</td><td>$\begin{bmatrix}0&1&0&0\\0&0&1&0\\0&0&0&1\end{bmatrix}\beta=\begin{bmatrix}1\\4\\0\end{bmatrix}$</td></tr>
+    <tr><td>2. $\beta_2=\beta_3,\ \beta_6+\beta_9=3$ ($K=9$)</td><td>2</td><td>$\begin{bmatrix}0&1&-1&0&0&0&0&0&0\\0&0&0&0&0&1&0&0&1\end{bmatrix}\beta=\begin{bmatrix}0\\3\end{bmatrix}$</td></tr>
+    <tr><td>3. $\beta_2=\beta_3=\dots=\beta_K=0$</td><td>$K-1$</td><td>$[\,0_{(K-1)\times1}\ \ I_{K-1}\,]\,\beta=0_{(K-1)\times1}$</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">TRAINER</span> Build R and q<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>problem <select id="rq_k"><option value="0">1</option><option value="1">2</option><option value="2">3</option><option value="3">4</option><option value="4">5</option><option value="5">6</option><option value="6">7</option><option value="7">8</option></select></label>
+    <span class="btns">
+      <button data-do="rqCheck">check</button>
+      <button data-do="rqShow">show solution</button>
+      <button data-do="rqNext">next problem</button>
+    </span>
+  </div>
+  <div id="rqbox" style="overflow-x:auto"></div>
+  <div class="readout" id="rqread" aria-live="polite"></div>
+  <p>Fill in the cells and press check. Rows may be multiplied by any non-zero constant, or listed in another order, and still be right: the trainer accepts every equivalent answer.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill r">TRAPS</span> Counting restrictions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ul>
+    <li>$\beta_2=\beta_3=\beta_4$ is <b>two</b> restrictions ($\beta_2=\beta_3$ and $\beta_3=\beta_4$), not three. $\beta_2=\beta_3=\beta_4=0$ is three.</li>
+    <li>Redundant restrictions: $\beta_2=0,\ \beta_3=0,\ \beta_2+\beta_3=0$ is $J=2$. If rows of $R$ are dependent, $R(X'X)^{-1}R'$ cannot be inverted.</li>
+    <li>$J\le K$ always. $J=K$ with $R=I_K$ means testing every coefficient.</li>
+    <li>Non-linear restrictions ($\beta_2\beta_3=1$) <b>cannot</b> be written as $R\beta=q$.</li>
+    <li>$\beta_2&gt;0$ is not a restriction of this form either: inequalities belong in $H_A$ (one-sided tests, module 20).</li>
+  </ul>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>W8 Part 2, question 1</div>
+<div class="prob">
+  <p>$\beta=(\gamma_0,\gamma_1,\gamma_2)'$. Write the joint null $\gamma_0=0$ and $\gamma_1=\gamma_2$ as $R\beta=q$, with dimensions.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  $$\underbrace{\begin{bmatrix}1&0&0\\0&1&-1\end{bmatrix}}_{R\,(2\times3)}\underbrace{\begin{bmatrix}\gamma_0\\\gamma_1\\\gamma_2\end{bmatrix}}_{(3\times1)}=\underbrace{\begin{bmatrix}0\\0\end{bmatrix}}_{q\,(2\times1)}$$
+  <p>$J=2$, $K=3$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>A pricing model</div>
+<div class="prob">
+  <p>$r^{ex}=\alpha+\beta_mMKT+\beta_sSMB+\beta_hHML+\varepsilon$. Write (i) "the CAPM is right", (ii) "exposures to SMB and HML are equal and the market beta is one".</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>(i) $\alpha=0$, $\beta_s=\beta_h=0$: $J=3$, $R=\begin{bmatrix}1&0&0&0\\0&0&1&0\\0&0&0&1\end{bmatrix}$, $q=0$. (ii) $J=2$, $R=\begin{bmatrix}0&0&1&-1\\0&1&0&0\end{bmatrix}$, $q=(0,1)'$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s18">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Restrictions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>"$\beta_2=\beta_3=\beta_4$" imposes</div>
+    <div class="opts"><button>1 restriction</button><button>2 restrictions</button><button>3 restrictions</button><button>4 restrictions</button></div>
+    <div class="why">Two equal signs.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>$R$ has dimension</div>
+    <div class="opts"><button>$K\times J$</button><button>$J\times J$</button><button>$J\times K$</button><button>$n\times K$</button></div>
+    <div class="why">One row per restriction.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>$2\beta_2-\beta_3=5$ with $K=3$:</div>
+    <div class="opts"><button>$R=[0\ 2\ -1],\ q=5$</button><button>$R=[2\ -1\ 0],\ q=5$</button><button>$R=[0\ 2\ -1],\ q=0$</button><button>$R=[0\ 2\ 1],\ q=-5$</button></div>
+    <div class="why">Column $k$ is the number in front of $\beta_k$.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>Which hypothesis cannot be written as $R\beta=q$?</div>
+    <div class="opts"><button>$\beta_1=\beta_2+3$</button><button>$\beta_2=\beta_3=0$</button><button>$\beta_1+\beta_2+\beta_3=1$</button><button>$\beta_2\beta_3=1$</button></div>
+    <div class="why">It is not linear in $\beta$.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>"Not rejecting $H_0$" means</div>
+    <div class="opts"><button>$H_0$ is true</button><button>there is not enough sample evidence against $H_0$</button><button>$H_A$ is false</button><button>the test has no power</button></div>
+    <div class="why">Testing never proves the null.</div>
+  </div>
+  </div>
+</div>
+
+</section>

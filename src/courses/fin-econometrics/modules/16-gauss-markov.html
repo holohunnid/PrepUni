@@ -1,0 +1,163 @@
+<!-- ============ 16 GAUSS–MARKOV: OLS IS BLUE ============ -->
+<section id="s16">
+<div class="sec-head"><span class="num">16</span><h2>Gauss–Markov: OLS is BLUE</h2><span class="sub">lecture 4, slides 6–9 · W8 questions 2 and 3</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> Best in its class<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>There are many estimators of $\beta$. Among those that are <b>linear in $y$</b> and <b>unbiased</b>, OLS has the <b>smallest variance</b>. That is the Gauss–Markov theorem, also stated as "OLS is BLUE": <b>B</b>est <b>L</b>inear <b>U</b>nbiased <b>E</b>stimator. It uses A1b, A2a, A2b and <b>not</b> normality.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> What "best" means when variances are matrices<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>For a scalar parameter, best means $\mathbb V[\tilde b\mid X]\ge\mathbb V[b\mid X]$. For $K$ parameters both are $K\times K$ matrices, so we say</p>
+  $$\mathbb V[\tilde b\mid X]-\mathbb V[b\mid X]=\text{non-negative definite}.$$
+  </div>
+  <div>
+  <p><b>Equivalent meaning:</b> for <b>every</b> linear combination $c'\beta$,</p>
+  $$\mathbb V[c'\tilde b\mid X]-\mathbb V[c'b\mid X]=c'\big(\mathbb V[\tilde b\mid X]-\mathbb V[b\mid X]\big)c\ge0 .$$
+  <p>So OLS is best for each coefficient, for sums, for differences, for predictions $x_0'\beta$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PROOF</span> The proof in five lines (learn it)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li><b>A general rival.</b> Any linear estimator is $\tilde b=\tilde Ay$. Then $\mathbb E[\tilde b\mid X]=\tilde AX\beta$ and $\mathbb V[\tilde b\mid X]=\sigma^2\tilde A\tilde A'$.</li>
+    <li><b>Unbiased for every $\beta$</b> $\Leftrightarrow\tilde AX=I_K$.</li>
+    <li><b>Compare with OLS:</b> write $\tilde A=A+D$, with $A=(X'X)^{-1}X'$. Then $I_K=\tilde AX=AX+DX=I_K+DX\Rightarrow\boxed{DX=0}$.</li>
+    <li><b>Cross terms vanish:</b> $AD'=(X'X)^{-1}X'D'=(X'X)^{-1}(DX)'=0$, and $DA'=(AD')'=0$.</li>
+    <li><b>Variance:</b>
+    $$\mathbb V[\tilde b\mid X]=\sigma^2(A+D)(A+D)'=\underbrace{\sigma^2AA'}_{\mathbb V[b\mid X]}+\sigma^2DD'$$
+    and $DD'$ is non-negative definite: $x'DD'x=z'z=\sum z_j^2\ge0$ with $z=D'x$. $\blacksquare$</li>
+  </ol>
+  </div>
+  <div>
+  <div class="note tip"><div class="t">How to remember it</div>
+  <p>Any rival = OLS + something ($D$). Unbiasedness forces that something to be orthogonal to $X$ ($DX=0$). Orthogonal pieces add variance but no information. It is Pythagoras again.</p>
+  </div>
+  <div class="note "><div class="t">Where each assumption is used</div>
+  <p>A1b: $A$ exists. A2a: $\mathbb E[y\mid X]=X\beta$. A2b: $\mathbb V[y\mid X]=\sigma^2I$, so $\sigma^2$ factors out of $\tilde A\tilde A'$. Normality: <b>nowhere</b>.</p>
+  </div>
+  <div class="note warn"><div class="t">What Gauss–Markov does not say</div>
+  <p>It does not say OLS beats <b>biased</b> or <b>non-linear</b> estimators. A biased estimator with a tiny variance can have a smaller MSE. And it fails if A2b fails.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> OLS against unbiased rivals<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$n$ <input type="range" id="gm_n" min="6" max="60" step="2" value="20"> <span class="val" id="gm_n_v">20</span></label>
+    <label>$\sigma$ <input type="range" id="gm_s" min="0.2" max="3" step="0.1" value="1.0"> <span class="val" id="gm_s_v">1.0</span></label>
+    <label>rival <select id="gm_k"><option value="ends">endpoints: (yₙ−y₁)/(xₙ−x₁)</option><option value="half">halves: difference of group means</option><option value="skip">OLS on every second point</option><option value="zero">biased: always 0.9</option></select></label>
+    <span class="btns">
+      <button data-do="gmRun">run 2000 samples</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="gmsvg" viewBox="0 0 380 250"></svg><figcaption>Sampling distributions of the slope estimators. Blue: OLS. Amber: the rival. Red: true slope 1.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="gmread" aria-live="polite"></div>
+  <p><b>Try this.</b> All three rivals are linear in $y$ and unbiased: both histograms are centred at 1, but the amber one is always wider. Then choose "always 0.9": variance zero! It beats OLS on variance but it is biased, so Gauss–Markov does not apply to it. With $\sigma$ large it even has a lower mean squared error.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE · the endpoints estimator, worked out</div>
+  <div class="body">
+  <p>$\tilde b_2=\dfrac{y_n-y_1}{x_n-x_1}$. <b>Linear?</b> Yes, weights $-\frac1{x_n-x_1}$ on $y_1$ and $+\frac1{x_n-x_1}$ on $y_n$, 0 elsewhere. <b>Unbiased?</b> $\mathbb E[\tilde b_2\mid X]=\frac{(\beta_1+\beta_2x_n)-(\beta_1+\beta_2x_1)}{x_n-x_1}=\beta_2$ ✓. <b>Variance:</b> $\frac{2\sigma^2}{(x_n-x_1)^2}$. With $x=1,\dots,5$: $2\sigma^2/16=0.125\sigma^2$, against OLS $\sigma^2/10=0.1\sigma^2$. OLS is better by 20%, because it also uses the middle points.</p>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">W8 PART 1, QUESTIONS 2 and 3 · model answers</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>Q2. What is the BLUE of $\beta$? Explain without proof.</b></p>
+  <p>The OLS estimator $\hat\beta=(X'X)^{-1}X'y$. It is <b>linear</b> in $y$ ($\hat\beta=Ay$), <b>unbiased</b> ($\mathbb E[\hat\beta]=\beta$, because $\mathbb E[\varepsilon\mid X]=0$), and <b>best</b>: by the Gauss–Markov theorem, since the errors are i.i.d. with mean zero and constant variance $\sigma^2$, independent of the regressors, and $X$ has full column rank, its covariance matrix is the smallest among all linear unbiased estimators: for any other one $\tilde b$, $\mathbb V[\tilde b\mid X]-\mathbb V[\hat\beta\mid X]$ is non-negative definite.</p>
+  </div>
+  <div>
+  <p><b>Q3. If $\varepsilon_t$ were normal rather than unknown, would the answer change?</b></p>
+  <p><b>NO.</b> Gauss–Markov needs only $\mathbb E[\varepsilon\mid X]=0$, $\mathbb V[\varepsilon\mid X]=\sigma^2I$ and full rank; it holds for any distribution with those moments, including the normal. Normality would add the exact distribution of $\hat\beta$, which is needed for hypothesis testing, not for BLUE.</p>
+  <div class="note "><div class="t">One detail worth a sentence</div>
+  <p>Independence "for each $t$" gives $\mathbb E[\varepsilon_t\mid I_t,r_t]=0$. Together with i.i.d. errors independent of all regressors it gives $\mathbb E[\varepsilon\mid X]=0$, which is what the theorem uses.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Is it BLUE?</div>
+<div class="prob">
+  <p>$y_i=\beta x_i+\varepsilon_i$ (no constant). Rival: $\tilde b=\bar y/\bar x$. Linear? Unbiased? Compare variances.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Linear: $\tilde b=\sum y_i/\sum x_i$ ✓. Unbiased: $\sum\beta x_i/\sum x_i=\beta$ ✓. Variance: $\frac{n\sigma^2}{(\sum x_i)^2}=\frac{\sigma^2}{n\bar x^2}$, against OLS $\frac{\sigma^2}{\sum x_i^2}$. Since $\sum x_i^2=n\bar x^2+\sum(x_i-\bar x)^2\ge n\bar x^2$, OLS has the smaller variance ✓.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>The mean is BLUE</div>
+<div class="prob">
+  <p>In $y_i=\mu+\varepsilon_i$, show that among $\sum w_iy_i$ with $\sum w_i=1$, equal weights are best.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\mathbb V=\sigma^2\sum w_i^2$. Write $w_i=\frac1n+d_i$, $\sum d_i=0$: $\sum w_i^2=\frac1n+\sum d_i^2\ge\frac1n$. Here $d$ plays the role of $D$ and $\sum d_i=0$ is $DX=0$.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s16">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Gauss–Markov<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>In the proof, unbiasedness of $\tilde b=\tilde Ay$ requires</div>
+    <div class="opts"><button>$\tilde A=A$</button><button>$\tilde A\tilde A'=I$</button><button>$\tilde AX=I_K$</button><button>$X\tilde A=I_n$</button></div>
+    <div class="why">$\mathbb E[\tilde b\mid X]=\tilde AX\beta=\beta$ for all $\beta$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">2</span>OLS is BLUE if errors are $t$-distributed with 5 degrees of freedom, i.i.d., mean zero, independent of $X$</div>
+    <div class="opts"><button>True</button><button>False: needs normality</button><button>False: errors have heavy tails</button><button>Only if $n$ is large</button></div>
+    <div class="why">Finite constant variance and zero mean are enough.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>If A2b fails (heteroskedasticity) but A1b and A2a hold, OLS is</div>
+    <div class="opts"><button>biased</button><button>BLUE</button><button>undefined</button><button>unbiased but not BLUE</button></div>
+    <div class="why">Bias uses only A2a; "best" uses A2b.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">4</span>A ridge-type estimator has smaller variance than OLS. This</div>
+    <div class="opts"><button>contradicts Gauss–Markov</button><button>is possible because it is biased</button><button>is impossible</button><button>means A2b holds</button></div>
+    <div class="why">The theorem compares only linear <b>unbiased</b> estimators.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>$\mathbb V[\tilde b\mid X]-\mathbb V[b\mid X]=$</div>
+    <div class="opts"><button>$\sigma^2AA'$</button><button>$\sigma^2DD'$</button><button>$\sigma^2(X'X)^{-1}$</button><button>0</button></div>
+    <div class="why">The extra variance of the rival.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,134 @@
+<!-- ============ 31 ASSET RETURNS: THE STYLIZED FACTS ============ -->
+<section id="s31">
+<div class="sec-head"><span class="num">31</span><h2>Asset returns: the stylized facts</h2><span class="sub">GARCH deck, slides 2–10</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> What all asset returns have in common<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Equities, bonds, commodities and currencies differ economically, but their returns share the same statistical regularities. These <b>stylized facts</b> are (essentially) model-free and any good model must reproduce them. Memorise the list with one sentence of evidence for each.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">LIST</span> The stylized facts<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <table>
+    <tr><th>fact</th><th>what it means</th><th>evidence in the deck (S&P 500, 1980–2020, daily)</th></tr>
+    <tr><td><b>stochastic volatility</b></td><td>volatility changes randomly over time</td><td>calm 1990s, violent 1987, 2008, 2020</td></tr>
+    <tr><td><b>volatility clustering / persistence</b></td><td>large moves are followed by large moves (of either sign)</td><td>ACF of $r_t^2$ positive and slowly decaying up to 40 lags; ACF of $r_t$ about zero</td></tr>
+    <tr><td><b>jumps</b></td><td>price discontinuities</td><td>1987 crash: a log-return of −0.23 in one day</td></tr>
+    <tr><td><b>heavy tails</b></td><td>more mass in the tails <b>and around zero</b> than a normal</td><td>the crash is a standardized −20.5; a normal gives such a day probability about $10^{-93}$</td></tr>
+    <tr><td><b>leverage effect</b></td><td>$\text{Cov}[\text{returns},\text{volatility changes}]\lt0$</td><td>correlation −0.63; slopes −2.25 (negative returns) versus 0.24 (positive)</td></tr>
+  </table>
+  <div class="note tip"><div class="t">The key sentence about dependence</div>
+  <p>Returns are (nearly) <b>uncorrelated but not independent</b>: $r_t$ does not help to predict $r_{t+1}$, but $r_t^2$ helps to predict $r_{t+1}^2$. The direction is unpredictable, the size is predictable. Compare module 22: zero covariance is not independence.</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Log-returns, and why equity is asymmetric<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>Log-return: $r_t=\log(S_t/S_{t-1})$. Close to the simple return for small moves ($\log(1+x)\approx x$). Multi-day log-returns add up: $\log(S_{t+2}/S_t)=r_{t+1}+r_{t+2}$.</p>
+  <p>A standardized return is $(r_t-\bar r)/\hat\sigma$. Annualize daily volatility with $\sqrt{252}$: 1% per day is about 15.9% per year.</p>
+  </div>
+  <div>
+  <p><b>Merton's view of the firm</b> (slide 2). Debt has face value $D$, assets are worth $A$ at maturity.</p>
+  $$\text{Equity}=\max(A-D,0)\qquad\text{Debt}=\min(A,D)$$
+  <p>Equity is a <b>call option</b> on the firm's assets; debt holders own the assets and are <b>short a put</b>. So different claims on the <i>same</i> assets have very different payoffs. It also suggests why volatility rises when prices fall: with lower $A$ the firm is more leveraged, so equity becomes riskier (the "leverage" in leverage effect).</p>
+  </div>
+  </div>
+  <figure>
+  <svg viewBox="0 0 560 170">
+    <g stroke="var(--border2)" fill="none"><path d="M40 20 V140 H260"/><path d="M310 20 V140 H530"/></g>
+    <path d="M40 140 H140 L240 40" fill="none" stroke="var(--red)" stroke-width="2.5"/><path d="M310 140 L410 60 H520" fill="none" stroke="var(--blue)" stroke-width="2.5"/>
+    <g fill="none" stroke="var(--dim)" stroke-dasharray="3 3"><path d="M140 140 V30"/><path d="M410 140 V30"/></g>
+    <text x="48" y="30" class="svgtxt r">equity = max(A − D, 0)</text><text x="318" y="30" class="svgtxt b">debt = min(A, D)</text>
+    <text x="140" y="156" class="svgtxt" text-anchor="middle">D</text><text x="410" y="156" class="svgtxt" text-anchor="middle">D</text><text x="260" y="156" class="svgtxt" text-anchor="end">asset value</text><text x="530" y="156" class="svgtxt" text-anchor="end">asset value</text>
+  </svg>
+  <figcaption>The two payoff diagrams drawn by hand on slide 2.</figcaption>
+  </figure>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Can an i.i.d. normal model produce the facts?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>model <select id="sf_k"><option value="iid">i.i.d. normal returns</option><option value="garch">GARCH(1,1), normal shocks</option><option value="garcht">GARCH(1,1), Student-t shocks</option></select></label>
+    <span class="btns">
+      <button data-do="sfNew">new 2000 days</button>
+    </span>
+  </div>
+  <figure><svg id="sfsvg" viewBox="0 0 720 170"></svg><figcaption>Simulated daily returns (percent).</figcaption></figure>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="sfacf" viewBox="0 0 360 220"></svg><figcaption>Sample ACF of $r_t$ (top) and of $r_t^2$ (bottom), lags 1–40, with $\pm1.96/\sqrt T$ bands.</figcaption></figure>
+  </div>
+  <div>
+  <figure><svg id="sfhis" viewBox="0 0 360 220"></svg><figcaption>Histogram of standardized returns against the $N(0,1)$ density.</figcaption></figure>
+  </div>
+  </div>
+  <div class="readout" id="sfread" aria-live="polite"></div>
+  <p><b>Try this.</b> i.i.d. normal: no clusters, both ACFs flat, histogram on the curve. It fails every fact. GARCH: clusters appear, the ACF of $r_t^2$ is positive, tails get heavier (kurtosis above 3) <b>even though the shocks are normal</b>, while the ACF of $r_t$ stays flat. With $t$ shocks the tails are heavier still. What neither has: the leverage effect (module 35 adds it).</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill g">●</span><span class="tag">practice</span>Log and simple</div>
+<div class="prob">
+  <p>The index falls from 100 to 79.5 in one day. Simple and log return? If the daily sd is 1.12%, what is the standardized log-return?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Simple −20.5%; log $\ln0.795=-22.9\%$. Standardized: $-22.9/1.12=-20.5$, the deck's number for the 1987 crash. Note how the two returns differ for large moves.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Uncorrelated, not independent</div>
+<div class="prob">
+  <p>$r_t=\sigma_tz_t$ with $\sigma_t$ known at $t-1$ and $z_t$ i.i.d. mean 0. Show $\text{Cov}[r_t,r_{t-1}]=0$ but that $r_t^2$ and $r_{t-1}^2$ can be correlated.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\mathbb E[r_tr_{t-1}]=\mathbb E\big[r_{t-1}\sigma_t\mathbb E[z_t\mid\mathcal F_{t-1}]\big]=0$. But $\mathbb E[r_t^2\mid\mathcal F_{t-1}]=\sigma_t^2$, which may depend on $r_{t-1}^2$ (ARCH does exactly this), so the squares are related.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s31">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Stylized facts<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>Volatility clustering shows up as</div>
+    <div class="opts"><button>autocorrelated returns</button><button>negative autocorrelation in squared returns</button><button>positive autocorrelation in squared returns and almost none in returns</button><button>normal returns</button></div>
+    <div class="why">Slide 7's two panels.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>Compared with the normal, the return distribution has</div>
+    <div class="opts"><button>thinner tails and a flatter centre</button><button>more mass in the tails and around zero</button><button>more mass in the tails only</button><button>the same shape</button></div>
+    <div class="why">"Heavy tails": and a higher peak.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>The leverage effect is</div>
+    <div class="opts"><button>negative covariance between returns and volatility changes</button><button>positive covariance between returns and volatility changes</button><button>the effect of margin trading</button><button>autocorrelation of returns</button></div>
+    <div class="why">Falls raise volatility much more than rises lower or raise it.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>"Stylized facts are model-free" means</div>
+    <div class="opts"><button>they are proved theoretically</button><button>they hold only for equities</button><button>they need GARCH</button><button>they are observed in data without assuming a model</button></div>
+    <div class="why">And are surprisingly similar across asset classes.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>In Merton's view equity is</div>
+    <div class="opts"><button>a short put on assets</button><button>a call on the firm's assets with strike the face value of debt</button><button>a bond</button><button>a forward on assets</button></div>
+    <div class="why">$\max(A-D,0)$.</div>
+  </div>
+  </div>
+</div>
+
+</section>

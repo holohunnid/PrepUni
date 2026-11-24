@@ -75,7 +75,7 @@ section{margin-bottom:34px;scroll-margin-top:44px}
 .topbar{white-space:nowrap}
 @media(max-width:1200px){.topbar > span:not(.brand):not(.tag){display:none}}
 @media(max-width:900px){#sidebtn{display:none}}
-@media(max-width:600px){.topbar .tag,#printbtn,.topbar .right .allbtn{display:none}.topbar{gap:8px;padding:0 10px}.topbar .right{gap:8px}}
+@media(max-width:600px){.topbar .tag,#printbtn,.topbar .right .allbtn{display:none}.topbar{gap:8px;padding:0 10px}.topbar .right{gap:8px;flex-shrink:0}.topbar .brand{min-width:0;overflow:hidden;text-overflow:ellipsis}}
 @media(max-width:900px){.grid2,.grid3,.hero .body{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.side{display:none}}
 
 h3{font-size:13px;margin:14px 0 6px;color:var(--text);font-weight:700}

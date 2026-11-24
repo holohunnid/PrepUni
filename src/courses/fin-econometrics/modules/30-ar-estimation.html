@@ -1,0 +1,132 @@
+<!-- ============ 30 ESTIMATING AR MODELS; AR(P) AND ARMA(P,Q) ============ -->
+<section id="s30">
+<div class="sec-head"><span class="num">30</span><h2>Estimating AR models; AR(p) and ARMA(p,q)</h2><span class="sub">time series deck, slides 13–15</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> It's just a regression with a lagged regressor<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>An AR(1) is a linear model whose regressor is yesterday's value. So OLS estimates it. AR(p) works the same way with $p$ lags. ARMA does not, because it has past <b>errors</b> on the right-hand side and those are not observed.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">KEY</span> AR(1) as $y=X\beta+\varepsilon$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>For $t=2,\dots,T$ (we lose the first observation):</p>
+  $$\underbrace{\begin{bmatrix}Y_2\\\vdots\\Y_T\end{bmatrix}}_{y\ ((T-1)\times1)}=\underbrace{\begin{bmatrix}1&Y_1\\\vdots&\vdots\\1&Y_{T-1}\end{bmatrix}}_{X\ ((T-1)\times2)}\underbrace{\begin{bmatrix}\phi_0\\\phi_1\end{bmatrix}}_{\beta\ (2\times1)}+\underbrace{\begin{bmatrix}\varepsilon_2\\\vdots\\\varepsilon_T\end{bmatrix}}_{\varepsilon\ ((T-1)\times1)}$$
+  $$b=(X'X)^{-1}X'y=\begin{bmatrix}\hat\phi_0\\\hat\phi_1\end{bmatrix},\qquad s^2=\frac{e'e}{(T-1)-2}$$
+  </div>
+  <div>
+  <p>By module 09: $\hat\phi_1=\dfrac{\widehat{\text{Cov}}[Y_t,Y_{t-1}]}{\hat{\mathbb V}[Y_{t-1}]}$, essentially the first sample autocorrelation. It matches $\rho(1)=\phi_1$.</p>
+  <p>$s^2$ estimates $\sigma_\varepsilon^2$. The unconditional variance is estimated by $s^2/(1-\hat\phi_1^2)$.</p>
+  <div class="note "><div class="t">A subtlety beyond the slides</div>
+  <p>$X$ contains lagged $y$, so $\varepsilon_2$ affects later regressors and $\mathbb E[\varepsilon\mid X]=0$ cannot hold for all rows. OLS is then <b>biased in small samples</b> (towards zero for $\phi_1$ near 1) but consistent, and fine for large $T$ if $\lvert\phi_1\rvert&lt;1$.</p>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> Sampling distribution of $\hat\phi_1$<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>true $\phi_1$ <input type="range" id="ph_1" min="0" max="1" step="0.02" value="0.90"> <span class="val" id="ph_1_v">0.90</span></label>
+    <label>$T$ <input type="range" id="ph_t" min="15" max="500" step="5" value="50"> <span class="val" id="ph_t_v">50</span></label>
+    <span class="btns">
+      <button data-do="phRun">simulate 1500 samples</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="phsvg" viewBox="0 0 400 220"></svg><figcaption>Histogram of the OLS estimate $\hat\phi_1$. Red: true value. Blue diamond: average estimate.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="phread" aria-live="polite"></div>
+  <p><b>Try this.</b> $T=50,\ \phi_1=0.9$: the average estimate is below 0.9 and the histogram is skewed left. Raise $T$ to 500: the bias is nearly gone. At $\phi_1=1$ the histogram stays skewed however large $T$ is: standard $t$-tests don't work for a random walk.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">EXTENSIONS</span> AR(p) and ARMA(p,q)<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p><b>AR(p):</b> $Y_t=\phi_0+\phi_1Y_{t-1}+\dots+\phi_pY_{t-p}+\varepsilon_t$</p>
+  <p><b>Slide question: how to estimate?</b> OLS again, for $t=p+1,\dots,T$:</p>
+  $$\begin{bmatrix}Y_{p+1}\\\vdots\\Y_T\end{bmatrix}=\begin{bmatrix}1&Y_p&\cdots&Y_1\\\vdots&\vdots&&\vdots\\1&Y_{T-1}&\cdots&Y_{T-p}\end{bmatrix}\begin{bmatrix}\phi_0\\\phi_1\\\vdots\\\phi_p\end{bmatrix}+\begin{bmatrix}\varepsilon_{p+1}\\\vdots\\\varepsilon_T\end{bmatrix}$$
+  <p>$y$ is $(T-p)\times1$, $X$ is $(T-p)\times(p+1)$, $\beta$ is $(p+1)\times1$.</p>
+  </div>
+  <div>
+  <p><b>ARMA(p,q):</b></p>
+  $$Y_t=\phi_0+\sum_{i=1}^p\phi_iY_{t-i}+\varepsilon_t+\sum_{j=1}^q\theta_j\varepsilon_{t-j}$$
+  <p>"Estimation more involved because of richer error structure ($\varepsilon$'s not observed)": the columns $\varepsilon_{t-j}$ of the would-be $X$ are unknown, so OLS is not available. One uses maximum likelihood, the same route as GARCH (module 33).</p>
+  <p><b>AR(2) mean</b> by the stationarity trick: $\mu=\phi_0+\phi_1\mu+\phi_2\mu\Rightarrow\mu=\frac{\phi_0}{1-\phi_1-\phi_2}$.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">EXAMPLE · estimate an AR(1) by hand</div>
+  <div class="body">
+  <p>$y_1,\dots,y_6=1,\,2,\,2,\,3,\,2,\,2$. Pairs (regressor, dependent): $(1,2),(2,2),(2,3),(3,2),(2,2)$.</p>
+  <p>$\bar x=2$, $\bar y=2.2$. $S_{xy}=(-1)(-0.2)+0+0+(1)(-0.2)+0=0$. $S_{xx}=2$. $\hat\phi_1=0$, $\hat\phi_0=2.2$. In this tiny sample there is no linear memory: the forecast is 2.2 whatever today's value. Five observations are far too few to conclude anything; the point is the <b>construction of the pairs</b>: 6 observations give 5 rows.</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Set up the matrices</div>
+<div class="prob">
+  <p>You have 200 monthly observations and estimate an AR(3). Dimensions of $y,X,\beta$? d.f. of the $t$-test for $\phi_3=0$? Write $H_0$: "only the first lag matters" as $R\beta=q$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$y$: $197\times1$; $X$: $197\times4$; $\beta=(\phi_0,\phi_1,\phi_2,\phi_3)'$. d.f. $197-4=193$. $R=\begin{bmatrix}0&0&1&0\\0&0&0&1\end{bmatrix}$, $q=(0,0)'$: $F_{2,193}$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Test for no persistence</div>
+<div class="prob">
+  <p>$T=101$, $\hat\phi_1=0.3$, se $=0.095$. Test $H_0:\phi_1=0$ at 5%. What does it mean for forecasting?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>100 rows, d.f. 98. $t=3.16&gt;1.98$ ⇒ reject: today's value helps to forecast tomorrow's. If not rejected, the best forecast would be the mean.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="panel quiz" data-quiz="s30">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Estimation<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">1</span>Estimating an AR(2) on $T=100$ observations, $X$ is</div>
+    <div class="opts"><button>$100\times2$</button><button>$98\times2$</button><button>$98\times3$</button><button>$100\times3$</button></div>
+    <div class="why">Lose 2 rows; constant plus two lags.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">2</span>An ARMA(1,1) cannot be estimated by OLS because</div>
+    <div class="opts"><button>errors are not normal</button><button>the lagged errors are not observed</button><button>it is not stationary</button><button>it has no constant</button></div>
+    <div class="why">A column of $X$ would be unknown.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">3</span>The OLS estimate of $\phi_1$ is (approximately)</div>
+    <div class="opts"><button>the sample mean</button><button>$1-R^2$</button><button>the sample variance</button><button>the first-order sample autocorrelation</button></div>
+    <div class="why">Covariance between $Y_t$ and $Y_{t-1}$ over variance.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">4</span>The conclusion slide lists three points. Which is <b>not</b> among them?</div>
+    <div class="opts"><button>time series models are always estimated by OLS</button><button>they are important for forecasting</button><button>pay attention to stationary versus non-stationary</button><button>distinguish unconditional and conditional properties</button></div>
+    <div class="why">ARMA already is not.</div>
+  </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,130 @@
+<!-- ============ 01 COURSE MAP, NOTATION & HOW TO STUDY ============ -->
+<section id="s1">
+<div class="sec-head"><span class="num">01</span><h2>Course map, notation & how to study</h2><span class="sub">what the course is about · what the exam-level sheet asks · dimensions</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> The whole course in six sentences<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <ol class="steps">
+    <li>We want to explain a variable $y$ (a stock's return) with variables $X$ (the market's return). We <b>assume</b> the linear model $y=X\beta+\varepsilon$ (lecture 1).</li>
+    <li>$\beta$ is a fixed number we never see. We <b>estimate</b> it with OLS, $b=(X'X)^{-1}X'y$ (lecture 2).</li>
+    <li>OLS is a <b>projection</b>: it splits $y$ into a part that $X$ explains, $\hat y=Xb$, and a part it does not, $e\perp X$. The share explained is $R^2$ (lecture 3).</li>
+    <li>Before we see the data, $b$ is <b>random</b>. It is linear, unbiased, has variance $\sigma^2(X'X)^{-1}$, and is the best linear unbiased estimator. $\sigma^2$ is estimated by $s^2=e'e/(n-K)$ (lecture 4).</li>
+    <li>Because $b$ is random, $b_1=0.005$ does not mean $\beta_1\neq0$. <b>Hypothesis testing</b> decides, using $m=Rb-q$ and the distributions $N$, $\chi^2$, $t$, $F$ (lectures 5–8).</li>
+    <li>Data that come in time order need models with memory: <b>AR(1)</b> for the level of a series, <b>GARCH</b> for its volatility, and from GARCH the risk measures <b>VaR</b> and <b>ES</b> (time series and GARCH decks).</li>
+  </ol>
+  <figure>
+  <svg viewBox="0 0 720 190">
+    <defs><marker id="mpa" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 z" fill="var(--muted)"/></marker></defs>
+    <rect x="8" y="18" width="120" height="46" fill="var(--greenbg)" stroke="var(--green)"/><text x="68" y="38" class="svgtxt g" text-anchor="middle">model (L1)</text><text x="68" y="54" class="svgtxt w" text-anchor="middle">y = Xβ + ε</text>
+    <rect x="158" y="18" width="120" height="46" fill="var(--greenbg)" stroke="var(--green)"/><text x="218" y="38" class="svgtxt g" text-anchor="middle">estimate (L2)</text><text x="218" y="54" class="svgtxt w" text-anchor="middle">b = (X′X)⁻¹X′y</text>
+    <rect x="308" y="18" width="120" height="46" fill="var(--bluebg)" stroke="var(--blue)"/><text x="368" y="38" class="svgtxt b" text-anchor="middle">project (L3)</text><text x="368" y="54" class="svgtxt w" text-anchor="middle">y = ŷ + e, R²</text>
+    <rect x="458" y="18" width="120" height="46" fill="var(--bluebg)" stroke="var(--blue)"/><text x="518" y="38" class="svgtxt b" text-anchor="middle">b is random (L4)</text><text x="518" y="54" class="svgtxt w" text-anchor="middle">BLUE, s²</text>
+    <rect x="608" y="18" width="104" height="46" fill="var(--amberbg)" stroke="var(--amber)"/><text x="660" y="38" class="svgtxt a" text-anchor="middle">test (L5–8)</text><text x="660" y="54" class="svgtxt w" text-anchor="middle">N, χ², t, F</text>
+    <g stroke="var(--muted)" marker-end="url(#mpa)"><path d="M128 41 H156"/><path d="M278 41 H306"/><path d="M428 41 H456"/><path d="M578 41 H606"/></g>
+    <text x="8" y="100" class="svgtxt w">same toolbox, data in time order</text>
+    <rect x="8" y="112" width="200" height="46" fill="var(--redbg)" stroke="var(--red)"/><text x="108" y="132" class="svgtxt r" text-anchor="middle">AR(1): the level has memory</text><text x="108" y="148" class="svgtxt w" text-anchor="middle">Yₜ = φ₀ + φ₁Yₜ₋₁ + εₜ</text>
+    <rect x="258" y="112" width="210" height="46" fill="var(--redbg)" stroke="var(--red)"/><text x="363" y="132" class="svgtxt r" text-anchor="middle">GARCH: the variance has memory</text><text x="363" y="148" class="svgtxt w" text-anchor="middle">σₜ² = β₀ + β₁σₜ₋₁² + β₂rₜ₋₁²</text>
+    <rect x="518" y="112" width="194" height="46" fill="var(--redbg)" stroke="var(--red)"/><text x="615" y="132" class="svgtxt r" text-anchor="middle">use it: VaR and ES</text><text x="615" y="148" class="svgtxt w" text-anchor="middle">VaR = −σₜ₊₁ z₀.₀₁</text>
+    <g stroke="var(--muted)" marker-end="url(#mpa)"><path d="M208 135 H256"/><path d="M468 135 H516"/></g>
+    <text x="8" y="182" class="svgtxt">AR(1): OLS of Yₜ on Yₜ₋₁. GARCH: maximum likelihood, because σₜ is not observed.</text>
+  </svg>
+  </figure>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">EXAM</span> What the "Exam-level Exercises" sheet tells you about the exam<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>The files you have do not state the exam format. The best evidence is the W8 sheet, titled <b>Exam-level Exercises</b>. Its questions are of six types. Every module of this course trains at least one of them.</p>
+  <table>
+    <tr><th>question type</th><th>example from W8</th><th>trained in</th></tr>
+    <tr><td>write a model as $y=X\beta+\varepsilon$, <b>with content and dimensions</b></td><td>$C_t=\gamma_0+\gamma_1I_t+\gamma_2r_t+\varepsilon_t$</td><td>06, 11, 30</td></tr>
+    <tr><td><b>name</b> an estimator and explain <i>without proof</i> why it has a property</td><td>"What is the BLUE of $\beta$? Why?"</td><td>08, 15, 16</td></tr>
+    <tr><td><b>YES/NO with a reason</b></td><td>"If $\varepsilon_t$ were normal, would the answer change?"</td><td>07, 16, all quick tests</td></tr>
+    <tr><td><b>compute an expectation or variance</b></td><td>"Compute $\mathbb E[e]$"</td><td>15, 17, 37</td></tr>
+    <tr><td><b>write $H_0$ as $R\beta=q$</b>, give the test statistic and its distribution</td><td>$\gamma_0=0$ and $\gamma_1=\gamma_2$, $\sigma^2$ known</td><td>18, 24, 25</td></tr>
+    <tr><td><b>draw the pdf</b> of the statistic with acceptance and rejection regions</td><td>5% level</td><td>20, 23, 24, 25</td></tr>
+  </table>
+  <div class="note tip"><div class="t">How to use this course</div>
+  <p>(1) Read a module. (2) Play with its figure until you can predict what it will do. (3) Do the exercises <b>before</b> opening the solution. (4) Take the quick test at the end: your score is saved in this browser and collected in module 39. (5) In the last week, do the blank-page proofs (37) and the mock exams (38) with a timer, and reread the formula sheet (40).</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">DEF</span> Notation, with dimensions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>Dimensions are worth marks and they also catch most algebra mistakes. Learn this table first.</p>
+  <table>
+    <tr><th>symbol</th><th>name</th><th>dimension</th><th>observed?</th><th>random?</th></tr>
+    <tr><td>$y$</td><td>dependent variable, stacked</td><td>$n\times1$</td><td>yes</td><td>yes, before sampling</td></tr>
+    <tr><td>$X$</td><td>regressors; first column is usually ones</td><td>$n\times K$</td><td>yes</td><td>we condition on it, so treat as fixed</td></tr>
+    <tr><td>$x_i'$</td><td>row $i$ of $X$</td><td>$1\times K$</td><td>yes</td><td>—</td></tr>
+    <tr><td>$X_k$</td><td>column $k$ of $X$</td><td>$n\times1$</td><td>yes</td><td>—</td></tr>
+    <tr><td>$\beta$</td><td>true coefficients</td><td>$K\times1$</td><td><b>no</b></td><td><b>no</b> (constants)</td></tr>
+    <tr><td>$\varepsilon$</td><td>error term</td><td>$n\times1$</td><td><b>no</b></td><td><b>yes</b></td></tr>
+    <tr><td>$b$</td><td>OLS estimator of $\beta$</td><td>$K\times1$</td><td>yes</td><td><b>yes</b>, before sampling</td></tr>
+    <tr><td>$\hat y=Xb$</td><td>fitted values</td><td>$n\times1$</td><td>yes</td><td>yes, before sampling</td></tr>
+    <tr><td>$e=y-Xb$</td><td>residuals</td><td>$n\times1$</td><td>yes</td><td>yes, before sampling</td></tr>
+    <tr><td>$\sigma^2$</td><td>error variance</td><td>$1\times1$</td><td><b>no</b></td><td><b>no</b></td></tr>
+    <tr><td>$s^2=\frac{e'e}{n-K}$</td><td>estimator of $\sigma^2$</td><td>$1\times1$</td><td>yes</td><td>yes, before sampling</td></tr>
+    <tr><td>$X'X$</td><td>—</td><td>$K\times K$</td><td>yes</td><td>—</td></tr>
+    <tr><td>$M$</td><td>residual maker $I_n-X(X'X)^{-1}X'$</td><td>$n\times n$</td><td>yes</td><td>—</td></tr>
+    <tr><td>$R,\ q$</td><td>restrictions $R\beta=q$</td><td>$J\times K,\ J\times1$</td><td>chosen by you</td><td>no</td></tr>
+    <tr><td>$m=Rb-q$</td><td>discrepancy vector</td><td>$J\times1$</td><td>yes</td><td>yes, before sampling</td></tr>
+  </table>
+  <div class="note warn"><div class="t">TRAP · Greek versus Latin</div>
+  <p>$\beta$ and $b$ are different objects, and so are $\varepsilon$ and $e$, $\sigma^2$ and $s^2$. Greek letters belong to the <b>data generating process</b> (fixed and unobserved, or random and unobserved). Latin letters are <b>computed from the sample</b>. The exercise sheets also write $\hat\beta$ for $b$ and $N$ or $T$ for $n$; they mean the same thing.</p>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">THE RUNNING EXAMPLE · five observations you will meet in many modules</div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <p>$x=(1,2,3,4,5)'$ and $y=(2,3,5,4,6)'$, with a constant. Think of $x_i$ as the market return in month $i$ and $y_i$ as a stock's return, in percent. Everything can be done by hand:</p>
+  $$X=\begin{bmatrix}1&1\\1&2\\1&3\\1&4\\1&5\end{bmatrix},\quad X'X=\begin{bmatrix}5&15\\15&55\end{bmatrix},\quad X'y=\begin{bmatrix}20\\69\end{bmatrix}$$
+  </div>
+  <div>
+  <table class="formula-table">
+    <tr><td>quantity</td><td>value</td><td>module</td></tr>
+    <tr><td>$b$</td><td>$(1.3,\ 0.9)'$</td><td>08, 09</td></tr>
+    <tr><td>$\hat y$</td><td>$(2.2,3.1,4.0,4.9,5.8)'$</td><td>12</td></tr>
+    <tr><td>$e$</td><td>$(-0.2,-0.1,1.0,-0.9,0.2)'$</td><td>12</td></tr>
+    <tr><td>$e'e$</td><td>$1.90$</td><td>12, 14</td></tr>
+    <tr><td>$R^2$</td><td>$0.81$</td><td>14</td></tr>
+    <tr><td>$s^2$</td><td>$1.9/3=0.633$</td><td>17</td></tr>
+    <tr><td>$t$ for $\beta_2=0$</td><td>$3.58$</td><td>23</td></tr>
+    <tr><td>$F$ for $\beta_1=0,\beta_2=1$</td><td>$4.03$</td><td>24</td></tr>
+  </table>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel quiz" data-quiz="s1">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Symbols and dimensions<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>In $y=X\beta+\varepsilon$ with $n=60$ months and a constant plus two factors, the dimension of $X'X$ is</div>
+    <div class="opts"><button>$60\times60$</button><button>$3\times3$</button><button>$2\times2$</button><button>$60\times3$</button></div>
+    <div class="why">$X$ is $n\times K=60\times3$ (the constant counts), so $X'X$ is $K\times K=3\times3$.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">2</span>Which pair contains only quantities we can compute from the sample?</div>
+    <div class="opts"><button>$\beta$ and $b$</button><button>$\varepsilon$ and $e$</button><button>$e$ and $s^2$</button><button>$\sigma^2$ and $s^2$</button></div>
+    <div class="why">Latin letters are computed: $e=y-Xb$ and $s^2=e'e/(n-K)$. $\beta,\varepsilon,\sigma^2$ are never observed.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">3</span>$\beta$ is</div>
+    <div class="opts"><button>a vector of unknown constants</button><button>a random vector</button><button>a vector of known constants once the model is estimated</button><button>random before and constant after sampling</button></div>
+    <div class="why">$\beta$ is fixed and unknown forever. It is $b$ that is random before sampling and a list of numbers afterwards.</div>
+  </div>
+  </div>
+</div>
+
+</section>

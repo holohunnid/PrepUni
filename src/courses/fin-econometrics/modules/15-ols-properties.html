@@ -1,0 +1,189 @@
+<!-- ============ 15 B IS RANDOM: LINEAR, UNBIASED, AND ITS VARIANCE ============ -->
+<section id="s15">
+<div class="sec-head"><span class="num">15</span><h2>b is random: linear, unbiased, and its variance</h2><span class="sub">lecture 4, slides 2–5</span></div>
+
+<div class="panel">
+  <div class="bar"><span class="pill a">READ FIRST</span> One sample gives one b. What would the others give?<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <p>$b=(X'X)^{-1}X'y$ is a number vector after the sample, but <b>before</b> it is a random vector, because $\varepsilon$ is. Lecture 4 studies it as a random vector: its mean (property 2), its variance (property 3), and how it compares with rivals (property 4). Every property is a two-line proof with $A=(X'X)^{-1}X'$.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PROPERTY 1</span> Linear in y<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  $$b=(X'X)^{-1}X'y=Ay,\qquad A=(X'X)^{-1}X'\ (K\times n)$$
+  <p>Two facts about $A$, used in everything below:</p>
+  $$AX=(X'X)^{-1}X'X=I_K$$
+  $$AA'=(X'X)^{-1}X'X(X'X)^{-1}=(X'X)^{-1}$$
+  </div>
+  <div>
+  <p><b>Implication.</b> If $y$ is (multivariate) normal, $b$ is normal, because a linear map of a normal is normal. Compact form of the dependence on the errors:</p>
+  $$\boxed{b=A(X\beta+\varepsilon)=\beta+A\varepsilon}$$
+  <p><i>Estimator = truth + a weighted sum of the errors.</i> Memorise this line: it gives properties 2 and 3 at once.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PROPERTY 2</span> Unbiased<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li>$\mathbb E[b\mid X]=\mathbb E[Ay\mid X]=A\,\mathbb E[y\mid X]$ ($A$ depends only on $X$)</li>
+    <li>$=AX\beta$ (by A2a, $\mathbb E[y\mid X]=X\beta$)</li>
+    <li>$=\beta$ (because $AX=I_K$)</li>
+    <li>$\mathbb E[b]=\mathbb E[\mathbb E[b\mid X]]=\mathbb E[\beta]=\beta$ (tower property) $\blacksquare$</li>
+  </ol>
+  </div>
+  <div>
+  <p><b>Uses:</b> A1b and A2a. <b>Does not use:</b> A2b or normality.</p>
+  <p><b>Meaning.</b> Over many samples, the realizations of $b$ are centred at $\beta$. It is a statement about the <i>method</i>, not about your one estimate: $\hat\beta=0.74$ is not "unbiased" or "biased", it is just a number that may be off.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill g">PROPERTY 3</span> Variance<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="grid2" style="align-items:start">
+  <div>
+  <ol class="steps">
+    <li>$\mathbb V[y\mid X]=\mathbb V[X\beta+\varepsilon\mid X]=\mathbb V[\varepsilon\mid X]=\sigma^2I_n$ ($X\beta$ is constant given $X$)</li>
+    <li>$\mathbb V[b\mid X]=\mathbb V[Ay\mid X]=A\,\mathbb V[y\mid X]\,A'$</li>
+    <li>$=\sigma^2AA'$ (by A2b)</li>
+    <li>$=\boxed{\sigma^2(X'X)^{-1}}$ $\blacksquare$</li>
+  </ol>
+  </div>
+  <div>
+  <p>A $K\times K$ matrix: variances on the diagonal, covariances off it. <b>It depends on the unknown $\sigma^2$</b>, so it must be estimated (module 17).</p>
+  <p><b>Univariate slope:</b> $\mathbb V[b_2\mid X]=\dfrac{\sigma^2}{\sum(x_i-\bar x)^2}=\dfrac{\sigma^2}{n\,\hat{\mathbb V}[x]}$</p>
+  <p><b>Univariate intercept:</b> $\mathbb V[b_1\mid X]=\sigma^2\Big(\frac1n+\frac{\bar x^2}{\sum(x_i-\bar x)^2}\Big)$</p>
+  </div>
+  </div>
+  <div class="note tip"><div class="t">What makes the slope precise</div>
+  <p>Less noise ($\sigma^2\downarrow$), more data ($n\uparrow$), <b>more variation in $x$</b> ($\hat{\mathbb V}[x]\uparrow$). And, with several regressors, less correlation between them.</p>
+  </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="bar"><span class="pill b">INTERACTIVE</span> The sampling distribution of b₂<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="ctrl">
+    <label>$n$ <input type="range" id="sb_n" min="5" max="200" step="1" value="20"> <span class="val" id="sb_n_v">20</span></label>
+    <label>$\sigma$ <input type="range" id="sb_s" min="0.1" max="3" step="0.1" value="1.0"> <span class="val" id="sb_s_v">1.0</span></label>
+    <label>spread of $x$ <input type="range" id="sb_x" min="0.2" max="3" step="0.1" value="1.0"> <span class="val" id="sb_x_v">1.0</span></label>
+    <label>errors <select id="sb_d"><option value="norm">normal</option><option value="unif">uniform</option><option value="exp">exponential − 1</option><option value="t3">Student t₃ (heavy)</option></select></label>
+    <span class="btns">
+      <button data-do="sbOne">1 sample</button>
+      <button data-do="sbMany">1000 samples</button>
+      <button data-do="sbClear">clear</button>
+    </span>
+  </div>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <figure><svg id="sbsvg" viewBox="0 0 380 250"></svg><figcaption>Histogram of $b_2$ over repeated samples; true $\beta_2=1$ (red dashed). Curve: $N(\beta_2,\sigma^2/\sum(x_i-\bar x)^2)$.</figcaption></figure>
+  </div>
+  <div>
+  <div class="readout" id="sbread" aria-live="polite"></div>
+  <p><b>Try this.</b> One sample at a time, then a thousand: the mean settles at 1 (unbiased) and the standard deviation matches the formula. Change the errors to exponential or $t_3$: <b>still centred, still the right variance</b>, because properties 2 and 3 don't use normality. Only the <i>shape</i> is no longer exactly normal for small $n$. Quadruple $n$: the spread halves.</p>
+  </div>
+  </div>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="bar">W8 PART 1, QUESTION 4 · compute E[e]</div>
+  <div class="body">
+  <p>$e=y-X\hat\beta$ with $\hat\beta=b$ the OLS estimator.</p>
+  <ol class="steps">
+    <li>$\mathbb E[e\mid X]=\mathbb E[y\mid X]-X\,\mathbb E[b\mid X]=X\beta-X\beta=0$ ($T\times1$ vector of zeros).</li>
+    <li>Tower property: $\mathbb E[e]=\mathbb E[\mathbb E[e\mid X]]=0$.</li>
+    <li>Alternative: $e=M\varepsilon$, so $\mathbb E[e\mid X]=M\,\mathbb E[\varepsilon\mid X]=0$.</li>
+  </ol>
+  <p>Note the two different statements: $\mathbb E[e_i]=0$ for <b>each</b> $i$ is a property across samples. $\sum e_i=0$ is true <b>within</b> each sample when there is a constant.</p>
+  </div>
+</div>
+
+<div class="grid2" style="align-items:start">
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Variance of a fitted value</div>
+<div class="prob">
+  <p>Find $\mathbb E[\hat y\mid X]$ and $\mathbb V[\hat y\mid X]$.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\hat y=Xb$: mean $X\beta$; variance $X\sigma^2(X'X)^{-1}X'=\sigma^2P$. Similarly $\mathbb V[e\mid X]=\sigma^2MM'=\sigma^2M$. Residuals are <b>not</b> homoskedastic or uncorrelated even though errors are.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Estimate with half the sample</div>
+<div class="prob">
+  <p>You use only the first half of the data. Is the estimator unbiased? What happens to its variance (if $x$ has the same spread in both halves)?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Still unbiased. $\sum(x_i-\bar x)^2$ roughly halves, so the variance doubles and the standard deviation rises by $\sqrt2$. Unbiased is not enough: we want small variance.</p>
+</div></details>
+</div>
+
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill r">●●●</span><span class="tag">practice</span>Design the experiment</div>
+<div class="prob">
+  <p>You may choose ten values of $x$ in $[0,1]$ to estimate the slope as precisely as possible, in a world where the model is surely linear. Which values? Why might you not do it in practice?</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>Maximise $\sum(x_i-\bar x)^2$: five at 0 and five at 1. In practice you could not check linearity with only two distinct values of $x$.</p>
+</div></details>
+</div>
+
+<div class="wx">
+<div class="bar"><span class="n">?</span><span class="pill a">●●</span><span class="tag">practice</span>Read the running example's matrix</div>
+<div class="prob">
+  <p>With $\sigma^2=1$ known, write $\mathbb V[b\mid X]$ for the running example. What is $\text{Corr}(b_1,b_2)$? Explain the sign.</p>
+</div>
+<details><summary>Solution</summary><div class="sol">
+  <p>$\begin{bmatrix}1.1&-0.3\\-0.3&0.1\end{bmatrix}$. Corr $=-0.3/\sqrt{0.11}=-0.905$. $\bar x&gt;0$: the line passes through $(\bar x,\bar y)$, so a steeper slope forces a lower intercept.</p>
+</div></details>
+</div>
+
+<div class="panel quiz" data-quiz="s15">
+  <div class="bar"><span class="pill g">QUICK TEST</span> Properties 1–3<span class="ctl">— ⊡ ✕</span></div>
+  <div class="body">
+  <div class="readout qscore"></div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">1</span>$b-\beta$ equals</div>
+    <div class="opts"><button>$e$</button><button>$(X'X)^{-1}X'\varepsilon$</button><button>$M\varepsilon$</button><button>$0$</button></div>
+    <div class="why">$b=\beta+A\varepsilon$.</div>
+  </div>
+  <div class="mcq" data-ans="0">
+    <div class="q"><span class="n">2</span>Unbiasedness of OLS requires</div>
+    <div class="opts"><button>A1b and $\mathbb E[\varepsilon\mid X]=0$</button><button>homoskedasticity</button><button>normality</button><button>large $n$</button></div>
+    <div class="why">Those two and nothing else.</div>
+  </div>
+  <div class="mcq" data-ans="2">
+    <div class="q"><span class="n">3</span>$\mathbb V[b\mid X]=\sigma^2(X'X)^{-1}$ requires, in addition,</div>
+    <div class="opts"><button>normality</button><button>$n&gt;30$</button><button>$\mathbb V[\varepsilon\mid X]=\sigma^2I_n$</button><button>orthogonal regressors</button></div>
+    <div class="why">A2b enters in the step $A\mathbb V[y\mid X]A'=\sigma^2AA'$.</div>
+  </div>
+  <div class="mcq" data-ans="3">
+    <div class="q"><span class="n">4</span>Doubling the sample standard deviation of $x$ (same $n$, $\sigma$) changes $\mathbb V[b_2\mid X]$ by a factor</div>
+    <div class="opts"><button>2</button><button>1/2</button><button>4</button><button>1/4</button></div>
+    <div class="why">$\hat{\mathbb V}[x]$ quadruples and is in the denominator.</div>
+  </div>
+  <div class="mcq" data-ans="1">
+    <div class="q"><span class="n">5</span>"OLS is unbiased, so my estimate 0.74 equals the true beta on average." The correct reading is</div>
+    <div class="opts"><button>0.74 is within the true value by rounding</button><button>estimates from many samples average to the true beta; this one may be off</button><button>the true beta averages 0.74</button><button>0.74 is exact for large $n$</button></div>
+    <div class="why">Unbiasedness describes the estimator across samples.</div>
+  </div>
+  </div>
+</div>
+
+</section>
